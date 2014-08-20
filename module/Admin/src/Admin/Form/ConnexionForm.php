@@ -1,0 +1,39 @@
+<?php
+namespace Admin\Form;
+
+use Zend\Form\Form;
+
+class ConnexionForm extends Form{
+	public function __construct($name = null)
+	{
+		// we want to ignore the name passed
+		parent::__construct();
+
+		$this->add(array(
+				'name' => 'id',
+				'type' => 'Hidden',
+		));
+		$this->add(array(
+				'name' => 'login',
+				'type' => 'Text',
+				'options' => array(
+						'label' => 'Login',
+				),
+		));
+		$this->add(array(
+				'name' => 'password',
+				'type' => 'Text',
+				'options' => array(
+						'label' => 'Mot de passe',
+				),
+		));
+		$this->add(array(
+				'name' => 'submit',
+				'type' => 'Submit',
+				'attributes' => array(
+						'value' => 'Go',
+						'id' => 'submitbutton',
+				),
+		));
+	}
+}
