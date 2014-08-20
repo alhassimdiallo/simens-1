@@ -6,6 +6,7 @@ use Zend\Form\Annotation\AnnotationBuilder;
 use Zend\View\Model\ViewModel;
 
 use Admin\Model\User;
+use Admin\Form\ConnexionForm;
 
 class AuthController extends AbstractActionController
 {
@@ -36,9 +37,10 @@ class AuthController extends AbstractActionController
 	public function getForm()
 	{
 		if (! $this->form) {
-			$user       = new User();
-			$builder    = new AnnotationBuilder();
-			$this->form = $builder->createForm($user);
+// 			$user       = new User();
+// 			$builder    = new AnnotationBuilder();
+//			$this->form = $builder->createForm($user);
+			$this->form = new ConnexionForm();
 		}
 
 		return $this->form;

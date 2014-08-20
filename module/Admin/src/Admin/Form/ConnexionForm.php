@@ -14,7 +14,7 @@ class ConnexionForm extends Form{
 				'type' => 'Hidden',
 		));
 		$this->add(array(
-				'name' => 'login',
+				'name' => 'username',
 				'type' => 'Text',
 				'options' => array(
 						'label' => 'Login',
@@ -22,16 +22,23 @@ class ConnexionForm extends Form{
 		));
 		$this->add(array(
 				'name' => 'password',
-				'type' => 'Text',
+				'type' => 'Password',
 				'options' => array(
 						'label' => 'Mot de passe',
+				),
+		));
+		$this->add(array(
+				'name' => 'rememberme',
+				'type' => 'Checkbox',
+				'options' => array(
+						'label' => 'Remember Me ?:',
 				),
 		));
 		$this->add(array(
 				'name' => 'submit',
 				'type' => 'Submit',
 				'attributes' => array(
-						'value' => 'Go',
+						'value' => 'Submit',
 						'id' => 'submitbutton',
 				),
 		));
