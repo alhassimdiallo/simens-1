@@ -7,6 +7,9 @@ use Admin\Model\AuthentificationService;
 use Admin\Model\AuthentificationServiceTable;
 use Zend\Db\ResultSet\ResultSet;
 use Zend\Db\TableGateway\TableGateway;
+use Zend\Authentication\Storage;
+use Zend\Authentication\AuthenticationService;
+use Zend\Authentication\Adapter\DbTable as DbTableAuthAdapter;
 
 class Module implements AutoloaderProviderInterface, ConfigProviderInterface
 {
@@ -31,18 +34,41 @@ class Module implements AutoloaderProviderInterface, ConfigProviderInterface
 
 	public function getServiceConfig()
 	{
+// 		return array(
+// 				'factories' => array(
+// 						'Admin\Model\AuthentificationServiceTable' =>  function($sm) {
+// 							$tableGateway = $sm->get('AuthentificationServiceTableGateway');
+// 							$table = new AuthentificationServiceTable($tableGateway);
+// 							return $table;
+// 						},
+// 						'AuthentificationServiceTableGateway' => function ($sm) {
+// 							$dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+// 							$resultSetPrototype = new ResultSet();
+// 							$resultSetPrototype->setArrayObjectPrototype(new AuthentificationService());
+// 							return new TableGateway('authentification_service', $dbAdapter, null, $resultSetPrototype);
+// 						},
+// 				),
+// 		);
+
 		return array(
-				'factories' => array(
-						'Admin\Model\AuthentificationServiceTable' =>  function($sm) {
-							$tableGateway = $sm->get('AuthentificationServiceTableGateway');
-							$table = new AuthentificationServiceTable($tableGateway);
-							return $table;
+				'factories'=>array(
+						'Admin\Model\AuthentificationStorage' => function($sm){
+							return new \Admin\Model\AuthentificationStorage('zf_tutorial');
 						},
-						'AuthentificationServiceTableGateway' => function ($sm) {
-							$dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
-							$resultSetPrototype = new ResultSet();
-							$resultSetPrototype->setArrayObjectPrototype(new AuthentificationService());
-							return new TableGateway('authentification_service', $dbAdapter, null, $resultSetPrototype);
+
+						'AuthService' => function($sm) {
+							//My assumption, you've alredy set dbAdapter
+							//and has users table with columns : user_name and pass_word
+							//that password hashed with md5
+							$dbAdapter           = $sm->get('Zend\Db\Adapter\Adapter');
+							$dbTableAuthAdapter  = new DbTableAuthAdapter($dbAdapter,
+									'authentification','login','password', 'MD5(?)');
+
+							$authService = new AuthenticationService();
+							$authService->setAdapter($dbTableAuthAdapter);
+							$authService->setStorage($sm->get('Admin\Model\AuthentificationStorage'));
+
+							return $authService;
 						},
 				),
 		);
