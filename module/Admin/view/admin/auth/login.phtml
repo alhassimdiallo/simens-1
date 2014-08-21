@@ -1,6 +1,6 @@
 <?php echo $this->headLink()->prependStylesheet($this->basePath().'/css/matrix-login.css');?>
 <?php echo $this->headLink()->appendStylesheet($this->basePath().'/css/monstyle.css');?>
-<div class="control-group normal_text"> <h3><img src="/simens/public/images_medecine/im2.jpg" alt="logo" style="border:transparent; display:inline;" /></h3></div>
+
 <?php
 $form = $this->form;
 $form->setAttribute('action', $this->url(
@@ -11,8 +11,28 @@ $form->setAttribute('action', $this->url(
 ));
 $form->prepare();
 
-echo $this->form()->openTag($form);
-echo $this->formCollection($form);
+echo $this->form()->openTag($form);?>
+<div class="control-group normal_text"> <h3><img src="/simens/public/images_medecine/im2.jpg" alt="logo" style="border:transparent; display:inline;" /></h3></div>
+<div class="control-group">
+			<div class="controls">
+				<div class="main_input_box">
+					<span class="add-on bg_lg"><i class="icon-user"></i></span><span style="border-bottom-color: #ffaaee;"><?php echo $this->formRow($form->get('username'));?></span>
+				</div>
+			</div>
+</div>
+<div class="control-group">
+		<div class="controls">
+			<div class="main_input_box" >
+				<span class="add-on bg_ly"><i class="icon-lock"></i></span><?php echo $this->formRow($form->get('password'));?>
+			</div>
+		</div>
+</div>
+<div class="form-actions">
+		<span class="pull-left"><a href="#" class="flip-link btn btn-info" id="to-recover">Mot de passe oublié</a></span>
+		<span class="pull-right"><?php echo $this->formSubmit($form->get('submit'));?></span>
+</div>
+<?php //echo $this->formCollection($form);
+
 echo $this->form()->closeTag();
 
 if ($this->messages){
