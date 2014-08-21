@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>
+<?php
+ $this->headLink()->prependStylesheet($this->basePath().'/css/bootstrap.min.css');
+ $this->headLink()->prependStylesheet($this->basePath().'/css/bootstrap-responsive.min.css');
+ $this->headLink()->prependStylesheet($this->basePath().'/css/uniform.css');
+ $this->headLink()->prependStylesheet($this->basePath().'/css/select2.css');
+ $this->headLink()->prependStylesheet($this->basePath().'/css/matrix-style.css');
+ $this->headLink()->prependStylesheet($this->basePath().'/css/jquery.contextMenu.css');
+ $this->headLink()->prependStylesheet($this->basePath().'/css/matrix-media.css');
+echo $this->headLink()->prependStylesheet($this->basePath().'/font-awesome/css/font-awesome.css');
+
+$this->jQuery()->enable();
+$this->jQuery()->uiEnable();
+echo $this->jQuery();
+
+ $this->headScript()->appendFile($this->basePath().'/js/jquery/ui/jquery.ui.datepicker.js');
+ $this->headScript()->appendFile($this->basePath().'/js/jquery.min.js');
+ $this->headScript()->appendFile($this->basePath().'/js/jquery.ui.custom.js');
+ $this->headScript()->appendFile($this->basePath().'/js/bootstrap.min.js');
+ $this->headScript()->appendFile($this->basePath().'/js/jquery.uniform.js');
+$this->headScript()->appendFile($this->basePath().'/js/select2.min.js');
+$this->headScript()->appendFile($this->basePath().'/js/jquery.dataTables.min.js');
+$this->headScript()->appendFile($this->basePath().'/js/jquery.min.js');
+$this->headScript()->appendFile($this->basePath().'/js/matrix.login.js');
+ $this->headScript()->appendFile($this->basePath().'/js/matrix.js');
+echo $this->headScript()->appendFile($this->basePath().'/js/matrix.tables.js');
+
+
+echo $this->headTitle($this->pageTitle);?>
+		<?php $this->headLink()->appendStylesheet($this->basePath().'/css/search.css');?>
+		<?php $this->headLink()->appendStylesheet($this->basePath().'/css/niceforms-default.css');?>
+		<?php $this->headLink()->appendStylesheet($this->basePath().'/css/dossier.css');?>
+		<?php $this->headLink()->appendStylesheet($this->basePath().'/css/simplePopup.css');?>
+		<?php $this->headLink()->appendStylesheet($this->basePath().'/css/demo_table.css');?>
+		<?php $this->headLink()->appendStylesheet($this->basePath().'/css/demo_table_jui.css');?>
+		<?php $this->headLink()->appendStylesheet($this->basePath().'/css/tinyTips.css');?>
+		<?php $this->headLink()->appendStylesheet($this->basePath().'/css/jquery.contextMenu.css');?>
+		<?php $this->headLink()->appendStylesheet($this->basePath().'/js/jquery.modaldialog/css/jquery.modaldialog.css');?>
+		<?php $this->headLink()->appendStylesheet($this->basePath().'/css/custom.datatable.css');?>
+		<?php $this->headLink()->appendStylesheet($this->basePath().'/css/ui.selectmenu.css');?>
+		<?php $this->headLink()->appendStylesheet($this->basePath().'/css/jquery.autocomplete.css');?>
+
+
+ 		<?php $this->headScript()->appendFile($this->basePath().'/js/plugins/simplePopup.js', 'text/javascript');?>
+		<?php $this->headScript()->appendFile($this->basePath().'/js/plugins/jquery.ui.datepicker-fr.js', 'text/javascript');?>
+		<?php $this->headScript()->appendFile($this->basePath().'/js/plugins/niceforms.js', 'text/javascript');?>
+		<?php $this->headScript()->appendFile($this->basePath().'/js/plugins/jquery.dataTables.js', 'text/javascript');?>
+		<?php $this->headScript()->appendFile($this->basePath().'/js/plugins/jquery.contextMenu.js', 'text/javascript');?>
+		<?php $this->headScript()->appendFile($this->basePath().'/js/plugins/contextmenu.js', 'text/javascript');?>
+		<?php $this->headScript()->appendFile($this->basePath().'/js/jquery/js/jquery.validate.js', 'text/javascript');?>
+		<?php $this->headScript()->appendFile($this->basePath().'/js/plugins/jquery.tinyTips.js', 'text/javascript');?>
+		<?php $this->headScript()->appendFile($this->basePath().'/js/jquery/js/jquery.numeric.js', 'text/javascript');?>
+		<?php $this->headScript()->appendFile($this->basePath().'/js/jquery.modaldialog/js/jquery.modaldialog.js', 'text/javascript');?>
+		<?php $this->headScript()->appendFile($this->basePath().'/js/jquery/js/jquery.multiselects-0.3.pack.js', 'text/javascript');?>
+		<?php $this->headScript()->appendFile($this->basePath().'/js/jquery/js/jquery.multiselects-0.3.js', 'text/javascript');?>
+		<?php $this->headScript()->appendFile($this->basePath().'/js/jquery/js/jquery.form.js', 'text/javascript');?>
+		<?php $this->headScript()->appendFile($this->basePath().'/js/custom/ugbform.js', 'text/javascript');?>
+		<?php $this->headScript()->appendFile($this->basePath().'/js/custom/ugbtable.js', 'text/javascript');?>
+		<?php $this->headScript()->appendFile($this->basePath().'/js/jquery/js/jquery.jeditable.js', 'text/javascript');?>
+		<?php $this->headScript()->appendFile($this->basePath().'/js/plugins/ui.selectmenu.js', 'text/javascript');?>
+		<?php $this->headScript()->appendFile($this->basePath().'/js/plugins/jquery.alphanumeric.js', 'text/javascript');?>
+
+
+		<?php $this->headScript()->appendFile($this->basePath().'/js/plugins/ui.selectmenu.js', 'text/javascript');?>
+		<?php $this->headScript()->appendFile($this->basePath().'/js/plugins/jquery.alphanumeric.js', 'text/javascript');?>
+
+		<?php echo $this->headScript() ?>
+
+    </head>
+     <body>
+        <div id="loginbox">
+        	<?php  echo $this->content; ?>
+        </div>
+     </body>
+</html>
