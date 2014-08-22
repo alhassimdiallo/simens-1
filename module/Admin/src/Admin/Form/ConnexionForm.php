@@ -16,23 +16,23 @@ class ConnexionForm extends Form{
 		$this->add(array(
 				'name' => 'username',
 				'type' => 'Text',
-				'options' => array(
-						'label' => 'Login',
-				),
+// 				'options' => array(
+// 						'label' => 'Login',
+// 				),
 		));
 		$this->add(array(
 				'name' => 'password',
 				'type' => 'Password',
-				'options' => array(
-						'label' => 'Mot de passe',
-				),
+// 				'options' => array(
+// 						'label' => 'Mot de passe',
+// 				),
 		));
 		$this->add(array(
 				'name' => 'rememberme',
 				'type' => 'Checkbox',
-				'options' => array(
-						'label' => 'Remember Me ?:',
-				),
+// 				'options' => array(
+// 						'label' => 'Remember Me ?:',
+// 				),
 		));
 		$this->add(array(
 				'name' => 'submit',
