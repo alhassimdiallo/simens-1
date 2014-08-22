@@ -1,4 +1,66 @@
-Login Success.
-<br />
 
-<a href="<?php echo $this->url('login/process', array('action'=>'logout')); ?>">Logout</a>
+<?php echo $this->headLink()->appendStylesheet($this->basePath().'/font-awesome/css/font-awesome.css');?>
+<div id="loginbox">
+	<style type="text/css">
+.module {
+	background: url("<?php echo $this->basePath()."/images_icons/fond_module.jpg ";?>") no-repeat;
+	display: inline-block;
+	width: 170px;
+	height: 150px;
+	border: 1px dashed #ccc;
+	color: blue;
+	margin: 0px 50px 50px 50px;
+	font-size: 25px;
+	text-align: center;
+	text-shadow: green;
+	text-transform: capitalize;
+	vertical-align: middle;
+	padding: 25px;
+	padding-top: 20px;
+}
+
+#module {
+	position:absolute;
+	width:100%;
+	margin-left:5px;
+	top:25%;
+}
+
+body {
+	background-color:#2E363F;
+}
+</style>
+
+	<div
+		style="text-align: right; font-size: 15px; color: white; padding-top: 5px; margin-right: 15px;">
+		<a
+			href="<?php echo $this->url('login/process', array('action'=>'logout'));?>">
+			<span style="color: white;">Deconnexion</span>
+		</a>
+	</div>
+
+	<div id="module" align="left">
+
+		<a
+			href="<?php echo $this->url('login/process', array('action'=>'logout'));?>">
+			<span class="module" align="center"> Module <br /> Consultation
+		</span>
+		</a> <a
+			href="<?php echo $this->url('login/process', array('action'=>'logout'));?>">
+			<span class="module" align="center"> Module Hospitalisation </span>
+		</a> <a
+			href="<?php echo $this->url('login/process', array('action'=>'logout'));?>">
+			<span class="module" align="center"> Module Facturation </span>
+		</a> <a
+			href="<?php echo $this->url('login/process', array('action'=>'logout'));?>">
+			<span class="module" align="center"> Module Espace patient </span>
+		</a> <a
+			href="<?php echo $this->url('login/process', array('action'=>'logout'));?>">
+			<span class="module" align="center"> Module Gestion du personnel </span>
+		</a> <a
+			href="<?php echo $this->url('login/process', array('action'=>'logout'));?>">
+			<span class="module" align="center"> Gestion Pharmacie </span>
+		</a>
+
+	</div>
+</div>

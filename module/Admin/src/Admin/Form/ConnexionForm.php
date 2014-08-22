@@ -16,16 +16,16 @@ class ConnexionForm extends Form{
 		$this->add(array(
 				'name' => 'username',
 				'type' => 'Text',
-// 				'options' => array(
-// 						'label' => 'Login',
-// 				),
+				'attributes' => array(
+						'placeholder' => 'Login',
+				),
 		));
 		$this->add(array(
 				'name' => 'password',
 				'type' => 'Password',
-// 				'options' => array(
-// 						'label' => 'Mot de passe',
-// 				),
+				'attributes' => array(
+						'placeholder' => 'Mot de passe',
+				),
 		));
 		$this->add(array(
 				'name' => 'rememberme',
@@ -38,8 +38,9 @@ class ConnexionForm extends Form{
 				'name' => 'submit',
 				'type' => 'Submit',
 				'attributes' => array(
-						'value' => 'Submit',
+						'value' => 'Connexion',
 						'id' => 'submitbutton',
+						'class'=> 'btn btn-success'
 				),
 		));
 	}
