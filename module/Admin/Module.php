@@ -10,9 +10,18 @@ use Zend\Db\TableGateway\TableGateway;
 use Zend\Authentication\Storage;
 use Zend\Authentication\AuthenticationService;
 use Zend\Authentication\Adapter\DbTable as DbTableAuthAdapter;
+use Zend\Mvc\ModuleRouteListener;
+use Zend\Mvc\MvcEvent;
 
 class Module implements AutoloaderProviderInterface, ConfigProviderInterface
 {
+	public function onBootstrap(MvcEvent $e)
+	{
+		$eventManager        = $e->getApplication()->getEventManager();
+		$moduleRouteListener = new ModuleRouteListener();
+		$moduleRouteListener->attach($eventManager);
+	}
+
 	public function getAutoloaderConfig()
 	{
 		return array(
