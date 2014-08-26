@@ -2,92 +2,30 @@
 return array(
 		'controllers' => array(
 				'invokables' => array(
-						//'Admin\Controller\Login' => 'Admin\Controller\LoginController',
-						'Admin\Controller\Auth' => 'Admin\Controller\AuthController',
-						'Admin\Controller\Success' => 'Admin\Controller\SuccessController'
+						'Facturation\Controller\Facturation' => 'Facturation\Controller\FacturationController',
 				),
 		),
-// 		'router' => array(
-// 				'routes' => array(
-// 						'admin' => array(
-// 								'type'    => 'segment',
-// 								'options' => array(
-// 										'route'    => '/admin[/][:action][/:id]',
-// 										'constraints' => array(
-// 												'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
-// 												'id'     => '[0-9]+',
-// 										),
-// 										'defaults' => array(
-// 												'controller' => 'Admin\Controller\Login',
-// 												'action'     => 'login',
-// 										),
-// 								),
-// 						),
-// 				),
-// 		),
 		'router' => array(
 				'routes' => array(
-
-						'login' => array(
-								'type'    => 'Literal',
+						'facturation' => array(
+								'type'    => 'segment',
 								'options' => array(
-										'route'    => '/auth',
-										'defaults' => array(
-												'__NAMESPACE__' => 'Admin\Controller',
-												'controller'    => 'Auth',
-												'action'        => 'login',
+										'route'    => '/facturation[/][:action][/:id]',
+										'constraints' => array(
+												'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+												'id'     => '[0-9]+',
 										),
-								),
-								'may_terminate' => true,
-								'child_routes' => array(
-										'process' => array(
-												'type'    => 'Segment',
-												'options' => array(
-														'route'    => '/[:action]',
-														'constraints' => array(
-																'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
-																'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
-														),
-														'defaults' => array(
-														),
-												),
+										'defaults' => array(
+												'controller' => 'Facturation\Controller\Facturation',
+												'action'     => 'listepatient',
 										),
 								),
 						),
-
-						'success' => array(
-								'type'    => 'Literal',
-								'options' => array(
-										'route'    => '/success',
-										'defaults' => array(
-												'__NAMESPACE__' => 'Admin\Controller',
-												'controller'    => 'Success',
-												'action'        => 'index',
-										),
-								),
-								'may_terminate' => true,
-								'child_routes' => array(
-										'default' => array(
-												'type'    => 'Segment',
-												'options' => array(
-														'route'    => '/[:action]',
-														'constraints' => array(
-																'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
-																'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
-														),
-														'defaults' => array(
-														),
-												),
-										),
-								),
-						),
-
 				),
 		),
-
 		'view_manager' => array(
 				'template_path_stack' => array(
-						'admin' => __DIR__ . '/../view',
+						'facturation' => __DIR__ . '/../view',
 				),
 		),
 );

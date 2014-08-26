@@ -2,29 +2,10 @@
 return array(
 		'controllers' => array(
 				'invokables' => array(
-						//'Admin\Controller\Login' => 'Admin\Controller\LoginController',
 						'Admin\Controller\Auth' => 'Admin\Controller\AuthController',
 						'Admin\Controller\Success' => 'Admin\Controller\SuccessController'
 				),
 		),
-// 		'router' => array(
-// 				'routes' => array(
-// 						'admin' => array(
-// 								'type'    => 'segment',
-// 								'options' => array(
-// 										'route'    => '/admin[/][:action][/:id]',
-// 										'constraints' => array(
-// 												'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
-// 												'id'     => '[0-9]+',
-// 										),
-// 										'defaults' => array(
-// 												'controller' => 'Admin\Controller\Login',
-// 												'action'     => 'login',
-// 										),
-// 								),
-// 						),
-// 				),
-// 		),
 		'router' => array(
 				'routes' => array(
 						'home' => array(
