@@ -25,7 +25,7 @@ return array(
 		),
 		'view_manager' => array(
 				'template_path_stack' => array(
-						'espacepatient' => __DIR__ . '/../view',
+						'espace-patient' => __DIR__ . '/../view',
 				),
 		),
 );

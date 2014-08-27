@@ -100,7 +100,7 @@ return array(
 				'not_found_template'       => 'error/404',
 				'exception_template'       => 'error/index',
 				'template_map' => array(
-						'admin/layout'           => __DIR__ . '/../view/admin/layout.phtml',
+						'layout/layout'           => __DIR__ . '/../view/layout/layout.phtml',
 						'admin/auth/login' => __DIR__ . '/../view/admin/auth/login.phtml',
 						'error/404'               => __DIR__ . '/../view/error/404.phtml',
 						'error/index'             => __DIR__ . '/../view/error/index.phtml',
@@ -108,7 +108,7 @@ return array(
 				'template_path_stack' => array(
 					'admin' => __DIR__ . '/../view',
 				),
-				'layout' => 'admin/layout',
+				//'layout' => 'admin/layout',
 		),
 		// Placeholder for console routes
 		'console' => array(
