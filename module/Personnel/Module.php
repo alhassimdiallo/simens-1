@@ -1,12 +1,14 @@
 <?php
 namespace Personnel;
 
-use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
-use Zend\ModuleManager\Feature\ConfigProviderInterface;
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
+use Zend\Db\ResultSet\ResultSet;
+use Zend\Db\TableGateway\TableGateway;
+use Personnel\Model\Service;
+use Personnel\Model\ServiceTable;
 
-class Module implements AutoloaderProviderInterface, ConfigProviderInterface
+class Module
 {
 // 	public function onBootstrap(MvcEvent $e)
 // 	{
@@ -35,6 +37,22 @@ class Module implements AutoloaderProviderInterface, ConfigProviderInterface
 	}
 
 	public function getServiceConfig()
-	{}
+	{
+		return array (
+				'factories' => array (
+						'Personnel\Model\ServiceTable' => function ($sm) {
+							$tableGateway = $sm->get('ServiceTableGateway');
+							$table = new ServiceTable($tableGateway);
+							return $table;
+						},
+						'ServiceTableGateway' => function($sm) {
+							$dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+							$resultSetPrototype = new ResultSet();
+							$resultSetPrototype->setArrayObjectPrototype(new Service());
+							return new TableGateway('service', $dbAdapter, null, $resultSetPrototype);
+						}
+				)
+		);
+	}
 
 }

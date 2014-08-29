@@ -7,10 +7,10 @@ use Zend\View\Model\ViewModel;
 
 class ConsultationController extends AbstractActionController {
 	public function  rechercheAction(){
+		$this->layout()->setTemplate('layout/consultation');
 		$view = new ViewModel(array(
-				'message' => 'Hello world',
+				'donnees' => 'Hello world',
 		));
-		$view->setTemplate('consultation/consultation/recherche');
 		return $view;
 	}
 }

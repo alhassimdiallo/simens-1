@@ -1,13 +1,13 @@
 function action(){
 $('#submit').click(function(){
 	
-  var login    = $('#login').val();
+  var login    = $('#username').val();
   var password = $('#password').val();
   
   $.ajax({
     type: 'POST',
-    url: '/simens_derniereversion/public/admin/login/connexionservice' ,
-    data: {'login':login, 'password':password},
+    url: '/simens/public/auth/connexion-service' ,
+    data: {'username':login, 'password':password},
     success: function(data) {    
     	     var result = jQuery.parseJSON(data);  
 
@@ -15,7 +15,7 @@ $('#submit').click(function(){
           	     if(result == 1){
                     alert("vous n etes dans aucun service");
               	 }else{
-    	               vart='/simens_derniereversion/public/consultation/consultation/recherche/service/'+result;
+    	               vart='/simens/public/consultation/recherche/service/'+result;
                        $(location).attr("href",vart);
               	 }
       	     }else{

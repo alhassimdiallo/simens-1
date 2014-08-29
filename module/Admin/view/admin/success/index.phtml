@@ -2,7 +2,8 @@
 <?php echo $this->headLink()->appendStylesheet($this->basePath().'/font-awesome/css/font-awesome.css');?>
 <style type="text/css">
 .module {
-	background: url("<?php echo $this->basePath()."/images_icons/fond_module.jpg ";?>") no-repeat;
+	background: url("<?php echo $this->basePath()."/ images_icons/ fond_module.jpg ";?>"
+		) no-repeat;
 	display: inline-block;
 	width: 170px;
 	height: 150px;
@@ -19,14 +20,14 @@
 }
 
 #module {
-	position:absolute;
-	width:100%;
-	margin-left:5px;
-	top:25%;
+	position: absolute;
+	width: 100%;
+	margin-left: 5px;
+	top: 25%;
 }
 
 body {
-	background-color:#2E363F;
+	background-color: #2E363F;
 }
 </style>
 
@@ -40,12 +41,31 @@ body {
 	</div>
 
 	<div id="module" align="left">
+		<?php
+		// CHOISIR LE MENU A AFFICHER SELON QUE C'EST LE MEDECIN OU SUR LE SURVEILLANT
+		$identity = (array) $this->identity;
+		$type = $identity['type'];
 
-		<a
+		if ($type == 'SURVEILLANT' || $type == 'ADMINISTRATEUR') {
+			?>
+<a
 			href="<?php echo $this->url('consultation', array('action'=>'recherche'));?>">
 			<span class="module" align="center"> Module <br /> Consultation
 		</span>
-		</a> <a
+		</a>
+<?php
+		} else if ($type == 'MEDECIN') {
+			?>
+<a
+			href="<?php echo $this->url('consultation', array('action'=>'consultation-medecin'));?>">
+			<span class="module" align="center"> Module <br /> Consultation
+		</span>
+		</a>
+<?php
+		}
+		?>
+
+		<a
 			href="<?php echo $this->url('hospitalisation', array('action'=>'hospi'));?>">
 			<span class="module" align="center"> Module Hospitalisation </span>
 		</a> <a

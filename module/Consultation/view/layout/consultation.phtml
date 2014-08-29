@@ -1,0 +1,144 @@
+<html>
+<?php echo $this->doctype("XHTML1_TRANSITIONAL"), PHP_EOL; ?>
+
+ <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<?php
+// $this->jQuery()->enable();
+// $this->jQuery()->uiEnable();
+//  echo $this->jQuery();
+
+ echo $this->headLink()->prependStylesheet($this->basePath().'/css/bootstrap.min.css');
+ echo $this->headLink()->prependStylesheet($this->basePath().'/css/uniform.css');
+ echo $this->headLink()->prependStylesheet($this->basePath().'/css/select2.css');
+ echo $this->headLink()->prependStylesheet($this->basePath().'/css/jquery.contextMenu.css');
+ echo $this->headLink()->prependStylesheet($this->basePath().'/css/matrix-style-cons.css');
+ echo $this->headLink()->prependStylesheet($this->basePath().'/css/matrix-media.css');
+ echo $this->headLink()->prependStylesheet($this->basePath().'/font-awesome/css/font-awesome.css');
+
+ $this->headScript()->appendFile($this->basePath().'/js/jquery.min.js');
+ $this->headScript()->appendFile($this->basePath().'/js/jquery.ui.custom.js');
+ $this->headScript()->appendFile($this->basePath().'/js/bootstrap.min.js');
+ $this->headScript()->appendFile($this->basePath().'/js/jquery.uniform.js');
+ $this->headScript()->appendFile($this->basePath().'/js/select2.min.js');
+ $this->headScript()->appendFile($this->basePath().'/js/jquery.dataTables.min.js');
+ $this->headScript()->appendFile($this->basePath().'/js/matrix.js');
+
+ echo $this->headTitle($this->pageTitle);?>
+		<?php $this->headLink()->appendStylesheet($this->basePath().'/css/search.css');?>
+		<?php $this->headLink()->appendStylesheet($this->basePath().'/css/niceforms-default.css');?>
+		<?php $this->headLink()->appendStylesheet($this->basePath().'/css/dossier.css');?>
+		<?php $this->headLink()->appendStylesheet($this->basePath().'/css/simplePopup.css');?>
+		<?php $this->headLink()->appendStylesheet($this->basePath().'/css/demo_table.css');?>
+		<?php $this->headLink()->appendStylesheet($this->basePath().'/css/demo_table_jui.css');?>
+		<?php $this->headLink()->appendStylesheet($this->basePath().'/css/tinyTips.css');?>
+		<?php $this->headLink()->appendStylesheet($this->basePath().'/js/jquery.modaldialog/css/jquery.modaldialog.css');?>
+		<?php $this->headLink()->appendStylesheet($this->basePath().'/css/custom.datatable.css');?>
+		<?php $this->headLink()->appendStylesheet($this->basePath().'/css/ui.selectmenu.css');?>
+		<?php $this->headLink()->appendStylesheet($this->basePath().'/css/jquery.autocomplete.css');?>
+
+
+ 		<?php $this->headScript()->appendFile($this->basePath().'/js/plugins/simplePopup.js');?>
+		<?php $this->headScript()->appendFile($this->basePath().'/js/jquery.modaldialog/js/jquery.modaldialog.js', 'text/javascript');?>
+		<?php $this->headScript()->appendFile($this->basePath().'/js/jquery/js/jquery.form.js', 'text/javascript');?>
+		<?php $this->headScript()->appendFile($this->basePath().'/js/jquery.validate.js', 'text/javascript');?>
+		<?php echo $this->headScript();?>
+<head>
+</head>
+
+
+<?php
+//RECUPERER LES INFOS SUR LE MEDECIN OU SUR LE SURVEILLANT
+// $identity = (array) Zend_Auth::getInstance()->getIdentity();
+// $nom = $identity['name'];
+// $prenom = $identity['prenom'];
+// $service = $identity['service'];
+?>
+
+
+<body id="bodbod">
+	<!--Header-part-->
+	<div id="header">
+		<h1>
+			<a href="">Simens admin panel</a>
+		</h1>
+	</div>
+	<!--close-Header-part-->
+	<!--top Menu au dessus -->
+	<div id="user-nav" class="navbar navbar-inverse"
+		style="padding-top: 15px;">
+		<ul class="nav">
+			<li class="dropdown" id=""><a title="" href="#"
+				class="dropdown-toggle"> <i> <span
+						style="color: white; font-size: 13px;">Service: </span></i> <b
+					class="caret"></b> <span
+					style="font-size: 18px; color: white; font-family: Times New Roman;"> <?php //echo $service;?></span></a>
+			</li>
+
+			<li class="dropdown" id=""><a title="" href="#"
+				class="dropdown-toggle"> <i class="icon icon-user"></i> <span
+					style="color: white; font-size: 13px;"><i>Bienvenue</i></span> <b
+					class="caret"></b> <span
+					style="font-size: 18px; color: white; font-family: Times New Roman;"><?php //echo $prenom.' '.$nom;?></span></a>
+			</li>
+
+			<li class="" style="padding-left: 400px;"><a title=""
+				href="<?php echo $this->basePath()."/auth/logout";?>"> <i
+					class="icon icon-share-alt"></i> <span
+					style="color: white; text-align: right;">D&eacute;connexion</span></a>
+			</li>
+		</ul>
+	</div>
+	<!--Menu de droite-->
+	<div id="sidebar">
+  <?php echo $this->partial('layout/menugauchecons'); ?>
+</div>
+	<div id="content">
+		<div id="content-header">
+			<div style="width: 96%; margin-left: 25px;">
+				<hr>
+				<div class="row-fluid">
+	         <?php echo $this->content; ?>
+         </div>
+			</div>
+		</div>
+	</div>
+	<!--Pied de Page debut-->
+	<div class="row-fluid">
+		<div id="footer" class="span12"><?php echo $this->partial('layout/piedpagecons'); ?> </div>
+	</div>
+	<!--Fin de pied de page-->
+</body>
+</html>
+
+<style>
+.ui-tooltip {
+	padding: 8px;
+	position: absolute;
+	z-index: 9999;
+	max-width: 300px;
+	-webkit-box-shadow: 0 0 5px #aaa;
+	box-shadow: 0 0 5px #aaa;
+}
+
+body .ui-tooltip {
+	border-width: 2px;
+}
+</style>
+
+<script>
+jQuery(document).ready(function($){
+    $('a,img,hass').tooltip({
+        animation: true,
+        html: true,
+        placement: 'bottom',
+        show: {
+            effect: "slideDown",
+            delay: 250
+          }
+
+    });
+
+
+});
+</script>

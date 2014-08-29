@@ -1,31 +1,36 @@
 <?php
-return array(
-		'controllers' => array(
-				'invokables' => array(
-						'Consultation\Controller\Consultation' => 'Consultation\Controller\ConsultationController',
-				),
+return array (
+		'controllers' => array (
+				'invokables' => array (
+						'Consultation\Controller\Consultation' => 'Consultation\Controller\ConsultationController'
+				)
 		),
-		'router' => array(
-				'routes' => array(
-						'consultation' => array(
-								'type'    => 'segment',
-								'options' => array(
-										'route'    => '/consultation[/][:action][/:id]',
-										'constraints' => array(
+		'router' => array (
+				'routes' => array (
+						'consultation' => array (
+								'type' => 'segment',
+								'options' => array (
+										'route' => '/consultation[/][:action][/:id]',
+										'constraints' => array (
 												'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
-												'id'     => '[0-9]+',
+												'id' => '[0-9]+'
 										),
-										'defaults' => array(
+										'defaults' => array (
 												'controller' => 'Consultation\Controller\Consultation',
-												'action'     => 'recherche',
-										),
-								),
-						),
-				),
+												'action' => 'recherche'
+										)
+								)
+						)
+				)
 		),
-		'view_manager' => array(
-				'template_path_stack' => array(
-						'consultation' => __DIR__ . '/../view',
+		'view_manager' => array (
+				'template_map' => array (
+						'layout/consultation' => __DIR__ . '/../view/layout/consultation.phtml',
+						'layout/menugauchecons' => __DIR__ . '/../view/layout/menugauche.phtml',
+						'layout/piedpagecons' => __DIR__ . '/../view/layout/piedpage.phtml'
 				),
-		),
+				'template_path_stack' => array (
+						'consultation' => __DIR__ . '/../view'
+				)
+		)
 );

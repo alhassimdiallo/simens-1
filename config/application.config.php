@@ -3,12 +3,12 @@ return array(
     // This should be an array of module namespaces used in the application.
     'modules' => array(
     		'Admin',
-    		'Personnel',
     		'Facturation',
+    		'Personnel',
     		'Consultation',
     		'Hospitalisation',
 			'EspacePatient',
-    		'Pharmacie'
+    		'Pharmacie',
 
     ),
 

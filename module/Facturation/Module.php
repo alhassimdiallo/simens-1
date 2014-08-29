@@ -4,10 +4,12 @@ namespace Facturation;
 
 use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
 use Zend\ModuleManager\Feature\ConfigProviderInterface;
+use Zend\ModuleManager\Feature\ServiceProviderInterface;
+use Zend\ModuleManager\Feature\ViewHelperProviderInterface;
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
 
-class Module implements AutoloaderProviderInterface, ConfigProviderInterface {
+class Module implements AutoloaderProviderInterface, ConfigProviderInterface, ServiceProviderInterface, ViewHelperProviderInterface {
 	// public function onBootstrap(MvcEvent $e)
 	// {
 	// $eventManager = $e->getApplication()->getEventManager();
@@ -33,17 +35,21 @@ class Module implements AutoloaderProviderInterface, ConfigProviderInterface {
 		return array (
 				'factories' => array (
 						'Facturation\Model\PatientTable' => function ($sm) {
-							$tableGateway = $sm->get ( 'PatientTableGateway' );
-							$table = new AuthentificationServiceTable ( $tableGateway );
+							$tableGateway = $sm->get('PatientTableGateway');
+							$table = new PatientTable($tableGateway);
 							return $table;
 						},
-						'PatientTableGateway' => function ($sm) {
-							$dbAdapter = $sm->get ( 'Zend\Db\Adapter\Adapter' );
-							$resultSetPrototype = new ResultSet ();
-							$resultSetPrototype->setArrayObjectPrototype ( new Patient () );
-							return new TableGateway ( 'patient', $dbAdapter, null, $resultSetPrototype );
+						'PatientTableGateway' => function($sm) {
+							$dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+							$resultSetPrototype = new ResultSet();
+							$resultSetPrototype->setArrayObjectPrototype(new Patient());
+							return new TableGateway('patient', $dbAdapter, null, $resultSetPrototype);
 						}
 				)
 		);
+	}
+	public function getViewHelperConfig()
+	{
+		return array();
 	}
 }

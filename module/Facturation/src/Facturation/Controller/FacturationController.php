@@ -6,10 +6,31 @@ use Zend\View\Model\ViewModel;
 
 class FacturationController extends AbstractActionController {
 	public function  listePatientAction(){
-		$view = new ViewModel(array(
-				'message' => 'Hello world',
-		));
-		$view->setTemplate('facturation/facturation/liste-patient');
+		$layout = $this->layout();
+		$layout->setTemplate('layout/facturation');
+		$view = new ViewModel();
 		return $view;
+	}
+	public function admissionAction(){
+		return new ViewModel();
+	}
+
+	public function listePatientsAdmisAction(){
+		return new ViewModel();
+	}
+	public function listePatientsDecedesAction(){
+		return new ViewModel();
+	}
+	public function listeNaissanceAction(){
+		return new ViewModel();
+	}
+	public function ajouterAction(){
+		return new ViewModel();
+	}
+	public function declarerDecesAction(){
+		return new ViewModel();
+	}
+	public function listePatientAjaxAction(){
+		return new ViewModel();
 	}
 }
