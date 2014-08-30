@@ -60,7 +60,7 @@ canvas { /*border: 3px solid #ccc;*/
               width:262px;
               height:242px;
               overflow:hidden;
-              background:#dddddd url('<?php echo $this->baseUrl()."/images/User.png"?>') no-repeat right top;
+              background:#dddddd url('<?php echo $this->basePath()."/images/User.png"?>') no-repeat right top;
               border-radius: 15px;
               box-shadow: 0pt 0pt 12px rgba(0, 0, 0, 0.5);
          }

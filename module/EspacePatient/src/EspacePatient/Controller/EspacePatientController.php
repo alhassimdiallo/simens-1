@@ -6,10 +6,14 @@ use Zend\View\Model\ViewModel;
 
 class EspacePatientController extends AbstractActionController{
 	public function rechercheAction(){
-		$view = new ViewModel(array(
-				'message' => 'Hello world',
-		));
-		$view->setTemplate('espace-patient/espace-patient/recherche');
+		$this->layout()->setTemplate('layout/espace-patient');
+		$view = new ViewModel();
 		return $view;
+	}
+	public function priseRendezVousAction(){
+		return new ViewModel();
+	}
+	public function listeMessagesAction(){
+		return new ViewModel();
 	}
 }

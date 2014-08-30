@@ -16,4 +16,9 @@ class AuthentificationStorage extends Storage\Session {
 	{
 		$this->session->getManager()->forgetMe();
 	}
+
+	public function getStorage(){
+		$this->session->getManager()->getStorage();
+
+	}
 }

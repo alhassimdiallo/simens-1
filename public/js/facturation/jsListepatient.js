@@ -56,38 +56,7 @@
     function initialisation(){
     	
      var asInitVals = new Array();
-	/* var  oTable = $('#patient').dataTable
-	  ( {
-		        
-					"bJQueryUI": false,
-					"sPaginationType": "full_numbers",
-					"aaSorting": "", //pour trier la liste affichée
-					"oLanguage": { 
-						"sProcessing":   "Traitement en cours...",
-						//"sLengthMenu":   "Afficher _MENU_ &eacute;l&eacute;ments",
-						//"sZeroRecords":  "Aucun &eacute;l&eacute;ment &agrave; afficher",
-						"sInfo": "_START_ &agrave; _END_ sur _TOTAL_ patients",
-						"sInfoEmpty": "0 &eacute;l&eacute;ment &agrave; afficher",
-						"sInfoFiltered": "",
-						"sInfoPostFix":  "",
-						"sSearch": "",
-						"sUrl": "",
-						"sWidth": "30px",
-						"oPaginate": {
-							"sFirst":    "|<",
-							"sPrevious": "<",
-							"sNext":     ">",
-							"sLast":     ">|"
-							}
-					   },
-					   
-					   "iDisplayLength": "10",
-					   "aLengthMenu": [5,7,10,15],
-					   
-					   "sAjaxSource":  "<?php echo $this->url(array('controller' => 'Facturation', 'action' => 'listepatientajax', 'module' => 'facturation', 'format' => 'json')); ?>",
-						
-	} );*/
-
+	
 	//le filtre du select
 	$('#filter_statut').change(function() 
 	{					

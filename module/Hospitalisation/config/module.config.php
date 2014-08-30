@@ -24,6 +24,11 @@ return array(
 				),
 		),
 		'view_manager' => array(
+				'template_map' => array (
+						'layout/hospitalisation' => __DIR__ . '/../view/layout/hospitalisation.phtml',
+						'layout/menugauchehospi' => __DIR__ . '/../view/layout/menugauche.phtml',
+						'layout/piedpagehospi' => __DIR__ . '/../view/layout/piedpage.phtml'
+				),
 				'template_path_stack' => array(
 						'hospitalisation' => __DIR__ . '/../view',
 				),

@@ -6,10 +6,17 @@ use Zend\View\Model\ViewModel;
 
 class PharmacieController extends AbstractActionController {
 	public function  indexAction(){
-		$view = new ViewModel(array(
-				'message' => 'Hello world',
-		));
-		$view->setTemplate('pharmacie/pharmacie/index');
+		$this->layout()->setTemplate('layout/pharmacie');
+		$view = new ViewModel();
 		return $view;
+	}
+	public function ajouterAction() {
+		return new ViewModel();
+	}
+	public function commandesAction(){
+		return new ViewModel();
+	}
+	public function listeMedicamentsAction(){
+		return new ViewModel();
 	}
 }

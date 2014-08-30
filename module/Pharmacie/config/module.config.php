@@ -24,6 +24,11 @@ return array(
 				),
 		),
 		'view_manager' => array(
+				'template_map' => array (
+						'layout/pharmacie' => __DIR__ . '/../view/layout/pharmacie.phtml',
+						'layout/menugauche-pharmacie' => __DIR__ . '/../view/layout/menugauche.phtml',
+						'layout/piedpage-pharmacie' => __DIR__ . '/../view/layout/piedpage.phtml'
+				),
 				'template_path_stack' => array(
 						'pharmacie' => __DIR__ . '/../view',
 				),

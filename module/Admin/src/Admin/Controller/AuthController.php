@@ -106,31 +106,31 @@ class AuthController extends AbstractActionController {
 		return $this->redirect ()->toRoute ( 'login' );
 	}
 	public function connexionServiceAction() {
-		$request = $this->getRequest ();
-		if ($request->isPost ()) {
-			$login = $this->getRequest ()->getParam ( 'username' );
-			$password = $this->getRequest ()->getParam ( 'password' );
-			$authServ = $this->getAuthentificationServiceTable ();
-			$ListeAuthentif = $authServ->fetchAll ();
-			$html = '';
-			foreach ( $ListeAuthentif as $Ligne ) {
-				if ($Ligne->username == $login && $Ligne->password == $password) {
-					if ($Ligne->id_service) {
-						$tabService = $this->getServiceTable ()->getServiceAffectation ( $Ligne->id_service );
-						$html = $tabService ['NOM'];
-					} else {
-						$html = 1;
-					}
-					break;
-				}
-			}
-			$this->getResponse ()->setHeader ( 'Content-Type', 'application/html' );
-			$this->_helper->json->sendJson ( $html );
-		} else {
-			$form = $this->getForm ();
-			return array (
-					'form' => $form,
-			);
-		}
+// 		$request = $this->getRequest ();
+// 		if ($request->isPost ()) {
+// 			$login = $this->getRequest ()->getParam ( 'username' );
+// 			$password = $this->getRequest ()->getParam ( 'password' );
+// 			$authServ = $this->getAuthentificationServiceTable ();
+// 			$ListeAuthentif = $authServ->fetchAll ();
+// 			$html = '';
+// 			foreach ( $ListeAuthentif as $Ligne ) {
+// 				if ($Ligne->username == $login && $Ligne->password == $password) {
+// 					if ($Ligne->id_service) {
+// 						$tabService = $this->getServiceTable ()->getServiceAffectation ( $Ligne->id_service );
+// 						$html = $tabService ['NOM'];
+// 					} else {
+// 						$html = 1;
+// 					}
+// 					break;
+// 				}
+// 			}
+// 			$this->getResponse ()->setHeader ( 'Content-Type', 'application/html' );
+// 			$this->_helper->json->sendJson ( $html );
+// 		} else {
+// 			$form = $this->getForm ();
+// 			return array (
+// 					'form' => $form,
+// 			);
+// 		}
 	}
 }

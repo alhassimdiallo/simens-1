@@ -15,7 +15,6 @@
  echo $this->headLink()->prependStylesheet($this->basePath().'/css/jquery.contextMenu.css');
  echo $this->headLink()->prependStylesheet($this->basePath().'/css/matrix-style.css');
  echo $this->headLink()->prependStylesheet($this->basePath().'/css/matrix-media.css');
- echo $this->headLink()->prependStylesheet($this->basePath().'/font-awesome/css/font-awesome.css');
  echo $this->headLink()->prependStylesheet($this->basePath().'/css/tooltipster.css');
 
  $this->headScript()->appendFile($this->basePath().'/js/jquery.min.js');
@@ -24,7 +23,6 @@
  $this->headScript()->appendFile($this->basePath().'/js/jquery.uniform.js');
  $this->headScript()->appendFile($this->basePath().'/js/select2.min.js');
  $this->headScript()->appendFile($this->basePath().'/js/jquery.dataTables.min.js');
-
  echo $this->headTitle($this->pageTitle);?>
 		<?php echo $this->headScript();?>
 <head>
@@ -73,7 +71,7 @@
 </div>
 <!--Menu de droite-->
 <div id="sidebar">
-  <?php echo $this->partial('layout/menugauche'); ?>
+  <?php echo $this->partial('layout/menugauche-pharmacie'); ?>
 </div>
 <div id="content">
   	<div id="content-header">
@@ -87,7 +85,7 @@
 </div>
 <!--Pied de Page debut-->
 <div class="row-fluid">
-	 <div id="footer" class="span12"><?php echo $this->partial('layout/piedpage'); ?> </div>
+	 <div id="footer" class="span12"><?php echo $this->partial('layout/piedpage-pharmacie'); ?> </div>
 </div>
 <!--Fin de pied de page-->
 </body>
@@ -130,7 +128,7 @@
 }
 
 td {
-	font-family: Times  New Roman;
+	font-family: Baskerville Old Face;
 	font-size : 17px;
 }
 </style>

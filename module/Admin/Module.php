@@ -36,21 +36,6 @@ class Module implements AutoloaderProviderInterface, ConfigProviderInterface {
 		return include __DIR__ . '/config/module.config.php';
 	}
 	public function getServiceConfig() {
-		// return array(
-		// 'factories' => array(
-		// 'Admin\Model\AuthentificationServiceTable' => function($sm) {
-		// $tableGateway = $sm->get('AuthentificationServiceTableGateway');
-		// $table = new AuthentificationServiceTable($tableGateway);
-		// return $table;
-		// },
-		// 'AuthentificationServiceTableGateway' => function ($sm) {
-		// $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
-		// $resultSetPrototype = new ResultSet();
-		// $resultSetPrototype->setArrayObjectPrototype(new AuthentificationService());
-		// return new TableGateway('authentification_service', $dbAdapter, null, $resultSetPrototype);
-		// },
-		// ),
-		// );
 		return array (
 				'factories' => array (
 						'Admin\Model\AuthentificationStorage' => function ($sm) {

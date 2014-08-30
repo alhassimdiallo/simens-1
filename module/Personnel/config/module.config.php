@@ -24,6 +24,11 @@ return array(
 				),
 		),
 		'view_manager' => array(
+				'template_map' => array (
+						'layout/personnel' => __DIR__ . '/../view/layout/personnel.phtml',
+						'layout/menugauche-personnel' => __DIR__ . '/../view/layout/menugauche.phtml',
+						'layout/piedpage-personnel' => __DIR__ . '/../view/layout/piedpage.phtml'
+				),
 				'template_path_stack' => array(
 						'personnel' => __DIR__ . '/../view',
 				),

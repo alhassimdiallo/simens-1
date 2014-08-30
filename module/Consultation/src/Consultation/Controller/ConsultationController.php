@@ -13,4 +13,16 @@ class ConsultationController extends AbstractActionController {
 		));
 		return $view;
 	}
+	public function espaceRechercheMedAction(){
+		$this->layout()->setTemplate('layout/consultation');
+		return new ViewModel();
+	}
+	public function espaceRechercheSurvAction(){
+		$this->layout()->setTemplate('layout/consultation');
+		return new ViewModel();
+	}
+	public function consultationMedecinAction(){
+		$this->layout()->setTemplate('layout/consultation');
+		return new ViewModel();
+	}
 }
