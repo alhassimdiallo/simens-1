@@ -13,12 +13,34 @@ use Zend\Authentication\AuthenticationService;
 use Zend\Authentication\Adapter\DbTable as DbTableAuthAdapter;
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
+use Zend\Session\Config\SessionConfig;
+use Zend\Session\Container;
+use Zend\Session\SessionManager;
 
 class Module implements AutoloaderProviderInterface, ConfigProviderInterface {
 	public function onBootstrap(MvcEvent $e) {
 		$eventManager = $e->getApplication ()->getEventManager ();
 		$moduleRouteListener = new ModuleRouteListener ();
 		$moduleRouteListener->attach ( $eventManager );
+
+		$this->initSession(array(
+				'remember_me_seconds' => 180,
+				'use_cookies' => true,
+				'cookie_httponly' => true,
+		));
+		$sessionTimer = new Container('timer');
+		$sessionTimer->endTime = (float) array_sum(explode(' ', microtime()));
+
+		$sessionUser = new Container('user');
+		$sessionUser->connexion = "connexion";
+	}
+	public function initSession($config)
+	{
+		$sessionConfig = new SessionConfig();
+		$sessionConfig->setOptions($config);
+		$sessionManager = new SessionManager($sessionConfig);
+		$sessionManager->start();
+		Container::setDefaultManager($sessionManager);
 	}
 	public function getAutoloaderConfig() {
 		return array (

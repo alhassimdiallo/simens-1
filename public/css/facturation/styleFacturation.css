@@ -145,7 +145,7 @@ display: inline-block;
 
 font-size: 13px;
 
-left: 10px; /*déplacer le label*/
+left: 10px; /*dï¿½placer le label*/
 
 min-width: 60px;
 
@@ -243,7 +243,7 @@ z-index: 1;
 
     position: relative;
 	
-	/* les cotés des champs */
+	/* les cotï¿½s des champs */
 
     border-right-width: 2px;
 
@@ -453,19 +453,19 @@ tr:hover /* Apparence au survol des lignes */
               display: inline;float:left;border:transparent; margin-bottom: 5px; margin-top:5px;
          } 
 .vider_formulaire {
-	          background: url("/simens_derniereversion/public/images_icons/annuler1.PNG") no-repeat right top;
+	          background: url("/simens/public/images_icons/annuler1.PNG") no-repeat right top;
                
          }
 .supprimer_photo {
-	          background: url("/simens_derniereversion/public/images_icons/mod.png") no-repeat right top;
+	          background: url("/simens/public/images_icons/mod.png") no-repeat right top;
                
          }
 .ajouter_photo {
-	          background: url("/simens_derniereversion/public/images_icons/ajouterphoto.png") no-repeat right top;
+	          background: url("/simens/public/images_icons/ajouterphoto.png") no-repeat right top;
                
          }
 .modifer_donnees {
-	          background: url("/simens_derniereversion/public/images_icons/modifier.png") no-repeat right top;
+	          background: url("/simens/public/images_icons/modifier.png") no-repeat right top;
                
          }
          

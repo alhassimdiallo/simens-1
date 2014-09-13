@@ -1,0 +1,219 @@
+<?php echo $this->headLink()->appendStylesheet($this->basePath().'/css/jquery-ui.css');?>
+<?php echo $this->headScript()->appendFile($this->basePath().'/js/jquery-1.9.1.js');?>
+<?php echo $this->headScript()->appendFile($this->basePath().'/js/jquery-ui.js');?>
+
+<?php echo $this->headScript()->appendFile($this->basePath().'/js/jquery.maskedinput.js');?>
+<!-- MES STYLES -->
+<?php echo $this->headLink()->appendStylesheet($this->basePath().'/css/facturation/styleFacturation.css');?>
+
+<!-- MES JS -->
+<?php
+
+echo $this->headScript ()->appendFile ( $this->basePath () . '/js/facturation/jsFacturation.js' );
+echo $this->headLink ()->appendStylesheet ( $this->basePath () . '/css/facturation/DatePicker.css' ); // DatePicker
+?>
+
+<script>
+
+$(function(){
+//Initialisation des listes de choix
+document.getElementById('civilite').value="";
+document.getElementById('nationalite_origine').value="";
+document.getElementById('nationalite_actuelle').value="";
+document.getElementById('sexe').value="";
+});
+
+jQuery(document).ready(function($){
+    $('a, img, hass').tooltip({
+        animation: true,
+        html: true,
+        placement: 'bottom',
+        show: {
+            effect: "slideDown",
+            delay: 250
+          }
+
+    });
+});
+
+jQuery(function($){
+	  //$.mask.definitions['h'] = "[A-Z]";
+	  // $("#date").mask("99/99/9999");
+	   $("#telephone").mask("(221) 79-999-99-99");
+	  //$("#nom").mask("hhhhh");
+	  // $("#ssn").mask("999-99-9999");
+});
+
+//**********CONTROLE MAJUSCULE*************
+function supprimer_dernier_caractere(elm) {
+	  var val = $(elm).val();
+	var cursorPos = elm.selectionStart;
+	$(elm).val(
+	   val.substr(0,cursorPos-1) + // before cursor - 1
+	  val.substr(cursorPos,val.length) // after cursor
+	);
+	elm.selectionStart = cursorPos-1; // replace the cursor at the right place
+	elm.selectionEnd = cursorPos-1;
+	return true;
+}
+
+function upperText(id) {
+	var text = new String( document.getElementById(id).value );
+	text = text.toUpperCase();
+	document.getElementById(id).value = text;
+}
+
+$('body').delegate('input.only_Char','keyup',function(){
+
+    if(!$(this).val().match(/^[a-zA-Z]*$/)) // alphabetique
+    	supprimer_dernier_caractere(this);
+    	upperText('nom');
+});
+//******************************************
+
+//POUR LE MENU GAUCHE dans -elementgauche.phtml
+$('#plus_dossier_patient').toggle(true);
+$("#dossier_patient").replaceWith("<li id='dossier_patient' style='background:#4a5765;'><a href=''><span style='margin-left:0px; color: #ffffff; font-weight:bold; font-size:18px; font-family:Times New Roman;'> <img style='display: inline;' src='/simens/public/images_icons/moins-vert.PNG' alt='Liste' /> Dossier Patient </span></a></li>");
+dep_dossier_patient1();
+$('#nouveau_style').css({'font-weight':'bold','color':'white','font-size':'22px'});
+
+</script>
+
+<?php
+
+$form->setAttribute ( 'action', $this->url ( 'facturation', array (
+		'action' => 'enregistrement'
+) ) );
+$this->form->prepare ();
+echo $this->form ()->openTag ( $form );
+?>
+<!-- <form enctype="multipart/form-data"	action="<?php //echo $this->url('facturation', array('action'=>'enregistrement'));?>" method="post"> -->
+
+<div id="accordions">
+	<div
+		style='width: 160px; font-family: police2; font-size: 17px; font-weight: bold;'>Etat
+		civil du patient</div>
+	<div style='max-height: 400px;'>
+
+		<div class="photo_patient" id='photo'>
+			<input type='file' name="fichier" />
+			<!-- RECUPERER L'IMAGE -->
+			<input type='hidden' id="fichier_tmp" name="fichier_tmp" />
+			<!-- FICHIER TAMPON POUR RECUPERER L'IMAGE DANS LE CONTROLLER -->
+		</div>
+
+		<table id="form_patient" style="float: left;">
+
+			<tr class="comment-form-patient">
+				<td style="width: 270px;"> <?php echo $this->formRow($this->form->get('civilite'))?></td>
+				<td style="width: 270px;"> <?php echo $this->formRow($this->form->get('lieu_naissance'));?></td>
+				<td style="width: 275px;"> <?php echo $this->formRow($this->form->get('email'));?></td>
+
+			</tr>
+
+			<tr class="comment-form-patient">
+				<td> <?php echo $this->formRow($this->form->get('nom'));?></td>
+				<td> <?php echo $this->formRow($this->form->get('telephone'));?></td>
+				<td> <?php echo $this->formRow($this->form->get('nationalite_origine'));?></td>
+			</tr>
+
+			<tr class="comment-form-patient">
+				<td> <?php echo $this->formRow($this->form->get('prenom'));?></td>
+				<td> <?php echo $this->formRow($this->form->get('profession'));?></td>
+				<td> <?php echo $this->formRow($this->form->get('nationalite_actuelle'));?></td>
+			</tr>
+
+			<tr class="comment-form-patient">
+				<td> <?php echo $this->formRow($this->form->get('date_naissance'));?></td>
+				<td> <?php echo $this->formRow($this->form->get('adresse'));?></td>
+				<td> <?php echo $this->formRow($this->form->get('sexe'));?></td>
+			</tr>
+
+		</table>
+
+		<div class="barre_vertical"></div>
+
+		<div class="vider_formulaire" id="vider_champ">
+			<hass> <input type="submit" title="Vider tout" name="vider"
+				id="vider"> </hass>
+		</div>
+
+		<div class="supprimer_photo" id="div_supprimer_photo">
+			<hass> <input name="supprimer_photo"> </hass>
+			<!-- balise sans importance pour le moment -->
+		</div>
+
+		<div class="ajouter_photo" id="div_ajouter_photo">
+			<hass> <input type="submit" alt="ajouter_photo"
+				title="Ajouter une photo" name="ajouter_photo" id="ajouter_photo"> </hass>
+		</div>
+
+		<div class="modifer_donnees" id="div_modifier_donnees">
+			<hass> <input alt="modifer_donnees" title="modifer les donnees"
+				name="modifer_donnees" id="modifer_donnees"> </hass>
+		</div>
+
+
+		<table>
+			<tr>
+				<th style="width: 840px;"></th>
+				<th
+					style="height: 20px; margin-bottom: 15px; margin-top: 25px; float: right;">
+					<!-- On cr�e le bouton Valider (permettant la validation des donn�es -->
+					<div id="bouton_valider_donnees">
+						<button id='bouton_donnees_valider'>Valider</button>
+					</div> <!-- On cr�e le bouton MODIFIER (permettant la modification des donn�es -->
+					<div id="bouton_modifier_donnees">
+						<button id='bouton_donnees_modifier'>Modifier</button>
+					</div>
+				</th>
+			</tr>
+
+		</table>
+
+	</div>
+</div>
+
+<!-- POP UP pour Confirmation Suppression -->
+<div id="confirmation" title="Confirmation de la suppression"
+	style="display: none;">
+	<p style="font-size: 16px;">
+		<span style="float: left; margin: 0 0px 20px 0;"> <img
+			src="<?php echo $this->basePath().'/images_icons/warning_16.png';?>" />
+
+			Etes-vous s&ucirc;r de vouloir supprimer la photo ?
+		</span>
+	</p>
+</div>
+
+
+<!-- LES BOUTONS "TERMINER" ou "VALIDER" -->
+<script></script>
+
+<div style="background-color: #eeeeee;">
+	<div>
+		<button type="submit" name="terminer" id="terminer"
+			style="margin-left: 400px; margin-top: 20px; font-family: police2; font-size: 18px; font-weight: bold;">
+			Terminer</button>
+	</div>
+</div>
+
+<?php echo $this->form()->closeTag();?>
+<!-- </form> -->
+
+<div style="background-color: #eeeeee;" id="annuler">
+	<div>
+		<button
+			style="margin-left: 520px; margin-top: -57px; font-family: police2; font-size: 18px; font-weight: bold;">
+			Annuler</button>
+	</div>
+</div>
+
+
+<script> $('#annuler').click(function(){
+		//alert("c bon");
+		 vart='/simens/public/facturation/facturation/liste-patient';
+	     $(location).attr("href",vart);
+	});
+</script>
+

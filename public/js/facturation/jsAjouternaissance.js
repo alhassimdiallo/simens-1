@@ -19,7 +19,7 @@ function confirmation(id){
 function visualiser(id){
 	 confirmation(id);
 	 var cle = id;
-     var chemin = '/simens_derniereversion/public/facturation/facturation/ajouternaissance';
+     var chemin = '/simens/public/facturation/ajouter-naissance';
      $.ajax({
          type: 'POST',
          url: chemin ,
@@ -44,7 +44,7 @@ function initialisation(){
 	var asInitVals = new Array();
 	var  oTable = $('#patient').dataTable
 	( {
-					"aaSorting": "", //pour trier la liste affichée
+					"aaSorting": "", //pour trier la liste affichï¿½e
 					"oLanguage": { 
 						"sProcessing":   "Traitement en cours...",
 						"sZeroRecords":  "Aucun &eacute;l&eacute;ment &agrave; afficher",
@@ -152,32 +152,12 @@ function ajouternaiss(id){
 					yearSuffix: ''}
 	);
 	
-	/*
-	jQuery(function($){
-	    $.timepicker.regional['fr'] = {
-	                hourText: 'Heures',
-	                minuteText: 'Minutes',
-	                amPmText: ['AM', 'PM'],
-	                closeButtonText: 'Fermer',
-	                nowButtonText: 'Maintenant',
-	                deselectButtonText: 'DÃ©sÃ©lectionner' },
-	    $.timepicker.setDefaults($.timepicker.regional['fr']);
-	});*/
-	
-		/*$('#groupe_sanguin').timepicker( {
-            /*     showAnim: 'blind',
-            	 hours: { starts: 6, ends: 19 },
-                 minutes: { interval: 15 },
-                 rows: 3,
-                 showPeriodLabels: true,
-                 minuteText: 'Min'*/
-        //} );
 	
     $("#titre").replaceWith("<div id='titre2' style='font-family: police2; color: green; font-size: 18px; font-weight: bold;'><iS style='font-size: 25px;'>&curren;</iS> ETAT CIVIL DE L'ENFANT </div>");	
 
-    //Récupération des données de la maman
+    //Rï¿½cupï¿½ration des donnï¿½es de la maman
     var cle = id;
-    var chemin = '/simens_derniereversion/public/facturation/facturation/lepatient';
+    var chemin = '/simens/public/facturation/lepatient';
     $.ajax({
         type: 'POST',
         url: chemin ,
@@ -197,16 +177,16 @@ function ajouternaiss(id){
         error:function(e){console.log(e);alert("Une erreur interne est survenue!");},
         dataType: "html"
     });
-    //Fin Récupération des données de la maman
+    //Fin Rï¿½cupï¿½ration des donnï¿½es de la maman
     
     //Annuler l'enregistrement d'une naissance
     $("#annuler").click(function(){
     	$("#annuler").css({"border-color":"#ccc", "background":"-webkit-linear-gradient( #555, #CCC)", "box-shadow":"1px 1px 10px black inset,0 1px 0 rgba( 255, 255, 255, 0.4)"});
-    	vart='/simens_derniereversion/public/facturation/facturation/ajouternaissance';
+    	vart='/simens/public/facturation/ajouter-naissance';
         $(location).attr("href",vart);
     });
     
-    //Insertion des données dans la base de données
+    //Insertion des donnï¿½es dans la base de donnï¿½es
     $('#terminer').click(function(){
     	$("#terminer").css({"border-color":"#ccc", "background":"-webkit-linear-gradient( #555, #CCC)", "box-shadow":"1px 1px 10px black inset,0 1px 0 rgba( 255, 255, 255, 0.4)"});
     	var taille = $("#taille").val();
@@ -221,17 +201,17 @@ function ajouternaiss(id){
     
     	$.ajax({
             type: 'POST',
-            url: '/simens_derniereversion/public/facturation/facturation/enregistrerbebe' ,  
+            url: '/simens/public/facturation/enregistrer-bebe' ,  
             data: {'id':cle , 'nom':nom , 'prenom':prenom , 'date_naissance':date_naissance , 'lieu_naissance':lieu_naissance , 'heure_naissance':heure_naissance , 'poids':poids , 'groupe_sanguin':groupe_sanguin , 'taille':taille , 'sexe':sexe},
     	    success: function(data) {    
     	    	
-              vart='/simens_derniereversion/public/facturation/facturation/listenaissance';
+              vart='/simens/public/facturation/liste-naissance';
               $(location).attr("href",vart);
               
             }
     	});
     });
-    //Fin insertion des données
+    //Fin insertion des donnï¿½es
     
     
   //MENU GAUCHE
@@ -284,30 +264,30 @@ function ajouternaiss(id){
   
   		$('#vider_champ').hover(function(){
   			
-  			 $(this).css('background','url("/simens_derniereversion/public/images_icons/annuler2.png") no-repeat right top');
+  			 $(this).css('background','url("/simens/images_icons/annuler2.png") no-repeat right top');
   		},function(){
-  			  $(this).css('background','url("/simens_derniereversion/public/images_icons/annuler1.png") no-repeat right top');
+  			  $(this).css('background','url("/simens/public/images_icons/annuler1.png") no-repeat right top');
   	    });
 
   		$('#div_supprimer_photo').hover(function(){
   			
-  			 $(this).css('background','url("/simens_derniereversion/public/images_icons/mod2.png") no-repeat right top');
+  			 $(this).css('background','url("/simens/public/images_icons/mod2.png") no-repeat right top');
   		},function(){
-  			  $(this).css('background','url("/simens_derniereversion/public/images_icons/mod.png") no-repeat right top');
+  			  $(this).css('background','url("/simens/public/images_icons/mod.png") no-repeat right top');
   	    });
 
   		$('#div_ajouter_photo').hover(function(){
   			
-  			 $(this).css('background','url("/simens_derniereversion/public/images_icons/ajouterphoto2.png") no-repeat right top');
+  			 $(this).css('background','url("/simens/public/images_icons/ajouterphoto2.png") no-repeat right top');
   		},function(){
-  			  $(this).css('background','url("/simens_derniereversion/public/images_icons/ajouterphoto.png") no-repeat right top');
+  			  $(this).css('background','url("/simens/public/images_icons/ajouterphoto.png") no-repeat right top');
   	    });
 
   		$('#div_modifier_donnees').hover(function(){
   			
-  			 $(this).css('background','url("/simens_derniereversion/public/images_icons/modifier2.png") no-repeat right top');
+  			 $(this).css('background','url("/simens/public/images_icons/modifier2.png") no-repeat right top');
   		},function(){
-  			  $(this).css('background','url("/simens_derniereversion/public/images_icons/modifier.png") no-repeat right top');
+  			  $(this).css('background','url("/simens/public/images_icons/modifier.png") no-repeat right top');
   	   });
   
   //FIN VALIDATION OU MODIFICATION DU FORMULAIRE ETAT CIVIL DU PATIENT

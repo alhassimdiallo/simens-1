@@ -4,12 +4,23 @@ namespace Consultation\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
+use Facturation\Model\Patient;
 
 class ConsultationController extends AbstractActionController {
+	protected $patientTable;
+	public function getPatientTable(){
+		if (! $this->patientTable) {
+			$sm = $this->getServiceLocator ();
+			$this->patientTable = $sm->get ( 'Facturation\Model\PatientTable' );
+		}
+		return $this->patientTable;
+	}
 	public function  rechercheAction(){
 		$this->layout()->setTemplate('layout/consultation');
+		$patient = $this->getPatientTable();
+		$patientsAdmis = $patient->tousPatientsAdmis();
 		$view = new ViewModel(array(
-				'donnees' => 'Hello world',
+				'donnees' => $patientsAdmis,
 		));
 		return $view;
 	}

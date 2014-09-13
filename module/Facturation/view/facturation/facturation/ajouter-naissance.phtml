@@ -1,0 +1,162 @@
+
+<!-- MES STYLES -->
+<?php echo $this->headLink()->appendStylesheet($this->basePath().'/css/facturation/styleAjouterNaissance.css');
+      echo $this->headLink()->appendStylesheet($this->basePath().'/css/facturation/DatePicker.css'); //DatePicker?>
+
+<!-- MES JS -->
+<?php echo $this->headScript()->appendFile($this->basePath().'/js/facturation/jsAjouternaissance.js');?>
+
+<?php //$Control = new Facturation_Model_Helpers_Aides();?>
+
+     <div id="titre" style='font-family: police2; text-decoration:none; color: green; font-size: 18px; font-weight: bold;'><iS style='font-size: 25px;'>&curren;</iS> RECHERCHER LA MAMAN</div>
+     <div id="contenu" >
+		<table style='width:95%; margin-left: 10px; align:center' class="table table-bordered tab_list_mini" id="patient">
+			<thead>
+			    <tr >
+				    <th id="idpatient_"><input type="text" name="search_browser" value=" ID_Patient" class="search_init" /></th>
+					<th id="nom_"><input type="text" name="search_browser" value=" Nom" class="search_init" /></th>
+					<th id="prenom_"><input type="text" name="search_browser" value=" Prenom" class="search_init" /></th>
+					<th id="date_"><input type="text" name="search_browser" value=" Date naissance" class="search_init" /></th>
+					<th id="adresse_"><input type="text" name="search_browser" value=" Adresse" class="search_init" /></th>
+					<th id="effectuer_"><input type="hidden" name="search_browser" value="" class="" />Option</th>
+
+				</tr>
+
+			</thead>
+
+			<tbody id="donnees" class="liste_patient">
+
+	            <?php foreach($this->donnees as $donnees):?>
+
+				<tr id="<?php echo $this->escape($donnees->Id);?>">
+
+				    <td><?php echo $this->escape($donnees->Id);?></td>
+				    <td style="text-transform : uppercase;"><?php echo $this->escape($donnees->Nom);?></td>
+				    <td><?php echo $this->escape($donnees->Prenom);?></td>
+					<td><?php echo $Control->convertDate($this->escape($donnees->Datenaissance));?></td>
+					<td><?php echo $this->escape($donnees->Adresse);?></td>
+					<td>
+					    <?php $id = $this->escape($donnees->Id);?>
+					    <a href="javascript:visualiser('<?php echo $id ?>')" style="display: inline;" >
+					    	<img  src='<?php echo $this->basePath().'/images_icons/vue.PNG'?>' alt='Constantes' title="Visualiser" />
+					    </a> &nbsp;&nbsp;
+
+					    <a href="javascript:ajouternaiss('<?php echo $id ?>')">
+					       <img style="display: inline;" src='<?php echo $this->basePath().'/images_icons/transfert_droite.PNG'?>' alt='Constantes' title="suivant" />
+					    </a>
+
+					</td>
+				</tr>
+
+				<?php endforeach; ?>
+
+			</tbody>
+
+		</table>
+
+<script type="text/javascript">
+initialisation();
+</script>
+</div>
+
+<!-- POP UP pour Confirmation Suppression -->
+                            <div id="confirmation" title="Informations" style="display:none;">
+                              <div id="info" style="font-size: 16px;">
+
+                              </div>
+                            </div>
+
+
+<!-- LES BOUTONS "TERMINER" ou "VALIDER" -->
+
+
+
+<!-- PARTIE ENREGISTREMENT DE LA NAISSANCE -->
+
+    <div id="ajouter_naissance">
+          <a href="" id="precedent" style="font-family: police2; width:50px; margin-left:30px;">
+	        <img style="display: inline; " src='<?php echo $this->basePath().'/images_icons/transfert_gauche.PNG'?>' alt='Constantes' title="Rechercher" />
+		    Pr&eacute;c&eacute;dent
+		  </a>
+
+		  <div id="info_maman">
+		  </div>
+
+		  <div id="barre_separateur">
+		  </div>
+
+		  <div id="info_bebe">
+               <div style="float:left; margin-left:40px; margin-top:25px; margin-right:20px; width:125px; height:105px;">
+		       <img style="display: inline; " src='<?php echo $this->basePath().'/images_icons/bebe.jpg'?>' alt='Photo bebe' />
+		       </div>
+
+		       <table id="form_patient" style=" float:left; margin-top:15px;">
+		             <tr>
+		                 <td class="comment-form-patient"><?php echo $this->form->nom?></td>
+		                 <td class="comment-form-patient"><?php echo $this->form->date_naissance?></td>
+		                 <td class="comment-form-patient"><?php echo $this->form->poids?></td>
+
+		             </tr>
+
+		             <tr>
+		                 <td class="comment-form-patient"><?php echo $this->form->prenom?></td>
+		                 <td class="comment-form-patient"><?php echo $this->form->heure_naissance?></td>
+		                 <td class="comment-form-patient"><?php echo $this->form->taille?></td>
+
+		             </tr>
+
+		             <tr>
+		                 <td class="comment-form-patient"><?php echo $this->form->sexe?></td>
+		                 <td class="comment-form-patient"><?php echo $this->form->lieu_naissance?></td>
+		                 <td class="comment-form-patient"><?php echo $this->form->groupe_sanguin?></td>
+
+		             </tr>
+		       </table>
+
+		       <div id="barre_vertical"></div>
+
+		       <div id="menu">
+		           <div class="vider_formulaire" id="vider_champ">
+                     <input title="Vider tout" name="vider" id="vider">
+                   </div>
+
+                   <div class="modifer_donnees" id="div_modifier_donnees">
+                     <input alt="modifer_donnees" title="modifer les donnees" name="modifer_donnees" id="modifer_donnees">
+                   </div>
+
+                   <div class="supprimer_photo" id="div_supprimer_photo">
+                     <input name="supprimer_photo"> <!-- balise sans importance pour le moment -->
+                   </div>
+
+                   <div class="ajouter_photo" id="div_ajouter_photo">
+                     <input type="submit" alt="ajouter_photo" title="Ajouter une photo" name="ajouter_photo" id="ajouter_photo">
+                   </div>
+               </div>
+
+               <div id="terminer_annuler">
+                    <div class="block" id="thoughtbot">
+                       <button id="terminer" style=" height:35px; ">Terminer</button>
+                    </div>
+
+                    <div class="block" id="thoughtbot">
+                       <button id="annuler" style=" height:35px; ">Annuler</button>
+                    </div>
+               </div>
+
+		  </div>
+
+    </div>
+
+<script>
+animation();
+
+document.getElementById('sexe').value="";
+//POUR LE MENU GAUCHE dans -elementgauche.phtml
+$('#plus_naissance').toggle(true);
+$("#naissance").replaceWith("<li id='naissance' style='background:#4a5765;'><a href=''><span style='margin-left:0px; color: #ffffff; font-weight:bold; font-size:18px; font-family:Times New Roman;'> <img style='display: inline;' src='/simens/public/images_icons/moins-vert.PNG' alt='Liste' /> Naissances </span></a></li>");
+dep1();
+$('#ajouter_style').css({'font-weight':'bold','color':'white','font-size':'22px'});
+</script>
+
+
+
