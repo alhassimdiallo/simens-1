@@ -19,7 +19,7 @@ function confirmation(id){
 function visualiser(id){
 	 confirmation(id);
 	 var cle = id;
-     var chemin = '/simens_derniereversion/public/facturation/facturation/DeclarerDeces';
+     var chemin = '/simens/public/facturation/declarer-deces';
      $.ajax({
          type: 'POST',
          url: chemin ,
@@ -44,7 +44,7 @@ function initialisation(){
 	var asInitVals = new Array();
 	var  oTable = $('#patient').dataTable
 	( {
-					"aaSorting": "", //pour trier la liste affichée
+					"aaSorting": "", //pour trier la liste affichï¿½e
 					"oLanguage": { 
 						"sProcessing":   "Traitement en cours...",
 						"sZeroRecords":  "Aucun &eacute;l&eacute;ment &agrave; afficher",
@@ -128,9 +128,9 @@ function declarer(id){
 	$("#termineradmission").replaceWith("<button id='termineradmission' style='height:35px;'>Terminer</button>");
     $("#titre").replaceWith("<div id='titre2' style='font-family: police2; color: green; font-size: 18px; font-weight: bold;'><iS style='font-size: 25px;'>&curren;</iS> ADMISSION </div>");	
 
-    //Récupération des données du patient
+    //Rï¿½cupï¿½ration des donnï¿½es du patient
     var cle = id;
-    var chemin = '/simens_derniereversion/public/facturation/facturation/admission';
+    var chemin = '/simens/public/facturation/admission';
     $.ajax({
         type: 'POST',
         url: chemin ,
@@ -150,12 +150,12 @@ function declarer(id){
         error:function(e){console.log(e);alert("Une erreur interne est survenue!");},
         dataType: "html"
     });
-    //Fin Récupération des données de la maman
+    //Fin Rï¿½cupï¿½ration des donnï¿½es de la maman
     
     //Annuler l'enregistrement d'une naissance
     $("#annuler").click(function(){
     	$("#annuler").css({"border-color":"#ccc", "background":"-webkit-linear-gradient( #555, #CCC)", "box-shadow":"1px 1px 10px black inset,0 1px 0 rgba( 255, 255, 255, 0.4)"});
-    	vart='/simens_derniereversion/public/facturation/facturation/admission';
+    	vart='/simens/public/facturation/admission';
         $(location).attr("href",vart);
     	//ANNULER
 	    /*  $('#contenu').animate({
@@ -168,7 +168,7 @@ function declarer(id){
 	     return true;*/
     });
     
-    //Insertion des données dans la base de données
+    //Insertion des donnï¿½es dans la base de donnï¿½es
     $('#termineradmission').click(function(){
     	$("#termineradmission").css({"border-color":"#ccc", "background":"-webkit-linear-gradient( #555, #CCC)", "box-shadow":"1px 1px 10px black inset,0 1px 0 rgba( 255, 255, 255, 0.4)"});
     	$("#termineradmission").attr( 'disabled', true );
@@ -179,25 +179,25 @@ function declarer(id){
     	
     	$.ajax({
             type: 'POST',
-            url: '/simens_derniereversion/public/facturation/facturation/enregistreradmission' ,  
+            url: '/simens/public/facturation/enregistrer-admission' ,  
             data: {'id':cle , 'numero':numero , 'service':service , 'montant':montant },
     	    success: function(data) {    
     	    	
-              vart='/simens_derniereversion/public/facturation/facturation/listepatientsadmis';
+              vart='/simens/public/facturation/liste-patients-admis';
               $(location).attr("href",vart);
                 
             }
     	});
     });
-    //Fin insertion des données
+    //Fin insertion des donnï¿½es
   
 }
 
 
 function getmontant(id){
-	//Récupération des données du patient
+	//Rï¿½cupï¿½ration des donnï¿½es du patient
     var cle = id;
-    var chemin = '/simens_derniereversion/public/facturation/facturation/montant';
+    var chemin = '/simens/public/facturation/montant';
     $.ajax({
         type: 'POST',
         url: chemin ,

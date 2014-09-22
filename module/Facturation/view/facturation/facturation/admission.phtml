@@ -1,0 +1,128 @@
+<!-- MES STYLES -->
+<?php echo $this->headLink()->appendStylesheet($this->basePath().'/css/facturation/styleAdmission.css');?>
+
+<!-- MES JS -->
+<?php echo $this->headScript()->appendFile($this->basePath().'/js/facturation/jsAdmission.js');?>
+
+<?php //$Control = new Facturation_Model_Helpers_Aides();?>
+
+     <div id="titre" style='font-family: police2; text-decoration:none; color: green; font-size: 18px; font-weight: bold;'><iS style='font-size: 25px;'>&curren;</iS> RECHERCHER LE PATIENT</div>
+     <div id="contenu" >
+		<table style='width:95%; margin-left: 10px; align:center' class="table table-bordered tab_list_mini" id="patient">
+			<thead >
+			    <tr >
+				    <th id="idpatient_"><input type="text" name="search_browser" value=" ID_Patient" class="search_init" /></th>
+					<th id="nom_"><input type="text" name="search_browser" value=" Nom" class="search_init" /></th>
+					<th id="prenom_"><input type="text" name="search_browser" value=" Prenom" class="search_init" /></th>
+					<th id="date_"><input type="text" name="search_browser" value=" Date naissance" class="search_init" /></th>
+					<th id="adresse_"><input type="text" name="search_browser" value=" Adresse" class="search_init" /></th>
+					<th id="effectuer_"><input type="hidden" name="search_browser" value="" class="" />Option</th>
+
+				</tr>
+
+			</thead>
+
+			<tbody id="donnees" class="liste_patient">
+
+	            <?php foreach($this->donnees as $donnees):?>
+
+				<tr id="<?php echo $this->escapeHtml($donnees['Id']);?>">
+
+				    <td><?php echo $this->escapeHtml($donnees['Id']);?></td>
+				    <td style='text-transform : uppercase;'><?php echo $this->escapeHtml($donnees['Nom']);?></td>
+				    <td><?php echo $this->escapeHtml($donnees['Prenom']);?></td>
+					<td><?php echo $this->escapeHtml($donnees['Datenaissance']);?></td>
+					<td><?php echo $this->escapeHtml($donnees['Adresse']);?></td>
+					<td>
+					    <?php $id = $this->escapeHtml($donnees['Id']);?>
+					    <a href="javascript:visualiser('<?php echo $id ?>')" style="display: inline;" >
+					    	<img  src='<?php echo $this->basePath().'/images_icons/vue.PNG'?>' alt='Constantes' title="Visualiser" />
+					    </a> &nbsp;&nbsp;
+
+					    <a href="javascript:declarer('<?php echo $id ?>')">
+					       <img style="display: inline;" src='<?php echo $this->basePath().'/images_icons/transfert_droite.PNG'?>' alt='Constantes' title="suivant" />
+					    </a>
+
+					</td>
+				</tr>
+
+				<?php endforeach; ?>
+
+			</tbody>
+
+		</table>
+
+<script type="text/javascript">
+initialisation();
+</script>
+</div>
+
+<!-- POP UP pour Confirmation Suppression -->
+                            <div id="confirmation" title="Informations" style="display:none;">
+                              <div id="info" style="font-size: 16px;">
+
+                              </div>
+                            </div>
+
+
+<!-- LES BOUTONS "TERMINER" ou "VALIDER" -->
+
+
+
+<!-- PARTIE ENREGISTREMENT DU DECES -->
+
+    <div id="declarer_deces">
+          <a href="" id="precedent" style="font-family: police2; width:50px; margin-left:30px;">
+	        <img style="display: inline; " src='<?php echo $this->basePath().'/images_icons/transfert_gauche.PNG'?>' alt='Constantes' title="Rechercher" />
+		    Pr&eacute;c&eacute;dent
+		  </a>
+
+		  <div id="info_patient">
+		  </div>
+
+		  <?php $today = new \DateTime('now');
+		  $date = $today->format ( 'd/m/Y H:i' );?>
+		  <div id="titre_info_deces">Facturation    <div style='float:right; margin-right:15px; font-size:14px;'> Saint-Louis le, <?php echo $date;?></div></div>
+		  <div id="barre_separateur">
+		  </div>
+
+		  <div id="info_bebe">
+               <div style="float:left; margin-left:40px; margin-top:25px; margin-right:145px;">
+		       </div>
+
+		       <table id="form_patient" style=" float:left; margin-top:15px;">
+		             <tr>
+		                 <td class="comment-form-patient"><?php echo $this->formRow($this->form->get('numero'))?></td>
+		                 <td class="comment-form-patient"><?php echo $this->formRow($this->form->get('service'))?></td>
+		                 <td class="comment-form-patient"><?php echo $this->formRow($this->form->get('montant'))?></td>
+		             </tr>
+
+		       </table>
+
+               <div id="terminer_annuler">
+                    <div class="block" id="thoughtbot">
+                       <button id="termineradmission" style=" height:35px; ">Terminer</button>
+                    </div>
+
+                    <div class="block" id="thoughtbot">
+                       <button type="submit" name="annuler" id="annuler" style=" height:35px; ">Annuler</button>
+                    </div>
+               </div>
+
+		  </div>
+
+    </div>
+
+<script>
+animation();
+document.getElementById('service').value="";
+
+//POUR LE MENU GAUCHE dans -elementgauche.phtml
+$('#plus_admission').toggle(true);
+$("#admission").replaceWith("<li id='admission' style='background:#4a5765;'><a href=''><span style='margin-left:0px; color: #ffffff; font-weight:bold; font-size:18px; font-family:Times New Roman;'> <img style='display: inline;' src='/simens/public/images_icons/moins-vert.PNG' alt='Liste' /> Facturation </span></a></li>");
+dep_admission1();
+$('#admission_style').css({'font-weight':'bold','color':'white','font-size':'22px'});
+
+</script>
+
+

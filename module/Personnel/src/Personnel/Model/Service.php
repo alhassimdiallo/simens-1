@@ -2,14 +2,14 @@
 namespace Personnel\Model;
 
 class Service {
-	public  $id_personne;
+	public  $id_service;
 	Public  $nom;
 	public  $domaine;
 
 	public function exchangeArray($data) {
-		$this->id_personne = (! empty ( $data ['id_personne'] )) ? $data ['id_personne'] : null;
-		$this->nom = (! empty ( $data ['nom'] )) ? $data ['nom'] : null;
-		$this->domaine = (! empty ( $data ['nom'] )) ? $data ['domaine'] : null;
+		$this->id_service = (! empty ( $data ['ID_SERVICE'] )) ? $data ['ID_SERVICE'] : null;
+		$this->nom = (! empty ( $data ['NOM'] )) ? $data ['NOM'] : null;
+		$this->domaine = (! empty ( $data ['DOMAINE'] )) ? $data ['DOMAINE'] : null;
 	}
 
 	public function getArrayCopy()

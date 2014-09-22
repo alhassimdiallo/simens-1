@@ -19,7 +19,7 @@ function confirmation(id){
 function visualiser(id){
 	 confirmation(id);
 	 var cle = id;
-     var chemin = '/simens_derniereversion/public/facturation/facturation/DeclarerDeces';
+     var chemin = '/simens/public/facturation/declarer-deces';
      $.ajax({
          type: 'POST',
          url: chemin ,
@@ -44,7 +44,7 @@ function initialisation(){
 	var asInitVals = new Array();
 	var  oTable = $('#patient').dataTable
 	( {
-					"aaSorting": "", //pour trier la liste affichée
+					"aaSorting": "", //pour trier la liste affichï¿½e
 					"oLanguage": { 
 						"sProcessing":   "Traitement en cours...",
 						"sZeroRecords":  "Aucun &eacute;l&eacute;ment &agrave; afficher",
@@ -135,9 +135,9 @@ function declarer(id){
 	
     $("#titre").replaceWith("<div id='titre2' style='font-family: police2; color: green; font-size: 18px; font-weight: bold;'><iS style='font-size: 25px;'>&curren;</iS> D&Eacute;CLARER LE D&Eacute;C&Egrave;S </div>");	
 
-    //Récupération des données du patient
+    //Rï¿½cupï¿½ration des donnï¿½es du patient
     var cle = id;
-    var chemin = '/simens_derniereversion/public/facturation/facturation/lepatient';
+    var chemin = '/simens/public/facturation/le-patient';
     $.ajax({
         type: 'POST',
         url: chemin ,
@@ -157,16 +157,16 @@ function declarer(id){
         error:function(e){console.log(e);alert("Une erreur interne est survenue!");},
         dataType: "html"
     });
-    //Fin Récupération des données de la maman
+    //Fin Rï¿½cupï¿½ration des donnï¿½es de la maman
     
     //Annuler l'enregistrement d'une naissance
     $("#annuler").click(function(){
     	$("#annuler").css({"border-color":"#ccc", "background":"-webkit-linear-gradient( #555, #CCC)", "box-shadow":"1px 1px 10px black inset,0 1px 0 rgba( 255, 255, 255, 0.4)"});
-    	vart='/simens_derniereversion/public/facturation/facturation/declarerdeces';
+    	vart='/simens/public/facturation/declarer-deces';
         $(location).attr("href",vart);
     });
     
-    //Insertion des données dans la base de données
+    //Insertion des donnï¿½es dans la base de donnï¿½es
     $('#terminerdeces').click(function(){
     	$("#terminerdeces").css({"border-color":"#ccc", "background":"-webkit-linear-gradient( #555, #CCC)", "box-shadow":"1px 1px 10px black inset,0 1px 0 rgba( 255, 255, 255, 0.4)"});
     	//$("#terminerdeces").attr( 'disabled', true );
@@ -180,17 +180,17 @@ function declarer(id){
     	
     	$.ajax({
             type: 'POST',
-            url: '/simens_derniereversion/public/facturation/facturation/enregisterdeces' ,  
+            url: '/simens/public/facturation/enregistrer-deces' ,  
             data: {'id':cle , 'lieu_deces':lieu_deces , 'circonstances_deces':circonstances_deces , 'age_deces':age_deces , 'heure_deces':heure_deces , 'date_deces':date_deces, 'note':note, },
     	    success: function(data) {    
     	    	
-              vart='/simens_derniereversion/public/facturation/facturation/listepatientdecedes';
+              vart='/simens/public/facturation/liste-patients-decedes';
               $(location).attr("href",vart);
                 
             }
     	});
     });
-    //Fin insertion des données
+    //Fin insertion des donnï¿½es
     
     
     //MENU GAUCHE
@@ -209,30 +209,30 @@ function declarer(id){
  
   		$('#vider_champ').hover(function(){
   			
-  			 $(this).css('background','url("/simens_derniereversion/public/images_icons/annuler2.png") no-repeat right top');
+  			 $(this).css('background','url("/simens/public/images_icons/annuler2.png") no-repeat right top');
   		},function(){
-  			  $(this).css('background','url("/simens_derniereversion/public/images_icons/annuler1.png") no-repeat right top');
+  			  $(this).css('background','url("/simens/public/images_icons/annuler1.png") no-repeat right top');
   	    });
 
   		$('#div_supprimer_photo').hover(function(){
   			
-  			 $(this).css('background','url("/simens_derniereversion/public/images_icons/mod2.png") no-repeat right top');
+  			 $(this).css('background','url("/simens/public/images_icons/mod2.png") no-repeat right top');
   		},function(){
-  			  $(this).css('background','url("/simens_derniereversion/public/images_icons/mod.png") no-repeat right top');
+  			  $(this).css('background','url("/simens/public/images_icons/mod.png") no-repeat right top');
   	    });
 
   		$('#div_ajouter_photo').hover(function(){
   			
-  			 $(this).css('background','url("/simens_derniereversion/public/images_icons/ajouterphoto2.png") no-repeat right top');
+  			 $(this).css('background','url("/simens/public/images_icons/ajouterphoto2.png") no-repeat right top');
   		},function(){
-  			  $(this).css('background','url("/simens_derniereversion/public/images_icons/ajouterphoto.png") no-repeat right top');
+  			  $(this).css('background','url("/simens/public/images_icons/ajouterphoto.png") no-repeat right top');
   	    });
 
   		$('#div_modifier_donnees').hover(function(){
   			
-  			 $(this).css('background','url("/simens_derniereversion/public/images_icons/modifier2.png") no-repeat right top');
+  			 $(this).css('background','url("/simens/public/images_icons/modifier2.png") no-repeat right top');
   		},function(){
-  			  $(this).css('background','url("/simens_derniereversion/public/images_icons/modifier.png") no-repeat right top');
+  			  $(this).css('background','url("/simens/public/images_icons/modifier.png") no-repeat right top');
   	   });
   
   //FIN VALIDATION OU MODIFICATION DU FORMULAIRE ETAT CIVIL DU PATIENT

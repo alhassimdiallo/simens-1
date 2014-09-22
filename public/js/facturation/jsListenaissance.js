@@ -13,7 +13,7 @@
 	            $( this ).dialog( "close" );
 	            
 	            var cle = id;
-	            var chemin = '/simens_derniereversion/public/facturation/facturation/supprimernaissance';
+	            var chemin = '/simens/public/facturation/supprimer-naissance';
 	            $.ajax({
 	                type: 'POST',
 	                url: chemin ,
@@ -49,7 +49,7 @@
     function affichervue(id){
     	
     	var cle = id;
-        var chemin = '/simens_derniereversion/public/facturation/facturation/vuenaissance';
+        var chemin = '/simens/public/facturation/vue-naissance';
         $.ajax({
             type: 'POST',
             url: chemin ,
@@ -70,7 +70,7 @@
     }
     
     function listepatient(){
-    	//Lorsqu'on clique sur terminer ça ramène la liste des aptients décédés 
+    	//Lorsqu'on clique sur terminer ï¿½a ramï¿½ne la liste des aptients dï¿½cï¿½dï¿½s 
 	    $("#terminer").click(function(){
   	   	    //alert('ok');
 	    	$("#titre2").replaceWith("<div id='titre' style='font-family: police2; color: green; font-size: 18px; font-weight: bold;'><iS style='font-size: 25px;'>&curren;</iS> LISTE DES NAISSANCES</div>");
@@ -87,7 +87,7 @@
 		        
 					//"bJQueryUI": true,
 					//"sPaginationType": "full_numbers",
-					"aaSorting": "", //pour trier la liste affichée
+					"aaSorting": "", //pour trier la liste affichï¿½e
 					"oLanguage": { 
 						"sProcessing":   "Traitement en cours...",
 						//"sLengthMenu":   "Afficher _MENU_ &eacute;l&eacute;ments",
@@ -174,7 +174,7 @@
     	information(id);
     	
     	var cle = id;
-        var chemin = '/simens_derniereversion/public/facturation/facturation/vueinfomaman';
+        var chemin = '/simens/public/facturation/vue-info-maman';
         $.ajax({
             type: 'POST',
             url: chemin ,
@@ -198,7 +198,7 @@
     function modifier(id){
 
     	var cle = id;
-        var chemin = '/simens_derniereversion/public/facturation/facturation/modifiernaissance';
+        var chemin = '/simens/public/facturation/modifier-naissance';
         $.ajax({
             type: 'GET',
             url: chemin ,
@@ -211,7 +211,7 @@
             	     $("#contenu").fadeOut(function(){
             	    	 $("#modifier_donnees").html(result); 
             	     
-            	    	 /********************ON PREPARE LA TOUCHE 'Pécédent' *******************/
+            	    	 /********************ON PREPARE LA TOUCHE 'Pï¿½cï¿½dent' *******************/
             	    	 $('#precedent').click(function(){
             	    		
             	 	    	$("#titre2").replaceWith("<div id='titre' style='font-family: police2; color: green; font-size: 18px; font-weight: bold;'><iS style='font-size: 25px;'>&curren;</iS> LISTE DES NAISSANCES </div>");	
@@ -265,11 +265,11 @@
         	
         	$.ajax({
                 type: 'POST',  
-                url: '/simens_derniereversion/public/facturation/facturation/modifiernaissance' ,  
+                url: '/simens/public/facturation/modifier-naissance' ,  
                 data: ({'id':id , 'nom':nom , 'prenom':prenom , 'date_naissance':date_naissance , 'lieu_naissance':lieu_naissance , 'heure_naissance':heure_naissance , 'poids':poids , 'groupe_sanguin':groupe_sanguin , 'taille':taille , 'sexe':sexe}),
         	    success: function(data) {    
         	    	
-                  vart='/simens_derniereversion/public/facturation/facturation/listenaissance';
+                  vart='/simens/public/facturation/liste-naissance';
                   $(location).attr("href",vart);
                   
                 },
@@ -281,7 +281,7 @@
     	//Annuler l'enregistrement d'une naissance
         $("#annuler_modif").click(function(){
         	$("#annuler_modif").css({"border-color":"#ccc", "background":"-webkit-linear-gradient( #555, #CCC)", "box-shadow":"1px 1px 10px black inset,0 1px 0 rgba( 255, 255, 255, 0.4)"});
-        	vart='/simens_derniereversion/public/facturation/facturation/listenaissance';
+        	vart='/simens/public/facturation/liste-naissance';
             $(location).attr("href",vart);
         });
         

@@ -32,11 +32,12 @@ body {
 </style>
 
 <div id="loginbox">
-	<div style="text-align: center; font-size: 10px; color: white; padding-top: 20px;">
-		<?php echo "Page affich&eacute;e en ".$this->time." secondes";?>
+	<div style="text-align: left; margin-left: 10px; font-size: 20px; color: white; padding-top: 20px;">
+		<?php //echo "Page affich&eacute;e en ".$this->time." secondes";?>
+		<?php echo "Bonjour M. ".$this->identity;?>
 	</div>
 	<div
-		style="text-align: right; font-size: 15px; color: white; padding-top: 5px; margin-right: 15px;">
+		style="text-align: right; font-size: 15px; color: white; padding-top: 5px; margin-right: 10px;">
 		<a
 			href="<?php echo $this->url('login/process', array('action'=>'logout'));?>">
 			<span style="color: white;">Deconnexion</span>

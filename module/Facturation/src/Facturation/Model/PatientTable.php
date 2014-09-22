@@ -5,12 +5,12 @@ namespace Facturation\Model;
 use Zend\Db\TableGateway\TableGateway;
 use Zend\Db\Sql\Select;
 use Zend\Db\Sql\Sql;
-use  Zend\Db\Sql\Predicate\NotIn;
+use Zend\Db\Sql\Predicate\NotIn;
+use Zend\Db\Sql\Predicate\Expression;
+use Facturation\View\Helper\DateHelper;
 
 class PatientTable {
-
 	protected $tableGateway;
-
 	public function __construct(TableGateway $tableGateway) {
 		$this->tableGateway = $tableGateway;
 	}
@@ -21,9 +21,9 @@ class PatientTable {
 	public function getPatient($id) {
 		$id = ( int ) $id;
 		$rowset = $this->tableGateway->select ( array (
-				'id_personne' => $id
+				'ID_PERSONNE' => $id
 		) );
-		$row = $rowset->current ();
+		$row =  $rowset->current ();
 		if (! $row) {
 			throw new \Exception ( "Could not find row $id" );
 		}
@@ -46,207 +46,365 @@ class PatientTable {
 		} else {
 			if ($this->getPatient ( $id )) {
 				$this->tableGateway->update ( $data, array (
-						'id_personne' => $id
+						'ID_PERSONNE' => $id
 				) );
 			} else {
-				throw new \Exception ( 'Form id does not exist' );
+				throw new \Exception ( 'Patient id does not exist' );
 			}
 		}
 	}
 	public function deletePatient($id) {
 		$this->tableGateway->delete ( array (
-				'id_personne' => $id
+				'ID_PERSONNE' => $id
 		) );
 	}
-	public function getListePatient() {
-		$db = $this->tableGateway;
+	function quoteInto($text, $value, $platform, $count = null)
+	{
+		if ($count === null) {
+			return str_replace('?', $platform->quoteValue($value), $text);
+		} else {
+			while ($count > 0) {
+				if (strpos($text, '?') !== false) {
+					$text = substr_replace($text, $platform->quoteValue($value), strpos($text, '?'), 1);
+				}
+				--$count;
+			}
+			return $text;
+		}
+	}
+	//Réduire la chaine addresse
+	function adresseText($Text){
+		$chaine = $Text;
+		if(strlen($Text)>36){
+			$chaine = substr($Text, 0, 36);
+			$nb = strrpos($chaine, ' ');
+			$chaine = substr($chaine, 0, $nb);
+			$chaine .=' ...';
+		}
+		return $chaine;
+	}
+	public function getListePatient(){
 
-		$aColumns = array (
-				'Nom',
-				'Prenom',
-				'Datenaissance',
-				'Sexe',
-				'Adresse',
-				'Nationalite',
-				'id'
-		);
+		$db = $this->tableGateway->getAdapter();
+
+		$aColumns = array('Nom','Prenom','Datenaissance','Sexe', 'Adresse', 'Nationalite', 'id');
 
 		/* Indexed column (used for fast and accurate table cardinality) */
 		$sIndexColumn = "id";
 
 		/*
 		 * Paging
-		 */
-		$sLimit = array ();
-		if (isset ( $_GET ['iDisplayStart'] ) && $_GET ['iDisplayLength'] != '-1') {
-			$sLimit [0] = $_GET ['iDisplayLength'];
-			$sLimit [1] = $_GET ['iDisplayStart'];
+		*/
+		$sLimit = array();
+		if ( isset( $_GET['iDisplayStart'] ) && $_GET['iDisplayLength'] != '-1' )
+		{
+			$sLimit[0] = $_GET['iDisplayLength'];
+			$sLimit[1] = $_GET['iDisplayStart'];
 		}
 
 		/*
 		 * Ordering
-		 */
-		if (isset ( $_GET ['iSortCol_0'] )) {
-			$sOrder = array ();
+		*/
+		if ( isset( $_GET['iSortCol_0'] ) )
+		{
+			$sOrder = array();
 			$j = 0;
-			for($i = 0; $i < intval ( $_GET ['iSortingCols'] ); $i ++) {
-				if ($_GET ['bSortable_' . intval ( $_GET ['iSortCol_' . $i] )] == "true") {
-					$sOrder [$j ++] = $aColumns [intval ( $_GET ['iSortCol_' . $i] )] . "
-								 	" . $_GET ['sSortDir_' . $i];
+			for ( $i=0 ; $i<intval( $_GET['iSortingCols'] ) ; $i++ )
+			{
+				if ( $_GET[ 'bSortable_'.intval($_GET['iSortCol_'.$i]) ] == "true" )
+				{
+					$sOrder[$j++] = $aColumns[ intval( $_GET['iSortCol_'.$i] ) ]."
+								 	".$_GET['sSortDir_'.$i];
 				}
 			}
 		}
 
 		/*
-		 * Filtering NOTE this does not match the built-in DataTables filtering which does it word by word on any field. It's possible to do here, but concerned about efficiency on very large tables, and MySQL's regex functionality is very limited
-		 */
-		$sOrWhere = array ();
-		// if ( $_GET['sSearch'] != "" )
-		// {
-		// for ( $i=0 ; $i<count($aColumns) ; $i++ )
-		// {
-		// $column = $db->quoteIdentifier($aColumns[$i]);
-		// $sOrWhere[$i] = $db->quoteInto("$column LIKE ?", "%".$_GET['sSearch']."%");
-		// }
-		// }
+		 * Filtering
+		* NOTE this does not match the built-in DataTables filtering which does it
+		* word by word on any field. It's possible to do here, but concerned about efficiency
+		* on very large tables, and MySQL's regex functionality is very limited
+		*/
+// 		$sOrWhere = array();
+// 		if ( $_GET['sSearch'] != "" )
+// 		{
+// 			for ( $i=0 ; $i<count($aColumns) ; $i++ )
+// 			{
+// 				$column = $db->getPlatform()->quoteIdentifier($aColumns[$i]);
+// 				$sOrWhere[$i] = $this->quoteInto("$column LIKE ?", "%".$_GET['sSearch']."%", $db->getPlatform());
+// 			}
+// 		}
 
-		$sWhere = array ();
-		$w = 0;
-		// for ( $i=0 ; $i<count($aColumns) ; $i++ )
-		// {
-		// if ( $_GET['bSearchable_'.$i] == "true" && $_GET['sSearch_'.$i] != '' )
-		// {
-		// $column = $db->quoteIdentifier($aColumns[$i]);
-		// $sWhere[$w++] = $db->quoteInto("$column LIKE ?", "%".$_GET['sSearch_'.$i]."%");
-		// }
-		// }
+// 		$sWhere = array();
+// 		$w = 0;
+// 		for ( $i=0 ; $i<count($aColumns) ; $i++ )
+// 		{
+// 			if ( $_GET['bSearchable_'.$i] == "true" && $_GET['sSearch_'.$i] != '' )
+// 			{
+// 				$column = $db->getPlatform()->quoteIdentifier($aColumns[$i]);
+// 				$sWhere[$w++] = $this->quoteInto("$column LIKE ?", "%".$_GET['sSearch_'.$i]."%", $db->getPlatform());
+// 			}
+// 		}
 
 		/*
 		 * SQL queries
-		 */
+		*/
+		$sql = new Sql($db);
+		$sQuery = $sql->select()
+		->from(array('pat' => 'patient'))->columns(array('Nom'=>'NOM','Prenom'=>'PRENOM','Datenaissance'=>'DATE_NAISSANCE','Sexe'=>'SEXE','Adresse'=>'ADRESSE','Nationalite'=>'NATIONALITE_ACTUELLE','Taille'=>'TAILLE','id'=>'ID_PERSONNE'));
+		//->0joinLeft(array('u'=> 'utilisateurs'),"u.id=iu.utilisateur_id",array('id','loginUtilisateur'));
+		//print $sQuery; exit;
+// 		if (count($sOrWhere) > 0){
+// 			for ( $i=0 ; $i<count($sOrWhere) ; $i++ )
+// 			{
+// 				$sQuery->where($sOrWhere[$i]);
+// 			}
+// 			$where = $sQuery->getRawState('where');
+// 			$sQuery->reset('where')
+// 			->where(new Expression(implode('', $where)));
+// 		}
 
-		$sQuery = $db->select ();
-		// ->from(array('pat' => 'patient') ,array('Nom'=>'NOM','Prenom'=>'PRENOM','Datenaissance'=>'DATE_NAISSANCE','Sexe'=>'SEXE','Adresse'=>'ADRESSE','Nationalite'=>'NATIONALITE_ACTUELLE','Taille'=>'TAILLE','id'=>'ID_PERSONNE'));
-		if (count ( $sOrWhere ) > 0) {
-			for($i = 0; $i < count ( $sOrWhere ); $i ++) {
-				$sQuery->orWhere ( $sOrWhere [$i] );
-			}
-			$where = $sQuery->getPart ( 'where' );
-			$sQuery->reset ( 'where' )->where ( new Zend_Db_Expr ( implode ( '', $where ) ) );
-		}
+// 		for ( $i=0 ; $i<count($sWhere) ; $i++ )
+// 		{
+// 			$sQuery->where($sWhere[$i]);
+// 		}
 
-		for($i = 0; $i < count ( $sWhere ); $i ++) {
-			$sQuery->Where ( $sWhere [$i] );
-		}
-
-		// print $sQuery;
+		// 		print $sQuery;
 
 		/* Data set length after filtering */
-		// $rResultFt = $db->fetchAll($sQuery);
-		$rResultFt = $sQuery;
-		$iFilteredTotal = count ( $rResultFt );
+		$stat = $sql->prepareStatementForSqlObject($sQuery);
+		$rResultFt = $stat->execute();
+		$iFilteredTotal = count($rResultFt);
 
 		/*
 		 * Get data to display
-		 */
-		$sQuery->order ( $sOrder );
-		if (count ( $sLimit ) > 0) {
-			$sQuery->limit ( $sLimit [0], $sLimit [1] );
-		}
+		*/
+// 		$sQuery->order($sOrder);
+// 		if (count($sLimit) > 0){
+// 			$sQuery->limit($sLimit[0]);
+// 			$sQuery->offset($sLimit[1]);
+// 		}
+// 		//$stat1 = $sql->prepareStatementForSqlObject($sQuery);
+		$rResult = $rResultFt;
 
-		$rResult = $db->fetchAll ( $sQuery );
-
-		$output = array (
-				"sEcho" => intval ( $_GET ['sEcho'] ),
-				"iTotalRecords" => $iTotal,
+		/* Total data set length */
+		// 		$sQuery = $db->select()
+		// 		->from('hospitalisation', "count($sIndexColumn)");
+		// 		$iTotal = $db->fetchOne($sQuery);
+		//print($sQuery); exit;
+		/*
+		 * Output
+		*/
+		$output = array(
+				//"sEcho" => intval($_GET['sEcho']),
+				//"iTotalRecords" => $iTotal,
 				"iTotalDisplayRecords" => $iFilteredTotal,
-				"aaData" => array ()
+				"aaData" => array()
 		);
 
 		/*
 		 * $Control pour convertir la date en fran�ais
 		 */
-		$Control = new Facturation_Model_Helpers_Aides ();
+		$Control = new DateHelper();
+
 
 		/*
 		 * Pr�parer la liste
 		 */
-		foreach ( $rResult as $aRow ) {
-			$row = array ();
-			for($i = 0; $i < count ( $aColumns ); $i ++) {
-				if ($aColumns [$i] != ' ') {
+		foreach ( $rResult as $aRow )
+		{
+			$row = array();
+			for ( $i=0 ; $i<count($aColumns) ; $i++ )
+			{
+				if ( $aColumns[$i] != ' ' )
+				{
 					/* General output */
-					if ($aColumns [$i] == 'Nom') {
-						$row [] = "<khass id='nomMaj' style='color: rede;'>" . $aRow [$aColumns [$i]] . "</khass>";
+					if ($aColumns[$i] == 'Nom'){
+						$row[] = "<khass id='nomMaj' style='color: rede;'>".$aRow[ $aColumns[$i]]."</khass>";
 					}
 
-					else if ($aColumns [$i] == 'Datenaissance') {
-						$row [] = $Control->convertDate ( $aRow [$aColumns [$i]] );
+				    else if ($aColumns[$i] == 'Datenaissance') {
+						$row[] = $Control->convertDate($aRow[ $aColumns[$i] ]);
 					}
 
-					else if ($aColumns [$i] == 'Adresse') {
-						$row [] = $this->adresseText ( $aRow [$aColumns [$i]] );
+					else if ($aColumns[$i] == 'Adresse') {
+						$row[] = $this->adresseText($aRow[ $aColumns[$i] ]);
 					}
 
-					else if ($aColumns [$i] == 'id') {
-						// $html = "<a href='".$this->basePath()."/facturation/Facturation/infopatient/id_patient/".$aRow[ $aColumns[$i] ]."'>";
-						$html = "<a href='/simens/public/facturation/info-patient/id_patient/" . $aRow [$aColumns [$i]] . "'>";
-						$html .= "<img style='display: inline;' src='/simens/public/images_icons/vue.PNG' title='d&eacute;tails'></a>&nbsp;&nbsp;&nbsp;";
+					else if ($aColumns[$i] == 'id') {
+						$html ="<a href='/simens/public/facturation/info-patient/id_patient/".$aRow[ $aColumns[$i] ]."'>";
+						$html .="<img style='display: inline;' src='/simens/public/images_icons/vue.PNG' title='d&eacute;tails'></a>&nbsp;&nbsp;&nbsp;";
 
-						$html .= "<a href='/simens/public/facturation/modifier/id_patient/" . $aRow [$aColumns [$i]] . "'>";
-						$html .= "<img style='display: inline;' src='/simens/public/images_icons/modifier.PNG' title='Modifier'></a>&nbsp;&nbsp;&nbsp;";
+						$html .= "<a href='/simens/public/facturation/modifier/id_patient/".$aRow[ $aColumns[$i] ]."'>";
+						$html .="<img style='display: inline;' src='/simens/public/images_icons/modifier.PNG' title='Modifier'></a>&nbsp;&nbsp;&nbsp;";
 
-						$html .= "<a href='javascript:envoyer(" . $aRow [$aColumns [$i]] . ")'>";
-						$html .= "<img style='display: inline;' src='/simens/public/images_icons/trash_16.PNG' title='Supprimer'></a>";
+						$html .= "<a href='javascript:envoyer(".$aRow[ $aColumns[$i] ].")'>";
+						$html .="<img style='display: inline;' src='/simens/public/images_icons/trash_16.PNG' title='Supprimer'></a>";
 
-						$row [] = $html;
+						$row[] = $html;
 					}
 
 					else {
-						$row [] = $aRow [$aColumns [$i]];
+						$row[] = $aRow[ $aColumns[$i] ];
 					}
+
 				}
 			}
-			$output ['aaData'] [] = $row;
+			$output['aaData'][] = $row;
 		}
-		// Zend_Debug::dump($output); exit();
+		//var_dump($output);exit();
 		return $output;
 	}
 	public function tousPatientsAdmis() {
 		// $sql = $this->tableGateway->selectWith($select);
 	}
 	public function listePatients() {
-		$adapter = $this->tableGateway->getAdapter();
-		$sql1 = new Sql($adapter);
-		$subselect = $sql1->select();
-		$subselect->from(array('d'=>'deces'));
-		$subselect->columns(array('id_personne'));
-		$sql2 = new Sql($adapter);
-		$rowset = $sql2->select();
-		$rowset->from (array(
+		$adapter = $this->tableGateway->getAdapter ();
+		$sql1 = new Sql ( $adapter );
+		$subselect = $sql1->select ();
+		$subselect->from ( array (
+				'd' => 'deces'
+		) );
+		$subselect->columns ( array (
+				'id_personne'
+		) );
+		$sql2 = new Sql ( $adapter );
+		$rowset = $sql2->select ();
+		$rowset->from(array (
 				'p' => 'patient'
 		) );
-		$rowset->columns (array(
-				'Nom' => 'p.NOM',
-				'Prenom' => 'p.PRENOM',
-				'Datenaissance' => 'p.DATE_NAISSANCE',
-				'Sexe' => 'p.SEXE',
-				'Adresse' => 'p.ADRESSE',
-				'Nationalite' => 'p.NATIONALITE_ACTUELLE',
-				'Taille' => 'p.TAILLE',
-				'Id' => 'p.ID_PERSONNE'
-		));
-		$rowset->where(array('p.ID_PERSONNE > 800', 'p.SEXE =\'FEMININ\'', new NotIn('p.ID_PERSONNE',$subselect)) );
-		$rowset->order ( 'p.ID_PERSONNE ASC' );
-		return $rowset;
+		$rowset->columns( array (
+				'Nom' => 'NOM',
+				'Prenom' => 'PRENOM',
+				'Datenaissance' => 'DATE_NAISSANCE',
+				'Sexe' => 'SEXE',
+				'Adresse' => 'ADRESSE',
+				'Nationalite' => 'NATIONALITE_ACTUELLE',
+				'Taille' => 'TAILLE',
+				'Id' => 'ID_PERSONNE'
+		) );
+		$rowset->where(array (
+				'ID_PERSONNE > 800',
+				'SEXE =\'FEMININ\'',
+				new NotIn ( 'ID_PERSONNE', $subselect )
+		) );
+		$rowset->order( 'ID_PERSONNE ASC' );
+		$statement = $sql2->prepareStatementForSqlObject ( $rowset );
+		$result = $statement->execute ();
+		return $result;
 	}
-	public function getPhoto($id){
-		$donneesPatient = $this->getPatient($id);
+	public function getPhoto($id) {
+		$donneesPatient =  $this->getPatient ( $id );
 
-		$nom = $donneesPatient['PHOTO'];
-		if($nom){
-			return $nom.'.jpg';
+		$nom = $donneesPatient->photo;
+		if ($nom) {
+			return $nom . '.jpg';
+		} else {
+			return 'identite.jpg';
 		}
-		else {return 'identite.jpg';}
+	}
+	// LISTE DES PATIENTS SAUF LES PATIENTS DECEDES
+	public function laListePatients() {
+		$date = new \DateTime ("now");
+		$formatDate = $date->format ( 'Y-m-d' );
+		$adapter = $this->tableGateway->getAdapter ();
+		$sql1 = new Sql ($adapter );
+		$subselect1 = $sql1->select ();
+		$subselect1->from ( array (
+				'd' => 'deces'
+		) );
+		$subselect1->columns (array (
+				'id_personne'
+		) );
+		$sql2 = new Sql ($adapter);
+		$subselect2 = $sql2->select ();
+		$subselect2->from ('facturation');
+		$subselect2->columns ( array (
+				'id_patient'
+		) );
+		$subselect2->where ( array (
+				'date_cons' => $formatDate
+		) );
+		$sql3 = new Sql($adapter);
+		$rowset = $sql3->select ();
+		$rowset->from ( array (
+				'p' => 'patient'
+		) );
+		$rowset->columns(array (
+				'Nom' => 'NOM',
+				'Prenom' => 'PRENOM',
+				'Datenaissance' => 'DATE_NAISSANCE',
+				'Sexe' => 'SEXE',
+				'Adresse' => 'ADRESSE',
+				'Nationalite' => 'NATIONALITE_ACTUELLE',
+				'Taille' => 'TAILLE',
+				'Id' => 'ID_PERSONNE'
+		) );
+		$rowset->where( array (
+				'ID_PERSONNE > 800',
+				new NotIn ( 'ID_PERSONNE', $subselect1 ),
+				new NotIn ( 'ID_PERSONNE', $subselect2 )
+		) );
+		$rowset->order('ID_PERSONNE ASC');
+		//$req = $sql3->getSqlStringForSqlObject($rowset);
+		//var_dump($req); exit();
+		$statement = $sql3->prepareStatementForSqlObject($rowset);
+		$result = $statement->execute();
+		return $result;
+	}
+	//Modification des donnees du bebe
+	public function updatePatientBebe($data)
+	{
+		$donnees = array(
+				'PRENOM' => $data['prenom'],
+				'NOM' => $data['nom'],
+				'DATE_NAISSANCE' => $data['date_naissance'],
+				'LIEU_NAISSANCE' => $data['lieu_naissance'],
+				'SEXE' =>$data['sexe'],
+				'CIVILITE' =>$data['civilite'],
+		);
+		$this->tableGateway->update($donnees, array('ID_PERSONNE'=> $data['id_bebe']));
+	}
+
+	//Tous les patients qui ont pour ID_PESONNE > 900
+	public function tousPatients(){
+		$adapter = $this->tableGateway->getAdapter ();
+		$sql = new Sql ( $adapter );
+		$select = $sql->select ();
+		$select->from ( array (
+				'p' => 'patient'
+		) );
+		$select->columns(array (
+				'Nom' => 'NOM',
+				'Prenom' => 'PRENOM',
+				'Datenaissance' => 'DATE_NAISSANCE',
+				'Sexe' => 'SEXE',
+				'Adresse' => 'ADRESSE',
+				'Nationalite' => 'NATIONALITE_ACTUELLE',
+				'Taille' => 'TAILLE',
+				'Id' => 'ID_PERSONNE'
+		) );
+		$select->where( array (
+				'ID_PERSONNE > 900'
+		) );
+		$select->order('ID_PERSONNE DESC');
+
+		$stmt = $sql->prepareStatementForSqlObject($select);
+		$result = $stmt->execute();
+		return $result;
+	}
+
+	//le nombre de patients qui ont pour ID_PESONNE > 900
+	public function nbPatientSUP900(){
+		$adapter = $this->tableGateway->getAdapter ();
+		$sql = new Sql ( $adapter );
+		$select = $sql->select ('patient');
+		$select->columns(array ('ID_PERSONNE'));
+		$select->where( array (
+				'ID_PERSONNE > 900'
+		) );
+		$stmt = $sql->prepareStatementForSqlObject($select);
+		$result = $stmt->execute();
+		return $result->count();
 	}
 }

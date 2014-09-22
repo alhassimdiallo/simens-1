@@ -1,0 +1,124 @@
+<!-- MES STYLES -->
+<?php echo $this->headLink()->appendStylesheet($this->basePath().'/css/facturation/styleListeNaissance.css');
+      echo $this->headLink()->appendStylesheet($this->basePath().'/css/facturation/DatePicker.css'); //DatePicker
+?>
+
+<!-- MES JS -->
+<?php echo $this->headScript()->appendFile($this->basePath().'/js/facturation/jsListenaissance.js');?>
+
+<?php //$Control = new Facturation_Model_Helpers_Aides();?>
+<div id="titre" style='font-family: police2; text-decoration:none; color: green; font-size: 18px; font-weight: bold;'><iS style='font-size: 25px;'>&curren;</iS> LISTE DES NAISSANCES</div>
+ <div id="contenu" >
+
+		<table class="table table-bordered tab_list_mini" id="patientdeces">
+			<thead>
+				<tr style="height:50px;">
+					<th id="_nom" align="center">Nom</th>
+					<th id="_prenom" align="center">Prenom</th>
+					<th id="_date" align="center" name="date">D. naissance</th>
+					<th id="_sexe" align="center" name="sexe">Sexe</th>
+					<th id="_adresse" align="center" name="adresse">Adresse</th>
+					<th id="_nationalite" align="center" name="nationalite">Nationalite</th>
+					<th id="_effectuer" align="center">Options</th>
+				</tr>
+			</thead>
+
+			<tbody id="donnees" class="liste_patient">
+
+	            <!-- ************ On affiche les patients en une liste ordonn�e************ -->
+
+				<?php foreach($this->donnees as $donnees):?>
+
+				<tr id="<?php echo $this->escapeHtml($donnees['Id']);?>">
+
+				    <td style="text-transform : uppercase;"><?php echo $this->escapeHtml($donnees['Nom']);?></td>
+				    <td><?php echo $this->escapeHtml($donnees['Prenom']);?></td>
+					<td><?php echo $this->escapeHtml($donnees['Datenaissance']);?></td>
+					<td><?php echo $this->escapeHtml($donnees['Sexe']);?></td>
+					<td><?php echo $this->escapeHtml($donnees['Adresse']);?></td>
+					<td><?php echo $this->escapeHtml($donnees['Nationalite']);?></td>
+					<td>
+					    <?php $id = $this->escapeHtml($donnees['Id']);?>
+					    <a href="javascript:affichervue('<?php echo $id ?>')">
+					       <img style="display: inline;" src='<?php echo $this->basePath().'/images_icons/vue.PNG'?>' alt='Constantes' title="details" />
+					    </a>&nbsp;
+
+					    <a href="javascript:modifier('<?php echo $id ?>')">
+					    	<img id="<?php echo 'm'.$id; ?>" src='<?php echo $this->basePath().'/images_icons/modifier.PNG'?>' alt='Constantes' title=" Modifier" />
+					    </a>&nbsp;
+
+					    <a href="javascript:envoyer('<?php echo $id ?>')">
+					    	<img style="display: inline;" src='<?php echo $this->basePath().'/images_icons/sup.PNG'?>' alt='Constantes' title="Supprimer" />
+					    </a>
+					</td>
+
+				</tr>
+
+				<?php endforeach; ?>
+
+			</tbody>
+
+			<tfoot id="foot" class="foot_style">
+				<tr>
+					<th id="nom_"><input type="text" name="search_browser" value=" Nom" class="search_init" /></th>
+					<th id="prenom_"><input type="text" name="search_browser" value=" Prenom" class="search_init" /></th>
+					<th id="date_"><input type="text" name="search_browser" value=" Date naissance" class="search_init" /></th>
+					<th id="sexe_"><input type="text" name="search_browser" value=" Sexe" class="search_init" /></th>
+					<th id="adresse_"><input type="text" name="search_browser" value=" Adresse" class="search_init" /></th>
+					<th id="nationalite_"><input type="text" name="search_browser" value=" Nationalite" class="search_init" /></th>
+					<th id="effectuer_"><input type="hidden" name="search_browser" value="" class="" /></th>
+
+				</tr>
+			</tfoot>
+		</table>
+
+		<div id="compteur" style="font-size: 15px; font-style: bold; font-family: Times  New Roman; margin-left:5px; margin-top:-20px; ">
+		    <?php echo $this->nbPatients?> au total
+		</div>
+
+</div>
+
+<!-- POP UP pour Confirmation Suppression -->
+                            <div id="confirmation" title="Confirmation de la suppression" style="display:none;">
+                              <p style="font-size: 19px;">
+                                 <span style="float:left; margin:0 0px 20px 0; ">
+                                 <img src="<?php echo $this->basePath().'/images_icons/warning_16.png';?>" />
+                                 Etes-vous s&ucirc;r de vouloir supprimer le patient ?</span>
+
+                              </p>
+                            </div>
+
+<!-- POP UP pour afficher les informations sur la maman -->
+                            <div id="information" title="Informations sur la maman" style="display:none;">
+                              <div id="info" style="font-size: 16px;">
+
+                              </div>
+                            </div>
+
+
+<!-- LES BOUTONS "TERMINER" ou "VALIDER" -->
+
+<div id="vue_patient">
+
+</div>
+
+<div id="modifier_donnees">
+
+</div>
+
+
+<script type="text/javascript">
+$(function(){
+	initialisation();
+});
+$("#vue_patient").toggle(false);
+$("#modifier_donnees").toggle(false);
+
+
+//POUR LE MENU GAUCHE dans ******elementgauche*****
+$('#plus_naissance').toggle(true); //POUR LE MENU GAUCHE dans -elementgauche.phtml
+$("#naissance").replaceWith("<li id='naissance' style='background:#4a5765;'><a href=''><span style='margin-left:0px; color: #ffffff; font-weight:bold; font-size:18px; font-family:Times New Roman;'> <img style='display: inline;' src='/simens/public/images_icons/moins-vert.PNG' alt='Liste' /> Naissances </span></a></li>");
+dep1();
+$('#liste_style').css({'font-weight':'bold','color':'white','font-size':'22px'});
+
+</script>

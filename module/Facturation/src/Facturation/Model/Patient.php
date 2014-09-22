@@ -7,7 +7,7 @@ use Zend\InputFilter\InputFilter;
 use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\InputFilter\InputFilterInterface;
 
-class Patient {
+class Patient implements InputFilterAwareInterface {
 	public $id_personne;
 	public $civilite;
 	public $nom;
@@ -21,8 +21,9 @@ class Patient {
 	public $telephone;
 	public $email;
 	public $profession;
+	public $photo;
+	public $date_enregistrement;
 	protected $inputFilter;
-
 	public function exchangeArray($data) {
 		$this->id_personne = (! empty ( $data ['ID_PERSONNE'] )) ? $data ['ID_PERSONNE'] : null;
 		$this->civilite = (! empty ( $data ['CIVILITE'] )) ? $data ['CIVILITE'] : null;
@@ -37,66 +38,75 @@ class Patient {
 		$this->telephone = (! empty ( $data ['TELEPHONE'] )) ? $data ['TELEPHONE'] : null;
 		$this->email = (! empty ( $data ['EMAIL'] )) ? $data ['EMAIL'] : null;
 		$this->profession = (! empty ( $data ['PROFESSION'] )) ? $data ['PROFESSION'] : null;
+		$this->photo = (! empty ( $data ['PHOTO'] )) ? $data ['PHOTO'] : null;
+		$this->date_enregistrement = (! empty ( $data ['date_enregistrement'] )) ? $data ['date_enregistrement'] : null;
 	}
-	public function getArrayCopy()
-	{
-		return get_object_vars($this);
+	public function getArrayCopy() {
+		return get_object_vars ( $this );
 	}
-	public function setInputFilter(InputFilterInterface $inputFilter)
-	{
-		throw new \Exception("Not used");
+	public function setInputFilter(InputFilterInterface $inputFilter) {
+		throw new \Exception ( "Not used" );
 	}
-	public function getInputFilter()
-	{
-		if (!$this->inputFilter) {
-			$inputFilter = new InputFilter();
-			$factory     = new InputFactory();
+	public function getInputFilter() {
+		if (! $this->inputFilter) {
+			$inputFilter = new InputFilter ();
+			//$factory = new InputFactory ();
 
-			$inputFilter->add($factory->createInput(array(
-					'name'     => 'id_personne',
+			$inputFilter->add ( array (
+					'name' => 'id_personne',
 					'required' => true,
-					'filters'  => array(
-							array('name' => 'Int'),
-					),
-			)));
+					'filters' => array (
+							array (
+									'name' => 'Int'
+							)
+					)
+			 ) );
 
-			$inputFilter->add($factory->createInput(array(
-					'name'     => 'nom',
+			$inputFilter->add (array (
+					'name' => 'nom',
 					'required' => true,
-					'filters'  => array(
-							array('name' => 'StripTags'),
-							array('name' => 'StringTrim'),
-					),
-					'validators' => array(
-							array(
-									'name'    => 'StringLength',
-									'options' => array(
-											'encoding' => 'UTF-8',
-											'min'      => 1,
-											'max'      => 100,
-									),
+					'filters' => array (
+							array (
+									'name' => 'StripTags'
 							),
+							array (
+									'name' => 'StringTrim'
+							)
 					),
-			)));
-
-			$inputFilter->add($factory->createInput(array(
-					'name'     => 'prenom',
-					'required' => true,
-					'filters'  => array(
-							array('name' => 'StripTags'),
-							array('name' => 'StringTrim'),
-					),
-					'validators' => array(
-							array(
-									'name'    => 'StringLength',
-									'options' => array(
+					'validators' => array (
+							array (
+									'name' => 'StringLength',
+									'options' => array (
 											'encoding' => 'UTF-8',
-											'min'      => 1,
-											'max'      => 100,
-									),
+											'min' => 1,
+											'max' => 100
+									)
+							)
+					)
+			 ) );
+
+			$inputFilter->add (array (
+					'name' => 'prenom',
+					'required' => true,
+					'filters' => array (
+							array (
+									'name' => 'StripTags'
 							),
+							array (
+									'name' => 'StringTrim'
+							)
 					),
-			)));
+					'validators' => array (
+							array (
+									'name' => 'StringLength',
+									'options' => array (
+											'encoding' => 'UTF-8',
+											'min' => 1,
+											'max' => 100
+									)
+							)
+					)
+			 ) );
 
 			$this->inputFilter = $inputFilter;
 		}

@@ -13,19 +13,14 @@
 	            $( this ).dialog( "close" );
 	            
 	            var cle = id;
-	            var chemin = '/simens_derniereversion/public/facturation/facturation/supprimer';
+	            var chemin = '/simens/public/facturation/supprimer';
 	            $.ajax({
 	                type: 'POST',
 	                url: chemin ,
 	                data: $(this).serialize(),  
 	                data:'id='+cle,
 	                success: function(data) {
-	                	     //vart='/simens_derniereversion/public/facturation/facturation/listepatient';
-	                         //$(location).attr("href",vart);
-	                	    
 	                	     var result = jQuery.parseJSON(data);  
-	                	     //$("#foot").fadeOut(function(){$(this).html(result).fadeIn("fast"); });
-	                	     
 	                	     nb= result;
 	                	     $("#"+cle).fadeOut(function(){$("#"+cle).empty();});
 	                	     
@@ -35,7 +30,6 @@
 	                dataType: "html"
 	            });
 	    	     return false;
-	    	     
 	        },
 	        "Annuler": function() {
                 $( this ).dialog( "close" );

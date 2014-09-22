@@ -10,10 +10,11 @@ return array (
 						'facturation' => array (
 								'type' => 'segment',
 								'options' => array (
-										'route' => '/facturation[/][:action][/:id]',
+										'route' => '/facturation[/][:action][/:id][/:val]',
 										'constraints' => array (
 												'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
-												'id' => '[0-9]+'
+												'id' => '[a-zA-Z][a-zA-Z0-9_-]*',
+												'val' => '[0-9]+'
 										),
 										'defaults' => array (
 												'controller' => 'Facturation\Controller\Facturation',
@@ -31,6 +32,9 @@ return array (
 				),
 				'template_path_stack' => array (
 						'facturation' => __DIR__ .'/../view'
+				),
+				'strategies' => array(
+						'ViewJsonStrategy',
 				),
 				//'layout' => 'layout/facturation',
 		)
