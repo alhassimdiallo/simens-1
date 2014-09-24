@@ -19,6 +19,8 @@ use Facturation\Model\FacturationTable;
 use Facturation\Model\Facturation;
 use Facturation\Model\Naissance;
 use Facturation\Model\NaissanceTable;
+use Facturation\Model\TarifConsultation;
+use Facturation\Model\TarifConsultationTable;
 
 class Module implements AutoloaderProviderInterface, ConfigProviderInterface, ServiceProviderInterface, ViewHelperProviderInterface {
 	public function onBootstrap(MvcEvent $e) {
@@ -100,6 +102,17 @@ class Module implements AutoloaderProviderInterface, ConfigProviderInterface, Se
 							$resultSetPrototype = new ResultSet ();
 							$resultSetPrototype->setArrayObjectPrototype ( new Naissance() );
 							return new TableGateway ( 'naissances', $dbAdapter, null, $resultSetPrototype );
+						},
+						'Facturation\Model\TarifConsultationTable' => function ($sm) {
+							$tableGateway = $sm->get( 'TarifConsultationTableGateway' );
+							$table = new TarifConsultationTable( $tableGateway );
+							return $table;
+						},
+						'TarifConsultationTableGateway' => function ($sm) {
+							$dbAdapter = $sm->get ( 'Zend\Db\Adapter\Adapter' );
+							$resultSetPrototype = new ResultSet ();
+							$resultSetPrototype->setArrayObjectPrototype ( new TarifConsultation() );
+							return new TableGateway ( 'tarif_consultation', $dbAdapter, null, $resultSetPrototype );
 						}
 
 				)

@@ -72,9 +72,22 @@ class NaissanceTable {
 				'id_bebe' => $data['id_bebe']
 		) );
 	}
-	public function deleteNaissance(){
+	public function deleteNaissance($id){
 		$this->tableGateway->delete ( array (
 				'id_bebe' => $id
 		) );
+	}
+	public function addBebe($data, $date_enregistrement){
+		$donnees = array(
+				'id_bebe' => $data['id_bebe'],
+				'id_maman' => $data['id_maman'],
+				'heure_naissance' => $data['heure_naissance'],
+				'poids' => $data['poids'],
+				'taille' => $data['taille'],
+				'groupe_sanguin' =>$data['groupe_sanguin'],
+				'date_naissance' =>$data['date_naissance'],
+				'date_enregistrement' => $date_enregistrement,
+		);
+		$this->tableGateway->insert($donnees);
 	}
 }

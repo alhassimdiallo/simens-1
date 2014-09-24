@@ -10,7 +10,10 @@ class PatientForm extends Form {
 
 		$this->add ( array (
 				'name' => 'id_personne',
-				'type' => 'Hidden'
+				'type' => 'Hidden',
+				'attributes' => array (
+						'value' => 0
+				)
 		) );
 		$this->add ( array (
 				'name' => 'civilite',
@@ -24,7 +27,7 @@ class PatientForm extends Form {
 						)
 				),
 				'attributes' => array (
-						'required' => true,
+						//'required' => true,
 						'value' => 'M'
 				)
 		) );
@@ -36,7 +39,7 @@ class PatientForm extends Form {
 				),
 				'attributes' => array (
 						'class' => 'only_Char',
-						'required' => true
+						//'required' => true
 				)
 		) );
 		$this->add ( array (
@@ -46,7 +49,7 @@ class PatientForm extends Form {
 						'label' => iconv('ISO-8859-1', 'UTF-8','Prénom')
 				),
 				'attributes' => array (
-						'required' => true
+						//'required' => true
 				)
 		) );
 		$this->add ( array (
@@ -59,7 +62,7 @@ class PatientForm extends Form {
 						)
 				),
 				'attributes' => array (
-						'required' => true,
+						//'required' => true,
 				)
 		) );
 		$this->add ( array (
@@ -69,7 +72,7 @@ class PatientForm extends Form {
 						'label' => 'Date de naissance'
 				),
 				'attributes' => array (
-						'required' => true
+						//'required' => true
 				)
 		) );
 		$this->add ( array (
@@ -79,7 +82,7 @@ class PatientForm extends Form {
 						'label' => 'Lieu de naissance'
 				),
 				'attributes' => array (
-						'required' => true
+						//'required' => true
 				)
 		) );
 		$this->add ( array (
@@ -88,12 +91,12 @@ class PatientForm extends Form {
 				'options' => array (
 						'label' => 'Nationalité origine',
 						'value_options' => array (
-								'liste'=>''
+								''=>''
 						)
-				),
-				'attributes' => array (
-						'required' => true,
 				)
+// 				'attributes' => array (
+// 						'required' => true,
+// 				)
 		) );
 		$this->add ( array (
 				'name' => 'nationalite_actuelle',
@@ -101,12 +104,12 @@ class PatientForm extends Form {
 				'options' => array (
 						'label' => 'Nationalité actuelle',
 						'value_options' => array (
-								'liste'=>''
+								''=>''
 						)
-				),
-				'attributes' => array (
-						'required' => true,
 				)
+// 				'attributes' => array (
+// 						'required' => true,
+// 				)
 		) );
 		$this->add ( array (
 				'name' => 'adresse',

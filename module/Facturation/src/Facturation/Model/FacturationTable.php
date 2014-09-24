@@ -65,4 +65,14 @@ class FacturationTable {
 		$nb = $stat->execute ()->count ();
 		return $nb;
 	}
+	public function addFacturation($data){
+		$donnees = array(
+				'id_patient' => $data['id_patient'],
+				'id_service' => $data['id_service'],
+				'date_cons'  => $data['date'],
+				'montant'    => $data['montant'],
+				'numero'     => $data['numero'],
+		);
+		$this->tableGateway->insert($donnees);
+	}
 }

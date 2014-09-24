@@ -32,7 +32,7 @@
 	    	     return false;
 	        },
 	        "Annuler": function() {
-                $( this ).dialog( "close" );
+                $(this).dialog( "close" );
             }
 	   }
 	  });

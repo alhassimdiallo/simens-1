@@ -18,8 +18,8 @@ class SuccessController extends AbstractActionController {
 		// "Page rendered in %s seconds.",
 		// $sessionTimer->executionTime
 		// );
-		$identity = $this->getServiceLocator()->get('AuthService')->getIdentity();
-		return new ViewModel(array('identity'=>$identity));
+// 		$identity = $this->getServiceLocator()->get('AuthService')->getIdentity();
+// 		return new ViewModel(array('identity'=>$identity));
 	}
 
 }

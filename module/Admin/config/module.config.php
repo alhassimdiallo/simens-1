@@ -81,11 +81,11 @@ return array(
 				),
 				'aliases' => array(
 						'translator' => 'MvcTranslator',
-						'Zend\Authentication\AuthenticationService' => 'my_auth_service'
+						'Zend\Authentication\AuthenticationService' => 'AuthService'
 				),
-				'invokables' => array (
-						'my_auth_service' => 'Zend\Authentication\AuthenticationService'
-				)
+// 				'invokables' => array (
+// 						'AuthService' => 'Zend\Authentication\AuthenticationService'
+// 				)
 		),
 		'translator' => array(
 				'locale' => 'en_US',

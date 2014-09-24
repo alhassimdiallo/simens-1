@@ -159,7 +159,7 @@ function declarer(id){
     });
     //Fin R�cup�ration des donn�es de la maman
     
-    //Annuler l'enregistrement d'une naissance
+    //Annuler l'enregistrement d'un deces
     $("#annuler").click(function(){
     	$("#annuler").css({"border-color":"#ccc", "background":"-webkit-linear-gradient( #555, #CCC)", "box-shadow":"1px 1px 10px black inset,0 1px 0 rgba( 255, 255, 255, 0.4)"});
     	vart='/simens/public/facturation/declarer-deces';

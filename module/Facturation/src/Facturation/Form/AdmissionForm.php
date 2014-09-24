@@ -52,7 +52,7 @@ class AdmissionForm extends Form{
 				'name' => 'numero',
 				'type' => 'Text',
 				'options' => array (
-						'label' => iconv('ISO-8859-1', 'UTF-8','Numéro facture')
+						'label' => iconv('ISO-8859-1', 'UTF-8','Numero facture')
 				)
 		) );
 		$this->add ( array (

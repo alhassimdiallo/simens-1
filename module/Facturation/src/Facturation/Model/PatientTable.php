@@ -30,14 +30,23 @@ class PatientTable {
 		return $row;
 	}
 	public function savePatient(Patient $patient) {
+		$control = new DateHelper();
 		$data = array (
+				'civilite' => $patient->civilite,
 				'prenom' => $patient->prenom,
 				'nom' => $patient->nom,
-				'date_naissance' => $patient->date_naissance,
+				'date_naissance' => $Control->convertDateInAnglais($patient->date_naissance),
+				'lieu_naissance' => $patient->lieu_naissance,
 				'adresse' => $patient->adresse,
 				'sexe' => $patient->sexe,
-				'nom' => $patient->nom,
-				'nationalite_actuelle' => $patient->nationalite_actuelle
+				'nationalite_actuelle' => $patient->nationalite_actuelle,
+				'nationalite_origine' => $patient->nationalite_origine,
+				'telephone' => $patient->telephone,
+				'email' => $patient->email,
+				'profession' => $patient->profession,
+				'photo' => $patient->photo,
+				'date_enregistrement' => $patient->date_enregistrement,
+
 		);
 
 		$id = ( int ) $patient->id_personne;
@@ -52,6 +61,47 @@ class PatientTable {
 				throw new \Exception ( 'Patient id does not exist' );
 			}
 		}
+	}
+	public function addPatient(Patient $patient, $photo, $date_enregistrement){
+		$control = new DateHelper();
+		$data = array (
+				'civilite' => $patient->civilite,
+				'prenom' => $patient->prenom,
+				'nom' => $patient->nom,
+				'date_naissance' => $control->convertDateInAnglais($patient->date_naissance),
+				'lieu_naissance' => $patient->lieu_naissance,
+				'adresse' => $patient->adresse,
+				'sexe' => $patient->sexe,
+				'nationalite_actuelle' => $patient->nationalite_actuelle,
+				'nationalite_origine' => $patient->nationalite_origine,
+				'telephone' => $patient->telephone,
+				'email' => $patient->email,
+				'profession' => $patient->profession,
+				'photo' => $photo,
+				'date_enregistrement' => $date_enregistrement,
+		);
+		$this->tableGateway->insert ( $data );
+
+	}
+	public function addPatientSansPhoto(Patient $patient, $date_enregistrement){
+		$control = new DateHelper();
+		$data = array (
+				'civilite' => $patient->civilite,
+				'prenom' => $patient->prenom,
+				'nom' => $patient->nom,
+				'date_naissance' => $control->convertDateInAnglais($patient->date_naissance),
+				'lieu_naissance' => $patient->lieu_naissance,
+				'adresse' => $patient->adresse,
+				'sexe' => $patient->sexe,
+				'nationalite_actuelle' => $patient->nationalite_actuelle,
+				'nationalite_origine' => $patient->nationalite_origine,
+				'telephone' => $patient->telephone,
+				'email' => $patient->email,
+				'profession' => $patient->profession,
+				'date_enregistrement' => $date_enregistrement,
+
+		);
+		return $this->tableGateway->insert ( $data );
 	}
 	public function deletePatient($id) {
 		$this->tableGateway->delete ( array (

@@ -21,6 +21,9 @@ class Patient implements InputFilterAwareInterface {
 	public $telephone;
 	public $email;
 	public $profession;
+	public $taille;
+	public $poids;
+	public $groupe_sanguin;
 	public $photo;
 	public $date_enregistrement;
 	protected $inputFilter;
@@ -38,6 +41,9 @@ class Patient implements InputFilterAwareInterface {
 		$this->telephone = (! empty ( $data ['TELEPHONE'] )) ? $data ['TELEPHONE'] : null;
 		$this->email = (! empty ( $data ['EMAIL'] )) ? $data ['EMAIL'] : null;
 		$this->profession = (! empty ( $data ['PROFESSION'] )) ? $data ['PROFESSION'] : null;
+		$this->taille = (! empty ( $data ['TAILLE'] )) ? $data ['TAILLE'] : null;
+		$this->poids = (! empty ( $data ['POIDS'] )) ? $data ['POIDS'] : null;
+		$this->groupe_sanguin = (! empty ( $data ['GROUPE_SANGUIN'] )) ? $data ['GROUPE_SANGUIN'] : null;
 		$this->photo = (! empty ( $data ['PHOTO'] )) ? $data ['PHOTO'] : null;
 		$this->date_enregistrement = (! empty ( $data ['date_enregistrement'] )) ? $data ['date_enregistrement'] : null;
 	}
@@ -50,63 +56,62 @@ class Patient implements InputFilterAwareInterface {
 	public function getInputFilter() {
 		if (! $this->inputFilter) {
 			$inputFilter = new InputFilter ();
-			//$factory = new InputFactory ();
+			$factory = new InputFactory ();
 
-			$inputFilter->add ( array (
+			$inputFilter->add ($factory->createInput( array (
 					'name' => 'id_personne',
-					'required' => true,
 					'filters' => array (
 							array (
 									'name' => 'Int'
 							)
 					)
-			 ) );
+			 ) ));
 
-			$inputFilter->add (array (
-					'name' => 'nom',
-					'required' => true,
-					'filters' => array (
-							array (
-									'name' => 'StripTags'
-							),
-							array (
-									'name' => 'StringTrim'
-							)
-					),
-					'validators' => array (
-							array (
-									'name' => 'StringLength',
-									'options' => array (
-											'encoding' => 'UTF-8',
-											'min' => 1,
-											'max' => 100
-									)
-							)
-					)
-			 ) );
+// 			$inputFilter->add (array (
+// 					'name' => 'nom',
+// 					'required' => true,
+// 					'filters' => array (
+// 							array (
+// 									'name' => 'StripTags'
+// 							),
+// 							array (
+// 									'name' => 'StringTrim'
+// 							)
+// 					),
+// 					'validators' => array (
+// 							array (
+// 									'name' => 'StringLength',
+// 									'options' => array (
+// 											'encoding' => 'UTF-8',
+// 											'min' => 1,
+// 											'max' => 100
+// 									)
+// 							)
+// 					)
+// 			 ) );
 
-			$inputFilter->add (array (
-					'name' => 'prenom',
-					'required' => true,
-					'filters' => array (
-							array (
-									'name' => 'StripTags'
-							),
-							array (
-									'name' => 'StringTrim'
-							)
-					),
-					'validators' => array (
-							array (
-									'name' => 'StringLength',
-									'options' => array (
-											'encoding' => 'UTF-8',
-											'min' => 1,
-											'max' => 100
-									)
-							)
-					)
-			 ) );
+// 			$inputFilter->add (array (
+// 					'name' => 'prenom',
+// 					'required' => true,
+// 					'filters' => array (
+// 							array (
+// 									'name' => 'StripTags'
+// 							),
+// 							array (
+// 									'name' => 'StringTrim'
+// 							)
+// 					),
+// 					'validators' => array (
+// 							array (
+// 									'name' => 'StringLength',
+// 									'options' => array (
+// 											'encoding' => 'UTF-8',
+// 											'min' => 1,
+// 											'max' => 100
+// 									)
+// 							)
+// 					)
+// 			 ) );
 
 			$this->inputFilter = $inputFilter;
 		}
