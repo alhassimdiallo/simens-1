@@ -16,6 +16,7 @@
  echo $this->headLink()->prependStylesheet($this->basePath().'/css/matrix-style.css');
  echo $this->headLink()->prependStylesheet($this->basePath().'/css/matrix-media.css');
  echo $this->headLink()->prependStylesheet($this->basePath().'/css/tooltipster.css');
+ echo $this->headLink()->appendStylesheet($this->basePath().'/css/jquery-ui.css');
 
  $this->headScript()->appendFile($this->basePath().'/js/jquery.min.js');
  $this->headScript()->appendFile($this->basePath().'/js/jquery.tooltipster.min.js');
@@ -23,6 +24,7 @@
  $this->headScript()->appendFile($this->basePath().'/js/jquery.uniform.js');
  $this->headScript()->appendFile($this->basePath().'/js/select2.min.js');
  $this->headScript()->appendFile($this->basePath().'/js/jquery.dataTables.min.js');
+ $this->headScript()->appendFile($this->basePath().'/js/jquery-ui.js');
  echo $this->headTitle($this->pageTitle);?>
 		<?php echo $this->headScript();?>
 <head>

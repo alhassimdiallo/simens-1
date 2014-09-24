@@ -14,13 +14,13 @@ $("#terminerMedicament").click(function(){
 	                $intitule = $("#intitule").val();
 	             $description = $("#description").val();
 	             
-	             //Récupérer l'image
-	             //Récupérer l'image
+	             //Rï¿½cupï¿½rer l'image
+	             //Rï¿½cupï¿½rer l'image
 	             $fichier_tmp = $("#fichier_tmp").val();
 	
 	             $.ajax({
 	 	            type: 'POST',
-	 	            url: '/simens_derniereversion/public/pharmacie/Pharmacie/ajouter',  
+	 	            url: '/simens/public/pharmacie/ajouter',  
 	 	            data: $(this).serialize(),
 	 	            data: ({'indication_therapeutique':$indication_therapeutique, 'mise_en_garde':$mise_en_garde,
  	            	        'adresse_fabricant':$adresse_fabricant, 'composition':$composition,
@@ -30,7 +30,7 @@ $("#terminerMedicament").click(function(){
 	 	           
 	 	    	    success: function() {    	 	    	    	
 	 	    	    	
-	 	    	    	vart ='/simens_derniereversion/public/pharmacie/Pharmacie/listemedicaments';
+	 	    	    	vart ='/simens/public/pharmacie/liste-medicaments';
 	 	    	        $(location).attr("href",vart);
 	 	                
 	 	            },
@@ -43,7 +43,7 @@ $("#annulerMedicament").click(function(){
 	$("#terminer").attr( 'disabled', true );
 	$("#annuler").attr( 'disabled', true );
 	
-	vart='/simens_derniereversion/public/pharmacie/Pharmacie/listemedicaments';
+	vart='/simens/public/pharmacie/liste-medicaments';
     $(location).attr("href",vart);
 	return false;
 });
@@ -99,7 +99,7 @@ function Recupererimage(){
 	};
 
 	reader.readAsDataURL(file[0].files[0]);
-	//Création de l'onglet de suppression de la photo
+	//Crï¿½ation de l'onglet de suppression de la photo
 	$(".supprimer_photo").toggle(true);
 	$("#div_supprimer_photo").children().remove();
 	$('<input title="Supprimer la photo" name="supprimer_photo" id="supprimer_photo">').appendTo($("#div_supprimer_photo"));

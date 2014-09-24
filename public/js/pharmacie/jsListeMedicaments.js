@@ -3,7 +3,7 @@ function initialisation(){
      var asInitVals = new Array();
 	 var  oTable = $('#listeMedicaments').dataTable
 	  ( {    
-					"aaSorting": "", //pour trier la liste affichée
+					"aaSorting": "", //pour trier la liste affichï¿½e
 					"oLanguage": { 
 						"sProcessing":   "Traitement en cours...",
 						"sZeroRecords":  "Aucun &eacute;l&eacute;ment &agrave; afficher",
@@ -72,7 +72,7 @@ function initialisation(){
 /*********************************************************************************************/
 function affichervue(id){
 
-    var chemin = '/simens_derniereversion/public/pharmacie/Pharmacie/vuemedicament';
+    var chemin = '/simens/public/pharmacie/vue-medicament';
     $.ajax({
         type: 'POST',
         url: chemin ,
@@ -103,7 +103,7 @@ function utiliserdansvuemedicament(){
 /*********************************************************************************************/
 function modifiermedicament(id){
 
-	  var chemin = '/simens_derniereversion/public/pharmacie/Pharmacie/modification';
+	  var chemin = '/simens/public/pharmacie/modification';
 	    $.ajax({
 	        type: 'GET',
 	        url: chemin ,  
@@ -147,12 +147,12 @@ function utiliserdansmodification(){
 		                $intitule = $("#intitule").val();
 		             $description = $("#description").val();
 		
-		             //Recupération du nom de l'image
+		             //Recupï¿½ration du nom de l'image
 		             $fichier_tmp = $("#fichier_tmp").val();
 		             
 		             $.ajax({
 		 	            type: 'POST',
-		 	            url: '/simens_derniereversion/public/pharmacie/Pharmacie/modification',  
+		 	            url: '/simens/public/pharmacie/modification',  
 		 	            data: ({'indication_therapeutique':$indication_therapeutique, 'mise_en_garde':$mise_en_garde,
 	 	            	        'adresse_fabricant':$adresse_fabricant, 'composition':$composition,
 	 	            	        'excipient_notoire':$excipient_notoire, 'voie_administration':$voie_administration,
@@ -163,7 +163,7 @@ function utiliserdansmodification(){
 		 	           
 		 	    	    success: function(data) {    	 	    	    	
 		 	    	    	var result = jQuery.parseJSON(data);
-		 	    	    	vart ='/simens_derniereversion/public/pharmacie/Pharmacie/listemedicaments';
+		 	    	    	vart ='/simens/public/pharmacie/Pharmacie/liste-medicaments';
 		 	    	        $(location).attr("href",vart);
 		 	                
 		 	            },
@@ -233,7 +233,7 @@ function utiliserdansmodification(){
 
 		reader.readAsDataURL(file[0].files[0]);
 		
-		//Création de l'onglet de suppression de la photo
+		//Crï¿½ation de l'onglet de suppression de la photo
 		$(".supprimer_photo").toggle(true);
 		$("#div_supprimer_photo").children().remove();
 		$('<input title="Supprimer la photo" name="supprimer_photo" id="supprimer_photo">').appendTo($("#div_supprimer_photo"));
@@ -269,7 +269,7 @@ function confirmation(id){
             $( this ).dialog( "close" );
             
             var cle = id;
-            var chemin = '/simens_derniereversion/public/pharmacie/Pharmacie/supprimer';
+            var chemin = '/simens/public/pharmacie/supprimer';
             $.ajax({
                 type: 'POST',
                 url: chemin , 
@@ -283,7 +283,7 @@ function confirmation(id){
                 error:function(e){console.log(e);alert("Une erreur interne est survenue!");},
                 dataType: "html"
             });
-    	     return false;
+    	     //return false;
     	     
         },
         "Annuler": function() {
