@@ -2,9 +2,13 @@
 namespace Pharmacie\Form;
 
 use Zend\Form\Form;
-class MedicamentForm extends Form{
+
+class MedicamentForm extends Form {
+
 	public function __construct() {
-		parent::__construct ();
+
+		parent::__construct();
+
 		$this->add ( array (
 				'name' => 'id_medicament',
 				'type' => 'Hidden'

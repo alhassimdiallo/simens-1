@@ -20,6 +20,10 @@ class ConsommableTable{
 	public function addConsommable($data){
 		$this->tableGateway->insert($data);
 	}
+	public function updateConsommable($data)
+	{
+		$this->tableGateway->update($data, array('ID_MATERIEL'=> $data['ID_MATERIEL']));
+	}
 	public function getAllConsommable(){
 		$resultSet = $this->tableGateway->select ();
 		return $resultSet;
@@ -56,11 +60,6 @@ class ConsommableTable{
 		$select->group('cs.ID_COMMANDE');
 		$stat = $sql->prepareStatementForSqlObject($select);
 		$listeCommandes =  $stat->execute();
-// 		$sql ="SELECT * ,SUM((cons.PRIX)*Quantite) AS Grandtotal
-// 			   FROM commande com, commande_consommable cs, consommable cons
-// 			   WHERE com.ID_COMMANDE = cs.ID_COMMANDE and cs.ID_MATERIEL = cons.ID_MATERIEL
-// 			   GROUP BY cs.ID_COMMANDE";
-		//var_dump($listeCommandes);exit();
 		return $listeCommandes;
 	}
 	public function compteNBCommandes(){
@@ -70,7 +69,30 @@ class ConsommableTable{
 		$select->group('ID_COMMANDE');
 		$stat = $sql->prepareStatementForSqlObject($select);
 		$nb = $stat->execute()->count();
-		//var_dump($nb);exit();
 		return $nb;
+	}
+	public function getCommande($id){
+		$adapter = $this->tableGateway->getAdapter();
+		$sql = new Sql ( $adapter );
+		$select = $sql->select();
+		$select->from(array('lacommande'=>'commande'));
+		$select->columns(array('DATE','HEURE', 'ID_COMMANDE'));
+		$select->where(array('ID_COMMANDE'=>$id));
+		$stat = $sql->prepareStatementForSqlObject($select);
+		$result = $stat->execute()->current();
+		return $result;
+	}
+	public function fetchMedicamentsCommande($id){
+		$adapter = $this->tableGateway->getAdapter();
+		$sql = new Sql ( $adapter );
+		$select = $sql->select();
+		$select->from(array('consom'=>'consommable'));
+		$select->join(array (
+				'com_cons' => 'commande_consommable'
+		), 'consom.ID_MATERIEL = com_cons.ID_MATERIEL');
+		$select->where(array('ID_COMMANDE'=>$id));
+		$stat = $sql->prepareStatementForSqlObject($select);
+		$result = $stat->execute();
+		return $result;
 	}
 }

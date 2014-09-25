@@ -29,4 +29,7 @@ class Consommable {
 		$this->image = (! empty ( $data ['IMAGE'] )) ? $data ['IMAGE'] : null;
 		$this->prix = (! empty ( $data ['PRIX'] )) ? $data ['PRIX'] : null;
 	}
+	public function getArrayCopy() {
+		return get_object_vars ( $this );
+	}
 }

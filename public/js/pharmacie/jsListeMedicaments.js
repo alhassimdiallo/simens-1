@@ -88,7 +88,7 @@ function affichervue(id){
         error:function(e){console.log(e);alert("Une erreur interne est survenue!");},
         dataType: "html"
     });
-    return false;
+    //return false;
 }
 
 function utiliserdansvuemedicament(){
@@ -118,7 +118,7 @@ function modifiermedicament(id){
 	        error:function(e){console.log(e);alert("Une erreur interne est survenue!");},
 	        dataType: "html"
 	  });
-	  return false;
+	  //return false;
 }
 
 function utiliserdansmodification(){

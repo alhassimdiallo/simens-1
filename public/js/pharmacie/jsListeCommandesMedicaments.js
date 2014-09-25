@@ -88,7 +88,7 @@ function affichercommandes(id){
         error:function(e){console.log(e);alert("Une erreur interne est survenue!");},
         dataType: "html"
     });
-    return false;
+   // return false;
 }
 
 function utiliserdansvuemedicament(){
@@ -118,7 +118,7 @@ function modifiermedicament(id){
 	        error:function(e){console.log(e);alert("Une erreur interne est survenue!");},
 	        dataType: "html"
 	  });
-	  return false;
+	 // return false;
 }
 
 function vendremedicament(id){
@@ -138,23 +138,23 @@ function vendremedicament(id){
 	        error:function(e){console.log(e);alert("Une erreur interne est survenue!");},
 	        dataType: "html"
 	  });
-	  return false;
+	 // return false;
 }
 
 function utiliserdansmodification(){
 	//POUR LE BOUTON 'ANNULER'
-	$("#annulerModification").click(function(){
-		$("#terminerModification").attr( 'disabled', true );
-		$("#terminerModification").attr( 'disabled', true );
+	$("#annulerNouvelleCommande").click(function(){
+		$("#terminerNouvelleCommande").attr( 'disabled', true );
+		$("#terminerNouvelleCommande").attr( 'disabled', true );
 		
 		$("#titre").replaceWith("<div id='titre' style='font-family: police2;  color: green; font-size: 20px; font-weight: bold;'><iS style='font-size: 25px;'>&curren;</iS> LISTE DES M&Eacute;DICAMENTS</div>");
 		$("#contenu_modification_medicament").fadeOut(function(){$("#contenu").fadeIn("fast"); });
 	});
 	
 	//POUR LE BOUTON 'TERMINER'
-	$("#terminerModification").click(function(){
-		$("#terminerModification").attr( 'disabled', true );
-		$("#terminerModification").attr( 'disabled', true );
+	$("#terminerNouvelleCommande").click(function(){
+		$("#terminerNouvelleCommande").attr( 'disabled', true );
+		$("#terminerNouvelleCommande").attr( 'disabled', true );
 
 		            $idMedicament = $("#id_medicament").val();
 		

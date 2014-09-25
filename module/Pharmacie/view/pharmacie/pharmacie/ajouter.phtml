@@ -24,9 +24,9 @@
    </div>
 
    <div style="float:right;">
-   <?php $form =  $this->form;
-   $form->prepare();
-   echo $this->form()->openTag($form)?>
+   <?php $form = $this->form;
+     $this->form->prepare();
+    echo $this->form()->openTag($form); ?>
    <table>
      <tr id="form_medicament">
         <td class="comment-form-medicament"><?php echo $this->formRow($form->get('intitule')); ?></td>
@@ -35,7 +35,7 @@
      </tr>
 
      <tr id="form_medicament">
-        <td class="comment-form-medicament"><?php echo $this->formRow($form->get('composition')); ?></td>
+        <td class="comment-form-medicament"><?php echo $this->formRow($form-> get('composition')); ?></td>
         <td class="comment-form-medicament"><?php echo $this->formRow($form->get('excipient_notoire')); ?></td>
         <td class="comment-form-medicament"><?php echo $this->formRow($form->get('voie_administration')); ?></td>
      </tr>
