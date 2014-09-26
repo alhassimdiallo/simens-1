@@ -29,7 +29,7 @@
 	                error:function(e){console.log(e);alert("Une erreur interne est survenue!");},
 	                dataType: "html"
 	            });
-	    	     return false;
+	    	   //  return false;
 	    	     
 	        },
 	        "Annuler": function() {
@@ -56,8 +56,6 @@
             data: $(this).serialize(),  
             data:'id='+cle,
             success: function(data) {
-            	     //vart='/simens_derniereversion/public/facturation/facturation/listepatient';
-                     //$(location).attr("href",vart);
             	     $("#titre").replaceWith("<div id='titre2' style='font-family: police2; color: green; font-size: 18px; font-weight: bold;'><iS style='font-size: 25px;'>&curren;</iS> INFORMATIONS SUR LE PATIENT </div>");
             	     var result = jQuery.parseJSON(data);  
             	     $("#contenu").fadeOut(function(){$("#vue_patient").html(result).fadeIn("fast"); }); 
@@ -66,7 +64,7 @@
             error:function(e){console.log(e);alert("Une erreur interne est survenue!");},
             dataType: "html"
         });
-	    return false;
+	   // return false;
     }
     
     function listepatient(){
@@ -225,7 +223,7 @@
 	
             	 	         $("#terminer").replaceWith("<button id='terminer' style='height:35px;'>Terminer</button>");
             	 	         
-            	 	         return false;
+            	 	        // return false;
             	 	     });
             	    	 /***********************************************************************/
             	    	 
@@ -245,7 +243,7 @@
             dataType: "html"
         });
         
-	    return false;
+	    //return false;
     }
     
     

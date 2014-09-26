@@ -32,11 +32,15 @@ class AdmissionForm extends Form{
 				'name' => 'service',
 				'type' => 'Select',
 				'options' => array (
-						'label' => iconv('ISO-8859-1', 'UTF-8','Service')
+						'label' => iconv('ISO-8859-1', 'UTF-8','Service'),
+						'value_options' => array (
+								''=>''
+						)
 				),
 				'attributes' => array (
 						'registerInArrrayValidator' => true,
-						'onchange' => 'getmontant(this.value)'
+						'onchange' => 'getmontant(this.value)',
+						'id' =>'service'
 				)
 		) );
 
@@ -45,6 +49,9 @@ class AdmissionForm extends Form{
 				'type' => 'Text',
 				'options' => array (
 						'label' => iconv('ISO-8859-1', 'UTF-8','Montant')
+				),
+				'attributes' => array (
+						'id' => 'montant',
 				)
 		) );
 
@@ -53,6 +60,9 @@ class AdmissionForm extends Form{
 				'type' => 'Text',
 				'options' => array (
 						'label' => iconv('ISO-8859-1', 'UTF-8','Numero facture')
+				),
+				'attributes' => array (
+						'id' => 'numero'
 				)
 		) );
 		$this->add ( array (
@@ -60,7 +70,7 @@ class AdmissionForm extends Form{
 				'type' => 'Select',
 				'options' => array (
 						'value_options' => array (
-								''=>'A faire'
+								''=>''
 						)
 				)
 		) );

@@ -22,14 +22,12 @@
 	                success: function(data) {
 	                	     var result = jQuery.parseJSON(data);  
 	                	     nb= result;
-	                	     $("#"+cle).fadeOut(function(){$("#"+cle).empty();});
-	                	     
-	                	       
+	                	     $("#"+cle).fadeOut(function(){$("#"+cle).empty();});  
 	                },
 	                error:function(e){console.log(e);alert("Une erreur interne est survenue!");},
 	                dataType: "html"
 	            });
-	    	     return false;
+	    	    // return false;
 	        },
 	        "Annuler": function() {
                 $(this).dialog( "close" );

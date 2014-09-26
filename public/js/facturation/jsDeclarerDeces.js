@@ -119,7 +119,7 @@ $('#precedent').click(function(){
      
      $("#terminerdeces").replaceWith("<button id='terminerdeces' style='height:35px;'>Terminer</button>");
      
-     return false;
+    // return false;
 });
 }
 
@@ -169,8 +169,6 @@ function declarer(id){
     //Insertion des donn�es dans la base de donn�es
     $('#terminerdeces').click(function(){
     	$("#terminerdeces").css({"border-color":"#ccc", "background":"-webkit-linear-gradient( #555, #CCC)", "box-shadow":"1px 1px 10px black inset,0 1px 0 rgba( 255, 255, 255, 0.4)"});
-    	//$("#terminerdeces").attr( 'disabled', true );
-    	//$("#annuler").attr( 'disabled', true );
     	var date_deces = $("#date_deces").val();
     	var heure_deces = $("#heure_deces").val();
     	var age_deces = $("#age_deces").val();

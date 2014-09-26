@@ -83,24 +83,24 @@ class PatientTable {
 		$this->tableGateway->insert ( $data );
 
 	}
-	public function addPatientSansPhoto(Patient $patient, $date_enregistrement){
-		$control = new DateHelper();
-		$data = array (
-				'civilite' => $patient->civilite,
-				'prenom' => $patient->prenom,
-				'nom' => $patient->nom,
-				'date_naissance' => $control->convertDateInAnglais($patient->date_naissance),
-				'lieu_naissance' => $patient->lieu_naissance,
-				'adresse' => $patient->adresse,
-				'sexe' => $patient->sexe,
-				'nationalite_actuelle' => $patient->nationalite_actuelle,
-				'nationalite_origine' => $patient->nationalite_origine,
-				'telephone' => $patient->telephone,
-				'email' => $patient->email,
-				'profession' => $patient->profession,
-				'date_enregistrement' => $date_enregistrement,
+	public function addPatientSansPhoto($data){
+// 		$control = new DateHelper();
+// 		$data = array (
+// 				'civilite' => $patient->civilite,
+// 				'prenom' => $patient->prenom,
+// 				'nom' => $patient->nom,
+// 				'date_naissance' => $control->convertDateInAnglais($patient->date_naissance),
+// 				'lieu_naissance' => $patient->lieu_naissance,
+// 				'adresse' => $patient->adresse,
+// 				'sexe' => $patient->sexe,
+// 				'nationalite_actuelle' => $patient->nationalite_actuelle,
+// 				'nationalite_origine' => $patient->nationalite_origine,
+// 				'telephone' => $patient->telephone,
+// 				'email' => $patient->email,
+// 				'profession' => $patient->profession,
+// 				'date_enregistrement' => $date_enregistrement,
 
-		);
+// 		);
 		return $this->tableGateway->insert ( $data );
 	}
 	public function deletePatient($id) {
@@ -456,5 +456,20 @@ class PatientTable {
 		$stmt = $sql->prepareStatementForSqlObject($select);
 		$result = $stmt->execute();
 		return $result->count();
+	}
+	public function listePays()
+	{
+		$adapter = $this->tableGateway->getAdapter ();
+		$sql = new Sql ( $adapter );
+		$select = $sql->select ();
+		$select->from(array('nation'=>'nationalite'));
+		$select->columns(array ('PAYS', 'PAYS'));
+		$select->order('PAYS ASC');
+		$stmt = $sql->prepareStatementForSqlObject($select);
+		$result = $stmt->execute();
+		foreach ($result as $data) {
+			$options[$data['PAYS']] = $data['PAYS'];
+		}
+		return $options;
 	}
 }

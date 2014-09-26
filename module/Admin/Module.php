@@ -73,20 +73,20 @@ class Module implements AutoloaderProviderInterface, ConfigProviderInterface {
 
 							$authService = new AuthenticationService ();
 							$authService->setAdapter ( $dbTableAuthAdapter );
-							$authService->setStorage ( $sm->get ( 'Admin\Model\AuthentificationStorage' ) );
+							$authService->setStorage ( $sm->get ('Admin\Model\AuthentificationStorage' ) );
 							return $authService;
 						},
-						'Admin\Model\AuthentificationServiceTable' => function ($sm) {
-							$tableGateway = $sm->get ( 'AuthentificationServiceTableGateway' );
-							$table = new AuthentificationServiceTable ( $tableGateway );
-							return $table;
-						},
-						'AuthentificationServiceTableGateway' => function ($sm) {
-							$dbAdapter = $sm->get ( 'Zend\Db\Adapter\Adapter' );
-							$resultSetPrototype = new ResultSet ();
-							$resultSetPrototype->setArrayObjectPrototype ( new AuthentificationService () );
-							return new TableGateway ( 'authentification_service', $dbAdapter, null, $resultSetPrototype );
-						}
+// 						'Admin\Model\AuthentificationServiceTable' => function ($sm) {
+// 							$tableGateway = $sm->get ( 'AuthentificationServiceTableGateway' );
+// 							$table = new AuthentificationServiceTable ( $tableGateway );
+// 							return $table;
+// 						},
+// 						'AuthentificationServiceTableGateway' => function ($sm) {
+// 							$dbAdapter = $sm->get ( 'Zend\Db\Adapter\Adapter' );
+// 							$resultSetPrototype = new ResultSet ();
+// 							$resultSetPrototype->setArrayObjectPrototype ( new AuthentificationService () );
+// 							return new TableGateway ( 'authentification_service', $dbAdapter, null, $resultSetPrototype );
+// 						}
 				)
 		);
 	}

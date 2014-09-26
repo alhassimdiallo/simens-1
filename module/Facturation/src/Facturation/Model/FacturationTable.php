@@ -75,4 +75,18 @@ class FacturationTable {
 		);
 		$this->tableGateway->insert($donnees);
 	}
+	public function deleteAdmissionPatient($id){
+		$this->tableGateway->delete(array('id_facturation'=> $id));
+	}
+	public function getPatientAdmis($id){
+		$id = ( int ) $id;
+		$rowset = $this->tableGateway->select ( array (
+				'id_facturation' => $id
+		) );
+		$row =  $rowset->current ();
+		if (! $row) {
+			throw new \Exception ( "Could not find row $id" );
+		}
+		return $row;
+	}
 }

@@ -13,18 +13,14 @@
 	            $( this ).dialog( "close" );
 	            
 	            var cle = id;
-	            var chemin = '/simens_derniereversion/public/facturation/facturation/supprimeradmission';
+	            var chemin = '/simens/public/facturation/supprimer-admission';
 	            $.ajax({
 	                type: 'POST',
 	                url: chemin ,
 	                data: $(this).serialize(),  
 	                data:'id='+cle,
 	                success: function(data) {
-	                	     //vart='/simens_derniereversion/public/facturation/facturation/listepatient';
-	                         //$(location).attr("href",vart);
-	                	    
 	                	     var result = jQuery.parseJSON(data);  
-	                	     //$("#foot").fadeOut(function(){$(this).html(result).fadeIn("fast"); });  
 	                	     $("#"+cle).fadeOut(function(){$("#"+cle).empty();});
 	                	     $("#compteur").html(result);
 	                	     
@@ -32,7 +28,7 @@
 	                error:function(e){console.log(e);alert("Une erreur interne est survenue!");},
 	                dataType: "html"
 	            });
-	    	     return false;
+	    	     //return false;
 	    	     
 	        },
 	        "Annuler": function() {
@@ -51,7 +47,7 @@
     
     function affichervue(id, idFacturation){
 
-        var chemin = '/simens_derniereversion/public/facturation/facturation/vuepatientadmis';
+        var chemin = '/simens/public/facturation/vue-patient-admis';
         $.ajax({
             type: 'POST',
             url: chemin ,
@@ -59,8 +55,6 @@
             data:{'id':id, 'idFacturation':idFacturation},
             success: function(data) {
        	    
-            	     //vart='/simens_derniereversion/public/facturation/facturation/listepatient';
-                     //$(location).attr("href",vart);
             	     $("#titre").replaceWith("<div id='titre2' style='font-family: police2; color: green; font-size: 18px; font-weight: bold;'><iS style='font-size: 25px;'>&curren;</iS> INFORMATIONS SUR LE PATIENT </div>");
             	     var result = jQuery.parseJSON(data);  
             	     $("#contenu").fadeOut(function(){$("#vue_patient").html(result).fadeIn("fast"); }); 
@@ -69,11 +63,11 @@
             error:function(e){console.log(e);alert("Une erreur interne est survenue!");},
             dataType: "html"
         });
-	    return false;
+	    //return false;
     }
     
     function listepatient(){
-    	//Lorsqu'on clique sur terminer ça ramène la liste des aptients admis 
+    	//Lorsqu'on clique sur terminer ï¿½a ramï¿½ne la liste des aptients admis 
 	    $("#terminer").click(function(){
 	    	$("#titre2").replaceWith("<div id='titre' style='font-family: police2; color: green; font-size: 18px; font-weight: bold;'><iS style='font-size: 25px;'>&curren;</iS> LISTE DES PATIENTS ADMIS </div>");
   	    	$("#vue_patient").fadeOut(function(){$("#contenu").fadeIn("fast"); });
@@ -89,7 +83,7 @@
 		        
 					//"bJQueryUI": true,
 					//"sPaginationType": "full_numbers",
-					"aaSorting": "", //pour trier la liste affichée
+					"aaSorting": "", //pour trier la liste affichï¿½e
 					"oLanguage": { 
 						"sProcessing":   "Traitement en cours...",
 						//"sLengthMenu":   "Afficher _MENU_ &eacute;l&eacute;ments",

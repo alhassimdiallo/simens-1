@@ -7,6 +7,7 @@ use Zend\Form\Form;
 class AjoutNaissanceForm extends Form {
 	public function __construct($name = null) {
 		parent::__construct ();
+		//$local = new \Locale();
 		$this->add ( array (
 				'name' => 'id_personne',
 				'type' => 'Hidden'
@@ -20,7 +21,8 @@ class AjoutNaissanceForm extends Form {
 				),
 				'attributes' => array (
 						'class' => 'only_Char',
-						'required' => true
+						'required' => true,
+						'id' => 'nom'
 				)
 		) );
 		$this->add ( array (
@@ -30,7 +32,8 @@ class AjoutNaissanceForm extends Form {
 						'label' => iconv('ISO-8859-1', 'UTF-8','Prénom')
 				),
 				'attributes' => array (
-						'required' => true
+						'required' => true,
+						'id' => 'prenom'
 				)
 		) );
 		$this->add ( array (
@@ -44,6 +47,7 @@ class AjoutNaissanceForm extends Form {
 				),
 				'attributes' => array (
 						'required' => true,
+						'id' => 'sexe'
 				)
 		) );
 		$this->add ( array (
@@ -53,7 +57,8 @@ class AjoutNaissanceForm extends Form {
 						'label' => 'Date de naissance'
 				),
 				'attributes' => array (
-						'required' => true
+						'required' => true,
+						'id' => 'date_naissance'
 				)
 		) );
 		$this->add ( array (
@@ -63,7 +68,8 @@ class AjoutNaissanceForm extends Form {
 						'label' => 'Heure de naissance'
 				),
 				'attributes' => array (
-						'required' => true
+						'required' => true,
+						'id' => 'heure_naissance'
 				)
 		) );
 		$this->add ( array (
@@ -73,7 +79,8 @@ class AjoutNaissanceForm extends Form {
 						'label' => 'Lieu de naissance'
 				),
 				'attributes' => array (
-						'required' => true
+						'required' => true,
+						'id' => 'lieu_naissance'
 				)
 		) );
 		$this->add ( array (
@@ -82,7 +89,7 @@ class AjoutNaissanceForm extends Form {
 				'options' => array (
 						'label' => 'Nationalité origine',
 						'value_options' => array (
-								'liste'=>''
+								''=>''
 						)
 				),
 				'attributes' => array (
@@ -95,7 +102,7 @@ class AjoutNaissanceForm extends Form {
 				'options' => array (
 						'label' => 'Nationalité actuelle',
 						'value_options' => array (
-								'liste'=>''
+								''=>''
 						)
 				),
 				'attributes' => array (
@@ -114,6 +121,9 @@ class AjoutNaissanceForm extends Form {
 				'type' => 'Text',
 				'options' => array (
 						'label' => 'Taille (cm)'
+				),
+				'attributes'=> array (
+						'id' => 'taille'
 				)
 		) );
 		$this->add(array(
@@ -121,6 +131,9 @@ class AjoutNaissanceForm extends Form {
 				'name' => 'poids',
 				'options' => array(
 						'label' => 'Poids (kg)'
+				),
+				'attributes'=> array (
+						'id' => 'poids'
 				)
 		));
 		$this->add ( array (
@@ -128,6 +141,9 @@ class AjoutNaissanceForm extends Form {
 				'type' => 'Text',
 				'options' => array (
 						'label' => 'Groupe sanguin'
+				),
+				'attributes'=> array (
+						'id' => 'groupe_sanguin'
 				)
 		) );
 		$this->add(array(

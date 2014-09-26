@@ -27,7 +27,7 @@ class PatientForm extends Form {
 						)
 				),
 				'attributes' => array (
-						//'required' => true,
+						'id' => 'civilite',
 						'value' => 'M'
 				)
 		) );
@@ -39,32 +39,38 @@ class PatientForm extends Form {
 				),
 				'attributes' => array (
 						'class' => 'only_Char',
-						//'required' => true
+						'id' => 'nom'
 				)
 		) );
 		$this->add ( array (
 				'name' => 'prenom',
 				'type' => 'Text',
 				'options' => array (
-						'label' => iconv('ISO-8859-1', 'UTF-8','Prénom')
+						'label' => iconv ( 'ISO-8859-1', 'UTF-8', 'Prénom' )
 				),
 				'attributes' => array (
-						//'required' => true
+						'id' => 'prenom'
 				)
 		) );
+
+
 		$this->add ( array (
 				'name' => 'sexe',
 				'type' => 'Zend\Form\Element\Select',
 				'options' => array (
 						'label' => 'Sexe',
 						'value_options' => array (
-								'Masculin'=>'Masculin','Féminin'=>'Féminin'
+								'Masculin' => 'Masculin',
+								'Féminin' => 'Féminin'
 						)
 				),
 				'attributes' => array (
-						//'required' => true,
+						'id' => 'sexe'
 				)
-		) );
+		// 'required' => true,
+				) );
+
+
 		$this->add ( array (
 				'name' => 'date_naissance',
 				'type' => 'Text',
@@ -72,9 +78,11 @@ class PatientForm extends Form {
 						'label' => 'Date de naissance'
 				),
 				'attributes' => array (
-						//'required' => true
+						'id' => 'date_naissance'
 				)
-		) );
+				) );
+
+
 		$this->add ( array (
 				'name' => 'lieu_naissance',
 				'type' => 'Text',
@@ -82,73 +90,90 @@ class PatientForm extends Form {
 						'label' => 'Lieu de naissance'
 				),
 				'attributes' => array (
-						//'required' => true
+						'id' => 'lieu_naissance'
 				)
-		) );
+				) );
+
+
 		$this->add ( array (
 				'name' => 'nationalite_origine',
 				'type' => 'Zend\Form\Element\Select',
 				'options' => array (
 						'label' => 'Nationalité origine',
 						'value_options' => array (
-								''=>''
+								'' => ''
 						)
+				),
+				'attributes' => array (
+						'id' => 'nationalite_origine'
 				)
-// 				'attributes' => array (
-// 						'required' => true,
-// 				)
-		) );
+		// 'attributes' => array (
+		// 'required' => true,
+		// )
+				) );
 		$this->add ( array (
 				'name' => 'nationalite_actuelle',
 				'type' => 'Zend\Form\Element\Select',
 				'options' => array (
 						'label' => 'Nationalité actuelle',
 						'value_options' => array (
-								''=>''
+								'' => ''
 						)
+				),
+				'attributes' => array (
+						'id' => 'nationalite_actuelle'
 				)
-// 				'attributes' => array (
-// 						'required' => true,
-// 				)
-		) );
+		// 'attributes' => array (
+		// 'required' => true,
+		// )
+				) );
 		$this->add ( array (
 				'name' => 'adresse',
 				'type' => 'Text',
 				'options' => array (
 						'label' => 'Adresse'
+				),
+				'attributes' => array (
+						'id' => 'adresse'
 				)
 		) );
 		$this->add ( array (
 				'name' => 'telephone',
 				'type' => 'Text',
 				'options' => array (
-						'label' => iconv('ISO-8859-1', 'UTF-8','Téléphone')
+						'label' => iconv ( 'ISO-8859-1', 'UTF-8', 'Téléphone' )
+				),
+				'attributes' => array (
+						'id' => 'telephone'
 				)
 		) );
-		$this->add(array(
+		$this->add ( array (
 				'type' => 'Zend\Form\Element\Email',
 				'name' => 'email',
-				'options' => array(
+				'options' => array (
 						'label' => 'Email'
 				),
-				'attributes' => array(
-						'placeholder' => 'you@domain.com'
+				'attributes' => array (
+						'placeholder' => 'you@domain.com',
+						'id' => 'email'
 				)
-		));
+		) );
 		$this->add ( array (
 				'name' => 'profession',
 				'type' => 'Text',
 				'options' => array (
 						'label' => 'Profession'
+				),
+				'attributes' => array (
+						'id' => 'profession'
 				)
 		) );
-		$this->add(array(
+		$this->add ( array (
 				'name' => 'submit',
 				'type' => 'Submit',
-				'options' => array(
+				'options' => array (
 						'label' => 'Sauvegarder'
-				),
-
-		));
+				)
+		) );
 	}
 }

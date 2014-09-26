@@ -16,6 +16,9 @@ class AjoutDecesForm extends Form{
 				'type' => 'Text',
 				'options' => array (
 						'label' => iconv('ISO-8859-1', 'UTF-8','Date du décès')
+				),
+				'attributes'=> array (
+						'id' => 'date_deces'
 				)
 		) );
 
@@ -24,6 +27,9 @@ class AjoutDecesForm extends Form{
 				'type' => 'Text',
 				'options' => array (
 						'label' => iconv('ISO-8859-1', 'UTF-8','Heure du décès')
+				),
+				'attributes'=> array (
+						'id' => 'heure_deces'
 				)
 		) );
 
@@ -32,6 +38,9 @@ class AjoutDecesForm extends Form{
 				'type' => 'Text',
 				'options' => array (
 						'label' => iconv('ISO-8859-1', 'UTF-8','Age au décès')
+				),
+				'attributes'=> array (
+						'id' => 'age_deces'
 				)
 		) );
 
@@ -40,6 +49,9 @@ class AjoutDecesForm extends Form{
 				'type' => 'Text',
 				'options' => array (
 						'label' => iconv('ISO-8859-1', 'UTF-8','Lieu du décès')
+				),
+				'attributes'=> array (
+						'id' => 'lieu_deces'
 				)
 		) );
 
@@ -48,6 +60,9 @@ class AjoutDecesForm extends Form{
 				'type' => 'Textarea',
 				'options' => array (
 						'label' => iconv('ISO-8859-1', 'UTF-8','Circonstances du décès')
+				),
+				'attributes'=> array (
+						'id' => 'circonstances_deces'
 				)
 		) );
 
@@ -56,6 +71,9 @@ class AjoutDecesForm extends Form{
 				'type' => 'Textarea',
 				'options' => array (
 						'label' => iconv('ISO-8859-1', 'UTF-8','Note importante')
+				),
+				'attributes'=> array (
+						'id' => 'note'
 				)
 		) );
 		$this->add(array(

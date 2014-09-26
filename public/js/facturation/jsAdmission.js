@@ -170,6 +170,7 @@ function declarer(id){
     
     //Insertion des donn�es dans la base de donn�es
     $('#termineradmission').click(function(){
+    	//alert('test');
     	$("#termineradmission").css({"border-color":"#ccc", "background":"-webkit-linear-gradient( #555, #CCC)", "box-shadow":"1px 1px 10px black inset,0 1px 0 rgba( 255, 255, 255, 0.4)"});
     	$("#termineradmission").attr( 'disabled', true );
     	$("#annuler").attr( 'disabled', true );

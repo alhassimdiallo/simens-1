@@ -13,16 +13,13 @@
 	            $( this ).dialog( "close" );
 	            
 	            var cle = id;
-	            var chemin = '/simens_derniereversion/public/facturation/facturation/supprimerdeces';
+	            var chemin = '/simens/public/facturation/supprimer-deces';
 	            $.ajax({
 	                type: 'POST',
 	                url: chemin ,
 	                data: $(this).serialize(),  
 	                data:'id='+cle,
 	                success: function(data) {
-	                	     //vart='/simens_derniereversion/public/facturation/facturation/listepatient';
-	                         //$(location).attr("href",vart);
-	                	    
 	                	     var result = jQuery.parseJSON(data);  
 	                	     //$("#foot").fadeOut(function(){$(this).html(result).fadeIn("fast"); });  
 	                	     $("#"+cle).fadeOut(function(){$("#"+cle).empty();});
@@ -52,7 +49,7 @@
     function affichervue(id){
     	
     	var cle = id;
-        var chemin = '/simens_derniereversion/public/facturation/facturation/vuepatientdecede';
+        var chemin = '/simens/public/facturation/vue-patient-decede';
         $.ajax({
             type: 'POST',
             url: chemin ,
@@ -60,8 +57,6 @@
             data:'id='+cle,
             success: function(data) {
        	    
-            	     //vart='/simens_derniereversion/public/facturation/facturation/listepatient';
-                     //$(location).attr("href",vart);
             	     $("#titre").replaceWith("<div id='titre2' style='font-family: police2; color: green; font-size: 18px; font-weight: bold;'><iS style='font-size: 25px;'>&curren;</iS> INFORMATIONS SUR LE PATIENT </div>");
             	     var result = jQuery.parseJSON(data);  
             	     $("#contenu").fadeOut(function(){$("#vue_patient").html(result).fadeIn("fast"); }); 
@@ -70,11 +65,11 @@
             error:function(e){console.log(e);alert("Une erreur interne est survenue!");},
             dataType: "html"
         });
-	    return false;
+	    //return false;
     }
     
     function listepatient(){
-    	//Lorsqu'on clique sur terminer ça ramène la liste des aptients décédés 
+    	//Lorsqu'on clique sur terminer ï¿½a ramï¿½ne la liste des aptients dï¿½cï¿½dï¿½s 
 	    $("#terminer").click(function(){
   	   	    //alert('ok');
 	    	$("#titre2").replaceWith("<div id='titre' style='font-family: police2; color: green; font-size: 18px; font-weight: bold;'><iS style='font-size: 25px;'>&curren;</iS> LISTE DES PATIENTS D&Eacute;C&Eacute;D&Eacute;S </div>");
@@ -91,7 +86,7 @@
 		        
 					//"bJQueryUI": true,
 					//"sPaginationType": "full_numbers",
-					"aaSorting": "", //pour trier la liste affichée
+					"aaSorting": "", //pour trier la liste affichï¿½e
 					"oLanguage": { 
 						"sProcessing":   "Traitement en cours...",
 						//"sLengthMenu":   "Afficher _MENU_ &eacute;l&eacute;ments",
@@ -156,7 +151,7 @@
     /****************************************************************************************************************************************/
     function modifierdeces(id){
     	var cle = id;
-        var chemin = '/simens_derniereversion/public/facturation/facturation/modifierdeces';
+        var chemin = '/simens/public/facturation/modifier-deces';
         $.ajax({
             type: 'GET',
             url: chemin ,
@@ -171,7 +166,7 @@
             	     $("#contenu").fadeOut(function(){
             	    	 $("#modifier_donnees_deces").html(result); 
             	     
-            	    	 /********************ON PREPARE LA TOUCHE 'Pécédent' *******************/
+            	    	 /********************ON PREPARE LA TOUCHE 'Pï¿½cï¿½dent' *******************/
             	    	 $('#precedent').click(function(){
             	    		
             	 	    	$("#titre2").replaceWith("<div id='titre' style='font-family: police2; color: green; font-size: 18px; font-weight: bold;'><iS style='font-size: 25px;'>&curren;</iS> LISTE DES NAISSANCES </div>");	
@@ -185,7 +180,7 @@
 	
             	 	         $("#terminer_modif_deces").replaceWith("<button id='terminer_modif_deces' style='height:35px;'>Terminer</button>");
 
-            	 	         return false;
+            	 	         //return false;
             	 	     });
             	    	 /****************************************************************/
             	    	 
@@ -205,7 +200,7 @@
             error:function(e){console.log(e);alert("Une erreur interne est survenue!");},
             dataType: "html"
         });
-	    return false;
+	    //return false;
     }
     
     
@@ -222,11 +217,11 @@
       
         	$.ajax({
                 type: 'POST',  
-                url: '/simens_derniereversion/public/facturation/facturation/modifierdeces' ,  
+                url: '/simens/public/facturation/modifier-deces' ,  
                 data: {'id':id , 'date_deces':date_deces , 'heure_deces':heure_deces , 'age_deces':age_deces , 'lieu_deces':lieu_deces , 'circonstances_deces':circonstances_deces , 'note':note},
         	    success: function(data) {    
         	    	
-                  vart='/simens_derniereversion/public/facturation/facturation/listepatientdecedes';
+                  vart='/simens/public/facturation/liste-patients-decedes';
                   $(location).attr("href",vart);
                   
                 },

@@ -55,4 +55,55 @@ class DecesTable {
 		//var_dump($result); exit();
 		return $result;
 	}
+	public function addDeces($data, $date_enregistrement){
+		$donnees = array(
+				'id_personne' => $data['id_patient'],
+				'date_deces' => $data['date_deces'],
+				'heure_deces' => $data['heure_deces'],
+				'age_deces' => $data['age_deces'],
+				'lieu_deces' => $data['lieu_deces'],
+				'circonstances_deces' =>$data['circonstances_deces'],
+				'date_enregistrement' => $date_enregistrement,
+				'note_importante' => $data['note_importante'],
+		);
+		$this->tableGateway->insert($donnees);
+	}
+	public function deletePatient($id){
+		$this->tableGateway->delete(array('id_personne'=>$id));
+	}
+	public function getPatientDecede($id){
+		$id = ( int ) $id;
+		$rowset = $this->tableGateway->select ( array (
+				'id_personne' => $id
+		) );
+		$row =  $rowset->current ();
+		if (! $row) {
+			throw new \Exception ( "Could not find row $id" );
+		}
+		return $row;
+	}
+	public function updateDeces($data)
+	{
+		$donnees = array(
+				'date_deces' => $data['date_deces'],
+				'heure_deces' => $data['heure_deces'],
+				'age_deces' => $data['age_deces'],
+				'lieu_deces' => $data['lieu_deces'],
+				'circonstances_deces' =>$data['circonstances_deces'],
+				'note_importante' => $data['note_importante'],
+		);
+		$this->tableGateway->update($donnees, array('id' => $data['id']));
+	}
+	public function getLePatientDecede($id){
+		$id = ( int ) $id;
+		$rowset = $this->tableGateway->select ( array (
+				'id' => $id
+		) );
+		$row =  $rowset->current ();
+		if (! $row) {
+			throw new \Exception ( "Could not find row $id" );
+		}
+		return $row;
+	}
+
 }

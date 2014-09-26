@@ -1,3 +1,4 @@
+
 <!-- MES STYLES -->
 <?php echo $this->headLink()->appendStylesheet($this->basePath().'/css/facturation/styleListeNaissance.css');
       echo $this->headLink()->appendStylesheet($this->basePath().'/css/facturation/DatePicker.css'); //DatePicker
@@ -6,7 +7,8 @@
 <!-- MES JS -->
 <?php echo $this->headScript()->appendFile($this->basePath().'/js/facturation/jsListenaissance.js');?>
 
-<?php //$Control = new Facturation_Model_Helpers_Aides();?>
+<?php use Facturation\View\Helper\DateHelper;
+$Control = new DateHelper();?>
 <div id="titre" style='font-family: police2; text-decoration:none; color: green; font-size: 18px; font-weight: bold;'><iS style='font-size: 25px;'>&curren;</iS> LISTE DES NAISSANCES</div>
  <div id="contenu" >
 
@@ -33,7 +35,7 @@
 
 				    <td style="text-transform : uppercase;"><?php echo $this->escapeHtml($donnees['Nom']);?></td>
 				    <td><?php echo $this->escapeHtml($donnees['Prenom']);?></td>
-					<td><?php echo $this->escapeHtml($donnees['Datenaissance']);?></td>
+					<td><?php echo $Control->convertDate($this->escapeHtml($donnees['Datenaissance']));?></td>
 					<td><?php echo $this->escapeHtml($donnees['Sexe']);?></td>
 					<td><?php echo $this->escapeHtml($donnees['Adresse']);?></td>
 					<td><?php echo $this->escapeHtml($donnees['Nationalite']);?></td>

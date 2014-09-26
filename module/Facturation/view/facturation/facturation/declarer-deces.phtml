@@ -1,3 +1,4 @@
+<?php use Facturation\View\Helper\DateHelper; ?>
 <!-- MES STYLES -->
 <?php echo $this->headLink()->appendStylesheet($this->basePath().'/css/facturation/styleDeclarerDeces.css');
 echo $this->headLink()->appendStylesheet($this->basePath().'/css/facturation/DatePicker.css'); //DatePicker?>
@@ -5,7 +6,7 @@ echo $this->headLink()->appendStylesheet($this->basePath().'/css/facturation/Dat
 <!-- MES JS -->
 <?php echo $this->headScript()->appendFile($this->basePath().'/js/facturation/jsDeclarerDeces.js');?>
 
-<?php //$Control = new Facturation_Model_Helpers_Aides();?>
+<?php $Control = new DateHelper();?>
 
      <div id="titre" style='font-family: police2; text-decoration:none; color: green; font-size: 18px; font-weight: bold;'><iS style='font-size: 25px;'>&curren;</iS> RECHERCHER LE PATIENT</div>
      <div id="contenu" >
@@ -32,7 +33,7 @@ echo $this->headLink()->appendStylesheet($this->basePath().'/css/facturation/Dat
 				    <td><?php echo $this->escapeHtml($donnees['Id']);?></td>
 				    <td style='text-transform : uppercase;'><?php echo $this->escapeHtml($donnees['Nom']);?></td>
 				    <td><?php echo $this->escapeHtml($donnees['Prenom']);?></td>
-					<td><?php echo $this->escapeHtml($donnees['Datenaissance']);?></td>
+					<td><?php echo $Control->convertDate($this->escapeHtml($donnees['Datenaissance']));?></td>
 					<td><?php echo $this->escapeHtml($donnees['Adresse']);?></td>
 					<td>
 					    <?php $id = $this->escapeHtml($donnees['Id']);?>
@@ -89,7 +90,9 @@ initialisation();
 		  <div id="info_bebe">
                <div style="float:left; margin-left:40px; margin-top:25px; margin-right:145px;">
 		       </div>
-		        <?php $form = $this->form ?>
+		        <?php $form = $this->form ;
+		        $form->prepare();
+		       echo $this->form()->openTag($form);?>
 		       <table id="form_patient" style=" float:left; margin-top:15px;">
 		             <tr>
 		                 <td class="comment-form-patient"><?php echo $this->formRow($form->get('date_deces'))?></td>
@@ -106,7 +109,7 @@ initialisation();
 		             </tr>
 
 		       </table>
-
+		       <?php echo $this->form()->closeTag(); ?>
 		       <div id="barre_vertical"></div>
 
 		       <div id="menu">

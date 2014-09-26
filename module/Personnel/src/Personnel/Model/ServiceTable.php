@@ -12,8 +12,12 @@ class ServiceTable{
 		$this->tableGateway = $tableGateway;
 	}
 	public function getServiceAffectation($id){
+		$id = ( int ) $id;
 		$select = $this->tableGateway->select(array('ID_SERVICE' => $id));
 		$serviceRow = $select->current();
+		if (! $serviceRow) {
+			throw new \Exception ( "Could not find row $id" );
+		}
 		return $serviceRow;
 	}
 	public function listeService(){
@@ -25,7 +29,10 @@ class ServiceTable{
 		$select->order('ID_SERVICE ASC');
 		$stat = $sql->prepareStatementForSqlObject($select);
 		$result = $stat->execute();
-		return $result;
+		foreach ($result as $data) {
+			$options[$data['NOM']] = $data['NOM'];
+		}
+		return $options;
 	}
 	public function fetchService()
 	{
@@ -33,8 +40,12 @@ class ServiceTable{
 		$sql = new Sql($adapter);
 		$select = $sql->select('service');
 		$select->columns(array('ID_SERVICE', 'NOM'));
+		//$select->order('NOM');
 		$stat = $sql->prepareStatementForSqlObject($select);
 		$result = $stat->execute();
-		return $result;
+		foreach ($result as $data) {
+			$options[$data['ID_SERVICE']] = $data['NOM'];
+		}
+		return $options;
 	}
 }
