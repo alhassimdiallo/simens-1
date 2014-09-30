@@ -76,8 +76,9 @@ class DateHelper extends AbstractHelper{
 	}
 
 	public function lePremierDimancheDuMois(){
-		$leMoisActuel = Zend_Date::now ()->toString('MM'); //le mois actuel
-		$AnneeActuelle =  Zend_Date::now ()->toString('yyyy'); //l'ann�e actuelle
+		$today = new \DateTime();
+		$leMoisActuel = $today->format('m'); //le mois actuel
+		$AnneeActuelle =  $today->format('Y'); //l'ann�e actuelle
 
 		$lePremierJourDuMois = $this->jourEnLettre('01/'.$leMoisActuel.'/'.$AnneeActuelle);//Le premier jour du mois
 

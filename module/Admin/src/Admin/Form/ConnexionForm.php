@@ -18,6 +18,8 @@ class ConnexionForm extends Form{
 				'type' => 'Text',
 				'attributes' => array(
 						'placeholder' => 'Login',
+						'id' => 'username'
+
 				),
 		));
 		$this->add(array(
@@ -25,6 +27,7 @@ class ConnexionForm extends Form{
 				'type' => 'Password',
 				'attributes' => array(
 						'placeholder' => 'Mot de passe',
+						'id' => 'password'
 				),
 		));
 		$this->add(array(
@@ -39,7 +42,7 @@ class ConnexionForm extends Form{
 				'type' => 'Submit',
 				'attributes' => array(
 						'value' => 'Connexion',
-						'id' => 'submitbutton',
+						'id' => 'submit',
 						'class'=> 'btn btn-success'
 				),
 		));

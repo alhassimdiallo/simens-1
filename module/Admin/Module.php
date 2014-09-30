@@ -16,6 +16,8 @@ use Zend\Mvc\MvcEvent;
 use Zend\Session\Config\SessionConfig;
 use Zend\Session\Container;
 use Zend\Session\SessionManager;
+use Admin\Model\UtilisateurTable;
+use Admin\Model\Utilisateur;
 
 class Module implements AutoloaderProviderInterface, ConfigProviderInterface {
 	public function onBootstrap(MvcEvent $e) {
@@ -76,17 +78,28 @@ class Module implements AutoloaderProviderInterface, ConfigProviderInterface {
 							$authService->setStorage ( $sm->get ('Admin\Model\AuthentificationStorage' ) );
 							return $authService;
 						},
-// 						'Admin\Model\AuthentificationServiceTable' => function ($sm) {
-// 							$tableGateway = $sm->get ( 'AuthentificationServiceTableGateway' );
-// 							$table = new AuthentificationServiceTable ( $tableGateway );
-// 							return $table;
-// 						},
-// 						'AuthentificationServiceTableGateway' => function ($sm) {
-// 							$dbAdapter = $sm->get ( 'Zend\Db\Adapter\Adapter' );
-// 							$resultSetPrototype = new ResultSet ();
-// 							$resultSetPrototype->setArrayObjectPrototype ( new AuthentificationService () );
-// 							return new TableGateway ( 'authentification_service', $dbAdapter, null, $resultSetPrototype );
-// 						}
+						'Admin\Model\AuthentificationServiceTable' => function ($sm) {
+							$tableGateway = $sm->get ( 'AuthentificationServiceTableGateway' );
+							$table = new AuthentificationServiceTable ( $tableGateway );
+							return $table;
+						},
+						'AuthentificationServiceTableGateway' => function ($sm) {
+							$dbAdapter = $sm->get ( 'Zend\Db\Adapter\Adapter' );
+							$resultSetPrototype = new ResultSet ();
+							$resultSetPrototype->setArrayObjectPrototype ( new AuthentificationService () );
+							return new TableGateway ( 'authentification_service', $dbAdapter, null, $resultSetPrototype );
+						},
+						'Admin\Model\UtilisateurTable' => function ($sm) {
+							$tableGateway = $sm->get ( 'UtilisateurTableGateway' );
+							$table = new UtilisateurTable($tableGateway) ;
+							return $table;
+						},
+						'UtilisateurTableGateway' => function ($sm) {
+							$dbAdapter = $sm->get ( 'Zend\Db\Adapter\Adapter' );
+							$resultSetPrototype = new ResultSet ();
+							$resultSetPrototype->setArrayObjectPrototype ( new Utilisateur() );
+							return new TableGateway ( 'authentification', $dbAdapter, null, $resultSetPrototype );
+						}
 				)
 		);
 	}

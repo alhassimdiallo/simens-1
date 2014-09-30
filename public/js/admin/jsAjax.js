@@ -6,7 +6,7 @@ $('#submit').click(function(){
   
   $.ajax({
     type: 'POST',
-    url: '/simens/public/auth/connexion-service' ,
+    url: '/simens/public/login/process/connexion-service' ,
     data: {'username':login, 'password':password},
     success: function(data) {    
     	     var result = jQuery.parseJSON(data);  

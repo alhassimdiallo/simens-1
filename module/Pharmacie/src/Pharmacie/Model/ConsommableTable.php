@@ -95,4 +95,16 @@ class ConsommableTable{
 		$result = $stat->execute();
 		return $result;
 	}
+	public function fetchConsommable(){
+		$adapter = $this->tableGateway->getAdapter();
+		$sql = new Sql ( $adapter );
+		$select = $sql->select('consommable');
+		$select->columns(array('ID_MATERIEL','INTITULE'));
+		$stat = $sql->prepareStatementForSqlObject($select);
+		$result = $stat->execute();
+		foreach ($result as $data) {
+			$options[$data['ID_MATERIEL']] = $data['INTITULE'];
+		}
+		return $options;
+	}
 }

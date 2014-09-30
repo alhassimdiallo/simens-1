@@ -5,9 +5,11 @@ namespace Facturation\Model;
 use Zend\Db\TableGateway\TableGateway;
 use Zend\Db\Sql\Select;
 use Zend\Db\Sql\Sql;
+use Zend\Db\Sql\Where;
 use Zend\Db\Sql\Predicate\NotIn;
 use Zend\Db\Sql\Predicate\Expression;
 use Facturation\View\Helper\DateHelper;
+use Zend\Stdlib\DateTime;
 
 class PatientTable {
 	protected $tableGateway;
@@ -305,8 +307,42 @@ class PatientTable {
 		//var_dump($output);exit();
 		return $output;
 	}
-	public function tousPatientsAdmis() {
-		// $sql = $this->tableGateway->selectWith($select);
+	public function tousPatientsAdmis($service) {
+		//var_dump($service);exit();
+		$today = new \DateTime();
+		$date = $today->format('Y-m-d');
+		$adapter = $this->tableGateway->getAdapter ();
+		$sql = new Sql ( $adapter );
+		$select1 = $sql->select ();
+		$select1->from ( array (
+				'p' => 'patient'
+		) );
+		$select1->columns(array (
+				'Nom' => 'NOM',
+				'Prenom' => 'PRENOM',
+				'Datenaissance' => 'DATE_NAISSANCE',
+				'Sexe' => 'SEXE',
+				'Adresse' => 'ADRESSE',
+				'Nationalite' => 'NATIONALITE_ACTUELLE',
+				'Taille' => 'TAILLE',
+				'Id' => 'ID_PERSONNE'
+		) );
+		$select1->join(array('f' => 'facturation'), 'p.ID_PERSONNE = f.id_patient', array('Id_facturation' => 'id_facturation'));
+		$select1->join(array('s' => 'service'), 'f.id_service = s.id_service', array('Nomservice' => 'NOM'));
+		$select1->where(array('date_cons' => $date, 's.NOM' => $service));
+		$select1->order('id_facturation ASC');
+		$statement1 = $sql->prepareStatementForSqlObject ( $select1 );
+		$result1 = $statement1->execute ();
+		//var_dump($result1);exit();
+		$select2 = $sql->select ('consultation');
+		$select2->columns(array('Id' => 'PAT_ID_PERSONNE',
+				'Id_cons' => 'ID_CONS',
+				'Date_cons' => 'DATEONLY',));
+		$select2->where(array('DATEONLY' => $date));
+		$statement2 = $sql->prepareStatementForSqlObject ( $select2 );
+		$result2 = $statement2->execute ();
+		$tab = array($result1,$result2);
+		return $tab;
 	}
 	public function listePatients() {
 		$adapter = $this->tableGateway->getAdapter ();
@@ -471,5 +507,97 @@ class PatientTable {
 			$options[$data['PAYS']] = $data['PAYS'];
 		}
 		return $options;
+	}
+
+	//Tous les patients consultes sauf ceux du jour
+	public function tousPatientsCons($service){
+		$today = new \DateTime();
+		$date = $today->format('Y-m-d');
+		$adapter = $this->tableGateway->getAdapter ();
+		$sql = new Sql ( $adapter );
+		$select = $sql->select ();
+		$select->from ( array (
+				'p' => 'patient'
+		) );
+		$select->columns(array (
+				'Nom' => 'NOM',
+				'Prenom' => 'PRENOM',
+				'Datenaissance' => 'DATE_NAISSANCE',
+				'Sexe' => 'SEXE',
+				'Adresse' => 'ADRESSE',
+				'Nationalite' => 'NATIONALITE_ACTUELLE',
+				'Taille' => 'TAILLE',
+				'Id' => 'ID_PERSONNE'
+		) );
+		$select->join(array('c' => 'consultation'), 'p.ID_PERSONNE = c.PAT_ID_PERSONNE', array('Id_cons' => 'ID_CONS', 'Dateonly' => 'DATEONLY', 'Consprise' => 'CONSPRISE'));
+		$select->join(array('s' => 'service'), 'c.ID_SERVICE = s.ID_SERVICE', array('Nomservice' => 'NOM'));
+		$where = new Where();
+		$where->equalTo('s.NOM', $service);
+		$where->notEqualTo('DATEONLY', $date);
+		$select->where($where);
+		$stmt = $sql->prepareStatementForSqlObject($select);
+		$result = $stmt->execute();
+		return $result;
+
+	}
+	//liste des patients à consulter par le medecin dans ce service
+	public function listePatientsConsParMedecin($idDuService){
+		$today = new \DateTime();
+		$date = $today->format('Y-m-d');
+		$adapter = $this->tableGateway->getAdapter ();
+		$sql = new Sql ( $adapter );
+		$select = $sql->select ();
+		$select->from ( array (
+				'p' => 'patient'
+		) );
+		$select->columns(array (
+				'Nom' => 'NOM',
+				'Prenom' => 'PRENOM',
+				'Datenaissance' => 'DATE_NAISSANCE',
+				'Sexe' => 'SEXE',
+				'Adresse' => 'ADRESSE',
+				'Nationalite' => 'NATIONALITE_ACTUELLE',
+				'Taille' => 'TAILLE',
+				'Id' => 'ID_PERSONNE'
+		) );
+		$select->join(array('c' => 'consultation'), 'p.ID_PERSONNE = c.PAT_ID_PERSONNE', array('Id_cons' => 'ID_CONS', 'dateonly' => 'DATEONLY', 'Consprise' => 'CONSPRISE', 'date' => 'DATE'));
+		$where = new Where();
+		$where->equalTo('c.ID_SERVICE', $idDuService);
+		$where->equalTo('DATEONLY', $date);
+		$select->where($where);
+		$stmt = $sql->prepareStatementForSqlObject($select);
+		$result = $stmt->execute();
+		return $result;
+	}
+	//liste des patients consultés par le medecin pour l'espace recherche
+	public function listePatientsConsMedecin($service){
+		$today = new \DateTime();
+		$date = $today->format('Y-m-d');
+		$adapter = $this->tableGateway->getAdapter ();
+		$sql = new Sql ( $adapter );
+		$select = $sql->select ();
+		$select->from ( array (
+				'p' => 'patient'
+		) );
+		$select->columns(array (
+				'Nom' => 'NOM',
+				'Prenom' => 'PRENOM',
+				'Datenaissance' => 'DATE_NAISSANCE',
+				'Sexe' => 'SEXE',
+				'Adresse' => 'ADRESSE',
+				'Nationalite' => 'NATIONALITE_ACTUELLE',
+				'Taille' => 'TAILLE',
+				'Id' => 'ID_PERSONNE'
+		) );
+		$select->join(array('c' => 'consultation'), 'p.ID_PERSONNE = c.PAT_ID_PERSONNE', array('Id_cons' => 'ID_CONS', 'Dateonly' => 'DATEONLY', 'Consprise' => 'CONSPRISE', 'date' => 'DATE'));
+		$select->join(array('s' => 'service'), 'c.ID_SERVICE = s.ID_SERVICE', array('Nomservice' => 'NOM'));
+		$where = new Where();
+		$where->equalTo('s.NOM', $service);
+		$where->notEqualTo('DATEONLY', $date);
+		$select->where($where);
+		$stmt = $sql->prepareStatementForSqlObject($select);
+		$result = $stmt->execute();
+		return $result;
+
 	}
 }

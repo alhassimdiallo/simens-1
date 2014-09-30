@@ -28,6 +28,14 @@ class Module implements AutoloaderProviderInterface, ConfigProviderInterface, Se
 		// to the view attempting to render)
 		$app = $e->getApplication();
 		$app->getEventManager()->attach('render', array($this, 'registerJsonStrategy'), 100);
+
+		$serviceManager = $e->getApplication ()->getServiceManager ();
+		$viewModel = $e->getApplication ()->getMvcEvent ()->getViewModel ();
+
+		$myServiceUser = $serviceManager->get ( 'Admin\Model\UtilisateurTable' );
+		$myServiceAuth = $serviceManager->get ( 'AuthService' );
+		$login = $myServiceAuth->getIdentity ();
+		$viewModel->user = $myServiceUser->fetchUtilisateur ( $login );
 	}
 
 	public function registerJsonStrategy(MvcEvent $e)

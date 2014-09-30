@@ -23,11 +23,11 @@ $(function() {
     		    if(!$(this).val().match(/^\-?[0-9]{0,3},?[0-9]{0,2}$/)) // 0-9 et 5 chiffres uniquement avec (,) sur les 3 premiers chiffres
     		      supprimer_dernier_caractere(this);
          });
-    	            /**** Annulation du "coller" dans l'input texte auquel on a affecté l'identifiant "no_paste" ***/
+    	            /**** Annulation du "coller" dans l'input texte auquel on a affectï¿½ l'identifiant "no_paste" ***/
     	              /* document.getElementById('no_paste').addEventListener('keydown', function (foo){
     	                 if (foo.keyCode == 86)
     	                 {
-    	                  alert('Vous avez copié du texte');
+    	                  alert('Vous avez copiï¿½ du texte');
     	                  foo.preventDefault();
     	                 }
     	                });*/
@@ -36,7 +36,7 @@ $(function() {
     	/***** Fonction Controle de saisie TAILLE *****/
     	 $('body').delegate('input.taille_only_numeric','keyup',function(){ 
     		    
-    		    if(!$(this).val().match(/^[0-3]{0,1},?[0-9]{0,2}$/)) // 0-3 uniquement et 1 chiffre avant la virgule 2 après
+    		    if(!$(this).val().match(/^[0-3]{0,1},?[0-9]{0,2}$/)) // 0-3 uniquement et 1 chiffre avant la virgule 2 aprï¿½s
     		      supprimer_dernier_caractere(this); 
     		    
          });
@@ -69,7 +69,7 @@ $(function() {
     	/***** Fonction Controle de saisie GLYCEMIE *****/
     	 $('body').delegate('input.glycemie_only_numeric','keyup',function(){
     		    
-    		    if(!$(this).val().match(/^[a-zA-Z]*$/)) // données alphabetique
+    		    if(!$(this).val().match(/^[a-zA-Z]*$/)) // donnï¿½es alphabetique
     		      supprimer_dernier_caractere(this);
          });
         /*** FIN ***/ 
@@ -77,7 +77,7 @@ $(function() {
     	 /***** Fonction Controle de saisie POULS *****/
     	 $('body').delegate('input.pouls_only_numeric','keyup',function(){ 
     		    
-    		    if(!$(this).val().match(/^\-?[0-9]{0,3},?[0-9]{0,2}$/)) // 0-9 les 3 premiers chiffres et 0-9 les 2 chiffres après la virgule
+    		    if(!$(this).val().match(/^\-?[0-9]{0,3},?[0-9]{0,2}$/)) // 0-9 les 3 premiers chiffres et 0-9 les 2 chiffres aprï¿½s la virgule
     		      supprimer_dernier_caractere(this);
          });
         /*** FIN ***/
@@ -85,7 +85,7 @@ $(function() {
     	/***** Fonction Controle de saisie FREQUENCE RESPIRATOIRE *****/
     	 $('body').delegate('input.frequence_only_numeric','keyup',function(){ 
     		    
-    		    if(!$(this).val().match(/^\-?[0-9]{0,1},?[0-9]{0,2}$/)) // 0-9 les 3 premiers chiffres et 0-9 les 2 chiffres après la virgule
+    		    if(!$(this).val().match(/^\-?[0-9]{0,1},?[0-9]{0,2}$/)) // 0-9 les 3 premiers chiffres et 0-9 les 2 chiffres aprï¿½s la virgule
     		      supprimer_dernier_caractere(this);
          });
         /*** FIN ***/
@@ -95,7 +95,7 @@ $(function() {
     	 /****** CONTROLE APRES VALIDATION ********/ 
     	 /****** CONTROLE APRES VALIDATION ********/ 
 
-    	 	 var valid = true;  // VARIABLE GLOBALE utilisée dans 'VALIDER LES DONNEES DU TABLEAU DES CONSTANTES'
+    	 	 var valid = true;  // VARIABLE GLOBALE utilisï¿½e dans 'VALIDER LES DONNEES DU TABLEAU DES CONSTANTES'
 
     	 	     $("#terminer,#bouton_constantes_valider").click(function(){
 
@@ -200,18 +200,18 @@ $(function() {
   	motif4.attr( 'readonly', false );
   	motif5.attr( 'readonly', false );
 
-  	//Valider(caché) avec le bouton 'valider'
+  	//Valider(cachï¿½) avec le bouton 'valider'
   	$( "#bouton_motif_valider" ).click(function(){
-  		motif1.attr( 'readonly', true );     //désactiver le motif1
-  		motif2.attr( 'readonly', true );     //désactiver le motif2
-  		motif3.attr( 'readonly', true );   //désactiver le motif3
+  		motif1.attr( 'readonly', true );     //dï¿½sactiver le motif1
+  		motif2.attr( 'readonly', true );     //dï¿½sactiver le motif2
+  		motif3.attr( 'readonly', true );   //dï¿½sactiver le motif3
   		motif4.attr( 'readonly', true );
   		motif5.attr( 'readonly', true );
   		$("#bouton_motif_modifier").toggle(true);  //on affiche le bouton permettant de modifier les champs
   		$("#bouton_motif_valider").toggle(false); //on cache le bouton permettant de valider les champs
   		return false; 
   	});
-  	//Activer(décaché) avec le bouton 'modifier'
+  	//Activer(dï¿½cachï¿½) avec le bouton 'modifier'
   	$( "#bouton_motif_modifier" ).click(function(){
   		motif1.attr( 'readonly', false );
   		motif2.attr( 'readonly', false );
@@ -230,7 +230,7 @@ $(function() {
   	/****** CONTROLE APRES VALIDATION ********/ 
   	/****** CONTROLE APRES VALIDATION ********/ 
 
-  		 var valid = true;  // VARIABLE GLOBALE utilisée dans 'VALIDER LES DONNEES DU TABLEAU DES CONSTANTES'
+  		 var valid = true;  // VARIABLE GLOBALE utilisï¿½e dans 'VALIDER LES DONNEES DU TABLEAU DES CONSTANTES'
 
   		     $("#terminer,#bouton_constantes_valider").click(function(){
 
@@ -320,7 +320,7 @@ $(function() {
  //******************* VALIDER LES DONNEES DU TABLEAU DES CONSTANTES ******************************** 
  //******************* VALIDER LES DONNEES DU TABLEAU DES CONSTANTES ******************************** 
 
-   //Au debut on désactive le code cons et la date de consultation qui sont non modifiables
+   //Au debut on dï¿½sactive le code cons et la date de consultation qui sont non modifiables
   	var id_cons = $("#id_cons");
   	var date_cons = $("#date_cons");
   	id_cons.attr('readonly',true);
@@ -349,11 +349,11 @@ $(function() {
   	pouls.attr( 'readonly', false);
   	frequence_respiratoire.attr( 'readonly', false);
 
-  	//Valider(caché) avec le bouton 'valider'
+  	//Valider(cachï¿½) avec le bouton 'valider'
   	$( "#bouton_constantes_valider" ).click(function(){
   		if(valid == true){
-	   		poids.attr( 'readonly', true );     //désactiver le poids
-	   		taille.attr( 'readonly', true );     //désactiver la taille
+	   		poids.attr( 'readonly', true );     //dï¿½sactiver le poids
+	   		taille.attr( 'readonly', true );     //dï¿½sactiver la taille
 	   		tension.attr( 'readonly', true);
 	   		bu.attr( 'readonly', true);
 	   		temperature.attr( 'readonly', true);
@@ -365,7 +365,7 @@ $(function() {
   		}
   		return false; 
   	});
-  	//Activer(décaché) avec le bouton 'modifier'
+  	//Activer(dï¿½cachï¿½) avec le bouton 'modifier'
   	$( "#bouton_constantes_modifier" ).click(function(){
   		poids.attr( 'readonly', false );
   		taille.attr( 'readonly', false ); 
@@ -390,7 +390,7 @@ $(function() {
 
 /***BOITE DE DIALOG POUR LA CONFIRMATION DE SUPPRESSION**/
 $(document).ready(function() {
-	var theHREF = "/simens_derniereversion/public/consultation/consultation/recherche/service/"+$('#LeService').val();
+	var theHREF = "/simens/public/consultation/recherche/service/"+$('#LeService').val();
 	function confirmation(){
 		
   		$( "#confirmation" ).dialog({
@@ -431,8 +431,8 @@ $(document).ready(function() {
 	   $( "#leschamps_2" ).click(function(){
 		  $( "#motif2" ).toggle(true);
 		  $('#plus').children().remove();
-		  $('<span id="moins_3" > <a><img style="display: inline; float:left; border:transparent; padding-left:10px;" src="/simens_derniereversion/public/images_icons/moins-vert.PNG" alt="Constantes" title="Supprimer" /></a></span>').appendTo("#plus");
-		  $('<span id="leschamps_3" > <a><img style="display: inline; float:left; border:transparent; padding-left:10px;" src="/simens_derniereversion/public/images_icons/add.PNG" alt="Constantes" title="Ajouter" /></a></span>').appendTo("#moins_3");
+		  $('<span id="moins_3" > <a><img style="display: inline; float:left; border:transparent; padding-left:10px;" src="/simens/public/images_icons/moins-vert.PNG" alt="Constantes" title="Supprimer" /></a></span>').appendTo("#plus");
+		  $('<span id="leschamps_3" > <a><img style="display: inline; float:left; border:transparent; padding-left:10px;" src="/simens/public/images_icons/add.PNG" alt="Constantes" title="Ajouter" /></a></span>').appendTo("#moins_3");
 		  
 		  champ3();
 		  supChamp2();
@@ -444,8 +444,8 @@ $(document).ready(function() {
 		  $( "#leschamps_3" ).click(function(){
 			  $( "#motif3" ).toggle(true);
 			  $('#plus').children().remove();
-			  $('<span id="moins_4" > <a><img style="display: inline; float:left; border:transparent; padding-left:10px;" src="/simens_derniereversion/public/images_icons/moins-vert.PNG" alt="Constantes" title="Supprimer" /></a></span>').appendTo("#plus");
-			  $('<span id="leschamps_4" > <a><img style="display: inline; float:left; border:transparent; padding-left:10px;" src="/simens_derniereversion/public/images_icons/add.PNG" alt="Constantes" title="Ajouter" /></a></span>').appendTo("#moins_4");
+			  $('<span id="moins_4" > <a><img style="display: inline; float:left; border:transparent; padding-left:10px;" src="/simens/public/images_icons/moins-vert.PNG" alt="Constantes" title="Supprimer" /></a></span>').appendTo("#plus");
+			  $('<span id="leschamps_4" > <a><img style="display: inline; float:left; border:transparent; padding-left:10px;" src="/simens/public/images_icons/add.PNG" alt="Constantes" title="Ajouter" /></a></span>').appendTo("#moins_4");
 
 			  champ4();
 			  supChamp3();
@@ -456,8 +456,8 @@ $(document).ready(function() {
 			$( "#leschamps_4" ).click(function(){
 				$( "#motif4" ).toggle(true);
 				$('#plus').children().remove();
-				$('<span id="moins_5" > <a><img style="display: inline; float:left; border:transparent; padding-left:10px;" src="/simens_derniereversion/public/images_icons/moins-vert.PNG" alt="Constantes" title="Supprimer" /></a></span>').appendTo("#plus");
-				$('<span id="leschamps_5" > <a><img style="display: inline; float:left; border:transparent; padding-left:10px;" src="/simens_derniereversion/public/images_icons/add.PNG" alt="Constantes" title="Ajouter" /></a></span>').appendTo("#moins_5");
+				$('<span id="moins_5" > <a><img style="display: inline; float:left; border:transparent; padding-left:10px;" src="/simens/public/images_icons/moins-vert.PNG" alt="Constantes" title="Supprimer" /></a></span>').appendTo("#plus");
+				$('<span id="leschamps_5" > <a><img style="display: inline; float:left; border:transparent; padding-left:10px;" src="/simens/public/images_icons/add.PNG" alt="Constantes" title="Ajouter" /></a></span>').appendTo("#moins_5");
 
 				champ5();
 				supChamp4();
@@ -469,7 +469,7 @@ $(document).ready(function() {
 			 $( "#leschamps_5" ).click(function(){
 				 $( "#motif5" ).toggle(true);
 				 $('#plus').children().remove();
-				 $('<span id="moins_6" > <a><img style="display: inline; float:left; border:transparent; padding-left:10px;" src="/simens_derniereversion/public/images_icons/moins-vert.PNG" alt="Constantes" title="Supprimer" /></a></span>').prependTo("#plus");
+				 $('<span id="moins_6" > <a><img style="display: inline; float:left; border:transparent; padding-left:10px;" src="/simens/public/images_icons/moins-vert.PNG" alt="Constantes" title="Supprimer" /></a></span>').prependTo("#plus");
 				 supChamp5();
 			 });
 	}   
@@ -485,7 +485,7 @@ $(document).ready(function() {
 		     $( "#motif_admission2" ).val("");
 		     $('#plus').children().remove();
 		     $('<span id="moins_2" ></span>').appendTo("#plus");
-		     $('<span id="leschamps_2" > <a><img style="display: inline; float:left; border:transparent; padding-left:10px;" src="/simens_derniereversion/public/images_icons/add.PNG" alt="Constantes" title="Ajouter" /></a></span>').appendTo("#moins_2");
+		     $('<span id="leschamps_2" > <a><img style="display: inline; float:left; border:transparent; padding-left:10px;" src="/simens/public/images_icons/add.PNG" alt="Constantes" title="Ajouter" /></a></span>').appendTo("#moins_2");
 		     champ2();
 		     //supChamp2();
 	     }); 
@@ -496,8 +496,8 @@ $(document).ready(function() {
 		     $( "#motif3" ).toggle(false);
 		     $( "#motif_admission3" ).val("");
 		     $('#plus').children().remove();
-		     $('<span id="moins_3" > <a><img style="display: inline; float:left; border:transparent; padding-left:10px;" src="/simens_derniereversion/public/images_icons/moins-vert.PNG" alt="Constantes" title="Supprimer" /></a></span>').appendTo("#plus");
-		     $('<span id="leschamps_3" > <a><img style="display: inline; float:left; border:transparent; padding-left:10px;" src="/simens_derniereversion/public/images_icons/add.PNG" alt="Constantes" title="Ajouter" /></a></span>').appendTo("#moins_3");
+		     $('<span id="moins_3" > <a><img style="display: inline; float:left; border:transparent; padding-left:10px;" src="/simens/public/images_icons/moins-vert.PNG" alt="Constantes" title="Supprimer" /></a></span>').appendTo("#plus");
+		     $('<span id="leschamps_3" > <a><img style="display: inline; float:left; border:transparent; padding-left:10px;" src="/simens/public/images_icons/add.PNG" alt="Constantes" title="Ajouter" /></a></span>').appendTo("#moins_3");
 		     champ3();
 		     supChamp2();
 	     });
@@ -508,8 +508,8 @@ $(document).ready(function() {
 		     $( "#motif4" ).toggle(false);
 		     $( "#motif_admission4" ).val("");
 		     $('#plus').children().remove();
-		     $('<span id="moins_4" > <a><img style="display: inline; float:left; border:transparent; padding-left:10px;" src="/simens_derniereversion/public/images_icons/moins-vert.PNG" alt="Constantes" title="Supprimer" /></a></span>').appendTo("#plus");
-		     $('<span id="leschamps_4" > <a><img style="display: inline; float:left; border:transparent; padding-left:10px;" src="/simens_derniereversion/public/images_icons/add.PNG" alt="Constantes" title="Ajouter" /></a></span>').appendTo("#moins_4");
+		     $('<span id="moins_4" > <a><img style="display: inline; float:left; border:transparent; padding-left:10px;" src="/simens/public/images_icons/moins-vert.PNG" alt="Constantes" title="Supprimer" /></a></span>').appendTo("#plus");
+		     $('<span id="leschamps_4" > <a><img style="display: inline; float:left; border:transparent; padding-left:10px;" src="/simens/public/images_icons/add.PNG" alt="Constantes" title="Ajouter" /></a></span>').appendTo("#moins_4");
 		     champ4();
 		     supChamp3();
 	     });
@@ -520,8 +520,8 @@ $(document).ready(function() {
 		     $( "#motif5" ).toggle(false);
 		     $( "#motif_admission5" ).val("");
 		     $('#plus').children().remove();
-		     $('<span id="moins_5" > <a><img style="display: inline; float:left; border:transparent; padding-left:10px;" src="/simens_derniereversion/public/images_icons/moins-vert.PNG" alt="Constantes" title="Supprimer" /></a></span>').appendTo("#plus");
-		     $('<span id="leschamps_5" > <a><img style="display: inline; float:left; border:transparent; padding-left:10px;" src="/simens_derniereversion/public/images_icons/add.PNG" alt="Constantes" title="Ajouter" /></a></span>').appendTo("#moins_5");
+		     $('<span id="moins_5" > <a><img style="display: inline; float:left; border:transparent; padding-left:10px;" src="/simens/public/images_icons/moins-vert.PNG" alt="Constantes" title="Supprimer" /></a></span>').appendTo("#plus");
+		     $('<span id="leschamps_5" > <a><img style="display: inline; float:left; border:transparent; padding-left:10px;" src="/simens/public/images_icons/add.PNG" alt="Constantes" title="Ajouter" /></a></span>').appendTo("#moins_5");
 		     champ5();
 		     supChamp4();
 	     });

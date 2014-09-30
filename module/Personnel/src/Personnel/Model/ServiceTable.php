@@ -48,4 +48,27 @@ class ServiceTable{
 		}
 		return $options;
 	}
+	public function getServiceParNom($nom){
+		$adapter = $this->tableGateway->getAdapter();
+		$sql = new Sql($adapter);
+		$select = $sql->select();
+		$select->from(array('les_services'=>'service'));
+		$select->where(array('NOM'=>$nom));
+		$stat = $sql->prepareStatementForSqlObject($select);
+		$result = $stat->execute()->current();
+		return $result;
+	}
+	public function getServiceHopital($idHopital){
+		$adapter = $this->tableGateway->getAdapter ();
+		$sql = new Sql($adapter);
+		$select = $sql->select();
+		$select->from(array('s'=>'service'));
+		$select->columns(array( 'Id_service' =>'ID_SERVICE','Nom_service' =>'NOM'));
+		$select->join(array('hs'=>'hopital_service'), 's.ID_SERVICE = hs.ID_SERVICE');
+		$select->join(array('h'=>'hopital'), 'hs.ID_HOPITAL = h.ID_HOPITAL');
+		$select->where(array('h.ID_HOPITAL'=>$idHopital));
+		$stat = $sql->prepareStatementForSqlObject($select);
+		$result = $stat->execute();
+		return $result;
+	}
 }

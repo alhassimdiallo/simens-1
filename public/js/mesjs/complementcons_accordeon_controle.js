@@ -321,18 +321,18 @@ $(function(){
 	hopital_accueil.attr( 'disabled', false );
 	service_accueil.attr( 'disabled', false );
 
-	//Valider(caché) avec le bouton 'valider'
+	//Valider(cachï¿½) avec le bouton 'valider'
 	$( "#bouton_transfert_valider" ).click(function(){
-		motif_transfert.attr( 'readonly', true );     //désactiver le motif transfert
+		motif_transfert.attr( 'readonly', true );     //dï¿½sactiver le motif transfert
 		$("#hopital_accueil_tampon").val(hopital_accueil.val());
-		hopital_accueil.attr( 'disabled', true );     //désactiver hopital accueil
+		hopital_accueil.attr( 'disabled', true );     //dï¿½sactiver hopital accueil
 		$("#service_accueil_tampon").val(service_accueil.val());
-		service_accueil.attr( 'disabled', true );   //désactiver service accueil
+		service_accueil.attr( 'disabled', true );   //dï¿½sactiver service accueil
 		$("#bouton_transfert_modifier").toggle(true);  //on affiche le bouton permettant de modifier les champs
 		$("#bouton_transfert_valider").toggle(false); //on cache le bouton permettant de valider les champs
 		return false; 
 	});
-	//Activer(décaché) avec le bouton 'modifier'
+	//Activer(dï¿½cachï¿½) avec le bouton 'modifier'
 	$( "#bouton_transfert_modifier" ).click(function(){
 		motif_transfert.attr( 'readonly', false );
 		hopital_accueil.attr( 'disabled', false );
@@ -384,11 +384,11 @@ $(function(){
  var date_rv = $( "#date_rv" );
  var heure_rv = $("#heure_rv");
    $( "#disable" ).click(function(){
-	  motif_rv.attr( 'readonly', true );     //désactiver le motif
+	  motif_rv.attr( 'readonly', true );     //dï¿½sactiver le motif
 	  $("#date_rv_tampon").val(date_rv.val()); //Placer la date dans date_rv_tampon avant la desacivation
-      date_rv.attr( 'disabled', true );     //désactiver la date
+      date_rv.attr( 'disabled', true );     //dï¿½sactiver la date
       $("#heure_rv_tampon").val(heure_rv.val()); //Placer l'heure dans heure_rv_tampon avant la desacivation
-      heure_rv.attr( 'disabled', true );   //désactiver l'heure
+      heure_rv.attr( 'disabled', true );   //dï¿½sactiver l'heure
       $("#disable_bouton").toggle(true);  //on affiche le bouton permettant de modifier les champs
       $("#enable_bouton").toggle(false); //on cache le bouton permettant de valider les champs
  
@@ -408,18 +408,18 @@ $(function(){
    date_rv.attr( 'disabled', false );
    heure_rv.attr( 'disabled', false );
 
-   //Valider(caché) avec le bouton 'valider'
+   //Valider(cachï¿½) avec le bouton 'valider'
    $( "#enable_bouton" ).click(function(){
-	  motif_rv.attr( 'readonly', true );     //désactiver le motif
+	  motif_rv.attr( 'readonly', true );     //dï¿½sactiver le motif
 	  $("#date_rv_tampon").val(date_rv.val()); //Placer la date dans date_rv_tampon avant la desacivation
-      date_rv.attr( 'disabled', true );     //désactiver la date
+      date_rv.attr( 'disabled', true );     //dï¿½sactiver la date
       $("#heure_rv_tampon").val(heure_rv.val()); //Placer l'heure dans heure_rv_tampon avant la desacivation
-	  heure_rv.attr( 'disabled', true );   //désactiver l'heure
+	  heure_rv.attr( 'disabled', true );   //dï¿½sactiver l'heure
 	  $("#disable_bouton").toggle(true);  //on affiche le bouton permettant de modifier les champs
 	  $("#enable_bouton").toggle(false); //on cache le bouton permettant de valider les champs
 	  return false; 
    });
-   //Activer(décaché) avec le bouton 'modifier'
+   //Activer(dï¿½cachï¿½) avec le bouton 'modifier'
    $( "#disable_bouton" ).click(function(){
 	  motif_rv.attr( 'readonly', false );      //activer le motif
 	  date_rv.attr( 'disabled', false );      //activer la date
@@ -439,7 +439,7 @@ $(function(){
 /***BOITE DE DIALOG POUR LA CONFIRMATION DE SUPPRESSION**/
 
  $(document).ready(function() {
-	var theHREF = "/simens_derniereversion/public/consultation/Consultation/consultationmedecin";
+	var theHREF = "/simens/public/consultation/consultation-medecin";
 	function confirmation(){
 		
  		$( "#confirmation2" ).dialog({
@@ -473,7 +473,7 @@ $(function(){
 	//Method POST pour consultationmedecin
 	//Method POST pour consultationmedecin
 	function executerRequetePost(donnees) {
-		// Le formulaire « monFormulaire » existe déjà dans la page
+		// Le formulaire ï¿½ monFormulaire ï¿½ existe dï¿½jï¿½ dans la page
 	    var formulaire = document.createElement("form");
 	 
 	    formulaire.setAttribute("action","/simens_derniereversion/public/consultation/Consultation/consultationmedecin/terminer/save"); 
@@ -486,7 +486,7 @@ $(function(){
 	        champ.setAttribute("value", donnees[donnee]);
 	        formulaire.appendChild(champ);
 	    }
-	    // Envoi de la requête
+	    // Envoi de la requï¿½te
 	    formulaire.submit();
 	    // Suppression du formulaire
 	    document.body.removeChild(formulaire);
@@ -531,8 +531,8 @@ $(function(){
 	    donnees['diagnostic3'] = $("#diagnostic3").val();
 	    donnees['diagnostic4'] = $("#diagnostic4").val();
 	    
-	    //*********** ORDONNACE (Médical) ************
-	    //*********** ORDONNACE (Médical) ************
+	    //*********** ORDONNACE (Mï¿½dical) ************
+	    //*********** ORDONNACE (Mï¿½dical) ************
 	    donnees['duree_traitement_ord'] = $("#duree_traitement_ord").val();
 	     
 	    for(var i = 1 ; i < 10 ; i++ ){
@@ -555,11 +555,11 @@ $(function(){
 	    // **********-- Rendez Vous --*******
         // **********-- Rendez Vous --*******
 		donnees['id_patient'] = $("#id_patient").val();
-		   //Au cas ou l'utilisateur ne valide pas ou n'imprime pas cela veut dire que le champ n'est pas désactiver
+		   //Au cas ou l'utilisateur ne valide pas ou n'imprime pas cela veut dire que le champ n'est pas dï¿½sactiver
 		   if($("#date_rv").val()){$("#date_rv_tampon").val($("#date_rv").val());}
 		donnees['date_rv']    = $("#date_rv_tampon").val();
 		donnees['motif_rv']   = $("#motif_rv").val();
-		   //Au cas ou l'utilisateur ne valide pas ou n'imprime pas cela veut dire que le champ n'est pas désactiver
+		   //Au cas ou l'utilisateur ne valide pas ou n'imprime pas cela veut dire que le champ n'est pas dï¿½sactiver
 		   if($("#heure_rv").val()){$("#heure_rv_tampon").val($("#heure_rv").val());}
 		donnees['heure_rv']   = $("#heure_rv_tampon").val();
 		
@@ -569,7 +569,7 @@ $(function(){
 		
 		// **********-- Transfert --*******
         // **********-- Transfert --*******
-		//Au cas ou l'utilisateur ne valide pas ou n'imprime pas cela veut dire que le champ n'est pas désactiver
+		//Au cas ou l'utilisateur ne valide pas ou n'imprime pas cela veut dire que le champ n'est pas dï¿½sactiver
 		   if($("#service_accueil").val()){$("#service_accueil_tampon").val($("#service_accueil").val());};
 		
 		donnees['id_service']      = $("#service_accueil_tampon").val();
@@ -636,7 +636,7 @@ $(function(){
 	//Method envoi POST pour updatecomplementconsultation
 	//Method envoi POST pour updatecomplementconsultation
 	function updateexecuterRequetePost(donnees) {
-		// Le formulaire « monFormulaire » existe déjà dans la page
+		// Le formulaire ï¿½ monFormulaire ï¿½ existe dï¿½jï¿½ dans la page
 	    var formulaire = document.createElement("form");
 	 
 	    formulaire.setAttribute("action","/simens_derniereversion/public/consultation/Consultation/updatecomplementconsultation"); 
@@ -650,7 +650,7 @@ $(function(){
 	        formulaire.appendChild(champ);
 	    }
         
-	    // Envoi de la requête
+	    // Envoi de la requï¿½te
 	    formulaire.submit();
 	    // Suppression du formulaire
 	    document.body.removeChild(formulaire);
@@ -695,8 +695,8 @@ $(function(){
 	    donnees['diagnostic3'] = $("#diagnostic3").val();
 	    donnees['diagnostic4'] = $("#diagnostic4").val();
 	    
-	    //*********** ORDONNACE (Médical) ************
-	    //*********** ORDONNACE (Médical) ************
+	    //*********** ORDONNACE (Mï¿½dical) ************
+	    //*********** ORDONNACE (Mï¿½dical) ************
 	    donnees['duree_traitement_ord'] = $("#duree_traitement_ord").val();
 	     
 	    for(var i = 1 ; i < 10 ; i++ ){
@@ -719,7 +719,7 @@ $(function(){
 	    // **********-- Rendez Vous --*******
         // **********-- Rendez Vous --*******
 		donnees['id_patient'] = $("#id_patient").val();
-		//Au cas ou l'utilisateur ne valide pas ou n'imprime pas cela veut dire que le champ n'est pas désactiver
+		//Au cas ou l'utilisateur ne valide pas ou n'imprime pas cela veut dire que le champ n'est pas dï¿½sactiver
 		   if($("#date_rv").val()){$("#date_rv_tampon").val($("#date_rv").val());}
 		donnees['date_rv']    = $("#date_rv_tampon").val();
 		donnees['motif_rv']   = $("#motif_rv").val();
@@ -731,7 +731,7 @@ $(function(){
 		
 		// **********-- Transfert --*******
         // **********-- Transfert --*******
-		//Au cas ou l'utilisateur ne valide pas ou n'imprime pas cela veut dire que le champ n'est pas désactiver
+		//Au cas ou l'utilisateur ne valide pas ou n'imprime pas cela veut dire que le champ n'est pas dï¿½sactiver
 		   if($("#service_accueil").val()){$("#service_accueil_tampon").val($("#service_accueil").val());};
 		
 		donnees['id_service']      = $("#service_accueil_tampon").val();

@@ -11,7 +11,7 @@ class AuthentificationServiceTable{
 		$this->tableGateway = $tableGateway;
 	}
 
-	//liste des authentifications
+	//liste des authentifications service
 	public function fetchAll()
 	{
 		$resultSet = $this->tableGateway->select();

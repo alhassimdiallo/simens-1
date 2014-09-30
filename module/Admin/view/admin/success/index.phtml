@@ -1,6 +1,3 @@
-use Admin\Model\AuthentificationStorage;
-use Facturation\Form\AdmissionForm;
-
 <?php echo $this->headLink()->appendStylesheet($this->basePath().'/font-awesome/css/font-awesome.css');?>
 <style type="text/css">
 .module {
@@ -35,11 +32,7 @@ body {
 
 <div id="loginbox">
 	<div style="text-align: left; margin-left: 10px; font-size: 20px; color: white; padding-top: 20px;">
-		<?php //echo "Page affich&eacute;e en ".$this->time." secondes";
-		$authserv = new Zend\Authentication\AuthenticationService();
-		$identity = (array) $authserv->getIdentity();
-?>
-		<?php echo "Bonjour M. ".$this->identity();?>
+		<?php echo "Bonjour M. ".$this->user['name'];?>
 	</div>
 	<div
 		style="text-align: right; font-size: 15px; color: white; padding-top: 5px; margin-right: 10px;">
@@ -50,14 +43,20 @@ body {
 	</div>
 
 	<div id="module" align="left">
+	<?php //CHOISIR LE MENU A AFFICHER SELON QUE C'EST LE MEDECIN OU SUR LE SURVEILLANT
+	if($this->user['TYPE'] == 'SURVEILLANT' || $this->user['TYPE'] == 'ADMINISTRATEUR'){
+	?>
 		<a
 			href="<?php echo $this->url('consultation', array('action'=>'recherche'));?>">
-			<span class="module" align="center"> Module Consultation Surveillant</span>
+			<span class="module" align="center"> Module Consultation </span>
 		</a>
+	<?php }else if($this->user['TYPE'] == 'MEDECIN'){	?>
 		<a
 			href="<?php echo $this->url('consultation', array('action'=>'consultation-medecin'));?>">
-			<span class="module" align="center"> Module Consultation Medecin</span>
-		</a><a
+			<span class="module" align="center"> Module Consultation </span>
+		</a>
+	<?php } ?>
+		<a
 			href="<?php echo $this->url('hospitalisation', array('action'=>'hospi'));?>">
 			<span class="module" align="center"> Module Hospitalisation </span>
 		</a> <a

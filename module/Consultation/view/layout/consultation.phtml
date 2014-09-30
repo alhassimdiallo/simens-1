@@ -25,6 +25,7 @@
  $this->headScript()->appendFile($this->basePath().'/js/matrix.js');
 
  echo $this->headTitle($this->pageTitle);?>
+ 		<?php //$this->headLink()->appendStylesheet($this->basePath().'/css/jquery-ui.css');?>
 		<?php $this->headLink()->appendStylesheet($this->basePath().'/css/search.css');?>
 		<?php $this->headLink()->appendStylesheet($this->basePath().'/css/niceforms-default.css');?>
 		<?php $this->headLink()->appendStylesheet($this->basePath().'/css/dossier.css');?>
@@ -38,10 +39,14 @@
 		<?php $this->headLink()->appendStylesheet($this->basePath().'/css/jquery.autocomplete.css');?>
 
 
+
  		<?php $this->headScript()->appendFile($this->basePath().'/js/plugins/simplePopup.js');?>
 		<?php $this->headScript()->appendFile($this->basePath().'/js/jquery.modaldialog/js/jquery.modaldialog.js', 'text/javascript');?>
 		<?php $this->headScript()->appendFile($this->basePath().'/js/jquery/js/jquery.form.js', 'text/javascript');?>
 		<?php $this->headScript()->appendFile($this->basePath().'/js/jquery.validate.js', 'text/javascript');?>
+		<?php //$this->headScript()->appendFile($this->basePath().'/js/jquery-1.9.1.js');?>
+		<?php //$this->headScript()->appendFile($this->basePath().'/js/jquery-ui.js');?>
+
 		<?php echo $this->headScript();?>
 <head>
 </head>
@@ -49,10 +54,10 @@
 
 <?php
 //RECUPERER LES INFOS SUR LE MEDECIN OU SUR LE SURVEILLANT
-// $identity = (array) Zend_Auth::getInstance()->getIdentity();
-// $nom = $identity['name'];
-// $prenom = $identity['prenom'];
-// $service = $identity['service'];
+  $user = $this->layout()->user;
+  $nom = $user['name'];
+  $prenom = $user['prenom'];
+  $service = $user['service'];
 ?>
 
 
@@ -72,14 +77,14 @@
 				class="dropdown-toggle"> <i> <span
 						style="color: white; font-size: 13px;">Service: </span></i> <b
 					class="caret"></b> <span
-					style="font-size: 18px; color: white; font-family: Times New Roman;"> <?php //echo $service;?></span></a>
+					style="font-size: 18px; color: white; font-family: Times New Roman;"> <?php echo $service;?></span></a>
 			</li>
 
 			<li class="dropdown" id=""><a title="" href="#"
 				class="dropdown-toggle"> <i class="icon icon-user"></i> <span
 					style="color: white; font-size: 13px;"><i>Bienvenue</i></span> <b
 					class="caret"></b> <span
-					style="font-size: 18px; color: white; font-family: Times New Roman;"><?php //echo $prenom.' '.$nom;?></span></a>
+					style="font-size: 18px; color: white; font-family: Times New Roman;"><?php echo $prenom.' '.$nom;?></span></a>
 			</li>
 
 			<li class="" style="padding-left: 400px;"><a title=""

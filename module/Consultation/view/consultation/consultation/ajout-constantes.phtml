@@ -1,0 +1,762 @@
+<?php use Facturation\View\Helper\DateHelper;?>
+
+<?php echo $this->headLink()->appendStylesheet($this->basePath().'/css/jquery-ui.css');?>
+<?php echo $this->headScript()->appendFile($this->basePath().'/js/jquery-1.9.1.js');?>
+<?php echo $this->headScript()->appendFile($this->basePath().'/js/jquery-ui.js');?>
+<?php echo $this->headScript()->appendFile($this->basePath().'/js/mesjs/accordeon_controle_validation.js');?>
+
+
+<style>
+
+#faces  /*photo*/
+{
+
+width: 100px;
+
+float: left;
+
+border-top-width: 10px;
+
+border-right-width: 10px;
+
+border-right-width-ltr-source: physical;
+
+border-right-width-rtl-source: physical;
+
+border-bottom-width: 10px;
+
+border-left-width: 10px;
+
+border-left-width-ltr-source: physical;
+
+border-left-width-rtl-source: physical;
+
+border-top-style: solid;
+
+border-right-style: solid;
+
+border-right-style-ltr-source: physical;
+
+border-right-style-rtl-source: physical;
+
+border-bottom-style: solid;
+
+border-left-style: solid;
+
+border-left-style-ltr-source: physical;
+
+border-left-style-rtl-source: physical;
+
+border-top-color: white;
+
+border-right-color: white;
+
+border-right-color-ltr-source: physical;
+
+border-right-color-rtl-source: physical;
+
+border-bottom-color: white;
+
+border-left-color: white;
+
+border-left-color-ltr-source: physical;
+
+border-left-color-rtl-source: physical;
+
+box-shadow: 0pt 0pt 12px rgba(0, 0, 0, 0.1);
+
+}
+
+
+/*-----D�but style-----*/
+
+#respond label
+
+{
+
+line-height: 2.0em;
+
+}
+
+#respond .comment-form-author label, #respond .comment-form-email label, #respond .comment-form-url label, #respond .comment-form-comment label
+
+{/* le label*/
+
+background-color: #eeeeee;
+
+background-image: none;
+
+background-repeat: repeat;
+
+background-attachment: scroll;
+
+background-position: 0% 0%;
+
+background-clip: border-box;
+
+background-origin: padding-box;
+
+background-size: auto auto;
+
+box-shadow: 1px 2px 2px rgba(204, 204, 204, 0.8);
+
+color: #555555;
+
+display: inline-block;
+
+font-size: 13px;
+
+left: 10px; /*d�placer le label*/
+
+min-width: 60px;
+
+padding-top: 4px;
+
+padding-right: 10px;
+
+padding-bottom: 4px;
+
+padding-left: 10px;
+
+position: relative;
+
+top: 5px;
+
+z-index: 1;
+
+}
+
+
+#respond input[type="text"], #respond textarea
+
+{ /*le input ou le textarea*/
+
+background-image: none;
+
+background-repeat: repeat;
+
+background-attachment: scroll;
+
+background-position: 0% 0%;
+
+background-clip: border-box;
+
+background-origin: padding-box;
+
+background-size: auto auto;
+
+border-top-width: 2px;
+
+border-right-width-value: 2px;
+
+border-right-width-ltr-source: physical;
+
+border-right-width-rtl-source: physical;
+
+border-bottom-width: 2px;
+
+border-left-width-value: 2px;
+
+border-left-width-ltr-source: physical;
+
+border-left-width-rtl-source: physical;
+
+border-top-style: solid;
+
+border-right-style-value: solid;
+
+border-right-style-ltr-source: physical;
+
+border-right-style-rtl-source: physical;
+
+border-bottom-style: solid;
+
+border-left-style-value: solid;
+
+border-left-style-ltr-source: physical;
+
+border-left-style-rtl-source: physical;
+
+border-right-color-value: #eeeeee;
+
+border-right-color-ltr-source: physical;
+
+border-right-color-rtl-source: physical;
+
+border-left-color-value: #eeeeee;
+
+border-left-color-ltr-source: physical;
+
+border-left-color-rtl-source: physical;
+
+border-top-left-radius: 5px;
+
+border-top-right-radius: 5px;
+
+border-bottom-right-radius: 5px;
+
+border-bottom-left-radius: 5px;
+
+box-shadow: 0pt 1px 3px rgba(204, 204, 204, 0.95) inset;
+
+position: relative;
+
+/* le texte des champs*/
+padding-top: 10px;
+
+padding-right: 10px;
+
+padding-bottom: 10px;
+
+margin-bottom : 15px;
+
+padding-left: 10px; /* padding du text dans le champ*/
+
+text-indent: 0px; /* alignement du text dans le champ input*/
+
+/* balise input text*/
+display: block;
+
+height: 30px; /*la hauteur du champ input*/
+
+width: 225px; /* la largeur du champ input*/
+
+}
+/*
+#respond input[type="text"]
+
+{
+
+display: block;
+
+height: 30px;  //la hauteur du champ input
+
+width: 225px;   //la largeur du champ input
+
+}*/
+
+#respond input[type="text"]:focus, #respond textarea:focus
+
+{
+
+text-indent: 0pt;
+
+z-index: 5;
+
+}
+
+#respond input#submit
+{
+
+color: #444444;
+
+text-shadow: none;
+
+background-color: #eeeeee;
+
+background-image: none;
+
+background-repeat: repeat;
+
+background-attachment: scroll;
+
+background-position: 0% 0%;
+
+background-clip: border-box;
+
+background-origin: padding-box;
+
+background-size: auto auto;
+
+position: static;
+
+padding-top: 5px;
+
+padding-right: 22px;
+
+padding-bottom: 5px;
+
+padding-left: 22px;
+
+float: right;
+
+}
+
+tr:hover /* Apparence au survol des lignes */
+{
+   /*text-decoration: underline;*/
+   background-color: white;
+
+}
+
+#aa:hover /* Apparence au survol des liens */
+{
+   /*text-decoration: underline;*/
+    color: blue;
+	font-size: 17px;
+}
+
+#barre
+{
+  /*background-color: #a8a8a8;*/
+  padding-bottom:20px; /*Pour s�parer le contenu de la bordure du bas du bloc*/
+  magin-bottom:15px; /*Pour s�parer la bordure du prochain �l�ment*/
+  border-bottom: 3px solid gray;/*Pour faire un trait rouge horizontal*/
+  margin-left: 165px;
+}
+
+#numero
+{
+	/*background-color: #a8a8a8;*/
+	width: 400px;
+	margin-left: 165px;
+	font-family: police4;
+	font-size: 19px;
+	color: green;
+}
+
+/************************************ style du tableau N�1 ****************************************/
+
+#responde input[type="text"], #respond textarea
+
+{ /*le input ou le textarea*/
+
+background-image: none;
+
+background-repeat: repeat;
+
+background-attachment: scroll;
+
+background-position: 0% 0%;
+
+background-clip: border-box;
+
+background-origin: padding-box;
+
+background-size: auto auto;
+
+border-top-width: 2px;
+
+border-right-width-value: 2px;
+
+border-right-width-ltr-source: physical;
+
+border-right-width-rtl-source: physical;
+
+border-bottom-width: 2px;
+
+border-left-width-value: 2px;
+
+border-left-width-ltr-source: physical;
+
+border-left-width-rtl-source: physical;
+
+border-top-style: solid;
+
+border-right-style-value: solid;
+
+border-right-style-ltr-source: physical;
+
+border-right-style-rtl-source: physical;
+
+border-bottom-style: solid;
+
+border-left-style-value: solid;
+
+border-left-style-ltr-source: physical;
+
+border-left-style-rtl-source: physical;
+
+border-top-color: #eeeeee;
+
+border-right-color-value: #eeeeee;
+
+border-right-color-ltr-source: physical;
+
+border-right-color-rtl-source: physical;
+
+border-bottom-color: #eeeeee;
+
+border-left-color: #eeeeee;
+
+border-right-color: #eeeeee;
+
+border-left-color-value: #eeeeee;
+
+border-left-color-ltr-source: physical;
+
+border-left-color-rtl-source: physical;
+
+/* Arrondir les bordures des input*/
+border-top-left-radius: 15px;
+
+border-top-right-radius: 5px;
+
+border-bottom-right-radius: 5px;
+
+border-bottom-left-radius: 5px;
+
+box-shadow: 0pt 1px 3px rgba(204, 204, 204, 0.95) inset;
+
+position: relative;
+
+/* le texte des champs*/
+padding-top: 10px;
+
+padding-right: 10px;
+
+padding-bottom: 10px;
+
+padding-left: 10px; /* padding du text dans le champ*/
+
+text-indent: 70px; /* alignement du text dans le champ input apr�s saisie*/
+
+margin-bottom: 1px;
+
+margin-top: -40px;
+
+float: left; /* aligner le INPUT � gauche*/
+
+}
+
+#responde .form-author label
+{/* le label*/
+line-height: 2.0em;
+
+background-color: #eeeeee;
+
+background-image: none;
+
+background-repeat: repeat;
+
+background-attachment: scroll;
+
+background-position: 0% 0%;
+
+background-clip: border-box;
+
+background-origin: padding-box;
+
+background-size: auto auto;
+
+box-shadow: 1px 2px 2px rgba(204, 204, 204, 0.8);
+
+color: #555555;
+
+display: inline-block;
+
+font-size: 13px;
+
+/*left: -270px; /*d�placer le label*/
+
+min-width: 60px;
+
+padding-top: 7px;
+
+padding-right: 10px;
+
+padding-bottom: 4px;
+
+padding-left: 0px;
+
+position: relative;
+
+top: 6px;
+
+z-index: 1;
+
+float: left;  /* aligner le LABEL � gauche*/
+
+margin-left: 15px; /* d�finir la marge dans le champ*/
+
+}
+
+#responde input[type="text"]
+{
+
+display: block;
+
+height: 50px; /*la hauteur du champ input*/
+
+width: 635px; /* la largeur du champ input*/
+
+}
+
+#responde input[type="text"]:focus, #responde textarea:focus
+{
+
+text-indent: 0pt;
+
+z-index: 5;
+
+}
+/*----fin style--------*/
+
+tr th span {
+	cursor: pointer;
+}
+
+</style>
+
+<?php $Control = new DateHelper();?>
+<?php
+$form = $this->form;
+$form->setAttribute('action', $this->url('consultation', array('action'=>'ajout-donnees-constantes')));
+$form->prepare();
+echo $this->form()->openTag($form); ?>
+
+<div id="accordions">  <!-- couleur bleu du logo//#49afcd-->
+
+  <!--Accordeon ETAT CIVIL-->
+    <div style='width:160px; font-family: police2;font-size: 17px; font-weight: bold;'>Etat Civil</div>
+      <div style=' max-height: 340px;'> <!-- div style= "background-color: #f0eee2;"-->
+
+         <img id="faces" src='<?php echo $this->basePath().'/img/photos_patients/'.$this->image;?>'  alt="Jonathan Verrecchia" style='float:left; margin-right:40px; width:105px; height:105px;'/>
+
+
+       <p style='color: white; opacity: 0.09;'>
+         <img id="faces" src='<?php echo $this->basePath().'/img/photos_patients/'.$this->image;?>'  alt="Jonathan Verrecchia" style='float:right; margin-right:15px; width:95px; height:95px;'/>
+       </p>
+         <table>
+             <tr>
+			   	<td style='width:160px; font-family: police1;font-size: 12px;'>
+			   		<div id="aa"><a style="text-decoration: underline;">Civilit&eacute;</a><br><p style='font-weight: bold;font-size: 17px;'><?php echo $this->lesdetails->civilite;?></p></div>
+			   	</td>
+
+			   	<td style='width:160px; font-family: police1;font-size: 12px;'>
+			   		<div id="aa"><a style="text-decoration: underline;">Lieu de naissance</a><br><p style='font-weight: bold;font-size: 17px;'><?php echo $this->lesdetails->lieu_naissance;?></p></div>
+			   	</td>
+
+			    <td style='width:160px; font-family: police1;font-size: 12px;'>
+			   		<div id="aa"><a style="text-decoration: underline;">T&eacute;l&eacute;phone</a><br><p style='font-weight: bold;font-size: 17px;'><?php echo $this->lesdetails->telephone;?></p></div>
+			   	</td>
+
+			 </tr>
+
+			 <tr>
+			    <td style=' font-family: police1;font-size: 12px;'>
+			   		<div id="aa"><a style="text-decoration: underline;">Pr&eacute;nom</a><br><p style='font-weight: bold;font-size: 19px;'><?php echo $this->lesdetails->prenom;?></p></div>
+			   	</td>
+
+			   	<td style=' font-family: police1;font-size: 12px;'>
+			   		<div id="aa"><a style="text-decoration: underline;">Nationalit&eacute; origine</a><br><p style='font-weight: bold;font-size: 19px;'><?php echo $this->lesdetails->nationalite_origine;?></p></div>
+			   	</td>
+
+			   	<td style=' font-family: police1;font-size: 12px;'>
+			   		<div id="aa"><a style="text-decoration: underline;">Email</a><br><p style='font-weight: bold;font-size: 19px;'><?php echo $this->lesdetails->email;?></p></div>
+			   	</td>
+
+			 </tr>
+
+			 <tr>
+			    <td style=' font-family: police1;font-size: 12px;'>
+			   		<div id="aa"><a style="text-decoration: underline;">Nom</a><br><p style='font-weight: bold;font-size: 19px;'><?php echo $this->lesdetails->nom;?></p></div>
+			   	</td>
+
+			    <td style=' font-family: police1;font-size: 12px;'>
+			   		<div id="aa"><a style="text-decoration: underline;">Nationalit&eacute; actuelle</a><br><p style='font-weight: bold;font-size: 19px;'><?php echo $this->lesdetails->nationalite_actuelle;?></p></div>
+			   	</td>
+
+			   	<td style=' font-family: police1;font-size: 12px;'>
+			   		<div id="aa"><a style="text-decoration: underline;">Profession</a><br><p style='font-weight: bold;font-size: 19px;'><?php echo $this->lesdetails->profession;?></p></div>
+			   	</td>
+
+			 </tr>
+
+			  <tr>
+			   	<td style=' font-family: police1;font-size: 12px;'>
+			   		<div id="aa"><a style="text-decoration: underline;">Date de naissance</a><br><p style='font-weight: bold;font-size: 19px;'><?php echo $Control->convertDate($this->lesdetails->date_naissance);?></p></div>
+			   	</td>
+
+			    <td style='display:"block"; width: 195px; font-family: police1;font-size: 12px;'>
+			   		<div id="aa"><a style="text-decoration: underline;">Adresse</a><br><p style='font-weight: bold;font-size: 19px;'><?php echo $this->lesdetails->adresse;?></p></div>
+			   	</td>
+			  </tr>
+			  	 <tr>
+
+			  	 </tr>
+         </table>
+
+           <div id="barre"></div>
+           <div style='color: white; opacity: 1; width:95px; height:40px; float:right'>
+             <img  src='<?php echo $this->basePath().'/images_icons/fleur1.jpg'?>'  alt="fleur1" />
+           </div>
+	       <table id="numero" style=" padding-top:5px; width: 400px; ">
+           <tr>
+             <td style="padding-top:3px; width: 70px; font-size: 12px;"> Consultation: </td>
+             <td style="font-weight: bold;"> <?php echo $this->id_cons;?></td>
+                <td style="font-weight: bold; width:10px;">|</td>
+             <td style="padding-top:5px; width: 30px; font-size: 12px; "> Heure: </td>
+             <td style="font-weight: bold;"> <?php echo $this->heure_cons;?></td>
+           </tr>
+          </table>
+
+      </div>
+
+   <!--Accordeon NOUVELLES CONSTANTES-->
+
+     <div style='font-family: police2;font-size: 17px; font-weight: bold;'>Motifs d'admission et Constantes</div>
+        <div style='min-height: 480px;'>
+
+           <?php echo $this->formHidden($form->get('id_patient'));?>
+           <?php echo $this->formHidden($form->get('id_medecin'));?>
+           <?php echo $this->formHidden($form->get('dateonly'));?>
+           <?php echo $this->formHidden($form->get('heure_cons'));?>
+
+     <!-- **************************************************************************************************************** -->
+           <!-- SOUS ACCORDEON MOTIF D'ADMISSION ET CONSTANTES -->
+           <div id="accordionss">
+        <!--**************** LES MOTIFS D ADMISSIONS ************************-->
+              <div style='font-family: police2;font-size: 17px; font-weight: bold;'> Motifs d'admission </div>
+               <div>
+                <p style='color: white; opacity: 0.5;'>
+                   <img id="faces" src='<?php echo $this->basePath().'/images_icons/consult-motif.jpg'?>'  alt="consult-motif" style='float:right; margin-right:5px; margin-top:15px; width:259px; height:300px;'/>
+                </p>
+                <table id="responde">
+
+                     <tr class="form-author">
+                         <th><?php echo $this->formRow($form->get('motif_admission1'));?></th>
+                     </tr>
+
+                     <tr class="form-author" id="motif2">
+                         <th ><?php echo $this->formRow($form->get('motif_admission2'));?></th>
+                     <tr>
+
+                     <tr class="form-author" id="motif3">
+                         <th><?php echo $this->formRow($form->get('motif_admission3'));?></th>
+                     </tr>
+
+                     <tr class="form-author" id="motif4">
+                         <th><?php echo $this->formRow($form->get('motif_admission4'));?></th>
+                     </tr>
+
+                     <tr class="form-author" id="motif5">
+                         <th><?php echo $this->formRow($form->get('motif_admission5'));?></th>
+                     </tr>
+
+                     <tr>
+                         <th id="plus">
+                         <span id="moins_2" ></span>
+                         <span id="leschamps_2" > <a><img style="display: inline; float:left; border:transparent; padding-left:10px;" src='<?php echo $this->basePath().'/images_icons/add.PNG'?>' alt="Constantes" title="Ajouter" /></a></span>
+                         </th>
+                     </tr>
+                </table>
+
+                <table>
+                     <tr>
+                         <th style="width:550px;"></th>
+                         <th style="height:20px; margin-top: 5px; float:right;">
+                             <!-- On cr�e le bouton Valider (permettant la validation des donn�es -->
+                             <div id="bouton_valider_motif">
+                                  <button id='bouton_motif_valider'>Valider</button>
+                             </div>
+                             <!-- On cr�e le bouton MODIFIER (permettant la modification des donn�es -->
+                             <div id="bouton_modifier_motif">
+                                  <button id='bouton_motif_modifier'>Modifier</button>
+                             </div>
+                         </th>
+                     </tr>
+
+                </table>
+               </div>
+          <!--**************** LES CONSTANTES ************************-->
+
+              <div style=' font-family: police2;font-size: 17px; font-weight: bold;'> Constantes </div>
+                <div>
+                 <table  id="respond">
+
+                    <tr class="comment-form-author">
+                        <td><?php echo $this->formRow($form->get('id_cons'));?></td>
+                     	<td><?php echo $this->formRow($form->get('tension'));?></td>
+                    	<td><?php echo $this->formRow($form->get('taille'));?></td>
+                    	<td><?php echo $this->formRow($form->get('bu'));?></td>
+                    </tr>
+                       <!-- GESTION DES ERREURS -->
+                       <tr>
+                           <td></td>
+                           <td> <div id="erreur_tension"></div> </td>
+                           <td> <div id="erreur_taille"></div> </td>
+                           <td> <div id="erreur_bu"></div> </td>
+                       </tr>
+
+                    <tr class="comment-form-author">
+                        <td><?php echo $this->formRow($form->get('date_cons'));?></td>
+                        <td><?php echo $this->formRow($form->get('poids'));?></td>
+                        <td><?php echo $this->formRow($form->get('temperature'));?></td>
+                        <td><?php echo $this->formRow($form->get('glycemie_capillaire'));?></td>
+                    </tr>
+                        <!-- GESTION DES ERREURS -->
+                       <tr>
+                           <td></td>
+                           <td> <div id="erreur_poids"></div> </td>
+                           <td> <div id="erreur_temperature"></div> </td>
+                           <td> <div id="erreur_glycemie"></div> </td>
+                       </tr>
+
+                    <tr class="comment-form-author">
+                        <td><?php echo $this->formRow($form->get('pouls'));?></td>
+                        <td><?php echo $this->formRow($form->get('frequence_respiratoire'));?></td>
+                        <td><?php //echo $this->form->observation;?></td>
+                        <td></td>
+                    </tr>
+                       <!-- GESTION DES ERREURS -->
+                       <tr>
+                           <td> <div id="erreur_pouls"></div> </td>
+                           <td> <div id="erreur_frequence"></div> </td>
+                           <td></td>
+                           <td></td>
+                       </tr>
+
+                    <tr class="comment-form-author">
+                        <td></td>
+                        <td></td>
+                        <th > </th>
+                        <th style="float:right; height:5px; margin-top: 25px; ">
+                           <!-- On cr�e le bouton Valider (permettant la validation des donn�es -->
+                             <div id="bouton_valider_consantes">
+                                  <button id='bouton_constantes_valider'>Valider</button>
+                             </div>
+                             <!-- On cr�e le bouton MODIFIER (permettant la modification des donn�es -->
+                             <div id="bouton_modifier_constantes">
+                                  <button id='bouton_constantes_modifier'>Modifier</button>
+                             </div>
+                        </th>
+                    </tr>
+                 </table>
+                </div>
+            </div>
+     <!-- **************************************************************************************************************** -->
+
+
+     </div>
+</div>
+      <table>
+         <tr>
+           <td style="background-color:#eeeeee;">
+              <div> <button type="submit" name="terminer" id="terminer" style=" margin-left:400px; margin-top: 20px; font-family: police2;font-size: 18px; font-weight: bold;"> Terminer </button> </div>
+           </td>
+           <td style="background-color:#eeeeee;">
+              <div> <button type="submit" id="annuler" style=" margin-right:340px; margin-top: 20px; font-family: police2;font-size: 18px; font-weight: bold;"> Annuler </button> </div>
+           </td>
+         </tr>
+       </table>
+
+                   <!-- POP UP pour Confirmation Annulation -->
+                            <div id="confirmation" title="Confirmation de la suppression" style="display:none;">
+                              <p style="font-size: 16px;">
+                                 <span style="float:left; margin:0 0px 20px 0; ">
+                                 <img src="<?php echo $this->basePath().'/images_icons/warning_16.png';?>" />
+
+                                 Etes-vous s&ucirc;r de vouloir annuler les modifications ?</span>
+                              </p>
+                            </div>
+
+<?php echo $this->form()->closeTag();?>
+
+<script>
+//POUR LE MENU GAUCHE dans -elementgauche.phtml
+$('#plus_naissance').toggle(true);
+$("#naissance").replaceWith("<li id='naissance' style='background:#4a5765;'><a href=''><span style='margin-left:0px; color: #ffffff; font-weight:bold; font-size:18px; font-family:Times New Roman;'> <img style='display: inline;' src='<?php echo $this->basePath().'/images_icons/moins-vert.PNG';?>' alt='Liste' /> Surveillant de service </span></a></li>");
+dep1();
+$('#ajouter_style').css({'font-weight':'bold','color':'white','font-size':'22px'});
+</script>

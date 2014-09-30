@@ -35,16 +35,16 @@
 <?php
 //RECUPERER LES INFOS SUR LE MEDECIN
 
-// $identity = (array) Zend_Auth::getInstance()->getIdentity();
-// if($identity){
-//   $nom = $identity['name'];
-//   $prenom = $identity['prenom'];
-//   $service = $identity['service'];
-// }else{
-//   $nom ='';
-//   $prenom = '';
-//   $service = '';
-// }
+$user = $this->layout()->user;
+if($user){
+  $nom = $user['name'];
+  $prenom = $user['prenom'];
+  $service = $user['service'];
+}else{
+  $nom ='';
+  $prenom = '';
+  $service = '';
+}
 ?>
 
 <body id = "bodbod">
@@ -59,12 +59,12 @@
   <ul class="nav" style="width:100%;">
     <li  class="dropdown" id="" style=" width: 20%;"><a title=""  class="dropdown-toggle">
     <i> <span style="color: white; font-size: 13px;">Service: </span></i>
-    <b class="caret" ></b> <span style="font-size: 18px; color: white; font-family: Times  New Roman;"> <?php //echo $service;?></span></a>
+    <b class="caret" ></b> <span style="font-size: 18px; color: white; font-family: Times  New Roman;"> <?php echo $service;?></span></a>
     </li>
 
     <li  class="dropdown" id="" style=" width: 60%;"><a title="" class="dropdown-toggle">
     <i class="icon icon-user"></i>  <span style="color: white; font-size: 13px;"><i>Bienvenue: </i> M.</span>
-    <b class="caret" ></b> <span style="font-size: 18px; color: white;font-family: Times  New Roman;"><?php //echo $prenom.' '.$nom;?></span></a>
+    <b class="caret" ></b> <span style="font-size: 18px; color: white;font-family: Times  New Roman;"><?php echo $prenom.' '.$nom;?></span></a>
     </li>
 
     <li class="" style="width: 15%;"><a title="" style="" href="<?php echo $this->url('login/process', array('action'=>'logout'));?>">

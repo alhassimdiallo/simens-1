@@ -318,6 +318,7 @@ class FacturationController extends AbstractActionController {
 				) );
 				// var_dump($form);exit();
 				if ($form->isValid ()) {
+					var_dump('test2');exit();
 					$donnees = $form->getData ();
 					// $donnees['date_enregistrement'] = $date_enregistrement;
 					$patientModel->exchangeArray ( $donnees );

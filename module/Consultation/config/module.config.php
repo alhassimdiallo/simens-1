@@ -10,10 +10,11 @@ return array (
 						'consultation' => array (
 								'type' => 'segment',
 								'options' => array (
-										'route' => '/consultation[/][:action][/:id]',
+										'route' => '/consultation[/][:action][/:id_patient]',
 										'constraints' => array (
 												'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
-												'id' => '[0-9]+'
+												'id_patient' => '[0-9]+',
+												//'val' => '[0-9]+'
 										),
 										'defaults' => array (
 												'controller' => 'Consultation\Controller\Consultation',
@@ -31,6 +32,9 @@ return array (
 				),
 				'template_path_stack' => array (
 						'consultation' => __DIR__ . '/../view'
-				)
+				),
+				'strategies' => array(
+						'ViewJsonStrategy',
+				),
 		)
 );
