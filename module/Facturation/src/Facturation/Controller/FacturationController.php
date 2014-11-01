@@ -23,6 +23,7 @@ use Zend\Ldap\Converter\Converter;
 use Zend\Form\View\Helper\FormRow;
 use Zend\Form\View\Helper\FormInput;
 use Facturation\View\Helper\DateHelper;
+use Zend\Debug\Debug;
 
 class FacturationController extends AbstractActionController {
 	protected $patientTable;
@@ -201,6 +202,7 @@ class FacturationController extends AbstractActionController {
 		) );
 	}
 	public function declarerDecesAction() {
+		//Debug::dump($this->birthday2Age('2011-10-10')); exit();
 		$this->layout ()->setTemplate ( 'layout/facturation' );
 		$patient = $this->getPatientTable ();
 		// AFFICHAGE DE LA LISTE DES PATIENTS
@@ -469,13 +471,19 @@ class FacturationController extends AbstractActionController {
 		}
 	}
 	public function birthday2Age($value) {
-		if (! $value instanceof DateTime)
-			$value = new \DateTime ( $value );
-			// $today = new \DateTime ( "now" );
-		$ldap = new Converter ();
-		$test = floor ( $value->sub ( new \DateInterval ( 'P1D' ) )->getTimestamp () / 86400 / 365 * - 1 );
-		// return floor ( intval ( $ldap->toLdapDateTime ( $value->sub ( new \DateInterval ( 'P1D' ) ) ) ) / 86400 / 365 * - 1 );
-		return $test;
+		$date = new \DateTime("now");
+		$date2 = new \DateTime($value);
+		$resultatTab = get_object_vars($date->diff($date2));
+		$nbJours = $resultatTab['days'];
+		$nbAnnees = floor($nbJours / 365);
+		
+		if($nbAnnees == 0){ 
+			return $nbJours.' jours';
+		}
+		else if($nbAnnees == 1){ 
+			return $nbAnnees.' an';
+		}
+		else return $nbAnnees.' ans';
 	}
 	public function lePatientAction() {
 		if ($this->getRequest ()->isPost ()) {
@@ -510,7 +518,7 @@ class FacturationController extends AbstractActionController {
 
 			$html .= "<div id='' style='color: white; opacity: 0.09; float:left; margin-right:20px; margin-left:25px; margin-top:5px;'> <img style='width:105px; height:105px;' src='/simens/public/img/photos_patients/" . $photo . "'></div>";
 
-			$html .= "<script>$('#age_deces').val('" . $this->birthday2Age ( $unPatient->date_naissance ) . " ans');
+			$html .= "<script>$('#age_deces').val('" . $this->birthday2Age ( $unPatient->date_naissance ) . "');
 					         $('#age_deces').css({'background':'#eee','border-bottom-width':'0px','border-top-width':'0px','border-left-width':'0px','border-right-width':'0px','font-weight':'bold','color':'#065d10','font-family': 'Times  New Roman','font-size':'17px'});
 					         $('#age_deces').attr('readonly',true);
 					 </script>"; // Uniquement pour la d�claration du d�c�s

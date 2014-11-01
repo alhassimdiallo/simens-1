@@ -15,7 +15,7 @@ class AjoutDecesForm extends Form{
 				'name' => 'date_deces',
 				'type' => 'Text',
 				'options' => array (
-						'label' => iconv('ISO-8859-1', 'UTF-8','Date du décès')
+						'label' => iconv('ISO-8859-1', 'UTF-8','Date du d&eacute;c&egrave;s')
 				),
 				'attributes'=> array (
 						'id' => 'date_deces'
@@ -26,7 +26,7 @@ class AjoutDecesForm extends Form{
 				'name' => 'heure_deces',
 				'type' => 'Text',
 				'options' => array (
-						'label' => iconv('ISO-8859-1', 'UTF-8','Heure du décès')
+						'label' => iconv('ISO-8859-1', 'UTF-8','Heure du d&eacute;c&egrave;s')
 				),
 				'attributes'=> array (
 						'id' => 'heure_deces'
@@ -37,7 +37,7 @@ class AjoutDecesForm extends Form{
 				'name' => 'age_deces',
 				'type' => 'Text',
 				'options' => array (
-						'label' => iconv('ISO-8859-1', 'UTF-8','Age au décès')
+						'label' => iconv('ISO-8859-1', 'UTF-8','Age au d&eacute;c&egrave;s')
 				),
 				'attributes'=> array (
 						'id' => 'age_deces'
@@ -48,7 +48,7 @@ class AjoutDecesForm extends Form{
 				'name' => 'lieu_deces',
 				'type' => 'Text',
 				'options' => array (
-						'label' => iconv('ISO-8859-1', 'UTF-8','Lieu du décès')
+						'label' => iconv('ISO-8859-1', 'UTF-8','Lieu du d&eacute;c&egrave;s')
 				),
 				'attributes'=> array (
 						'id' => 'lieu_deces'
@@ -59,7 +59,7 @@ class AjoutDecesForm extends Form{
 				'name' => 'circonstances_deces',
 				'type' => 'Textarea',
 				'options' => array (
-						'label' => iconv('ISO-8859-1', 'UTF-8','Circonstances du décès')
+						'label' => iconv('ISO-8859-1', 'UTF-8','Circonstances du d&eacute;c&egrave;s')
 				),
 				'attributes'=> array (
 						'id' => 'circonstances_deces'

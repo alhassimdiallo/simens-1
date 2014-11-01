@@ -1,5 +1,5 @@
 <?php use Facturation\View\Helper\DateHelper;
-echo $this->headLink()->appendStylesheet($this->basePath().'/css/jquery-ui.css');?>
+      echo $this->headLink()->appendStylesheet($this->basePath().'/css/jquery-ui.css');?>
 <?php echo $this->headScript()->appendFile($this->basePath().'/js/jquery-1.9.1.js');?>
 <?php echo $this->headScript()->appendFile($this->basePath().'/js/jquery-ui.js');?>
 
@@ -53,11 +53,11 @@ tr:hover /* Apparence au survol des lignes */
 
 </style>
 
-<div id="accordions">  <!-- couleur bleu du logo//#49afcd-->
+<div id="accordions"> 
 
   <!--Accordeon ETAT CIVIL-->
-    <div style='width:160px; font-family: police2;font-size: 17px; font-weight: bold;'>Etat Civil</div>
-      <div style=' min-height: 345px;'> <!-- div style= "background-color: #f0eee2;"-->
+    <div style='font-family: police2;font-size: 17px; font-weight: bold;'>Etat Civil</div>
+      <div style=' min-height: 345px;'>
 
          <img id="photo" src='<?php echo $this->basePath().'/img/photos_patients/'.$this->image;?>'  alt="Jonathan Verrecchia" style='float:left; margin-right:40px; width:105px; height:105px;'/>
 
