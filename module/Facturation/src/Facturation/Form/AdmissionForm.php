@@ -72,6 +72,9 @@ class AdmissionForm extends Form{
 						'value_options' => array (
 								''=>''
 						)
+				),
+				'attributes' => array (
+						'id' => 'liste_service',
 				)
 		) );
 	}

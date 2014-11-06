@@ -5,7 +5,7 @@
 	  $( "#confirmation" ).dialog({
 	    resizable: false,
 	    height:170,
-	    width:405,
+	    width:435,
 	    autoOpen: false,
 	    modal: true,
 	    buttons: {
@@ -114,7 +114,7 @@
 	
 	$('#liste_service').change(function()
 	{					
-				oTable.fnFilter( this.value );
+		oTable.fnFilter( this.value );
 	});
 	
 	$("tfoot input").keyup( function () {

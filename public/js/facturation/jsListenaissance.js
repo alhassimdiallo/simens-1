@@ -5,7 +5,7 @@
 	  $( "#confirmation" ).dialog({
 	    resizable: false,
 	    height:170,
-	    width:405,
+	    width:435,
 	    autoOpen: false,
 	    modal: true,
 	    buttons: {
@@ -200,7 +200,6 @@
         $.ajax({
             type: 'GET',
             url: chemin ,
-            data: $(this).serialize(),  
             data:'id='+cle,
             success: function(data) {
             	     $("#titre").replaceWith("<div id='titre2' style='font-family: police2; color: green; font-size: 18px; font-weight: bold;'><iS style='font-size: 25px;'>&curren;</iS> MODIFIER LES INFORMATIONS SUR LA NAISSANCE </div>");
@@ -223,7 +222,7 @@
 	
             	 	         $("#terminer").replaceWith("<button id='terminer' style='height:35px;'>Terminer</button>");
             	 	         
-            	 	        // return false;
+            	 	         return false;
             	 	     });
             	    	 /***********************************************************************/
             	    	 

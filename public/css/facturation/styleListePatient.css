@@ -7,7 +7,7 @@ background-color: #fffffa; /*la couleur du champ*/
 
 height: 25px; /*la hauteur du champ input*/
 
-width: 110px; /* la largeur du champ input*/
+width: 100%; /* la largeur du champ input*/
 }
 
 #prenom_ input[type="text"]
@@ -17,7 +17,7 @@ background-color: #fffffa; /*la couleur du champ*/
 
 height: 25px; /*la hauteur du champ input*/
 
-width: 140px; /* la largeur du champ input*/
+width: 100%; /* la largeur du champ input*/
 }
 
 #date_ input[type="text"]
@@ -27,7 +27,7 @@ background-color: #fffffa; /*la couleur du champ*/
 
 height: 25px; /*la hauteur du champ input*/
 
-width: 110px; /* la largeur du champ input*/
+width: 100%; /* la largeur du champ input*/
 }
 
 #sexe_ input[type="text"]
@@ -37,7 +37,7 @@ background-color: #fffffa; /*la couleur du champ*/
 
 height: 25px; /*la hauteur du champ input*/
 
-width: 60px; /* la largeur du champ input*/
+width: 100%; /* la largeur du champ input*/
 }
 
 #adresse_ input[type="text"]
@@ -47,7 +47,7 @@ background-color: #fffffa; /*la couleur du champ*/
 
 height: 25px; /*la hauteur du champ input*/
 
-width: 290px; /* la largeur du champ input*/
+width: 100%; /* la largeur du champ input*/
 }
 
 #nationalite_ input[type="text"]
@@ -57,7 +57,7 @@ background-color: #fffffa; /*la couleur du champ*/
 
 height: 25px; /*la hauteur du champ input*/
 
-width: 130px; /* la largeur du champ input*/
+width: 100%; /* la largeur du champ input*/
 }
 
 #effectuer_ input[type="text"]
@@ -67,42 +67,42 @@ background-color: #fffffa; /*la couleur du champ*/
 
 height: 25px; /*la hauteur du champ input*/
 
-width: 90px; /* la largeur du champ input*/
+width: 100%; /* la largeur du champ input*/
 }
 
 /* EN TETE*/
 #nom
 {
-	width: 110px;
+	width: 13%;
 }
 
 #prenom
 {
-	width: 140px;
+	width: 15%;
 }
 
 #date
 {
-	width: 110px;
+	width: 12%;
 }
 #sexe
 {
-	width: 60px;
+	width: 7%;
 }
 
 #adresse
 {
-	width: 290px;
+	width: 28%;
 }
 
 #nationalite
 {
-	width: 130px;
+	width: 15%;
 }
 
 #effectuer
 {
-	width: 90px;
+	width: 10%;
 }
 
 /* STYLE POUR LA LISTE DE SELECTION DE LA TABLE*/
@@ -171,7 +171,7 @@ div .dataTables_paginate
 }
 
 #contenu {
-    background: #fff; max-height: 100%;
+    background: #fff; max-height: 3000px;
     border: 3px solid #ccc;
     border-bottom-right-radius: 10px;
     border-bottom-left-radius: 10px;

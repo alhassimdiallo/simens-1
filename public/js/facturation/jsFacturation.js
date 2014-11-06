@@ -3,7 +3,7 @@ $(function() {
 	//GESTION DES ACCORDEONS
 	//GESTION DES ACCORDEONS
 	//$( "#accordionss" ).accordion(); //sous accordeon
-      $( "#accordions" ).accordion();
+    //$( "#accordions" ).accordion();
     
 /********************************************************************************************/
 /********************************************************************************************/ 
@@ -97,7 +97,7 @@ $(function() {
             var       email = $("#email");
             var  profession = $("#profession");
     	
-    $( "button" ).button(); // APPLICATION DU STYLE POUR LES BOUTONS
+    //$( "button" ).button(); // APPLICATION DU STYLE POUR LES BOUTONS
     
     //Au debut on cache le bouton modifier et on affiche le bouton valider
   	$( "#bouton_donnees_valider" ).toggle(true);

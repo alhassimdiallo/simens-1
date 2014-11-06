@@ -46,7 +46,7 @@ class PatientForm extends Form {
 				'name' => 'prenom',
 				'type' => 'Text',
 				'options' => array (
-						'label' => iconv ( 'ISO-8859-1', 'UTF-8', 'Prénom' )
+						'label' => iconv ( 'ISO-8859-1', 'UTF-8', 'Pr&eacute;nom' )
 				),
 				'attributes' => array (
 						'id' => 'prenom'
@@ -99,7 +99,7 @@ class PatientForm extends Form {
 				'name' => 'nationalite_origine',
 				'type' => 'Zend\Form\Element\Select',
 				'options' => array (
-						'label' => 'Nationalité origine',
+						'label' => 'Nationalit&eacute; origine',
 						'value_options' => array (
 								'' => ''
 						)
@@ -115,7 +115,7 @@ class PatientForm extends Form {
 				'name' => 'nationalite_actuelle',
 				'type' => 'Zend\Form\Element\Select',
 				'options' => array (
-						'label' => 'Nationalité actuelle',
+						'label' => 'Nationalit&eacute; actuelle',
 						'value_options' => array (
 								'' => ''
 						)
@@ -141,7 +141,7 @@ class PatientForm extends Form {
 				'name' => 'telephone',
 				'type' => 'Text',
 				'options' => array (
-						'label' => iconv ( 'ISO-8859-1', 'UTF-8', 'Téléphone' )
+						'label' => iconv ( 'ISO-8859-1', 'UTF-8', 'T&eacute;l&eacute;phone' )
 				),
 				'attributes' => array (
 						'id' => 'telephone'

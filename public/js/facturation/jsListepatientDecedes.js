@@ -5,7 +5,7 @@
 	  $( "#confirmation" ).dialog({
 	    resizable: false,
 	    height:170,
-	    width:405,
+	    width:435,
 	    autoOpen: false,
 	    modal: true,
 	    buttons: {
@@ -180,7 +180,7 @@
 	
             	 	         $("#terminer_modif_deces").replaceWith("<button id='terminer_modif_deces' style='height:35px;'>Terminer</button>");
 
-            	 	         //return false;
+            	 	         return false;
             	 	     });
             	    	 /****************************************************************/
             	    	 

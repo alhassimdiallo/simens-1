@@ -7,7 +7,7 @@ background-color: #fffffa; /*la couleur du champ*/
 
 height: 25px; /*la hauteur du champ input*/
 
-width: 110px; /* la largeur du champ input*/
+width: 100%;/*110px; /* la largeur du champ input*/
 }
 
 #prenom_ input[type="text"]
@@ -17,7 +17,7 @@ background-color: #fffffa; /*la couleur du champ*/
 
 height: 25px; /*la hauteur du champ input*/
 
-width: 140px; /* la largeur du champ input*/
+width: 100%;/*140px; /* la largeur du champ input*/
 }
 
 #date_ input[type="text"]
@@ -27,7 +27,7 @@ background-color: #fffffa; /*la couleur du champ*/
 
 height: 25px; /*la hauteur du champ input*/
 
-width: 140px; /* la largeur du champ input*/
+width: 100%;/*140px; /* la largeur du champ input*/
 }
 
 #sexe_ input[type="text"]
@@ -37,7 +37,7 @@ background-color: #fffffa; /*la couleur du champ*/
 
 height: 25px; /*la hauteur du champ input*/
 
-width: 70px; /* la largeur du champ input*/
+width: 100%;/*70px; /* la largeur du champ input*/
 }
 
 #adresse_ input[type="text"]
@@ -47,7 +47,7 @@ background-color: #fffffa; /*la couleur du champ*/
 
 height: 25px; /*la hauteur du champ input*/
 
-width: 310px; /* la largeur du champ input*/
+width: 100%;/*310px; /* la largeur du champ input*/
 }
 
 #idpatient_ input[type="text"]
@@ -57,7 +57,7 @@ background-color: #fffffa; /*la couleur du champ*/
 
 height: 25px; /*la hauteur du champ input*/
 
-width: 90px; /* la largeur du champ input*/
+width: 100%;/*90px; /* la largeur du champ input*/
 }
 
 #effectuer_ input[type="text"]
@@ -67,7 +67,7 @@ background-color: #fffffa; /*la couleur du champ*/
 
 height: 25px; /*la hauteur du champ input*/
 
-width: 100px; /* la largeur du champ input*/
+width: 100%;/*100px; /* la largeur du champ input*/
 }
 
 /* STYLE POUR LA LISTE DE SELECTION DE LA TABLE*/
@@ -295,7 +295,7 @@ display: inline-block;
 
 font-size: 13px;
 
-left: 10px; /*déplacer le label*/
+left: 0px; /*déplacer le label*/
 
 min-width: 60px;
 
@@ -407,8 +407,6 @@ z-index: 1;
 	
 	border-right-color: #cccccc;
 	
-	float: left;
-
     margin-left: 0px;
 	
 	margin-right: 25px;
@@ -503,11 +501,11 @@ box-shadow: 0pt 1px 3px rgba(204, 204, 204, 0.95) inset;
 position: relative;
 
 /* le texte des champs*/
-padding-top: 10px;
+padding-top: 5px;
 
 padding-right: 10px;
 
-padding-bottom: 10px;
+padding-bottom: 5px;
 
 margin-bottom : 15px;
 
@@ -522,12 +520,9 @@ display: block;
 
 height: 30px; /*la hauteur du champ input*/
 
-width: 225px; /* la largeur du champ input*/
+width: 87%; /*225px; /* la largeur du champ input*/
 
-
-
-/*z-index: 5;*/
-
+font-size: 16px;
 }
 
 #form_patient select
@@ -537,7 +532,7 @@ display: block;
 
 height: 30px;  /*la hauteur du champ input*/
 
-width: 225px;   /*la largeur du champ input*/
+width: 87%;/*225px;   /*la largeur du champ input*/
 
 }
 

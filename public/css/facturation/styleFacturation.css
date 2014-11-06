@@ -1,3 +1,28 @@
+#titre{
+	height: 30px;
+    border: 2px solid #ccc;
+	border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom: 2px solid #cccccc;
+    background : #fff;
+    padding-left: 10px;
+    padding-bottom: 5px;
+    padding-top : 13px;
+    box-shadow: 0pt 0pt 12px rgba(0, 0, 0, 0.5);
+}
+
+#contenu {
+    background: #fff; height: 420px;
+    border: 2px solid #ccc ;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-top: 2px solid #cccccc;
+	border-bottom: 2px solid #cccccc;
+    padding-left: 25px;
+	padding-top: 20px;
+    box-shadow: 0pt 5pt 12px rgba(0, 0, 0, 0.5);
+}
+
 #photo, #modifier_photo  /*photo*/
 {
 
@@ -145,7 +170,7 @@ display: inline-block;
 
 font-size: 13px;
 
-left: 10px; /*d�placer le label*/
+left: 0px; /*d�placer le label*/
 
 min-width: 60px;
 
@@ -162,6 +187,8 @@ position: relative;
 top: 5px;
 
 z-index: 1;
+         
+font-size: 14px;
 
 }
 
@@ -263,8 +290,6 @@ z-index: 1;
 	
 	margin-right: 25px;
 	
-	width: 180px;
-
 	/*enlever l'icone select*/
     /****-webkit-appearance: none;*****/
 }
@@ -278,7 +303,7 @@ z-index: 1;
    width: 100px;
 }
 
-#form_patient input[type="text"], #form_patient textarea
+#form_patient input[type="text"], #form_patient textarea, #form_patient input[type="email"]
 
 { /*le input ou le textarea*/
 
@@ -353,11 +378,11 @@ box-shadow: 0pt 1px 3px rgba(204, 204, 204, 0.95) inset;
 position: relative;
 
 /* le texte des champs*/
-padding-top: 10px;
+padding-top: 5px;
 
 padding-right: 10px;
 
-padding-bottom: 10px;
+padding-bottom: 5px;
 
 margin-bottom : 15px;
 
@@ -370,9 +395,9 @@ display: block;
 
 height: 30px; /*la hauteur du champ input*/
 
-width: 225px; /* la largeur du champ input*/
+width: 87%;/*225px; /* la largeur du champ input*/
 
-/*z-index: 5;*/
+font-size: 16px;
 
 }
 
@@ -383,12 +408,18 @@ display: block;
 
 height: 30px;  /*la hauteur du champ input*/
 
-width: 225px;   /*la largeur du champ input*/
+width: 87%;/*225px;   /*la largeur du champ input*/
 
 }
 
 #form_patient textarea
 {
+	height: 30px;
+}
+
+#form_patient input[type='email']
+{
+	width: 88%;
 	height: 30px;
 }
 
@@ -492,18 +523,19 @@ tr:hover /* Apparence au survol des lignes */
 #thoughtbot button
 {
     width:auto;
-    padding:5px 0;
-    text-align:center;
+    padding:2px 0;
+    text-align: center;
     display: inline-block;
     float:center;
-    margin:0 8px 0 0;
+    margin:0 5px 0 0;
     border-radius:7px;
     font-size: 0.85em;
 	font-weight: bold;
-    width:80px;
+    width:100px;
+	height: 40px;
     color:#000;
     font-family: Arial,sans-serif;
-	box-shadow: 0 0 1px rgba( 0, 0, 0, 0.2), 0 -1px 0 rgba( 255, 255, 255, 0.1);
+	box-shadow: 0 0 1px rgba( 0, 0, 0, 0.8), 0 -1px 0 rgba( 255, 255, 255, 0.1);
     text-shadow: 0px 1px 0px rgba( 255, 255, 255, 0.3);
 }
 

@@ -1,17 +1,10 @@
-<?php //echo $this->headLink()->appendStylesheet($this->basePath().'/css/jquery-ui.css');?>
-<?php //echo $this->headScript()->appendFile($this->basePath().'/js/jquery-ui.js');?>
 <!-- MES STYLES -->
 <?php echo $this->headLink()->appendStylesheet($this->basePath().'/css/facturation/styleListePatient.css');?>
 
 <!-- MES JS -->
 <?php echo $this->headScript()->appendFile($this->basePath().'/js/facturation/jsListepatient.js');?>
 
-
-<?php //$Control = new Facturation_Model_Helpers_Aides();?>
-
-
-<div id="titre"
-	style='font-family: police2; text-decoration: none; color: green; font-size: 20px; font-weight: bold;'>
+<div id="titre" style='font-family: police2; text-decoration: none; color: green; font-size: 20px; font-weight: bold; padding-left:20px;'>
 	<iS style='font-size: 25px;'>&curren;</iS>
 	LISTE DES PATIENTS
 </div>
@@ -22,7 +15,7 @@
 
 			<table class="table table-bordered tab_list_mini" id="patient">
 				<thead>
-					<tr style="height: 50px;">
+					<tr style="height: 50px; width:100%;">
 						<th id="nom" style='cursor: pointer;'>Nom</th>
 						<th id="prenom" style='cursor: pointer;'>Prenom</th>
 						<th id="date" style='cursor: pointer;'>D. naissance</th>
@@ -41,19 +34,19 @@
 
 				<tfoot id="foot" class="foot_style">
 					<tr>
-						<th id="nom_"><input type="text" name="search_browser"
+						<th id="nom_" style='width: 13%;'><input type="text" name="search_browser"
 							value=" Nom" class="search_init" /></th>
-						<th id="prenom_"><input type="text" name="search_browser"
+						<th id="prenom_" style='width: 15%;'><input type="text" name="search_browser"
 							value=" Pr&eacute;nom" class="search_init" /></th>
-						<th id="date_"><input type="text" name="search_browser"
+						<th id="date_" style='width: 12%;'><input type="text" name="search_browser"
 							value=" Date naissance" class="search_init" /></th>
-						<th id="sexe_"><input type="text" name="search_browser"
+						<th id="sexe_" style='width: 7%;'><input type="text" name="search_browser"
 							value=" Sexe" class="search_init" /></th>
-						<th id="adresse_"><input type="text" name="search_browser"
+						<th id="adresse_" style='width: 28%;'><input type="text" name="search_browser"
 							value=" Adresse" class="search_init" /></th>
-						<th id="nationalite_"><input type="text" name="search_browser"
+						<th id="nationalite_" style='width: 15%;'><input type="text" name="search_browser"
 							value=" Nationalite" class="search_init" /></th>
-						<th id="effectuer_"><input type="hidden" name="search_browser"
+						<th id="effectuer_" style='width: 10%;'><input type="hidden" name="search_browser"
 							value="" class="" /></th>
 
 					</tr>

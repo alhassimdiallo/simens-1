@@ -119,18 +119,37 @@ $('#precedent').click(function(){
      
      $("#terminerdeces").replaceWith("<button id='terminerdeces' style='height:35px;'>Terminer</button>");
      
-    // return false;
+     return false;
 });
 }
 
 function declarer(id){
 	
 	$("#terminerdeces").replaceWith("<button id='terminerdeces' style='height:35px;'>Terminer</button>");
-	$('#date_deces').datepicker({
-	    dateFormat: 'yy-mm-dd',
-	    showAnim : 'bounce',
-	    yearRange : '2013:2015',
-	    
+	$('#date_deces').datepicker($.datepicker.regional['fr'] = {
+			closeText: 'Fermer',
+			changeYear: true,
+			yearRange: 'c-80:c',
+			prevText: '&#x3c;Préc',
+			nextText: 'Suiv&#x3e;',
+			currentText: 'Courant',
+			monthNames: ['Janvier','Fevrier','Mars','Avril','Mai','Juin',
+			'Juillet','Aout','Septembre','Octobre','Novembre','Decembre'],
+			monthNamesShort: ['Jan','Fev','Mar','Avr','Mai','Jun',
+			'Jul','Aout','Sep','Oct','Nov','Dec'],
+			dayNames: ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'],
+			dayNamesShort: ['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'],
+			dayNamesMin: ['Di','Lu','Ma','Me','Je','Ve','Sa'],
+			weekHeader: 'Sm',
+			dateFormat: 'dd/mm/yy',
+			firstDay: 1,
+			isRTL: false,
+			showMonthAfterYear: false,
+			yearRange: '1990:2015',
+			showAnim : 'bounce',
+			changeMonth: true,
+			changeYear: true,
+			yearSuffix: ''
 	});
 	
     $("#titre").replaceWith("<div id='titre2' style='font-family: police2; color: green; font-size: 18px; font-weight: bold;'><iS style='font-size: 25px;'>&curren;</iS> D&Eacute;CLARER LE D&Eacute;C&Egrave;S </div>");	

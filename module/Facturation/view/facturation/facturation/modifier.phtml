@@ -1,7 +1,3 @@
-<?php echo $this->headLink()->appendStylesheet($this->basePath().'/css/jquery-ui.css');?>
-<?php echo $this->headScript()->appendFile($this->basePath().'/js/jquery-1.9.1.js');?>
-<?php echo $this->headScript()->appendFile($this->basePath().'/js/jquery-ui.js');?>
-
 <!-- MES STYLES -->
 <?php echo $this->headLink()->appendStylesheet($this->basePath().'/css/facturation/styleFacturation.css');?>
 
@@ -10,9 +6,10 @@
 
 <form enctype="multipart/form-data"	action="<?php echo $this->url('facturation', array('action'=>'enregistrement-modification'));?>" method="post">
 
-        <div id="accordions">
-             <div style='width:160px; font-family: police2;font-size: 17px; font-weight: bold;'>Etat civil du patient</div>
-             <div style=' max-height: 400px;'>
+<div id="titre" style='font-family: police2; text-decoration:none; color: green; font-size: 18px; font-weight: bold; padding-left: 30px;'><iS style='font-size: 25px;'>&curren;</iS> ETAT CIVIL DU PATIENT</div>
+<div id="contenu" >
+
+	<div style='width: 100%;'>
 
              <div class="photo_patient" id='photo'>
                   <img id="modifier_photo" src="<?php echo $this->basePath().'/img/photos_patients/'.$this->photo.'.jpg'?>" style=' margin-left:-10px; margin-top:-10px; width:105px; height:105px;'/>
@@ -21,6 +18,7 @@
              </div>
              <?php echo $this->formHidden($this->form->get('id_personne'));?>
 
+             <div style='width: 80%; height: 150px; float:left;'>
              <table id="form_patient" style="float: left;">
 
                   <tr class="comment-form-patient">
@@ -49,6 +47,10 @@
                   </tr>
 
             </table>
+            
+            </div>
+		
+	     <div style='width: 3%; height: 150px; float:left;'>
 
             <div class="barre_vertical"></div>
 
@@ -68,27 +70,33 @@
                 <hass> <input alt="modifer_donnees" title="modifer les donnees" name="modifer_donnees" id="modifer_donnees"> </hass>
             </div>
 
-
-            <table>
-                <tr>
-                   <th style="width:840px;"></th>
-                   <th style="height:20px; margin-bottom: 15px; margin-top: 25px; float:right;">
-                       <!-- On cr�e le bouton Valider (permettant la validation des donn�es -->
-                       <div id="bouton_valider_donnees">
-                           <button id='bouton_donnees_valider'>Valider</button>
-                       </div>
-                       <!-- On cr�e le bouton MODIFIER (permettant la modification des donn�es -->
-                       <div id="bouton_modifier_donnees">
-                           <button id='bouton_donnees_modifier'>Modifier</button>
-                       </div>
-                   </th>
-                </tr>
-
-            </table>
-
-              </div>
+            </div>
          </div>
+      <table style="margin-top: 365px; width: 100%;  height: 12px;">
+	  
+	  <tr style="">
+	  <td style="width: 42%;"></td>
+	  <td style="width: 10%;" id="thoughtbot" >
+		<button
+			style="font-family: police2; font-size: 17px; font-weight: bold;">
+			Annuler
+		</button>
+	  </td>
+	  
+	  <td style="width: 10%;" id="thoughtbot">
+		<button type="submit" name="terminer" id="terminer"
+			style=" font-family: police2; font-size: 17px; font-weight: bold;">
+			Terminer
+		</button>
+	  </td>
+	  
+	  <td style="width: 38%;"></td>
+	  
+	  </tr>
+      </table>
 
+</div>
+         
          <!-- POP UP pour Confirmation Suppression -->
                             <div id="confirmation" title="Confirmation de la suppression" style="display:none;">
                               <p style="font-size: 16px;">
@@ -98,19 +106,6 @@
                                  Etes-vous s&ucirc;r de vouloir supprimer la photo ?</span>
                               </p>
                             </div>
-
-
-         <!-- LES BOUTONS "TERMINER" ou "VALIDER" -->
-         <table>
-         <tr>
-           <td style="background-color:#eeeeee;">
-              <div> <button type="submit" name="terminer" id="terminer" style=" margin-left:400px; margin-top: 20px; font-family: police2;font-size: 18px; font-weight: bold;"> Terminer </button> </div>
-           </td>
-           <td style="background-color:#eeeeee;">
-              <div> <button type="submit" name="annuler" id="annuler" style=" margin-right:340px; margin-top: 20px; font-family: police2;font-size: 18px; font-weight: bold;"> Annuler </button> </div>
-           </td>
-         </tr>
-       </table>
 
 
 </form>

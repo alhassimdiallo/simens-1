@@ -172,81 +172,19 @@ class PatientTable {
 		}
 
 		/*
-		 * Filtering
-		* NOTE this does not match the built-in DataTables filtering which does it
-		* word by word on any field. It's possible to do here, but concerned about efficiency
-		* on very large tables, and MySQL's regex functionality is very limited
-		*/
-// 		$sOrWhere = array();
-// 		if ( $_GET['sSearch'] != "" )
-// 		{
-// 			for ( $i=0 ; $i<count($aColumns) ; $i++ )
-// 			{
-// 				$column = $db->getPlatform()->quoteIdentifier($aColumns[$i]);
-// 				$sOrWhere[$i] = $this->quoteInto("$column LIKE ?", "%".$_GET['sSearch']."%", $db->getPlatform());
-// 			}
-// 		}
-
-// 		$sWhere = array();
-// 		$w = 0;
-// 		for ( $i=0 ; $i<count($aColumns) ; $i++ )
-// 		{
-// 			if ( $_GET['bSearchable_'.$i] == "true" && $_GET['sSearch_'.$i] != '' )
-// 			{
-// 				$column = $db->getPlatform()->quoteIdentifier($aColumns[$i]);
-// 				$sWhere[$w++] = $this->quoteInto("$column LIKE ?", "%".$_GET['sSearch_'.$i]."%", $db->getPlatform());
-// 			}
-// 		}
-
-		/*
 		 * SQL queries
 		*/
 		$sql = new Sql($db);
 		$sQuery = $sql->select()
 		->from(array('pat' => 'patient'))->columns(array('Nom'=>'NOM','Prenom'=>'PRENOM','Datenaissance'=>'DATE_NAISSANCE','Sexe'=>'SEXE','Adresse'=>'ADRESSE','Nationalite'=>'NATIONALITE_ACTUELLE','Taille'=>'TAILLE','id'=>'ID_PERSONNE'));
-		//->0joinLeft(array('u'=> 'utilisateurs'),"u.id=iu.utilisateur_id",array('id','loginUtilisateur'));
-		//print $sQuery; exit;
-// 		if (count($sOrWhere) > 0){
-// 			for ( $i=0 ; $i<count($sOrWhere) ; $i++ )
-// 			{
-// 				$sQuery->where($sOrWhere[$i]);
-// 			}
-// 			$where = $sQuery->getRawState('where');
-// 			$sQuery->reset('where')
-// 			->where(new Expression(implode('', $where)));
-// 		}
-
-// 		for ( $i=0 ; $i<count($sWhere) ; $i++ )
-// 		{
-// 			$sQuery->where($sWhere[$i]);
-// 		}
-
-		// 		print $sQuery;
-
+	
 		/* Data set length after filtering */
 		$stat = $sql->prepareStatementForSqlObject($sQuery);
 		$rResultFt = $stat->execute();
 		$iFilteredTotal = count($rResultFt);
 
-		/*
-		 * Get data to display
-		*/
-// 		$sQuery->order($sOrder);
-// 		if (count($sLimit) > 0){
-// 			$sQuery->limit($sLimit[0]);
-// 			$sQuery->offset($sLimit[1]);
-// 		}
-// 		//$stat1 = $sql->prepareStatementForSqlObject($sQuery);
 		$rResult = $rResultFt;
 
-		/* Total data set length */
-		// 		$sQuery = $db->select()
-		// 		->from('hospitalisation', "count($sIndexColumn)");
-		// 		$iTotal = $db->fetchOne($sQuery);
-		//print($sQuery); exit;
-		/*
-		 * Output
-		*/
 		$output = array(
 				//"sEcho" => intval($_GET['sEcho']),
 				//"iTotalRecords" => $iTotal,
@@ -258,7 +196,6 @@ class PatientTable {
 		 * $Control pour convertir la date en fran�ais
 		 */
 		$Control = new DateHelper();
-
 
 		/*
 		 * Pr�parer la liste
@@ -272,7 +209,7 @@ class PatientTable {
 				{
 					/* General output */
 					if ($aColumns[$i] == 'Nom'){
-						$row[] = "<khass id='nomMaj' style='color: rede;'>".$aRow[ $aColumns[$i]]."</khass>";
+						$row[] = "<khass id='nomMaj'>".$aRow[ $aColumns[$i]]."</khass>";
 					}
 
 				    else if ($aColumns[$i] == 'Datenaissance') {
@@ -285,10 +222,10 @@ class PatientTable {
 
 					else if ($aColumns[$i] == 'id') {
 						$html ="<a href='/simens/public/facturation/info-patient/id_patient/".$aRow[ $aColumns[$i] ]."'>";
-						$html .="<img style='display: inline;' src='/simens/public/images_icons/vue.PNG' title='d&eacute;tails'></a>&nbsp;&nbsp;&nbsp;";
+						$html .="<img style='display: inline; margin-right: 15%;' src='/simens/public/images_icons/vue.PNG' title='d&eacute;tails'></a>";
 
 						$html .= "<a href='/simens/public/facturation/modifier/id_patient/".$aRow[ $aColumns[$i] ]."'>";
-						$html .="<img style='display: inline;' src='/simens/public/images_icons/modifier.PNG' title='Modifier'></a>&nbsp;&nbsp;&nbsp;";
+						$html .="<img style='display: inline; margin-right: 15%;' src='/simens/public/images_icons/modifier.PNG' title='Modifier'></a>";
 
 						$html .= "<a href='javascript:envoyer(".$aRow[ $aColumns[$i] ].")'>";
 						$html .="<img style='display: inline;' src='/simens/public/images_icons/trash_16.PNG' title='Supprimer'></a>";
@@ -304,7 +241,6 @@ class PatientTable {
 			}
 			$output['aaData'][] = $row;
 		}
-		//var_dump($output);exit();
 		return $output;
 	}
 	public function tousPatientsAdmis($service) {

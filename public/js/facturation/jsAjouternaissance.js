@@ -107,7 +107,7 @@ function animation(){
 $('#ajouter_naissance').toggle(false);
 
 $('#precedent').click(function(){
-	$("#titre2").replaceWith("<div id='titre' style='font-family: police2; color: green; font-size: 18px; font-weight: bold;'><iS style='font-size: 25px;'>&curren;</iS> RECHERCHER LA MAMAN </div>");	
+	$("#titre2").replaceWith("<div id='titre' style='font-family: police2; color: green; font-size: 18px; font-weight: bold; padding-left: 30px;'><iS style='font-size: 25px; '>&curren;</iS> RECHERCHER LA MAMAN </div>");	
     
 	$('#contenu').animate({
         height : 'toggle'
@@ -153,7 +153,7 @@ function ajouternaiss(id){
 	);
 	
 	
-    $("#titre").replaceWith("<div id='titre2' style='font-family: police2; color: green; font-size: 18px; font-weight: bold;'><iS style='font-size: 25px;'>&curren;</iS> ETAT CIVIL DE L'ENFANT </div>");	
+    $("#titre").replaceWith("<div id='titre2' style='font-family: police2; color: green; font-size: 18px; font-weight: bold; padding-left: 30px;'><iS style='font-size: 25px;'>&curren;</iS> ETAT CIVIL DE L'ENFANT </div>");	
 
     //R�cup�ration des donn�es de la maman
     var cle = id;
@@ -161,7 +161,6 @@ function ajouternaiss(id){
     $.ajax({
         type: 'POST',
         url: chemin ,
-        /*data: $(this).serialize(),*/  
         data:'id='+cle,
         success: function(data) {    
         	    var result = jQuery.parseJSON(data);  

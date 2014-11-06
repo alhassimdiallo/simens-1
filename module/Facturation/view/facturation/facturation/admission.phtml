@@ -12,12 +12,12 @@ $Control = new DateHelper();?>
 		<table style='width:95%; margin-left: 10px; align:center' class="table table-bordered tab_list_mini" id="patient">
 			<thead >
 			    <tr >
-				    <th id="idpatient_"><input type="text" name="search_browser" value=" ID_Patient" class="search_init" /></th>
-					<th id="nom_"><input type="text" name="search_browser" value=" Nom" class="search_init" /></th>
-					<th id="prenom_"><input type="text" name="search_browser" value=" Prenom" class="search_init" /></th>
-					<th id="date_"><input type="text" name="search_browser" value=" Date naissance" class="search_init" /></th>
-					<th id="adresse_"><input type="text" name="search_browser" value=" Adresse" class="search_init" /></th>
-					<th id="effectuer_"><input type="hidden" name="search_browser" value="" class="" />Option</th>
+				    <th id="idpatient_" style='width: 10%;'><input type="text" name="search_browser" value=" ID_Patient" class="search_init" /></th>
+					<th id="nom_" style='width: 15%;'><input type="text" name="search_browser" value=" Nom" class="search_init" /></th>
+					<th id="prenom_" style='width: 17%;'><input type="text" name="search_browser" value=" Prenom" class="search_init" /></th>
+					<th id="date_" style='width: 13%;'><input type="text" name="search_browser" value=" Date naissance" class="search_init" /></th>
+					<th id="adresse_" style='width: 40%;'><input type="text" name="search_browser" value=" Adresse" class="search_init" /></th>
+					<th id="effectuer_" style='width: 5%;'><input type="hidden" name="search_browser" value="" class="" />Option</th>
 
 				</tr>
 
@@ -87,23 +87,32 @@ initialisation();
 		  <div id="barre_separateur">
 		  </div>
 
-		  <div id="info_bebe">
-               <div style="float:left; margin-left:40px; margin-top:25px; margin-right:145px;">
+		  <div id="info_bebe" style='width: 100%; margin-top:10px;'>
+               <div style="float:left; width:18%; height:5%;">
 		       </div>
-		       <table id="form_patient" style=" float:left; margin-top:15px;">
+		       
+		       <div style='width: 77%; float:left;'>
+		       <table id="form_patient" style="width:100%;">
 		       <?php $form = $this->form ;
 		       $form->prepare();
 		       echo $this->form()->openTag($form);
 		       ?>
-		             <tr>
-		                 <td class="comment-form-patient"><?php echo $this->formRow($form->get('numero'))?></td>
-		                 <td class="comment-form-patient"><?php echo $this->formRow($form->get('service'))?></td>
-		                 <td class="comment-form-patient"><?php echo $this->formRow($form->get('montant'))?></td>
+		             <tr style='width: 100%;'>
+		                 <td class="comment-form-patient" style='width: 33%;'><?php echo $this->formRow($form->get('numero'))?></td>
+		                 <td class="comment-form-patient" style='width: 33%;'><?php echo $this->formRow($form->get('service'))?></td>
+		                 <td class="comment-form-patient" style='width: 33%;'><?php echo $this->formRow($form->get('montant'))?></td>
 		             </tr>
 		      <?php echo $this->form()->closeTag(); ?>
 		       </table>
+		       </div>
+		       <div style="float:left; width:5%;">
+		       </div>
+		  </div>
 
-               <div id="terminer_annuler">
+		  <div style='width: 90%;'>
+		       <div style='width: 40%;'></div>
+		       <div style='width: 20%;'>
+                  <div id="terminer_annuler">
                     <div class="block" id="thoughtbot">
                        <button id="termineradmission" style=" height:35px; ">Terminer</button>
                     </div>
@@ -111,10 +120,11 @@ initialisation();
                     <div class="block" id="thoughtbot">
                        <button type="submit" name="annuler" id="annuler" style=" height:35px; ">Annuler</button>
                     </div>
-               </div>
-
-		  </div>
-
+                  </div>
+                </div>
+                <div style='width: 40%;'></div>
+           </div>
+		  
     </div>
 
 <script>

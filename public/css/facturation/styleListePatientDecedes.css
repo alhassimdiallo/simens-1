@@ -7,7 +7,7 @@ background-color: #fffffa; /*la couleur du champ*/
 
 height: 25px; /*la hauteur du champ input*/
 
-width: 110px; /* la largeur du champ input*/
+width: 100%; /* la largeur du champ input*/
 }
 
 #prenom_ input[type="text"]
@@ -17,7 +17,7 @@ background-color: #fffffa; /*la couleur du champ*/
 
 height: 25px; /*la hauteur du champ input*/
 
-width: 140px; /* la largeur du champ input*/
+width: 100%; /* la largeur du champ input*/
 }
 
 #date_ input[type="text"]
@@ -27,7 +27,7 @@ background-color: #fffffa; /*la couleur du champ*/
 
 height: 25px; /*la hauteur du champ input*/
 
-width: 105px; /* la largeur du champ input*/
+width: 100%; /* la largeur du champ input*/
 }
 
 #sexe_ input[type="text"]
@@ -37,7 +37,7 @@ background-color: #fffffa; /*la couleur du champ*/
 
 height: 25px; /*la hauteur du champ input*/
 
-width: 55px; /* la largeur du champ input*/
+width: 100%; /* la largeur du champ input*/
 }
 
 #adresse_ input[type="text"]
@@ -47,7 +47,7 @@ background-color: #fffffa; /*la couleur du champ*/
 
 height: 25px; /*la hauteur du champ input*/
 
-width: 280px; /* la largeur du champ input*/
+width: 100%; /* la largeur du champ input*/
 }
 
 #nationalite_ input[type="text"]
@@ -57,7 +57,7 @@ background-color: #fffffa; /*la couleur du champ*/
 
 height: 25px; /*la hauteur du champ input*/
 
-width: 130px; /* la largeur du champ input*/
+width: 100%; /* la largeur du champ input*/
 }
 
 #effectuer_ input[type="text"]
@@ -67,43 +67,44 @@ background-color: #fffffa; /*la couleur du champ*/
 
 height: 25px; /*la hauteur du champ input*/
 
-width: 120px; /* la largeur du champ input*/
+width: 100%; /* la largeur du champ input*/
 }
 
 /* EN TETE*/
-#_nom
+#nom
 {
-	width: 110px;
+	width: 13%;
 }
 
-#_prenom
+#prenom
 {
-	width: 140px;
+	width: 15%;
 }
 
-#_date
+#date
 {
-	width: 105px;
+	width: 12%;
 }
-#_sexe
+#sexe
 {
-	width: 55px;
-}
-
-#_adresse
-{
-	width: 280px;
+	width: 7%;
 }
 
-#_nationalite
+#adresse
 {
-	width: 130px;
+	width: 28%;
 }
 
-#__effectuer
+#nationalite
 {
-	width: 120px;
+	width: 15%;
 }
+
+#effectuer
+{
+	width: 10%;
+}
+
 
 /* STYLE POUR LA LISTE DE SELECTION DE LA TABLE*/
 #listeDataTable{
@@ -334,22 +335,22 @@ p{
 }
 
 #barre_vertical{
-	width:2px;
-    height: 170px;
+	width: 2px;
+    height: 190px;
     float: left;
     margin-right: 2px;
     margin-left: 10px;
     background-color: #cccccc;
-    margin-top:30px;
+    margin-top:20px;
 }
 
 #menu{
-	width:30px;
+	width:5%;
     height: 150px;
     float: left;
     margin-right: 2px;
     background-color: #ffffff;
-    margin-top:30px;
+    margin-top:20px;
 }
 
 .vider_formulaire,.modifer_donnees,.supprimer_photo,.ajouter_photo{
@@ -424,7 +425,7 @@ display: inline-block;
 
 font-size: 13px;
 
-left: 10px; /*déplacer le label*/
+left: 0px; /*déplacer le label*/
 
 min-width: 60px;
 
@@ -629,14 +630,12 @@ border-bottom-left-radius: 5px;
 
 box-shadow: 0pt 1px 3px rgba(204, 204, 204, 0.95) inset;
 
-position: relative;
-
 /* le texte des champs*/
-padding-top: 10px;
+padding-top: 5px;
 
 padding-right: 10px;
 
-padding-bottom: 10px;
+padding-bottom: 5px;
 
 margin-bottom : 15px;
 
@@ -646,17 +645,7 @@ padding-left: 10px; /* padding du text dans le champ*/
 
 text-indent: 0px; /* alignement du text dans le champ input*/
 
-/* balise input text*/
-display: block;
-
-height: 30px; /*la hauteur du champ input*/
-
-width: 225px; /* la largeur du champ input*/
-
-
-
-/*z-index: 5;*/
-
+font-size: 16px;
 }
 
 #form_patient select
@@ -666,17 +655,21 @@ display: block;
 
 height: 30px;  /*la hauteur du champ input*/
 
-width: 225px;   /*la largeur du champ input*/
+width: 87%;/*225px;   /*la largeur du champ input*/
 
+}
+
+#form_patient input
+{
+	height: 30px;
+	width: 87%;
 }
 
 #form_patient textarea
 {
 	height: 90px;
+	width: 87%;
 }
-
-
-
 
 /****************************BOUTON************************/
 #terminer_annuler{
