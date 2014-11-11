@@ -133,7 +133,7 @@ class ConsultationForm extends Form {
 				'name' => 'examen_donnee1',
 				'type' => 'Text',
 				'options' => array (
-						'label' => iconv ( 'ISO-8859-1', 'UTF-8', 'donn�e 1' )
+						'label' => 'donn&eacute;e 1'
 				),
 				'attributes' => array (
 						'readonly' => 'readonly',
@@ -144,7 +144,7 @@ class ConsultationForm extends Form {
 				'name' => 'examen_donnee2',
 				'type' => 'Text',
 				'options' => array (
-						'label' => iconv ( 'ISO-8859-1', 'UTF-8', 'donn�e 2' )
+						'label' => 'donn&eacute;e 2'
 				),
 				'attributes' => array (
 						'readonly' => 'readonly',
@@ -155,7 +155,7 @@ class ConsultationForm extends Form {
 				'name' => 'examen_donnee3',
 				'type' => 'Text',
 				'options' => array (
-						'label' => iconv ( 'ISO-8859-1', 'UTF-8', 'donn�e 3' )
+						'label' => 'donn&eacute;e 3'
 				),
 				'attributes' => array (
 						'readonly' => 'readonly',
@@ -166,7 +166,7 @@ class ConsultationForm extends Form {
 				'name' => 'examen_donnee4',
 				'type' => 'Text',
 				'options' => array (
-						'label' => iconv ( 'ISO-8859-1', 'UTF-8', 'donn�e 4' )
+						'label' => 'donn&eacute;e 4'
 				),
 				'attributes' => array (
 						'readonly' => 'readonly',
@@ -177,7 +177,7 @@ class ConsultationForm extends Form {
 				'name' => 'examen_donnee5',
 				'type' => 'Text',
 				'options' => array (
-						'label' => iconv ( 'ISO-8859-1', 'UTF-8', 'donn�e 5' )
+						'label' => 'donn&eacute;e 5'
 				),
 				'attributes' => array (
 						'readonly' => 'readonly',
@@ -218,7 +218,7 @@ class ConsultationForm extends Form {
 				'name' => 'bilan_hemolyse',
 				'type' => 'Text',
 				'options' => array (
-						'label' => iconv ( 'ISO-8859-1', 'UTF-8', 'Bilan de l\'hémostase:' )
+						'label' => iconv ( 'ISO-8859-1', 'UTF-8', 'Bilan de l\'h&eacute;mostase:' )
 				),
 				'attributes' => array (
 						'readonly' => 'readonly',
@@ -229,7 +229,7 @@ class ConsultationForm extends Form {
 				'name' => 'bilan_hepatique',
 				'type' => 'Text',
 				'options' => array (
-						'label' => iconv ( 'ISO-8859-1', 'UTF-8', 'Bilan hépatique:' )
+						'label' => iconv ( 'ISO-8859-1', 'UTF-8', 'Bilan h&eacute;patique:' )
 				),
 				'attributes' => array (
 						'readonly' => 'readonly',
@@ -240,7 +240,7 @@ class ConsultationForm extends Form {
 				'name' => 'bilan_renal',
 				'type' => 'Text',
 				'options' => array (
-						'label' => iconv ( 'ISO-8859-1', 'UTF-8', 'Bilan rénal:' )
+						'label' => iconv ( 'ISO-8859-1', 'UTF-8', 'Bilan r&eacute;nal:' )
 				),
 				'attributes' => array (
 						'readonly' => 'readonly',
@@ -456,7 +456,7 @@ class ConsultationForm extends Form {
 				'name' => 'temperature',
 				'type' => 'Text',
 				'options' => array (
-						'label' => iconv ( 'ISO-8859-1', 'UTF-8', 'Temperature (�C)' )
+						'label' => iconv ( 'ISO-8859-1', 'UTF-8', 'Temperature (C)' )
 				),
 				'attributes' => array (
 						'class' => 'temperature_only_numeric',
@@ -566,7 +566,7 @@ class ConsultationForm extends Form {
 				'name' => 'type_anesthesie_demande',
 				'type' => 'Zend\Form\Element\Select',
 				'options' => array (
-						'label' => iconv ( 'ISO-8859-1', 'UTF-8', 'Type d\'anesthésie :' ),
+						'label' => iconv ( 'ISO-8859-1', 'UTF-8', 'Type d\'anesth&eacute;sie :' ),
 						'value_options' => array (
 								'Anesthesie 1' => iconv ( 'ISO-8859-1', 'UTF-8', 'Anesthésie1' ),
 								'Anesthesie 2' => iconv ( 'ISO-8859-1', 'UTF-8', 'Anesthésie2' ),
@@ -593,7 +593,7 @@ class ConsultationForm extends Form {
 				'name' => 'numero_vpa',
 				'type' => 'Text',
 				'options' => array (
-						'label' => iconv ( 'ISO-8859-1', 'UTF-8', 'VPA N� :' )
+						'label' => iconv ( 'ISO-8859-1', 'UTF-8', 'VPA Num&eacute;ro:' )
 				),
 				'attributes' => array (
 						'readonly' => 'readonly',
@@ -694,6 +694,9 @@ class ConsultationForm extends Form {
 				'type' => 'Text',
 				'options' => array (
 						'label' => 'Habitude de vie 1'
+				),
+				'attributes' => array (
+						'id'  => 'habitude_vie1'
 				)
 		) );
 		$this->add ( array (
@@ -701,6 +704,9 @@ class ConsultationForm extends Form {
 				'type' => 'Text',
 				'options' => array (
 						'label' => 'Habitude de vie 2'
+				),
+				'attributes' => array (
+						'id'  => 'habitude_vie2'
 				)
 		) );
 		$this->add ( array (
@@ -708,6 +714,9 @@ class ConsultationForm extends Form {
 				'type' => 'Text',
 				'options' => array (
 						'label' => 'Habitude de vie 3'
+				),
+				'attributes' => array (
+						'id'  => 'habitude_vie3'
 				)
 		) );
 		$this->add ( array (
@@ -715,34 +724,49 @@ class ConsultationForm extends Form {
 				'type' => 'Text',
 				'options' => array (
 						'label' => 'Habitude de vie 4'
+				),
+				'attributes' => array (
+						'id'  => 'habitude_vie4'
 				)
 		) );
 		$this->add ( array (
 				'name' => 'antecedent_familial1',
 				'type' => 'Text',
 				'options' => array (
-						'label' => iconv ( 'ISO-8859-1', 'UTF-8', 'Antécédent 1' )
+						'label' => 'Ant&eacute;c&eacute;dent 1'
+				),
+				'attributes' => array (
+						'id'  => 'antecedent_familial1'
 				)
 		) );
 		$this->add ( array (
 				'name' => 'antecedent_familial2',
 				'type' => 'Text',
 				'options' => array (
-						'label' => iconv ( 'ISO-8859-1', 'UTF-8', 'Antécédent 2' )
+						'label' => 'Ant&eacute;c&eacute;dent 2'
+				),
+				'attributes' => array (
+						'id'  => 'antecedent_familial2'
 				)
 		) );
 		$this->add ( array (
 				'name' => 'antecedent_familial3',
 				'type' => 'Text',
 				'options' => array (
-						'label' => iconv ( 'ISO-8859-1', 'UTF-8', 'Antécédent 3' )
+						'label' => 'Ant&eacute;c&eacute;dent 3'
+				),
+				'attributes' => array (
+						'id'  => 'antecedent_familial3'
 				)
 		) );
 		$this->add ( array (
 				'name' => 'antecedent_familial4',
 				'type' => 'Text',
 				'options' => array (
-						'label' => iconv ( 'ISO-8859-1', 'UTF-8', 'Antécédent 4' )
+						'label' => 'Ant&eacute;c&eacute;dent 4'
+				),
+				'attributes' => array (
+						'id'  => 'antecedent_familial4'
 				)
 		) );
 		$this->add ( array (
@@ -752,7 +776,7 @@ class ConsultationForm extends Form {
 						'label' => 'Date :'
 				),
 				'attributes' => array (
-						'id' => 'date_rv'
+						'id' => 'date_rv',
 				)
 		) );
 		$this->add ( array (
@@ -760,8 +784,9 @@ class ConsultationForm extends Form {
 				'type' => 'Zend\Form\Element\Select',
 				'options' => array (
 						'label' => 'Heure :',
+						'empty_option' => 'Choisir une heure svp',
 						'value_options' => array (
-								'' => ''
+								'08:00' => '08:00'
 						)
 				),
 				'attributes' => array (

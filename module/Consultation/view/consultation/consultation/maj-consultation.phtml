@@ -1,6 +1,8 @@
-<?php echo $this->headLink()->appendStylesheet($this->basePath().'/css/jquery-ui.css');?>
-<?php echo $this->headScript()->appendFile($this->basePath().'/js/jquery-1.9.1.js');?>
-<?php echo $this->headScript()->appendFile($this->basePath().'/js/jquery-ui.js');?>
+<!-- Mes CSS -->
+<?php echo $this->headLink()->appendStylesheet($this->basePath().'/css/consultation/styleMajConsultation.css');?>
+
+<!-- MES JS -->
+<?php echo $this->headLink()->appendStylesheet($this->basePath().'/js/consultation/jsMajConsultation.js');?>
 <?php echo $this->headScript()->appendFile($this->basePath().'/js/mesjs/accordeon_controle_validation.js');?>
 
 <?php
@@ -62,500 +64,7 @@ $(function(){
 });
 </script>
 
-<style>
 
-#faces  /*photo*/
-{
-
-width: 100px;
-
-float: left;
-
-border-top-width: 10px;
-
-border-right-width: 10px;
-
-border-right-width-ltr-source: physical;
-
-border-right-width-rtl-source: physical;
-
-border-bottom-width: 10px;
-
-border-left-width: 10px;
-
-border-left-width-ltr-source: physical;
-
-border-left-width-rtl-source: physical;
-
-border-top-style: solid;
-
-border-right-style: solid;
-
-border-right-style-ltr-source: physical;
-
-border-right-style-rtl-source: physical;
-
-border-bottom-style: solid;
-
-border-left-style: solid;
-
-border-left-style-ltr-source: physical;
-
-border-left-style-rtl-source: physical;
-
-border-top-color: white;
-
-border-right-color: white;
-
-border-right-color-ltr-source: physical;
-
-border-right-color-rtl-source: physical;
-
-border-bottom-color: white;
-
-border-left-color: white;
-
-border-left-color-ltr-source: physical;
-
-border-left-color-rtl-source: physical;
-
-box-shadow: 0pt 0pt 12px rgba(0, 0, 0, 0.1);
-
-}
-
-
-/*-----D�but style-----*/
-
-#respond label
-
-{
-
-line-height: 2.0em;
-
-}
-
-#respond .comment-form-author label, #respond .comment-form-email label, #respond .comment-form-url label, #respond .comment-form-comment label
-
-{/* le label*/
-
-background-color: #eeeeee;
-
-background-image: none;
-
-background-repeat: repeat;
-
-background-attachment: scroll;
-
-background-position: 0% 0%;
-
-background-clip: border-box;
-
-background-origin: padding-box;
-
-background-size: auto auto;
-
-box-shadow: 1px 2px 2px rgba(204, 204, 204, 0.8);
-
-color: #555555;
-
-display: inline-block;
-
-font-size: 13px;
-
-left: 10px; /*d�placer le label*/
-
-min-width: 60px;
-
-padding-top: 4px;
-
-padding-right: 10px;
-
-padding-bottom: 4px;
-
-padding-left: 10px;
-
-position: relative;
-
-top: 5px;
-
-z-index: 1;
-
-}
-
-
-#respond input[type="text"], #respond textarea
-
-{ /*le input ou le textarea*/
-
-background-image: none;
-
-background-repeat: repeat;
-
-background-attachment: scroll;
-
-background-position: 0% 0%;
-
-background-clip: border-box;
-
-background-origin: padding-box;
-
-background-size: auto auto;
-
-border-top-width: 2px;
-
-border-right-width-value: 2px;
-
-border-right-width-ltr-source: physical;
-
-border-right-width-rtl-source: physical;
-
-border-bottom-width: 2px;
-
-border-left-width-value: 2px;
-
-border-left-width-ltr-source: physical;
-
-border-left-width-rtl-source: physical;
-
-border-top-style: solid;
-
-border-right-style-value: solid;
-
-border-right-style-ltr-source: physical;
-
-border-right-style-rtl-source: physical;
-
-border-bottom-style: solid;
-
-border-left-style-value: solid;
-
-border-left-style-ltr-source: physical;
-
-border-left-style-rtl-source: physical;
-
-border-right-color-value: #eeeeee;
-
-border-right-color-ltr-source: physical;
-
-border-right-color-rtl-source: physical;
-
-border-left-color-value: #eeeeee;
-
-border-left-color-ltr-source: physical;
-
-border-left-color-rtl-source: physical;
-
-border-top-left-radius: 5px;
-
-border-top-right-radius: 5px;
-
-border-bottom-right-radius: 5px;
-
-border-bottom-left-radius: 5px;
-
-box-shadow: 0pt 1px 3px rgba(204, 204, 204, 0.95) inset;
-
-position: relative;
-
-/* le texte des champs*/
-padding-top: 10px;
-
-padding-right: 10px;
-
-padding-bottom: 10px;
-
-margin-bottom : 15px;
-
-padding-left: 10px; /* padding du text dans le champ*/
-
-text-indent: 0px; /* alignement du text dans le champ input*/
-
-/* balise input text*/
-display: block;
-
-height: 30px; /*la hauteur du champ input*/
-
-width: 225px; /* la largeur du champ input*/
-
-}
-/*
-#respond input[type="text"]
-
-{
-
-display: block;
-
-height: 30px;  //la hauteur du champ input
-
-width: 225px;   //la largeur du champ input
-
-}*/
-
-#respond input[type="text"]:focus, #respond textarea:focus
-
-{
-
-text-indent: 0pt;
-
-z-index: 5;
-
-}
-
-#respond input#submit
-{
-
-color: #444444;
-
-text-shadow: none;
-
-background-color: #eeeeee;
-
-background-image: none;
-
-background-repeat: repeat;
-
-background-attachment: scroll;
-
-background-position: 0% 0%;
-
-background-clip: border-box;
-
-background-origin: padding-box;
-
-background-size: auto auto;
-
-position: static;
-
-padding-top: 5px;
-
-padding-right: 22px;
-
-padding-bottom: 5px;
-
-padding-left: 22px;
-
-float: right;
-
-}
-
-tr:hover /* Apparence au survol des liens */
-{
-   /*text-decoration: underline;*/
-   background-color: white;
-
-}
-
-#aa:hover /* Apparence au survol des liens */
-{
-   /*text-decoration: underline;*/
-    color: blue;
-	font-size: 17px;
-}
-
-#barre
-{
-  /*background-color: #a8a8a8;*/
-  /*padding-top:10px;*/
-  padding-bottom:20px; /*Pour s�parer le contenu de la bordure du bas du bloc*/
-  magin-bottom:15px; /*Pour s�parer la bordure du prochain �l�ment*/
-  border-bottom: 3px solid gray;/*Pour faire un trait rouge horizontal*/
-  margin-left: 165px;
-}
-
-#numero
-{
-	/*background-color: #a8a8a8;*/
-	width: 400px;
-	margin-left: 165px;
-	font-family: police4;
-	font-size: 19px;
-	color: green;
-}
-
-/************************************ style du tableau N�1 ****************************************/
-
-#responde input[type="text"], #respond textarea
-
-{ /*le input ou le textarea*/
-
-background-image: none;
-
-background-repeat: repeat;
-
-background-attachment: scroll;
-
-background-position: 0% 0%;
-
-background-clip: border-box;
-
-background-origin: padding-box;
-
-background-size: auto auto;
-
-border-top-width: 2px;
-
-border-right-width-value: 2px;
-
-border-right-width-ltr-source: physical;
-
-border-right-width-rtl-source: physical;
-
-border-bottom-width: 2px;
-
-border-left-width-value: 2px;
-
-border-left-width-ltr-source: physical;
-
-border-left-width-rtl-source: physical;
-
-border-top-style: solid;
-
-border-right-style-value: solid;
-
-border-right-style-ltr-source: physical;
-
-border-right-style-rtl-source: physical;
-
-border-bottom-style: solid;
-
-border-left-style-value: solid;
-
-border-left-style-ltr-source: physical;
-
-border-left-style-rtl-source: physical;
-
-border-top-color: #eeeeee;
-
-border-right-color-value: #eeeeee;
-
-border-right-color-ltr-source: physical;
-
-border-right-color-rtl-source: physical;
-
-border-bottom-color: #eeeeee;
-
-border-left-color: #eeeeee;
-
-border-right-color: #eeeeee;
-
-border-left-color-value: #eeeeee;
-
-border-left-color-ltr-source: physical;
-
-border-left-color-rtl-source: physical;
-
-/* Arrondir les bordures des input*/
-border-top-left-radius: 15px;
-
-border-top-right-radius: 5px;
-
-border-bottom-right-radius: 5px;
-
-border-bottom-left-radius: 5px;
-
-box-shadow: 0pt 1px 3px rgba(204, 204, 204, 0.95) inset;
-
-position: relative;
-
-/* le texte des champs*/
-padding-top: 10px;
-
-padding-right: 10px;
-
-padding-bottom: 10px;
-
-padding-left: 10px; /* padding du text dans le champ*/
-
-text-indent: 70px; /* alignement du text dans le champ input apr�s saisie*/
-
-margin-bottom: 1px;
-
-margin-top: -40px;
-
-float: left; /* aligner le INPUT � gauche*/
-
-}
-
-#responde .form-author label
-{/* le label*/
-line-height: 2.0em;
-
-background-color: #eeeeee;
-
-background-image: none;
-
-background-repeat: repeat;
-
-background-attachment: scroll;
-
-background-position: 0% 0%;
-
-background-clip: border-box;
-
-background-origin: padding-box;
-
-background-size: auto auto;
-
-box-shadow: 1px 2px 2px rgba(204, 204, 204, 0.8);
-
-color: #555555;
-
-display: inline-block;
-
-font-size: 13px;
-
-/*left: -270px; /*d�placer le label*/
-
-min-width: 60px;
-
-padding-top: 7px;
-
-padding-right: 10px;
-
-padding-bottom: 4px;
-
-padding-left: 0px;
-
-position: relative;
-
-top: 6px;
-
-z-index: 1;
-
-float: left;  /* aligner le LABEL � gauche*/
-
-margin-left: 15px; /* d�finir la marge dans le champ*/
-
-}
-
-#responde input[type="text"]
-{
-
-display: block;
-
-height: 50px; /*la hauteur du champ input*/
-
-width: 635px; /* la largeur du champ input*/
-
-}
-
-#responde input[type="text"]:focus, #responde textarea:focus
-{
-
-text-indent: 0pt;
-
-z-index: 5;
-
-}
-
-
-/*----fin style--------*/
-
-tr th span {
-	cursor: pointer;
-}
-
-</style>
 
 <?php use Facturation\View\Helper\DateHelper;
 use Zend\Stdlib\DateTime;
@@ -570,7 +79,7 @@ echo $this->form()->openTag($form); ?>
 
   <!--Accordeon ETAT CIVIL-->
     <div style='width:160px; font-family: police2;font-size: 17px; font-weight: bold;'>Etat Civil</div>
-      <div style=' max-height: 345px;'> <!-- div style= "background-color: #f0eee2;"-->
+      <div style=' max-height: 345px;'>
 
          <img id="faces" src='<?php echo $this->basePath().'/img/photos_patients/'.$this->image;?>'  alt="Jonathan Verrecchia" style='float:left; margin-right:40px; width:105px; height:105px;'/>
 
@@ -635,7 +144,10 @@ echo $this->form()->openTag($form); ?>
 
 			   	<td>
 			   	</td>
-			   	<?php $dateRV = $this->verifieRV->date; $today = new \DateTime(); $date_actu = $today->format('Y-m-d');
+			   	<?php
+
+			   	if($this->verifieRV != false) {
+			   	$dateRV = $this->verifieRV->date; $today = new \DateTime(); $date_actu = $today->format('Y-m-d');
                       $date = 'dans '.nbJours($date_actu,$dateRV).' jours';
                       if($dateRV == $today->format('Y-m-d')){
                          $date = "Ajourd'hui";
@@ -645,8 +157,8 @@ echo $this->form()->openTag($form); ?>
 			   	   <a>
 				     <?php  echo ($this->verifieRV)? "<span id='image-neon' style='font-weight: bold; font-style: italic; font-size: 12px; color: red;'> Rendez-vous ".$date."</span>":""; ?>
 				   </a>
-				<td>
-
+				</td>
+                <?php }?>
 			  </tr>
 
          </table>
@@ -689,11 +201,10 @@ echo $this->form()->openTag($form); ?>
         <!--**************** LES MOTIFS D ADMISSIONS ************************-->
               <div style='font-family: police2;font-size: 17px; font-weight: bold;'> Motifs d'admission </div>
                <div>
-               <p style='color: white; opacity: 0.5;'>
-                   <img id="faces" src='<?php echo $this->basePath().'/images_icons/consult-motif.jpg'?>'  alt="consult-motif" style='float:right; margin-right:5px; width:259px; height:315px;'/>
-                </p>
-                <table id="responde">
-                     <tr class="form-author">
+                <div style='width: 100%; height: 30px;'>
+                 <div style='width: 70%; float: left; '>
+                  <table id="responde" style='width: 100%;'>
+                     <tr class="form-author" >
                          <th><?php echo $this->formRow($form->get('motif_admission1'));?></th>
                      </tr>
                      <tr class="form-author" id="motif2">
@@ -715,11 +226,8 @@ echo $this->form()->openTag($form); ?>
                          <span id="leschamps_2" > <a><img style="display: inline; float:left; border:transparent; padding-left:10px;" src='<?php echo $this->basePath().'/images_icons/add.PNG'?>' alt="Constantes" title="Ajouter" /></a></span>
                          </th>
                      </tr>
-                </table>
-                <table>
                      <tr>
-                         <th style="width:550px;"></th>
-                         <th style="height:20px; margin-top: 5px; float:right;">
+                         <th style="height:20px; margin-top: 5px; margin-right: 30px; float:right;">
                              <!-- On cr�e le bouton Valider (permettant la validation des donn�es -->
                              <div id="bouton_valider_motif">
                                   <button id='bouton_motif_valider'>Valider</button>
@@ -731,13 +239,22 @@ echo $this->form()->openTag($form); ?>
                          </th>
                      </tr>
 
-                </table>
+                  </table>
+                 </div>
+                
+                <div style='width: 27%; float: left;'>
+                  <p style='color: white; opacity: 0.5;'>
+                     <img id="faces" src='<?php echo $this->basePath().'/images_icons/consult-motif.jpg'?>'  alt="consult-motif" style='margin-right:5px; height:315px;'/>
+                  </p>
+                </div>
+              </div>
+                
                </div>
           <!--**************** LES CONSTANTES ************************-->
 
               <div style='font-family: police2;font-size: 17px; font-weight: bold;'> Constantes </div>
                 <div>
-                 <table  id="respond">
+                 <table  id="respond" style='width: 100%;'>
 
                     <tr class="comment-form-author">
                         <td><?php echo $this->formRow($form->get('id_cons'));?></td>

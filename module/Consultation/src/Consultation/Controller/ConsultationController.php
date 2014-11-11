@@ -14,6 +14,12 @@ use Consultation\Form\ConsultationForm;
 use Zend\Json\Json;
 use Zend\Mvc\Service\ViewJsonRendererFactory;
 use Zend\Json\Expr;
+use Consultation\Model\Consommable;
+use Consultation\View\Helpers;
+use Consultation\View\Helpers\DocumentPdf;
+use Consultation\View\Helpers\OrdonnancePdf;
+use Zend\Barcode\Renderer\Pdf;
+use ZendPdf\PdfDocument;
 
 class ConsultationController extends AbstractActionController {
 	protected $patientTable;
@@ -45,7 +51,6 @@ class ConsultationController extends AbstractActionController {
 	}
 	public function getConsultationTable() {
 		if (! $this->consultationTable) {
-			// var_dump('test'); exit();
 			$sm = $this->getServiceLocator ();
 			$this->consultationTable = $sm->get ( 'Consultation\Model\ConsultationTable' );
 		}
@@ -482,7 +487,7 @@ class ConsultationController extends AbstractActionController {
 		$this->layout ()->setTemplate ( 'layout/consultation' );
 		$user = $this->layout ()->user;
 		$LeService = $user ['service'];
-		// Recherher l'id du service
+		// Rechercher l'id du service
 		$service = $this->getServiceTable ();
 		$LigneDuService = $service->getServiceParNom ( $LeService );
 		$IdDuService = $LigneDuService ['ID_SERVICE'];
@@ -492,12 +497,18 @@ class ConsultationController extends AbstractActionController {
 		if (isset ( $_POST ['terminer'] )) {
 			$form = new ConsultationForm ();
 			$formData = $this->getRequest ()->getPost ();
-			$form->setInputFilter ( $consModel->getInputFilter () );
+			//$form->setInputFilter ( $consModel->getInputFilter () );
+			$test = $this->params()->fromPost('date_cons');
 			$form->setData ( $formData );
-			if ($form->isValid ()) {
+			$form->remove('heure_rv');
+			$form->remove('type_anesthesie_demande');
+			$form->remove('hopital_accueil');
+			$form->remove('service_accueil');
+			if ($form->isValid() == true) {
+				
 				$id_cons = $form->get ( "id_cons" )->getValue ();
 				$infos = $form->getData ();
-
+				
 				// instancier Consultation
 				$consultation = $this->getConsultationTable ();
 				$consultation->addConsultation ( $infos, $IdDuService );
@@ -508,12 +519,9 @@ class ConsultationController extends AbstractActionController {
 
 				$this->redirect ()->toRoute ( 'consultation', array (
 						'action' => 'recherche'
-				) );
+				));
 			}
-		}
-		$this->redirect ()->toRoute ( 'consultation', array (
-				'action' => 'recherche'
-		) );
+		} 
 	}
 	public function majConsultationAction() {
 		$this->layout ()->setTemplate ( 'layout/consultation' );
@@ -898,5 +906,54 @@ class ConsultationController extends AbstractActionController {
 			$this->getResponse()->getHeaders ()->addHeaderLine ( 'Content-Type', 'application/html' );
 			return $this->getResponse ()->setContent(Json::encode ( $liste_select));
 		}
+	}
+	
+	public function impressionPdfAction(){
+		//**********ORDONNANCE*****************
+		//**********ORDONNANCE*****************
+		//**********ORDONNANCE*****************
+		if(isset($_POST['ordonnance'])){
+			//RECUPERATION DE LA LISTE DES MEDICAMENTS
+			$consommable = $this->getconsommableTable();
+			//récupération de la liste des médicaments
+			$medicaments = $consommable->fetchConsommable();
+			
+			$tab = array();
+			$j = 1;
+			
+			for($i = 1 ; $i < 10 ; $i++ ){
+				$codeMedicament = $this->params()->fromPost("medicament_0".$i);
+				if($codeMedicament == true){
+					$tab[$j++] = $medicaments[$codeMedicament]; //on récupère le médicament par son nom
+					$tab[$j++] = $this->params()->fromPost("medicament_1".$i);
+					$tab[$j++] = $this->params()->fromPost("medicament_2".$i);
+					$tab[$j++] = $this->params()->fromPost("medicament_3".$i);
+				}
+			}
+			
+			//\Zend\Debug\Debug::dump($tab); exit();
+			//-***************************************************************
+			//Création du fichier pdf
+			$report = new DocumentPdf();
+			//$page1 = new OrdonnancePdf();
+// 			$page1->setMedicaments($tab);
+// 			$page1->setIdCons($id);
+// 			$page1->setDate($date);
+//    		$page1->setYear();
+// 			$page1->setHeader();
+// 			$page1->setHeadTitle('ORDONNANCE');
+// 			$page1->setIntroText('Al Hassim DIALLO. Né le 09/12/1888 à PIKINE TEL: 77-313-93-52   ');
+			
+			$report->addPage();
+//			$page1->render();
+			echo $report->getDocument();
+			$this->_helper->viewRenderer->setNoRender();
+
+// 			$pdf = new Pdf();
+// 			$doc = new PdfDocument();
+// 			$pdf->setResource($doc);
+// 			$pdf->render();
+		}
+
 	}
 }

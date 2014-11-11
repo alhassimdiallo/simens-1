@@ -12,14 +12,15 @@ class ConsultationTable {
 		$this->tableGateway = $tableGateway;
 	}
 	public function getConsult($id){
-		$id = ( int ) $id;
+		$id = (String) $id;
 		$rowset = $this->tableGateway->select ( array (
 				'ID_CONS' => $id
 		) );
 		$row =  $rowset->current ();
-		if (! $row) {
-			throw new \Exception ( "Could not find row $id" );
-		}
+ 		if (! $row) {
+ 			throw new \Exception ( "Could not find row $id" );
+ 		}
+	    //\Zend\Debug\Debug::dump($row); exit();
 		return $row;
 	}
 	public function updateConsultation($values)
@@ -72,7 +73,7 @@ class ConsultationTable {
 			$this->tableGateway->getAdapter()->getDriver()->getConnection()->commit();
 		} catch (\Exception $e) {
 			$this->tableGateway->getAdapter()->getDriver()->getConnection()->rollback();
-			Zend_Debug::dump($e->getMessage());
+			//Zend_Debug::dump($e->getMessage());
 		}
 	}
 }

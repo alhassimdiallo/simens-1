@@ -31,7 +31,7 @@ class LoginController extends AbstractActionController{
 	/*=======================================================================================================================*/
 	public function loginAction()
 	{
-		$auth = Zend_Auth::getInstance();
+		$auth = Zend_Auth::ngetInstance();
 		if(!$auth->hasIdentity()){
 			$form = new Admin_Form_FormConnexion();
 

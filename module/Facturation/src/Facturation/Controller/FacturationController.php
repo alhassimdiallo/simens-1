@@ -594,7 +594,6 @@ class FacturationController extends AbstractActionController {
 		if ($this->getRequest ()->isPost ()) {
 			$today = new \DateTime ( "now" );
 			$date_cons = $today->format ( 'ymd' );
-			// $date_cons = Zend_Date::now ()->toString ( 'yyMMdd' );
 
 			$id_patient = ( int ) $this->params ()->fromPost ( 'id', 0 ); // id du patient
 

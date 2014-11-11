@@ -1,12 +1,9 @@
 <html>
 <?php echo $this->doctype("XHTML1_TRANSITIONAL"), PHP_EOL; ?>
 
- <meta charset="UTF-8" />
+<meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <?php
-// $this->jQuery()->enable();
-// $this->jQuery()->uiEnable();
-//  echo $this->jQuery();
 
  echo $this->headLink()->prependStylesheet($this->basePath().'/css/bootstrap.min.css');
  echo $this->headLink()->prependStylesheet($this->basePath().'/css/uniform.css');
@@ -24,8 +21,9 @@
  $this->headScript()->appendFile($this->basePath().'/js/jquery.dataTables.min.js');
  $this->headScript()->appendFile($this->basePath().'/js/matrix.js');
 
- echo $this->headTitle($this->pageTitle);?>
- 		<?php //$this->headLink()->appendStylesheet($this->basePath().'/css/jquery-ui.css');?>
+ echo $this->headTitle($this->pageTitle);?> 
+        <?php echo $this->headLink()->appendStylesheet($this->basePath().'/css/smoothness/jquery-ui.css');?>
+ 		<?php //echo $this->headLink()->appendStylesheet($this->basePath().'/css/jquery-ui.css');?>
 		<?php $this->headLink()->appendStylesheet($this->basePath().'/css/search.css');?>
 		<?php $this->headLink()->appendStylesheet($this->basePath().'/css/niceforms-default.css');?>
 		<?php $this->headLink()->appendStylesheet($this->basePath().'/css/dossier.css');?>
@@ -44,8 +42,8 @@
 		<?php $this->headScript()->appendFile($this->basePath().'/js/jquery.modaldialog/js/jquery.modaldialog.js', 'text/javascript');?>
 		<?php $this->headScript()->appendFile($this->basePath().'/js/jquery/js/jquery.form.js', 'text/javascript');?>
 		<?php $this->headScript()->appendFile($this->basePath().'/js/jquery.validate.js', 'text/javascript');?>
-		<?php //$this->headScript()->appendFile($this->basePath().'/js/jquery-1.9.1.js');?>
-		<?php //$this->headScript()->appendFile($this->basePath().'/js/jquery-ui.js');?>
+		<?php $this->headScript()->appendFile($this->basePath().'/js/jquery-1.9.1.js');?>
+		<?php $this->headScript()->appendFile($this->basePath().'/js/jquery-ui.js');?>
 
 		<?php echo $this->headScript();?>
 <head>
@@ -70,30 +68,26 @@
 	</div>
 	<!--close-Header-part-->
 	<!--top Menu au dessus -->
-	<div id="user-nav" class="navbar navbar-inverse"
-		style="padding-top: 15px;">
-		<ul class="nav">
-			<li class="dropdown" id=""><a title="" href="#"
-				class="dropdown-toggle"> <i> <span
-						style="color: white; font-size: 13px;">Service: </span></i> <b
-					class="caret"></b> <span
-					style="font-size: 18px; color: white; font-family: Times New Roman;"> <?php echo $service;?></span></a>
-			</li>
+<div id="user-nav" class="navbar navbar-inverse" style="padding-top: 15px; width: 80%;">
+ <div style="width:100%;">
+  <ul class="nav" style="width:100%;">
+    <li  class="dropdown" style=" width: 30%;"><a title=""  class="dropdown-toggle">
+      <i> <span style="color: white; font-size: 13px;">Service: </span></i>
+      <b class="caret" ></b> <span style="font-size: 18px; color: white; font-family: Times  New Roman;"> <?php echo $service;?></span></a>
+    </li>
 
-			<li class="dropdown" id=""><a title="" href="#"
-				class="dropdown-toggle"> <i class="icon icon-user"></i> <span
-					style="color: white; font-size: 13px;"><i>Bienvenue</i></span> <b
-					class="caret"></b> <span
-					style="font-size: 18px; color: white; font-family: Times New Roman;"><?php echo $prenom.' '.$nom;?></span></a>
-			</li>
+    <li  class="dropdown" style=" width: 55%;"><a title="" class="dropdown-toggle">
+      <i class="icon icon-user"></i>  <span style="color: white; font-size: 13px;"><i>Bienvenue: </i> M.</span>
+      <b class="caret" ></b> <span style="font-size: 18px; color: white;font-family: Times  New Roman;"><?php echo $prenom.' '.$nom;?></span></a>
+    </li>
 
-			<li class="" style="padding-left: 400px;"><a title=""
-				href="<?php echo $this->url('login/process', array('action'=>'logout'));?>"> <i
-					class="icon icon-share-alt"></i> <span
-					style="color: white; text-align: right;">D&eacute;connexion</span></a>
-			</li>
-		</ul>
-	</div>
+    <li style="width: 15%;"><a title="" style="" href="<?php echo $this->url('login/process', array('action'=>'logout'));?>">
+      <i class="icon icon-share-alt"></i> <span style="color: white;">D&eacute;connexion</span></a>
+    </li>
+  </ul>
+ </div>
+</div>
+	
 	<!--Menu de droite-->
 	<div id="sidebar">
   <?php echo $this->partial('layout/menugauchecons'); ?>

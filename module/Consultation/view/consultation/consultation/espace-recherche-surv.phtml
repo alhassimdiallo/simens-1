@@ -1,128 +1,3 @@
-
-<style>
-/* PIED DE PAGE*/
-#nom_ input[type="text"]
-{ /*le input ou le textarea*/
-
-background-color: #fffffa; /*la couleur du champ*/
-
-height: 25px; /*la hauteur du champ input*/
-
-width: 110px; /* la largeur du champ input*/
-}
-
-#prenom_ input[type="text"]
-{ /*le input ou le textarea*/
-
-background-color: #fffffa; /*la couleur du champ*/
-
-height: 25px; /*la hauteur du champ input*/
-
-width: 140px; /* la largeur du champ input*/
-}
-
-#date_ input[type="text"]
-{ /*le input ou le textarea*/
-
-background-color: #fffffa; /*la couleur du champ*/
-
-height: 25px; /*la hauteur du champ input*/
-
-width: 110px; /* la largeur du champ input*/
-}
-
-#sexe_ input[type="text"]
-{ /*le input ou le textarea*/
-
-background-color: #fffffa; /*la couleur du champ*/
-
-height: 25px; /*la hauteur du champ input*/
-
-width: 70px; /* la largeur du champ input*/
-}
-
-#adresse_ input[type="text"]
-{ /*le input ou le textarea*/
-
-background-color: #fffffa; /*la couleur du champ*/
-
-height: 25px; /*la hauteur du champ input*/
-
-width: 290px; /* la largeur du champ input*/
-}
-
-#nationalite_ input[type="text"]
-{ /*le input ou le textarea*/
-
-background-color: #fffffa; /*la couleur du champ*/
-
-height: 25px; /*la hauteur du champ input*/
-
-width: 140px; /* la largeur du champ input*/
-}
-
-#effectuer_ input[type="text"]
-{ /*le input ou le textarea*/
-
-background-color: #fffffa; /*la couleur du champ*/
-
-height: 25px; /*la hauteur du champ input*/
-
-width: 90px; /* la largeur du champ input*/
-}
-
-/* EN TETE*/
-#nom
-{
-	width: 110px;
-}
-
-#prenom
-{
-	width: 140px;
-}
-
-#date
-{
-	width: 110px;
-}
-#sexe
-{
-	width: 70px;
-}
-
-#adresse
-{
-	width: 290px;
-}
-
-#nationalite
-{
-	width: 140px;
-}
-
-#effectuer
-{
-	width: 90px;
-}
-
-/* #ui-datepicker-div tr td a:hover{
-	background: green;
-} */
-
-#rechercher{
-	cursor: pointer;
-}
-
-/* STYLE POUR LA LISTE DE SELECTION DE LA TABLE*/
-#listeDataTable{
-	margin-top: 5px;
-	margin-bottom: 5px;
-	margin-left: -10px;
-}
-</style>
-
-
 <?php echo $this->headLink()->appendStylesheet($this->basePath().'/css/consultation/espacerecherchesurveillant.css');
       echo $this->headLink()->appendStylesheet($this->basePath().'/css/facturation/DatePicker.css'); //DatePicker
 ?>
@@ -140,7 +15,7 @@ $Control = new DateHelper();?>
         </div>
 		<table class="table table-bordered tab_list_mini" id="patient">
 			<thead>
-				<tr style="height:50px;">
+				<tr style="height:50px; width:100%;">
 					<th id="nom" align="center">Nom</th>
 					<th id="prenom" align="center">Pr&eacute;nom</th>
 					<th id="date" align="center" name="date">D. naissance</th>
@@ -192,13 +67,14 @@ $Control = new DateHelper();?>
 
 			<tfoot class="foot_style">
 				<tr>
-					<th id="nom_"><input type="text" name="search_browser" value=" Nom" class="search_init" /></th>
-					<th id="prenom_"><input type="text" name="search_browser" value=" Prenom" class="search_init" /></th>
-					<th id="date_"><input type="text" name="search_browser" value=" Date naissance" class="search_init" /></th>
-					<th id="sexe_"><input type="text" name="search_browser" value=" Sexe" class="search_init" /></th>
-					<th id="adresse_"><input type="text" name="search_browser" value=" Adresse" class="search_init" /></th>
-					<th id="nationalite_"><input type="text" name="search_browser" value=" Nationalite" class="search_init" /></th>
-					<th id="effectuer_"><input type="hidden" name="search_browser" value="" class="" /></th>
+					<th id="nom_" style='width: 13%;'><input type="text" name="search_browser" value=" Nom" class="search_init" /></th>
+					<th id="prenom_" style='width: 15%;'><input type="text" name="search_browser" value=" Prenom" class="search_init" /></th>
+					<th id="date_" style='width: 12%;'><input type="text" name="search_browser" value=" Date naissance" class="search_init" /></th>
+					<th id="sexe_" style='width: 7%;'><input type="text" name="search_browser" value=" Sexe" class="search_init" /></th>
+					<th id="adresse_" style='width: 28%;'><input type="text" name="search_browser" value=" Adresse" class="search_init" /></th>
+					<th id="nationalite_" style='width: 15%;'><input type="text" name="search_browser" value=" Nationalite" class="search_init" /></th>
+					<th id="effectuer_" style='width: 10%;'><input type="hidden" name="search_browser" value="" class="" /></th>
+
 				</tr>
 			</tfoot>
 		</table>

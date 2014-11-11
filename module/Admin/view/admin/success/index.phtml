@@ -1,26 +1,30 @@
-<?php echo $this->headLink()->appendStylesheet($this->basePath().'/font-awesome/css/font-awesome.css');?>
+<?php //echo $this->headLink()->appendStylesheet($this->basePath().'/font-awesome/css/font-awesome.css');?>
 <style type="text/css">
 .module {
 	background: url("<?php echo $this->basePath()."/images_icons/fond_module.jpg";?>"
 		) no-repeat;
 	display: inline-block;
 	width: 170px;
-	height: 150px;
+	height: 140px;
 	border: 1px dashed #ccc;
+    border-top-right-radius: 40px;
+	border-top-left-radius: 40px;
+	border-bottom-right-radius: 40px;
+	border-bottom-left-radius: 40px;
 	color: blue;
-	margin: 0px 50px 50px 50px;
+	margin: 0px 50px 40px 0px;
 	font-size: 25px;
 	text-align: center;
 	text-shadow: green;
 	text-transform: capitalize;
 	vertical-align: middle;
-	padding: 25px;
-	padding-top: 20px;
+	padding: 15px;
+	padding-top: 40px;
 }
 
 #module {
 	position: absolute;
-	width: 100%;
+	width: 80%;
 	margin-left: 5px;
 	top: 25%;
 }
@@ -30,47 +34,47 @@ body {
 }
 </style>
 
-<div id="loginbox">
-	<div style="text-align: left; margin-left: 10px; font-size: 20px; color: white; padding-top: 20px;">
+<div id="loginbox" style="width: 100%;">
+    <div style='width: 100%; '>
+	  <div style="width: 70%; float:left; text-align: left; margin-left: 10px; font-size: 20px; color: white;">
 		<?php echo "Bonjour M. ".$this->user['name'];?>
-	</div>
-	<div
-		style="text-align: right; font-size: 15px; color: white; padding-top: 5px; margin-right: 10px;">
-		<a
-			href="<?php echo $this->url('login/process', array('action'=>'logout'));?>">
-			<span style="color: white;">Deconnexion</span>
+	  </div>
+	  <div style="width: 27%; float:left; text-align: right; font-size: 15px; color: white; margin-right: 10px;">
+		<a href="<?php echo $this->url('login/process', array('action'=>'logout'));?>">
+			<span style="color: white; ">D&eacute;connexion</span>
 		</a>
+	  </div>
 	</div>
 
-	<div id="module" align="left">
+	<div id="module">
 	<?php //CHOISIR LE MENU A AFFICHER SELON QUE C'EST LE MEDECIN OU SUR LE SURVEILLANT
 	if($this->user['TYPE'] == 'SURVEILLANT' || $this->user['TYPE'] == 'ADMINISTRATEUR'){
 	?>
 		<a
 			href="<?php echo $this->url('consultation', array('action'=>'recherche'));?>">
-			<span class="module" align="center"> Module Consultation </span>
+			<span class="module" > Module Consultation </span>
 		</a>
 	<?php }else if($this->user['TYPE'] == 'MEDECIN'){	?>
 		<a
 			href="<?php echo $this->url('consultation', array('action'=>'consultation-medecin'));?>">
-			<span class="module" align="center"> Module Consultation </span>
+			<span class="module" > Module Consultation </span>
 		</a>
 	<?php } ?>
 		<a
 			href="<?php echo $this->url('hospitalisation', array('action'=>'hospi'));?>">
-			<span class="module" align="center"> Module Hospitalisation </span>
+			<span class="module" > Module Hospitalisation </span>
 		</a> <a
 			href="<?php echo $this->url('facturation', array('action'=>'liste-patient'));?>">
-			<span class="module" align="center"> Module Facturation </span>
+			<span class="module" > Module Facturation </span>
 		</a> <a
 			href="<?php echo $this->url('espace-patient', array('action'=>'recherche'));?>">
-			<span class="module" align="center"> Module Espace patient </span>
+			<span class="module" > Module Espace patient </span>
 		</a> <a
 			href="<?php echo $this->url('personnel', array('action'=>'index'));?>">
-			<span class="module" align="center"> Module Gestion du personnel </span>
+			<span class="module" > Module Personnel </span>
 		</a> <a
 			href="<?php echo $this->url('pharmacie', array('action'=>'index'));?>">
-			<span class="module" align="center"> Gestion Pharmacie </span>
+			<span class="module" > Module Pharmacie </span>
 		</a>
 
 	</div>

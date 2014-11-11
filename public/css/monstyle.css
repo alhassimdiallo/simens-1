@@ -90,6 +90,8 @@ background-origin: padding-box;
 
 background-size: auto auto;
 
+border-top-right-radius: 15px;
+
 box-shadow: 1px 2px 2px rgba(204, 204, 204, 0.8);
 
 color: #555555;
@@ -98,7 +100,7 @@ display: inline-block;
 
 font-size: 13px;
 
-left: 10px; /*déplacer le label*/
+left: 0px; /*déplacer le label*/
 
 min-width: 60px;
 
@@ -210,11 +212,11 @@ border-top-width: 2px;
 border-bottom-width: 2px;
 
 /* le texte des champs*/
-padding-top: 10px;
+padding-top: 5px;
 
 padding-right: 10px;
 
-padding-bottom: 10px;
+padding-bottom: 5px;
 
 padding-left: 10px; /* padding du text dans le champ*/
 
@@ -230,7 +232,7 @@ display: block;
 
 height: 30px; /*la hauteur du champ input*/
 
-width: 225px; /* la largeur du champ input*/
+width: 95%; /* la largeur du champ input*/
 
 }
 
@@ -419,7 +421,7 @@ padding-right: 10px;
 
 padding-bottom: 10px;
 
-padding-left: 10px; /* padding du text dans le champ*/
+padding-left: 15px; /* padding du text dans le champ*/
 
 text-indent: 75px; /* alignement du text dans le champ input après saisie*/
 
@@ -481,7 +483,7 @@ border-top-left-radius: 5px; /*arrondir le bord du label*/
 
 float: left;
 
-margin-left: 12px;
+margin-left: 2px;
 
 }
 
@@ -492,7 +494,7 @@ display: block;
 
 height: 50px; /*la hauteur du champ input*/
 
-width: 635px; /* la largeur du champ input*/
+width: 100%; /* la largeur du champ input*/
 
 }
 
@@ -805,7 +807,7 @@ min-width: 60px;
 
 padding-top: 7px;
 
-padding-right: 10px;
+padding-right: 8px;
 
 padding-bottom: 4px;
 
@@ -826,7 +828,7 @@ display: block;
 
 height: 45px; /*la hauteur du champ input*/
 
-width: 500px; /* la largeur du champ input*/
+width: 72%; /* la largeur du champ input*/
 
 }
 
@@ -844,15 +846,13 @@ width: 500px; /* la largeur du champ input*/
 #groupe input[type="text"] 
 {
 
-display: block;
-
 height: 45px; /*la hauteur du champ input*/
 
 width: 50px; /* la largeur du champ input*/
 
 margin-top: -5px;
 
-margin-left: 50px;
+margin-left: 40px;
 	
 margin-bottom: 1px;
 	
@@ -952,11 +952,11 @@ box-shadow: 0pt 1px 3px rgba(204, 204, 204, 0.95) inset;
 position: relative;
 
 /* le texte des champs*/
-padding-top: 10px;
+padding-top: 5px;
 
 padding-right: 10px;
 
-padding-bottom: 10px;
+padding-bottom: 5px;
 
 padding-left: 10px; /* padding du text dans le champ*/
 
@@ -967,8 +967,6 @@ margin-bottom: 1px;
 margin-top: -40px;
 
 float: left;
-
-margin-left: -10px
 
 }
 
@@ -1008,9 +1006,7 @@ font-weight: bold;
 
 /*text-align: right;*/
 
-width: 85px;
-
-min-width: 60px;
+min-width: 80px;
 
 padding-top: 7px;
 
@@ -1019,6 +1015,8 @@ padding-right: 10px;
 padding-bottom: 4px;
 
 padding-left: 10px;
+
+margin-left: 0px;
 
 position: relative;
 
@@ -1031,11 +1029,9 @@ z-index: 1;
 #respondeee input[type="text"], #respondeee textarea 
 {
 
-display: block;
-
 height: 90px; /*la hauteur du champ input*/
 
-width: 335px; /* la largeur du champ input*/
+width: 100%; /* la largeur du champ input*/
 
 }
 
@@ -2679,7 +2675,7 @@ width: 395px; /* la largeur du champ input*/
 	
 	float: left;
 
-	width: 190px;
+	width: 100%;/*190px;*/
 	
 	height: 28px;
 	
@@ -2782,7 +2778,7 @@ width: 395px; /* la largeur du champ input*/
 	
 	float: left;
 
-	width: 190px;
+	width: 100%;/*190px;*/
 	
 	height: 28px;
 	
@@ -2800,8 +2796,6 @@ width: 395px; /* la largeur du champ input*/
 #responded input[type="text"], #responded textarea 
 
 { /*le input ou le textarea*/
-
-/*background-color: #fffffa; /*la couleur du champ*/
 
 background-image: none;
 
@@ -2894,11 +2888,11 @@ border-bottom-width: 2px;
 
 
 /* le texte des champs*/
-padding-top: 10px;
+padding-top: 5px;
 
 padding-right: 10px;
 
-padding-bottom: 10px;
+padding-bottom: 5px;
 
 padding-left: 10px; /* padding du text dans le champ*/
 
@@ -2962,7 +2956,7 @@ border-top-left-radius: 5px; /*arrondir le bord du label*/
 
 float: left;
 
-margin-left: 12px;
+margin-left: 5px;
 
 }
 
@@ -2973,7 +2967,7 @@ display: block;
 
 height: 50px; /*la hauteur du champ input*/
 
-width: 635px; /* la largeur du champ input*/
+width: 100%; /* la largeur du champ input*/
 
 }
 
@@ -3088,11 +3082,11 @@ border-top-width: 2px;
 border-bottom-width: 2px;
 
 /* le texte des champs*/
-padding-top: 10px;
+padding-top: 5px;
 
 padding-right: 10px;
 
-padding-bottom: 10px;
+padding-bottom: 5px;
 
 padding-left: 3px; /* padding du text dans le champ*/
 
@@ -3101,13 +3095,13 @@ text-indent: 3px; /* alignement du text dans le champ input après saisie*/
 margin-bottom: 1px;
 
 
-margin-left: 10px;
+margin-left: 5px;
 
 float: left;
 
 top: 7px;
 
-width: 250px;
+width: 100%;
 
 height: 30px;
 
@@ -3340,7 +3334,7 @@ border-top-left-radius: 5px; /*arrondir le bord du label*/
 
 float: left;
 
-margin-left: 12px;
+margin-left: 2px;
 
 }
 
@@ -3348,11 +3342,9 @@ margin-left: 12px;
 #antecedent input[type="text"] , #antecedent2 input[type="text"]
 {
 
-display: block;
-
 height: 50px; /*la hauteur du champ input*/
 
-width: 90%; /* la largeur du champ input*/
+width: 95%; /* la largeur du champ input*/
 
 }
 
@@ -3369,6 +3361,57 @@ z-index: 5;
 	width: 100%;
 }
 
+#anteced .form-titre label
+{/* le label*/
+line-height: 1.5em;
+
+background-color: #eeeeee;
+
+background-image: none;
+
+background-repeat: repeat;
+
+background-attachment: scroll;
+
+background-position: 0% 0%;
+
+background-clip: border-box;
+
+background-origin: padding-box;
+
+background-size: auto auto;
+
+box-shadow: 1px 2px 2px rgba(204, 204, 204, 0.8);
+
+border-top-right-radius: 100px;
+
+border-bottom-right-radius: 15px;
+
+border-top-left-radius: 15px;
+
+font-size: 17px;
+
+min-width: 60px;
+
+padding-top: 8px;
+
+padding-right: 10px;
+
+padding-bottom: 4px;
+
+padding-left: 5px;
+
+position: relative;
+
+top: 6px;
+
+z-index: 1;
+
+border-top-left-radius: 5px; /*arrondir le bord du label*/ 
+
+margin-left: 2px;
+
+}
 
 /*----fin style--------*/
 
