@@ -7,6 +7,7 @@ function initialisation(){
 					//"bJQueryUI": true,
 					"sPaginationType": "full_numbers",
 					"aaSorting": "", //pour trier la liste affichée
+					"aLengthMenu": [5,10,15],
 					"oLanguage": { 
 						//"sProcessing":   "Traitement en cours...",
 						//"sLengthMenu":   "Afficher _MENU_ &eacute;l&eacute;ments",
@@ -25,10 +26,6 @@ function initialisation(){
 							"sLast":     ">|"
 							}
 					   },
-					   "iDisplayLength": "10",
-						"bProcessing": false,
-						"bSearch": false,
-						"aLengthMenu": [5,10,15],
 
 	} );
     tampon = oTable;

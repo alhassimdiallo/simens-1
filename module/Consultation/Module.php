@@ -16,6 +16,14 @@ use Consultation\Model\RvPatientCons;
 use Consultation\Model\MotifAdmissionTable;
 use Consultation\Model\TransfererPatientServiceTable;
 use Consultation\Model\TransfererPatientService;
+use Consultation\Model\DonneesExamensPhysiquesTable;
+use Consultation\Model\DonneesExamensPhysiques;
+use Consultation\Model\DiagnosticsTable;
+use Consultation\Model\Diagnostics;
+use Consultation\Model\Ordonnance;
+use Consultation\Model\OrdonnanceTable;
+use Consultation\Model\DemandeVisitePreanesthesiqueTable;
+use Consultation\Model\DemandeVisitePreanesthesique;
 
 class Module implements AutoloaderProviderInterface, ConfigProviderInterface {
 	public function onBootstrap(MvcEvent $e) {
@@ -91,6 +99,50 @@ class Module implements AutoloaderProviderInterface, ConfigProviderInterface {
 							$resultSetPrototype = new ResultSet();
 							$resultSetPrototype->setArrayObjectPrototype ( new TransfererPatientService());
 							return new TableGateway ( 'transferer_patient_service', $dbAdapter, null, $resultSetPrototype );
+						},
+						'Consultation\Model\DonneesExamensPhysiquesTable' => function ($sm) {
+							$tableGateway = $sm->get ( 'DonneesExamensPhysiquesTableGateway' );
+							$table = new DonneesExamensPhysiquesTable($tableGateway);
+							return $table;
+						},
+						'DonneesExamensPhysiquesTableGateway' => function ($sm) {
+							$dbAdapter = $sm->get ( 'Zend\Db\Adapter\Adapter' );
+							$resultSetPrototype = new ResultSet();
+							$resultSetPrototype->setArrayObjectPrototype ( new DonneesExamensPhysiques());
+							return new TableGateway ( 'Donnees_examen_physiquee', $dbAdapter, null, $resultSetPrototype );
+						},
+						'Consultation\Model\DiagnosticsTable' => function ($sm) {
+							$tableGateway = $sm->get ( 'DiagnosticsTableGateway' );
+							$table = new DiagnosticsTable($tableGateway);
+							return $table;
+						},
+						'DiagnosticsTableGateway' => function ($sm) {
+							$dbAdapter = $sm->get ( 'Zend\Db\Adapter\Adapter' );
+							$resultSetPrototype = new ResultSet();
+							$resultSetPrototype->setArrayObjectPrototype ( new Diagnostics());
+							return new TableGateway ( 'diagnostics', $dbAdapter, null, $resultSetPrototype );
+						},
+						'Consultation\Model\OrdonnanceTable' => function ($sm) {
+							$tableGateway = $sm->get ( 'OrdonnanceTableGateway' );
+							$table = new OrdonnanceTable($tableGateway);
+							return $table;
+						},
+						'OrdonnanceTableGateway' => function ($sm) {
+							$dbAdapter = $sm->get ( 'Zend\Db\Adapter\Adapter' );
+							$resultSetPrototype = new ResultSet();
+							$resultSetPrototype->setArrayObjectPrototype ( new Ordonnance());
+							return new TableGateway ( 'ordonnance', $dbAdapter, null, $resultSetPrototype );
+						},
+						'Consultation\Model\DemandeVisitePreanesthesiqueTable' => function ($sm) {
+							$tableGateway = $sm->get ( 'DemandeVisitePreanesthesiqueTableGateway' );
+							$table = new DemandeVisitePreanesthesiqueTable($tableGateway);
+							return $table;
+						},
+						'DemandeVisitePreanesthesiqueTableGateway' => function ($sm) {
+							$dbAdapter = $sm->get ( 'Zend\Db\Adapter\Adapter' );
+							$resultSetPrototype = new ResultSet();
+							$resultSetPrototype->setArrayObjectPrototype ( new DemandeVisitePreanesthesique());
+							return new TableGateway ( 'demande_visite_preanesthesique', $dbAdapter, null, $resultSetPrototype );
 						}
 				)
 		);

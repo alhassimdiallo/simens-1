@@ -29,7 +29,7 @@ class AjoutNaissanceForm extends Form {
 				'name' => 'prenom',
 				'type' => 'Text',
 				'options' => array (
-						'label' => 'Pr&eacute;nom'
+						'label' => iconv ( 'ISO-8859-1', 'UTF-8','Prénom')
 				),
 				'attributes' => array (
 						'required' => true,
@@ -42,7 +42,7 @@ class AjoutNaissanceForm extends Form {
 				'options' => array (
 						'label' => 'Sexe',
 						'value_options' => array (
-							'Masculin'=>'Masculin','Féminin'=>'FÃ©minin'
+							'Masculin'=>'Masculin','Feminin'=>'FÃ©minin'
 						) 
 				),
 				'attributes' => array (
@@ -87,7 +87,7 @@ class AjoutNaissanceForm extends Form {
 				'name' => 'nationalite_origine',
 				'type' => 'Zend\Form\Element\Select',
 				'options' => array (
-						'label' => 'Nationalit&eacute; origine',
+						'label' => iconv ( 'ISO-8859-1', 'UTF-8','Nationalité origine'),
 						'value_options' => array (
 								''=>''
 						)
@@ -100,7 +100,7 @@ class AjoutNaissanceForm extends Form {
 				'name' => 'nationalite_actuelle',
 				'type' => 'Zend\Form\Element\Select',
 				'options' => array (
-						'label' => 'Nationalit&eacute; actuelle',
+						'label' => iconv ( 'ISO-8859-1', 'UTF-8','Nationalité actuelle'),
 						'value_options' => array (
 								''=>''
 						)

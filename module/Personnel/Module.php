@@ -7,6 +7,8 @@ use Zend\Db\ResultSet\ResultSet;
 use Zend\Db\TableGateway\TableGateway;
 use Personnel\Model\Service;
 use Personnel\Model\ServiceTable;
+use Personnel\Model\HopitalTable;
+use Personnel\Model\Hopital;
 
 class Module
 {
@@ -50,6 +52,17 @@ class Module
 							$resultSetPrototype = new ResultSet();
 							$resultSetPrototype->setArrayObjectPrototype(new Service());
 							return new TableGateway('service', $dbAdapter, null, $resultSetPrototype);
+						},
+						'Personnel\Model\HopitalTable' => function ($sm) {
+							$tableGateway = $sm->get('HopitalTableGateway');
+							$table = new HopitalTable($tableGateway);
+							return $table;
+						},
+						'HopitalTableGateway' => function($sm) {
+							$dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+							$resultSetPrototype = new ResultSet();
+							$resultSetPrototype->setArrayObjectPrototype(new Hopital());
+							return new TableGateway('hopital', $dbAdapter, null, $resultSetPrototype);
 						}
 				)
 		);

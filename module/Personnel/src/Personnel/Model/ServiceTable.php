@@ -40,7 +40,6 @@ class ServiceTable{
 		$sql = new Sql($adapter);
 		$select = $sql->select('service');
 		$select->columns(array('ID_SERVICE', 'NOM'));
-		//$select->order('NOM');
 		$stat = $sql->prepareStatementForSqlObject($select);
 		$result = $stat->execute();
 		foreach ($result as $data) {
@@ -69,6 +68,18 @@ class ServiceTable{
 		$select->where(array('h.ID_HOPITAL'=>$idHopital));
 		$stat = $sql->prepareStatementForSqlObject($select);
 		$result = $stat->execute();
+		return $result;
+	}
+	public function getServiceparId($id){
+		$adapter = $this->tableGateway->getAdapter();
+		$sql = new Sql($adapter);
+		$select = $sql->select();
+		$select->from(array('s'=>'service'));
+		$select->where(array('ID_SERVICE'=>$id));
+		
+		$stat = $sql->prepareStatementForSqlObject($select);
+		$result = $stat->execute()->current();
+		
 		return $result;
 	}
 }

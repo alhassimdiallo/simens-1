@@ -639,7 +639,7 @@ $(function(){
 		// Le formulaire � monFormulaire � existe d�j� dans la page
 	    var formulaire = document.createElement("form");
 	 
-	    formulaire.setAttribute("action","/simens_derniereversion/public/consultation/Consultation/updatecomplementconsultation"); 
+	    formulaire.setAttribute("action","/simens/public/consultation/update-complement-consultation"); 
 	    formulaire.setAttribute("method","POST"); 
 	    for( donnee in donnees){
 	     // Ajout dynamique de champs dans le formulaire

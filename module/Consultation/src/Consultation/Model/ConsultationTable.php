@@ -20,8 +20,22 @@ class ConsultationTable {
  		if (! $row) {
  			throw new \Exception ( "Could not find row $id" );
  		}
-	    //\Zend\Debug\Debug::dump($row); exit();
+	    //\Zend\Debug\Debug::dump($row->id_cons); exit();
 		return $row;
+	}
+	public function getConsultationPatient($id_pat){
+		$adapter = $this->tableGateway->getAdapter ();
+		$sql = new Sql ( $adapter );
+		$select = $sql->select ();
+		$select->columns( array( '*' ));
+		$select->from( array( 'c' => 'consultation' ));
+		$select->where(array('c.PAT_ID_PERSONNE' =>$id_pat));
+		$select->order('DATEONLY DESC');
+		
+		$stat = $sql->prepareStatementForSqlObject ( $select );
+		$result = $stat->execute ();
+		
+		return $result;
 	}
 	public function updateConsultation($values)
 	{
@@ -75,5 +89,35 @@ class ConsultationTable {
 			$this->tableGateway->getAdapter()->getDriver()->getConnection()->rollback();
 			//Zend_Debug::dump($e->getMessage());
 		}
+	}
+	public function getInfoPatientMedecin($idcons){
+		$adapter = $this->tableGateway->getAdapter ();
+		$sql = new Sql ( $adapter );
+		$select = $sql->select ();
+		$select->columns( array( '*' ));
+		$select->from( array( 'c' => 'consultation' ));
+		$select->join( array( 
+				's' => 'service'
+		), 's.ID_SERVICE = c.ID_SERVICE' , array (
+				'NomService' => 'NOM',
+				'DomaineService' => 'DOMAINE'
+		) );
+		$select->join( array( 
+				'p' => 'patient'
+		), 'p.ID_PERSONNE = c.PAT_ID_PERSONNE' , array('*'));
+		$select->join( array(
+				'm' => 'medecin'
+		), 'm.ID_PERSONNE = c.ID_PERSONNE' , array(
+				'NomMedecin' => 'NOM', 
+				'PrenomMedecin' => 'PRENOM', 
+				'AdresseMedecin' => 'ADRESSE',
+				'TelephoneMedecin' => 'TELEPHONE'
+		));
+		$select->where ( array( 'c.ID_CONS' => $idcons));
+		
+		$stat = $sql->prepareStatementForSqlObject ( $select );
+		$result = $stat->execute ();
+		
+		return $result;
 	}
 }

@@ -131,7 +131,7 @@ function getservices(cle)
         dataType: "html"
     });
 
-    //return false;
+    return false;
  }
 
 //CODE POUR LA PARTIE DES ANTECEDENTS
@@ -652,7 +652,7 @@ echo $this->form()->openTag($form); ?>
 
         </div>
 
- <!-- ********************Antécédents ou Terrain particulier ******************-->
+     <!-- ********************Antécédents ou Terrain particulier ******************-->
      <!-- ********************Antécédents ou Terrain particulier ******************-->
      <!-- ********************Antécédents ou Terrain particulier ******************--> 
      
@@ -1258,24 +1258,24 @@ echo $this->form()->openTag($form); ?>
                                        </div>
                                    <div style=" padding-bottom:40px; margin-bottom: 10px; border-bottom: 1px dashed green; margin-left: 0px; margin-right: 0px;"></div>
 
-                                    <table id="chirurgical">
-                                        <tr class="form-chirurgical">
-                                            <th> <?php echo $this->formRow($form->get('diagnostic_traitement_chirurgical'));?> </th>
-                                            <th> <?php echo $this->formRow($form->get('intervention_prevue'));?> </th>
-                                            <th> <?php echo $this->formRow($form->get('type_anesthesie_demande'));?> </th>
-                                            <th> <?php echo $this->formRow($form->get('numero_vpa'));?> </th>
+                                   <table id="chirurgical" style="width: 100%;">
+                                        <tr class="form-chirurgical" style="width: 100%;">
+                                            <th style="width: 33%;"> <?php echo $this->formRow($form->get('diagnostic_traitement_chirurgical'));?> </th>
+                                            <th style="width: 33%;"> <?php echo $this->formRow($form->get('observation'));?> </th>
+                                            <th style="width: 33%;"> <?php echo $this->formRow($form->get('intervention_prevue'));?> </th>
                                         </tr>
-                                        <tr class="form-chirurgical" >
-                                            <th> <?php echo $this->formRow($form->get('observation'));?> </th>
-                                            <th colspan='3' >
-                                                <div id="bouton_valider_chirurgical" style='margin-top:70px; float:right; margin-right:20px;'>
-                                                     <button id='bouton_chirurgical_valider'>Valider</button>
+                                        <tr class="form-chirurgical" style="width: 100%;">
+                                            <th style="width: 25%;"> <?php echo $this->formRow($form->get('numero_vpa'));?> </th>
+                                            <th> <?php echo $this->formRow($form->get('type_anesthesie_demande'));?> </th>
+                                            <th>
+                                                <div id="bouton_valider_chirurgical" style='margin-top:70px; float:right; margin-right:20px;'> 
+                                                     <button id='bouton_chirurgical_valider'>Valider</button>  
                                                 </div >
-                                                <div id="bouton_modifier_chirurgical" style='margin-top:70px; float:right;'>
-                                                     <button id='bouton_chirurgical_modifier'>Modifier</button>
+                                                <div id="bouton_modifier_chirurgical" style='margin-top:70px; float:right;'> 
+                                                     <button id='bouton_chirurgical_modifier'>Modifier</button>  
                                                 </div>
                                             </th>
-
+                                           
                                         </tr>
                                     </table>
 
@@ -1324,18 +1324,18 @@ echo $this->form()->openTag($form); ?>
                                            <hass><input type="submit" alt="Constantes" title="Annuler" name="annulertransfert" id="annulertransfert"></hass>
                                        </div>
                                 <div style=" padding-bottom:40px; margin-bottom: 10px; border-bottom: 1px dashed green; margin-left: 0px; margin-right: 0px;"></div>
-                                  <table id="transfert">
-                                        <tr class="form-transfert">
-                                            <th><?php echo $this->formRow($form->get('motif_transfert'));?></th>
+                                  <table id="transfert" style="width: 100%;">
+                                        <tr class="form-transfert" style="width: 100%;">
+                                            <th style="width: 45%;"><?php echo $this->formRow($form->get('motif_transfert'));?></th>
 
-                                            <th class="form-transfert2"><?php echo $this->formRow($form->get('hopital_accueil'));?></th>
-                                            <th class="form-transfert2"><?php echo $this->formRow($form->get('service_accueil'));?></th>
+                                            <th class="form-transfert2" style="width: 27%;"><?php echo $this->formRow($form->get('hopital_accueil'));?></th>
+                                            <th class="form-transfert2" style="width: 28%;"><?php echo $this->formRow($form->get('service_accueil'));?></th>
                                             <th><input type="hidden" id="hopital_accueil_tampon" name="hopital_accueil_tampon">
                                                 <input type="hidden" id="service_accueil_tampon" name="service_accueil_tampon">
                                             </th>
                                         </tr>
 
-                                        <tr>
+                                        <tr style="width: 100%;">
                                             <th></th>
                                             <th></th>
                                             <th style="float:right; height:40px; margin-top: 20px; width:80px;">
@@ -1408,19 +1408,19 @@ echo $this->form()->openTag($form); ?>
                                        </div>
                                 <div style=" padding-bottom:40px; margin-bottom: 10px; border-bottom: 1px dashed green; margin-left: 0px; margin-right: 0px;"></div>
 
-                                  <table id="rendezvous">
-                                        <tr class="form-rendezvous">
-                                            <th> <?php echo $this->formRow($form->get('motif_rv'));?> </th>
+                                  <table id="rendezvous" style="width: 100%;">
+                                        <tr class="form-rendezvous" style="width: 100%;">
+                                            <th style="width: 46%;"> <?php echo $this->formRow($form->get('motif_rv'));?> </th>
 
-                                            <th class="form-rendezvous2"> <?php echo $this->formRow($form->get('date_rv')); ?> </th>
-                                            <th class="form-rendezvous2"> <?php echo $this->formRow($form->get('heure_rv'));?> </th>
-
-                                            <th style="width:150px;">
+                                            <th class="form-rendezvous2" style="width: 27%;"> <?php echo $this->formRow($form->get('date_rv')); ?> </th>
+                                            <th class="form-rendezvous2" style="width: 17%;"> <?php echo $this->formRow($form->get('heure_rv'));?> </th>
+                                            <th style="width: 10%;"><th>
+                                            <th>
                                                 <input type="hidden" id="date_rv_tampon" name="date_rv_tampon">
                                                 <input type="hidden" id="heure_rv_tampon" name="heure_rv_tampon">
                                             </th>
                                         </tr>
-                                        <tr>
+                                        <tr style="width: 100%;">
                                             <th colspan='4'>
                                                 <!-- On crï¿½e le bouton Valider (permettant la validation des donnï¿½es -->
                                                 <div id="bouton_valider" style="float:right; height:15px; margin-top:20px;">
