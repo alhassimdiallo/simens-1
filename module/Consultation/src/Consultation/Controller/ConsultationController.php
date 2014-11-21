@@ -757,9 +757,9 @@ class ConsultationController extends AbstractActionController {
 		 // Recuperer la photo du patient
 		 $image = $list->getPhoto ( $id_pat );
 		 
-		 //POUR LES CONSULTATIONS
-		 //POUR LES CONSULTATIONS
-		 //POUR LES CONSULTATIONS
+		 //POUR LES CONSTANTES
+		 //POUR LES CONSTANTES
+		 //POUR LES CONSTANTES
 		  // instancier la consultation et rï¿½cupï¿½rer l'enregistrement
 		  $cons = $this->getConsultationTable ();
 		  $consult = $cons->getConsult ( $id );
@@ -768,7 +768,6 @@ class ConsultationController extends AbstractActionController {
 		 		'id_cons' => $consult->id_cons,
 		 		'id_medecin' => $consult->id_personne,
 		 		'id_patient' => $consult->pat_id_personne,
-		 		'motif_admission' => $consult->motif_admission,
 		 		'date_cons' => $consult->date,
 		 		'poids' => $consult->poids,
 		 		'taille' => $consult->taille,
@@ -932,31 +931,48 @@ class ConsultationController extends AbstractActionController {
 	//***************************************************
 	//***************************************************
 	public function updateComplementConsultationAction(){
-		return array();
+		
+		$id_cons = $this->params()->fromPost('id_cons');
+		
+		//POUR LES EXAMEN PHYSIQUES
+		//POUR LES EXAMEN PHYSIQUES
+		//POUR LES EXAMEN PHYSIQUES
+
+		$info_donnees_examen_physique = array(
+				'id_cons' => $id_cons,
+				'donnee1' => $this->params()->fromPost('examen_donnee1'),
+				'donnee2' => $this->params()->fromPost('examen_donnee2'),
+				'donnee3' => $this->params()->fromPost('examen_donnee3'),
+				'donnee4' => $this->params()->fromPost('examen_donnee4'),
+				'donnee5' => $this->params()->fromPost('examen_donnee5')
+		);
+		$examen = $this->getDonneesExamensPhysiquesTable();
+		$examen->updateExamenPhysique($info_donnees_examen_physique);
+		
+		//POUR LES EXAMENS MORPHOLOGIQUES 
+		//POUR LES EXAMENS MORPHOLOGIQUES 
+		//POUR LES EXAMENS MORPHOLOGIQUES
+		
+		$info_examen_morphologique = array(
+				'id_cons'=> $id_cons,
+				'8'  => $this->params()->fromPost('radio_'),
+				'9'  => $this->params()->fromPost('ecographie_'),
+				'12' => $this->params()->fromPost('fibroscopie_'),
+				'11' => $this->params()->fromPost('scanner_'),
+				'10' => $this->params()->fromPost('irm_'),
+		);
+		//$cons_examen_morphologique = new Consultation_Model_Managers_NoteExamensMorphologiques();
+		//$cons_examen_morphologique->updateNoteExamensMorphologiques($info_examen_morphologique);
+		
+		\Zend\Debug\Debug::dump($id_cons); exit();
+		return array(
+			
+		);
 // 		$Control = new Facturation_Model_Helpers_Aides();
 // 		$LeService = $this->_service;
 	
 // 		//Données COMMUNES A TOUTES LES INTERFACES
 // 		$id_cons = $this->getParam('id_cons');
-	
-	
-// 		// **********-- Donnees de l'examen physique --*******
-// 		// **********-- Donnees de l'examen physique --*******
-// 		$DONNEE1 = $this->getParam('examen_donnee1');
-// 		$DONNEE2 = $this->getParam('examen_donnee2');
-// 		$DONNEE3 = $this->getParam('examen_donnee3');
-// 		$DONNEE4 = $this->getParam('examen_donnee4');
-// 		$DONNEE5 = $this->getParam('examen_donnee5');
-	
-// 		$info_donnees_examen_physique = array('id_cons' => $id_cons,
-// 				'donnee1' => $DONNEE1,
-// 				'donnee2' => $DONNEE2,
-// 				'donnee3' => $DONNEE3,
-// 				'donnee4' => $DONNEE4,
-// 				'donnee5' => $DONNEE5
-// 		);
-// 		$cons_donnees_examen_physique = new Consultation_Model_Managers_ExamenPhysiquee();
-// 		$cons_donnees_examen_physique->updateExamenPhysique($info_donnees_examen_physique);
 	
 // 		/*********************Examen complémentaire (examen et analyse)******************/
 // 		/*********************Examen complémentaire (examen et analyse)******************/
