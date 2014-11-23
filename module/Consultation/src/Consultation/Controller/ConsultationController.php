@@ -43,6 +43,9 @@ class ConsultationController extends AbstractActionController {
 	protected $diagnosticsTable;
 	protected $ordonnanceTable;
 	protected $demandeVisitePreanesthesiqueTable;
+	protected $notesExamensMorphologiquesTable;
+	protected $demandeExamensTable;
+	protected $ordonConsommableTable;
 
 	
 	public function getPatientTable() {
@@ -128,6 +131,27 @@ class ConsultationController extends AbstractActionController {
 			$this->demandeVisitePreanesthesiqueTable = $sm->get ( 'Consultation\Model\DemandeVisitePreanesthesiqueTable' );
 		}
 		return $this->demandeVisitePreanesthesiqueTable;
+	}
+	public function getNotesExamensMorphologiquesTable() {
+		if (! $this->notesExamensMorphologiquesTable) {
+			$sm = $this->getServiceLocator ();
+			$this->notesExamensMorphologiquesTable = $sm->get ( 'Consultation\Model\NotesExamensMorphologiquesTable' );
+		}
+		return $this->notesExamensMorphologiquesTable;
+	}
+	public function demandeExamensTable() {
+		if (! $this->demandeExamensTable) {
+			$sm = $this->getServiceLocator ();
+			$this->demandeExamensTable = $sm->get ( 'Consultation\Model\DemandeTable' );
+		}
+		return $this->demandeExamensTable;
+	}
+	public function getOrdonConsommableTable() {
+		if (! $this->ordonConsommableTable) {
+			$sm = $this->getServiceLocator ();
+			$this->ordonConsommableTable = $sm->get ( 'Consultation\Model\OrdonConsommableTable' );
+		}
+		return $this->ordonConsommableTable;
 	}
 	
 /***
@@ -810,6 +834,24 @@ class ConsultationController extends AbstractActionController {
 		  // POUR LES ANTECEDENTS OU TERRAIN PARTICULIER
 		  $listeConsultation = $cons->getConsultationPatient($id_pat);
 		  
+		  //POUR LES EXAMENS COMPLEMENTAIRES
+		  //POUR LES EXAMENS COMPLEMENTAIRES
+		  //POUR LES EXAMENS COMPLEMENTAIRES
+		  // DEMANDES DES EXAMENS COMPLEMENTAIRES
+		  $demandeExamen = $this->demandeExamensTable();
+		  $listeDemandes = $demandeExamen->getDemande($id);
+		  
+		  //\Zend\Debug\Debug::dump($donnee); exit();
+		  
+		  // RESULTATS DES EXAMENS COMPLEMENTAIRES
+		  $resultatExamenMorphologique = $this->getNotesExamensMorphologiquesTable();
+		  $examen_morphologique = $resultatExamenMorphologique->getNotesExamensMorphologiques($id);
+		  
+		  $data['radio'] = $examen_morphologique['radio'];
+		  $data['ecographie'] = $examen_morphologique['ecographie'];
+		  $data['fibrocospie'] = $examen_morphologique['fibroscopie'];
+		  $data['scanner'] = $examen_morphologique['scanner'];
+		  $data['irm'] = $examen_morphologique['irm'];
 		  
 		  //DIAGNOSTICS
 		  //DIAGNOSTICS
@@ -905,8 +947,6 @@ class ConsultationController extends AbstractActionController {
 		  	$data['motif_rv'] = $leRendezVous->note;
 		  }
 		  
-		  //\Zend\Debug\Debug::dump($leRendezVous); exit();
-
 		  $form->populateValues($data);
 		  return array(
 		 		'id_cons' => $id,
@@ -921,6 +961,7 @@ class ConsultationController extends AbstractActionController {
 		  		'liste_med_prescrit' => $listeMedicamentsPrescrits,
 		  		'duree_traitement' => $duree_traitement,
 		  		'verifieRV' => $leRendezVous, 
+		  		'listeDemande' => $listeDemandes
 		  );
 	
 	}
@@ -934,9 +975,9 @@ class ConsultationController extends AbstractActionController {
 		
 		$id_cons = $this->params()->fromPost('id_cons');
 		
-		//POUR LES EXAMEN PHYSIQUES
-		//POUR LES EXAMEN PHYSIQUES
-		//POUR LES EXAMEN PHYSIQUES
+		//POUR LES EXAMENS PHYSIQUES
+		//POUR LES EXAMENS PHYSIQUES
+		//POUR LES EXAMENS PHYSIQUES
 
 		$info_donnees_examen_physique = array(
 				'id_cons' => $id_cons,
@@ -949,71 +990,125 @@ class ConsultationController extends AbstractActionController {
 		$examen = $this->getDonneesExamensPhysiquesTable();
 		$examen->updateExamenPhysique($info_donnees_examen_physique);
 		
-		//POUR LES EXAMENS MORPHOLOGIQUES 
-		//POUR LES EXAMENS MORPHOLOGIQUES 
-		//POUR LES EXAMENS MORPHOLOGIQUES
+		//POUR LES DEMANDES DES EXAMENS BIOLOGIQUES ET MORPHOLOGIQUES 
+		//POUR LES DEMANDES DES EXAMENS BIOLOGIQUES ET MORPHOLOGIQUES 
+		//POUR LES DEMANDES DES EXAMENS BIOLOGIQUES ET MORPHOLOGIQUES
+		
+		$examenDemande = array(
+				'id_cons'=> $id_cons,
+				'1'  => $this->params()->fromPost('groupe'),
+				'2'  => $this->params()->fromPost('hemmogramme'),
+				'3'  => $this->params()->fromPost('hepatique'),
+				'4'  => $this->params()->fromPost('renal'),
+				'5'  => $this->params()->fromPost('hemostase'),
+				'6'  => $this->params()->fromPost('inflammatoire'),
+				'7'  => $this->params()->fromPost('autreb'),
+				'8'  => $this->params()->fromPost('radio'),
+				'9'  => $this->params()->fromPost('ecographie'),
+				'10' => $this->params()->fromPost('irm'),
+				'11' => $this->params()->fromPost('scanner'),
+				'12' => $this->params()->fromPost('fibroscopie'),
+				'13' => $this->params()->fromPost('autrem'),
+		);
+		
+		$noteExamen = array(
+				'1'  => $this->params()->fromPost('ngroupe'),
+				'2'  => $this->params()->fromPost('nhemmogramme'),
+				'3'  => $this->params()->fromPost('nhepatique'),
+				'4'  => $this->params()->fromPost('nrenal'),
+				'5'  => $this->params()->fromPost('nhemostase'),
+				'6'  => $this->params()->fromPost('ninflammatoire'),
+				'7'  => $this->params()->fromPost('nautreb'),
+				'8'  => $this->params()->fromPost('nradio'),
+				'9'  => $this->params()->fromPost('necographie'),
+				'10' => $this->params()->fromPost('nirm'),
+				'11' => $this->params()->fromPost('nscanner'),
+				'12' => $this->params()->fromPost('nfibroscopie'),
+				'13' => $this->params()->fromPost('nautrem')
+		);
+		
+		$demandeExamens = $this->demandeExamensTable();
+		$demandeExamens->updateDemande($examenDemande, $noteExamen);
+		
+		//POUR LES RESULTATS DES EXAMENS MORPHOLOGIQUES
+		//POUR LES RESULTATS DES EXAMENS MORPHOLOGIQUES
+		//POUR LES RESULTATS DES EXAMENS MORPHOLOGIQUES
 		
 		$info_examen_morphologique = array(
 				'id_cons'=> $id_cons,
 				'8'  => $this->params()->fromPost('radio_'),
 				'9'  => $this->params()->fromPost('ecographie_'),
-				'12' => $this->params()->fromPost('fibroscopie_'),
+				'12' => $this->params()->fromPost('irm_'),
 				'11' => $this->params()->fromPost('scanner_'),
-				'10' => $this->params()->fromPost('irm_'),
+				'10' => $this->params()->fromPost('fibroscopie_'),
 		);
-		//$cons_examen_morphologique = new Consultation_Model_Managers_NoteExamensMorphologiques();
-		//$cons_examen_morphologique->updateNoteExamensMorphologiques($info_examen_morphologique);
 		
-		\Zend\Debug\Debug::dump($id_cons); exit();
-		return array(
-			
+		$examensMorphologiques = $this->getNotesExamensMorphologiquesTable();
+		$examensMorphologiques->updateNotesExamensMorphologiques($info_examen_morphologique);
+		
+		//POUR LES DIAGNOSTICS
+		//POUR LES DIAGNOSTICS
+		//POUR LES DIAGNOSTICS
+		
+		$info_diagnostics = array(
+				'id_cons' => $id_cons,
+				'diagnostic1' => $this->params()->fromPost('diagnostic1'),
+				'diagnostic2' => $this->params()->fromPost('diagnostic2'),
+				'diagnostic3' => $this->params()->fromPost('diagnostic3'),
+				'diagnostic4' => $this->params()->fromPost('diagnostic4'),
 		);
-// 		$Control = new Facturation_Model_Helpers_Aides();
-// 		$LeService = $this->_service;
-	
-// 		//Données COMMUNES A TOUTES LES INTERFACES
-// 		$id_cons = $this->getParam('id_cons');
-	
-// 		/*********************Examen complémentaire (examen et analyse)******************/
-// 		/*********************Examen complémentaire (examen et analyse)******************/
-	
-// 		/**************** EXAMEN MORPHOLOGIQUE ************************/
-// 		/**************** EXAMEN MORPHOLOGIQUE ************************/
-// 		$RADIO = $this->getParam('radio_');
-// 		$ECOGRAPHIE = $this->getParam('ecographie_');
-// 		$FIBROSCOPIE = $this->getParam('fibroscopie_');
-// 		$SCANNER = $this->getParam('scanner_');
-// 		$IRM = $this->getParam('irm_');
-	
-// 		$info_examen_morphologique = array('id_cons'=> $id_cons,
-// 				'8' => $RADIO,
-// 				'9' => $ECOGRAPHIE,
-// 				'12' => $IRM,
-// 				'11' => $SCANNER,
-// 				'10' => $FIBROSCOPIE,
-// 		);
-// 		$cons_examen_morphologique = new Consultation_Model_Managers_NoteExamensMorphologiques();
-// 		$cons_examen_morphologique->updateNoteExamensMorphologiques($info_examen_morphologique);
-			
-// 		/*********************FIN FIN Examen complémentaire ******************/
-// 		/*********************FIN FIN Examen complémentaire ******************/
-	
-// 		/*********** DIAGNOSTICS ************/
-// 		/*********** DIAGNOSTICS ************/
-// 		$diagnostic1 = $this->getParam('diagnostic1');
-// 		$diagnostic2 = $this->getParam('diagnostic2');
-// 		$diagnostic3 = $this->getParam('diagnostic3');
-// 		$diagnostic4 = $this->getParam('diagnostic4');
-			
-// 		$info_diagnostics = array('id_cons'     => $id_cons,
-// 				'diagnostic1' => $diagnostic1,
-// 				'diagnostic2' => $diagnostic2,
-// 				'diagnostic3' => $diagnostic3,
-// 				'diagnostic4' => $diagnostic4,
-// 		);
-// 		$cons_diagnostics = new Consultation_Model_Managers_Diagnostics();
-// 		$cons_diagnostics->updateDiagnostics($info_diagnostics);
-	
+		
+		$diagnostics = $this->getDiagnosticsTable();
+		$diagnostics->updateDiagnostics($info_diagnostics);
+		
+		//POUR LES TRAITEMENTS 
+		//POUR LES TRAITEMENTS
+		//POUR LES TRAITEMENTS
+		/**** MEDICAUX ****/
+		/**** MEDICAUX ****/
+		$dureeTraitement = $this->params()->fromPost('duree_traitement_ord');
+		$donnees = array('id_cons' => $id_cons, 'duree_traitement' => $dureeTraitement);
+		$tab = array();
+		$j = 1;
+		for($i = 1 ; $i < 10 ; $i++ ){
+			if($this->params()->fromPost("medicament_0".$i)){
+				$tab[$j++] = $this->params()->fromPost("medicament_0".$i);
+				$tab[$j++] = $this->params()->fromPost("medicament_1".$i);
+				$tab[$j++] = $this->params()->fromPost("medicament_2".$i);
+				$tab[$j++] = $this->params()->fromPost("medicament_3".$i);
+			}
+		}
+		/*Mettre a jour la duree du traitement de l'ordonnance*/
+		$Ordonnance = $this->getOrdonnanceTable();
+		$idOrdonnance = $Ordonnance->updateOrdonnance($tab, $donnees);
+
+		/*Mettre a jour les medicaments*/
+		$Consommable = $this->getOrdonConsommableTable();
+		$resultat = $Consommable->updateOrdonConsommable($tab, $idOrdonnance);
+		
+		/*si aucun médicament n'est ajouté ($resultat = false) on supprime l'ordonnance*/
+		if($resultat == false){ $Ordonnance->deleteOrdonnance($idOrdonnance);}
+		
+		/**** CHIRURGICAUX ****/
+		/**** CHIRURGICAUX ****/
+		/**** CHIRURGICAUX ****/
+		$infoDemande = array(
+				'diagnostic' => $this->params()->fromPost("diagnostic_traitement_chirurgical"),
+				'intervention_prevue' => $this->params()->fromPost("intervention_prevue"),
+				'type_anesthesie' => $this->params()->fromPost("type_anesthesie_demande"),
+				'numero_vpa' => $this->params()->fromPost("numero_vpa"),
+				'observation' => $this->params()->fromPost("observation"),
+				'idcons'=>$id_cons
+		);
+		
+		$DemandeVPA = $this->getDemandeVisitePreanesthesiqueTable();
+		$DemandeVPA->updateDemandeVisitePreanesthesique($infoDemande);
+		
+		\Zend\Debug\Debug::dump($infoDemande); exit();
+		/*$this->redirect ()->toRoute ( 'consultation', array (
+		 'action' => 'recherche'
+		) );*/
+
 // 		/*************Autres(Transfert/Hospitalisation/ Rendez-Vous )***************/
 // 		/*************Autres(Transfert/Hospitalisation/ Rendez-Vous )***************/
 	
@@ -1055,41 +1150,7 @@ class ConsultationController extends AbstractActionController {
 	
 // 		/************* FIN FIN Autres(Transfert/Hospitalisation/ Rendez-Vous )***************/
 // 		/************* FIN FIN Autres(Transfert/Hospitalisation/ Rendez-Vous )***************/
-	
-// 		/********************Traitement (Ordonnance)***********************/
-// 		/********************Traitement (Ordonnance)***********************/
-		  
-// 		/**** MEDICAL ****/
-// 		/**** MEDICAL ****/
-// 		$duree = $this->getParam('duree_traitement_ord');
-// 		$donnees = array('id_cons' => $id_cons, 'duree_traitement' => $duree);
-	
-// 		$ordonnance = new Consultation_Model_Managers_Ordonnance ();
-// 		$ordonnance->updateDureeTraitement($donnees); // Mettre à jour la durée du traitement
-// 		$idOrdonnance = $ordonnance->getIdOrdonnance($id_cons); //on récupère l'$id de l'ordonnance
-// 		$medicaments = new Consultation_Model_Managers_OrdonConsommable();
-// 		$nbMed = $medicaments->nbmedicaments($idOrdonnance); //on récupère le nombre de médicaments
-	
-// 		$tab = array();
-// 		$j = 1;
-// 		for($i = 1 ; $i < 10 ; $i++ ){
-// 			if($this->getParam("medicament_0".$i)){
-// 				$tab[$j++] = $this->getParam("medicament_0".$i);
-// 				$tab[$j++] = $this->getParam("medicament_1".$i);
-// 				$tab[$j++] = $this->getParam("medicament_2".$i);
-// 				$tab[$j++] = $this->getParam("medicament_3".$i);
-// 			}
-// 		}
-// 		//ON SUPPRIME TOUS LES MEDICAMENTS
-// 		$medicaments->deleteOrdonConsom($idOrdonnance);
-		 
-// 		//ON AJOUTE LES NOUVEAUX MEDICAMENTS
-// 		$tab[0] = $idOrdonnance; //récupérer l'id de l'ordonnance et l'inserer dans le tableau
-// 		$medicaments->addOrdonConsom($tab);// on ajoute les médicaments dans l'ordonnance
-		 
-// 		/********************Traitement (Ordonnance)***********************/
-// 		/********************Traitement (Ordonnance)***********************/
-		  
+
 		    
 // 		/**** TRAITEMENTS CHIRURGICAUX ****/
 // 		/**** TRAITEMENTS CHIRURGICAUX ****/

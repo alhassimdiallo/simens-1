@@ -24,6 +24,12 @@ use Consultation\Model\Ordonnance;
 use Consultation\Model\OrdonnanceTable;
 use Consultation\Model\DemandeVisitePreanesthesiqueTable;
 use Consultation\Model\DemandeVisitePreanesthesique;
+use Consultation\Model\NotesExamensMorphologiquesTable;
+use Consultation\Model\NotesExamensMorphologiques;
+use Consultation\Model\DemandeTable;
+use Consultation\Model\Demande;
+use Consultation\Model\OrdonConsommable;
+use Consultation\Model\OrdonConsommableTable;
 
 class Module implements AutoloaderProviderInterface, ConfigProviderInterface {
 	public function onBootstrap(MvcEvent $e) {
@@ -143,7 +149,41 @@ class Module implements AutoloaderProviderInterface, ConfigProviderInterface {
 							$resultSetPrototype = new ResultSet();
 							$resultSetPrototype->setArrayObjectPrototype ( new DemandeVisitePreanesthesique());
 							return new TableGateway ( 'demande_visite_preanesthesique', $dbAdapter, null, $resultSetPrototype );
+						},
+						'Consultation\Model\NotesExamensMorphologiquesTable' => function ($sm) {
+							$tableGateway = $sm->get ( 'NotesExamensMorphologiquesTableGateway' );
+							$table = new NotesExamensMorphologiquesTable($tableGateway);
+							return $table;
+						},
+						'NotesExamensMorphologiquesTableGateway' => function ($sm) {
+							$dbAdapter = $sm->get ( 'Zend\Db\Adapter\Adapter' );
+							$resultSetPrototype = new ResultSet();
+							$resultSetPrototype->setArrayObjectPrototype ( new NotesExamensMorphologiques());
+							return new TableGateway ( 'note_examen_morphologique', $dbAdapter, null, $resultSetPrototype );
+						},
+						'Consultation\Model\DemandeTable' => function ($sm) {
+							$tableGateway = $sm->get ( 'DemandeTableGateway' );
+							$table = new DemandeTable($tableGateway);
+							return $table;
+						},
+						'DemandeTableGateway' => function ($sm) {
+							$dbAdapter = $sm->get ( 'Zend\Db\Adapter\Adapter' );
+							$resultSetPrototype = new ResultSet();
+							$resultSetPrototype->setArrayObjectPrototype ( new Demande());
+							return new TableGateway ( 'demande', $dbAdapter, null, $resultSetPrototype );
+						},
+						'Consultation\Model\OrdonConsommableTable' => function ($sm) {
+							$tableGateway = $sm->get ( 'OrdonConsommableTableGateway' );
+							$table = new OrdonConsommableTable($tableGateway);
+							return $table;
+						},
+						'OrdonConsommableTableGateway' => function ($sm) {
+							$dbAdapter = $sm->get ( 'Zend\Db\Adapter\Adapter' );
+							$resultSetPrototype = new ResultSet();
+							$resultSetPrototype->setArrayObjectPrototype ( new OrdonConsommable());
+							return new TableGateway ( 'ordon_consommable', $dbAdapter, null, $resultSetPrototype );
 						}
+						
 				)
 		);
 	}
