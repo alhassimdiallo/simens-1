@@ -390,7 +390,10 @@ $(function() {
 
 /***BOITE DE DIALOG POUR LA CONFIRMATION DE SUPPRESSION**/
 $(document).ready(function() {
-	var theHREF = "/simens/public/consultation/recherche/service/"+$('#LeService').val();
+	var base_url = window.location.toString();
+	var tabUrl = base_url.split("public");
+	
+	var theHREF = tabUrl[0]+"public/consultation/recherche";
 	function confirmation(){
 		
   		$( "#confirmation" ).dialog({

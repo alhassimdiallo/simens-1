@@ -39,6 +39,9 @@ class ConsultationForm extends Form {
 				'type' => 'Hidden',
 				'options' => array (
 						'decorators' => $this->decor
+				),
+				'attributes' => array (
+						'id' => 'id_medecin'
 				)
 		) );
 		$this->add ( array (
@@ -46,6 +49,9 @@ class ConsultationForm extends Form {
 				'type' => 'Hidden',
 				'options' => array (
 						'decorators' => $this->decor
+				),
+				'attributes' => array (
+						'id' => 'id_patient'
 				)
 		) );
 		$this->add ( array (
@@ -53,6 +59,9 @@ class ConsultationForm extends Form {
 				'type' => 'Hidden',
 				'options' => array (
 						'decorators' => $this->decor
+				),
+				'attributes' => array (
+						'id' => 'dateonly'
 				)
 		) );
 		$this->add ( array (
@@ -627,13 +636,13 @@ class ConsultationForm extends Form {
 				'name' => 'hopital_accueil',
 				'type' => 'Zend\Form\Element\Select',
 				'options' => array (
-						'label' => iconv ( 'ISO-8859-1', 'UTF-8', 'Hopital d\'accueil :' )
+						'label' => iconv ( 'ISO-8859-1', 'UTF-8', 'Hopital d\'accueil :' ),
 // 						'value_options' => array (
-// 								'' => ''
+// 								'zzz' => 'zzz'
 // 						)
 				),
 				'attributes' => array (
-						'registerInArrrayValidator' => true,
+						'registerInArrrayValidator' => false,
 						'onchange' => 'getservices(this.value)',
 						'id' => 'hopital_accueil'
 				)

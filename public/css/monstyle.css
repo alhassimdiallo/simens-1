@@ -1158,11 +1158,11 @@ border-bottom-width: 2px;
 
 
 /* le texte des champs*/
-padding-top: 10px;
+padding-top: 5px;
 
 padding-right: 5px;
 
-padding-bottom: 10px;
+padding-bottom: 5px;
 
 padding-left: 0px; /* padding du text dans le champ*/
 
@@ -2309,11 +2309,11 @@ margin-right: 15px;
 #rendezvous input[type="text"]
 {
 	/* le texte des champs*/
-    padding-top: 10px;
+    padding-top: 5px;
 
     padding-right: 10px;
 
-    padding-bottom: 10px;
+    padding-bottom: 5px;
 
     padding-left: 10px; /* padding du text dans le champ*/
 

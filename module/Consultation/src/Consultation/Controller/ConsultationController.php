@@ -568,7 +568,6 @@ class ConsultationController extends AbstractActionController {
 		if (isset ( $_POST ['terminer'] )) {
 			$form = new ConsultationForm ();
 			$formData = $this->getRequest ()->getPost ();
-			//$form->setInputFilter ( $consModel->getInputFilter () );
 			$test = $this->params()->fromPost('date_cons');
 			$form->setData ( $formData );
 			$form->remove('heure_rv');
@@ -660,26 +659,28 @@ class ConsultationController extends AbstractActionController {
 		if (isset ( $_POST ['terminer'] )) {
 
 			$form = new ConsultationForm ();
-			$form->bind ( $consultation );
+			//$form->bind ( $consultation );
 			if ($this->getRequest ()->isPost ()) {
-
 				$formData = $this->getRequest ()->getPost ();
-
-				$form->setInputFilter ( $consultation->getInputFilter () );
+				//$form->setInputFilter ( $consultation->getInputFilter () );
 				$form->setData ( $formData );
-				//var_dump ( $form->isValid () );
-				//exit ();
+				$form->remove('heure_rv');
+				$form->remove('type_anesthesie_demande');
+				$form->remove('hopital_accueil');
+				$form->remove('service_accueil');
+				
 				if ($form->isValid ()) {
 					$infos = $form->getData ();
+
 					// mettre a jour la consultation
 					$cons = $this->getConsultationTable ();
 					$cons->updateConsultation ( $infos );
-
+					
 					// mettre a jour les motifs d'admission
 					$motifs = $this->getMotifAdmissionTable ();
 					$motifs->deleteMotifAdmission ( $form->get ( 'id_cons' )->getValue () );
 					$motifs->addMotifAdmission ( $infos );
-
+					
 					$this->redirect ()->toRoute ( 'consultation', array (
 							'action' => 'recherche'
 					) );
@@ -695,7 +696,7 @@ class ConsultationController extends AbstractActionController {
 		}
 	}
 	// DonnÃ©es du patient Ã  consulter par le medecin et complÃ©ment Ã  faire par le medecin
-	public function complementConsultationAction() {
+	public function complementConsultationAction() { 
 		$this->layout ()->setTemplate ( 'layout/consultation' );
 		$id_pat = $this->params ()->fromQuery ( 'id_patient', 0 );
 		$id = $this->params ()->fromQuery ( 'id_cons' );
@@ -771,7 +772,7 @@ class ConsultationController extends AbstractActionController {
 	public function majComplementConsultationAction() {
 
 		 $this->layout ()->setTemplate ( 'layout/consultation' );
-		 $this->getDateHelper(); //Pour la conversion des dates
+		 $this->getDateHelper(); 
 		 $id_pat = $this->params()->fromQuery ( 'id_patient', 0 );
 		 $id = $this->params()->fromQuery ( 'id_cons' );
 		 $form = new ConsultationForm();
@@ -876,7 +877,7 @@ class ConsultationController extends AbstractActionController {
 		  // INSTANCIATION DES MEDICAMENTS de l'ordonnance
 		  $consommable = $this->getConsommableTable();
 		  $listeMedicament = $consommable->fetchConsommable();
-		  
+
 		  // INSTANTIATION DE L'ORDONNANCE
 		  $ordonnance = $this->getOrdonnanceTable();
 		  $infoOrdonnance = $ordonnance->getOrdonnance($id); //on recupere l'id de l'ordonnance
@@ -914,6 +915,8 @@ class ConsultationController extends AbstractActionController {
 		  $transferer = $this->getTransfererPatientServiceTable ();
 		  // RECUPERATION DE LA LISTE DES HOPITAUX
 		  $hopital = $transferer->fetchHopital ();
+		  //LISTE DES HOPITAUX
+		  $form->get ( 'hopital_accueil' )->setValueOptions ( $hopital );
 		  // RECUPERATION DU SERVICE OU EST TRANSFERE LE PATIENT
 		  $transfertPatientService = $transferer->getServicePatientTransfert($id);
 		  
@@ -925,14 +928,16 @@ class ConsultationController extends AbstractActionController {
 		    // RECUPERATION DE LA LISTE DES SERVICES DE L'HOPITAL OU SE TROUVE LE SERVICE OU IL EST TRANSFERE
 		  	$serviceHopital = $transferer->fetchServiceWithHopital($idHopital);
 
-		  	//LISTE DES HOPITAUX ET SERVICES
-		  	$form->get ( 'hopital_accueil' )->setValueOptions ( $hopital );
+		  	// LISTE DES SERVICES DE L'HOPITAL
 		  	$form->get ( 'service_accueil' )->setValueOptions ($serviceHopital);
 		  
 		    // SELECTION DE L'HOPITAL ET DU SERVICE SUR LES LISTES
 		  	$data['hopital_accueil'] = $idHopital;
 		  	$data['service_accueil'] = $idService;
 		  	$data['motif_transfert'] = $transfertPatientService['motif_transfert'];
+		  	$hopitalSelect = 1;
+		  }else {
+		  	$hopitalSelect = 0;
 		  }
 		  //POUR LE RENDEZ VOUS
 		  //POUR LE RENDEZ VOUS
@@ -961,7 +966,8 @@ class ConsultationController extends AbstractActionController {
 		  		'liste_med_prescrit' => $listeMedicamentsPrescrits,
 		  		'duree_traitement' => $duree_traitement,
 		  		'verifieRV' => $leRendezVous, 
-		  		'listeDemande' => $listeDemandes
+		  		'listeDemande' => $listeDemandes,
+		  		'hopitalSelect' =>$hopitalSelect
 		  );
 	
 	}
@@ -972,7 +978,7 @@ class ConsultationController extends AbstractActionController {
 	//***************************************************
 	//***************************************************
 	public function updateComplementConsultationAction(){
-		
+		$this->getDateHelper();
 		$id_cons = $this->params()->fromPost('id_cons');
 		
 		//POUR LES EXAMENS PHYSIQUES
@@ -1078,6 +1084,7 @@ class ConsultationController extends AbstractActionController {
 				$tab[$j++] = $this->params()->fromPost("medicament_3".$i);
 			}
 		}
+
 		/*Mettre a jour la duree du traitement de l'ordonnance*/
 		$Ordonnance = $this->getOrdonnanceTable();
 		$idOrdonnance = $Ordonnance->updateOrdonnance($tab, $donnees);
@@ -1098,159 +1105,64 @@ class ConsultationController extends AbstractActionController {
 				'type_anesthesie' => $this->params()->fromPost("type_anesthesie_demande"),
 				'numero_vpa' => $this->params()->fromPost("numero_vpa"),
 				'observation' => $this->params()->fromPost("observation"),
-				'idcons'=>$id_cons
+				'ID_CONS'=>$id_cons
 		);
-		
 		$DemandeVPA = $this->getDemandeVisitePreanesthesiqueTable();
 		$DemandeVPA->updateDemandeVisitePreanesthesique($infoDemande);
 		
-		\Zend\Debug\Debug::dump($infoDemande); exit();
-		/*$this->redirect ()->toRoute ( 'consultation', array (
-		 'action' => 'recherche'
-		) );*/
-
-// 		/*************Autres(Transfert/Hospitalisation/ Rendez-Vous )***************/
-// 		/*************Autres(Transfert/Hospitalisation/ Rendez-Vous )***************/
-	
-// 		/**** RENDEZ VOUS ****/
-// 		/**** RENDEZ VOUS ****/
-// 		$ID_PERSONNE = $this->getParam('id_patient');
-// 		$date_RV_Recu = $this->getParam('date_rv');
-// 		if($date_RV_Recu){$date_RV = $Control->convertDateInAnglais($date_RV_Recu);}
-// 		else{ $date_RV = $date_RV_Recu;}
-// 		$note        = $this->getParam('motif_rv');
-// 		$heure_rv    = $this->getParam('heure_rv');
-// 		//créer le Rendez vous et inserer le RV
-// 		$infos_rv = array('id_personne' => $ID_PERSONNE,
-// 				'id_service'  => '2',
-// 				'id_cons'     => $id_cons,
-// 				'date_RV'     => $date_RV,
-// 				'note_prise'  => $note,
-// 				'heure_rv'    => $heure_rv
-// 		);
-// 		$cons_rv = new Consultation_Model_Managers_RvPatientCons();
-// 		$cons_rv->updateRendezVous($infos_rv);
-			
-// 		/**** TRANSFERT ****/
-// 		/**** TRANSFERT ****/
-// 		$ID_SERVICE = $this->getParam('id_service');
-// 		$MED_ID_PERSONNE = $this->getParam('med_id_personne');
-// 		$DATE = $this->getParam('date');
-// 		$MOTIF_TRANSFERT = $this->getParam('motif_transfert');
-	
-// 		$info_transfert = array('id_service'      => $ID_SERVICE,
-// 				'id_personne'     => $ID_PERSONNE,
-// 				'med_id_personne' => $MED_ID_PERSONNE,
-// 				'date'            => $DATE,
-// 				'motif_transfert' => $MOTIF_TRANSFERT,
-// 				'idcons' => $id_cons
-// 		);
-// 		$cons_transfert = new Consultation_Model_Managers_TransfererPatientService();
-// 		$cons_transfert->updateTransfertPatientService($info_transfert);
-	
-// 		/************* FIN FIN Autres(Transfert/Hospitalisation/ Rendez-Vous )***************/
-// 		/************* FIN FIN Autres(Transfert/Hospitalisation/ Rendez-Vous )***************/
-
-		    
-// 		/**** TRAITEMENTS CHIRURGICAUX ****/
-// 		/**** TRAITEMENTS CHIRURGICAUX ****/
-// 		$diagnostic_traitement_chirurgical = $this->getParam("diagnostic_traitement_chirurgical");
-// 		$intervention_prevue = $this->getParam("intervention_prevue");
-// 		$type_anesthesie_demande = $this->getParam("type_anesthesie_demande");
-// 		$numero_vpa = $this->getParam("numero_vpa");
-// 		$observation = $this->getParam("observation");
-	
-// 		//Créer le traitement chirurgical
-// 		$info_traitement = array('diagnostic'=>$diagnostic_traitement_chirurgical,
-// 				'intervention_prevue'=>$intervention_prevue,
-// 				'type_anesthesie'=>$type_anesthesie_demande,
-// 				'numero_vpa'=>$numero_vpa,
-// 				'observation'=>$observation,
-// 				'idcons'=>$id_cons);
-	
-// 		$ordonnance->updateTraitementsChirurgicaux($info_traitement);
-	
-		 
-// 		/******************** Demande examens (Biologique et morphologiqe) *******************/
-// 		/******************** Demande examens (Biologique et morphologiqe) *******************/
-// 		/******************** Demande examens (Biologique et morphologiqe) *******************/
-// 		$groupe = $this->getParam('groupe');
-// 		$hemmogrammes = $this->getParam('hemmogramme');
-// 		$hepatiques = $this->getParam('hepatique');
-// 		$renals = $this->getParam('renal');
-// 		$hemostase = $this->getParam('hemostase');
-// 		$inflammatoires = $this->getParam('inflammatoire');
-// 		$radios = $this->getParam('radio');
-// 		$ecographies = $this->getParam('ecographie');
-// 		$fibroscopies = $this->getParam('fibroscopie');
-// 		$scanners = $this->getParam('scanner');
-// 		$irms = $this->getParam('irm');
-// 		$autreb = $this->getParam('autreb');
-// 		$autrem = $this->getParam('autrem');
-		 
-// 		$examenDemande = array('idcons' => $id_cons);
-// 		$examenDemande[1] = $groupe;
-// 		$examenDemande[2] = $hemmogrammes;
-// 		$examenDemande[3] = $hepatiques;
-// 		$examenDemande[4] = $renals;
-// 		$examenDemande[5] = $hemostase;
-// 		$examenDemande[6] = $inflammatoires;
-// 		$examenDemande[7] = $autreb;
-// 		$examenDemande[8] = $radios;
-// 		$examenDemande[9] = $ecographies;
-// 		$examenDemande[10] = $irms;
-// 		$examenDemande[11] = $scanners;
-// 		$examenDemande[12] = $fibroscopies;
-// 		$examenDemande[13] = $autrem;
-		 
-		 
-// 		//--- NOTE SUR LES EXAMENS
-// 		$ngroupe = $this->getParam('ngroupe');
-// 		$nhemmogramme = $this->getParam('nhemmogramme');
-// 		$nhepatique = $this->getParam('nhepatique');
-// 		$nrenal = $this->getParam('nrenal');
-// 		$nhemostase= $this->getParam('nhemostase');
-// 		$ninflammatoire = $this->getParam('ninflammatoire');
-// 		$nradio = $this->getParam('nradio');
-// 		$necographie = $this->getParam('necographie');
-// 		$nfibroscopie = $this->getParam('nfibroscopie');
-// 		$nscanner = $this->getParam('nscanner');
-// 		$nirm = $this->getParam('nirm');
-// 		$nautreb = $this->getParam('nautreb');
-// 		$nautrem = $this->getParam('nautrem');
-	
-// 		$noteExamen = array();
-// 		$noteExamen[1] = $ngroupe;
-// 		$noteExamen[2] = $nhemmogramme;
-// 		$noteExamen[3] = $nhepatique;
-// 		$noteExamen[4] = $nrenal;
-// 		$noteExamen[5] = $nhemostase;
-// 		$noteExamen[6] = $ninflammatoire;
-// 		$noteExamen[7] = $nautreb;
-// 		$noteExamen[8] = $nradio;
-// 		$noteExamen[9] = $necographie;
-// 		$noteExamen[10] = $nirm;
-// 		$noteExamen[11] = $nscanner;
-// 		$noteExamen[12] = $nfibroscopie;
-// 		$noteExamen[13] = $nautrem;
-		 
-		 
-// 		//instancier la consultation et récupérer l'enregistrement pour avoir la date
-// 		$cons = new Consultation_Model_Managers_Consultation ();
-// 		$consult = $cons->getConsult($id_cons);
-		 
-// 		//On ajoute la demande dans la table Demande_Examen si ça n'existe pas
-// 		$dateonly = Zend_Date::now ()->toString ('yyyy-MM-dd');
-// 		$values = array('idcons' =>$id_cons, 'date'=>$dateonly);
-// 		$demandeExamen = new Consultation_Model_Managers_DemandeExamen();
-// 		$demandeExamen->updateDemande($values, $consult['DATEONLY']);
-		 
-// 		//Mis à jour des examens
-// 		$demande = new Consultation_Model_Managers_DemandeListeExamen();
-// 		$demande->updateDemandeListeExamen($examenDemande,$noteExamen);
-		 
-// 		$this->redirect("consultation/Consultation/consultationmedecin");
-	
+		//POUR LES RENDEZ VOUS
+		//POUR LES RENDEZ VOUS
+		//POUR LES RENDEZ VOUS
+		$id_patient = $this->params()->fromPost('id_patient');
+		$date_RV_Recu = $this->params()->fromPost('date_rv');
+		if($date_RV_Recu){
+			$date_RV = $this->controlDate->convertDateInAnglais($date_RV_Recu);}
+		else{ 
+			$date_RV = $date_RV_Recu;
+		}
+		$infos_rv = array(
+				'ID_PERSONNE' => $id_patient,
+				'ID_SERVICE'  => '2',
+				'ID_CONS'     => $id_cons,
+				'date'     => $date_RV,
+				'NOTE'  => $this->params()->fromPost('motif_rv'),
+				'heure'    => $this->params()->fromPost('heure_rv')
+		);
+		$rendezvous = $this->getRvPatientConsTable();
+		$rendezvous->updateRendezVous($infos_rv);
+		
+		//POUR LES TRANSFERT
+		//POUR LES TRANSFERT
+		//POUR LES TRANSFERT
+		$info_transfert = array(
+				'ID_SERVICE'      => $this->params()->fromPost('id_service'),
+				'ID_PERSONNE'     => $id_patient,
+				'MED_ID_PERSONNE' => $this->params()->fromPost('med_id_personne'),
+				'DATE'            => $this->params()->fromPost('date'),
+				'motif_transfert' => $this->params()->fromPost('motif_transfert'),
+				'ID_CONS' => $id_cons
+		);
+		$transfert = $this->getTransfererPatientServiceTable();
+		$transfert->updateTransfertPatientService($info_transfert);
+		//\Zend\Debug\Debug::dump($info_transfert); exit();
+		
+		//POUR LA PAGE complement-consultation
+		//POUR LA PAGE complement-consultation
+		//POUR LA PAGE complement-consultation
+		if ($this->params ()->fromPost ( 'terminer' ) == 'save') {
+		
+			//VALIDER EN METTANT '1' DANS CONSPRISE Signifiant que le medecin a consulter le patient
+			$valide = array (
+					'valide' => 1,
+					'id_cons' => $id_cons
+			);
+			$consultation = $this->getConsultationTable ();
+			$consultation->validerConsultation ( $valide );
+		}
+		
+		$this->redirect ()->toRoute ( 'consultation', array (
+		 'action' => 'consultation-medecin'
+		) );
 	}
 	//******* Rï¿½cupï¿½rer les services correspondants en cliquant sur un hopital
 	public function servicesAction()

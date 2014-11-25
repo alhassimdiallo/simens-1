@@ -476,7 +476,7 @@ $(function(){
 		// Le formulaire ï¿½ monFormulaire ï¿½ existe dï¿½jï¿½ dans la page
 	    var formulaire = document.createElement("form");
 	 
-	    formulaire.setAttribute("action","/simens_derniereversion/public/consultation/Consultation/consultationmedecin/terminer/save"); 
+	    formulaire.setAttribute("action","/simens/public/consultation/update-complement-consultation"); 
 	    formulaire.setAttribute("method","POST"); 
 	    for( donnee in donnees){
 	     // Ajout dynamique de champs dans le formulaire
@@ -497,6 +497,9 @@ $(function(){
 	$("#terminer2").click(function() {
 		event.preventDefault(); 
 	    var donnees = new Array();
+	    
+	    // **********-- Pour la validation de la consultation par le médecin --*********
+	    donnees['terminer'] = 'save';
 	    donnees['id_cons']    = $("#id_cons").val();
 	    
 	    // **********-- Donnees de l'examen physique --*******

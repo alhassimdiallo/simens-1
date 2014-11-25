@@ -31,10 +31,10 @@ $(function(){
         	 $( "#motif3" ).toggle(true);
    <?php }
          if($i == 4){?>
-             $( "#motif3" ).toggle(true);
+             $( "#motif4" ).toggle(true);
    <?php }
          if($i == 5){?>
-             $( "#motif3" ).toggle(true);
+             $( "#motif5" ).toggle(true);
    <?php }
 }?>
 
@@ -1355,7 +1355,7 @@ echo $this->form()->openTag($form); ?>
 
                         <!-- ************** Hospitalisation **************** -->
                           <!-- **2** -->
-                            <div style='font-family: police2;font-size: 17px; font-weight: bold;'> Hospitalisation</div>
+                             <div style='font-family: police2;font-size: 17px; font-weight: bold;'> Hospitalisation</div>
                                 <div style="max-height:300px;">
                                <div style=" padding-bottom:0px; margin-bottom: 5px; border-bottom: 2px solid green; margin-left: 0px;"></div>
                                        <!-- LE PDF POUR IMPRESSION-->
@@ -1364,21 +1364,21 @@ echo $this->form()->openTag($form); ?>
                                        </div>
                                 <div style=" padding-bottom:40px; margin-bottom: 10px; border-bottom: 1px dashed green; margin-left: 0px; margin-right: 0px;"></div>
 
-                                <p style='color: white; opacity: 0.5;'>
-                                  <img id="" src='<?php echo $this->basePath().'/images_icons/hospitalisation.jpg'?>'  alt="consult-motif" style='float:right; margin-right:10px; padding-top:10px; width:290px; height:200px;'/>
+                                <p style='color: white; opacity: 0.5; '>
+                                  <img id="" src='<?php echo $this->basePath().'/images_icons/hospitalisation.jpg'?>'  alt="consult-motif" style='float:right; margin-right:10px; padding-top:10px; width:33%; height:180px;'/>
                                 </p>
 
-                                    <table id="hospitalisation">
+                                    <table id="hospitalisation" style="width: 60%;">
                                         <tr class="form-hospitalisation">
                                             <th> <?php echo $this->formRow($form->get('motif_hospitalisation'));?> </th>
 
                                         </tr>
                                     </table>
 
-                                    <table>
+                                    <table style="width: 100%; margin-top: 20px;">
                                     <tr>
-                                            <th style="width:345px;"></th>
-                                            <th style="float:right; height:15px;width:200px; margin-top:10px;">
+                                            <th style="width:40%;"></th>
+                                            <th style="width:10%;">
                                                 <!-- On cr�e le bouton Valider (permettant la validation des donn�es -->
                                                 <div id="bouton_valider_hospi">
                                                      <button id='bouton_hospi_valider'>Valider</button>
@@ -1388,9 +1388,11 @@ echo $this->form()->openTag($form); ?>
                                                      <button id='bouton_hospi_modifier'>Modifier</button>
                                                 </div>
                                             </th>
+                                            <th style="width:50%;"></th>
                                         </tr>
                                     </table>
                                 </div>
+                                
 
                         <!-- ************** Rendez-vous **************** -->
                           <!-- **3** -->

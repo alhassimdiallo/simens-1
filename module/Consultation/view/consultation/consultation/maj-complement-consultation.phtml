@@ -27,51 +27,26 @@
   ?>
 
 <script>
-//CODE POUR LA PARTIE DES ANTECEDENTS
-$(function() {
-	$( "#tabsAntecedents" ).tabs();
-	$( "#tabs" ).tabs();
-});
-pagination();
-AntecedentScript();
 
 //IMAGE DES RESULTATS DES EXAMENS MORPHOLOGIQUES
-app1 = 0;
-app2 = 0;
+app1 = 1;
+app2 = 2;
 nom1 = '1_radio-b';
 nom2 = 'echographie3_b';
 images_fancybox();
   
 $(function(){
-	$( "#motif2" ).toggle(false);
-	$( "#motif3" ).toggle(false);
-	$( "#motif4" ).toggle(false);
-	$( "#motif5" ).toggle(false);
-
-<?php for($i=2 ; $i<=$this->nbMotifs; $i++){
-         if($i == 2){?>
-        	 $( "#motif2" ).toggle(true);
-   <?php }
-         if($i == 3){?>
-        	 $( "#motif3" ).toggle(true);
-   <?php }
-         if($i == 4){?>
-             $( "#motif3" ).toggle(true);
-   <?php }
-         if($i == 5){?>
-             $( "#motif3" ).toggle(true);
-   <?php }
-}?>
 
   //document.getElementById('service_accueil').value="";//83
-  //document.getElementById('hopital_accueil').value="";
+<?php if($this->hopitalSelect == 0){?>	  
+  document.getElementById('hopital_accueil').value="";
+<?php }?>
   //document.getElementById('heure_rv').value="";//96
 
 //Créer automatiquement les champs médicaments
 for(var i=2 ; i <= <?php echo $this->nb_med_prescrit;?> ; i++ ){
      create_champ(i);
 }
-
 
 //Remplissage automatique des champs
 var i = 1;
@@ -157,6 +132,38 @@ annee = '<?php echo $AnneeActuelle?>';
 <!-- *****************images dans EXAMEN MORPHOLOGIQUE (plugins fancybox) *************** -->
 <script>
 
+//CODE POUR LA PARTIE DES ANTECEDENTS
+$(function() {
+	//POUR LES TAB
+	//POUR LES TAB 
+	$( "#tabsAntecedents" ).tabs();
+	$( "#tabs" ).tabs();
+
+	//POUR LES MOTIFS
+	//POUR LES MOTIFS
+	$( "#motif2" ).toggle(false);
+	$( "#motif3" ).toggle(false);
+	$( "#motif4" ).toggle(false);
+	$( "#motif5" ).toggle(false);
+
+<?php for($i=2 ; $i<=$this->nbMotifs; $i++){
+         if($i == 2){?>
+        	 $( "#motif2" ).toggle(true);
+   <?php }
+         if($i == 3){?>
+        	 $( "#motif3" ).toggle(true);
+   <?php }
+         if($i == 4){?>
+             $( "#motif4" ).toggle(true);
+   <?php }
+         if($i == 5){?>
+             $( "#motif5" ).toggle(true);
+   <?php }
+}?>
+});
+pagination();
+AntecedentScript();
+
 function getservices(cle)
 {
      $.ajax({
@@ -177,6 +184,7 @@ function getservices(cle)
 </script>
 
 <style type='text/css'>
+       
        #imge1, canvas { /*border: 3px solid #ccc;*/
 
               position: relative;
@@ -242,18 +250,14 @@ function getservices(cle)
               box-shadow: 0pt 0pt 12px rgba(0, 0, 0, 0.5);
          }
         .test input, .test2 input, .test3 input, .test4 input, .test5 input {
-              position:absolute;
-              right:0;
-              top:0;
-              font-size:100px;
               opacity:0;
               -moz-opacity:0;
               filter:alpha(opacity=0);
               cursor:pointer;
-              text-align:right;
-              width:262px;
-              height:142px;
+              width:262px; 
+              height:142px; 
          }
+              
        /*** Bouton input submit***/
        /*** Bouton input submit***/
        /*** Bouton input submit***/

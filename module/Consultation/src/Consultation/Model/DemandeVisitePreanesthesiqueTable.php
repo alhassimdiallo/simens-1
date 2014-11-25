@@ -22,10 +22,18 @@ class DemandeVisitePreanesthesiqueTable{
 	}
 	
 	public function updateDemandeVisitePreanesthesique($infoDemande){
-		if($infoDemande){
-			\Zend\Debug\Debug::dump('c bon'); exit();
-		}else{
-			\Zend\Debug\Debug::dump('c pas bon'); exit();
+		$this->tableGateway->delete(array('ID_CONS'=>$infoDemande['ID_CONS']));
+		
+		if($infoDemande['diagnostic'] !='' && $infoDemande['intervention_prevue'] !=''){
+			$donneesVPA = array(
+				'ID_CONS'     => $infoDemande['ID_CONS'],
+				'DIAGNOSTIC'  => $infoDemande['diagnostic'],
+				'OBSERVATION' => $infoDemande['observation'],
+				'INTERVENTION_PREVUE' => $infoDemande['intervention_prevue'],
+				'NUMERO_VPA'  => $infoDemande['numero_vpa'],
+				'TYPE_ANESTHESIE' => $infoDemande['type_anesthesie'],
+			);
+			$this->tableGateway->insert($infoDemande);
 		}
 	}
 }

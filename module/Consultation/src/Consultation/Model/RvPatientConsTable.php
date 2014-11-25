@@ -12,6 +12,7 @@ class RvPatientConsTable{
 	public function __construct(TableGateway $tableGateway) {
 		$this->tableGateway = $tableGateway;
 	}
+	
 	public function getRendezVous($id){
 		$rowset = $this->tableGateway->select ( array (
 				'ID_CONS' => $id
@@ -21,7 +22,14 @@ class RvPatientConsTable{
  			//throw new \Exception ( "Could not find row $id" );
  			return $row;
  		}
-		//\Zend\Debug\Debug::dump($row); exit();
 		return $row;
+	}
+	
+	public function updateRendezVous($infos_rv){
+		$this->tableGateway->delete(array('ID_CONS'=>$infos_rv['ID_CONS']));
+		
+		if($infos_rv['date'] && $infos_rv['heure']){
+			$this->tableGateway->insert($infos_rv);
+		}
 	}
 }
