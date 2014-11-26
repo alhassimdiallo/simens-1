@@ -12,7 +12,7 @@ $Control = new DateHelper();?>
 				<tr style="height:50px;">
 					<th id="nom" align="center">Nom</th>
 					<th id="prenom" align="center">Pr&eacute;nom</th>
-					<th id="date" align="center" name="date">D. naissance</th>
+					<th id="date" align="center" name="date">Date. naiss</th>
 					<th id="sexe" align="center" name="sexe">Sexe</th>
 					<th id="adresse" align="center" name="adresse">Adresse</th>
 					<th id="nationalite" align="center" name="nationalite">Nationalit&eacute;</th>
@@ -28,16 +28,21 @@ $Control = new DateHelper();?>
 					  $resultSet2 = new ResultSet();
 					  $resultSet2->initialize($this->donnees[1]);
 					  $resultSet2->buffer();
+					  
+					  //A revoir pour l'initialisation
+ 					  foreach ($resultSet1 as $resul1){}
+ 					  foreach ($resultSet2 as $resul2){}
+
 				?>
 
-				<?php foreach($resultSet1 as $donnees) : ?>
+				<?php foreach($resultSet1 as $donnees) { ?>
 
-                <?php $trouver = false;?>
-	     	    <?php foreach($resultSet2 as $donneees):?>
+                <?php $trouver = false; ?>
+	     	    <?php foreach($resultSet2 as $donneees){?>
 			    <?php if($this->escapeHtml($donnees['Id']) == $this->escapeHtml($donneees['Id'])){ $trouver = true; break; }?>
-			    <?php endforeach;?>
+			    <?php } ?>
 
-				<?php if($trouver == false){?>
+				<?php if($trouver == false){ ?>
 				<tr>
 				    <td id="nomMaj"><?php echo $this->escapeHtml($donnees['Nom']);?></td>
 				    <td><?php echo $this->escapeHtml($donnees['Prenom']);?></td>
@@ -60,7 +65,7 @@ $Control = new DateHelper();?>
 					</td>
 				</tr>
 				<?php }?>
-				<?php endforeach; ?>
+				<?php }?>
 
 			    <!-- *****************On affiche maintenant tous ceux pour qui on a pris les constantes*********** -->
 
@@ -71,7 +76,7 @@ $Control = new DateHelper();?>
 			    <?php if($this->escapeHtml($donnees['Id']) == $this->escapeHtml($donneees['Id'])){ $trouver = true; break; }?>
 			    <?php endforeach;?>
 
-				<?php if($trouver ==true){?>
+				<?php if($trouver == true){?>
 				<tr>
 				    <td id="nomMaj"><?php echo $this->escapeHtml($donnees['Nom']);?></td>
 				    <td><?php echo $this->escapeHtml($donnees['Prenom']);?></td>
@@ -196,4 +201,3 @@ $('#ajouter_style').css({'font-weight':'bold','color':'white','font-size':'22px'
 
 <?php echo $this->headScript()->appendFile($this->basePath().'/js/jquery-1.9.1.js');?>
 <?php echo $this->headScript()->appendFile($this->basePath().'/js/jquery-ui.js');?>
-<?php echo $this->headLink()->appendStylesheet($this->basePath().'/css/jquery-ui.css');?>

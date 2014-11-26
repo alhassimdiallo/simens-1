@@ -269,6 +269,7 @@ class PatientTable {
 		$select1->order('id_facturation ASC');
 		$statement1 = $sql->prepareStatementForSqlObject ( $select1 );
 		$result1 = $statement1->execute ();
+		
 		//var_dump($result1);exit();
 		$select2 = $sql->select ('consultation');
 		$select2->columns(array('Id' => 'PAT_ID_PERSONNE',

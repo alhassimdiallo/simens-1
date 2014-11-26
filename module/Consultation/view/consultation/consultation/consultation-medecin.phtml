@@ -16,7 +16,7 @@ $Control = new DateHelper();
 				<tr style="height:50px; width: 100%;">
 					<th id="nom" align="center">Nom</th>
 					<th id="prenom" align="center">Pr&eacute;nom</th>
-					<th id="date" align="center" name="date">D. naissance</th>
+					<th id="date" align="center" name="date">Date. naiss</th>
 					<th id="sexe" align="center" name="sexe">Sexe</th>
 					<th id="adresse" align="center" name="adresse">Adresse</th>
 					<th id="nationalite" align="center" name="nationalite">Nationalit&eacute;</th>
@@ -177,6 +177,12 @@ $Control = new DateHelper();
 					this.value = asInitVals[$("tfoot input").index(this)];
 				}
 			} );
+
+			setTimeout(function() {
+				vart='<?php echo $this->basePath().'/consultation/consultation-medecin';?>';
+			    $(location).attr("href",vart);
+			}, 10000);
+			
 
 </script>
 
