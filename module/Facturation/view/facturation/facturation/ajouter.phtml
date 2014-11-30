@@ -53,10 +53,11 @@ $('body').delegate('input.only_Char','keyup',function(){
     	upperText('nom');
 });
 //******************************************
-
+var base_url = window.location.toString();
+var tabUrl = base_url.split("public");
 //POUR LE MENU GAUCHE dans -elementgauche.phtml
 $('#plus_dossier_patient').toggle(true);
-$("#dossier_patient").replaceWith("<li id='dossier_patient' style='background:#4a5765;'><a href=''><span style='margin-left:0px; color: #ffffff; font-weight:bold; font-size:18px; font-family:Times New Roman;'> <img style='display: inline;' src='/simens/public/images_icons/moins-vert.PNG' alt='Liste' /> Dossier Patient </span></a></li>");
+$("#dossier_patient").replaceWith("<li id='dossier_patient' style='background:#4a5765;'><a href=''><span style='margin-left:0px; color: #ffffff; font-weight:bold; font-size:18px; font-family:Times New Roman;'> <img style='display: inline;' src='"+tabUrl[0]+"public/images_icons/moins-vert.PNG' alt='Liste' /> Dossier Patient </span></a></li>");
 dep_dossier_patient1();
 $('#nouveau_style').css({'font-weight':'bold','color':'white','font-size':'22px'});
 
@@ -65,6 +66,7 @@ $('#nouveau_style').css({'font-weight':'bold','color':'white','font-size':'22px'
 <?php
 $form = $this->form;
 $form->setAttribute ( 'action', $this->url ( 'facturation', array ('action' => 'enregistrement') ) );
+$form->setAttribute ('enctype','multipart/form-data');
 $this->form->prepare ();
 echo $this->form ()->openTag ( $form );
 ?>
@@ -153,12 +155,13 @@ echo $this->form ()->openTag ( $form );
 			</tr>
 
 	</table-->
+	
 	<table style="margin-top: 365px; width: 100%;  height: 12px;">
 	  
 	  <tr style="">
 	  <td style="width: 42%;"></td>
 	  <td style="width: 10%;" id="thoughtbot" >
-		<button
+		<button id="annuler"
 			style="font-family: police2; font-size: 17px; font-weight: bold;">
 			Annuler
 		</button>
@@ -197,15 +200,16 @@ echo $this->form ()->openTag ( $form );
 
 
 <script> 
-    $('#annuler').click(function(){
-		 vart='/simens/public/facturation/liste-patient';
+    $('#annuler').click(function(){ 
+		 vart=tabUrl[0]+'public/facturation/liste-patient';
 	     $(location).attr("href",vart);
+	     return false;
 	});
     $(function(){
-    	document.getElementById('civilite').value="";
-    	document.getElementById('nationalite_origine').value="";
-    	document.getElementById('nationalite_actuelle').value="";
-    	document.getElementById('sexe').value="";
-    	});
+    	$('#civilite').val('');
+    	$('#nationalite_origine').val('');
+    	$('#nationalite_actuelle').val('');
+    	$('#sexe').val('');
+        });
 </script>
 

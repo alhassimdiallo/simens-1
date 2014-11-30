@@ -77,6 +77,10 @@ class NaissanceTable {
 				'id_bebe' => $id
 		) );
 	}
+	public function addNaissance($donneesNaissance){
+		$this->tableGateway->insert($donneesNaissance);
+	}
+	
 	public function addBebe($data, $date_enregistrement){
 		$donnees = array(
 				'id_bebe' => $data['id_bebe'],

@@ -1,4 +1,5 @@
-
+var base_url = window.location.toString();
+var tabUrl = base_url.split("public");
 //BOITE DE DIALOG POUR LA CONFIRMATION DE SUPPRESSION
 function confirmation(id){
   $( "#confirmation" ).dialog({
@@ -19,7 +20,7 @@ function confirmation(id){
 function visualiser(id){
 	 confirmation(id);
 	 var cle = id;
-     var chemin = '/simens/public/facturation/declarer-deces';
+     var chemin = tabUrl[0]+'public/facturation/declarer-deces';
      $.ajax({
          type: 'POST',
          url: chemin ,
@@ -156,7 +157,7 @@ function declarer(id){
 
     //R�cup�ration des donn�es du patient
     var cle = id;
-    var chemin = '/simens/public/facturation/le-patient';
+    var chemin = tabUrl[0]+'public/facturation/le-patient';
     $.ajax({
         type: 'POST',
         url: chemin ,
@@ -181,7 +182,7 @@ function declarer(id){
     //Annuler l'enregistrement d'un deces
     $("#annuler").click(function(){
     	$("#annuler").css({"border-color":"#ccc", "background":"-webkit-linear-gradient( #555, #CCC)", "box-shadow":"1px 1px 10px black inset,0 1px 0 rgba( 255, 255, 255, 0.4)"});
-    	vart='/simens/public/facturation/declarer-deces';
+    	vart=tabUrl[0]+'public/facturation/declarer-deces';
         $(location).attr("href",vart);
     });
     
@@ -197,11 +198,11 @@ function declarer(id){
     	
     	$.ajax({
             type: 'POST',
-            url: '/simens/public/facturation/enregistrer-deces' ,  
+            url: tabUrl[0]+'public/facturation/enregistrer-deces' ,  
             data: {'id':cle , 'lieu_deces':lieu_deces , 'circonstances_deces':circonstances_deces , 'age_deces':age_deces , 'heure_deces':heure_deces , 'date_deces':date_deces, 'note':note, },
     	    success: function(data) {    
     	    	
-              vart='/simens/public/facturation/liste-patients-decedes';
+              vart=tabUrl[0]+'public/facturation/liste-patients-decedes';
               $(location).attr("href",vart);
                 
             }
@@ -226,30 +227,30 @@ function declarer(id){
  
   		$('#vider_champ').hover(function(){
   			
-  			 $(this).css('background','url("/simens/public/images_icons/annuler2.png") no-repeat right top');
+  			 $(this).css('background','url("'+tabUrl[0]+'public/images_icons/annuler2.png") no-repeat right top');
   		},function(){
-  			  $(this).css('background','url("/simens/public/images_icons/annuler1.png") no-repeat right top');
+  			  $(this).css('background','url("'+tabUrl[0]+'public/images_icons/annuler1.png") no-repeat right top');
   	    });
 
   		$('#div_supprimer_photo').hover(function(){
   			
-  			 $(this).css('background','url("/simens/public/images_icons/mod2.png") no-repeat right top');
+  			 $(this).css('background','url("'+tabUrl[0]+'public/images_icons/mod2.png") no-repeat right top');
   		},function(){
-  			  $(this).css('background','url("/simens/public/images_icons/mod.png") no-repeat right top');
+  			  $(this).css('background','url("'+tabUrl[0]+'public/images_icons/mod.png") no-repeat right top');
   	    });
 
   		$('#div_ajouter_photo').hover(function(){
   			
-  			 $(this).css('background','url("/simens/public/images_icons/ajouterphoto2.png") no-repeat right top');
+  			 $(this).css('background','url("'+tabUrl[0]+'public/images_icons/ajouterphoto2.png") no-repeat right top');
   		},function(){
-  			  $(this).css('background','url("/simens/public/images_icons/ajouterphoto.png") no-repeat right top');
+  			  $(this).css('background','url("'+tabUrl[0]+'public/images_icons/ajouterphoto.png") no-repeat right top');
   	    });
 
   		$('#div_modifier_donnees').hover(function(){
   			
-  			 $(this).css('background','url("/simens/public/images_icons/modifier2.png") no-repeat right top');
+  			 $(this).css('background','url("'+tabUrl[0]+'public/images_icons/modifier2.png") no-repeat right top');
   		},function(){
-  			  $(this).css('background','url("/simens/public/images_icons/modifier.png") no-repeat right top');
+  			  $(this).css('background','url("'+tabUrl[0]+'public/images_icons/modifier.png") no-repeat right top');
   	   });
   
   //FIN VALIDATION OU MODIFICATION DU FORMULAIRE ETAT CIVIL DU PATIENT

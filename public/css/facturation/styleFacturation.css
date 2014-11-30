@@ -244,7 +244,7 @@ font-size: 14px;
 
     border-top-color: #cccccc;
 
-    border-right-color-value: #eeeeee;
+/*     border-right-color-value: #eeeeee; */
 
     border-right-color-ltr-source: physical;
 
@@ -252,7 +252,7 @@ font-size: 14px;
 
     border-bottom-color: #cccccc;
 
-    border-left-color-value: #eeeeee;
+/*     border-left-color-value: #eeeeee; */
 
     border-left-color-ltr-source: physical;
 
@@ -274,9 +274,9 @@ font-size: 14px;
 
     border-right-width: 2px;
 
-    border-left-width: 2px;
+    border-left-width: 1px;
 
-    border-top-width: 2px;
+    border-top-width: 1px;
 
     border-bottom-width: 2px;
 	
@@ -286,8 +286,6 @@ font-size: 14px;
 	
 	float: left;
 
-    margin-left: 0px;
-	
 	margin-right: 25px;
 	
 	/*enlever l'icone select*/
@@ -378,11 +376,11 @@ box-shadow: 0pt 1px 3px rgba(204, 204, 204, 0.95) inset;
 position: relative;
 
 /* le texte des champs*/
-padding-top: 5px;
+padding-top: 2px;
 
 padding-right: 10px;
 
-padding-bottom: 5px;
+padding-bottom: 0px;
 
 margin-bottom : 15px;
 

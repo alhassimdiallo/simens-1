@@ -17,12 +17,12 @@ class AjoutNaissanceForm extends Form {
 				'name' => 'nom',
 				'type' => 'Text',
 				'options' => array (
-						'label' => 'Nom'
+						'label' => 'Nomm'
 				),
 				'attributes' => array (
 						'class' => 'only_Char',
+						'id' => 'nom',
 						'required' => true,
-						'id' => 'nom'
 				)
 		) );
 		$this->add ( array (
@@ -42,7 +42,8 @@ class AjoutNaissanceForm extends Form {
 				'options' => array (
 						'label' => 'Sexe',
 						'value_options' => array (
-							'Masculin'=>'Masculin','Feminin'=>'FÃ©minin'
+							'Masculin'=>'Masculin',
+							iconv ( 'ISO-8859-1', 'UTF-8','Féminin')=> iconv ( 'ISO-8859-1', 'UTF-8','Féminin')
 						) 
 				),
 				'attributes' => array (

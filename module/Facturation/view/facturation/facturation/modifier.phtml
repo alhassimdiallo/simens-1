@@ -1,8 +1,43 @@
 <!-- MES STYLES -->
-<?php echo $this->headLink()->appendStylesheet($this->basePath().'/css/facturation/styleFacturation.css');?>
+<?php 
+echo $this->headLink()->appendStylesheet($this->basePath().'/css/facturation/styleFacturation.css');
+echo $this->headLink ()->appendStylesheet ( $this->basePath () . '/css/facturation/DatePicker.css' );
+?>
 
 <!-- MES JS -->
-<?php echo $this->headScript()->appendFile($this->basePath().'/js/facturation/jsFacturation.js');?>
+<?php 
+echo $this->headScript()->appendFile($this->basePath().'/js/facturation/jsFacturation.js');
+echo $this->headScript()->appendFile($this->basePath().'/js/jquery.maskedinput.js');
+?>
+<script>
+jQuery(function($){
+	   $("#telephone").mask("(221) 79-999-99-99");
+});
+//**********CONTROLE MAJUSCULE*************
+function supprimer_dernier_caractere(elm) {
+	  var val = $(elm).val();
+	var cursorPos = elm.selectionStart;
+	$(elm).val(
+	   val.substr(0,cursorPos-1) + 
+	  val.substr(cursorPos,val.length) 
+	);
+	elm.selectionStart = cursorPos-1; 
+	elm.selectionEnd = cursorPos-1;
+	return true;
+}
+function upperText(id) {
+	var text = new String( document.getElementById(id).value );
+	text = text.toUpperCase();
+	document.getElementById(id).value = text;
+}
+
+$('body').delegate('input.only_Char','keyup',function(){
+
+    if(!$(this).val().match(/^[a-zA-Z]*$/))
+    	supprimer_dernier_caractere(this);
+    	upperText('nom');
+});
+</script>
 
 <form enctype="multipart/form-data"	action="<?php echo $this->url('facturation', array('action'=>'enregistrement-modification'));?>" method="post">
 
@@ -16,7 +51,7 @@
                   <input type='file' name="fichier" /> <!-- RECUPERER L'IMAGE -->
                   <input type='hidden' id="fichier_tmp" name="fichier_tmp" /> <!-- FICHIER TAMPON POUR RECUPERER L'IMAGE DANS LE CONTROLLER -->
              </div>
-             <?php echo $this->formHidden($this->form->get('id_personne'));?>
+             <?php echo $this->formhidden($this->form->get('id_personne'));?>
 
              <div style='width: 80%; height: 150px; float:left;'>
              <table id="form_patient" style="float: left;">
@@ -77,7 +112,7 @@
 	  <tr style="">
 	  <td style="width: 42%;"></td>
 	  <td style="width: 10%;" id="thoughtbot" >
-		<button
+		<button  id="annuler"
 			style="font-family: police2; font-size: 17px; font-weight: bold;">
 			Annuler
 		</button>
@@ -112,6 +147,12 @@
 
 
 <script type="text/javascript">
+$('#annuler').click(function(){ 
+	 vart=tabUrl[0]+'public/facturation/liste-patient';
+   $(location).attr("href",vart);
+   return false;
+});
+
 jQuery(document).ready(function($){
     $('a, img, hass').tooltip({
         animation: true,

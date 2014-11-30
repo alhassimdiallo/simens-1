@@ -1,5 +1,7 @@
     var nb="_TOTAL_";
     var asInitVals = new Array();
+    var base_url = window.location.toString();
+	var tabUrl = base_url.split("public");
 	//BOITE DE DIALOG POUR LA CONFIRMATION DE SUPPRESSION
     function confirmation(id){
 	  $( "#confirmation" ).dialog({
@@ -13,7 +15,7 @@
 	            $( this ).dialog( "close" );
 	            
 	            var cle = id;
-	            var chemin = '/simens/public/facturation/supprimer-admission';
+	            var chemin = tabUrl[0]+'public/facturation/supprimer-admission';
 	            $.ajax({
 	                type: 'POST',
 	                url: chemin ,
@@ -47,7 +49,7 @@
     
     function affichervue(id, idFacturation){
 
-        var chemin = '/simens/public/facturation/vue-patient-admis';
+        var chemin = tabUrl[0]+'public/facturation/vue-patient-admis';
         $.ajax({
             type: 'POST',
             url: chemin ,

@@ -58,14 +58,14 @@ class Patient implements InputFilterAwareInterface {
 			$inputFilter = new InputFilter ();
 			$factory = new InputFactory ();
 
-			$inputFilter->add ($factory->createInput( array (
-					'name' => 'id_personne',
-					'filters' => array (
-							array (
-									'name' => 'Int'
-							)
-					)
-			 ) ));
+// 			$inputFilter->add ($factory->createInput( array (
+// 					'name' => 'id_personne',
+// 					'filters' => array (
+// 							array (
+// 									'name' => 'Int'
+// 							)
+// 					)
+// 			 ) ));
 
 // 			$inputFilter->add (array (
 // 					'name' => 'nom',

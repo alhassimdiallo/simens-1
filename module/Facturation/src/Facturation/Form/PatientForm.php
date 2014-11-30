@@ -12,7 +12,6 @@ class PatientForm extends Form {
 				'name' => 'id_personne',
 				'type' => 'Hidden',
 				'attributes' => array (
-						'value' => 0
 				)
 		) );
 		$this->add ( array (
@@ -28,7 +27,8 @@ class PatientForm extends Form {
 				),
 				'attributes' => array (
 						'id' => 'civilite',
-						'value' => 'M'
+						'value' => 'M',
+						'required' => true,
 				)
 		) );
 		$this->add ( array (
@@ -39,17 +39,20 @@ class PatientForm extends Form {
 				),
 				'attributes' => array (
 						'class' => 'only_Char',
-						'id' => 'nom'
+						'id' => 'nom',
+						'required' => true,
 				)
 		) );
 		$this->add ( array (
 				'name' => 'prenom',
 				'type' => 'Text',
 				'options' => array (
-						'label' => iconv ( 'ISO-8859-1', 'UTF-8', 'Pr&eacute;nom' )
+						'label' => iconv ( 'ISO-8859-1', 'UTF-8', 'Prénom' )
 				),
 				'attributes' => array (
-						'id' => 'prenom'
+						'id' => 'prenom',
+						'class' => 'only_Char',
+						'required' => true,
 				)
 		) );
 
@@ -61,13 +64,13 @@ class PatientForm extends Form {
 						'label' => 'Sexe',
 						'value_options' => array (
 								'Masculin' => 'Masculin',
-								'FÃ©minin' => 'FÃ©minin'
+								iconv ( 'ISO-8859-1', 'UTF-8','Féminin') => iconv ( 'ISO-8859-1', 'UTF-8','Féminin')
 						)
 				),
 				'attributes' => array (
-						'id' => 'sexe'
+						'id' => 'sexe',
+						'required' => true,
 				)
-		// 'required' => true,
 				) );
 
 
@@ -78,7 +81,8 @@ class PatientForm extends Form {
 						'label' => 'Date de naissance'
 				),
 				'attributes' => array (
-						'id' => 'date_naissance'
+						'id' => 'date_naissance',
+						'required' => true,
 				)
 				) );
 
@@ -90,7 +94,8 @@ class PatientForm extends Form {
 						'label' => 'Lieu de naissance'
 				),
 				'attributes' => array (
-						'id' => 'lieu_naissance'
+						'id' => 'lieu_naissance',
+						'required' => true,
 				)
 				) );
 
@@ -99,13 +104,10 @@ class PatientForm extends Form {
 				'name' => 'nationalite_origine',
 				'type' => 'Zend\Form\Element\Select',
 				'options' => array (
-						'label' => 'Nationalit&eacute; origine',
-						'value_options' => array (
-								'' => ''
-						)
+						'label' => iconv ( 'ISO-8859-1', 'UTF-8','Nationalité origine'),
 				),
 				'attributes' => array (
-						'id' => 'nationalite_origine'
+						'id' => 'nationalite_origine',
 				)
 		// 'attributes' => array (
 		// 'required' => true,
@@ -115,7 +117,7 @@ class PatientForm extends Form {
 				'name' => 'nationalite_actuelle',
 				'type' => 'Zend\Form\Element\Select',
 				'options' => array (
-						'label' => 'Nationalit&eacute; actuelle',
+						'label' => iconv ( 'ISO-8859-1', 'UTF-8','Nationalité actuelle'),
 						'value_options' => array (
 								'' => ''
 						)
@@ -141,7 +143,7 @@ class PatientForm extends Form {
 				'name' => 'telephone',
 				'type' => 'Text',
 				'options' => array (
-						'label' => iconv ( 'ISO-8859-1', 'UTF-8', 'T&eacute;l&eacute;phone' )
+						'label' => iconv ( 'ISO-8859-1', 'UTF-8', 'Téléphone' )
 				),
 				'attributes' => array (
 						'id' => 'telephone'
@@ -154,7 +156,7 @@ class PatientForm extends Form {
 						'label' => 'Email'
 				),
 				'attributes' => array (
-						'placeholder' => 'you@domain.com',
+						'placeholder' => 'votre@domain.com',
 						'id' => 'email'
 				)
 		) );

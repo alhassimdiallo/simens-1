@@ -32,8 +32,10 @@ use Zend\Form\View\Helper\FormText;
 use Zend\Form\View\Helper\FormCollection;
 use Zend\Form\View\Helper\FormElement;
 use Zend\Form\View\Helper\FormTextarea;
+use Zend\Crypt\PublicKey\Rsa\PublicKey;
 
 class FacturationController extends AbstractActionController {
+	protected $dateHelper;
 	protected $patientTable;
 	protected $decesTable;
 	protected $formPatient;
@@ -83,6 +85,17 @@ class FacturationController extends AbstractActionController {
 		}
 		return $this->tarifConsultationTable;
 	}
+/*****************************************************************************************************************************/
+/*****************************************************************************************************************************/
+/*****************************************************************************************************************************/
+	Public function getDateHelper(){
+		$this->dateHelper = new DateHelper();
+	}
+	public function baseUrl(){
+		$baseUrl = $_SERVER['REQUEST_URI'];
+		$tabURI  = explode('public', $baseUrl);
+		return $tabURI[0];
+	}
 	public function getForm() {
 		if (! $this->formPatient) {
 			$this->formPatient = new PatientForm ();
@@ -129,7 +142,7 @@ class FacturationController extends AbstractActionController {
 			$html  = "<div style='width:100%;'>";
 			
 			$html .= "<div style='width: 18%; height: 180px; float:left;'>";
-			$html .= "<div id='photo' style='float:left; margin-left:40px; margin-top:10px; margin-right:30px;'> <img style='width:105px; height:105px;' src='/simens/public/img/photos_patients/" . $photo . "' ></div>";
+			$html .= "<div id='photo' style='float:left; margin-left:40px; margin-top:10px; margin-right:30px;'> <img style='width:105px; height:105px;' src='".$this->baseUrl()."public/img/photos_patients/" . $photo . "' ></div>";
 			$html .= "</div>";
 			
 			$html .= "<div style='width: 65%; height: 180px; float:left;'>";
@@ -154,7 +167,7 @@ class FacturationController extends AbstractActionController {
 			$html .="</div>";
 			
 			$html .= "<div style='width: 17%; height: 180px; float:left;'>";
-			$html .= "<div id='' style='color: white; opacity: 0.09; float:left; margin-right:20px; margin-left:25px; margin-top:5px;'> <img style='width:105px; height:105px;' src='/simens/public/img/photos_patients/" . $photo . "'></div>";
+			$html .= "<div id='' style='color: white; opacity: 0.09; float:left; margin-right:20px; margin-left:25px; margin-top:5px;'> <img style='width:105px; height:105px;' src='".$this->baseUrl()."public/img/photos_patients/" . $photo . "'></div>";
 			$html .= "</div>";
 			
 			$html .= "</div>";
@@ -217,6 +230,159 @@ class FacturationController extends AbstractActionController {
 				'form' => $form
 		) );
 	}
+	
+	public function enregistrementAction() {
+	
+		// CHARGEMENT DE LA PHOTO ET ENREGISTREMENT DES DONNEES
+		if (isset ( $_POST ['terminer'] )) 		// si formulaire soumis
+		{
+			$Control = new DateHelper();
+			$form = new PatientForm ();
+			$Patient = $this->getPatientTable ();
+			$today = new \DateTime ( 'now' );
+			$nomfile = $today->format ( 'dmy_His' );
+			$date_enregistrement = $today->format ( 'Y-m-d' );
+			$fileBase64 = $this->params ()->fromPost ( 'fichier_tmp' );
+			$fileBase64 = substr ( $fileBase64, 23 );
+				
+			if($fileBase64){
+				$img = imagecreatefromstring(base64_decode($fileBase64));
+			}else {
+				$img = false;
+			}
+	
+			$donnees = array(
+					'civilite' => $this->params ()->fromPost ( 'civilite' ),
+					'lieu_naissance' => $this->params ()->fromPost ( 'lieu_naissance' ),
+					'email' => $this->params ()->fromPost ( 'email' ),
+					'nom' => $this->params ()->fromPost ( 'nom' ),
+					'telephone' => $this->params ()->fromPost ( 'telephone' ),
+					'nationalite_origine' => $this->params ()->fromPost ( 'nationalite_origine' ),
+					'prenom' => $this->params ()->fromPost ( 'prenom' ),
+					'profession' => $this->params ()->fromPost ( 'profession' ),
+					'nationalite_actuelle' => $this->params ()->fromPost ( 'nationalite_actuelle' ),
+					'date_naissance' => $Control->convertDateInAnglais($this->params ()->fromPost ( 'date_naissance' )),
+					'adresse' => $this->params ()->fromPost ( 'adresse' ),
+					'sexe' => $this->params ()->fromPost ( 'sexe' ),
+					'date_enregistrement' => $date_enregistrement
+			);
+				
+			if ($img != false) {
+	
+				$donnees['photo'] = $nomfile;
+				//ENREGISTREMENT DE LA PHOTO
+				imagejpeg ( $img, 'C:\wamp\www\simens\public\img\photos_patients\\' . $nomfile . '.jpg' );
+				//ENREGISTREMENT DES DONNEES
+				$Patient->addPatient ( $donnees );
+					
+				$this->redirect ()->toRoute ( 'facturation', array (
+						'action' => 'liste-patient'
+				) );
+			} else {
+				// On enregistre sans la photo
+				$Patient->addPatient ( $donnees );
+				$this->redirect ()->toRoute ( 'facturation', array (
+						'action' => 'liste-patient'
+				) );
+			}
+		}
+		$this->redirect ()->toRoute ( 'facturation', array (
+				'action' => 'liste-patient'
+		) );
+	}
+	
+	public function modifierAction() {
+		$control = new DateHelper();
+		$this->layout ()->setTemplate ( 'layout/facturation' );
+		$id_patient = $this->params ()->fromRoute ( 'val', 0 ); //Pourquoi 'val' au lieu de 'id_patient' (à revoir)
+	
+		$infoPatient = $this->getPatientTable ();
+		try {
+			$info = $infoPatient->getPatient ( $id_patient );
+		} catch ( \Exception $ex ) {
+			return $this->redirect ()->toRoute ( 'facturation', array (
+					'action' => 'liste-patient'
+			) );
+		}
+		$form = new PatientForm ();
+		$form->get('nationalite_origine')->setvalueOptions($infoPatient->listePays());
+		$form->get('nationalite_actuelle')->setvalueOptions($infoPatient->listePays());
+		$info->date_naissance = $control->convertDate($info->date_naissance); //Conversion de la date en français
+
+		$form->bind ( $info );
+		if (! $info->photo) {
+			$info->photo = "identite";
+		}
+		return array (
+				'form' => $form,
+				'photo' => $info->photo
+		);
+	}
+	
+	public function enregistrementModificationAction() {
+	
+		if (isset ( $_POST ['terminer'] )) 	
+		{
+			$Control = new DateHelper();
+			$Patient = $this->getPatientTable ();
+			$today = new \DateTime ( 'now' );
+			$nomfile = $today->format ( 'dmy_His' );
+			$date_enregistrement = $today->format ( 'Y-m-d' );
+			$fileBase64 = $this->params ()->fromPost ( 'fichier_tmp' );
+			$fileBase64 = substr ( $fileBase64, 23 );
+				
+			if($fileBase64){
+				$img = imagecreatefromstring(base64_decode($fileBase64));
+			}else {
+				$img = false;
+			}
+	
+			$donnees = array(
+					'civilite' => $this->params ()->fromPost ( 'civilite' ),
+					'lieu_naissance' => $this->params ()->fromPost ( 'lieu_naissance' ),
+					'email' => $this->params ()->fromPost ( 'email' ),
+					'nom' => $this->params ()->fromPost ( 'nom' ),
+					'telephone' => $this->params ()->fromPost ( 'telephone' ),
+					'nationalite_origine' => $this->params ()->fromPost ( 'nationalite_origine' ),
+					'prenom' => $this->params ()->fromPost ( 'prenom' ),
+					'profession' => $this->params ()->fromPost ( 'profession' ),
+					'nationalite_actuelle' => $this->params ()->fromPost ( 'nationalite_actuelle' ),
+					'date_naissance' => $Control->convertDateInAnglais($this->params ()->fromPost ( 'date_naissance' )),
+					'adresse' => $this->params ()->fromPost ( 'adresse' ),
+					'sexe' => $this->params ()->fromPost ( 'sexe' ),
+					'date_enregistrement' => $date_enregistrement
+			);
+	
+			$id_patient =  $this->params ()->fromPost ( 'id_personne' );
+			if ($img != false) {
+				
+				$lePatient = $Patient->getPatient ( $id_patient );
+				$ancienneImage = $lePatient->photo;
+				
+				if($ancienneImage) {
+					unlink ( 'C:\wamp\www\simens\public\img\photos_patients\\' . $ancienneImage . '.jpg' );
+				}
+				imagejpeg ( $img, 'C:\wamp\www\simens\public\img\photos_patients\\' . $nomfile . '.jpg' );
+				
+				$donnees['photo'] = $nomfile;
+				$Patient->updatePatient ( $donnees , $id_patient );
+				
+				$this->redirect ()->toRoute ( 'facturation', array (
+						'action' => 'liste-patient'
+				) );
+			} else {
+				$Patient->updatePatient($donnees, $id_patient);
+				
+				$this->redirect ()->toRoute ( 'facturation', array (
+						'action' => 'liste-patient'
+				) );
+			}
+		}
+		$this->redirect ()->toRoute ( 'facturation', array (
+				'action' => 'liste-patient'
+		) );
+	}
+	
 	public function declarerDecesAction() {
 		$this->layout ()->setTemplate ( 'layout/facturation' );
 		$patient = $this->getPatientTable ();
@@ -232,7 +398,7 @@ class FacturationController extends AbstractActionController {
 			$photo = $pat->getPhoto ( $id );
 			$date = $this->convertDate ( $unPatient->date_naissance );
 
-			$html = "<div id='photo' style='float:left; margin-right:20px;'> <img  src='/simens/public/img/photos_patients/" . $photo . "'  style='width:105px; height:105px;'></div>";
+			$html = "<div id='photo' style='float:left; margin-right:20px;'> <img  src='".$this->baseUrl()."public/img/photos_patients/" . $photo . "'  style='width:105px; height:105px;'></div>";
 
 			$html .= "<table>";
 
@@ -267,90 +433,7 @@ class FacturationController extends AbstractActionController {
 				'enableJsonExprFinder' => true
 		) ) );
 	}
-	public function enregistrementAction() {
-
-		// CHARGEMENT DE LA PHOTO ET ENREGISTREMENT DES DONNEES
-		if (isset ( $_POST ['terminer'] )) 		// si formulaire soumis
-		{
-			$form = new PatientForm ();
-			$Patient = $this->getPatientTable ();
-			$today = new \DateTime ( 'now' );
-			$nomfile = $today->format ( 'dmy_His' );
-			$date_enregistrement = $today->format ( 'Y-m-d' );
-			// $nomfile = Zend_Date::now ()->toString ( 'ddMMyy_HHmmss' );
-			// $date_enregistrement = Zend_Date::now ()->toString ( 'yyyy-MM-dd' );
-			$fileBase64 = $this->params ()->fromPost ( 'fichier_tmp' );
-
-			$fileBase64 = substr ( $fileBase64, 23 );
-			// var_dump(imagecreatefromstring(base64_decode($fileBase64)));exit();
-
-			$img = ((imagecreatefromstring ( base64_decode ( $fileBase64 ) ) != null) ? imagecreatefromstring ( base64_decode ( $fileBase64 ) ) : false);
-
-			$patientModel = new Patient ();
-			if ($img != false) {
-				// $chemin = $this->plugin('basePath'). '/img/photos_patients/';
-				// $chemin = $this->plugin('basePath');
-				// $chemin = $this->getServiceLocator()->get('Request')->getBasePath(). '/img/photos_patients/';
-				imagejpeg ( $img, 'C:\wamp\www\simens\public\img\photos_patients\\' . $nomfile . '.jpg' );
-
-				$request = $this->getRequest ();
-				$formData = $request->getPost ();
-				// $form->setInputFilter ( $patientModel->getInputFilter () );
-				$form->setData ( $formData );
-
-				if ($form->isValid ()) {
-					var_dump ( 'test' );
-					exit ();
-					$donnees = $form->getData ();
-
-					// $donnees['PHOTO'] = $nomfile;
-					// $donnees['date_enregistrement'] = $date_enregistrement;
-					$patientModel->exchangeArray ( $donnees );
-					$Patient->addPatient ( $patientModel, $nomfile, $date_enregistrement );
-				}
-
-				$this->redirect ()->toRoute ( 'facturation', array (
-						'action' => 'liste-patient'
-				) );
-			} else {
-				// On enregistre sans la photo //echo "cette image n'est pas supportï¿½e";
-
-				$request = $this->getRequest ();
-				$formData = $request->getPost ();
-				// $form->bind($patientModel);
-				$form->setInputFilter ( $patientModel->getInputFilter () );
-				$form->setData ( array (
-						'civilite' => $formData->civilite,
-						'lieu_naissance' => $formData->lieu_naissance,
-						'email' => $formData->email,
-						'nom' => $formData->nom,
-						'telephone' => $formData->telephone,
-						'nationalite_origine' => $formData->nationalite_origine,
-						'prenom' => $formData->prenom,
-						'profession' => $formData->profession,
-						'nationalite_actuelle' => $formData->nationalite_actuelle,
-						'date_naissance' => $formData->date_naissance,
-						'adresse' => $formData->adresse,
-						'sexe' => $formData->sexe
-				) );
-				// var_dump($form);exit();
-				if ($form->isValid ()) {
-					var_dump('test2');exit();
-					$donnees = $form->getData ();
-					// $donnees['date_enregistrement'] = $date_enregistrement;
-					$patientModel->exchangeArray ( $donnees );
-					$Patient->addPatientSansPhoto ( $patientModel, $date_enregistrement );
-				}
-
-				$this->redirect ()->toRoute ( 'facturation', array (
-						'action' => 'liste-patient'
-				) );
-			}
-		}
-		$this->redirect ()->toRoute ( 'facturation', array (
-				'action' => 'liste-patient'
-		) );
-	}
+	
 	public function convertDate($date) {
 		$nouv_date = substr ( $date, 8, 2 ) . '/' . substr ( $date, 5, 2 ) . '/' . substr ( $date, 0, 4 );
 		return $nouv_date;
@@ -406,83 +489,58 @@ class FacturationController extends AbstractActionController {
 	public function enregistrerBebeAction() {
 
 		if ($this->getRequest ()->isPost ()) {
+			$this->getDateHelper();
 			$today = new \DateTime ( 'now' );
-			$date_enregistrement = $today->format ( 'ymd' ); // Zend_Date::now ()->toString ( 'yyMMdd' );
+			$date_enregistrement = $today->format ( 'Y-m-d' ); 
 			$patient = $this->getPatientTable ();
+			$naissance = $this->getNaissanceTable();
 
-			$id_maman = ( int ) $this->params ()->fromPost ( 'id' ); // id de la mï¿½re
-			$info_maman = $patient->getPatient ( $id_maman );
+			$id_maman = ( int ) $this->params ()->fromPost ( 'id' ); 
+ 			$info_maman = $patient->getPatient ( $id_maman );
 
-			$nom = $this->params ()->fromPost ( 'nom' );
-			$prenom = $this->params ()->fromPost ( 'prenom' );
-			$date_naissance = $this->convertDateInAnglais ( $this->params ()->fromPost ( 'date_naissance' ) );
-			$lieu_naissance = $this->params ()->fromPost ( 'lieu_naissance' );
-			$heure_naissance = $this->params ()->fromPost ( 'heure_naissance' );
-			$sexe = $this->params ()->fromPost ( 'sexe' );
-			$groupe_sanguin = $this->params ()->fromPost ( 'groupe_sanguin' );
-			$poids = ( int ) $this->params ()->fromPost ( 'poids' );
-			$taille = ( int ) $this->params ()->fromPost ( 'taille' );
-
-			if ($sexe == 'FÃ©minin') {
-				$civilite = "Mme";
+ 			$donnees = array(
+ 					'nom'             => $this->params ()->fromPost ( 'nom' ),
+ 					'prenom'          => $this->params ()->fromPost ( 'prenom' ),
+ 					'date_naissance'  => $this->dateHelper->convertDateInAnglais($this->params ()->fromPost ( 'date_naissance' )),
+ 					'lieu_naissance'  => $this->params ()->fromPost ( 'lieu_naissance' ),
+ 					'groupe_sanguin'  => $this->params ()->fromPost ( 'groupe_sanguin' ),
+ 					'sexe'            => $this->params ()->fromPost ( 'sexe' ),
+ 					'taille'          => $this->params ()->fromPost ( 'taille' ),
+ 					'poids'           => $this->params ()->fromPost ( 'poids' ),
+ 					'telephone'       => $info_maman->telephone,
+ 					'email'           => $info_maman->email,
+ 					'adresse'         => $info_maman->adresse,
+ 					'nationalite_actuelle' => $info_maman->nationalite_actuelle,
+ 					'nationalite_origine'  => $info_maman->nationalite_origine,
+ 					'date_enregistrement'  => $date_enregistrement
+ 			);
+ 			
+			if ($donnees['sexe'] == 'FÃ©minin') {
+				$donnees['civilite'] = "Mme";
 			} else {
-				$civilite = "M";
+				$donnees['civilite'] = "M";
 			}
-			$donnees = array(
-					//'id_maman'        => $id_maman,
-					'nom'             => $nom,
-					'prenom'          => $prenom,
-					'date_naissance'  => $date_naissance,
-					'lieu_naissance'  => $lieu_naissance,
-					'groupe_sanguin'  => $groupe_sanguin,
-					'sexe'            => $sexe,
-					'civilite'        => $civilite,
-					'telephone'       => $info_maman->telephone,
-					'email'           => $info_maman->email,
-					'taille'          => $taille,
-					'poids'           => $poids,
-					'adresse'         => $info_maman->adresse,
-					'nationalite_actuelle'     => $info_maman->nationalite_actuelle,
-					'nationalite_origine'     => $info_maman->nationalite_origine,
-					'date_enregistrement' => $date_enregistrement
-			);
-
-			//$patientModel = new Patient ();
-// 			$donnees = array (
-// 					'NOM' => $nom,
-// 					'PRENOM' => $prenom,
-// 					'DATE_NAISSANCE' => $date_naissance,
-// 					'LIEU_NAISSANCE' => $lieu_naissance,
-// 					'GROUPE_SANGUIN' => $groupe_sanguin,
-// 					'SEXE' => $sexe,
-// 					'CIVILITE' => $civilite,
-// 					'TELEPHONE' => $info_maman->telephone,
-// 					'EMAIL' => $info_maman->email,
-// 					'ADRESSE' => $info_maman->adresse,
-// 					'NATIONALITE_ACTUELLE' => $info_maman->nationalite_actuelle
-// 			);
-
-			//$patientModel->exchangeArray ( $donnees );
-			// enregistrement du bï¿½bï¿½ dans la table PATIENTS
-			$id_bebe = $patient->addPatientSansPhoto ( $donnees );
-			$data = array (
+			//Enegistrement dans la table PATIENT
+			$id_bebe = $patient->addPatientNe($donnees); /* id_bebe = ID_PERSONNE dans la table patient*/
+			
+			$donneesNaissance = array (
+					'date_naissance' => $donnees['date_naissance'],
+					'groupe_sanguin' => $donnees['groupe_sanguin'],
+					'taille' => $donnees['taille'],
+					'poids' => $donnees['poids'],
+					'heure_naissance' => $this->params ()->fromPost ( 'heure_naissance' ),
 					'id_maman' => $id_maman,
 					'id_bebe' => $id_bebe,
-					'taille' => $taille,
-					'poids' => $poids,
-					'heure_naissance' => $heure_naissance,
-					'date_naissance'  => $date_naissance,
-					'groupe_sanguin'  => $groupe_sanguin
+					'date_enregistrement' => $date_enregistrement,
+					'note' => $this->params ()->fromPost ( 'note' ),
 			);
-			// ajouter l'identitï¿½ du bï¿½bï¿½ dans le tableau des donnï¿½es
-			//$donnees ['id_bebe'] = $id_bebe;
-			// $naissanceModel = new Naissance();
-			// $naissanceModel->exchangeArray($donnees);
-			$naiss = $this->getNaissanceTable ();
-			$naiss->addBebe ( $data, $date_enregistrement );
-
+			//Enregistrement de la naissance
+			$naissance->addNaissance($donneesNaissance);
+			
+			$html = '$result';
+				
 			$this->getResponse ()->setMetadata ( 'Content-Type', 'application/html' );
-			return $this->getResponse ()->setContent ( Json::encode () );
+			return $this->getResponse ()->setContent ( Json::encode ($html) );
 		}
 	}
 	public function birthday2Age($value) {
@@ -512,7 +570,7 @@ class FacturationController extends AbstractActionController {
 			$html  = "<div style='width:100%;'>";
 			
 			$html .= "<div style='width: 18%; height: 180px; float:left;'>";
-			$html .= "<div id='photo' style='float:left; margin-left:40px; margin-top:10px; margin-right:30px;'> <img style='width:105px; height:105px;' src='/simens/public/img/photos_patients/" . $photo . "' ></div>";
+			$html .= "<div id='photo' style='float:left; margin-left:40px; margin-top:10px; margin-right:30px;'> <img style='width:105px; height:105px;' src='".$this->baseUrl()."public/img/photos_patients/" . $photo . "' ></div>";
 			$html .= "</div>";
 			
 			$html .= "<div style='width: 65%; height: 180px; float:left;'>";
@@ -535,7 +593,7 @@ class FacturationController extends AbstractActionController {
 			$html .="</div>";
 			
 			$html .= "<div style='width: 17%; height: 180px; float:left;'>";
-			$html .= "<div id='' style='color: white; opacity: 0.09; float:left; margin-right:20px; margin-left:25px; margin-top:5px;'> <img style='width:105px; height:105px;' src='/simens/public/img/photos_patients/" . $photo . "'></div>";
+			$html .= "<div id='' style='color: white; opacity: 0.09; float:left; margin-right:20px; margin-left:25px; margin-top:5px;'> <img style='width:105px; height:105px;' src='".$this->baseUrl()."public/img/photos_patients/" . $photo . "'></div>";
 			$html .= "</div>";
 			
 			$html .= "</div>";
@@ -550,13 +608,14 @@ class FacturationController extends AbstractActionController {
 		}
 	}
 	public function enregistrerDecesAction() {
+		$this->getDateHelper();
 		if ($this->getRequest ()->isPost ()) {
 			$today = new DateTime ();
-			$date_enregistrement = $today->format('ymd');//Zend_Date::now ()->toString ( 'yyMMdd' );
+			$date_enregistrement = $today->format('ymd');
 
-			$id_patient = ( int ) $this->params ()->fromPost ( 'id' ); // id du patient
+			$id_patient = ( int ) $this->params ()->fromPost ( 'id' ); 
 
-			$date_deces = $this->params ()->fromPost ( 'date_deces' );
+			$date_deces = $this->dateHelper->convertDateInAnglais($this->params ()->fromPost ( 'date_deces' ));
 			$heure_deces = $this->params ()->fromPost ( 'heure_deces' );
 			$age_deces = $this->params ()->fromPost ( 'age_deces' );
 			$lieu_deces = $this->params ()->fromPost ( 'lieu_deces' );
@@ -663,7 +722,7 @@ class FacturationController extends AbstractActionController {
 		$html  = "<div style='width:100%;'>";
 			
 		$html .= "<div style='width: 18%; height: 180px; float:left;'>";
-		$html .= "<div id='photo' style='float:left; margin-left:40px; margin-top:10px; margin-right:30px;'> <img style='width:105px; height:105px;' src='/simens/public/img/photos_patients/" . $photo . "' ></div>";
+		$html .= "<div id='photo' style='float:left; margin-left:40px; margin-top:10px; margin-right:30px;'> <img style='width:105px; height:105px;' src='".$this->baseUrl()."public/img/photos_patients/" . $photo . "' ></div>";
 		$html .= "</div>";
 			
 		$html .= "<div style='width: 65%; height: 180px; float:left;'>";
@@ -688,7 +747,7 @@ class FacturationController extends AbstractActionController {
 		$html .="</div>";
 			
 		$html .= "<div style='width: 17%; height: 180px; float:left;'>";
-		$html .= "<div id='' style='color: white; opacity: 0.09; float:left; margin-right:20px; margin-left:25px; margin-top:5px;'> <img style='width:105px; height:105px;' src='/simens/public/img/photos_patients/" . $photo . "'></div>";
+		$html .= "<div id='' style='color: white; opacity: 0.09; float:left; margin-right:20px; margin-left:25px; margin-top:5px;'> <img style='width:105px; height:105px;' src='".$this->baseUrl()."public/img/photos_patients/" . $photo . "'></div>";
 		$html .= "</div>";
 			
 		$html .= "</div>";
@@ -760,7 +819,7 @@ class FacturationController extends AbstractActionController {
 		$chemin = $this->getServiceLocator()->get('Request')->getBasePath();
 		if ($this->getRequest ()->isGet ()) {
 
-			$id = /*1163;//=*/ ( int ) $this->params ()->fromQuery ( 'id', 0 ); // CODE DU BEBE
+			$id = ( int ) $this->params ()->fromQuery ( 'id', 0 ); // CODE DU BEBE
 
 			// RECUPERONS LE CODE DE LA MAMAN
 			$naiss = $this->getNaissanceTable ();
@@ -838,7 +897,7 @@ class FacturationController extends AbstractActionController {
 
 		    <div id='info_bebe' style='width:100%;'>
                <div  style='float:left; margin-left:40px; margin-top:25px; margin-right:35px; width:11%; height:105px;'>
-		       <img style='display: inline;' src='/simens/public/images_icons/bebe.jpg' alt='Photo bebe'>
+		       <img style='display: inline;' src='".$this->baseUrl()."public/images_icons/bebe.jpg' alt='Photo bebe'>
 		       </div>
 
 			   <div style='width: 75%; float:left;'>
@@ -985,97 +1044,7 @@ class FacturationController extends AbstractActionController {
 			return $this->getResponse ()->setContent ( Json::encode ( $html ) );
 		}
 	}
-	public function modifierAction() {
-		$this->layout ()->setTemplate ( 'layout/facturation' );
-		$id_patient = $this->params ()->fromRoute ( 'val', 0 );
-		// $id_patient = $this->getParam('id_patient');
-
-		$infoPatient = $this->getPatientTable ();
-		try {
-			$info = $infoPatient->getPatient ( $id_patient );
-		} catch ( \Exception $ex ) {
-			return $this->redirect ()->toRoute ( 'facturation', array (
-					'action' => 'liste-patient'
-			) );
-		}
-		$form = new PatientForm ();
-		$form->bind ( $info );
-		// $values = array(
-		// 'id_personne'=>$id_patient,
-		// 'nom' => $info['NOM'],
-		// 'prenom' => $info['PRENOM'],
-		// 'date_naissance' => $this->convertDate($info['DATE_NAISSANCE']),
-		// 'lieu_naissance' => $info['LIEU_NAISSANCE'],
-		// 'nationalite_origine' => $info['NATIONALITE_ORIGINE'],
-		// 'nationalite_actuelle'=> $info['NATIONALITE_ACTUELLE'],
-		// 'adresse' => $info['ADRESSE'],
-		// 'telephone' => $info['TELEPHONE'],
-		// 'email' => $info['EMAIL'],
-		// 'sexe' => $info['SEXE'],
-		// 'profession' => $info['PROFESSION'],
-		// 'civilite' => $info['CIVILITE'],
-		// );
-		// $form->populate($values);
-		// $this->view->form = $form;
-		if (! $info->photo) {
-			$info->photo = "identite";
-		}
-		// $this->view->photo = $info['PHOTO']; //envoi de la photo
-		return array (
-				'form' => $form,
-				'photo' => $info->photo
-		);
-	}
-	public function enregistrementModificationAction() {
-
-		// INSTENTIATION DU FORMULAIRE
-		// $form = new Facturation_Form_FormPatient();
-
-		// CHARGEMENT DE LA PHOTO ET ENREGISTREMENT DES DONNEES
-		if (isset ( $_POST ['terminer'] )) 		// si formulaire soumis
-		{
-			$Patient = new Facturation_Model_Managers_Patient ();
-			$nomfile = Zend_Date::now ()->toString ( 'ddMMyy_HHmmss' );
-			$fileBase64 = $this->_getParam ( 'fichier_tmp' );
-			$fileBase64 = substr ( $fileBase64, 23 );
-
-			$img = imagecreatefromstring ( base64_decode ( $fileBase64 ) );
-
-			$donnees = array (
-					'id_patient' => $this->_getParam ( 'id_patient' ),
-					'nom' => $this->_getParam ( 'nom' ),
-					'prenom' => $this->_getParam ( 'prenom' ),
-					'date_naissance' => $this->convertDateInAnglais ( $this->_getParam ( 'date_naissance' ) ),
-					'lieu_naissance' => $this->_getParam ( 'lieu_naissance' ),
-					'nationalite_origine' => $this->_getParam ( 'nationalite_origine' ),
-					'nationalite_actuelle' => $this->_getParam ( 'nationalite_actuelle' ),
-					'adresse' => $this->_getParam ( 'adresse' ),
-					'email' => $this->_getParam ( 'email' ),
-					'telephone' => $this->_getParam ( 'telephone' ),
-					'civilite' => $this->_getParam ( 'civilite' ),
-					'profession' => $this->_getParam ( 'profession' ),
-					'sexe' => $this->_getParam ( 'sexe' )
-			);
-
-			if ($img != false) {
-				// Rï¿½cupï¿½rer le nom de l'ancienne image
-				$ancimage = $Patient->getPatient ( $this->_getParam ( 'id_patient' ) );
-				$filename = $ancimage ['PHOTO'];
-				unlink ( 'C:\wamp\www\simens_derniereversion\public\img\photos_patients\\' . $filename . '.jpg' );
-
-				imagejpeg ( $img, 'C:\wamp\www\simens_derniereversion\public\img\photos_patients\\' . $nomfile . '.jpg' );
-				$Patient->updatePatient ( $donnees, $nomfile );
-				$this->redirect ( "facturation/facturation/listepatient/" );
-			} else {
-				// On enregistre sans la photo //echo "cette image n'est pas supportï¿½e";
-				$Patient->updatePatientSansPhoto ( $donnees );
-				$this->redirect ( "facturation/facturation/listepatient" );
-			}
-		}
-		$this->redirect ()->toRoute ( 'facturation', array (
-				'action' => 'liste-patient'
-		) );
-	}
+	
 	public function supprimerDecesAction(){
 		if ($this->getRequest()->isPost()){
 			$id = (int)$this->params()->fromPost ('id');
@@ -1336,7 +1305,7 @@ class FacturationController extends AbstractActionController {
 		$html  = "<div style='width:100%;'>";
 			
 		$html .= "<div style='width: 18%; height: 180px; float:left;'>";
-		$html .= "<div id='photo' style='float:left; margin-left:40px; margin-top:10px; margin-right:30px;'> <img style='width:105px; height:105px;' src='/simens/public/img/photos_patients/" . $photo . "' ></div>";
+		$html .= "<div id='photo' style='float:left; margin-left:40px; margin-top:10px; margin-right:30px;'> <img style='width:105px; height:105px;' src='".$this->baseUrl()."public/img/photos_patients/" . $photo . "' ></div>";
 		$html .= "</div>";
 			
 		$html .= "<div style='width: 65%; height: 180px; float:left;'>";
@@ -1359,7 +1328,7 @@ class FacturationController extends AbstractActionController {
 		$html .="</div>";
 			
 		$html .= "<div style='width: 17%; height: 180px; float:left;'>";
-		$html .= "<div id='' style='color: white; opacity: 0.09; float:left; margin-right:20px; margin-left:25px; margin-top:5px;'> <img style='width:105px; height:105px;' src='/simens/public/img/photos_patients/" . $photo . "'></div>";
+		$html .= "<div id='' style='color: white; opacity: 0.09; float:left; margin-right:20px; margin-left:25px; margin-top:5px;'> <img style='width:105px; height:105px;' src='".$this->baseUrl()."public/img/photos_patients/" . $photo . "'></div>";
 		$html .= "</div>";
 			
 		$html .= "</div>";

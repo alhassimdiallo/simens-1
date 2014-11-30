@@ -1,5 +1,7 @@
     var nb="_TOTAL_";
     var asInitVals = new Array();
+    var base_url = window.location.toString();
+	var tabUrl = base_url.split("public");
 	//BOITE DE DIALOG POUR LA CONFIRMATION DE SUPPRESSION
     function confirmation(id){
 	  $( "#confirmation" ).dialog({
@@ -13,7 +15,7 @@
 	            $( this ).dialog( "close" );
 	            
 	            var cle = id;
-	            var chemin = '/simens/public/facturation/supprimer-naissance';
+	            var chemin = tabUrl[0]+'public/facturation/supprimer-naissance';
 	            $.ajax({
 	                type: 'POST',
 	                url: chemin ,
@@ -49,7 +51,7 @@
     function affichervue(id){
     	
     	var cle = id;
-        var chemin = '/simens/public/facturation/vue-naissance';
+        var chemin = tabUrl[0]+'public/facturation/vue-naissance';
         $.ajax({
             type: 'POST',
             url: chemin ,
@@ -172,7 +174,7 @@
     	information(id);
     	
     	var cle = id;
-        var chemin = '/simens/public/facturation/vue-info-maman';
+        var chemin = tabUrl[0]+'public/facturation/vue-info-maman';
         $.ajax({
             type: 'POST',
             url: chemin ,
@@ -196,7 +198,7 @@
     function modifier(id){
 
     	var cle = id;
-        var chemin = '/simens/public/facturation/modifier-naissance';
+        var chemin = tabUrl[0]+'public/facturation/modifier-naissance';
         $.ajax({
             type: 'GET',
             url: chemin ,
@@ -262,11 +264,11 @@
         	
         	$.ajax({
                 type: 'POST',  
-                url: '/simens/public/facturation/modifier-naissance' ,  
+                url: tabUrl[0]+'public/facturation/modifier-naissance' ,  
                 data: ({'id':id , 'nom':nom , 'prenom':prenom , 'date_naissance':date_naissance , 'lieu_naissance':lieu_naissance , 'heure_naissance':heure_naissance , 'poids':poids , 'groupe_sanguin':groupe_sanguin , 'taille':taille , 'sexe':sexe}),
         	    success: function(data) {    
         	    	
-                  vart='/simens/public/facturation/liste-naissance';
+                  vart=tabUrl[0]+'public/facturation/liste-naissance';
                   $(location).attr("href",vart);
                   
                 },
@@ -278,7 +280,7 @@
     	//Annuler l'enregistrement d'une naissance
         $("#annuler_modif").click(function(){
         	$("#annuler_modif").css({"border-color":"#ccc", "background":"-webkit-linear-gradient( #555, #CCC)", "box-shadow":"1px 1px 10px black inset,0 1px 0 rgba( 255, 255, 255, 0.4)"});
-        	vart='/simens/public/facturation/liste-naissance';
+        	vart=tabUrl[0]+'public/facturation/liste-naissance';
             $(location).attr("href",vart);
         });
         
@@ -310,4 +312,32 @@
     					yearSuffix: ''
     			}
     	);
+        
+        $('#vider_champ').hover(function(){
+  			
+ 			 $(this).css('background','url("'+tabUrl[0]+'public/images_icons/annuler2.png") no-repeat right top');
+ 		},function(){
+ 			  $(this).css('background','url("'+tabUrl[0]+'public/images_icons/annuler1.png") no-repeat right top');
+ 	    });
+
+ 		$('#div_supprimer_photo').hover(function(){
+ 			
+ 			 $(this).css('background','url("'+tabUrl[0]+'public/images_icons/mod2.png") no-repeat right top');
+ 		},function(){
+ 			  $(this).css('background','url("'+tabUrl[0]+'public/images_icons/mod.png") no-repeat right top');
+ 	    });
+
+ 		$('#div_ajouter_photo').hover(function(){
+ 			
+ 			 $(this).css('background','url("'+tabUrl[0]+'public/images_icons/ajouterphoto2.png") no-repeat right top');
+ 		},function(){
+ 			  $(this).css('background','url("'+tabUrl[0]+'public/images_icons/ajouterphoto.png") no-repeat right top');
+ 	    });
+
+ 		$('#div_modifier_donnees').hover(function(){
+ 			
+ 			 $(this).css('background','url("'+tabUrl[0]+'public/images_icons/modifier2.png") no-repeat right top');
+ 		},function(){
+ 			  $(this).css('background','url("'+tabUrl[0]+'public/images_icons/modifier.png") no-repeat right top');
+ 	   });
     }

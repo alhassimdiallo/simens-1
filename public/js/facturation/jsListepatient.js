@@ -1,5 +1,7 @@
     var nb="_TOTAL_";
     var asInitVals = new Array();
+    var base_url = window.location.toString();
+	var tabUrl = base_url.split("public");
 	//BOITE DE DIALOG POUR LA CONFIRMATION DE SUPPRESSION
     function confirmation(id){
 	  $( "#confirmation" ).dialog({
@@ -13,7 +15,7 @@
 	            $( this ).dialog( "close" );
 	            
 	            var cle = id;
-	            var chemin = '/simens/public/facturation/supprimer';
+	            var chemin = tabUrl[0]+'public/facturation/supprimer';
 	            $.ajax({
 	                type: 'POST',
 	                url: chemin ,
@@ -21,8 +23,12 @@
 	                data:'id='+cle,
 	                success: function(data) {
 	                	     var result = jQuery.parseJSON(data);  
-	                	     nb= result;
-	                	     $("#"+cle).fadeOut(function(){$("#"+cle).empty();});  
+	                	     nb = result;
+	                	     $("#"+cle).parent().parent().fadeOut(function(){
+		                	 	 $("#"+cle).empty();
+		                	    	 //vart=tabUrl[0]+'public/facturation/liste-patient';
+			                         //$(location).attr("href",vart);
+		                	 });
 	                },
 	                error:function(e){console.log(e);alert("Une erreur interne est survenue!");},
 	                dataType: "html"

@@ -1,7 +1,11 @@
     var nb="_TOTAL_";
     var asInitVals = new Array();
+    var base_url = window.location.toString();
+	var tabUrl = base_url.split("public");
+	
 	//BOITE DE DIALOG POUR LA CONFIRMATION DE SUPPRESSION
     function confirmation(id){
+    	//alert(tabUrl[0]);
 	  $( "#confirmation" ).dialog({
 	    resizable: false,
 	    height:170,
@@ -13,7 +17,7 @@
 	            $( this ).dialog( "close" );
 	            
 	            var cle = id;
-	            var chemin = '/simens/public/facturation/supprimer-deces';
+	            var chemin = tabUrl[0]+'public/facturation/supprimer-deces';
 	            $.ajax({
 	                type: 'POST',
 	                url: chemin ,
@@ -49,7 +53,7 @@
     function affichervue(id){
     	
     	var cle = id;
-        var chemin = '/simens/public/facturation/vue-patient-decede';
+        var chemin = tabUrl[0]+'public/facturation/vue-patient-decede';
         $.ajax({
             type: 'POST',
             url: chemin ,
@@ -151,7 +155,7 @@
     /****************************************************************************************************************************************/
     function modifierdeces(id){
     	var cle = id;
-        var chemin = '/simens/public/facturation/modifier-deces';
+        var chemin = tabUrl[0]+'public/facturation/modifier-deces';
         $.ajax({
             type: 'GET',
             url: chemin ,
@@ -217,11 +221,11 @@
       
         	$.ajax({
                 type: 'POST',  
-                url: '/simens/public/facturation/modifier-deces' ,  
+                url: tabUrl[0]+'public/facturation/modifier-deces' ,  
                 data: {'id':id , 'date_deces':date_deces , 'heure_deces':heure_deces , 'age_deces':age_deces , 'lieu_deces':lieu_deces , 'circonstances_deces':circonstances_deces , 'note':note},
         	    success: function(data) {    
         	    	
-                  vart='/simens/public/facturation/liste-patients-decedes';
+                  vart=tabUrl[0]+'public/facturation/liste-patients-decedes';
                   $(location).attr("href",vart);
                   
                 },

@@ -386,9 +386,9 @@ z-index: 1;
 
     border-right-width: 2px;
 
-    border-left-width: 2px;
+    border-left-width: 1px;
 
-    border-top-width: 2px;
+    border-top-width: 1px;
 
     border-bottom-width: 2px;
 	
@@ -396,8 +396,6 @@ z-index: 1;
 	
 	border-right-color: #cccccc;
 		
-    margin-left: 0px;
-	
 	margin-right: 25px;
 	
 	margin-bottom: 15px;

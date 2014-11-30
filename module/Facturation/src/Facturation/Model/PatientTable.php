@@ -37,7 +37,7 @@ class PatientTable {
 				'civilite' => $patient->civilite,
 				'prenom' => $patient->prenom,
 				'nom' => $patient->nom,
-				'date_naissance' => $Control->convertDateInAnglais($patient->date_naissance),
+				'date_naissance' => $control->convertDateInAnglais($patient->date_naissance),
 				'lieu_naissance' => $patient->lieu_naissance,
 				'adresse' => $patient->adresse,
 				'sexe' => $patient->sexe,
@@ -64,47 +64,19 @@ class PatientTable {
 			}
 		}
 	}
-	public function addPatient(Patient $patient, $photo, $date_enregistrement){
-		$control = new DateHelper();
-		$data = array (
-				'civilite' => $patient->civilite,
-				'prenom' => $patient->prenom,
-				'nom' => $patient->nom,
-				'date_naissance' => $control->convertDateInAnglais($patient->date_naissance),
-				'lieu_naissance' => $patient->lieu_naissance,
-				'adresse' => $patient->adresse,
-				'sexe' => $patient->sexe,
-				'nationalite_actuelle' => $patient->nationalite_actuelle,
-				'nationalite_origine' => $patient->nationalite_origine,
-				'telephone' => $patient->telephone,
-				'email' => $patient->email,
-				'profession' => $patient->profession,
-				'photo' => $photo,
-				'date_enregistrement' => $date_enregistrement,
-		);
-		$this->tableGateway->insert ( $data );
-
+	
+	public function addPatient($donnees){
+		$this->tableGateway->insert ( $donnees ); 
 	}
-	public function addPatientSansPhoto($data){
-// 		$control = new DateHelper();
-// 		$data = array (
-// 				'civilite' => $patient->civilite,
-// 				'prenom' => $patient->prenom,
-// 				'nom' => $patient->nom,
-// 				'date_naissance' => $control->convertDateInAnglais($patient->date_naissance),
-// 				'lieu_naissance' => $patient->lieu_naissance,
-// 				'adresse' => $patient->adresse,
-// 				'sexe' => $patient->sexe,
-// 				'nationalite_actuelle' => $patient->nationalite_actuelle,
-// 				'nationalite_origine' => $patient->nationalite_origine,
-// 				'telephone' => $patient->telephone,
-// 				'email' => $patient->email,
-// 				'profession' => $patient->profession,
-// 				'date_enregistrement' => $date_enregistrement,
-
-// 		);
-		return $this->tableGateway->insert ( $data );
+	
+	public function addPatientNe($donnees){
+ 		return($this->tableGateway->getLastInsertValue($this->tableGateway->insert ( $donnees )));
 	}
+	
+	public  function updatePatient($donnees, $id_personne){
+		$this->tableGateway->update( $donnees, array('ID_PERSONNE' => $id_personne) );
+	}
+	
 	public function deletePatient($id) {
 		$this->tableGateway->delete ( array (
 				'ID_PERSONNE' => $id
@@ -196,6 +168,12 @@ class PatientTable {
 		 * $Control pour convertir la date en fran�ais
 		 */
 		$Control = new DateHelper();
+		
+		/*
+		 * ADRESSE URL RELATIF
+		 */
+		$baseUrl = $_SERVER['REQUEST_URI'];
+		$tabURI  = explode('public', $baseUrl);
 
 		/*
 		 * Pr�parer la liste
@@ -221,14 +199,14 @@ class PatientTable {
 					}
 
 					else if ($aColumns[$i] == 'id') {
-						$html ="<a href='/simens/public/facturation/info-patient/id_patient/".$aRow[ $aColumns[$i] ]."'>";
-						$html .="<img style='display: inline; margin-right: 15%;' src='/simens/public/images_icons/vue.PNG' title='d&eacute;tails'></a>";
+						$html ="<a href='".$tabURI[0]."public/facturation/info-patient/id_patient/".$aRow[ $aColumns[$i] ]."'>";
+						$html .="<img style='display: inline; margin-right: 15%;' src='".$tabURI[0]."public/images_icons/vue.PNG' title='d&eacute;tails'></a>";
 
-						$html .= "<a href='/simens/public/facturation/modifier/id_patient/".$aRow[ $aColumns[$i] ]."'>";
-						$html .="<img style='display: inline; margin-right: 15%;' src='/simens/public/images_icons/modifier.PNG' title='Modifier'></a>";
+						$html .= "<a href='".$tabURI[0]."public/facturation/modifier/id_patient/".$aRow[ $aColumns[$i] ]."'>";
+						$html .="<img style='display: inline; margin-right: 15%;' src='".$tabURI[0]."public/images_icons/modifier.PNG' title='Modifier'></a>";
 
-						$html .= "<a href='javascript:envoyer(".$aRow[ $aColumns[$i] ].")'>";
-						$html .="<img style='display: inline;' src='/simens/public/images_icons/trash_16.PNG' title='Supprimer'></a>";
+						$html .= "<a id='".$aRow[ $aColumns[$i] ]."' href='javascript:envoyer(".$aRow[ $aColumns[$i] ].")'>";
+						$html .="<img style='display: inline;' src='".$tabURI[0]."public/images_icons/trash_16.PNG' title='Supprimer'></a>";
 
 						$row[] = $html;
 					}
@@ -243,6 +221,7 @@ class PatientTable {
 		}
 		return $output;
 	}
+	
 	public function tousPatientsAdmis($service) {
 		//var_dump($service);exit();
 		$today = new \DateTime();

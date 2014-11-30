@@ -49,10 +49,9 @@ class DecesTable {
 				'Circonstances_deces' => 'circonstances_deces',
 				'Date_enregistrement' => 'date_enregistrement'
 		) );
-		$reqSelect->order ( 'id DESC' );
+		$reqSelect->order ( 'Id_deces DESC' );
 		$statement = $sql->prepareStatementForSqlObject ( $reqSelect );
 		$result = $statement->execute ();
-		//var_dump($result); exit();
 		return $result;
 	}
 	public function addDeces($data, $date_enregistrement){

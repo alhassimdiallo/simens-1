@@ -18,7 +18,7 @@
 					<tr style="height: 50px; width:100%;">
 						<th id="nom" style='cursor: pointer;'>Nom</th>
 						<th id="prenom" style='cursor: pointer;'>Prenom</th>
-						<th id="date" style='cursor: pointer;'>D. naissance</th>
+						<th id="date" style='cursor: pointer;'>Date. naiss</th>
 						<th id="sexe" style='cursor: pointer;'>Sexe</th>
 						<th id="adresse" style='cursor: pointer;'>Adresse</th>
 						<th id="nationalite" style='cursor: pointer;'>Nationalite</th>
@@ -76,10 +76,11 @@
 $(function(){
 	initialisation();
 });
-
+var base_url = window.location.toString();
+var tabUrl = base_url.split("public");
 //POUR LE MENU GAUCHE dans -menugauche.phtml
 $('#plus_dossier_patient').toggle(true);
-$("#dossier_patient").replaceWith("<li id='dossier_patient' style='background:#4a5765;'><a href=''><span style='margin-left:0px; color: #ffffff; font-weight:bold; font-size:18px; font-family:Times New Roman;'> <img style='display: inline;' src='/simens/public/images_icons/moins-vert.PNG' alt='Liste' /> Dossier Patient </span></a></li>");
+$("#dossier_patient").replaceWith("<li id='dossier_patient' style='background:#4a5765;'><a href=''><span style='margin-left:0px; color: #ffffff; font-weight:bold; font-size:18px; font-family:Times New Roman;'> <img style='display: inline;' src='"+tabUrl[0]+"public/images_icons/moins-vert.PNG' alt='Liste' /> Dossier Patient </span></a></li>");
 dep_dossier_patient1();
 $('#liste_dossier_patient_style').css({'font-weight':'bold','color':'white','font-size':'22px'});
 

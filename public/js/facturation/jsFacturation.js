@@ -1,3 +1,5 @@
+var base_url = window.location.toString();
+var tabUrl = base_url.split("public");
 $(function() {
 	//GESTION DES ACCORDEONS
 	//GESTION DES ACCORDEONS
@@ -163,30 +165,30 @@ $(function() {
  
   		$('#vider_champ').hover(function(){
   			
-  			 $(this).css('background','url("/simens/public/images_icons/annuler2.png") no-repeat right top');
+  			 $(this).css('background','url("'+tabUrl[0]+'public/images_icons/annuler2.png") no-repeat right top');
   		},function(){
-  			  $(this).css('background','url("/simens/public/images_icons/annuler1.png") no-repeat right top');
+  			  $(this).css('background','url("'+tabUrl[0]+'public/images_icons/annuler1.png") no-repeat right top');
   	    });
 
   		$('#div_supprimer_photo').hover(function(){
   			
-  			 $(this).css('background','url("/simens/public/images_icons/mod2.png") no-repeat right top');
+  			 $(this).css('background','url("'+tabUrl[0]+'public/images_icons/mod2.png") no-repeat right top');
   		},function(){
-  			  $(this).css('background','url("/simens/public/images_icons/mod.png") no-repeat right top');
+  			  $(this).css('background','url("'+tabUrl[0]+'public/images_icons/mod.png") no-repeat right top');
   	    });
 
   		$('#div_ajouter_photo').hover(function(){
   			
-  			 $(this).css('background','url("/simens/public/images_icons/ajouterphoto2.png") no-repeat right top');
+  			 $(this).css('background','url("'+tabUrl[0]+'public/images_icons/ajouterphoto2.png") no-repeat right top');
   		},function(){
-  			  $(this).css('background','url("/simens/public/images_icons/ajouterphoto.png") no-repeat right top');
+  			  $(this).css('background','url("'+tabUrl[0]+'public/images_icons/ajouterphoto.png") no-repeat right top');
   	    });
 
   		$('#div_modifier_donnees').hover(function(){
   			
-  			 $(this).css('background','url("/simens/public/images_icons/modifier2.png") no-repeat right top');
+  			 $(this).css('background','url("'+tabUrl[0]+'public/images_icons/modifier2.png") no-repeat right top');
   		},function(){
-  			  $(this).css('background','url("/simens/public/images_icons/modifier.png") no-repeat right top');
+  			  $(this).css('background','url("'+tabUrl[0]+'public/images_icons/modifier.png") no-repeat right top');
   	   });
   
   //FIN VALIDATION OU MODIFICATION DU FORMULAIRE ETAT CIVIL DU PATIENT

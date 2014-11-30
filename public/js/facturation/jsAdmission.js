@@ -1,4 +1,5 @@
-
+    var base_url = window.location.toString();
+	var tabUrl = base_url.split("public");
 //BOITE DE DIALOG POUR LA CONFIRMATION DE SUPPRESSION
 function confirmation(id){
   $( "#confirmation" ).dialog({
@@ -19,7 +20,7 @@ function confirmation(id){
 function visualiser(id){
 	 confirmation(id);
 	 var cle = id;
-     var chemin = '/simens/public/facturation/declarer-deces';
+     var chemin = tabUrl[0]+'public/facturation/declarer-deces';
      $.ajax({
          type: 'POST',
          url: chemin ,
@@ -130,7 +131,7 @@ function declarer(id){
 
     //R�cup�ration des donn�es du patient
     var cle = id;
-    var chemin = '/simens/public/facturation/admission';
+    var chemin = tabUrl[0]+'public/facturation/admission';
     $.ajax({
         type: 'POST',
         url: chemin ,
@@ -155,7 +156,7 @@ function declarer(id){
     //Annuler l'enregistrement d'une naissance
     $("#annuler").click(function(){
     	$("#annuler").css({"border-color":"#ccc", "background":"-webkit-linear-gradient( #555, #CCC)", "box-shadow":"1px 1px 10px black inset,0 1px 0 rgba( 255, 255, 255, 0.4)"});
-    	vart='/simens/public/facturation/admission';
+    	vart=tabUrl[0]+'public/facturation/admission';
         $(location).attr("href",vart);
     	//ANNULER
 	    /*  $('#contenu').animate({
@@ -180,11 +181,11 @@ function declarer(id){
     	
     	$.ajax({
             type: 'POST',
-            url: '/simens/public/facturation/enregistrer-admission' ,  
+            url: tabUrl[0]+'public/facturation/enregistrer-admission' ,  
             data: {'id':cle , 'numero':numero , 'service':service , 'montant':montant },
     	    success: function(data) {    
     	    	
-              vart='/simens/public/facturation/liste-patients-admis';
+              vart=tabUrl[0]+'public/facturation/liste-patients-admis';
               $(location).attr("href",vart);
                 
             }
@@ -198,7 +199,7 @@ function declarer(id){
 function getmontant(id){
 	//R�cup�ration des donn�es du patient
     var cle = id;
-    var chemin = '/simens/public/facturation/montant';
+    var chemin = tabUrl[0]+'public/facturation/montant';
     $.ajax({
         type: 'POST',
         url: chemin ,
