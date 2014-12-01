@@ -33,6 +33,7 @@ use Zend\Form\View\Helper\FormCollection;
 use Zend\Form\View\Helper\FormElement;
 use Zend\Form\View\Helper\FormTextarea;
 use Zend\Crypt\PublicKey\Rsa\PublicKey;
+use Zend\Form\View\Helper\FormHidden;
 
 class FacturationController extends AbstractActionController {
 	protected $dateHelper;
@@ -118,7 +119,9 @@ class FacturationController extends AbstractActionController {
 		// INSTANCIATION DU FORMULAIRE d'ADMISSION
 		$formAdmission = new AdmissionForm ();
 		// r�cup�ration de la liste des hopitaux
-		$service = $this->getServiceTable ()->fetchService ();
+		//$service = $this->getServiceTable ()->fetchService ();
+		$service = $this->getTarifConsultationTable()->fetchService();
+		
 		$listeService = $this->getServiceTable ()->listeService ();
 		$afficheTous = array ("" => 'Tous');
 		
@@ -495,7 +498,7 @@ class FacturationController extends AbstractActionController {
 			$patient = $this->getPatientTable ();
 			$naissance = $this->getNaissanceTable();
 
-			$id_maman = ( int ) $this->params ()->fromPost ( 'id' ); 
+			$id_maman = ( int ) $this->params ()->fromPost ( 'id_personne' ); 
  			$info_maman = $patient->getPatient ( $id_maman );
 
  			$donnees = array(
@@ -514,7 +517,8 @@ class FacturationController extends AbstractActionController {
  					'nationalite_origine'  => $info_maman->nationalite_origine,
  					'date_enregistrement'  => $date_enregistrement
  			);
- 			
+		
+ 			//var_dump($donnees); exit();
 			if ($donnees['sexe'] == 'Féminin') {
 				$donnees['civilite'] = "Mme";
 			} else {
@@ -537,10 +541,9 @@ class FacturationController extends AbstractActionController {
 			//Enregistrement de la naissance
 			$naissance->addNaissance($donneesNaissance);
 			
-			$html = '$result';
-				
-			$this->getResponse ()->setMetadata ( 'Content-Type', 'application/html' );
-			return $this->getResponse ()->setContent ( Json::encode ($html) );
+			$this->redirect ()->toRoute ( 'facturation', array (
+					'action' => 'liste-naissance'
+			) );
 		}
 	}
 	public function birthday2Age($value) {
@@ -602,7 +605,7 @@ class FacturationController extends AbstractActionController {
 					         $('#age_deces').css({'background':'#eee','border-bottom-width':'0px','border-top-width':'0px','border-left-width':'0px','border-right-width':'0px','font-weight':'bold','color':'#065d10','font-family': 'Times  New Roman','font-size':'17px'});
 					         $('#age_deces').attr('readonly',true);
 					 </script>"; // Uniquement pour la d�claration du d�c�s
-			            // $this->getResponse ()->setMetadata ( 'Content-Type', 'application/html' );
+
 			$this->getResponse ()->getHeaders ()->addHeaderLine ( 'Content-Type', 'application/html; charset=utf-8' );
 			return $this->getResponse ()->setContent ( Json::encode ( $html ) );
 		}
@@ -610,11 +613,11 @@ class FacturationController extends AbstractActionController {
 	public function enregistrerDecesAction() {
 		$this->getDateHelper();
 		if ($this->getRequest ()->isPost ()) {
-			$today = new DateTime ();
+			$today = new \DateTime ();
 			$date_enregistrement = $today->format('ymd');
 
-			$id_patient = ( int ) $this->params ()->fromPost ( 'id' ); 
-
+			$id_patient = ( int ) $this->params ()->fromPost ( 'id_patient' ); 
+			
 			$date_deces = $this->dateHelper->convertDateInAnglais($this->params ()->fromPost ( 'date_deces' ));
 			$heure_deces = $this->params ()->fromPost ( 'heure_deces' );
 			$age_deces = $this->params ()->fromPost ( 'age_deces' );
@@ -635,8 +638,8 @@ class FacturationController extends AbstractActionController {
 			$deces = $this->getDecesTable();
 			$deces->addDeces ( $donnees, $date_enregistrement );
 
-			$this->getResponse ()->getHeaders ()->addHeaderLine ( 'Content-Type', 'application/html; charset=utf-8' );
-			return $this->getResponse ()->setContent ( Json::encode () );
+			$this->redirect()->toRoute('facturation', array(
+					'action' => 'liste-patients-decedes'));
 		}
 	}
 	public function listePatientsDecedesAction() {
@@ -654,7 +657,7 @@ class FacturationController extends AbstractActionController {
 			$today = new \DateTime ( "now" );
 			$date_cons = $today->format ( 'ymd' );
 
-			$id_patient = ( int ) $this->params ()->fromPost ( 'id', 0 ); // id du patient
+			$id_patient = ( int ) $this->params ()->fromPost ( 'id_patient', 0 ); // id du patient
 
 			$numero = $this->params ()->fromPost ( 'numero' );
 			$id_service = $this->params ()->fromPost ( 'service' );
@@ -670,8 +673,9 @@ class FacturationController extends AbstractActionController {
 
 			$naiss = $this->getFacturationTable ();
 			$naiss->addFacturation ( $donnees );
-			$this->getResponse ()->getHeaders ()->addHeaderLine ( 'Content-Type', 'application/html; charset=utf-8' );
-			return $this->getResponse ()->setContent ( Json::encode () );
+			
+			$this->redirect()->toRoute('facturation', array(
+					'action' =>'liste-patients-admis'));
 		}
 	}
 	public function montantAction() {
@@ -681,7 +685,6 @@ class FacturationController extends AbstractActionController {
 
 			$tarifs = $this->getTarifConsultationTable ();
 			$tarif = $tarifs->getActe ( $id_service );
-			// var_dump($tarif);exit();
 
 			if ($tarif->pasf_tn) {
 				$montant = $tarif->pasf_tn . ' frs';
@@ -689,7 +692,6 @@ class FacturationController extends AbstractActionController {
 				$montant = '';
 			}
 			$this->getResponse ()->getHeaders ()->addHeaderLine ( 'Content-Type', 'application/html; charset=utf-8' );
-			// $this->getResponse ()->setMetadata ( 'Content-Type', 'application/html' );
 			return $this->getResponse ()->setContent ( Json::encode ( $montant ) );
 		}
 	}
@@ -839,10 +841,12 @@ class FacturationController extends AbstractActionController {
 			$formRow = new FormRow();
 			$formSelect = new FormSelect();
 			$formText = new FormText();
+			$formHidden = new FormHidden();
 			
 			$form = new AjoutNaissanceForm ();
 			// PEUPLER LE FORMULAIRE
 			$donnees = array (
+					'id_personne'=>$id,
 					'nom' => $DonneesBebe->nom,
 					'prenom' => $DonneesBebe->prenom,
 					'sexe' => $DonneesBebe->sexe,
@@ -894,12 +898,14 @@ class FacturationController extends AbstractActionController {
 			
 		    <div id='barre_separateur_modifier'>
 		    </div>
-
+            
+			<form  method='post' action='".$chemin."/facturation/modifier-naissance'>
+					
 		    <div id='info_bebe' style='width:100%;'>
                <div  style='float:left; margin-left:40px; margin-top:25px; margin-right:35px; width:11%; height:105px;'>
 		       <img style='display: inline;' src='".$this->baseUrl()."public/images_icons/bebe.jpg' alt='Photo bebe'>
-		       </div>
-
+		       </div>".$formHidden($form->get( 'id_personne' ))."
+		       		
 			   <div style='width: 75%; float:left;'>
 		       <table id='form_patient' style='width: 100%;'>
 		             <tr>
@@ -947,19 +953,19 @@ class FacturationController extends AbstractActionController {
                </div>
                </div>
                
-		 </div>
+		       </div>
 
 		        <div id='terminer_annuler' style='width:100%;'>
                     <div class='block' id='thoughtbot'>
-                       <button id='terminer_modif' style='height:35px; margin-right:10px;'>Terminer</button>
+                       <button type='submit' style='height:35px; margin-right:10px;'>Terminer</button>
                     </div>
 
                     <div class='block' id='thoughtbot'>
                        <button id='annuler_modif' style='height:35px;'>Annuler</button>
                     </div>
-                </div>";
+                </div>
+			   </form>";
 			
-			//return $html;
 			$this->getResponse ()->getHeaders ( 'Content-Type', 'application/html; charset=utf-8' );
 			return $this->getResponse()->setContent(Json::encode($html));
 		} else if ($this->getRequest ()->isPost ()) {
@@ -967,7 +973,7 @@ class FacturationController extends AbstractActionController {
 			$modif_naiss = $this->getNaissanceTable ();
 			$modif_pat = $this->getPatientTable ();
 
-			$id_bebe = ( int ) $this->params ()->fromPost ( 'id' ); // id du bebe
+			$id_bebe = ( int ) $this->params ()->fromPost ( 'id_personne' ); // id du bebe
 			$nom = $this->params ()->fromPost ( 'nom' );
 			$prenom = $this->params ()->fromPost ( 'prenom' );
 			$date_naissance = $this->convertDateInAnglais ( $this->params ()->fromPost ( 'date_naissance' ) );
@@ -1004,8 +1010,9 @@ class FacturationController extends AbstractActionController {
 			// Modification des donn�es du b�b� dans la table Patient
 			$modif_pat->updatePatientBebe ( $donnees );
 
-			$this->getResponse ()->getHeaders ()->addHeaderLine ( 'Content-Type', 'application/html; charset=utf-8' );
-			return $this->getResponse()->setContent(Json::encode($html));
+			$this->redirect ()->toRoute ( 'facturation', array (
+					'action' => 'liste-naissance'
+			) );
 		}
 	}
 	public function convertDateInAnglais($date) {
@@ -1144,10 +1151,13 @@ class FacturationController extends AbstractActionController {
 			$formRow = new FormRow();
 			$formText = new FormText();
 			$formTextarea = new FormTextarea();
+			$formHidden = new FormHidden();
 			
 			$form = new AjoutDecesForm();
 			//PEUPLER LE FORMULAIRE
-			$donnees = array('date_deces'   =>$this->convertDate($enregDeces->date_deces),
+			$donnees = array(
+					'id_deces' => $id,
+					'date_deces'   =>$this->convertDate($enregDeces->date_deces),
 					'heure_deces'  =>$enregDeces->heure_deces,
 					'age_deces'    =>$enregDeces->age_deces,
 					'lieu_deces'   =>$enregDeces->lieu_deces,
@@ -1197,13 +1207,14 @@ class FacturationController extends AbstractActionController {
 		            <div id='titre_info_deces_modif'>Informations sur le d&eacute;c&egrave;s</div>
 		            <div id='barre_separateur_modif'></div>";
 
+			$html .="<form  method='post' action='".$chemin."/facturation/modifier-deces'>";
 		    $html .="<div id='info_bebe' style='width: 100%; margin-top:0px;'>
                          <div style='float:left; width:18%; height:105px;'>
 		                 </div>";
 			
             $html .="<div style='width: 77%; float:left;'>";
 			$html .="<table id='form_patient' style='float:left; margin-top:15px;'>
-		               <tr>
+		               <tr>".$formHidden($form->get('id_deces')) ."
 		                   <td class='comment-form-patient'>".$formRow($form->get('date_deces')) . $formText($form->get('date_deces')) ."</td>
 		                   <td class='comment-form-patient'>".$formRow($form->get('heure_deces')) . $formText($form->get('heure_deces')) ."</td>
 		                   <td class='comment-form-patient'>".$formRow($form->get('age_deces')) . $formText($form->get('age_deces'))."</td>
@@ -1242,20 +1253,21 @@ class FacturationController extends AbstractActionController {
             $html .="<div style='width:100%;'>
                       <div id='terminer_annuler'>
                           <div class='block' id='thoughtbot'>
-                               <button id='terminer_modif_deces' style='height:35px;'>Terminer</button>
+                               <button type='submit' id='terminer_modif_dece' style='height:35px;'>Terminer</button>
                           </div>
 
                           <div class='block' id='thoughtbot'>
                                <button id='annuler_modif_deces' style='height:35px;'>Annuler</button>
                           </div>
                      </div>
-		             </div>";
+		             </div>
+            		</form>";
             
 			$this->getResponse ()->getHeaders ()->addHeaderLine ( 'Content-Type', 'application/html; charset=utf-8' );
 			return $this->getResponse()->setContent(Json::encode($html));
 		}
 		else if ($this->getRequest()->isPost()){
-			$id = (int)$this->params()->fromPost ('id'); 
+			$id = (int)$this->params()->fromPost ('id_deces'); 
 			$deces = $this->getDecesTable();
 
 			$donnees = array(
@@ -1269,8 +1281,8 @@ class FacturationController extends AbstractActionController {
 			);
 			$deces->updateDeces($donnees);
 
-			$this->getResponse ()->getHeaders ()->addHeaderLine ( 'Content-Type', 'application/html; charset=utf-8' );
-			return $this->getResponse()->setContent(Json::encode());
+			$this->redirect()->toRoute('facturation' , array(
+					'action'=>'liste-patients-decedes') );
 		}
 	}
 	public function supprimerAdmissionAction(){

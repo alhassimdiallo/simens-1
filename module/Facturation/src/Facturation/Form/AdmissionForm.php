@@ -25,7 +25,10 @@ class AdmissionForm extends Form{
 
 		$this->add ( array (
 				'name' => 'id_patient',
-				'type' => 'Hidden'
+				'type' => 'Hidden',
+				'attributes' => array(
+						'id' => 'id_patient'
+				)
 		) );
 
 		$this->add ( array (
@@ -40,7 +43,8 @@ class AdmissionForm extends Form{
 				'attributes' => array (
 						'registerInArrrayValidator' => true,
 						'onchange' => 'getmontant(this.value)',
-						'id' =>'service'
+						'id' =>'service',
+						'required' => true,
 				)
 		) );
 

@@ -8,7 +8,18 @@ class AjoutDecesForm extends Form{
 		parent::__construct ();
 		$this->add ( array (
 				'name' => 'id_patient',
-				'type' => 'Hidden'
+				'type' => 'Hidden',
+				'attributes'=> array (
+						'id' => 'id_patient',
+				)
+		) );
+		
+		$this->add ( array (
+				'name' => 'id_deces',
+				'type' => 'Hidden',
+				'attributes'=> array (
+						'id' => 'id_deces',
+				)
 		) );
 
 		$this->add ( array (
@@ -18,7 +29,8 @@ class AjoutDecesForm extends Form{
 						'label' => iconv('ISO-8859-1', 'UTF-8','Date du décès')
 				),
 				'attributes'=> array (
-						'id' => 'date_deces'
+						'id' => 'date_deces',
+						'required' => true,
 				)
 		) );
 
@@ -29,7 +41,8 @@ class AjoutDecesForm extends Form{
 						'label' => iconv('ISO-8859-1', 'UTF-8','Heure du décès')
 				),
 				'attributes'=> array (
-						'id' => 'heure_deces'
+						'id' => 'heure_deces',
+						'required' => true,
 				)
 		) );
 
@@ -40,7 +53,7 @@ class AjoutDecesForm extends Form{
 						'label' => iconv('ISO-8859-1', 'UTF-8','Age au décès')
 				),
 				'attributes'=> array (
-						'id' => 'age_deces'
+						'id' => 'age_deces',
 				)
 		) );
 
@@ -51,7 +64,8 @@ class AjoutDecesForm extends Form{
 						'label' => iconv('ISO-8859-1', 'UTF-8','Lieu du décès')
 				),
 				'attributes'=> array (
-						'id' => 'lieu_deces'
+						'id' => 'lieu_deces',
+						'required' => true,
 				)
 		) );
 
@@ -62,7 +76,9 @@ class AjoutDecesForm extends Form{
 						'label' => iconv('ISO-8859-1', 'UTF-8','Circonstances du décès')
 				),
 				'attributes'=> array (
-						'id' => 'circonstances_deces'
+						'id' => 'circonstances_deces',
+						'required' => true,
+						'class' => 'only_Char',
 				)
 		) );
 

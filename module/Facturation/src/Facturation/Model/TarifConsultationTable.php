@@ -21,5 +21,18 @@ class TarifConsultationTable {
 		}
 		return $row;
 	}
+	public function fetchService()
+	{
+		$adapter = $this->tableGateway->getAdapter ();
+		$sql = new Sql($adapter);
+		$select = $sql->select('tarif_consultation');
+		$select->columns(array('ID_TARIF_CONSULTATION', 'LIBELLE'));
+		$stat = $sql->prepareStatementForSqlObject($select);
+		$result = $stat->execute();
+		foreach ($result as $data) {
+			$options[$data['ID_TARIF_CONSULTATION']] = $data['LIBELLE'];
+		}
+		return $options;
+	}
 
 }

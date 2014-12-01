@@ -91,8 +91,10 @@ initialisation();
                <div style="float:left; width:18%; height:105px;">
 		       </div>
 		       <?php $form = $this->form ;
+		       $form->setAttribute ( 'action', $this->url ( 'facturation', array ('action' => 'enregistrer-deces') ) );
 		       $form->prepare();
 		       echo $this->form()->openTag($form);?>
+		       <?php echo $this->formhidden($form->get('id_patient'))?>
 		       <div style='width: 77%; float:left;'>
 		       <table id="form_patient" style="width: 100%;">
 		             <tr>
@@ -111,7 +113,6 @@ initialisation();
 
 		       </table>
 		       </div>
-		       <?php echo $this->form()->closeTag(); ?>
 		       
 		       <div style="float:left; width:5%;">
 		       <div id="barre_vertical"></div>
@@ -137,7 +138,7 @@ initialisation();
                <div style="width:100%;">
                <div id="terminer_annuler">
                     <div class="block" id="thoughtbot">
-                       <button id="terminerdeces" style=" height:35px; ">Terminer</button>
+                       <button type="submit" style=" height:35px; ">Terminer</button>
                     </div>
 
                     <div class="block" id="thoughtbot">
@@ -145,6 +146,7 @@ initialisation();
                     </div>
                </div>
                </div>
+               <?php echo $this->form()->closeTag(); ?>
 
 		  </div>
 

@@ -149,7 +149,7 @@ $('body').delegate('input.only_Char','keyup',function(){
 <script type="text/javascript">
 $('#annuler').click(function(){ 
 	 vart=tabUrl[0]+'public/facturation/liste-patient';
-   $(location).attr("href",vart);
+     $(location).attr("href",vart);
    return false;
 });
 
@@ -162,16 +162,13 @@ jQuery(document).ready(function($){
             effect: "slideDown",
             delay: 250
           }
-
     });
-
-
 });
 
 
 //POUR LE MENU GAUCHE dans -elementgauche.phtml
 $('#plus_dossier_patient').toggle(true);
-$("#dossier_patient").replaceWith("<li id='dossier_patient' style='background:#4a5765;'><a href=''><span style='margin-left:0px; color: #ffffff; font-weight:bold; font-size:18px; font-family:Times New Roman;'> <img style='display: inline;' src='/simens_derniereversion/public/images_icons/moins-vert.PNG' alt='Liste' /> Dossier Patient </span></a></li>");
+$("#dossier_patient").replaceWith("<li id='dossier_patient' style='background:#4a5765;'><a href=''><span style='margin-left:0px; color: #ffffff; font-weight:bold; font-size:18px; font-family:Times New Roman;'> <img style='display: inline;' src='/simens/public/images_icons/moins-vert.PNG' alt='Liste' /> Dossier Patient </span></a></li>");
 dep_dossier_patient1();
 $('#liste_dossier_patient_style').css({'font-weight':'bold','color':'white','font-size':'22px'});
 

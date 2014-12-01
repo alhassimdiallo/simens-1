@@ -212,14 +212,14 @@
             	     
             	    	 /********************ON PREPARE LA TOUCHE 'P�c�dent' *******************/
             	    	 $('#precedent').click(function(){
-            	    		
+            	    		$('#precedent').remove();
             	 	    	$("#titre2").replaceWith("<div id='titre' style='font-family: police2; color: green; font-size: 18px; font-weight: bold;'><iS style='font-size: 25px;'>&curren;</iS> LISTE DES NAISSANCES </div>");	
             	 	    
             	 	         $('#modifier_donnees').animate({
             	 	            height : 'toggle',
             	 	         },1000).queue(function(){
             	 	        	$('#contenu').fadeIn(500),
-            	 	           $(this).dequeue();
+            	 	            $(this).dequeue();
             	 	         });
 	
             	 	         $("#terminer").replaceWith("<button id='terminer' style='height:35px;'>Terminer</button>");
@@ -247,41 +247,41 @@
 	    //return false;
     }
     
-    
     function modifierDonnees(id){
     	
-    	$("#terminer_modif").click(function(){ 
-    		$("#terminer_modif").css({"border-color":"#ccc", "background":"-webkit-linear-gradient( #555, #CCC)", "box-shadow":"1px 1px 10px black inset,0 1px 0 rgba( 255, 255, 255, 0.4)"});
-        	var taille = $("#taille").val();
-        	var poids  = $("#poids").val();
-        	var groupe_sanguin  = $("#groupe_sanguin").val();
-        	var heure_naissance = $("#heure_naissance").val();
-        	var date_naissance  = $("#date_naissance").val();
-        	var nom = $('#nom').val();
-        	var prenom = $("#prenom").val();
-        	var lieu_naissance = $("#lieu_naissance").val();
-        	var sexe = $("#sexe").val(); if(!sexe){sexe="";}
-        	
-        	$.ajax({
-                type: 'POST',  
-                url: tabUrl[0]+'public/facturation/modifier-naissance' ,  
-                data: ({'id':id , 'nom':nom , 'prenom':prenom , 'date_naissance':date_naissance , 'lieu_naissance':lieu_naissance , 'heure_naissance':heure_naissance , 'poids':poids , 'groupe_sanguin':groupe_sanguin , 'taille':taille , 'sexe':sexe}),
-        	    success: function(data) {    
-        	    	
-                  vart=tabUrl[0]+'public/facturation/liste-naissance';
-                  $(location).attr("href",vart);
-                  
-                },
-                error:function(e){console.log(e);alert("Une erreur interne est survenue!");},
-                dataType: "html"
-        	});
-    	});
+//    	$("#terminer_modif").click(function(){ 
+//    		$("#terminer_modif").css({"border-color":"#ccc", "background":"-webkit-linear-gradient( #555, #CCC)", "box-shadow":"1px 1px 10px black inset,0 1px 0 rgba( 255, 255, 255, 0.4)"});
+//        	var taille = $("#taille").val();
+//        	var poids  = $("#poids").val();
+//        	var groupe_sanguin  = $("#groupe_sanguin").val();
+//        	var heure_naissance = $("#heure_naissance").val();
+//        	var date_naissance  = $("#date_naissance").val();
+//        	var nom = $('#nom').val();
+//        	var prenom = $("#prenom").val();
+//        	var lieu_naissance = $("#lieu_naissance").val();
+//        	var sexe = $("#sexe").val(); if(!sexe){sexe="";}
+//        	
+//        	$.ajax({
+//                type: 'POST',  
+//                url: tabUrl[0]+'public/facturation/modifier-naissance' ,  
+//                data: ({'id':id , 'nom':nom , 'prenom':prenom , 'date_naissance':date_naissance , 'lieu_naissance':lieu_naissance , 'heure_naissance':heure_naissance , 'poids':poids , 'groupe_sanguin':groupe_sanguin , 'taille':taille , 'sexe':sexe}),
+//        	    success: function(data) {    
+//        	    	
+//                  vart=tabUrl[0]+'public/facturation/liste-naissance';
+//                  $(location).attr("href",vart);
+//                  
+//                },
+//                error:function(e){console.log(e);alert("Une erreur interne est survenue!");},
+//                dataType: "html"
+//        	});
+//    	});
     	
     	//Annuler l'enregistrement d'une naissance
         $("#annuler_modif").click(function(){
         	$("#annuler_modif").css({"border-color":"#ccc", "background":"-webkit-linear-gradient( #555, #CCC)", "box-shadow":"1px 1px 10px black inset,0 1px 0 rgba( 255, 255, 255, 0.4)"});
         	vart=tabUrl[0]+'public/facturation/liste-naissance';
             $(location).attr("href",vart);
+            return false;
         });
         
         

@@ -187,29 +187,31 @@ function declarer(id){
     });
     
     //Insertion des donn�es dans la base de donn�es
-    $('#terminerdeces').click(function(){
-    	$("#terminerdeces").css({"border-color":"#ccc", "background":"-webkit-linear-gradient( #555, #CCC)", "box-shadow":"1px 1px 10px black inset,0 1px 0 rgba( 255, 255, 255, 0.4)"});
-    	var date_deces = $("#date_deces").val();
-    	var heure_deces = $("#heure_deces").val();
-    	var age_deces = $("#age_deces").val();
-    	var lieu_deces = $("#lieu_deces").val();
-    	var circonstances_deces = $("#circonstances_deces").val();
-    	var note = $("#note").val();
-    	
-    	$.ajax({
-            type: 'POST',
-            url: tabUrl[0]+'public/facturation/enregistrer-deces' ,  
-            data: {'id':cle , 'lieu_deces':lieu_deces , 'circonstances_deces':circonstances_deces , 'age_deces':age_deces , 'heure_deces':heure_deces , 'date_deces':date_deces, 'note':note, },
-    	    success: function(data) {    
-    	    	
-              vart=tabUrl[0]+'public/facturation/liste-patients-decedes';
-              $(location).attr("href",vart);
-                
-            }
-    	});
-    });
+//    $('#terminerdeces').click(function(){
+//    	$("#terminerdeces").css({"border-color":"#ccc", "background":"-webkit-linear-gradient( #555, #CCC)", "box-shadow":"1px 1px 10px black inset,0 1px 0 rgba( 255, 255, 255, 0.4)"});
+//    	var date_deces = $("#date_deces").val();
+//    	var heure_deces = $("#heure_deces").val();
+//    	var age_deces = $("#age_deces").val();
+//    	var lieu_deces = $("#lieu_deces").val();
+//    	var circonstances_deces = $("#circonstances_deces").val();
+//    	var note = $("#note").val();
+//    	
+//    	$.ajax({
+//            type: 'POST',
+//            url: tabUrl[0]+'public/facturation/enregistrer-deces' ,  
+//            data: {'id':cle , 'lieu_deces':lieu_deces , 'circonstances_deces':circonstances_deces , 'age_deces':age_deces , 'heure_deces':heure_deces , 'date_deces':date_deces, 'note':note, },
+//    	    success: function(data) {    
+//    	    	
+//              vart=tabUrl[0]+'public/facturation/liste-patients-decedes';
+//              $(location).attr("href",vart);
+//                
+//            }
+//    	});
+//    });
     //Fin insertion des donn�es
     
+    //Recuperation de l'id du patient
+    $('#id_patient').val(id);
     
     //MENU GAUCHE
   	//MENU GAUCHE

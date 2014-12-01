@@ -10,14 +10,17 @@ class AjoutNaissanceForm extends Form {
 		//$local = new \Locale();
 		$this->add ( array (
 				'name' => 'id_personne',
-				'type' => 'Hidden'
-		) );
+				'type' => 'Hidden',
+				'attributes' =>  array (
+						'id' => 'id_personne',
+				) 
+				));
 
 		$this->add ( array (
 				'name' => 'nom',
 				'type' => 'Text',
 				'options' => array (
-						'label' => 'Nomm'
+						'label' => 'Nom'
 				),
 				'attributes' => array (
 						'class' => 'only_Char',
@@ -29,11 +32,12 @@ class AjoutNaissanceForm extends Form {
 				'name' => 'prenom',
 				'type' => 'Text',
 				'options' => array (
-						'label' => iconv ( 'ISO-8859-1', 'UTF-8','Prénom')
+						'label' => iconv ( 'ISO-8859-1', 'UTF-8','Prénomm')
 				),
 				'attributes' => array (
+						'id' => 'prenom',
+						'class' => 'only_Char',
 						'required' => true,
-						'id' => 'prenom'
 				)
 		) );
 		$this->add ( array (

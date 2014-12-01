@@ -185,38 +185,41 @@ function ajouternaiss(id){
     	$("#annuler").css({"border-color":"#ccc", "background":"-webkit-linear-gradient( #555, #CCC)", "box-shadow":"1px 1px 10px black inset,0 1px 0 rgba( 255, 255, 255, 0.4)"});
     	vart=tabUrl[0]+'public/facturation/ajouter-naissance';
         $(location).attr("href",vart);
+        return false;
     });
     
     //Insertion des donn�es dans la base de donn�es
-    $('#terminer').click(function(){
-    	$("#terminer").css({"border-color":"#ccc", "background":"-webkit-linear-gradient( #555, #CCC)", "box-shadow":"1px 1px 10px black inset,0 1px 0 rgba( 255, 255, 255, 0.4)"});
-    	var taille = $("#taille").val();
-    	var poids  = $("#poids").val();
-    	var groupe_sanguin = $("#groupe_sanguin").val();
-    	var heure_naissance = $("#heure_naissance").val();
-    	var date_naissance = $("#date_naissance").val();
-    	var nom = $("#nom").val();
-    	var prenom = $("#prenom").val();
-    	var lieu_naissance = $("#lieu_naissance").val();
-    	var sexe = $("#sexe").val(); if(!sexe){sexe="";}
-    
-    	$.ajax({
-            type: 'POST',
-            url: tabUrl[0]+'public/facturation/enregistrer-bebe' ,  
-            data: {'id':cle , 'nom':nom , 'prenom':prenom , 'date_naissance':date_naissance , 'lieu_naissance':lieu_naissance , 'heure_naissance':heure_naissance , 'poids':poids , 'groupe_sanguin':groupe_sanguin , 'taille':taille , 'sexe':sexe},
-    	    success: function(data) {    
-    	    	//var result = jQuery.parseJSON(data); 
-    	    	vart=tabUrl[0]+'public/facturation/liste-naissance';
-    	    	$(location).attr("href",vart);
-            },
-            error:function(e){console.log(e);alert("Une erreur interne est survenue!");},
-            dataType: "html"
-    	});
-    });
+//    $('#terminer').click(function(){
+//    	$("#terminer").css({"border-color":"#ccc", "background":"-webkit-linear-gradient( #555, #CCC)", "box-shadow":"1px 1px 10px black inset,0 1px 0 rgba( 255, 255, 255, 0.4)"});
+//    	var taille = $("#taille").val();
+//    	var poids  = $("#poids").val();
+//    	var groupe_sanguin = $("#groupe_sanguin").val();
+//    	var heure_naissance = $("#heure_naissance").val();
+//    	var date_naissance = $("#date_naissance").val();
+//    	var nom = $("#nom").val();
+//    	var prenom = $("#prenom").val();
+//    	var lieu_naissance = $("#lieu_naissance").val();
+//    	var sexe = $("#sexe").val(); if(!sexe){sexe="";}
+//    
+//    	$.ajax({
+//            type: 'POST',
+//            url: tabUrl[0]+'public/facturation/enregistrer-bebe' ,  
+//            data: {'id':cle , 'nom':nom , 'prenom':prenom , 'date_naissance':date_naissance , 'lieu_naissance':lieu_naissance , 'heure_naissance':heure_naissance , 'poids':poids , 'groupe_sanguin':groupe_sanguin , 'taille':taille , 'sexe':sexe},
+//    	    success: function(data) {    
+//    	    	//var result = jQuery.parseJSON(data); 
+//    	    	vart=tabUrl[0]+'public/facturation/liste-naissance';
+//    	    	$(location).attr("href",vart);
+//            },
+//            error:function(e){console.log(e);alert("Une erreur interne est survenue!");},
+//            dataType: "html"
+//    	});
+//    });
     //Fin insertion des donn�es
     
+    //Ajouter l'id pour savoir de quelle maman il s'agit
+    $("#id_personne").val(id);
     
-  //MENU GAUCHE
+    //MENU GAUCHE
   	//MENU GAUCHE
   	$("#vider").click(function(){
   		document.getElementById('nom').value="";

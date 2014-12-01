@@ -87,22 +87,24 @@ initialisation();
 		  <div id="barre_separateur">
 		  </div>
 
+		  <?php $form = $this->form ;
+		        $form->setAttribute ( 'action', $this->url ( 'facturation', array ('action' => 'enregistrer-admission') ) );
+		        $form->prepare();
+		        echo $this->form()->openTag($form);
+		       ?>
+		  <?php echo $this->formhidden($form->get('id_patient'))?>     
 		  <div id="info_bebe" style='width: 100%; margin-top:10px;'>
                <div style="float:left; width:18%; height:5%;">
 		       </div>
 		       
 		       <div style='width: 77%; float:left;'>
 		       <table id="form_patient" style="width:100%;">
-		       <?php $form = $this->form ;
-		       $form->prepare();
-		       echo $this->form()->openTag($form);
-		       ?>
+		      
 		             <tr style='width: 100%;'>
 		                 <td class="comment-form-patient" style='width: 33%;'><?php echo $this->formRow($form->get('numero'))?></td>
 		                 <td class="comment-form-patient" style='width: 33%;'><?php echo $this->formRow($form->get('service'))?></td>
 		                 <td class="comment-form-patient" style='width: 33%;'><?php echo $this->formRow($form->get('montant'))?></td>
 		             </tr>
-		      <?php echo $this->form()->closeTag(); ?>
 		       </table>
 		       </div>
 		       <div style="float:left; width:5%;">
@@ -114,22 +116,23 @@ initialisation();
 		       <div style='width: 20%;'>
                   <div id="terminer_annuler">
                     <div class="block" id="thoughtbot">
-                       <button id="termineradmission" style=" height:35px; ">Terminer</button>
+                       <button type="submit" id="termineradmissio" style=" height:35px; ">Terminer</button>
                     </div>
 
                     <div class="block" id="thoughtbot">
-                       <button type="submit" name="annuler" id="annuler" style=" height:35px; ">Annuler</button>
+                       <button name="annuler" id="annuler" style=" height:35px; ">Annuler</button>
                     </div>
                   </div>
                 </div>
                 <div style='width: 40%;'></div>
-           </div>
+          </div>
+          <?php echo $this->form()->closeTag(); ?>
 		  
     </div>
 
 <script>
 animation();
-document.getElementById('service').value="";
+$('#service').val("");
 
 var base_url = window.location.toString();
 var tabUrl = base_url.split("public");

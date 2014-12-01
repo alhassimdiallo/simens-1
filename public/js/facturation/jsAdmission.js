@@ -155,43 +155,46 @@ function declarer(id){
     
     //Annuler l'enregistrement d'une naissance
     $("#annuler").click(function(){
-    	$("#annuler").css({"border-color":"#ccc", "background":"-webkit-linear-gradient( #555, #CCC)", "box-shadow":"1px 1px 10px black inset,0 1px 0 rgba( 255, 255, 255, 0.4)"});
-    	vart=tabUrl[0]+'public/facturation/admission';
-        $(location).attr("href",vart);
+    	$("#annuler").css({"border-color":"#ccc", "background":"-webkit-linear-gradient( #555, #CCC)", "box-shadow":"1px 1px 5px black inset,0 1px 0 rgba( 255, 255, 255, 0.4)"});
+    	
     	//ANNULER
-	    /*  $('#contenu').animate({
-	         height : 'toggle'
-	      },1000);
-	      $('#declarer_deces').animate({
-	         height : 'toggle'
-	      },1000);
-	     
-	     return true;*/
+//	      $('#contenu').animate({
+//	         height : 'toggle'
+//	      },1000);
+//	      $('#declarer_deces').animate({
+//	         height : 'toggle'
+//	      },1000);
+	      
+	    vart=tabUrl[0]+'public/facturation/admission';
+	    $(location).attr("href",vart);
+        return false;
     });
     
     //Insertion des donn�es dans la base de donn�es
-    $('#termineradmission').click(function(){
-    	//alert('test');
-    	$("#termineradmission").css({"border-color":"#ccc", "background":"-webkit-linear-gradient( #555, #CCC)", "box-shadow":"1px 1px 10px black inset,0 1px 0 rgba( 255, 255, 255, 0.4)"});
-    	$("#termineradmission").attr( 'disabled', true );
-    	$("#annuler").attr( 'disabled', true );
-    	var numero = $("#numero").val();
-    	var service = $("#service").val();
-    	var montant = $("#montant").val();
-    	
-    	$.ajax({
-            type: 'POST',
-            url: tabUrl[0]+'public/facturation/enregistrer-admission' ,  
-            data: {'id':cle , 'numero':numero , 'service':service , 'montant':montant },
-    	    success: function(data) {    
-    	    	
-              vart=tabUrl[0]+'public/facturation/liste-patients-admis';
-              $(location).attr("href",vart);
-                
-            }
-    	});
-    });
+//    $('#termineradmission').click(function(){
+//    	//alert('test');
+//    	$("#termineradmission").css({"border-color":"#ccc", "background":"-webkit-linear-gradient( #555, #CCC)", "box-shadow":"1px 1px 10px black inset,0 1px 0 rgba( 255, 255, 255, 0.4)"});
+//    	$("#termineradmission").attr( 'disabled', true );
+//    	$("#annuler").attr( 'disabled', true );
+//    	var numero = $("#numero").val();
+//    	var service = $("#service").val();
+//    	var montant = $("#montant").val();
+//    	
+//    	$.ajax({
+//            type: 'POST',
+//            url: tabUrl[0]+'public/facturation/enregistrer-admission' ,  
+//            data: {'id':cle , 'numero':numero , 'service':service , 'montant':montant },
+//    	    success: function(data) {    
+//    	    	
+//              vart=tabUrl[0]+'public/facturation/liste-patients-admis';
+//              $(location).attr("href",vart);
+//                
+//            }
+//    	});
+//    });
     //Fin insertion des donn�es
+    
+    $("#id_patient").val(id);
   
 }
 

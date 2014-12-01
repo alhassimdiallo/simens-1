@@ -172,7 +172,7 @@
             	     
             	    	 /********************ON PREPARE LA TOUCHE 'P�c�dent' *******************/
             	    	 $('#precedent').click(function(){
-            	    		
+            	    		$('#precedent').remove();
             	 	    	$("#titre2").replaceWith("<div id='titre' style='font-family: police2; color: green; font-size: 18px; font-weight: bold;'><iS style='font-size: 25px;'>&curren;</iS> LISTE DES NAISSANCES </div>");	
             	 	    
             	 	         $('#modifier_donnees_deces').animate({
@@ -180,7 +180,7 @@
             	 	         },1000).queue(function(){
             	 	        	$('#contenu').fadeIn(1000);
             	 	            $(this).dequeue();
-            	 	         });//.queue(function(){$("#modifier_donnees_deces").stop(true); $(this).dequeue();});
+            	 	         });
 	
             	 	         $("#terminer_modif_deces").replaceWith("<button id='terminer_modif_deces' style='height:35px;'>Terminer</button>");
 
@@ -210,29 +210,29 @@
     
     function modifierDonnees(id){
     	
-    	$("#terminer_modif_deces").click(function(){ 
-    		$("#terminer_modif_deces").css({"border-color":"#ccc", "background":"-webkit-linear-gradient( #555, #CCC)", "box-shadow":"1px 1px 10px black inset,0 1px 0 rgba( 255, 255, 255, 0.4)"});
-        	var date_deces = $("#date_deces").val();
-        	var heure_deces = $("#heure_deces").val();
-        	var age_deces  = $("#age_deces").val();
-        	var lieu_deces = $("#lieu_deces").val();
-        	var circonstances_deces  = $("#circonstances_deces").val();
-        	var note = $('#note').val();
-      
-        	$.ajax({
-                type: 'POST',  
-                url: tabUrl[0]+'public/facturation/modifier-deces' ,  
-                data: {'id':id , 'date_deces':date_deces , 'heure_deces':heure_deces , 'age_deces':age_deces , 'lieu_deces':lieu_deces , 'circonstances_deces':circonstances_deces , 'note':note},
-        	    success: function(data) {    
-        	    	
-                  vart=tabUrl[0]+'public/facturation/liste-patients-decedes';
-                  $(location).attr("href",vart);
-                  
-                },
-                error:function(e){console.log(e);alert("Une erreur interne est survenue!");},
-                dataType: "html"
-        	});
-    	});
+//    	$("#terminer_modif_deces").click(function(){ 
+//    		$("#terminer_modif_deces").css({"border-color":"#ccc", "background":"-webkit-linear-gradient( #555, #CCC)", "box-shadow":"1px 1px 10px black inset,0 1px 0 rgba( 255, 255, 255, 0.4)"});
+//        	var date_deces = $("#date_deces").val();
+//        	var heure_deces = $("#heure_deces").val();
+//        	var age_deces  = $("#age_deces").val();
+//        	var lieu_deces = $("#lieu_deces").val();
+//        	var circonstances_deces  = $("#circonstances_deces").val();
+//        	var note = $('#note').val();
+//      
+//        	$.ajax({
+//                type: 'POST',  
+//                url: tabUrl[0]+'public/facturation/modifier-deces' ,  
+//                data: {'id':id , 'date_deces':date_deces , 'heure_deces':heure_deces , 'age_deces':age_deces , 'lieu_deces':lieu_deces , 'circonstances_deces':circonstances_deces , 'note':note},
+//        	    success: function(data) {    
+//        	    	
+//                  vart=tabUrl[0]+'public/facturation/liste-patients-decedes';
+//                  $(location).attr("href",vart);
+//                  
+//                },
+//                error:function(e){console.log(e);alert("Une erreur interne est survenue!");},
+//                dataType: "html"
+//        	});
+//    	});
     	
     	//Annuler l'enregistrement d'un deces
         $("#annuler_modif_deces").click(function(){
@@ -249,6 +249,7 @@
 	 	        	$('#contenu').fadeIn(1000);
 	 	            $(this).dequeue();
 	 	         });
+        	return false;
         });
         
         
