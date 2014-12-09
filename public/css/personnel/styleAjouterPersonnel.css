@@ -267,12 +267,10 @@ box-shadow: 0pt 0pt 12px rgba(0, 0, 0, 0.1);
 
 
 
-
-
 /*-----STYLE FORMULAIRE ETAT CIVIL DU PATIENT-----*/
 /*-----STYLE FORMULAIRE ETAT CIVIL DU PATIENT-----*/
 /*-----STYLE FORMULAIRE ETAT CIVIL DU PATIENT-----*/
-#form_patient .comment-form-patient label, #form_patient .comment-form-email label, #form_patient .comment-form-url label, #form_patient .comment-form-comment label 
+#form_patient .comment-form-patient label, #form_patient2 .comment-form-patient label, #form_patient .comment-form-email label, #form_patient .comment-form-url label, #form_patient .comment-form-comment label 
 
 {/* le label*/
 line-height: 1.5em;
@@ -305,7 +303,7 @@ display: inline-block;
 
 font-size: 13px;
 
-left: 10px; /*déplacer le label*/
+left: 0px; /*dï¿½placer le label*/
 
 min-width: 60px;
 
@@ -322,6 +320,8 @@ position: relative;
 top: 5px;
 
 z-index: 1;
+         
+font-size: 14px;
 
 }
 
@@ -377,7 +377,7 @@ z-index: 1;
 
     border-top-color: #cccccc;
 
-    border-right-color-value: #eeeeee;
+/*     border-right-color-value: #eeeeee; */
 
     border-right-color-ltr-source: physical;
 
@@ -385,7 +385,7 @@ z-index: 1;
 
     border-bottom-color: #cccccc;
 
-    border-left-color-value: #eeeeee;
+/*     border-left-color-value: #eeeeee; */
 
     border-left-color-ltr-source: physical;
 
@@ -403,13 +403,13 @@ z-index: 1;
 
     position: relative;
 	
-	/* les cotés des champs */
+	/* les cotï¿½s des champs */
 
     border-right-width: 2px;
 
-    border-left-width: 2px;
+    border-left-width: 1px;
 
-    border-top-width: 2px;
+    border-top-width: 1px;
 
     border-bottom-width: 2px;
 	
@@ -419,26 +419,22 @@ z-index: 1;
 	
 	float: left;
 
-    margin-left: 0px;
-	
 	margin-right: 25px;
 	
-	margin-bottom: 15px;
-
 	/*enlever l'icone select*/
-    /*****-webkit-appearance: none;****/
+    /****-webkit-appearance: none;*****/
 }
 
 #form_patient option{ 
-   min-width:100px;
-   color:#00f;
+   /*min-width:100px;*/
+   color:blue;
    background-color:#eee;
-   font-size: 13pt;
+   /*font-size: 13pt;
    overflow: auto;
-
+   width: 100px; */
 }
 
-#form_patient input[type="text"], #form_patient textarea
+#form_patient input[type="text"], #form_patient2 input[type="text"], #form_patient textarea, #form_patient input[type="email"]
 
 { /*le input ou le textarea*/
 
@@ -513,15 +509,13 @@ box-shadow: 0pt 1px 3px rgba(204, 204, 204, 0.95) inset;
 position: relative;
 
 /* le texte des champs*/
-padding-top: 10px;
+padding-top: 2px;
 
 padding-right: 10px;
 
-padding-bottom: 10px;
+padding-bottom: 5px;
 
-margin-bottom : 15px;
-
-margin-right: 20px;
+margin-bottom : 5px;
 
 padding-left: 10px; /* padding du text dans le champ*/
 
@@ -530,13 +524,11 @@ text-indent: 0px; /* alignement du text dans le champ input*/
 /* balise input text*/
 display: block;
 
-height: 30px; /*la hauteur du champ input*/
+/*height: 30px; /*la hauteur du champ input*/
 
-width: 225px; /* la largeur du champ input*/
+/*width: 87%;/*225px; /* la largeur du champ input*/
 
-
-
-/*z-index: 5;*/
+font-size: 16px;
 
 }
 
@@ -547,13 +539,67 @@ display: block;
 
 height: 30px;  /*la hauteur du champ input*/
 
-width: 225px;   /*la largeur du champ input*/
+width: 87%;/*225px;   /*la largeur du champ input*/
 
 }
 
 #form_patient textarea
 {
-	height: 60px;
+	height: 30px;
+}
+
+#form_patient input[type='text']
+{
+	width: 87%;
+	height: 30px;
+}
+
+#form_patient2 input[type='text']
+{
+	width: 95%;
+	height: 30px;
+}
+
+#form_patient input[type='email']
+{
+	width: 88%;
+	height: 30px;
+}
+
+#form_patient input#submit
+{
+
+color: #444444;
+
+text-shadow: none;
+
+background-color: #eeeeee;
+
+background-image: none;
+
+background-repeat: repeat;
+
+background-attachment: scroll;
+
+background-position: 0% 0%;
+
+background-clip: border-box;
+
+background-origin: padding-box;
+
+background-size: auto auto;
+
+position: static;
+
+padding-top: 5px;
+
+padding-right: 22px;
+
+padding-bottom: 5px;
+
+padding-left: 22px;
+	
+float: right; 	
 }
 
 

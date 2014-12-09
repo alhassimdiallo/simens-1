@@ -3,7 +3,6 @@
       echo $this->headLink()->appendStylesheet($this->basePath().'/css/facturation/DatePicker.css');?>
 
 <!-- MES JS -->
-<?php //echo $this->headScript()->appendFile($this->basePath().'/js/jquery.maskedinput.js');?>
 <?php echo $this->headScript()->appendFile($this->basePath().'/js/facturation/jsAjouternaissance.js');?>
 
 <?php use Facturation\View\Helper\DateHelper;
@@ -162,6 +161,7 @@ initialisation();
 <script>
 animation();
 $('#sexe').val("");
+controle_saisie();
 
 var base_url = window.location.toString();
 var tabUrl = base_url.split("public");

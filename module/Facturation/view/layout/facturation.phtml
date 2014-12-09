@@ -23,6 +23,9 @@
   $this->headScript()->appendFile($this->basePath().'/js/select2.min.js');
   $this->headScript()->appendFile($this->basePath().'/js/jquery.dataTables.min.js');
   $this->headScript()->appendFile($this->basePath().'/js/jquery-ui.js');
+  
+  $this->headScript()->appendFile($this->basePath().'/js/jquery.maskedinput.js');
+  $this->headScript()->appendFile($this->basePath().'/js/controle_saisie/controle_saisie.js');
 
  echo $this->headTitle($this->pageTitle);?>
 		<?php echo $this->headScript();?>

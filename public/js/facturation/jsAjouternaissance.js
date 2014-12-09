@@ -222,15 +222,15 @@ function ajouternaiss(id){
     //MENU GAUCHE
   	//MENU GAUCHE
   	$("#vider").click(function(){
-  		document.getElementById('nom').value="";
-  		document.getElementById('prenom').value="";
-  		document.getElementById('date_naissance').value="";
-  		document.getElementById('heure_naissance').value="";
-  		document.getElementById('lieu_naissance').value="";
-  		document.getElementById('poids').value="";
-  		document.getElementById('sexe').value="";
-  		document.getElementById('taille').value="";
-  		document.getElementById('groupe_sanguin').value="";
+  		$('#nom').val('');
+  		$('#prenom').val('');
+  		$('#date_naissance').val('');
+  		$('#heure_naissance').val('');
+  		$('#lieu_naissance').val('');
+  		$('#poids').val('');
+  		$('#sexe').val('');
+  		$('#taille').val('');
+  		$('#groupe_sanguin').val('');
   		return false;
   	});
   	

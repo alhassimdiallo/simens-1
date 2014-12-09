@@ -313,6 +313,21 @@
     			}
     	);
         
+        //MENU GAUCHE
+      	//MENU GAUCHE
+      	$("#vider").click(function(){
+      		$('#nom').val('');
+      		$('#prenom').val('');
+      		$('#date_naissance').val('');
+      		$('#heure_naissance').val('');
+      		$('#lieu_naissance').val('');
+      		$('#poids').val('');
+      		$('#sexe').val('');
+      		$('#taille').val('');
+      		$('#groupe_sanguin').val('');
+      		return false;
+      	});
+        
         $('#vider_champ').hover(function(){
   			
  			 $(this).css('background','url("'+tabUrl[0]+'public/images_icons/annuler2.png") no-repeat right top');

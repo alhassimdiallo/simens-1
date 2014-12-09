@@ -1,5 +1,6 @@
-    var nb="_TOTAL_";
-    var asInitVals = new Array();
+    var base_url = window.location.toString();
+    var tabUrl = base_url.split("public");
+
 	//BOITE DE DIALOG POUR LA CONFIRMATION DE SUPPRESSION
     function confirmation(id){
 	  $( "#confirmation" ).dialog({
@@ -13,7 +14,7 @@
 	            $( this ).dialog( "close" );
 	            
 	            var cle = id;
-	            var chemin = '/simens_derniereversion/public/personnel/personnel/supprimer';
+	            var chemin = tabUrl[0]+'public/personnel/personnel/supprimer';
 	            $.ajax({
 	                type: 'POST',
 	                url: chemin ,
@@ -83,83 +84,78 @@
   	    });
     }
     
-    /**********************************************************************************/
-    function initialisation(){	
-    	
-     var asInitVals = new Array();
-	 var  oTable = $('#patientdeces').dataTable
-	  ( {
-		        
-					"aaSorting": "", //pour trier la liste affichée
-					"oLanguage": { 
-						"sProcessing":   "Traitement en cours...",
-						//"sLengthMenu":   "Afficher _MENU_ &eacute;l&eacute;ments",
-						"sZeroRecords":  "Aucun &eacute;l&eacute;ment &agrave; afficher",
-						"sInfo": nb+" &eacute;l&eacute;ments",
-						//"sInfoEmpty": "0 &eacute;l&eacute;ment &agrave; afficher",
-						"sInfoFiltered": "",
-						"sInfoPostFix":  "",
-						"sSearch": "",
-						"sUrl": "",
-						"sWidth": "30px",
-						"oPaginate": {
-							"sFirst":    "|<",
-							"sPrevious": "",
-							"sNext":     "",
-							"sLast":     ">|",
-						}
-					   },
-					   "iDisplayLength": "10",
-					   
-					   
-						
-	} );
+    /*********************************************************************************************************************/
 
-	//le filtre du select
-	$('#filter_statut').change(function() 
-	{					
-		oTable.fnFilter( this.value );
-	});
-	
-	//le filtre du select du type personnel
+    function initialisation(){
+        var  oTable = $('#personnel').dataTable
+    	( {
+    					"sPaginationType": "full_numbers",
+    					"aLengthMenu": [5,7,10,15],
+    					"oLanguage": {
+    						"sInfo": "_START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+    						"sInfoEmpty": "0 &eacute;l&eacute;ment &agrave; afficher",
+    						"sInfoFiltered": "",
+    						"sUrl": "",
+    						"oPaginate": {
+    							"sFirst":    "|<",
+    							"sPrevious": "<",
+    							"sNext":     ">",
+    							"sLast":     ">|"
+    							}
+    					   },
+
+    					"sAjaxSource": ""+tabUrl[0]+"public/personnel/liste-personnel-ajax", 
+    					
+    	}); 
+        
+        var asInitVals = new Array();
+    
+   	//le filtre du select
+   	$('#filter_statut').change(function() 
+   	{					
+   		oTable.fnFilter( this.value );
+   	});
+
+   	//le filtre du select du type personnel
 	$('#type_personnel').change(function() 
 	{					
 		oTable.fnFilter( this.value );
 	});
-	
-	$("tfoot input").keyup( function () { //Permet de rechercher par l'element saisi
-		/* Filter on the column (the index) of this element */
-		oTable.fnFilter( this.value, $("tfoot input").index(this) );
-	} ); 
+   	
+   	$("tfoot input").keyup( function () {
+   		/* Filter on the column (the index) of this element */
+   		oTable.fnFilter( this.value, $("tfoot input").index(this) );
+   	} );
+   	
+   	/*
+   	 * Support functions to provide a little bit of 'user friendlyness' to the textboxes in 
+   	 * the footer
+   	 */
+   	$("tfoot input").each( function (i) {
+   		asInitVals[i] = this.value;
+   	} );
+   	
+   	$("tfoot input").focus( function () {
+   		if ( this.className == "search_init" )
+   		{
+   			this.className = "";
+   			this.value = "";
+   		}
+   		
+   	} );
+   	
+   	$("tfoot input").blur( function (i) {
+   		if ( this.value == "" )
+   		{
+   			this.className = "search_init";
+   			this.value = asInitVals[$("tfoot input").index(this)];
+   		}
+   	} );
 
-	/*
-	 * Support functions to provide a little bit of 'user friendlyness' to the textboxes in 
-	 * the footer
-	 */
-	$("tfoot input").each( function (i) {
-		asInitVals[i] = this.value;
-	} );
-	
-	$("tfoot input").focus( function () { //reinitialise
-		if ( this.className == "search_init" )
-		{
-			this.className = "";
-			this.value = "";
-		}
-	} );
-	
-	$("tfoot input").blur( function (i) { //ne reinitialise pas
-		if ( this.value == "" )
-		{
-			this.className = "search_init";
-			this.value = asInitVals[$("tfoot input").index(this)];
-		}
-	} );
-
+  
     }
     
-    
-    /****************************************************************************************************************************************/
+    /************************************************************************************************************************/
     function modifierdeces(id){/*
     	var cle = id;
         var chemin = '/simens_derniereversion/public/facturation/facturation/modifierdeces';
@@ -293,7 +289,7 @@
     	var cle = id;
     	
     	if(id==1){
-          var chemin = '/simens_derniereversion/public/personnel/personnel/lalistepersonnel';
+          var chemin = '/simens/public/personnel/personnel/lalistepersonnel';
           $.ajax({
             type: 'POST',
             url: chemin ,

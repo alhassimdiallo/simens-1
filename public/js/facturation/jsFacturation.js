@@ -146,18 +146,18 @@ $(function() {
   	//MENU GAUCHE
   	//MENU GAUCHE
   	$("#vider").click(function(){
-  		document.getElementById('civilite').value="";
-  		document.getElementById('lieu_naissance').value="";
-  		document.getElementById('email').value="";
-  		document.getElementById('nom').value="";
-  		document.getElementById('telephone').value="";
-  		document.getElementById('nationalite_origine').value="";
-  		document.getElementById('prenom').value="";
-  		document.getElementById('nationalite_actuelle').value="";
-  		document.getElementById('date_naissance').value="";
-  		document.getElementById('adresse').value="";
-  		document.getElementById('sexe').value="";
-  		document.getElementById('profession').value="";
+  		$('#civilite').val('');
+  		$('#lieu_naissance').val('');
+  		$('#email').val('');
+  		$('#nom').val('');
+  		$('#telephone').val('');
+  		$('#nationalite_origine').val('');
+  		$('#prenom').val('');
+  		$('#nationalite_actuelle').val('');
+  		$('#date_naissance').val('');
+  		$('#adresse').val('');
+  		$('#sexe').val('');
+  		$('#profession').val('');
   		return false;
   	});
   	

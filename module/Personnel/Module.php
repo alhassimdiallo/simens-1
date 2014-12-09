@@ -9,6 +9,18 @@ use Personnel\Model\Service;
 use Personnel\Model\ServiceTable;
 use Personnel\Model\HopitalTable;
 use Personnel\Model\Hopital;
+use Personnel\Model\PersonnelTable;
+use Personnel\Model\Personnel;
+use Personnel\Model\MedecinTable;
+use Personnel\Model\Medecin;
+use Personnel\Model\MedicotechniqueTable;
+use Personnel\Model\Medicotechnique;
+use Personnel\Model\LogistiqueTable;
+use Personnel\Model\Logistique;
+use Personnel\Model\AffectationTable;
+use Personnel\Model\Affectation;
+use Personnel\Model\TypepersonnelTable;
+use Personnel\Model\Typepersonnel;
 
 class Module
 {
@@ -63,6 +75,72 @@ class Module
 							$resultSetPrototype = new ResultSet();
 							$resultSetPrototype->setArrayObjectPrototype(new Hopital());
 							return new TableGateway('hopital', $dbAdapter, null, $resultSetPrototype);
+						},
+						'Personnel\Model\PersonnelTable' => function ($sm) {
+							$tableGateway = $sm->get('PersonnelTableGateway');
+							$table = new PersonnelTable($tableGateway);
+							return $table;
+						},
+						'PersonnelTableGateway' => function($sm) {
+							$dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+							$resultSetPrototype = new ResultSet();
+							$resultSetPrototype->setArrayObjectPrototype(new Personnel());
+							return new TableGateway('personnel', $dbAdapter, null, $resultSetPrototype);
+						},
+						'Personnel\Model\MedecinTable' => function ($sm) {
+							$tableGateway = $sm->get('MedecinTableGateway');
+							$table = new MedecinTable($tableGateway);
+							return $table;
+						},
+						'MedecinTableGateway' => function($sm) {
+							$dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+							$resultSetPrototype = new ResultSet();
+							$resultSetPrototype->setArrayObjectPrototype(new Medecin());
+							return new TableGateway('personnel_medecin', $dbAdapter, null, $resultSetPrototype);
+						},
+						'Personnel\Model\MedicotechniqueTable' => function ($sm) {
+							$tableGateway = $sm->get('MedicotechniqueTableGateway');
+							$table = new MedicotechniqueTable($tableGateway);
+							return $table;
+						},
+						'MedicotechniqueTableGateway' => function($sm) {
+							$dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+							$resultSetPrototype = new ResultSet();
+							$resultSetPrototype->setArrayObjectPrototype(new Medicotechnique());
+							return new TableGateway('personnel_medico_technique', $dbAdapter, null, $resultSetPrototype);
+						},
+						'Personnel\Model\LogistiqueTable' => function ($sm) {
+							$tableGateway = $sm->get('LogistiqueTableGateway');
+							$table = new LogistiqueTable($tableGateway);
+							return $table;
+						},
+						'LogistiqueTableGateway' => function($sm) {
+							$dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+							$resultSetPrototype = new ResultSet();
+							$resultSetPrototype->setArrayObjectPrototype(new Logistique());
+							return new TableGateway('personnel_logistique', $dbAdapter, null, $resultSetPrototype);
+						},
+						'Personnel\Model\AffectationTable' => function ($sm) {
+							$tableGateway = $sm->get('AffectationTableGateway');
+							$table = new AffectationTable($tableGateway);
+							return $table;
+						},
+						'AffectationTableGateway' => function($sm) {
+							$dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+							$resultSetPrototype = new ResultSet();
+							$resultSetPrototype->setArrayObjectPrototype(new Affectation());
+							return new TableGateway('affecter', $dbAdapter, null, $resultSetPrototype);
+						},
+						'Personnel\Model\TypepersonnelTable' => function ($sm) {
+							$tableGateway = $sm->get('TypepersonnelTableGateway');
+							$table = new TypepersonnelTable($tableGateway);
+							return $table;
+						},
+						'TypepersonnelTableGateway' => function($sm) {
+							$dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+							$resultSetPrototype = new ResultSet();
+							$resultSetPrototype->setArrayObjectPrototype(new Typepersonnel());
+							return new TableGateway('type_personnel', $dbAdapter, null, $resultSetPrototype);
 						}
 				)
 		);

@@ -421,7 +421,6 @@ class FacturationController extends AbstractActionController {
 
 			$html .= "</table>";
 			$this->getResponse ()->getHeaders ()->addHeaderLine ( 'Content-Type', 'application/html; charset=utf-8' );
-			// $this->getResponse ()->setMetadata ( 'Content-Type', 'application/html' );
 			return $this->getResponse ()->setContent ( Json::encode ( $html ) );
 		}
 		return array (

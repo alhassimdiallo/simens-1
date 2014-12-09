@@ -10,10 +10,11 @@ return array(
 						'personnel' => array(
 								'type'    => 'segment',
 								'options' => array(
-										'route'    => '/personnel[/][:action][/:id]',
+										'route'    => '/personnel[/][:action][/:id][/:val]',
 										'constraints' => array(
 												'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
-												'id'     => '[0-9]+',
+												'id'     => '[a-zA-Z][a-zA-Z0-9_-]*',
+												'val' => '[0-9]+'
 										),
 										'defaults' => array(
 												'controller' => 'Personnel\Controller\Personnel',

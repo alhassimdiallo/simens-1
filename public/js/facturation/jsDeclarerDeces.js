@@ -184,6 +184,7 @@ function declarer(id){
     	$("#annuler").css({"border-color":"#ccc", "background":"-webkit-linear-gradient( #555, #CCC)", "box-shadow":"1px 1px 10px black inset,0 1px 0 rgba( 255, 255, 255, 0.4)"});
     	vart=tabUrl[0]+'public/facturation/declarer-deces';
         $(location).attr("href",vart);
+        return false;
     });
     
     //Insertion des donn�es dans la base de donn�es
@@ -216,16 +217,13 @@ function declarer(id){
     //MENU GAUCHE
   	//MENU GAUCHE
   	$("#vider").click(function(){
-  		document.getElementById('date_deces').value="";
-  		document.getElementById('heure_deces').value="";
-  		//document.getElementById('age_deces').value="";
-  		document.getElementById('lieu_deces').value="";
-  		document.getElementById('circonstances_deces').value="";
-  		document.getElementById('note').value="";
+  		$('#date_deces').val('');
+  		$('#heure_deces').val('');
+  		$('#lieu_deces').val('');
+  		$('#circonstances_deces').val('');
+  		$('#note').val('');
   		return false;
   	});
-  	
-  	
  
   		$('#vider_champ').hover(function(){
   			
@@ -258,8 +256,4 @@ function declarer(id){
   //FIN VALIDATION OU MODIFICATION DU FORMULAIRE ETAT CIVIL DU PATIENT
   //FIN VALIDATION OU MODIFICATION DU FORMULAIRE ETAT CIVIL DU PATIENT
   //FIN VALIDATION OU MODIFICATION DU FORMULAIRE ETAT CIVIL DU PATIENT
-  
-  		
-  		
-  		
 }
