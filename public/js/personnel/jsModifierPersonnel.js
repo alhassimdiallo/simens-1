@@ -1,37 +1,9 @@
+var base_url = window.location.toString();
+var tabUrl = base_url.split("public");
+
 $(function(){
 	$("#accordions").accordion();
 	//$( "button" ).button(); // APPLICATION DU STYLE POUR LES BOUTONS
-	
-	/*********************************/
-	/***FACTURATION***/
-	/*********************************/
-	$("#bouton_donnees_valider_affectation").click(function(){
-	     $("#numero_os").attr( 'readonly', true );
-         $("#service_accueil").attr( 'readonly', true );
-         $("#date_fin").attr( 'readonly', true );
-         $("#date_debut").attr( 'readonly', true );
-         
-         $('#bouton_valider_donnees_facturation').toggle(false);
-         $("#modifier_champ_affectation").toggle(true);
-	});
-	
-	$("#modifier_champ_affectation").click(function(){
-		$("#numero_os").attr( 'readonly', false );
-        $("#service_accueil").attr( 'readonly', false );
-        $("#date_fin").attr( 'readonly', false );
-        $("#date_debut").attr( 'readonly', false );
-        
-        $('#bouton_valider_donnees_facturation').toggle(true);
-        $("#modifier_champ_affectation").toggle(false);
-	});
-	
-	$("#vider_champ_affectation").click(function(){
-		document.getElementById('numero_os').value="";
-		document.getElementById('service_accueil').value="";
-		document.getElementById('date_fin').value="";
-		document.getElementById('date_debut').value="";
-	 });
-	
 });
 
 function dialogue(){ 
@@ -105,88 +77,19 @@ function dialogue(){
 function debuter(){
 	/***********************************************************************************************                              
 
-	========================== LES BOUTONS "TERMINER" et "ANNULER" =================================                              
+	========================== LE BOUTON "ANNULER" =================================                              
 	                          
 	***********************************************************************************************/
-	 $("#terminer").click(function(){
-		   $("#terminer").attr( 'disabled', true );
-	       $("#annuler").attr( 'disabled', true );
-		 //RECUPERER LES DONNEES DE ETAT CIVIL
-	        var id_personnel   = $("#id_personnel").val();
-	        var civilite       = $("#civilite").val();
-	    	var nom            = $("#nom").val();
-	    	var prenom         = $("#prenom").val();
-	    	var lieu_naissance = $("#lieu_naissance").val();
-	    	var telephone      = $("#telephone").val();
-	    	var profession     = $("#profession").val();
-	    	var email          = $("#email").val();
-	    	var nationalite    = $("#nationalite").val();
-	    	var situation_matrimoniale = $("#situation_matrimoniale").val();
-	    	var date_naissance = $("#date_naissance").val();
-	    	var adresse        = $("#adresse").val();
-	    	var sexe           = $("#sexe").val();
-	    	var fichier_tmp    = $("#fichier_tmp").val();
-	    	
-	     //RECUPERER LES DONNEES DES COMPLEMENTS
-	    	var type_personnel = $("#type_personnel").val();
-	    	var type_personnel_tmp = $("#type_personnel_tmp").val();
-	    	
-	    	//========== TABLEAU COMPLEMENT INFO MEDECIN ========
-	    	var matricule  = $("#matricule").val();
-	    	var grade      = $("#grade").val();
-	    	var specialite = $("#specialite").val();
-	    	var fonction   = $("#fonction").val();
-	    	
-	    	//========== TABLEAU COMPLEMENT INFO MEDICO-TECHNIQUE ========
-	    	var matricule_medico = $("#matricule_medico").val();
-	    	var grade_medico     = $("#grade_medico").val();
-	    	var domaine_medico   = $("#domaine_medico").val();
-	    	
-	    	//========== TABLEAU COMPLEMENT INFO LOGISTIQUE ========
-	    	var matricule_logistique = $("#matricule_logistique").val();
-	    	var grade_logistique     = $("#grade_logistique").val();
-	    	var domaine_logistique   = $("#domaine_logistique").val(); 
-	    	var autres_logistique    = $("#autres_logistique").val();
-	    	
-	     //TABLEAU FACTURATION
-	    	var service_accueil = $("#service_accueil").val();
-	    	var date_debut      = $("#date_debut").val();
-	    	var date_fin        = $("#date_fin").val();
-	    	var numero_os       = $("#numero_os").val();
-	    	
-	    	
-	    	$.ajax({
-	            type: 'POST',
-	            url: '/simens_derniereversion/public/personnel/personnel/enregistrermodification' ,  
-	            data: ({'id_personnel':id_personnel , 'civilite':civilite , 'nom':nom , 'prenom':prenom , 'lieu_naissance':lieu_naissance , 'telephone':telephone,
-	            	    'profession':profession , 'email':email , 'nationalite':nationalite , 'situation_matrimoniale':situation_matrimoniale,
-	            	    'date_naissance':date_naissance , 'adresse':adresse , 'sexe':sexe , 'fichier_tmp':fichier_tmp , 'type_personnel': type_personnel, 'type_personnel_tmp':type_personnel_tmp,
-	            	    'matricule':matricule , 'grade':grade , 'specialite':specialite, 'fonction':fonction,
-	            	    'matricule_medico':matricule_medico , 'grade_medico':grade_medico , 'domaine_medico':domaine_medico,
-	            	    'matricule_logistique':matricule_logistique , 'grade_logistique':grade_logistique , 'domaine_logistique':domaine_logistique , 'autres_logistique':autres_logistique , 
-	            	    'service_accueil':service_accueil , 'date_debut':date_debut , 'date_fin':date_fin , 'numero_os':numero_os
-	                   }),
-	    	    success: function() {    
-	    	    	
-	    	    	vart='/simens_derniereversion/public/personnel/personnel/listepersonnel';
-	    	        $(location).attr("href",vart);
-	                
-	            },
-	            error:function(e){console.log(e);alert("Une erreur interne est survenue!");},
-	            dataType: "html"
-	    	});
-	    	
-	    });
-	 
-	 $("#annuler").click(function(){
-		   $("#terminer").attr( 'disabled', true );
-	       $("#annuler").attr( 'disabled', true );
-	       
-	       vart='/simens_derniereversion/public/personnel/personnel/listepersonnel';
-	       $(location).attr("href",vart);
-	 });
-/********************************************************************************************/
-/********************************************************************************************/ 
+
+    $('#annuler').click(function(){
+    	vart= tabUrl[0]+'public/personnel/liste-personnel';
+        $(location).attr("href",vart);
+        return false;
+    });
+    
+    /***********************************************************************************************/
+    /***********************************************************************************************/
+    
     
     //AJOUT LA PHOTO DU PATIENT EN CLIQUANT SUR L'ICONE AJOUTER
     //AJOUT LA PHOTO DU PATIENT EN CLIQUANT SUR L'ICONE AJOUTER
@@ -204,7 +107,8 @@ function debuter(){
             var     sexe = $("#sexe");
             var date_naissance = $("#date_naissance");
             var lieu_naissance = $("#lieu_naissance");
-            var nationalite = $("#nationalite");
+            var nationalite_origine = $("#nationalite_origine");
+            var nationalite_actuelle = $("#nationalite_actuelle");
             var situation_matrimoniale = $("#situation_matrimoniale");
             var     adresse = $("#adresse");
             var   telephone = $("#telephone");
@@ -223,13 +127,15 @@ function debuter(){
 	           sexe.attr( 'readonly', true );
      date_naissance.attr( 'readonly', true );
      lieu_naissance.attr( 'readonly', true );
-     nationalite.attr( 'readonly', true );
+     nationalite_origine.attr( 'readonly', true );
+     nationalite_actuelle.attr( 'readonly', true );
      situation_matrimoniale.attr( 'readonly', true );
          adresse.attr( 'readonly', true );
        telephone.attr( 'readonly', true );
            email.attr( 'readonly', true );
       profession.attr( 'readonly', true );
       desativer();
+      return false;
     });
 
     function desativer(){
@@ -240,13 +146,15 @@ function debuter(){
                    sexe.attr( 'readonly', false );
          date_naissance.attr( 'readonly', false );
          lieu_naissance.attr( 'readonly', false );
-            nationalite.attr( 'readonly', false );
+         nationalite_origine.attr( 'readonly', false );
+         nationalite_actuelle.attr( 'readonly', false );
  situation_matrimoniale.attr( 'readonly', false );
              adresse.attr( 'readonly', false );
            telephone.attr( 'readonly', false );
                email.attr( 'readonly', false );
           profession.attr( 'readonly', false );
           activer();
+          return false;
 	    });
     }
     
@@ -258,7 +166,8 @@ function debuter(){
 	           sexe.attr( 'readonly', true );
      date_naissance.attr( 'readonly', true );
      lieu_naissance.attr( 'readonly', true );
-      nationalite.attr( 'readonly', true );
+     nationalite_origine.attr( 'readonly', true );
+     nationalite_actuelle.attr( 'readonly', true );
       situation_matrimoniale.attr( 'readonly', true );
           adresse.attr( 'readonly', true );
         telephone.attr( 'readonly', true );
@@ -271,67 +180,26 @@ function debuter(){
     
     /*******************************************************/
     
-    //Au debut on cache le bouton modifier et on affiche le bouton valider
-  	//$( "#bouton_donnees_valider" ).toggle(true);
-  	//$( "#bouton_donnees_modifier" ).toggle(false);
-  	
-  	/*$( "#bouton_donnees_valider" ).click(function(){
-  		       civilite.attr( 'readonly', true );     
-  		            nom.attr( 'readonly', true );    
-  		         prenom.attr( 'readonly', true );  
-  		           sexe.attr( 'readonly', true );
-         date_naissance.attr( 'readonly', true );
-         lieu_naissance.attr( 'readonly', true );
-    nationalite_origine.attr( 'readonly', true );
-   nationalite_actuelle.attr( 'readonly', true );
-                adresse.attr( 'readonly', true );
-              telephone.attr( 'readonly', true );
-                  email.attr( 'readonly', true );
-             profession.attr( 'readonly', true );
-             
-  		$("#bouton_donnees_valider").toggle(false);  
-  		$("#bouton_donnees_modifier").toggle(true); 
-  		return false; 
-  	});
-  	
-  	$( "#bouton_donnees_modifier" ).click(function(){
-  		      civilite.attr( 'readonly', false );     
-                   nom.attr( 'readonly', false );    
-                prenom.attr( 'readonly', false );  
-                  sexe.attr( 'readonly', false );
-        date_naissance.attr( 'readonly', false );
-        lieu_naissance.attr( 'readonly', false );
-   nationalite_origine.attr( 'readonly', false );
-  nationalite_actuelle.attr( 'readonly', false );
-               adresse.attr( 'readonly', false );
-             telephone.attr( 'readonly', false );
-                 email.attr( 'readonly', false );
-            profession.attr( 'readonly', false );
-  		
-        $("#bouton_donnees_valider").toggle(true);  
-  		$("#bouton_donnees_modifier").toggle(false); 
-  		return false; 
-  	});
-  	*/
+   
   	//MENU GAUCHE
   	//MENU GAUCHE
-  	$("#vider").click(function(){
-  		document.getElementById('civilite').value="";
-  		document.getElementById('lieu_naissance').value="";
-  		document.getElementById('email').value="";
-  		document.getElementById('nom').value="";
-  		document.getElementById('telephone').value="";
-  		document.getElementById('nationalite').value="";
-  		document.getElementById('prenom').value="";
-  		document.getElementById('situation_matrimoniale').value="";
-  		document.getElementById('date_naissance').value="";
-  		document.getElementById('adresse').value="";
-  		document.getElementById('sexe').value="";
-  		document.getElementById('profession').value="";
+  	//MENU GAUCHE
+    $("#vider").click(function(){
+  		$('#civilite').val("");
+  		$('#lieu_naissance').val("");
+  		$('#email').val("");
+  		$('#nom').val("");
+  		$('#telephone').val("");
+  		$('#nationalite_origine').val("");
+  		$('#nationalite_actuelle').val("");
+  		$('#prenom').val("");
+  		$('#situation_matrimoniale').val("");
+  		$('#date_naissance').val("");
+  		$('#adresse').val("");
+  		$('#sexe').val("");
+  		$('#profession').val("");
   		return false;
   	});
-  	
-  	
  
   		$('#vider_champ').hover(function(){
   			
@@ -398,12 +266,17 @@ function vider_medecin(){
 	document.getElementById('grade').value="";
 	document.getElementById('specialite').value="";
 	document.getElementById('fonction').value="";
+	
+	return false;
 }
 
 function vider_medicoTechnique(){
 	document.getElementById('matricule_medico').value="";
 	document.getElementById('grade_medico').value="";
 	document.getElementById('domaine_medico').value="";
+	document.getElementById('autres').value="";
+	
+	return false;
 }
 
 function vider_logistique(){
@@ -411,12 +284,21 @@ function vider_logistique(){
 	document.getElementById('grade_logistique').value="";
 	document.getElementById('domaine_logistique').value="";
 	document.getElementById('autres_logistique').value="";
+	
+	return false;
 }
-
+var tmp;
 function getChamps(id){
-   
+	$(document).keypress(function(e){
+		if(e.keyCode == 13){
+			e.preventDefault();
+		}
+	});
+	
+    tmp = id;
 	/***COMPLEMENT MEDECIN***/
-	if(id==1){ $('.complement_medico-technique').toggle(false);
+	if(id==1){ 		
+		       $('.complement_medico-technique').toggle(false);
 	           $('#modifier_champ_medico').toggle(false);
 	           $("#vider_champ_medico").toggle(false);
                $("#bouton_valider_donnees_medico").toggle(false);
@@ -457,6 +339,7 @@ function getChamps(id){
                   $("#matricule_medico").attr( 'readonly', false );
                   $("#grade_medico").attr( 'readonly', false );
                   $("#domaine_medico").attr( 'readonly', false );
+                  $("#autres").attr( 'readonly', false );
                   vider_medicoTechnique();
 	         }
 	
@@ -483,6 +366,7 @@ function getChamps(id){
                   $("#autres_logistique").attr( 'readonly', false );
                   vider_logistique();
              }
+	
 	/***COMPLEMENT MEDICAL***/
 	if(id==4){
 		       $('.complement_medecin').toggle(false);
@@ -502,24 +386,28 @@ function getChamps(id){
 		     
              }
 	
-	validation();
-
-}
-
-function validation(){
-	
 	/************************/
 	/***COMPLEMENT MEDECIN***/
 	/************************/
 	$("#bouton_donnees_valider").click(function(){
-		   $("#matricule").attr( 'readonly', true );
-               $("#grade").attr( 'readonly', true );
-          $("#specialite").attr( 'readonly', true );
-            $("#fonction").attr( 'readonly', true );
- 	   $("#bouton_valider_donnees").toggle(false);
- 		 $('#modifier_champ2').toggle(true);
- 	   });
-	
+		if(tmp == 1){	
+			$(document).keypress(function(e){
+				if(e.keyCode == 13){
+					e.preventDefault();
+				}
+			});
+		    $("#matricule").attr( 'readonly', true );
+			$("#grade").attr( 'readonly', true );
+			$("#specialite").attr( 'readonly', true );
+			$("#fonction").attr( 'readonly', true );
+			
+			$("#bouton_valider_donnees").toggle(false);
+			$('#modifier_champ2').toggle(true);
+		}
+		
+		return false;
+	});
+
 	$("#modifier_champ2").click(function(){
 		 $("#matricule").attr( 'readonly', false );
              $("#grade").attr( 'readonly', false );
@@ -527,6 +415,8 @@ function validation(){
           $("#fonction").attr( 'readonly', false );
 		$("#bouton_valider_donnees").toggle(true);
    		  $('#modifier_champ2').toggle(false);
+   		  
+   		  return false;
 	});
 	
 	$("#vider2").click(function(){
@@ -540,16 +430,22 @@ function validation(){
 	    $("#matricule_medico").attr( 'readonly', true );
             $("#grade_medico").attr( 'readonly', true );
           $("#domaine_medico").attr( 'readonly', true );
+          $("#autres").attr( 'readonly', true );
 	   $("#bouton_valider_donnees_medico").toggle(false);
 		 $('#modifier_champ_medico').toggle(true);
+		 
+		 return false;
 	   });
 	
 	$("#modifier_champ_medico").click(function(){
 		$("#matricule_medico").attr( 'readonly', false );
             $("#grade_medico").attr( 'readonly', false );
           $("#domaine_medico").attr( 'readonly', false );
+          $("#autres").attr( 'readonly', false );
 		$("#bouton_valider_donnees_medico").toggle(true);
 		  $('#modifier_champ_medico').toggle(false);
+		  
+		  return false;
 	});
 	
 	$("#vider_champ_medico").click(function(){
@@ -566,6 +462,8 @@ function validation(){
            $("#autres_logistique").attr( 'readonly', true );
 	   $("#bouton_valider_donnees_logistique").toggle(false);
 		 $('#modifier_champ_logistique').toggle(true);
+		 
+		 return false;
 	   });
 	
 	$("#modifier_champ_logistique").click(function(){
@@ -575,9 +473,48 @@ function validation(){
            $("#autres_logistique").attr( 'readonly', false );
 		$("#bouton_valider_donnees_logistique").toggle(true);
 		  $('#modifier_champ_logistique').toggle(false);
+		  
+		  return false;
 	});
 	
 	$("#vider_champ_logistique").click(function(){
 		vider_logistique();
 	 });
+	
+	/*********************************/
+	/***FACTURATION***/
+	/*********************************/
+	$("#bouton_donnees_valider_affectation").click(function(){
+	     $("#numero_os").attr( 'readonly', true );
+         $("#service_accueil").attr( 'readonly', true );
+         $("#date_fin").attr( 'readonly', true );
+         $("#date_debut").attr( 'readonly', true );
+         
+         $('#bouton_valider_donnees_facturation').toggle(false);
+         $("#modifier_champ_affectation").toggle(true);
+         
+         return false;
+	});
+	
+	$("#modifier_champ_affectation").click(function(){
+		$("#numero_os").attr( 'readonly', false );
+        $("#service_accueil").attr( 'readonly', false );
+        $("#date_fin").attr( 'readonly', false );
+        $("#date_debut").attr( 'readonly', false );
+        
+        $('#bouton_valider_donnees_facturation').toggle(true);
+        $("#modifier_champ_affectation").toggle(false);
+        
+        return false;
+	});
+	
+	$("#vider_champ_affectation").click(function(){
+		document.getElementById('numero_os').value="";
+		document.getElementById('service_accueil').value="";
+		document.getElementById('date_fin').value="";
+		document.getElementById('date_debut').value="";
+		
+		return false;
+	 });
+return false;
 }

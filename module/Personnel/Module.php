@@ -85,7 +85,7 @@ class Module
 							$dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
 							$resultSetPrototype = new ResultSet();
 							$resultSetPrototype->setArrayObjectPrototype(new Personnel());
-							return new TableGateway('personnel', $dbAdapter, null, $resultSetPrototype);
+							return new TableGateway('personnel2', $dbAdapter, null, $resultSetPrototype);
 						},
 						'Personnel\Model\MedecinTable' => function ($sm) {
 							$tableGateway = $sm->get('MedecinTableGateway');
@@ -96,7 +96,7 @@ class Module
 							$dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
 							$resultSetPrototype = new ResultSet();
 							$resultSetPrototype->setArrayObjectPrototype(new Medecin());
-							return new TableGateway('personnel_medecin', $dbAdapter, null, $resultSetPrototype);
+							return new TableGateway('personnel_medecin2', $dbAdapter, null, $resultSetPrototype);
 						},
 						'Personnel\Model\MedicotechniqueTable' => function ($sm) {
 							$tableGateway = $sm->get('MedicotechniqueTableGateway');
@@ -107,7 +107,7 @@ class Module
 							$dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
 							$resultSetPrototype = new ResultSet();
 							$resultSetPrototype->setArrayObjectPrototype(new Medicotechnique());
-							return new TableGateway('personnel_medico_technique', $dbAdapter, null, $resultSetPrototype);
+							return new TableGateway('personnel_medico_technique2', $dbAdapter, null, $resultSetPrototype);
 						},
 						'Personnel\Model\LogistiqueTable' => function ($sm) {
 							$tableGateway = $sm->get('LogistiqueTableGateway');
@@ -118,7 +118,7 @@ class Module
 							$dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
 							$resultSetPrototype = new ResultSet();
 							$resultSetPrototype->setArrayObjectPrototype(new Logistique());
-							return new TableGateway('personnel_logistique', $dbAdapter, null, $resultSetPrototype);
+							return new TableGateway('personnel_logistique2', $dbAdapter, null, $resultSetPrototype);
 						},
 						'Personnel\Model\AffectationTable' => function ($sm) {
 							$tableGateway = $sm->get('AffectationTableGateway');

@@ -7,7 +7,7 @@ use Zend\InputFilter\InputFilterInterface;
 
 class Affectation {
 	
-	public $service_accueil;
+	public $id_service;
 	public $date_debut;
 	public $date_fin;
 	public $numero;
@@ -15,10 +15,10 @@ class Affectation {
 	protected $inputFilter;
 	
 	public function exchangeArray($data) {
-		$this->service_accueil = (! empty ( $data ['service_accueil'] )) ? $data ['service_accueil'] : null;
+		$this->id_service = (! empty ( $data ['id_service'] )) ? $data ['id_service'] : null;
  		$this->date_debut = (! empty ( $data ['date_debut'] )) ? $data ['date_debut'] : null;
  		$this->date_fin = (! empty ( $data ['date_fin'] )) ? $data ['date_fin'] : null;
- 		$this->numero = (! empty ( $data ['numero'] )) ? $data ['numero'] : null;
+ 		$this->numero_os = (! empty ( $data ['numero_os'] )) ? $data ['numero_os'] : null;
 	}
 	
 	public function getArrayCopy() {

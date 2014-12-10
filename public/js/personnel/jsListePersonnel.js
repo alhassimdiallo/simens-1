@@ -14,16 +14,16 @@
 	            $( this ).dialog( "close" );
 	            
 	            var cle = id;
-	            var chemin = tabUrl[0]+'public/personnel/personnel/supprimer';
+	            var chemin = tabUrl[0]+'public/personnel/supprimer';
 	            $.ajax({
 	                type: 'POST',
 	                url: chemin ,
 	                data: $(this).serialize(),  
 	                data:'id='+cle,
 	                success: function(data) { 
-	                	     $("#"+cle).fadeOut(function(){$("#"+cle).empty();});
-	                	     //$("#compteur").html(result);
-	                	     
+	                	$("#"+cle).parent().parent().fadeOut(function(){
+	                	 	 $("#"+cle).empty();
+	                	 });
 	                },
 	                error:function(e){console.log(e);alert("Une erreur interne est survenue!");},
 	                dataType: "html"
@@ -38,13 +38,14 @@
 	  });
     }
     
-    function envoyer(id){
+    function supprimer(id){
    	   confirmation(id);
        $("#confirmation").dialog('open');
    	}
     
-    /**********************************************************************************/
-    
+    /************************************************************************************************************************/
+    /************************************************************************************************************************/
+    /************************************************************************************************************************/    
     function modifierpersonnel(id){
         var vart='/simens_derniereversion/public/personnel/personnel/modifierdossier/code/'+id;
         $(location).attr("href",vart);
@@ -75,17 +76,9 @@
 	    return false;
     }
     
-    function listepatient(){
-    	//Lorsqu'on clique sur terminer ça ramène la liste des aptients décédés 
-	    $("#terminer").click(function(){
-  	   	    //alert('ok');
-	    	$("#titre2").replaceWith("<div id='titre' style='font-family: police2; color: green; font-size: 20px; font-weight: bold;'><iS style='font-size: 25px;'>&curren;</iS> LE PERSONNEL </div>");
-  	    	$("#vue_patient").fadeOut(function(){$("#contenu").fadeIn("fast"); });
-  	    });
-    }
-    
-    /*********************************************************************************************************************/
-
+    /************************************************************************************************************************/
+    /************************************************************************************************************************/
+    /************************************************************************************************************************/
     function initialisation(){
         var  oTable = $('#personnel').dataTable
     	( {
@@ -155,6 +148,37 @@
   
     }
     
+    /************************************************************************************************************************/
+    /************************************************************************************************************************/
+    /************************************************************************************************************************/
+    function affichervue(id){
+    	var cle = id;
+        var chemin = '/simens/public/personnel/info-personnel';
+        $.ajax({
+            type: 'POST',
+            url: chemin ,
+            data: $(this).serialize(),  
+            data:'id='+cle,
+            success: function(data) {
+           	         
+            	$("#titre").replaceWith("<div id='titre2' style='font-family: police2; color: green; font-size: 20px; font-weight: bold; padding-left:20px;'><iS style='font-size: 25px;'>&curren;</iS> INFORMATIONS </div>");
+            	var result = jQuery.parseJSON(data);  
+            	$("#contenu").fadeOut(function(){$("#vue_patient").html(result).fadeIn("fast"); }); 
+            	     
+            },
+            error:function(e){console.log(e);alert("Une erreur interne est survenue!");},
+            dataType: "html"
+        });
+     }
+    
+    function listepatient(){
+	    $("#terminer").click(function(){
+	    	$("#titre2").replaceWith("<div id='titre' style='font-family: police2; color: green; font-size: 20px; font-weight: bold; padding-left:20px;'><iS style='font-size: 25px;'>&curren;</iS> LE PERSONNEL </div>");
+  	    	$("#vue_patient").fadeOut(function(){$("#contenu").fadeIn("fast"); });
+  	    });
+    }
+    /************************************************************************************************************************/
+    /************************************************************************************************************************/
     /************************************************************************************************************************/
     function modifierdeces(id){/*
     	var cle = id;

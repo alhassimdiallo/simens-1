@@ -1,9 +1,9 @@
 <!-- MES STYLES --> 
-<?php echo $this->headLink()->appendStylesheet($this->basepath().'/css/personnel/styleAjouterPersonnel.css');
+<?php echo $this->headLink()->appendStylesheet($this->basepath().'/css/personnel/styleModifierPersonnel.css');
       echo $this->headLink()->appendStylesheet($this->basepath().'/css/facturation/DatePicker.css');?>
 
 <!-- MES JS -->
-<?php echo $this->headScript()->appendFile($this->basepath().'/js/personnel/jsAjouterPersonnel.js');?>
+<?php echo $this->headScript()->appendFile($this->basepath().'/js/personnel/jsModifierPersonnel.js');?>
 
 <?php $today = new \DateTime ( 'now' );
       $date_enregistrement = $today->format ( 'Y-m-d' ); 
@@ -251,12 +251,7 @@ $('#date_enregistrement').val('<?php echo $date_enregistrement;?>');
          </div>
 
 <script>
-$(function(){
-	$('#civilite').val("''");
-	$('#nationalite_origine').val('');
-	$('#nationalite_actuelle').val('');
-	$('#sexe').val('');
-});
+
 dialogue();
 debuter();
 

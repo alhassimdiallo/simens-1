@@ -15,7 +15,8 @@ class Personnel {
 	public $adresse;
 	public $sexe;
 	public $nationalite_actuelle;
-	public $nationalite_origine;
+	public $nationalite;
+	public $photo;
 	public $telephone;
 	public $email;
 	public $profession;
@@ -56,11 +57,12 @@ class Personnel {
  		$this->adresse = (! empty ( $data ['adresse'] )) ? $data ['adresse'] : null;
  		$this->sexe = (! empty ( $data ['sexe'] )) ? $data ['sexe'] : null;
  		$this->nationalite_actuelle = (! empty ( $data ['nationalite_actuelle'] )) ? $data ['nationalite_actuelle'] : null;
- 		$this->nationalite_origine = (! empty ( $data ['nationalite_origine'] )) ? $data ['nationalite_origine'] : null;
  		$this->telephone = (! empty ( $data ['telephone'] )) ? $data ['telephone'] : null;
  		$this->email = (! empty ( $data ['email'] )) ? $data ['email'] : null;
  		$this->profession = (! empty ( $data ['profession'] )) ? $data ['profession'] : null;
  		$this->date_enregistrement = (! empty ( $data ['date_enregistrement'] )) ? $data ['date_enregistrement'] : null;
+ 		$this->nationalite = (! empty ( $data ['nationalite'] )) ? $data ['nationalite'] : null;
+ 		$this->photo = (! empty ( $data ['photo'] )) ? $data ['photo'] : null;
 
  		//COMPLEMENT PERSONNEL
  		//COMPLEMENT PERSONNEL
@@ -133,16 +135,7 @@ class Personnel {
 									'name' => 'StringTrim'
 							)
 					),
-					'validators' => array (
-							array (
-									'name' => 'StringLength',
-									'options' => array (
-											'encoding' => 'UTF-8',
-											'min' => 1,
-											'max' => 100
-									)
-							)
-					)
+					
 			) );
 			
 			$inputFilter->add (array (
@@ -289,7 +282,7 @@ class Personnel {
 			 
 			 
 			 $inputFilter->add (array (
-					'name' => 'nationalite_actuelle',
+					'name' => 'nationalite',
 					'required' => true,
 					'filters' => array (
 							array (

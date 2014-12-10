@@ -21,7 +21,7 @@ class AffectationTable {
 	public function getAffectation($id_personne)
 	{
 		$id_personne  = (int) $id_personne;
-		$rowset = $this->tableGateway->select(array('ID_PERSONNE' => $id_personne));
+		$rowset = $this->tableGateway->select(array('id_personne' => $id_personne));
 		$row = $rowset->current();
 		if (!$row) {
 			throw new \Exception("Could not find row $id_personne");
@@ -51,5 +51,15 @@ class AffectationTable {
  				throw new \Exception('Cette personne n existe pas');
  			}
  		}
+	}
+	
+	public function deleteAffectation($id_personne){
+		$id_personne = (int) $id_personne;
+	
+		if ($this->getAffectation($id_personne)) {
+			$this->tableGateway->delete( array('id_personne' => $id_personne));
+		} else {
+			throw new \Exception('Cette personne n existe pas');
+		}
 	}
 }

@@ -61,6 +61,12 @@
 				</tfoot>
 			</table>
 </div>
+
+<div id="vue_patient">
+
+</div>
+
+
 <!-- POP UP pour Confirmation Suppression -->
 <div id="confirmation" title="Confirmation de la suppression"
 	style="display: none;">
@@ -79,6 +85,7 @@
 $(function(){
 initialisation();
 });
+$("#vue_patient").toggle(false);
 
 /***POUR LE MENU GAUCHE dans -elementgauche.phtml***/
 $('#plus_dossier_personnel').toggle(true); 

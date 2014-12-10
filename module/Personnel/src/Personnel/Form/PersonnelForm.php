@@ -128,16 +128,13 @@ class PersonnelForm extends Form {
 				)
 				) );
 		$this->add ( array (
-				'name' => 'nationalite_actuelle',
+				'name' => 'nationalite',
 				'type' => 'Zend\Form\Element\Select',
 				'options' => array (
-						'label' => iconv ( 'ISO-8859-1', 'UTF-8','Nationalité actuelle'),
-						'value_options' => array (
-								'' => ''
-						)
+						'label' => iconv ( 'ISO-8859-1', 'UTF-8','Nationalité'),
 				),
 				'attributes' => array (
-						'id' => 'nationalite_actuelle',
+						'id' => 'nationalite',
 						'required' => true,
 				)
 				) );
@@ -210,7 +207,7 @@ class PersonnelForm extends Form {
 						'label' => 'Matricule'
 				),
 				'attributes' => array (
-						'class' => 'only_Char',
+						//'class' => 'only_Char',
 						'id' => 'matricule',
 				)
 		) );
@@ -222,7 +219,7 @@ class PersonnelForm extends Form {
 				),
 				'attributes' => array (
 						'id' => 'grade',
-						'class' => 'only_Char',
+						//'class' => 'only_Char',
 				)
 		) );
 		
@@ -351,6 +348,7 @@ class PersonnelForm extends Form {
 				),
 				'attributes' => array (
 						'id' => 'service_accueil',
+						'required' =>true,
 				)
 		) );
 		

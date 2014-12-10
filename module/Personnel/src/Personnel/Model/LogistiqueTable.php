@@ -13,7 +13,7 @@ class LogistiqueTable {
 	public function getLogistique($id_personne)
 	{
 		$id_personne  = (int) $id_personne;
-		$rowset = $this->tableGateway->select(array('ID_PERSONNE' => $id_personne));
+		$rowset = $this->tableGateway->select(array('id_personne' => $id_personne));
 		$row = $rowset->current();
 		if (!$row) {
 			throw new \Exception("Could not find row $id_personne");
@@ -36,10 +36,20 @@ class LogistiqueTable {
  			$this->tableGateway->insert($data);
  		} else {
  			if($this->getLogistique($id_personne)) {
- 				$this->tableGateway->update($data, array('ID_PERSONNE' => $id_personne));
+ 				$this->tableGateway->update($data, array('id_personne' => $id_personne));
  			} else {
  				throw new \Exception('Cette personne n existe pas');
  			}
  		}
+	}
+	
+	public function deleteLogistique($id_personne){
+		$id_personne = (int) $id_personne;
+	
+		if ($this->getLogistique($id_personne)) {
+			$this->tableGateway->delete( array('id_personne' => $id_personne));
+		} else {
+			throw new \Exception('Cette personne n existe pas');
+		}
 	}
 }

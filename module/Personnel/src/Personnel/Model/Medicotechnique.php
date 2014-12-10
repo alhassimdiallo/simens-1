@@ -7,17 +7,17 @@ use Zend\InputFilter\InputFilterInterface;
 
 class Medicotechnique {
 	
-	public $matricule_medico;
-	public $grade_medico;
-	public $domaine_medico;
+	public $matricule;
+	public $grade;
+	public $domaine;
 	public $autres;
 	
 	protected $inputFilter;
 	
 	public function exchangeArray($data) {
- 		$this->matricule_medico = (! empty ( $data ['matricule_medico'] )) ? $data ['matricule_medico'] : null;
- 		$this->grade_medico = (! empty ( $data ['grade_medico'] )) ? $data ['grade_medico'] : null;
- 		$this->domaine_medico = (! empty ( $data ['domaine_medico'] )) ? $data ['domaine_medico'] : null;
+ 		$this->matricule = (! empty ( $data ['matricule'] )) ? $data ['matricule'] : null;
+ 		$this->grade = (! empty ( $data ['grade'] )) ? $data ['grade'] : null;
+ 		$this->domaine = (! empty ( $data ['domaine'] )) ? $data ['domaine'] : null;
  		$this->autres = (! empty ( $data ['autres'] )) ? $data ['autres'] : null;
  		
 	}
@@ -33,7 +33,7 @@ class Medicotechnique {
 			$inputFilter = new InputFilter ();
 
 			 $inputFilter->add (array (
-			 		'name' => 'matricule_medico',
+			 		'name' => 'matricule',
 			 		'required' => false,
 			 		'filters' => array (
 			 				array (
@@ -56,7 +56,7 @@ class Medicotechnique {
 			 ) );
 	
 			 $inputFilter->add (array (
-			 		'name' => 'grade_medico',
+			 		'name' => 'grade',
 			 		'required' => false,
 			 		'filters' => array (
 			 				array (
@@ -79,7 +79,7 @@ class Medicotechnique {
 			 ) );
 			 
 			 $inputFilter->add (array (
-			 		'name' => 'domaine_medico',
+			 		'name' => 'domaine',
 			 		'required' => false,
 			 		'filters' => array (
 			 				array (

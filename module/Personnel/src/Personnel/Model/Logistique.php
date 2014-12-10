@@ -7,18 +7,18 @@ use Zend\InputFilter\InputFilterInterface;
 
 class Logistique {
 	
-	public $matricule_logistique;
-	public $grade_logistique;
-	public $domaine_logistique;
-	public $autres_logistique;
+	public $matricule;
+	public $grade;
+	public $domaine;
+	public $autres;
 	
 	protected $inputFilter;
 	
 	public function exchangeArray($data) {
- 		$this->matricule_logistique = (! empty ( $data ['matricule_logistique'] )) ? $data ['matricule_logistique'] : null;
- 		$this->grade_logistique = (! empty ( $data ['grade_logistique'] )) ? $data ['grade_logistique'] : null;
- 		$this->domaine_logistique = (! empty ( $data ['domaine_logistique'] )) ? $data ['domaine_logistique'] : null;
- 		$this->autres_logistique = (! empty ( $data ['autres_logistique'] )) ? $data ['autres_logistique'] : null;
+ 		$this->matricule = (! empty ( $data ['matricule'] )) ? $data ['matricule'] : null;
+ 		$this->grade = (! empty ( $data ['grade'] )) ? $data ['grade'] : null;
+ 		$this->domaine = (! empty ( $data ['domaine'] )) ? $data ['domaine'] : null;
+ 		$this->autres_logistique = (! empty ( $data ['autres'] )) ? $data ['autres'] : null;
 	}
 	
 	public function getArrayCopy() {
@@ -35,7 +35,7 @@ class Logistique {
 			$inputFilter = new InputFilter ();
 
 			 $inputFilter->add (array (
-			 		'name' => 'matricule_logistique',
+			 		'name' => 'matricule',
 			 		'required' => false,
 			 		'filters' => array (
 			 				array (
@@ -58,7 +58,7 @@ class Logistique {
 			 ) );
 	
 			 $inputFilter->add (array (
-			 		'name' => 'grade_logistique',
+			 		'name' => 'grade',
 			 		'required' => false,
 			 		'filters' => array (
 			 				array (
@@ -81,7 +81,7 @@ class Logistique {
 			 ) );
 			 
 			 $inputFilter->add (array (
-			 		'name' => 'domaine_logistique',
+			 		'name' => 'domaine',
 			 		'required' => false,
 			 		'filters' => array (
 			 				array (
@@ -104,7 +104,7 @@ class Logistique {
 			 ) );
 			 
 			 $inputFilter->add (array (
-			 		'name' => 'autres_logistique',
+			 		'name' => 'autres',
 			 		'required' => false,
 			 		'filters' => array (
 			 				array (
