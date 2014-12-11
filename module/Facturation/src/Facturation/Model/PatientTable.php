@@ -424,6 +424,22 @@ class PatientTable {
 		}
 		return $options;
 	}
+	
+	public function listeServices()
+	{
+		$adapter = $this->tableGateway->getAdapter ();
+		$sql = new Sql ( $adapter );
+		$select = $sql->select ();
+		$select->from(array('serv'=>'service'));
+		$select->columns(array ('ID_SERVICE', 'NOM'));
+		$select->order('ID_SERVICE ASC');
+		$stmt = $sql->prepareStatementForSqlObject($select);
+		$result = $stmt->execute();
+		foreach ($result as $data) {
+			$options[$data['ID_SERVICE']] = $data['NOM'];
+		}
+		return $options;
+	}
 
 	//Tous les patients consultes sauf ceux du jour
 	public function tousPatientsCons($service){

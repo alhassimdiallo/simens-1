@@ -14,7 +14,7 @@ class Personnel {
 	public $lieu_naissance;
 	public $adresse;
 	public $sexe;
-	public $nationalite_actuelle;
+	public $situation_matrimoniale;
 	public $nationalite;
 	public $photo;
 	public $telephone;
@@ -56,7 +56,7 @@ class Personnel {
  		$this->date_naissance = (! empty ( $data ['date_naissance'] )) ? $data ['date_naissance'] : null;
  		$this->adresse = (! empty ( $data ['adresse'] )) ? $data ['adresse'] : null;
  		$this->sexe = (! empty ( $data ['sexe'] )) ? $data ['sexe'] : null;
- 		$this->nationalite_actuelle = (! empty ( $data ['nationalite_actuelle'] )) ? $data ['nationalite_actuelle'] : null;
+ 		$this->situation_matrimoniale = (! empty ( $data ['situation_matrimoniale'] )) ? $data ['situation_matrimoniale'] : null;
  		$this->telephone = (! empty ( $data ['telephone'] )) ? $data ['telephone'] : null;
  		$this->email = (! empty ( $data ['email'] )) ? $data ['email'] : null;
  		$this->profession = (! empty ( $data ['profession'] )) ? $data ['profession'] : null;
@@ -258,7 +258,7 @@ class Personnel {
 			 
  
  $inputFilter->add (array (
-					'name' => 'nationalite_origine',
+					'name' => 'situation_matrimoniale',
 					'required' => false,
 					'filters' => array (
 							array (

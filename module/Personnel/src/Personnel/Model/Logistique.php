@@ -7,17 +7,17 @@ use Zend\InputFilter\InputFilterInterface;
 
 class Logistique {
 	
-	public $matricule;
-	public $grade;
-	public $domaine;
-	public $autres;
+	public $matricule_logistique;
+	public $grade_logistique;
+	public $domaine_logistique;
+	public $autres_logistique;
 	
 	protected $inputFilter;
 	
 	public function exchangeArray($data) {
- 		$this->matricule = (! empty ( $data ['matricule'] )) ? $data ['matricule'] : null;
- 		$this->grade = (! empty ( $data ['grade'] )) ? $data ['grade'] : null;
- 		$this->domaine = (! empty ( $data ['domaine'] )) ? $data ['domaine'] : null;
+ 		$this->matricule_logistique = (! empty ( $data ['matricule'] )) ? $data ['matricule'] : null;
+ 		$this->grade_logistique = (! empty ( $data ['grade'] )) ? $data ['grade'] : null;
+ 		$this->domaine_logistique = (! empty ( $data ['domaine'] )) ? $data ['domaine'] : null;
  		$this->autres_logistique = (! empty ( $data ['autres'] )) ? $data ['autres'] : null;
 	}
 	
@@ -29,106 +29,106 @@ class Logistique {
 		throw new \Exception ( "Not used" );
 	}
 	
-	public function getInputFilter() {
-		if (! $this->inputFilter) {
+// 	public function getInputFilter() {
+// 		if (! $this->inputFilter) {
 
-			$inputFilter = new InputFilter ();
+// 			$inputFilter = new InputFilter ();
 
-			 $inputFilter->add (array (
-			 		'name' => 'matricule',
-			 		'required' => false,
-			 		'filters' => array (
-			 				array (
-			 						'name' => 'StripTags'
-			 				),
-			 				array (
-			 						'name' => 'StringTrim'
-			 				)
-			 		),
-			 		'validators' => array (
-			 				array (
-			 						'name' => 'StringLength',
-			 						'options' => array (
-			 								'encoding' => 'UTF-8',
-			 								'min' => 1,
-			 								'max' => 100
-			 						)
-			 				)
-			 		)
-			 ) );
+// 			 $inputFilter->add (array (
+// 			 		'name' => 'matricule',
+// 			 		'required' => false,
+// 			 		'filters' => array (
+// 			 				array (
+// 			 						'name' => 'StripTags'
+// 			 				),
+// 			 				array (
+// 			 						'name' => 'StringTrim'
+// 			 				)
+// 			 		),
+// 			 		'validators' => array (
+// 			 				array (
+// 			 						'name' => 'StringLength',
+// 			 						'options' => array (
+// 			 								'encoding' => 'UTF-8',
+// 			 								'min' => 1,
+// 			 								'max' => 100
+// 			 						)
+// 			 				)
+// 			 		)
+// 			 ) );
 	
-			 $inputFilter->add (array (
-			 		'name' => 'grade',
-			 		'required' => false,
-			 		'filters' => array (
-			 				array (
-			 						'name' => 'StripTags'
-			 				),
-			 				array (
-			 						'name' => 'StringTrim'
-			 				)
-			 		),
-			 		'validators' => array (
-			 				array (
-			 						'name' => 'StringLength',
-			 						'options' => array (
-			 								'encoding' => 'UTF-8',
-			 								'min' => 1,
-			 								'max' => 100
-			 						)
-			 				)
-			 		)
-			 ) );
+// 			 $inputFilter->add (array (
+// 			 		'name' => 'grade',
+// 			 		'required' => false,
+// 			 		'filters' => array (
+// 			 				array (
+// 			 						'name' => 'StripTags'
+// 			 				),
+// 			 				array (
+// 			 						'name' => 'StringTrim'
+// 			 				)
+// 			 		),
+// 			 		'validators' => array (
+// 			 				array (
+// 			 						'name' => 'StringLength',
+// 			 						'options' => array (
+// 			 								'encoding' => 'UTF-8',
+// 			 								'min' => 1,
+// 			 								'max' => 100
+// 			 						)
+// 			 				)
+// 			 		)
+// 			 ) );
 			 
-			 $inputFilter->add (array (
-			 		'name' => 'domaine',
-			 		'required' => false,
-			 		'filters' => array (
-			 				array (
-			 						'name' => 'StripTags'
-			 				),
-			 				array (
-			 						'name' => 'StringTrim'
-			 				)
-			 		),
-			 		'validators' => array (
-			 				array (
-			 						'name' => 'StringLength',
-			 						'options' => array (
-			 								'encoding' => 'UTF-8',
-			 								'min' => 1,
-			 								'max' => 100
-			 						)
-			 				)
-			 		)
-			 ) );
+// 			 $inputFilter->add (array (
+// 			 		'name' => 'domaine',
+// 			 		'required' => false,
+// 			 		'filters' => array (
+// 			 				array (
+// 			 						'name' => 'StripTags'
+// 			 				),
+// 			 				array (
+// 			 						'name' => 'StringTrim'
+// 			 				)
+// 			 		),
+// 			 		'validators' => array (
+// 			 				array (
+// 			 						'name' => 'StringLength',
+// 			 						'options' => array (
+// 			 								'encoding' => 'UTF-8',
+// 			 								'min' => 1,
+// 			 								'max' => 100
+// 			 						)
+// 			 				)
+// 			 		)
+// 			 ) );
 			 
-			 $inputFilter->add (array (
-			 		'name' => 'autres',
-			 		'required' => false,
-			 		'filters' => array (
-			 				array (
-			 						'name' => 'StripTags'
-			 				),
-			 				array (
-			 						'name' => 'StringTrim'
-			 				)
-			 		),
-			 		'validators' => array (
-			 				array (
-			 						'name' => 'StringLength',
-			 						'options' => array (
-			 								'encoding' => 'UTF-8',
-			 								'min' => 1,
-			 								'max' => 100
-			 						)
-			 				)
-			 		)
-			 ) );
+// 			 $inputFilter->add (array (
+// 			 		'name' => 'autres',
+// 			 		'required' => false,
+// 			 		'filters' => array (
+// 			 				array (
+// 			 						'name' => 'StripTags'
+// 			 				),
+// 			 				array (
+// 			 						'name' => 'StringTrim'
+// 			 				)
+// 			 		),
+// 			 		'validators' => array (
+// 			 				array (
+// 			 						'name' => 'StringLength',
+// 			 						'options' => array (
+// 			 								'encoding' => 'UTF-8',
+// 			 								'min' => 1,
+// 			 								'max' => 100
+// 			 						)
+// 			 				)
+// 			 		)
+// 			 ) );
 			 
-			$this->inputFilter = $inputFilter;
-		}
+// 			$this->inputFilter = $inputFilter;
+// 		}
 
-		return $this->inputFilter;
-	}
+// 		return $this->inputFilter;
+// 	}
 }

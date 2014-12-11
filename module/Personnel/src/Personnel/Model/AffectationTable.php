@@ -24,7 +24,8 @@ class AffectationTable {
 		$rowset = $this->tableGateway->select(array('id_personne' => $id_personne));
 		$row = $rowset->current();
 		if (!$row) {
-			throw new \Exception("Could not find row $id_personne");
+			//throw new \Exception("Could not find row $id_personne");
+			$row = null;
 		}
 		return $row;
 	}
@@ -46,9 +47,11 @@ class AffectationTable {
  			$this->tableGateway->insert($data);
  		} else {
  			if($this->getAffectation($id_personne)) {
- 				$this->tableGateway->update($data, array('ID_PERSONNE' => $id_personne));
+ 				$this->tableGateway->update($data, array('id_personne' => $id_personne));
  			} else {
- 				throw new \Exception('Cette personne n existe pas');
+ 				if($personnel->service_accueil){
+ 					$this->tableGateway->insert($data);
+ 				}
  			}
  		}
 	}

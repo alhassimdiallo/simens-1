@@ -16,7 +16,8 @@ class MedicotechniqueTable {
 		$rowset = $this->tableGateway->select(array('id_personne' => $id_personne));
 		$row = $rowset->current();
 		if (!$row) {
-			throw new \Exception("Could not find row $id_personne");
+			//throw new \Exception("Could not find row $id_personne");
+			return null;
 		}
 		return $row;
 	}
@@ -35,10 +36,12 @@ class MedicotechniqueTable {
  		if($id_personne == 0){
  			$this->tableGateway->insert($data);
  		} else {
- 			if($this->getMedecin($id_personne)) {
+ 			if($this->getMedicoTechnique($id_personne)) {
  				$this->tableGateway->update($data, array('id_personne' => $id_personne));
  			} else {
- 				throw new \Exception('Cette personne n existe pas');
+ 				if($personnel->matricule_medico){
+ 					$this->tableGateway->insert($data);
+ 				}
  			}
  		}
 	}
@@ -49,7 +52,8 @@ class MedicotechniqueTable {
 		if ($this->getMedicoTechnique($id_personne)) {
 			$this->tableGateway->delete( array('id_personne' => $id_personne));
 		} else {
-			throw new \Exception('Cette personne n existe pas');
+			//throw new \Exception('Cette personne n existe pas');
+			return null;
 		}
 	}
 }

@@ -13,7 +13,7 @@ class ServiceTable{
 	}
 	public function getServiceAffectation($id){
 		$id = ( int ) $id;
-		$select = $this->tableGateway->select(array('ID_SERVICE' => $id));
+		$select = $this->tableGateway->select(array('id_service' => $id));
 		$serviceRow = $select->current();
 		if (! $serviceRow) {
 			throw new \Exception ( "Could not find row $id" );

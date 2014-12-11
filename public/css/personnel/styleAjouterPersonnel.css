@@ -325,7 +325,7 @@ font-size: 14px;
 
 }
 
-#form_patient select
+#form_patient select, #form_patient2 select
 {
 	background-image: none;
 
@@ -540,6 +540,17 @@ display: block;
 height: 30px;  /*la hauteur du champ input*/
 
 width: 87%;/*225px;   /*la largeur du champ input*/
+
+}
+
+#form_patient2 select
+{
+
+display: block;
+
+height: 30px;
+
+width: 95%;
 
 }
 

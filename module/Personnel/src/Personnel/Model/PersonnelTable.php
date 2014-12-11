@@ -24,7 +24,8 @@ class PersonnelTable {
 		$rowset = $this->tableGateway->select(array('id_personne' => $id_personne));
 		$row = $rowset->current();
 		if (!$row) {
-			throw new \Exception("Could not find row $id_personne");
+			//throw new \Exception("Could not find row $id_personne");
+			return null;
 		}
 		return $row;
 	}
@@ -69,6 +70,7 @@ class PersonnelTable {
 				'date_naissance'  => $this->conversionDate->convertDateInAnglais($personnel->date_naissance),
 				'lieu_naissance'  => $personnel->lieu_naissance,
 				'nationalite'  => $personnel->nationalite,
+				'situation_matrimoniale' => $personnel->situation_matrimoniale,
 				'adresse'  => $personnel->adresse,
 				'telephone'  => $personnel->telephone,
 				'email'  => $personnel->email,

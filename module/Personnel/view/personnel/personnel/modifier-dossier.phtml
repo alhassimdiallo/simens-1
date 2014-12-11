@@ -14,11 +14,12 @@ controle_saisie();
 
 <?php
 $form = $this->form;
-$form->setAttribute ( 'action', $this->url ( 'personnel', array ('action' => 'dossier-personnel') ));
+$form->setAttribute ( 'action', $this->url ( 'personnel', array ('action' => 'modifier-dossier', 'val' => $this->id_personne) ));
 $form->setAttribute ('enctype','multipart/form-data');
 $this->form->prepare ();
-echo $this->form ()->openTag ( $form );
-?>
+echo $this->form ()->openTag ( $form );?>
+
+
 <?php echo $this->formhidden($this->form->get('id_personne')); ?>
 <?php echo $this->formhidden($this->form->get('date_enregistrement')); ?>
 <script type="text/javascript">
@@ -34,8 +35,8 @@ $('#date_enregistrement').val('<?php echo $date_enregistrement;?>');
      <div>
 
          <div class="photo_patient" id='photo'>
+                  <img id="modifier_photo" src="<?php echo $this->basepath().'/img/photos_personnel/'.$this->photo.'.jpg'?>" style=' margin-left:-10px; margin-top:-10px; width:105px; height:105px;'/>
                   <input type='file' name="fichier" /> <!-- RECUPERER L'IMAGE -->
-                  <!-- input type='hidden' id="fichier_tmp" name="fichier_tmp" /--> <!-- FICHIER TAMPON POUR RECUPERER L'IMAGE DANS LE CONTROLLER -->
                   <?php echo $this->formhidden($this->form->get('fichier_tmp'))?>
          </div>
            
@@ -52,7 +53,7 @@ $('#date_enregistrement').val('<?php echo $date_enregistrement;?>');
 			<tr class="comment-form-patient">
 				<td> <?php echo $this->formRow($this->form->get('nom'));?></td>
 				<td> <?php echo $this->formRow($this->form->get('telephone'));?></td>
-				<td> <?php echo $this->formRow($this->form->get('nationalite_origine'));?></td>
+				<td> <?php echo $this->formRow($this->form->get('situation_matrimoniale'));?></td>
 			</tr>
 
 			<tr class="comment-form-patient">
@@ -280,6 +281,37 @@ $("#modifier_champ_logistique").toggle(false);
 /***AFFECTATION***/
 $("#modifier_champ_affectation").toggle(false);
 
+/****************************************************/
+
+/**=======AFFICHER LE COMPLEMENT CONCERNER========**/
+
+/***************************************************/
+/***COMPLEMENT MEDECIN*****/
+<?php if($this->type_personnel == 'Médecin'){ ?>
+         $('.complement_medecin').toggle(true);
+         $('#vider_champ2').toggle(true);
+         $("#bouton_valider_donnees").toggle(true); 
+         $('#type_personnel').val(1);   
+         getChamps(0);
+         
+<?php } ?>
+/***COMPLEMENT MEDICO-TECHNIQUE***/
+<?php if($this->type_personnel == 'Médico-technique'){ ?>
+         $('.complement_medico-technique').toggle(true); 
+         $("#bouton_valider_donnees_medico").toggle(true);
+         $("#vider_champ_medico").toggle(true);
+         $('#type_personnel').val(2);   
+         getChamps(0);
+<?php } else?>
+
+/***COMPLEMENT MEDICO-TECHNIQUE***/
+<?php if($this->type_personnel == 'Logistique'){ ?>
+         $(".complement_logistique").toggle(true);
+         $("#bouton_valider_donnees_logistique").toggle(true);
+         $("#vider_champ_logistique").toggle(true);
+         $('#type_personnel').val(3);   
+         getChamps(0);
+<?php }?>
 
  /***POUR LE MENU GAUCHE dans -elementgauche.phtml***/
 $('#plus_dossier_personnel').toggle(true); 

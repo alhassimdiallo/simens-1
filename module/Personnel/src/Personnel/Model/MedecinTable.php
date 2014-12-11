@@ -16,7 +16,8 @@ class MedecinTable {
 		$rowset = $this->tableGateway->select(array('id_personne' => $id_personne));
 		$row = $rowset->current();
 		if (!$row) {
-			throw new \Exception("Could not find row $id_personne");
+			//throw new \Exception("Could not find row $id_personne");
+			return null;
 		}
 		return $row;
 	}
@@ -38,7 +39,9 @@ class MedecinTable {
  			if($this->getMedecin($id_personne)) {
  				$this->tableGateway->update($data, array('id_personne' => $id_personne));
  			} else {
- 				throw new \Exception('Cette personne n existe pas');
+ 				if($personnel->matricule){
+ 					$this->tableGateway->insert($data);
+ 				}
  			}
  		}
 	}
@@ -49,7 +52,8 @@ class MedecinTable {
 		if ($this->getMedecin($id_personne)) {
 			$this->tableGateway->delete( array('id_personne' => $id_personne));
 		} else {
-			throw new \Exception('Cette personne n existe pas');
+			//throw new \Exception('Cette personne n existe pas');
+			return null;
 		}
 	}
 }

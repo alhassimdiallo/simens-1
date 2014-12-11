@@ -114,10 +114,11 @@ class PersonnelController extends AbstractActionController {
 		$this->getFormPersonnel();
 		$formPersonnel = $this->formPersonnel;
 		$patientTable = $this->getPatientTable();
-		$vide = array(0 =>'');
-		$listeDesPays = array_merge($vide, $patientTable->listePays());
-		$formPersonnel->get('nationalite_origine')->setvalueOptions($listeDesPays);
+		
+		$listeDesPays = array_merge(array(0 =>''), $patientTable->listePays());
 		$formPersonnel->get('nationalite')->setvalueOptions($listeDesPays);
+		$listeDesServices = array_merge(array(0 =>''), $this->getPatientTable()->listeServices());
+		$formPersonnel->get('service_accueil')->setValueOptions($listeDesServices);
 
 		$request = $this->getRequest();
 		if ($request->isPost()) {
@@ -253,9 +254,9 @@ class PersonnelController extends AbstractActionController {
 		 * **************************************************************
 		 * **************************************************************/
 		 $donneesAffectation = $this->getAffectationTable()->getAffectation($id_personne);
-		 $leService = $this->getServiceTable()->getServiceAffectation($donneesAffectation->id_service);
-		 
-		
+		 if($donneesAffectation){
+		 	$leService = $this->getServiceTable()->getServiceAffectation($donneesAffectation->service_accueil);
+		 }
 		
 		/****************************************************************
 		 * ========= AFFICHAGE DES INFORMATION SUR LA VUE ===============
@@ -330,27 +331,27 @@ class PersonnelController extends AbstractActionController {
 			    <div id='titre_info_deces'>Compl&eacute;ments informations (Personnel ".$unAgent->type_personnel.") </div>
 			    <div id='barre'></div>";
 			   		   		
-		if($unAgent->type_personnel == 'Logistique'){
+		if($unAgent->type_personnel == 'Logistique' && $donneesComplement){
 			$html .="<table style='margin-top:10px; margin-left:185px;'>";
 			$html .="<tr>";
-			$html .="<td style='width:200px; vertical-align: top;'><a style='float:left; margin-right: 10px; text-decoration:underline; font-size:13px;'>Matricule:</a><div id='inform' style='float:left; font-weight:bold; font-size:16px;'>".$donneesComplement->matricule."</div></td>";
-			$html .="<td style='width:190px; vertical-align: top;'><a style='float:left; margin-right: 10px; text-decoration:underline; font-size:13px;'>Grade:</a><div id='inform' style='float:left; font-weight:bold; font-size:16px;'>".$donneesComplement->grade."</div></td>";
-			$html .="<td style='width:270px; vertical-align: top;'><a style='float:left; margin-right: 10px; text-decoration:underline; font-size:13px;'>Domaine:</a><div id='inform' style='float:left; font-weight:bold; font-size:16px;'>".$donneesComplement->domaine."</div></td>";
-			$html .="<td style='width:230px; vertical-align: top;'><a style='float:left; margin-right: 10px; text-decoration:underline; font-size:13px;'>Autres:</a><div id='inform' style='float:left; font-weight:bold; font-size:16px;'>".$donneesComplement->autres."</div></td>";
+			$html .="<td style='width:200px; vertical-align: top;'><a style='float:left; margin-right: 10px; text-decoration:underline; font-size:13px;'>Matricule:</a><div id='inform' style='float:left; font-weight:bold; font-size:16px;'>".$donneesComplement->matricule_logistique."</div></td>";
+			$html .="<td style='width:190px; vertical-align: top;'><a style='float:left; margin-right: 10px; text-decoration:underline; font-size:13px;'>Grade:</a><div id='inform' style='float:left; font-weight:bold; font-size:16px;'>".$donneesComplement->grade_logistique."</div></td>";
+			$html .="<td style='width:270px; vertical-align: top;'><a style='float:left; margin-right: 10px; text-decoration:underline; font-size:13px;'>Domaine:</a><div id='inform' style='float:left; font-weight:bold; font-size:16px;'>".$donneesComplement->domaine_logistique."</div></td>";
+			$html .="<td style='width:230px; vertical-align: top;'><a style='float:left; margin-right: 10px; text-decoration:underline; font-size:13px;'></a><div id='inform' style='float:left; font-weight:bold; font-size:16px;'></div></td>";
 			$html .="</tr>";
 			$html .="</table>";
 		}else
-		if($unAgent->type_personnel == 'Médico-technique'){
+		if($unAgent->type_personnel == 'Médico-technique' && $donneesComplement){
 			$html .="<table style='margin-top:10px; margin-left:185px;'>";
 			$html .="<tr>";
-			$html .="<td style='width:200px; vertical-align: top;'><a style='float:left; margin-right: 10px; text-decoration:underline; font-size:13px;'>Matricule:</a><div id='inform' style='float:left; font-weight:bold; font-size:16px;'>".$donneesComplement->matricule."</div></td>";
-			$html .="<td style='width:190px; vertical-align: top;'><a style='float:left; margin-right: 10px; text-decoration:underline; font-size:13px;'>Grade:</a><div id='inform' style='float:left; font-weight:bold; font-size:16px;'>".$donneesComplement->grade."</div></td>";
-			$html .="<td style='width:270px; vertical-align: top;'><a style='float:left; margin-right: 10px; text-decoration:underline; font-size:13px;'>Domaine:</a><div id='inform' style='float:left; font-weight:bold; font-size:16px;'>".$donneesComplement->domaine."</div></td>";
+			$html .="<td style='width:200px; vertical-align: top;'><a style='float:left; margin-right: 10px; text-decoration:underline; font-size:13px;'>Matricule:</a><div id='inform' style='float:left; font-weight:bold; font-size:16px;'>".$donneesComplement->matricule_medico."</div></td>";
+			$html .="<td style='width:190px; vertical-align: top;'><a style='float:left; margin-right: 10px; text-decoration:underline; font-size:13px;'>Grade:</a><div id='inform' style='float:left; font-weight:bold; font-size:16px;'>".$donneesComplement->grade_medico."</div></td>";
+			$html .="<td style='width:270px; vertical-align: top;'><a style='float:left; margin-right: 10px; text-decoration:underline; font-size:13px;'>Domaine:</a><div id='inform' style='float:left; font-weight:bold; font-size:16px;'>".$donneesComplement->domaine_medico."</div></td>";
 			$html .="<td style='width:230px; vertical-align: top;'><a style='float:left; margin-right: 10px; text-decoration:underline; font-size:13px;'>Fonction:</a><div id='inform' style='float:left; font-weight:bold; font-size:16px;'>".$donneesComplement->autres."</div></td>";
 			$html .="</tr>";
 			$html .="</table>";
 		}else
-		if($unAgent->type_personnel == 'Médecin'){
+		if($unAgent->type_personnel == 'Médecin' && $donneesComplement){
 			$html .="<table style='margin-top:10px; margin-left:185px;'>";
 			$html .="<tr>";
 			$html .="<td style='width:200px; vertical-align: top;'><a style='float:left; margin-right: 10px; text-decoration:underline; font-size:13px;'>Matricule:</a><div id='inform' style='float:left; font-weight:bold; font-size:16px;'>".$donneesComplement->matricule."</div></td>";
@@ -363,7 +364,7 @@ class PersonnelController extends AbstractActionController {
 
 		$html .="<div id='titre_info_deces' style='margin-top: 25px;' >Affectation</div>";
 		$html .="<div id='barre'></div>";
-		
+		if($donneesAffectation){
 		$html .="<table style='margin-top:10px; margin-left:185px; margin-bottom: 30px;'>";
 		$html .="<tr>";
 		$html .="<td style='width:310px; vertical-align: top;'><a style='float:left; margin-right: 10px; text-decoration:underline; font-size:13px;'>Service:</a><div id='inform' style='float:left; font-weight:bold; font-size:15px;'>".$leService->nom."</div></td>";
@@ -372,6 +373,7 @@ class PersonnelController extends AbstractActionController {
 		$html .="<td style='width:200px; vertical-align: top;'><a style='float:left; margin-right: 10px; text-decoration:underline; font-size:13px;'>Num&eacute;ro OS:</a><div id='inform' style='float:left; font-weight:bold; font-size:16px;'>".$donneesAffectation->numero_os."</div></td>";
 		$html .="</tr>";
 		$html .="</table>";
+		}
 		
 			    
 	    $html .="<div style='width: 100%; height: 100px;'>
@@ -395,14 +397,118 @@ class PersonnelController extends AbstractActionController {
 		$this->getDateHelper();
 		
 		$id_personne = (int) $this->params()->fromRoute('val', 0);
+		
 		if (!$id_personne) {
+			var_dump($id_personne); exit();
 			return $this->redirect()->toRoute('personnel', array(
 					'action' => 'dossier-personnel'
 			));
 		}
 		
+		/****************************************************************
+		 * ============== INITIALISATION DU FORMULAIRE ==================
+		 * **************************************************************
+		 * **************************************************************/
+		$this->getFormPersonnel();
+		$formPersonnel = $this->formPersonnel;
+		
+		$listeDesPays = array_merge(array(0 =>''), $this->getPatientTable()->listePays());
+		$formPersonnel->get('nationalite')->setvalueOptions($listeDesPays);
+		
+		$listeDesServices = array_merge(array(0 =>''), $this->getPatientTable()->listeServices());
+		$formPersonnel->get('service_accueil')->setValueOptions($listeDesServices);
+		
+		/****************************************************************
+		 * ============= ENREGISTREMENT DES MODIFICATIONS ===============
+		 * **************************************************************
+		 * **************************************************************/
+		$request = $this->getRequest();
+		if ($request->isPost()) {
+			$personnel =  new Personnel();
+			$formPersonnel->setInputFilter($personnel->getInputFilter());
+			$formPersonnel->setData($request->getPost());
+		
+			if ($formPersonnel->isValid()) {
+				$personnel->exchangeArray($formPersonnel->getData());
+				
+				/*************************************************************
+				 ============ ENREGISTREMENT DE L'ETAT CIVIL =================
+				 *************************************************************
+				 *************************************************************/
+				$today = new \DateTime ( 'now' );
+				$nomPhoto = $today->format ( 'dmy_His' );
+				$fileBase64 = $this->params ()->fromPost ('fichier_tmp');
+				$fileBase64 = substr($fileBase64, 23);
+				
+				if($fileBase64){
+					$img = imagecreatefromstring(base64_decode($fileBase64));
+				} else {
+					$img = false;
+				}
+				$anciennePhoto = $this->getPersonnelTable()->getPersonne($id_personne)->photo;
+				
+				if ($img != false) {
+					if($anciennePhoto){ //SI LA PHOTO EXISTE BIEN ELLE EST SUPPRIMER DU DOSSIER POUR ETRE REMPLACER PAR LA NOUVELLE
+						unlink('C:\wamp\www\simens\public\img\photos_personnel\\'.$anciennePhoto.'.jpg');
+					}
+					imagejpeg ( $img, 'C:\wamp\www\simens\public\img\photos_personnel\\' . $nomPhoto . '.jpg' );
+				
+					//ON ENREGISTRE AVEC LA NOUVELLE PHOTO
+					$id_personnel = $this->getPersonnelTable()->savePersonnel($personnel,$nomPhoto);
+				} else {
+					//PAS DE NOUVELLE PHOTO
+					$id_personnel = $this->getPersonnelTable()->savePersonnel($personnel,$anciennePhoto);
+				}
+				 
+				/***************************************************************
+				 ============ ENREGISTREMENT DES DONNEES DES COMPLEMENTS =======
+				 ***************************************************************
+				 ***************************************************************/
+				if($personnel->type_personnel == 1) {
+					$this->getMedicoTechniqueTable()->deleteMedicoTechnique($id_personne);
+					$this->getLogistiqueTable()->deleteLogistique($id_personne);
+					$this->getMedecinTable()->saveMedecin($personnel, $id_personne);
+				}else
+				if($personnel->type_personnel == 2){
+					$this->getMedecinTable()->deleteMedecin($id_personne);
+					$this->getLogistiqueTable()->deleteLogistique($id_personne);
+					$this->getMedicoTechniqueTable()->saveMedicoTechnique($personnel, $id_personne);
+				}else
+				if($personnel->type_personnel == 3){
+					$this->getMedecinTable()->deleteMedecin($id_personne);
+					$this->getMedicoTechniqueTable()->deleteMedicoTechnique($id_personne);
+					$this->getLogistiqueTable()->saveLogistique($personnel, $id_personne);
+				}
+				
+				/***************************************************************
+				 ============ ENREGISTREMENT DES DONNEES SUR L'AFFECTATION =====
+				***************************************************************
+				***************************************************************/
+				 
+				$this->getAffectationTable()->saveAffectation($personnel, $id_personne);
+				
+				// Redirection a la liste du personnel
+				return $this->redirect()->toRoute('personnel', array('action' =>'liste-personnel') );
+			}
+		}
+		
+		/****************************************************************
+		 * ====== AFFICHAGE DES DONNEES POUR LES MODIFICATIONS ==========
+		 * **************************************************************
+		 * **************************************************************/
 		try {
 			$laPersonne = $this->getPersonnelTable()->getPersonne($id_personne);
+			
+			if($laPersonne->type_personnel == 'Logistique'){
+				$donneesComplement = $this->getLogistiqueTable()->getLogistique($id_personne);
+			}else
+			if($laPersonne->type_personnel == 'Médico-technique'){
+				$donneesComplement = $this->getMedicoTechniqueTable()->getMedicoTechnique($id_personne);
+			}else
+			if($laPersonne->type_personnel == 'Médecin'){
+				$donneesComplement = $this->getMedecinTable()->getMedecin($id_personne);
+			}
+			$donneesAffectation = $this->getAffectationTable()->getAffectation($id_personne);
 		}
 		catch (\Exception $ex) {
 			return $this->redirect()->toRoute('personnel', array(
@@ -410,22 +516,26 @@ class PersonnelController extends AbstractActionController {
 			));
 		}
 		
-		$this->getFormPersonnel();
-		$formPersonnel = $this->formPersonnel;
+		$date = array();
+		if($laPersonne){
+			$date['date_naissance'] = $this->dateHelper->convertDate($laPersonne->date_naissance);
+		}
+		if($donneesAffectation){
+			$date['date_debut'] = $this->dateHelper->convertDate($donneesAffectation->date_debut);
+			$date['date_fin']   = $this->dateHelper->convertDate($donneesAffectation->date_fin);
+		}
 		
-		$patientTable = $this->getPatientTable();
-		$vide = array(0 =>'');
-		$listeDesPays = array_merge($vide, $patientTable->listePays());
-		$formPersonnel->get('nationalite_origine')->setvalueOptions($listeDesPays);
-		$formPersonnel->get('nationalite')->setvalueOptions($listeDesPays);
-		$date = array('date_naissance' => $this->dateHelper->convertDate($laPersonne->date_naissance));
+		$laPhoto = $laPersonne->photo;
+		if(!$laPersonne->photo){ $laPhoto = 'identite'; }
 		
-		$formPersonnel->bind($laPersonne);
+		if($laPersonne){ $formPersonnel->bind($laPersonne); }
+		if($donneesComplement){ $formPersonnel->bind($donneesComplement);}
+		if($donneesAffectation){ $formPersonnel->bind($donneesAffectation);}
 		$formPersonnel->populateValues($date);
 
-		//var_dump($laPersonne); exit();
-		
 		return array (
+				'photo' => $laPhoto,
+				'type_personnel' =>$laPersonne->type_personnel,
 				'id_personne' =>$id_personne,
 				'form' =>$formPersonnel,
 		);

@@ -118,13 +118,18 @@ class PersonnelForm extends Form {
 
 
 		$this->add ( array (
-				'name' => 'nationalite_origine',
+				'name' => 'situation_matrimoniale',
 				'type' => 'Zend\Form\Element\Select',
 				'options' => array (
-						'label' => iconv ( 'ISO-8859-1', 'UTF-8','Nationalité origine'),
+						'label' => iconv ( 'ISO-8859-1', 'UTF-8','Situation matrimoniale'),
+						'value_options' => array (
+								''=>'',
+								iconv ( 'ISO-8859-1', 'UTF-8','Marié') => iconv ( 'ISO-8859-1', 'UTF-8','Marié'),
+								iconv ( 'ISO-8859-1', 'UTF-8','Célibataire') => iconv ( 'ISO-8859-1', 'UTF-8','Célibataire')
+						)
 				),
 				'attributes' => array (
-						'id' => 'nationalite_origine',
+						'id' => 'situation_matrimoniale',
 				)
 				) );
 		$this->add ( array (
@@ -342,7 +347,7 @@ class PersonnelForm extends Form {
 
 		$this->add ( array (
 				'name' => 'service_accueil',
-				'type' => 'Text',
+				'type' => 'Zend\Form\Element\Select',
 				'options' => array (
 						'label' => 'Service'
 				),
