@@ -440,6 +440,20 @@ class PatientTable {
 		}
 		return $options;
 	}
+	
+	public function listeHopitaux()
+	{
+		$adapter = $this->tableGateway->getAdapter();
+		$sql = new Sql($adapter);
+		$select = $sql->select('hopital');
+		$select->order('ID_HOPITAL ASC');
+		$stat = $sql->prepareStatementForSqlObject($select);
+		$result = $stat->execute();
+		foreach ($result as $data) {
+			$options[$data['ID_HOPITAL']] = $data['NOM_HOPITAL'];
+		}
+		return $options;
+	}
 
 	//Tous les patients consultes sauf ceux du jour
 	public function tousPatientsCons($service){

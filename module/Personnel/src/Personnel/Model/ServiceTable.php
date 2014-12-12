@@ -16,7 +16,7 @@ class ServiceTable{
 		$select = $this->tableGateway->select(array('id_service' => $id));
 		$serviceRow = $select->current();
 		if (! $serviceRow) {
-			throw new \Exception ( "Could not find row $id" );
+			return null;
 		}
 		return $serviceRow;
 	}

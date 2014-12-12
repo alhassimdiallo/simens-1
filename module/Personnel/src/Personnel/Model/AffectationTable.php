@@ -4,6 +4,7 @@ namespace Personnel\Model;
 
 use Zend\Db\TableGateway\TableGateway;
 use Facturation\View\Helper\DateHelper;
+use Zend\Db\Sql\Sql;
 
 class AffectationTable {
 	protected $tableGateway;
@@ -24,7 +25,6 @@ class AffectationTable {
 		$rowset = $this->tableGateway->select(array('id_personne' => $id_personne));
 		$row = $rowset->current();
 		if (!$row) {
-			//throw new \Exception("Could not find row $id_personne");
 			$row = null;
 		}
 		return $row;
@@ -62,7 +62,22 @@ class AffectationTable {
 		if ($this->getAffectation($id_personne)) {
 			$this->tableGateway->delete( array('id_personne' => $id_personne));
 		} else {
-			throw new \Exception('Cette personne n existe pas');
+			return null;
+		}
+	}
+	
+	/*
+	 * Recuperer le service ou l'agent est affecte
+	 */
+	public function getServiceAgentAffecter($id_personne){
+		$id_personne = (int) $id_personne;
+		
+		$row = $this->getAffectation($id_personne);
+		
+		if ($row) {
+			return $row->service_accueil;
+		} else {
+			return null;
 		}
 	}
 }

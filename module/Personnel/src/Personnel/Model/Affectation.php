@@ -7,6 +7,7 @@ use Zend\InputFilter\InputFilterInterface;
 
 class Affectation {
 	
+	public $id_personne;
 	public $service_accueil;
 	public $date_debut;
 	public $date_fin;
@@ -15,6 +16,7 @@ class Affectation {
 	protected $inputFilter;
 	
 	public function exchangeArray($data) {
+		$this->id_personne = (! empty ( $data ['id_personne'] )) ? $data ['id_personne'] : null;
 		$this->service_accueil = (! empty ( $data ['id_service'] )) ? $data ['id_service'] : null;
  		$this->date_debut = (! empty ( $data ['date_debut'] )) ? $data ['date_debut'] : null;
  		$this->date_fin = (! empty ( $data ['date_fin'] )) ? $data ['date_fin'] : null;

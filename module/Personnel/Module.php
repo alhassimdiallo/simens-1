@@ -21,6 +21,9 @@ use Personnel\Model\AffectationTable;
 use Personnel\Model\Affectation;
 use Personnel\Model\TypepersonnelTable;
 use Personnel\Model\Typepersonnel;
+use Personnel\Model\Transfert1;
+use Personnel\Model\TransfertTable;
+use Personnel\Model\Transfert2;
 
 class Module
 {
@@ -141,7 +144,19 @@ class Module
 							$resultSetPrototype = new ResultSet();
 							$resultSetPrototype->setArrayObjectPrototype(new Typepersonnel());
 							return new TableGateway('type_personnel', $dbAdapter, null, $resultSetPrototype);
+						},
+						'Personnel\Model\TransfertTable' => function ($sm) {
+							$tableGateway = $sm->get('TransfertTableGateway');
+							$table = new TransfertTable($tableGateway);
+							return $table;
+						},
+						'TransfertTableGateway' => function($sm) {
+							$dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+							$resultSetPrototype = new ResultSet();
+							$resultSetPrototype->setArrayObjectPrototype(new Transfert2());
+							return new TableGateway('transfert_service_personnel', $dbAdapter, null, $resultSetPrototype);
 						}
+						
 				)
 		);
 	}

@@ -8,6 +8,10 @@ use Personnel\Model\Personnel;
 use Personnel\Form\TypePersonnelForm;
 use Zend\Json\Json;
 use Facturation\View\Helper\DateHelper;
+use Personnel\Form\TransfertPersonnelForm;
+use Zend\File\Transfer\Transfer;
+use Personnel\Model\Transfert;
+use Personnel\Model\Transfert1;
 
 class PersonnelController extends AbstractActionController {
 	
@@ -22,6 +26,7 @@ class PersonnelController extends AbstractActionController {
 	protected $affectationTable;
 	protected $typePersonnelTable;
 	protected $serviceTable;
+	protected $transfertTable;
 
 	public function getPatientTable() {
 		if (! $this->patientTable) {
@@ -78,6 +83,13 @@ class PersonnelController extends AbstractActionController {
 			$this->serviceTable = $sm->get ( 'Personnel\Model\ServiceTable' );
 		}
 		return $this->serviceTable;
+	}
+	public function getTransfertTable() {
+		if (! $this->transfertTable) {
+			$sm = $this->getServiceLocator ();
+			$this->transfertTable = $sm->get ( 'Personnel\Model\TransfertTable' );
+		}
+		return $this->transfertTable;
 	}
 	/**
 	 ***************************************************************************
@@ -250,7 +262,7 @@ class PersonnelController extends AbstractActionController {
 		}
 		
 		/****************************************************************
-		 * ========= AFFICHAGE DES INFORMATION SUR LA VUE ===============
+		 * = COMPLEMENTS DES INFORMATIONS SUR L'AFFECTATION DE L'AGENT ==
 		 * **************************************************************
 		 * **************************************************************/
 		 $donneesAffectation = $this->getAffectationTable()->getAffectation($id_personne);
@@ -541,9 +553,175 @@ class PersonnelController extends AbstractActionController {
 		);
 	}
 	
-	public function rechercheAction(){
-		return new ViewModel();
+	public function listePersonnelTransfertAjaxAction() {
+		$personnel = $this->getPersonnelTable();
+		$output = $personnel->getListeTransfertPersonnel();
+		return $this->getResponse ()->setContent ( Json::encode ( $output, array (
+				'enableJsonExprFinder' => true
+		) ) );
 	}
+	
+	/**
+	 * Pour avoir une vue sur l'agent
+	 */
+	public function vueAgentPersonnelAction(){
+		
+		$id_personne = ( int ) $this->params ()->fromPost ( 'id', 0 );
+		
+		$unAgent = $this->getPersonnelTable()->getPersonne($id_personne);
+ 		$photo = $this->getPersonnelTable()->getPhoto($id_personne);
+		
+
+ 		$affectation = $this->getAffectationTable()->getServiceAgentAffecter($id_personne);
+ 		$service = $this->getServiceTable()->getServiceAffectation($affectation);
+ 		if($service){ $nomService = $service->nom;} else {$nomService = null;}
+ 		
+		$this->getDateHelper();
+		$date = $this->dateHelper->convertDate( $unAgent->date_naissance );
+		
+		$html  = "<div style='width:100%;'>";
+			
+		$html .= "<div style='width: 18%; height: 180px; float:left;'>";
+		$html .= "<div id='photo' style='float:left; margin-left:40px; margin-top:10px; margin-right:30px;'> <img style='width:105px; height:105px;' src='".$this->baseUrl()."public/img/photos_personnel/" . $photo . "' ></div>";
+		$html .= "</div>";
+			
+		$html .= "<div style='width: 65%; height: 180px; float:left;'>";
+		$html .= "<table style='margin-top:10px; float:left; width: 100%;'>";
+		$html .= "<tr style='width: 100%;'>";
+		$html .= "<td style='width: 20%; height: 50px;'><a style='text-decoration:underline; font-size:12px;'>Nom:</a><br><p style='font-weight:bold; font-size:17px;'>" . $unAgent->nom . "</p></td>";
+		$html .= "<td style='width: 30%; height: 50px;'><a style='text-decoration:underline; font-size:12px;'>Lieu de naissance:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $unAgent->lieu_naissance . "</p></td>";
+		$html .= "<td style='width: 20%; height: 50px;'><a style='text-decoration:underline; font-size:12px;'>Nationalit&eacute; d'origine:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $unAgent->nationalite . "</p></td>";
+		$html .= "<td style='width: 30%; height: 50px;'></td>";
+		$html .= "</tr><tr style='width: 100%;'>";
+		$html .= "<td style='width: 20%; height: 50px;'><a style='text-decoration:underline; font-size:12px;'>Pr&eacute;nom:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $unAgent->prenom . "</p></td>";
+		$html .= "<td style='width: 30%; height: 50px;'><a style='text-decoration:underline; font-size:12px;'>T&eacute;l&eacute;phone:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $unAgent->telephone . "</p></td>";
+		$html .= "<td style='width: 20%; height: 50px;'><a style='text-decoration:underline; font-size:12px;'>Sit. matrimoniale:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $unAgent->situation_matrimoniale . "</p></td>";
+		$html .= "<td style='width: 30%; height: 50px;'><a style='text-decoration:underline; font-size:12px;'>Email:</a><br><p style='font-weight:bold; font-size:17px;'>" . $unAgent->email . "</p></td>";
+		$html .= "</tr><tr style='width: 100%;'>";
+		$html .= "<td style='width: 20%; height: 50px; vertical-align: top;'><a style='text-decoration:underline; font-size:12px;'>Date de naissance:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $date . "</p></td>";
+		$html .= "<td style='width: 30%; height: 50px; vertical-align: top;'><a style='text-decoration:underline; font-size:12px;'>Adresse:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $unAgent->adresse . "</p></td>";
+		$html .= "<td style='width: 20%; height: 50px; vertical-align: top;'><a style='text-decoration:underline; font-size:12px;'>Profession:</a><br><p style=' font-weight:bold; font-size:17px;'>" .  $unAgent->profession . "</p></td>";
+		$html .= "<td style='width: 30%; height: 50px;'></td>";
+		$html .= "</tr>";
+		$html .= "</table>";
+		$html .="</div>";
+			
+		$html .= "<div style='width: 17%; height: 180px; float:left;'>";
+		$html .= "<div id='' style='color: white; opacity: 0.09; float:left; margin-right:20px; margin-left:25px; margin-top:5px;'> <img style='width:105px; height:105px;' src='".$this->baseUrl()."public/img/photos_personnel/" . $photo . "'></div>";
+		$html .= "</div>";
+			
+		$html .= "</div>";
+		
+		//SCRIPT UTILISER UNIQUEMENT DANS L'INTERFACE TRANSFERT D'UN AGENT
+		$html .="<script> 
+				  //TRANSFERT INTERNE
+				    $('#service_origine').val('".$nomService."');
+				    $('#service_origine').css({'background':'#eee','border-bottom-width':'0px','border-top-width':'0px','border-left-width':'0px','border-right-width':'0px','font-weight':'bold','color':'#065d10','font-family': 'Times  New Roman','font-size':'17px'});
+					$('#service_origine').attr('readonly',true);
+
+				    $('#service_accueil').css({'font-weight':'bold','color':'#065d10','font-family': 'Times  New Roman','font-size':'14px'});
+				    $('#motif_transfert').css({'font-weight':'bold','color':'#065d10','font-family': 'Times  New Roman','font-size':'14px'});
+				    $('#note').css({'font-weight':'bold','color':'#065d10','font-family': 'Times  New Roman','font-size':'14px'});
+				    
+				  //TRANSFERT EXTERNE
+				    $('#service_origine_externe').val('".$nomService."');
+				    $('#service_origine_externe').css({'background':'#eee','border-bottom-width':'0px','border-top-width':'0px','border-left-width':'0px','border-right-width':'0px','font-weight':'bold','color':'#065d10','font-family': 'Times  New Roman','font-size':'17px'});
+					$('#service_origine_externe').attr('readonly',true);
+
+				    $('#hopital_accueil').css({'font-weight':'bold','color':'#065d10','font-family': 'Times  New Roman','font-size':'14px'});
+				    $('#service_accueil_externe').css({'font-weight':'bold','color':'#065d10','font-family': 'Times  New Roman','font-size':'14px'});
+				    $('#motif_transfert_externe').css({'font-weight':'bold','color':'#065d10','font-family': 'Times  New Roman','font-size':'14px'});
+				 </script>";
+		
+		$this->getResponse ()->getHeaders ()->addHeaderLine ( 'Content-Type', 'application/html; charset=utf-8' );
+		return $this->getResponse ()->setContent ( Json::encode ( $html ) );
+	}
+	
+	/**
+	 * Pour la visualisation de quelques détails sur l'agent
+	 */
+	public function popupAgentPersonnelAction() {
+		
+			$id_personne = (int)$this->params()->fromPost('id');
+			$unAgent = $this->getPersonnelTable()->getPersonne($id_personne);
+			$photo = $this->getPersonnelTable()->getPhoto($id_personne);
+		
+			$this->getDateHelper();
+			$date = $this->dateHelper->convertDate($unAgent->date_naissance);
+		
+			$html ="<div id='photo' style='float:left; margin-right:20px;' > <img  style='width:105px; height:105px;' src='/simens/public/img/photos_personnel/".$photo."'></div>";
+		
+			$html .="<table>";
+		
+			$html .="<tr>";
+			$html .="<td><a style='text-decoration:underline; font-size:12px;'>Nom:</a><br><p style='width:280px; font-weight:bold; font-size:17px;'>".$unAgent->nom."</p></td>";
+			$html .="</tr><tr>";
+			$html .="<td><a style='text-decoration:underline; font-size:12px;'>Pr&eacute;nom:</a><br><p style='width:280px; font-weight:bold; font-size:17px;'>".$unAgent->prenom."</p></td>";
+			$html .="</tr><tr>";
+			$html .="<td><a style='text-decoration:underline; font-size:12px;'>Date de naissance:</a><br><p style='width:280px; font-weight:bold; font-size:17px;'>".$date."</p></td>";
+			$html .="</tr>";
+		
+			$html .="<tr>";
+			$html .="<td><a style='text-decoration:underline; font-size:12px;'>Adresse:</a><br><p style='width:280px; font-weight:bold; font-size:17px;'>".$unAgent->adresse."</p></td>";
+			$html .="</tr><tr>";
+			$html .="<td><a style='text-decoration:underline; font-size:12px;'>T&eacute;l&eacute;phone:</a><br><p style='width:280px; font-weight:bold; font-size:17px;'>".$unAgent->telephone."</p></td>";
+			$html .= "</tr>";
+		
+			$html .="</table>";
+		
+			$this->getResponse ()->getHeaders ()->addHeaderLine ( 'Content-Type', 'application/html; charset=utf-8' );
+		    return $this->getResponse ()->setContent ( Json::encode ( $html ) );
+		    
+	}
+	
+	public function transfertAction(){
+		$this->layout()->setTemplate('layout/personnel');
+		
+		$formTypePersonnel = new TypePersonnelForm();
+		$formTypePersonnel->get('type_personnel')->setvalueOptions($this->getTypePersonnelTable()->listeTypePersonnel());
+		
+		$formTransfertPersonnel = new TransfertPersonnelForm();
+		
+		$formTransfertPersonnel->get('service_accueil')->setValueOptions($this->getPatientTable()->listeServices());
+		$formTransfertPersonnel->get('hopital_accueil')->setValueOptions($this->getPatientTable()->listeHopitaux());
+		
+		
+		/****************************************************************
+		 * ============= ENREGISTREMENT DES MODIFICATIONS ===============
+		* **************************************************************
+		* **************************************************************/
+		$request = $this->getRequest();
+		if ($request->isPost()) {
+			$transfert =  new Transfert1();
+			$formTransfertPersonnel->setInputFilter($transfert->getInputFilter());
+			$formTransfertPersonnel->setData($request->getPost());
+			$donneesPlus = array(
+					'id_service_origine' => $this->getServiceTable()->getServiceParNom($this->params()->fromPost('service_origine')),
+					'service_accueil_externe' => $this->params()->fromPost('service_accueil_externe'),
+			);
+			$formTransfertPersonnel->remove('service_accueil_externe');
+			$formTransfertPersonnel->remove('hopital_accueil');
+
+			if ($formTransfertPersonnel->isValid()) {
+				$transfert->exchangeArray($formTransfertPersonnel->getData());
+				
+				//$this->getTransfertTable()->saveTransfert($transfert, $donneesPlus);
+				if($transfert->id_verif == 0){ 
+					//$this->getPersonnelTable()->updateEtatForTransfert($transfert->id_personne);
+				}
+				var_dump('c bon'); exit();
+			}else {
+				var_dump('c pas bon'); exit();
+			}
+		}
+		
+		
+		return array(
+				'formTypePersonnel' => $formTypePersonnel,
+				'formTransfertPersonnel' => $formTransfertPersonnel
+		);
+	}
+	
 	public function listingAction(){
 		return new ViewModel();
 	}
