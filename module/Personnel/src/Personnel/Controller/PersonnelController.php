@@ -12,6 +12,7 @@ use Personnel\Form\TransfertPersonnelForm;
 use Zend\File\Transfer\Transfer;
 use Personnel\Model\Transfert;
 use Personnel\Model\Transfert1;
+use Zend\XmlRpc\Value\String;
 
 class PersonnelController extends AbstractActionController {
 	
@@ -240,6 +241,9 @@ class PersonnelController extends AbstractActionController {
 	}
 	
 	public function infoPersonnelAction() {
+		
+		$identif = (int) $this->params() ->fromPost('identif', null);
+		
 		$id_personne = (int) $this->params() ->fromPost('id');
 		$this->getDateHelper();
 		
@@ -387,7 +391,63 @@ class PersonnelController extends AbstractActionController {
 		$html .="</table>";
 		}
 		
-			    
+
+		//APPLIQUER UNIQUEMENT SUR L'INTERFACE DE VISUALISATION SUR LA LISTE DES AGENTS TRANSFERES
+		
+		if($identif == 1){
+			
+			$data = array(
+					'id_personne' => $id_personne,
+					'id_service_origine' => $donneesAffectation->service_accueil
+			);
+			
+			$transfert = $this->getTransfertTable()->getTransfert($data);
+			
+			if($transfert) {
+				$html .="<div id='titre_info_deces' style='margin-top: 25px;' >Transfert ( ".$transfert->type_transfert." ) </div>";
+				$html .="<div id='barre'></div>";
+			
+				if($transfert->type_transfert == "Interne") {
+				
+					$leService = $this->getServiceTable()->getServiceAffectation($transfert->service_accueil);
+					$html .="<table style='margin-top:10px; margin-left:185px; margin-bottom: 30px;'>";
+					$html .="<tr>";
+					$html .="<td style='width:310px; vertical-align: top;'><a style='float:left; margin-right: 10px; text-decoration:underline; font-size:13px;'>Service:</a><div id='inform' style='float:left; font-weight:bold; font-size:15px;'>".$leService->nom."</div></td>";
+					$html .="<td style='width:190px; vertical-align: top;'><a style='float:left; margin-right: 10px; text-decoration:underline; font-size:13px;'>Date :</a><div id='inform' style='float:left; font-weight:bold; font-size:16px;'>".$this->dateHelper->convertDate($transfert->date_debut)."</div></td>";
+					$html .="<td style='width:190px; vertical-align: top;'><a style='float:left; margin-right: 10px; text-decoration:underline; font-size:13px;'>Date fin:</a><div id='inform' style='float:left; font-weight:bold; font-size:16px;'>  </div></td>";
+					$html .="<td style='width:200px; vertical-align: top;'><a style='float:left; margin-right: 10px; text-decoration:underline; font-size:13px;'>Num&eacute;ro OS:</a><div id='inform' style='float:left; font-weight:bold; font-size:16px;'>".$donneesAffectation->numero_os."</div></td>";
+					$html .="</tr>";
+					$html .="</table>";
+				
+					$html .="<table style='margin-top:10px; margin-left:185px;'>";
+					$html .="<tr>";
+					$html .="<td style='padding-top: 10px; padding-bottom: 0px; padding-right: 30px'><a style='text-decoration:underline; font-size:13px;'>Motif du transfert:</a><br><p id='circonstance_deces' style='background:#f8faf8; font-weight:bold; font-size:17px;'> ".$transfert->motif_transfert." </p></td>";
+					$html .="<td style='padding-top: 10px; padding-bottom: 0px; padding-right: 20px'><a style='text-decoration:underline; font-size:13px;'>Note:</a><br><p id='circonstance_deces' style='background:#f8faf8; font-weight:bold; font-size:17px;'> $transfert->note </p></td>";
+					$html .="</tr>";
+					$html .="</table>";
+				}
+				else {
+					
+					$leService = $this->getServiceTable()->getServiceAffectation($transfert->service_accueil_externe);
+					$html .="<table style='margin-top:10px; margin-left:185px; margin-bottom: 30px;'>";
+					$html .="<tr>";
+					$html .="<td style='width:310px; vertical-align: top;'><a style='float:left; margin-right: 10px; text-decoration:underline; font-size:13px;'>Service:</a><div id='inform' style='float:left; font-weight:bold; font-size:15px;'>".$leService->nom."</div></td>";
+					$html .="<td style='width:190px; vertical-align: top;'><a style='float:left; margin-right: 10px; text-decoration:underline; font-size:13px;'>Date :</a><div id='inform' style='float:left; font-weight:bold; font-size:16px;'>".$this->dateHelper->convertDate($transfert->date_debut)."</div></td>";
+					$html .="<td style='width:190px; vertical-align: top;'><a style='float:left; margin-right: 10px; text-decoration:underline; font-size:13px;'>Date fin:</a><div id='inform' style='float:left; font-weight:bold; font-size:16px;'> </div></td>";
+					$html .="<td style='width:200px; vertical-align: top;'><a style='float:left; margin-right: 10px; text-decoration:underline; font-size:13px;'>Num&eacute;ro OS:</a><div id='inform' style='float:left; font-weight:bold; font-size:16px;'>".$donneesAffectation->numero_os."</div></td>";
+					$html .="</tr>";
+					$html .="</table>";
+					
+					$html .="<table style='margin-top:10px; margin-left:185px;'>";
+					$html .="<tr>";
+					$html .="<td style='padding-top: 10px; padding-bottom: 0px; padding-right: 30px'><a style='text-decoration:underline; font-size:13px;'>Motif du transfert:</a><br><p id='circonstance_deces' style='background:#f8faf8; font-weight:bold; font-size:17px;'> ".(String)$transfert->motif_transfert_externe." </p></td>";
+					$html .="<td style='padding-top: 10px; padding-bottom: 0px; padding-right: 20px'><a style='text-decoration:underline; font-size:13px;'>Note:</a><br><p id='circonstance_deces' style='background:#f8faf8; font-weight:bold; font-size:17px;'>  </p></td>";
+					$html .="</tr>";
+					$html .="</table>";
+				}
+			}
+		}
+		
 	    $html .="<div style='width: 100%; height: 100px;'>
 	    		 <div style='color: white; opacity: 1; width:95px; height:40px; padding-right:15px; float:right;'>
                     <img  src='".$this->baseUrl()."public/images_icons/fleur1.jpg' />
@@ -555,7 +615,7 @@ class PersonnelController extends AbstractActionController {
 	
 	public function listePersonnelTransfertAjaxAction() {
 		$personnel = $this->getPersonnelTable();
-		$output = $personnel->getListeTransfertPersonnel();
+		$output = $personnel->getListeRechercheTransfertPersonnel();
 		return $this->getResponse ()->setContent ( Json::encode ( $output, array (
 				'enableJsonExprFinder' => true
 		) ) );
@@ -687,9 +747,9 @@ class PersonnelController extends AbstractActionController {
 		
 		
 		/****************************************************************
-		 * ============= ENREGISTREMENT DES MODIFICATIONS ===============
-		* **************************************************************
-		* **************************************************************/
+		 * ======== ENREGISTREMENT DES DONNEES SUR LE TRANSFERT =========
+		 * **************************************************************
+		 * **************************************************************/
 		$request = $this->getRequest();
 		if ($request->isPost()) {
 			$transfert =  new Transfert1();
@@ -705,16 +765,15 @@ class PersonnelController extends AbstractActionController {
 			if ($formTransfertPersonnel->isValid()) {
 				$transfert->exchangeArray($formTransfertPersonnel->getData());
 				
-				//$this->getTransfertTable()->saveTransfert($transfert, $donneesPlus);
+				$this->getTransfertTable()->saveTransfert($transfert, $donneesPlus);
 				if($transfert->id_verif == 0){ 
-					//$this->getPersonnelTable()->updateEtatForTransfert($transfert->id_personne);
+					$this->getPersonnelTable()->updateEtatForTransfert($transfert->id_personne);
 				}
-				var_dump('c bon'); exit();
+				$this->redirect()->toRoute('personnel', array('action' => 'liste-transfert'));
 			}else {
-				var_dump('c pas bon'); exit();
+				$this->redirect()->toRoute('personnel', array('action' => 'transfert'));
 			}
 		}
-		
 		
 		return array(
 				'formTypePersonnel' => $formTypePersonnel,
@@ -722,9 +781,38 @@ class PersonnelController extends AbstractActionController {
 		);
 	}
 	
-	public function listingAction(){
-		return new ViewModel();
+	public function listeTransfertAjaxAction() {
+		$personnel = $this->getPersonnelTable();
+		$output = $personnel->getListeTransfertPersonnel();
+		return $this->getResponse ()->setContent ( Json::encode ( $output, array (
+				'enableJsonExprFinder' => true
+		) ) );
 	}
+	
+	public function listeTransfertAction(){
+		$this->layout()->setTemplate('layout/personnel');
+	
+		$formTypePersonnel = new TypePersonnelForm();
+		$formTypePersonnel->get('type_personnel')->setvalueOptions($this->getTypePersonnelTable()->listeTypePersonnel());
+	
+		return array(
+				'form' => $formTypePersonnel,
+		);
+	}
+	
+	public function supprimerTransfertAction() {
+		
+		$id_personne = (int) $this->params() ->fromPost('id');
+	
+		if($id_personne){
+			$this->getPersonnelTable()->updateEtatForDeleteTransfert($id_personne);
+			$this->getTransfertTable()->deleteTransfert($id_personne);
+		}
+		
+		$this->getResponse ()->getHeaders ()->addHeaderLine ( 'Content-Type', 'application/html; charset=utf-8' );
+		return $this->getResponse ()->setContent ( Json::encode (  ) );
+	}
+	
 	public function interventionAction(){
 		return new ViewModel();
 	}

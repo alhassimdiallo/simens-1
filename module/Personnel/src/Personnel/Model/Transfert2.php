@@ -25,12 +25,17 @@ class Transfert2 {
 	public $service_accueil_externe;
 	public $motif_transfert_externe;
 	
+	/**********************************/
+	public $date_debut;
+	
 	protected $inputFilter;
 	
 	public function exchangeArray($data) {
  		$this->id_personne = (! empty ( $data ['ID_PERSONNE'] )) ? $data ['ID_PERSONNE'] : null;
  		
  		$this->type_transfert = (! empty ( $data ['TYPE_TRANSFERT'] )) ? $data ['TYPE_TRANSFERT'] : null;
+ 		
+ 		$this->date_debut = (! empty ( $data ['DATE_DEBUT'] )) ? $data ['DATE_DEBUT'] : null;
  		
  		if($this->type_transfert == "Interne") {
  			$this->service_origine = (! empty ( $data ['ID_SERVICE_ORIGINE'] )) ? $data ['ID_SERVICE_ORIGINE'] : null;

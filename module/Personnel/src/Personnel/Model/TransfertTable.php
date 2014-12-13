@@ -35,7 +35,9 @@ class TransfertTable {
 	
 	public function saveTransfert(Transfert1 $transfert, $donneesPlus)
 	{
-		$this->getConversionDate();
+
+		$today = new \DateTime ( 'now' );
+		$date = $today->format ( 'Y-m-d' );
 		
 		$id_verif = (int) $transfert->id_verif;
 		
@@ -46,7 +48,8 @@ class TransfertTable {
 					'id_service_accueil' => $transfert->service_accueil,
 					'motif_transfert' => $transfert->motif_transfert,
 					'note' => $transfert->note,
-					'type_transfert' => $transfert->type_transfert
+					'type_transfert' => $transfert->type_transfert,
+					'date_debut' => $date
 			);
 		}else if($transfert->type_transfert == "Externe"){
 			$data = array(
@@ -54,7 +57,8 @@ class TransfertTable {
 					'id_service_origine' => $donneesPlus['id_service_origine']['ID_SERVICE'],
 					'id_service_accueil' => $donneesPlus['service_accueil_externe'],
 					'motif_transfert' => $transfert->motif_transfert_externe,
-					'type_transfert' => $transfert->type_transfert
+					'type_transfert' => $transfert->type_transfert,
+					'date_debut' => $date
 			);
 		}
 		if($id_verif == 0){
@@ -70,28 +74,9 @@ class TransfertTable {
  		}
 	}
 	
-	public function deleteAffectation($id_personne){
+	public function deleteTransfert($id_personne){
 		$id_personne = (int) $id_personne;
-	
-		if ($this->getAffectation($id_personne)) {
-			$this->tableGateway->delete( array('id_personne' => $id_personne));
-		} else {
-			return null;
-		}
-	}
-	
-	/*
-	 * Recuperer le service ou l'agent est affecte
-	 */
-	public function getServiceAgentAffecter($id_personne){
-		$id_personne = (int) $id_personne;
-		
-		$row = $this->getAffectation($id_personne);
-		
-		if ($row) {
-			return $row->service_accueil;
-		} else {
-			return null;
-		}
+
+		$this->tableGateway->delete( array('id_personne' => $id_personne));
 	}
 }

@@ -135,6 +135,11 @@ animation();
  $(".transfert_externe").toggle(false);
  $("#vider_champ_externe").toggle(false);
 
+ $("#service_accueil").attr({'required': true});
+ $("#motif_transfert").attr({'required': true});
+ $("#service_accueil_externe").attr({'required': false});
+ $("#motif_transfert_externe").attr({'required': false});
+ 
 $("#vider_champ_interne").click(function(){
 	$('#service_accueil').val("");
 	$('#motif_transfert').val("");

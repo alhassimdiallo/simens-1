@@ -106,6 +106,10 @@ class PersonnelTable {
 		return $chaine;
 	}
 	
+	/**
+	 * POUR LA LISTE DES AGENTS DU SERVICE
+	 * @return Ambigous <multitype:multitype: number , multitype:string Ambigous <string, unknown> unknown >
+	 */
 	public function getListePersonnel() 
 	{
 
@@ -228,7 +232,11 @@ class PersonnelTable {
 		return $output;
 	}
 
-	public function getListeTransfertPersonnel()
+	/**
+	 * POUR LA LISTE DES AGENTS A TRANSFERE
+	 * @return Ambigous <multitype:multitype: number , multitype:string Ambigous <string, unknown> unknown >
+	 */
+	public function getListeRechercheTransfertPersonnel()
 	{
 	
 	
@@ -347,7 +355,136 @@ class PersonnelTable {
 		return $output;
 	}
 	
+	/**
+	 * POUR LA LISTE DES AGENTS TRANSFERES
+	 * @param unknown $id_personne
+	 */
+	public function getListeTransfertPersonnel()
+	{
+	
+	
+		$db = $this->tableGateway->getAdapter();
+	
+		$aColumns = array('Nom','Prenom','Datenaissance','Sexe', 'Adresse', 'Nationalite', 'id');
+	
+		/* Indexed column (used for fast and accurate table cardinality) */
+		$sIndexColumn = "id";
+	
+		/*
+		 * Paging
+		*/
+		$sLimit = array();
+		if ( isset( $_GET['iDisplayStart'] ) && $_GET['iDisplayLength'] != '-1' )
+		{
+			$sLimit[0] = $_GET['iDisplayLength'];
+			$sLimit[1] = $_GET['iDisplayStart'];
+		}
+	
+		/*
+		 * Ordering
+		*/
+		if ( isset( $_GET['iSortCol_0'] ) )
+		{
+			$sOrder = array();
+			$j = 0;
+			for ( $i=0 ; $i<intval( $_GET['iSortingCols'] ) ; $i++ )
+			{
+				if ( $_GET[ 'bSortable_'.intval($_GET['iSortCol_'.$i]) ] == "true" )
+				{
+					$sOrder[$j++] = $aColumns[ intval( $_GET['iSortCol_'.$i] ) ]."
+								 	".$_GET['sSortDir_'.$i];
+				}
+			}
+		}
+	
+		/*
+		 * SQL queries
+		*/
+		$sql = new Sql($db);
+		$sQuery = $sql->select()
+		->from(array('pers' => 'personnel2'))->columns(array('Nom'=>'nom','Prenom'=>'prenom','Datenaissance'=>'date_naissance','Sexe'=>'sexe','Adresse'=>'adresse','Nationalite'=>'nationalite','Typepersonnel'=>'type_personnel','id'=>'id_personne'))
+		->where(array('etat' => 0));
+	
+		/* Data set length after filtering */
+		$stat = $sql->prepareStatementForSqlObject($sQuery);
+		$rResultFt = $stat->execute();
+		$iFilteredTotal = count($rResultFt);
+	
+		$rResult = $rResultFt;
+	
+		$output = array(
+				//"sEcho" => intval($_GET['sEcho']),
+				//"iTotalRecords" => $iTotal,
+				"iTotalDisplayRecords" => $iFilteredTotal,
+				"aaData" => array()
+		);
+	
+		/*
+		 * $Control pour convertir la date en fran�ais
+		*/
+		$Control = new DateHelper();
+	
+		/*
+		 * ADRESSE URL RELATIF
+		*/
+		$baseUrl = $_SERVER['REQUEST_URI'];
+		$tabURI  = explode('public', $baseUrl);
+	
+		/*
+		 * Pr�parer la liste
+		*/
+		foreach ( $rResult as $aRow )
+		{
+			$row = array();
+			for ( $i=0 ; $i<count($aColumns) ; $i++ )
+			{
+				if ( $aColumns[$i] != ' ' )
+				{
+					/* General output */
+					if ($aColumns[$i] == 'Nom'){
+						$row[] = "<khass id='nomMaj'>".$aRow[ $aColumns[$i]]."</khass>";
+					}
+	
+					else if ($aColumns[$i] == 'Datenaissance') {
+						$row[] = $Control->convertDate($aRow[ $aColumns[$i] ]);
+					}
+	
+					else if ($aColumns[$i] == 'Adresse') {
+						$row[] = $this->adresseText($aRow[ $aColumns[$i] ]);
+					}
+	
+					else if ($aColumns[$i] == 'id') {
+						$html  ="<a href='javascript:affichervue(".$aRow[ $aColumns[$i] ].")'>";
+						$html .="<img style='display: inline; margin-right: 15%;' src='".$tabURI[0]."public/images_icons/vue.PNG' title='details'></a>";
+	
+						$html .="<a href='".$tabURI[0]."public/personnel/modifier-dossier/id_personne/".$aRow[ $aColumns[$i] ]."'>";
+						$html .="<img style='display: inline; margin-right: 15%;' src='".$tabURI[0]."public/images_icons/modifier.PNG' title='Modifier'></a>";
+	
+						$html .="<a id='".$aRow[ $aColumns[$i] ]."' href='javascript:supprimer(".$aRow[ $aColumns[$i] ].")'>";
+						$html .="<img style='display: inline;' src='".$tabURI[0]."public/images_icons/trash_16.PNG' title='Supprimer'></a>";
+	
+						$html .="<input type='hidden' value='".$aRow[ 'Typepersonnel' ]."'>";
+	
+						$row[] = $html;
+					}
+						
+					else {
+						$row[] = $aRow[ $aColumns[$i] ];
+					}
+	
+				}
+			}
+				
+			$output['aaData'][] = $row;
+		}
+	
+		return $output;
+	}
 	public function updateEtatForTransfert($id_personne) {
 		$this->tableGateway->update(array('etat' => 0), array('id_personne' => $id_personne));
+	}
+	
+	public function updateEtatForDeleteTransfert($id_personne) {
+		$this->tableGateway->update(array('etat' => 1), array('id_personne' => $id_personne));
 	}
 }
