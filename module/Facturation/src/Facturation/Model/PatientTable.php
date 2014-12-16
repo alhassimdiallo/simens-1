@@ -454,7 +454,7 @@ class PatientTable {
 		}
 		return $options;
 	}
-
+	
 	//Tous les patients consultes sauf ceux du jour
 	public function tousPatientsCons($service){
 		$today = new \DateTime();

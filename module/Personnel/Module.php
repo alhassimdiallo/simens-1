@@ -24,6 +24,10 @@ use Personnel\Model\Typepersonnel;
 use Personnel\Model\Transfert1;
 use Personnel\Model\TransfertTable;
 use Personnel\Model\Transfert2;
+use Personnel\Model\HopitalServiceTable;
+use Personnel\Model\HopitalService;
+use Personnel\Model\InterventionTable;
+use Personnel\Model\Intervention2;
 
 class Module
 {
@@ -155,6 +159,28 @@ class Module
 							$resultSetPrototype = new ResultSet();
 							$resultSetPrototype->setArrayObjectPrototype(new Transfert2());
 							return new TableGateway('transfert_service_personnel', $dbAdapter, null, $resultSetPrototype);
+						},
+						'Personnel\Model\HopitalServiceTable' => function ($sm) {
+							$tableGateway = $sm->get('HopitalServiceTableGateway');
+							$table = new HopitalServiceTable($tableGateway);
+							return $table;
+						},
+						'HopitalServiceTableGateway' => function($sm) {
+							$dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+							$resultSetPrototype = new ResultSet();
+							$resultSetPrototype->setArrayObjectPrototype(new HopitalService());
+							return new TableGateway('hopital_service', $dbAdapter, null, $resultSetPrototype);
+						},
+						'Personnel\Model\InterventionTable' => function ($sm) {
+							$tableGateway = $sm->get('InterventionTableGateway');
+							$table = new InterventionTable($tableGateway);
+							return $table;
+						},
+						'InterventionTableGateway' => function($sm) {
+							$dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+							$resultSetPrototype = new ResultSet();
+							$resultSetPrototype->setArrayObjectPrototype(new Intervention2());
+							return new TableGateway('intervention', $dbAdapter, null, $resultSetPrototype);
 						}
 						
 				)

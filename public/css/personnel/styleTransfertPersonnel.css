@@ -217,19 +217,19 @@ div .dataTables_paginate
               display: inline;float:right;border:transparent; margin-top: 40px; margin-right: 25px;
          } 
 .vider_formulaire {
-	          background: url("/simens_derniereversion/public/images_icons/annuler.PNG") no-repeat right top;
+	          background: url("/simens/public/images_icons/annuler.PNG") no-repeat right top;
                
          }
 .modifer_donnees {
-	          background: url("/simens_derniereversion/public/images_icons/modifier.png") no-repeat right top;
+	          background: url("/simens/public/images_icons/modifier.png") no-repeat right top;
                
          }
 .supprimer_photo {
-	          background: url("/simens_derniereversion/public/images_icons/mod.png") no-repeat right top;
+	          background: url("/simens/public/images_icons/mod.png") no-repeat right top;
                
          }
 .ajouter_photo {
-	          background: url("/simens_derniereversion/public/images_icons/ajouterphoto.png") no-repeat right top;
+	          background: url("/simens/public/images_icons/ajouterphoto.png") no-repeat right top;
                
          }
 .vider_formulaire input, .modifer_donnees input, .ajouter_photo input, .supprimer_photo input{

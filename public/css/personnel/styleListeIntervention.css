@@ -7,7 +7,7 @@ background-color: #fffffa; /*la couleur du champ*/
 
 height: 25px; /*la hauteur du champ input*/
 
-width: 120px; /* la largeur du champ input*/
+width: 100%; /* la largeur du champ input*/
 }
 
 #prenom_ input[type="text"]
@@ -17,7 +17,7 @@ background-color: #fffffa; /*la couleur du champ*/
 
 height: 25px; /*la hauteur du champ input*/
 
-width: 140px; /* la largeur du champ input*/
+width: 100%; /* la largeur du champ input*/
 }
 
 #date_ input[type="text"]
@@ -27,7 +27,7 @@ background-color: #fffffa; /*la couleur du champ*/
 
 height: 25px; /*la hauteur du champ input*/
 
-width: 105px; /* la largeur du champ input*/
+width: 100%; /* la largeur du champ input*/
 }
 
 #sexe_ input[type="text"]
@@ -37,7 +37,7 @@ background-color: #fffffa; /*la couleur du champ*/
 
 height: 25px; /*la hauteur du champ input*/
 
-width: 55px; /* la largeur du champ input*/
+width: 100%; /* la largeur du champ input*/
 }
 
 #adresse_ input[type="text"]
@@ -47,7 +47,7 @@ background-color: #fffffa; /*la couleur du champ*/
 
 height: 25px; /*la hauteur du champ input*/
 
-width: 290px; /* la largeur du champ input*/
+width: 100%; /* la largeur du champ input*/
 }
 
 #nationalite_ input[type="text"]
@@ -57,7 +57,7 @@ background-color: #fffffa; /*la couleur du champ*/
 
 height: 25px; /*la hauteur du champ input*/
 
-width: 130px; /* la largeur du champ input*/
+width: 100%; /* la largeur du champ input*/
 }
 
 #effectuer_ input[type="text"]
@@ -67,121 +67,154 @@ background-color: #fffffa; /*la couleur du champ*/
 
 height: 25px; /*la hauteur du champ input*/
 
-width: 100x; /* la largeur du champ input*/
+width: 100%; /* la largeur du champ input*/
 }
 
 /* EN TETE*/
-#_nom
+#nom
 {
-	width: 120px;
+	width: 13%;
 }
 
-#_prenom
+#prenom
 {
-	width: 140px;
+	width: 15%;
 }
 
-#_date
+#date
 {
-	width: 105px;
+	width: 12%;
 }
-#_sexe
+#sexe
 {
-	width: 55px;
+	width: 7%;
 }
 
-#_adresse
+#adresse
 {
-	width: 290px;
+	width: 28%;
 }
 
-#_nationalite
+#nationalite
 {
-	width: 130px;
+	width: 15%;
 }
 
-#__effectuer
+#effectuer
 {
-	width: 100px;
+	width: 10%;
 }
 
-/*POUR LA LISTE DES INTERVENTIONS*/
-/* EN TETE*/
-#_service
-{
-	width: 300px;
+#modification_transfert {
+	max-height: 520px;
+    background: #fff;
+    border: 3px solid #cccccc;
+    border-top: 2px solid #cccccc;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    box-shadow: 0pt 5pt 12px rgba(0, 0, 0, 0.5);
 }
 
-#_datedeb
+#aa:hover /* Apparence au survol des liens */
 {
-	width: 100px;
+    color: green;
+	font-size: 16px;
 }
 
-#_datefin
+#aa a:hover
 {
-	width: 100px;
-}
-#_typeintervention
-{
-    width: 270px;
+	color: #0f9f3e;
 }
 
-#_optionintervention
+#aa
 {
-    width: 80px;
+	color: green;
 }
 
-/* PIED DE PAGE */
-#service_ input[type="text"]
+#barre
 {
-	width: 300px;
-	padding-left: 5px;
+  /*background-color: #a8a8a8;*/
+  padding-bottom:20px; /*Pour s�parer le contenu de la bordure du bas du bloc*/
+  magin-bottom:15px; /*Pour s�parer la bordure du prochain �l�ment*/
+  border-bottom: 3px solid #cccccc;/*Pour faire un trait gris horizontal*/
+  margin-left: 185px;
+  margin-top: -15px;
 }
 
-#datedeb_ input[type="text"]
+#numero
 {
-	width: 100px;
-	padding-left: 5px;
+	/*background-color: #a8a8a8;*/
+	width: 400px;
+	margin-left: 160px;
+	font-family: police4;
+	font-size: 19px;
+	color: green;
 }
 
-#datefin_ input[type="text"]
-{
-	width: 100px;
-	padding-left: 5px;
+#nomMaj, #inform{
+	text-transform : uppercase;
 }
-#typeintervention_ input[type="text"]
-{
-    width: 200px;
-	padding-left: 5px;
-}
-
-#optionintervention_ input[type="hidden"]
-{
-    width: 170px;
-}
-
-#listeIntervention tbody tr:hover
-{
-	background: #f6f4f4;
-}
-
-#listeIntervention tbody tr
-{
-	background: #fffdfd;
-}
-
-#listeIntervention tfoot td{
-	background: #efefef;
-    width: 30px;
-}
-
-/* FIN PIED DE PAGE*/
 
 /* STYLE POUR LA LISTE DE SELECTION DE LA TABLE*/
 #listeDataTable{
-	margin-top: 5px;
-	margin-bottom: 5px;
+	margin-top: 0px;
+	margin-bottom: 0px;
 	margin-left: -10px;
+}
+
+.dataTables_paginate *
+{
+	background: #e9e8e8;
+	padding-top: 6px;
+	padding-bottom: 6px;
+	padding-left: 6px;
+	padding-right: 6px;
+    color: black;	
+	/*margin-top: 100px;*/
+	cursor: pointer;
+
+}
+
+div .dataTables_paginate
+{
+	margin-bottom: 20px;
+	margin-right: 0px;
+}
+
+.dataTables_paginate .first
+{
+	margin-right: 0px;
+}
+
+.dataTables_paginate .last
+{
+	margin-left: 0px;
+}
+
+.dataTables_paginate .previous
+{
+	margin-right: 2px;
+	border-left: 1px solid #bdb9b9;
+}
+
+.dataTables_paginate .next
+{
+	margin-left: 3px;
+	border-right: 1px solid #bdb9b9;
+}
+
+.dataTables_paginate a:hover
+{
+	text-decoration: none;
+	background-color: #c3c1c1;
+	color: white;
+}
+
+.dataTables_paginate .paginate_active
+{
+	text-decoration: none;
+	background-color: #b5b2b2;
+	color: white;
 }
 
 .foot_style th
@@ -208,7 +241,6 @@ width: 100x; /* la largeur du champ input*/
     padding-bottom: 5px;
     padding-top : 13px;
     box-shadow: 0pt 0pt 12px rgba(0, 0, 0, 0.5);
-
 }
 
 #contenu {
@@ -224,38 +256,59 @@ width: 100x; /* la largeur du champ input*/
     box-shadow: 0pt 5pt 12px rgba(0, 0, 0, 0.5);
 }
 
+#modification_transfert {
+	height: 490px;
+    background: #fff;
+    border: 3px solid #cccccc;
+    border-top: 2px solid #cccccc;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    box-shadow: 0pt 5pt 12px rgba(0, 0, 0, 0.5);
+}
+
+#terminer_annuler{
+	float: left;
+	width: 200px;
+    height: 40px;
+    margin-left: 490px;
+    margin-top: 10px;
+}
+
+
+#liste_personnel select 
+{
+	border-right-width: 2px;                
+	border-left-width: 2px; 
+	border-top-width: 2px; 
+	border-bottom-width: 2px; 
+	border-color: #cccccc;"
+}
+
 tr:hover
 {
 	background: white;
 }
 
 #vue_patient{
-	min-height:365px;
+	max-height:1500px;
     background: #fff;
-    border: 3px solid #cccccc;
+    border: 3px solid #cccccc ;
     border-top: 2px solid #cccccc;
     border-bottom-right-radius: 10px;
     border-bottom-left-radius: 10px;
     box-shadow: 0pt 5pt 12px rgba(0, 0, 0, 0.5);
-}
-
-#recherche_avancee{
-	min-height:365px;
-    background: #fff;
-    border: 3px solid #cccccc;
-    border-top: 2px solid #cccccc;
-    border-bottom-right-radius: 10px;
-    border-bottom-left-radius: 10px;
-    box-shadow: 0pt 5pt 12px rgba(0, 0, 0, 0.5);
+	padding-top: 10px;
 }
 
 #circonstance_deces{
 	width: 260px;
-    height: 90px;
-	border: 1px solid #ccc ;
+    height: 80px;
+	border: 2px solid #cccccc ;
     border-bottom-right-radius: 10px;
     border-bottom-left-radius: 10px;
     border-top-right-radius: 10px;
+    /*border-top-left-radius: 10px;*/
+   
 }
 
 #photo, #modifier_photo  /*photo*/
@@ -351,33 +404,28 @@ box-shadow: 0pt 0pt 12px rgba(0, 0, 0, 0.1);
     font-family: Times  New Roman;
     font-size: 18px;
     color: green;
-    margin-top: 180px;
-    margin-left: 170px;
+    margin-top: 10px;
+    margin-left: 185px;
 }
 
-#barre_separateur_modif {
-	width: 1045px;
-    /*width: 100%;*/
-    height: 3.5px;
+#barre_separateur {
     border-bottom: 3.5px solid #ccc;
-    padding-top: 75px;
+    padding-top: 185px;
     margin-left: 40px;
 }
 
-#barre_separateur2_modif{
-	width: 1045px;
-    height: 2px;
-    border-bottom: 2.5px solid #ccc;
+#barre_separateur2{
+    border-bottom: 3.5px solid #ccc;
     padding-top: 80px;
     margin-left: 40px;
 }
 
-#barre_separateur {
-	width: 912px;
+#barre_separateur_modif {
+	width: 96%;
     height: 2px;
-    border-bottom: 2px solid #ccc;
-    margin-top: 2px;
-    margin-left: 170px;
+    border-bottom: 3.5px solid #ccc;
+    padding-top: 80px;
+    margin-left: 40px;
 }
 
 a{
@@ -405,10 +453,10 @@ p{
     margin-left: 195px;
 }
 
-#modifier_transfert {
-	height: 490px;
+#modifier_donnees_deces {
+	height: 510px;
     background: #fff;
-    border: 2px solid #cccccc;
+    border: 2px solid #cccccc ;
     border-top: 2px solid #cccccc;
     border-bottom-right-radius: 10px;
     border-bottom-left-radius: 10px;
@@ -437,22 +485,22 @@ p{
               position:relative;
               width:32px;
               height:32px;
-              display: inline;float:left;border:transparent; margin-bottom: 10px;
+              display: inline;float:right;border:transparent; margin-top: 40px; margin-right: 25px;
          } 
 .vider_formulaire {
-	          background: url("/simens_derniereversion/public/images_icons/annuler.PNG") no-repeat right top;
+	          background: url("/simens/public/images_icons/annuler.PNG") no-repeat right top;
                
          }
 .modifer_donnees {
-	          background: url("/simens_derniereversion/public/images_icons/modifier.png") no-repeat right top;
+	          background: url("/simens/public/images_icons/modifier.png") no-repeat right top;
                
          }
 .supprimer_photo {
-	          background: url("/simens_derniereversion/public/images_icons/mod.png") no-repeat right top;
+	          background: url("/simens/public/images_icons/mod.png") no-repeat right top;
                
          }
 .ajouter_photo {
-	          background: url("/simens_derniereversion/public/images_icons/ajouterphoto.png") no-repeat right top;
+	          background: url("/simens/public/images_icons/ajouterphoto.png") no-repeat right top;
                
          }
 .vider_formulaire input, .modifer_donnees input, .ajouter_photo input, .supprimer_photo input{
@@ -465,8 +513,8 @@ p{
               filter:alpha(opacity=0);
               cursor:pointer;
               text-align:right; 
-              width:32px;
-              height:32px;
+              width:20px;
+              height:20px;
          }
 
 /*-----STYLE FORMULAIRE ETAT CIVIL DU PATIENT-----*/
@@ -522,20 +570,9 @@ position: relative;
 top: 5px;
 
 z-index: 1;
-
 }
 
-
-#liste_personnel select 
-{
-	border-right-width: 2px;                
-	border-left-width: 2px; 
-	border-top-width: 2px; 
-	border-bottom-width: 2px; 
-	border-color: #cccccc;"
-}
-
-#form_patient select 
+#form_patient select
 {
 	background-image: none;
 
@@ -629,14 +666,14 @@ z-index: 1;
 	
 	float: left;
 
-    margin-left: 0px;
+    margin-left: 10px;
 	
 	margin-right: 25px;
 	
 	margin-bottom: 15px;
 
 	/*enlever l'icone select*/
-    /****-webkit-appearance: none;*****/
+    /*****-webkit-appearance: none;****/
 }
 
 #form_patient option{ 
@@ -725,9 +762,9 @@ position: relative;
 /* le texte des champs*/
 padding-top: 10px;
 
-padding-right: 10px;
+padding-right: 5px;
 
-padding-bottom: 10px;
+padding-bottom: 5px;
 
 margin-bottom : 15px;
 
@@ -744,7 +781,7 @@ height: 30px; /*la hauteur du champ input*/
 
 width: 225px; /* la largeur du champ input*/
 
-
+margin-left: 10px;
 
 /*z-index: 5;*/
 
@@ -763,21 +800,11 @@ width: 225px;   /*la largeur du champ input*/
 
 #form_patient textarea
 {
-	height: 90px;
+	height: 80px;
 }
-
-
 
 
 /****************************BOUTON************************/
-#terminer_annuler{
-	float: left;
-	width: 200px;
-    height: 40px;
-    margin-left: 490px;
-    margin-top: 10px;
-}
-
 #thoughtbot button
 {
     width:auto;
@@ -800,9 +827,14 @@ width: 225px;   /*la largeur du champ input*/
 {
     background: #ccc;
     background: -webkit-linear-gradient( #eee, #aaa);
-    background: -moz-linear-gradient( #eee, #aaa);
-    background: -ms-linear-gradient( #eee, #aaa);
-    background: -o-linear-gradient( #eee, #aaa);
-    background: linear-gradient( #eee, #aaa);
+}
+
+a{
+	color: black;
+}
+
+p{
+	font-family: Times  New Roman;
+	color: #065d10;
 }
 /***************************************************************************************************************************************************/

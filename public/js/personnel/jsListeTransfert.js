@@ -45,39 +45,6 @@
     
     /************************************************************************************************************************/
     /************************************************************************************************************************/
-    /************************************************************************************************************************/    
-//    function modifierpersonnel(id){
-//        var vart='/simens_derniereversion/public/personnel/personnel/modifierdossier/code/'+id;
-//        $(location).attr("href",vart);
-//    }
-    
-    
-    /**********************************************************************************/
-    
-//    function affichervue(id){
-//    	
-//    	var cle = id;
-//        var chemin = '/simens_derniereversion/public/personnel/personnel/vuepersonnel';
-//        $.ajax({
-//            type: 'POST',
-//            url: chemin ,
-//            data: $(this).serialize(),  
-//            data:'id='+cle,
-//            success: function(data) {
-//       	    
-//            	     $("#titre").replaceWith("<div id='titre2' style='font-family: police2; color: green; font-size: 20px; font-weight: bold;'><iS style='font-size: 25px;'>&curren;</iS> INFORMATIONS </div>");
-//            	     var result = jQuery.parseJSON(data);  
-//            	     $("#contenu").fadeOut(function(){$("#vue_patient").html(result).fadeIn("fast"); }); 
-//            	     
-//            },
-//            error:function(e){console.log(e);alert("Une erreur interne est survenue!");},
-//            dataType: "html"
-//        });
-//	    return false;
-//    }
-    
-    /************************************************************************************************************************/
-    /************************************************************************************************************************/
     /************************************************************************************************************************/
     function initialisation(){
         var  oTable = $('#personnel').dataTable
@@ -145,7 +112,6 @@
    		}
    	} );
 
-  
     }
     
     /************************************************************************************************************************/
@@ -153,7 +119,7 @@
     /************************************************************************************************************************/
     function affichervue(id){
     	var cle = id;
-        var chemin = '/simens/public/personnel/info-personnel';
+        var chemin = tabUrl[0]+'public/personnel/info-personnel';
         $.ajax({
             type: 'POST',
             url: chemin ,
@@ -180,26 +146,94 @@
     /************************************************************************************************************************/
     /************************************************************************************************************************/
     /************************************************************************************************************************/
-    
-    function getListePersonnel(id){
+    function modifiertransfert(id){
     	var cle = id;
-    	
-    	if(id==1){
-          var chemin = '/simens/public/personnel/personnel/lalistepersonnel';
-          $.ajax({
+        var chemin = tabUrl[0]+'public/personnel/vue-agent-personnel';
+        $.ajax({
             type: 'POST',
             url: chemin ,
             data: $(this).serialize(),  
-            data:'id='+cle,
+            data: ({'id':cle, 'identif': 1}),
             success: function(data) {
-       	    
-            	     //$("#titre").replaceWith("<div id='titre2' style='font-family: police2; text-decoration:underline; color: green; font-size: 20px; font-weight: bold;'>Informations sur le patient </div>");
-            	     var result = jQuery.parseJSON(data);  
-            	     $("#donnees").fadeOut(function(){$(this).html(result).fadeIn("fast"); }); 
+           	         
+            	$("#titre").replaceWith("<div id='titre2' style='font-family: police2; color: green; font-size: 20px; font-weight: bold; padding-left:20px;'><iS style='font-size: 25px;'>&curren;</iS> MODIFIER LES DONNEES </div>");
+            	var result = jQuery.parseJSON(data);  
+            	$("#vue_agent_personnel_et_formulaire_modification").html(result);
+            	$("#contenu").fadeOut(function(){ $("#modification_transfert").fadeIn("fast"); }); 
             	     
             },
             error:function(e){console.log(e);alert("Une erreur interne est survenue!");},
             dataType: "html"
-           });
-    	 }
+        });
+        
     }
+    
+    function scriptModification(){
+    	$("#annuler_modif").click(function(){ 
+    		$("#modification_transfert").fadeOut(function(){ $("#contenu").fadeIn("fast"); });
+    		return false;
+    	});
+    	
+    }
+    	/***************************************************************
+    	 *======= TYPE DE TRANSFERT -- AFFICHAGE DE L'INTERFACE ========
+    	 ***************************************************************
+    	 **************************************************************/
+    	function getChamps(id){
+
+    		if(id=="Interne"){
+    			$("#vider_champ_externe").toggle(false);
+    			$("#vider_champ_interne").toggle(true);
+    			
+    			$(".transfert_externe").toggle(false);
+    			$(".transfert_interne").toggle(true);
+    			
+    			$("#service_accueil").attr({'required': true});
+    			$("#motif_transfert").attr({'required': true});
+    			
+    			$("#service_accueil_externe").attr({'required': false});
+    			$("#motif_transfert_externe").attr({'required': false});
+    			
+    			return false;
+    		}
+    		else
+    			if(id=="Externe"){
+    				$("#vider_champ_interne").toggle(false);
+    				$("#vider_champ_externe").toggle(true);
+    				
+    				$(".transfert_interne").toggle(false);
+    				$(".transfert_externe").toggle(true);
+    				
+    				$("#service_accueil_externe").attr({'required': true});
+    				$("#motif_transfert_externe").attr({'required': true});
+    				
+    				$("#service_accueil").attr({'required': false});
+    				$("#motif_transfert").attr({'required': false});
+    				
+    				return false;
+    			}
+    	}
+
+    	/***************************************************************
+    	 *======= LISTE DES SERVICES D'UN HOPITAL -- ===================
+    	 ***************************************************************
+    	 **************************************************************/
+    	function getservices(cle)
+    	{    
+    	     $.ajax({
+    	        type: 'POST',
+    	        url:  tabUrl[0]+'public/consultation/services',
+    	        data: 'id='+cle,
+    	        success: function(data) {
+    	            var result = jQuery.parseJSON(data);
+    	            $("#service_accueil_externe").html(result);
+    	      },
+    	      error:function(e){console.log(e);alert("Une erreur interne est survenue!");},
+    	        dataType: "html"
+    	    });
+
+    	    return false;
+    	 }
+    /************************************************************************************************************************/
+    /************************************************************************************************************************/
+    /************************************************************************************************************************/

@@ -105,6 +105,16 @@ width: 100%; /* la largeur du champ input*/
 	width: 10%;
 }
 
+#modification_transfert {
+	max-height: 520px;
+    background: #fff;
+    border: 3px solid #cccccc;
+    border-top: 2px solid #cccccc;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    box-shadow: 0pt 5pt 12px rgba(0, 0, 0, 0.5);
+}
+
 #aa:hover /* Apparence au survol des liens */
 {
     color: green;
@@ -245,6 +255,34 @@ div .dataTables_paginate
     box-shadow: 0pt 5pt 12px rgba(0, 0, 0, 0.5);
 }
 
+#modification_transfert {
+	height: 490px;
+    background: #fff;
+    border: 3px solid #cccccc;
+    border-top: 2px solid #cccccc;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    box-shadow: 0pt 5pt 12px rgba(0, 0, 0, 0.5);
+}
+
+#terminer_annuler{
+	float: left;
+	width: 200px;
+    height: 40px;
+    margin-left: 490px;
+    margin-top: 10px;
+}
+
+
+#liste_personnel select 
+{
+	border-right-width: 2px;                
+	border-left-width: 2px; 
+	border-top-width: 2px; 
+	border-bottom-width: 2px; 
+	border-color: #cccccc;"
+}
+
 tr:hover
 {
 	background: white;
@@ -370,11 +408,15 @@ box-shadow: 0pt 0pt 12px rgba(0, 0, 0, 0.1);
 }
 
 #barre_separateur {
-	width: 912px;
-    height: 2px;
-    border-bottom: 2px solid #ccc;
-    margin-top: 2px;
-    margin-left: 170px;
+    border-bottom: 3.5px solid #ccc;
+    padding-top: 185px;
+    margin-left: 40px;
+}
+
+#barre_separateur2{
+    border-bottom: 3.5px solid #ccc;
+    padding-top: 80px;
+    margin-left: 40px;
 }
 
 #barre_separateur_modif {
@@ -440,24 +482,24 @@ p{
 
 .vider_formulaire,.modifer_donnees,.supprimer_photo,.ajouter_photo{
               position:relative;
-              width:20px;
-              height:20px;
-              display: inline;float:left;border:transparent; margin-bottom: 10px;
+              width:32px;
+              height:32px;
+              display: inline;float:right;border:transparent; margin-top: 40px; margin-right: 25px;
          } 
 .vider_formulaire {
-	          background: url("/simens_derniereversion/public/images_icons/annuler1.PNG") no-repeat right top;
+	          background: url("/simens/public/images_icons/annuler.PNG") no-repeat right top;
                
          }
 .modifer_donnees {
-	          background: url("/simens_derniereversion/public/images_icons/modifier.png") no-repeat right top;
+	          background: url("/simens/public/images_icons/modifier.png") no-repeat right top;
                
          }
 .supprimer_photo {
-	          background: url("/simens_derniereversion/public/images_icons/mod.png") no-repeat right top;
+	          background: url("/simens/public/images_icons/mod.png") no-repeat right top;
                
          }
 .ajouter_photo {
-	          background: url("/simens_derniereversion/public/images_icons/ajouterphoto.png") no-repeat right top;
+	          background: url("/simens/public/images_icons/ajouterphoto.png") no-repeat right top;
                
          }
 .vider_formulaire input, .modifer_donnees input, .ajouter_photo input, .supprimer_photo input{
@@ -527,20 +569,9 @@ position: relative;
 top: 5px;
 
 z-index: 1;
-
 }
 
-
-#liste_personnel select 
-{
-	border-right-width: 2px;                
-	border-left-width: 2px; 
-	border-top-width: 2px; 
-	border-bottom-width: 2px; 
-	border-color: #cccccc;"
-}
-
-#form_patient select 
+#form_patient select
 {
 	background-image: none;
 
@@ -634,14 +665,14 @@ z-index: 1;
 	
 	float: left;
 
-    margin-left: 0px;
+    margin-left: 10px;
 	
 	margin-right: 25px;
 	
 	margin-bottom: 15px;
 
 	/*enlever l'icone select*/
-    /****-webkit-appearance: none;*****/
+    /*****-webkit-appearance: none;****/
 }
 
 #form_patient option{ 
@@ -730,9 +761,9 @@ position: relative;
 /* le texte des champs*/
 padding-top: 10px;
 
-padding-right: 10px;
+padding-right: 5px;
 
-padding-bottom: 10px;
+padding-bottom: 5px;
 
 margin-bottom : 15px;
 
@@ -749,7 +780,7 @@ height: 30px; /*la hauteur du champ input*/
 
 width: 225px; /* la largeur du champ input*/
 
-
+margin-left: 10px;
 
 /*z-index: 5;*/
 
@@ -768,37 +799,26 @@ width: 225px;   /*la largeur du champ input*/
 
 #form_patient textarea
 {
-	height: 90px;
+	height: 80px;
 }
-
-
 
 
 /****************************BOUTON************************/
-#terminer_annuler{
-	float: left;
-	width: 200px;
-    height: 40px;
-    margin-left: 490px;
-    margin-top: 10px;
-}
-
 #thoughtbot button
 {
     width:auto;
-    padding:2px 0;
-    text-align: center;
+    padding:8px 0;
+    text-align:center;
     display: inline-block;
-    float:center;
-    margin:0 5px 0 0;
+    float:left;
+    margin:0 8px 0 0;
     border-radius:7px;
     font-size: 0.85em;
 	font-weight: bold;
-    width:100px;
-	height: 40px;
+    width:80px;
     color:#000;
     font-family: Arial,sans-serif;
-	box-shadow: 0 0 1px rgba( 0, 0, 0, 0.8), 0 -1px 0 rgba( 255, 255, 255, 0.1);
+	box-shadow: 0 0 1px rgba( 0, 0, 0, 0.2), 0 -1px 0 rgba( 255, 255, 255, 0.1);
     text-shadow: 0px 1px 0px rgba( 255, 255, 255, 0.3);
 }
 
@@ -806,9 +826,14 @@ width: 225px;   /*la largeur du champ input*/
 {
     background: #ccc;
     background: -webkit-linear-gradient( #eee, #aaa);
-    background: -moz-linear-gradient( #eee, #aaa);
-    background: -ms-linear-gradient( #eee, #aaa);
-    background: -o-linear-gradient( #eee, #aaa);
-    background: linear-gradient( #eee, #aaa);
+}
+
+a{
+	color: black;
+}
+
+p{
+	font-family: Times  New Roman;
+	color: #065d10;
 }
 /***************************************************************************************************************************************************/
