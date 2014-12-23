@@ -206,7 +206,7 @@ class PersonnelTable {
 		
 					else if ($aColumns[$i] == 'id') {
 						$html  ="<a href='javascript:affichervue(".$aRow[ $aColumns[$i] ].")'>";
-						$html .="<img style='display: inline; margin-right: 15%;' src='".$tabURI[0]."public/images_icons/vue.PNG' title='details'></a>";
+						$html .="<img style='display: inline; margin-right: 15%;' src='".$tabURI[0]."public/images_icons/vue.PNG' title='détails'></a>";
 		
 						$html .="<a href='".$tabURI[0]."public/personnel/modifier-dossier/id_personne/".$aRow[ $aColumns[$i] ]."'>";
 						$html .="<img style='display: inline; margin-right: 15%;' src='".$tabURI[0]."public/images_icons/modifier.PNG' title='Modifier'></a>";
@@ -332,10 +332,10 @@ class PersonnelTable {
 	
 					else if ($aColumns[$i] == 'id') {
 						$html  ="<a href='javascript:affichervue(".$aRow[ $aColumns[$i] ].")'>";
-						$html .="<img style='display: inline; margin-right: 25%;' src='".$tabURI[0]."public/images_icons/vue.png' title='details'></a>";
+						$html .="<img style='display: inline; margin-right: 25%;' src='".$tabURI[0]."public/images_icons/vue.png' title='détails'></a>";
 	
 						$html .="<a href='javascript:transferer(".$aRow[ $aColumns[$i] ].")'>";
-						$html .="<img style='display: inline; margin-right: 5%;' src='".$tabURI[0]."public/images_icons/suivant.png' title='transf&eacute;r&eacute;'></a>";
+						$html .="<img style='display: inline; margin-right: 5%;' src='".$tabURI[0]."public/images_icons/suivant.png' title='transféré'></a>";
 						
 						$html .="<input type='hidden' value='".$aRow[ 'Typepersonnel' ]."'>";
 	
@@ -456,10 +456,10 @@ class PersonnelTable {
 	
 					else if ($aColumns[$i] == 'id') {
 						$html  ="<a href='javascript:affichervue(".$aRow[ $aColumns[$i] ].")'>";
-						$html .="<img style='display: inline; margin-right: 15%;' src='".$tabURI[0]."public/images_icons/vue.png' title='details'></a>";
+						$html .="<img style='display: inline; margin-right: 15%;' src='".$tabURI[0]."public/images_icons/vue.png' title='détails'></a>";
 	
 						$html  .="<a href='javascript:modifiertransfert(".$aRow[ $aColumns[$i] ].")'>";
-						$html .="<img style='display: inline; margin-right: 15%;' src='".$tabURI[0]."public/images_icons/modifier.png' title='details'></a>";
+						$html .="<img style='display: inline; margin-right: 15%;' src='".$tabURI[0]."public/images_icons/modifier.png' title='modifier'></a>";
 	
 						$html .="<a id='".$aRow[ $aColumns[$i] ]."' href='javascript:supprimer(".$aRow[ $aColumns[$i] ].")'>";
 						$html .="<img style='display: inline;' src='".$tabURI[0]."public/images_icons/trash_16.PNG' title='Supprimer'></a>";
@@ -595,7 +595,7 @@ class PersonnelTable {
 	
 					else if ($aColumns[$i] == 'id') {
 						$html  ="<a href='javascript:affichervue(".$aRow[ $aColumns[$i] ].")'>";
-						$html .="<img style='display: inline; margin-right: 25%;' src='".$tabURI[0]."public/images_icons/vue.png' title='d&eacute;tails'></a>";
+						$html .="<img style='display: inline; margin-right: 25%;' src='".$tabURI[0]."public/images_icons/vue.png' title='détails'></a>";
 	
 						$html .="<a href='javascript:intervention(".$aRow[ $aColumns[$i] ].")'>";
 						$html .="<img style='display: inline; margin-right: 5%;' src='".$tabURI[0]."public/images_icons/suivant.png' title='intervention'></a>";
@@ -722,7 +722,7 @@ class PersonnelTable {
 	
 					else if ($aColumns[$i] == 'id') {
 						$html  ="<a href='javascript:affichervue(".$aRow[ $aColumns[$i] ].")'>";
-						$html .="<img style='display: inline; margin-right: 25%;' src='".$tabURI[0]."public/images_icons/vue.png' title='details'></a>";
+						$html .="<img style='display: inline; margin-right: 25%;' src='".$tabURI[0]."public/images_icons/vue.png' title='détails'></a>";
 	
 						$html .="<a id='".$aRow[ $aColumns[$i] ]."' href='javascript:supprimerintervention(".$aRow[ $aColumns[$i] ].")'>";
 						$html .="<img style='display: inline;' src='".$tabURI[0]."public/images_icons/trash_16.PNG' title='Supprimer'></a>";

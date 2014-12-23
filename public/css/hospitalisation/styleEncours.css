@@ -1,6 +1,4 @@
-#nomMaj, #inform{
-	text-transform : uppercase;
-}
+
 /* PIED DE PAGE*/
 #nom_ input[type="text"]
 { /*le input ou le textarea*/
@@ -9,7 +7,7 @@ background-color: #fffffa; /*la couleur du champ*/
 
 height: 25px; /*la hauteur du champ input*/
 
-width: 100%;/*110px; /* la largeur du champ input*/
+width: 100%; /* la largeur du champ input*/
 }
 
 #prenom_ input[type="text"]
@@ -19,7 +17,7 @@ background-color: #fffffa; /*la couleur du champ*/
 
 height: 25px; /*la hauteur du champ input*/
 
-width: 100%;/*140px; /* la largeur du champ input*/
+width: 100%; /* la largeur du champ input*/
 }
 
 #date_ input[type="text"]
@@ -29,7 +27,7 @@ background-color: #fffffa; /*la couleur du champ*/
 
 height: 25px; /*la hauteur du champ input*/
 
-width: 100%;;/*140px; /* la largeur du champ input*/
+width: 100%; /* la largeur du champ input*/
 }
 
 #sexe_ input[type="text"]
@@ -39,7 +37,7 @@ background-color: #fffffa; /*la couleur du champ*/
 
 height: 25px; /*la hauteur du champ input*/
 
-width: 100%;/*70px; /* la largeur du champ input*/
+width: 100%; /* la largeur du champ input*/
 }
 
 #adresse_ input[type="text"]
@@ -49,17 +47,17 @@ background-color: #fffffa; /*la couleur du champ*/
 
 height: 25px; /*la hauteur du champ input*/
 
-width: 100%;/*310px; /* la largeur du champ input*/
+width: 100%; /* la largeur du champ input*/
 }
 
-#idpatient_ input[type="text"]
+#nationalite_ input[type="text"]
 { /*le input ou le textarea*/
 
 background-color: #fffffa; /*la couleur du champ*/
 
 height: 25px; /*la hauteur du champ input*/
 
-width: 100%;/*90px; /* la largeur du champ input*/
+width: 100%; /* la largeur du champ input*/
 }
 
 #effectuer_ input[type="text"]
@@ -72,9 +70,86 @@ height: 25px; /*la hauteur du champ input*/
 width: 100%; /* la largeur du champ input*/
 }
 
-tr:hover
+/* EN TETE*/
+#nom
 {
-	background: white;
+	width: 17%;
+}
+
+#prenom
+{
+	width: 18%;
+}
+
+#date
+{
+	width: 12%;
+}
+#sexe
+{
+	width: 7%;
+}
+
+#adresse
+{
+	width: 19%;
+}
+
+#nationalite
+{
+	width: 16%;
+}
+
+#effectuer
+{
+	width: 11%;
+}
+
+#aa:hover /* Apparence au survol des liens */
+{
+    color: green;
+	font-size: 16px;
+}
+
+#aa a:hover
+{
+	color: #0f9f3e;
+}
+
+#aa
+{
+	color: green;
+}
+
+#barre
+{
+  /*background-color: #a8a8a8;*/
+  padding-bottom:20px; /*Pour sï¿½parer le contenu de la bordure du bas du bloc*/
+  magin-bottom:15px; /*Pour sï¿½parer la bordure du prochain ï¿½lï¿½ment*/
+  border-bottom: 3px solid #cccccc;/*Pour faire un trait gris horizontal*/
+  margin-left: 195px;
+  margin-top: -15px;
+}
+
+#numero
+{
+	/*background-color: #a8a8a8;*/
+	width: 400px;
+	margin-left: 160px;
+	font-family: police4;
+	font-size: 19px;
+	color: green;
+}
+
+#nomMaj, #inform{
+	text-transform : uppercase;
+}
+
+/* STYLE POUR LA LISTE DE SELECTION DE LA TABLE*/
+#listeDataTable{
+	margin-top: 0px;
+	margin-bottom: 0px;
+	margin-left: -10px;
 }
 
 .dataTables_paginate *
@@ -85,13 +160,14 @@ tr:hover
 	padding-left: 6px;
 	padding-right: 6px;
     color: black;	
+	/*margin-top: 100px;*/
 	cursor: pointer;
+
 }
 
 div .dataTables_paginate
 {
 	margin-bottom: 20px;
-	margin-right: 40px;
 }
 
 .dataTables_paginate .first
@@ -130,14 +206,17 @@ div .dataTables_paginate
 	color: white;
 }
 
-
-#liste_personnel select 
+.foot_style th
 {
-	border-right-width: 2px;                
-	border-left-width: 2px; 
-	border-top-width: 2px; 
-	border-bottom-width: 2px; 
-	border-color: #cccccc;"
+  font-size: 14px;
+  font-weight: normal;
+  color: #fefefe;
+  padding-top: 10px;
+  padding-right: 8px;
+  padding-bottom: 5px;
+  padding-left: 8px;
+  border-bottom-width: 0px;
+  
 }
 
 #titre, #titre2 {
@@ -154,99 +233,55 @@ div .dataTables_paginate
 }
 
 #contenu {
-    background: #fff; max-height: 1000px;
+    background: #fff; min-height: 220px;
     border: 3px solid #cccccc;
     border-bottom-right-radius: 10px;
     border-bottom-left-radius: 10px;
     border-top: 2px solid #cccccc;
-    padding-left: 25px;
+    padding-left: 20px;
+    padding-right: 25px;
+    padding-top: 5px;
+    padding-bottom: 10px;
     box-shadow: 0pt 5pt 12px rgba(0, 0, 0, 0.5);
 }
 
-#ajouter_naissance {
-	height: 490px;
+tr:hover
+{
+	background: white;
+}
+
+#vue_patient{
+	max-height:1500px;
     background: #fff;
-    border: 3px solid #cccccc;
+    border: 3px solid #cccccc ;
     border-top: 2px solid #cccccc;
     border-bottom-right-radius: 10px;
     border-bottom-left-radius: 10px;
     box-shadow: 0pt 5pt 12px rgba(0, 0, 0, 0.5);
+	padding-top: 10px;
 }
 
-#barre_separateur {
-    border-bottom: 3.5px solid #ccc;
-    margin-top: 185px;
-    margin-left: 40px;
+#hospitaliser{
+	max-height:1500px;
+    background: #fff;
+    border: 3px solid #cccccc ;
+    border-top: 2px solid #cccccc;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    box-shadow: 0pt 5pt 12px rgba(0, 0, 0, 0.5);
+	padding-top: 10px;
 }
 
-#barre_separateur2{
-    border-bottom: 3.5px solid #ccc;
-    padding-top: 80px;
-    margin-left: 40px;
+#circonstance_deces{
+	/* width: 100%; */
+    height: 90px;
+	border: 2px solid #cccccc ;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-top-right-radius: 10px;
+    /*border-top-left-radius: 10px;*/
+   
 }
-
-#barre_vertical{
-	width:2px;
-    height: 210px;
-    float: left;
-    margin-right: 2px;
-    margin-left: 10px;
-    background-color: #cccccc;
-    margin-top:30px;
-}
-
-#menu{
-	width:30px;
-    height: 150px;
-    float: left;
-    margin-right: 2px;
-    background-color: #ffffff;
-    margin-top:30px;
-}
-
-#terminer_annuler{
-	float: left;
-	width: 200px;
-    height: 40px;
-    margin-left: 490px;
-    margin-top: 10px;
-}
-
-.vider_formulaire,.modifer_donnees,.supprimer_photo,.ajouter_photo{
-              position:relative;
-              width:32px;
-              height:32px;
-              display: inline;float:right;border:transparent; margin-top: 40px; margin-right: 25px;
-         } 
-.vider_formulaire {
-	          background: url("/simens/public/images_icons/annuler.PNG") no-repeat right top;
-               
-         }
-.modifer_donnees {
-	          background: url("/simens/public/images_icons/modifier.png") no-repeat right top;
-               
-         }
-.supprimer_photo {
-	          background: url("/simens/public/images_icons/mod.png") no-repeat right top;
-               
-         }
-.ajouter_photo {
-	          background: url("/simens/public/images_icons/ajouterphoto.png") no-repeat right top;
-               
-         }
-.vider_formulaire input, .modifer_donnees input, .ajouter_photo input, .supprimer_photo input{
-              position:absolute;
-              right:0;
-              top:0;
-              font-size:100px;
-              opacity:0;
-              -moz-opacity:0;
-              filter:alpha(opacity=0);
-              cursor:pointer;
-              text-align:right; 
-              width:20px;
-              height:20px;
-         }
 
 #photo, #modifier_photo  /*photo*/
 {
@@ -307,9 +342,148 @@ box-shadow: 0pt 0pt 12px rgba(0, 0, 0, 0.1);
 
 }
 
+/****************************BOUTON************************/
+#thoughtbot button
+{
+    width:auto;
+    padding:8px 0;
+    text-align:center;
+    display: inline-block;
+    float:left;
+    margin:0 0px 0 0;
+    border-radius:7px;
+    font-size: 0.85em;
+	font-weight: bold;
+    width:80px;
+    color:#000;
+    font-family: Arial,sans-serif;
+	box-shadow: 0 0 1px rgba( 0, 0, 0, 0.2), 0 -1px 0 rgba( 255, 255, 255, 0.1);
+    text-shadow: 0px 1px 0px rgba( 255, 255, 255, 0.3);
+}
+
+#thoughtbot button:hover
+{
+    background: #ccc;
+    background: -webkit-linear-gradient( #eee, #aaa);
+    background: -moz-linear-gradient( #eee, #aaa);
+    background: -ms-linear-gradient( #eee, #aaa);
+    background: -o-linear-gradient( #eee, #aaa);
+    background: linear-gradient( #eee, #aaa);
+}
+
+#titre_info_deces{
+	font-style: italic;
+    font-family: Times  New Roman;
+    font-size: 18px;
+    color: green;
+    margin-top: 10px;
+    margin-left: 198px;
+}
+
+#barre_separateur {
+	width: 912px;
+    height: 2px;
+    border-bottom: 2px solid #ccc;
+    margin-top: 2px;
+    margin-left: 170px;
+}
+
+#barre_separateur_modif {
+	width: 892px;
+    height: 2px;
+    border-bottom: 2px solid #ccc;
+    margin-top: 3px;
+    margin-left: 195px;
+}
+
+a{
+	color: black;
+}
+
+p{
+	font-family: Times  New Roman;
+	color: #065d10;
+}
+
+#inform{ /*Données du décès l'id se trouve dans le controller Facturation*/
+	font-family: Times  New Roman;
+    color: #065d10;
+}
 
 
+/***************************************************************************************************************************************************/
+#titre_info_deces_modif{
+	font-style: italic;
+    font-family: Times  New Roman;
+    font-size: 18px;
+    color: green;
+    margin-top: 180px;
+    margin-left: 195px;
+}
 
+#modifier_donnees_deces {
+	height: 510px;
+    background: #fff;
+    border: 2px solid #cccccc ;
+    border-top: 2px solid #cccccc;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+#barre_vertical{
+	width:2px;
+    height: 170px;
+    float: left;
+    margin-right: 2px;
+    margin-left: 10px;
+    background-color: #cccccc;
+    margin-top:30px;
+}
+
+#menu{
+	width:30px;
+    height: 150px;
+    float: left;
+    margin-right: 2px;
+    background-color: #ffffff;
+    margin-top:30px;
+}
+
+.vider_formulaire,.modifer_donnees,.supprimer_photo,.ajouter_photo{
+              position:relative;
+              width:20px;
+              height:20px;
+              display: inline;float:left;border:transparent; margin-bottom: 10px;
+         } 
+.vider_formulaire {
+	          background: url("/simens_derniereversion/public/images_icons/annuler1.PNG") no-repeat right top;
+               
+         }
+.modifer_donnees {
+	          background: url("/simens_derniereversion/public/images_icons/modifier.png") no-repeat right top;
+               
+         }
+.supprimer_photo {
+	          background: url("/simens_derniereversion/public/images_icons/mod.png") no-repeat right top;
+               
+         }
+.ajouter_photo {
+	          background: url("/simens_derniereversion/public/images_icons/ajouterphoto.png") no-repeat right top;
+               
+         }
+.vider_formulaire input, .modifer_donnees input, .ajouter_photo input, .supprimer_photo input{
+              position:absolute;
+              right:0;
+              top:0;
+              font-size:100px;
+              opacity:0;
+              -moz-opacity:0;
+              filter:alpha(opacity=0);
+              cursor:pointer;
+              text-align:right; 
+              width:20px;
+              height:20px;
+         }
 
 /*-----STYLE FORMULAIRE ETAT CIVIL DU PATIENT-----*/
 /*-----STYLE FORMULAIRE ETAT CIVIL DU PATIENT-----*/
@@ -347,8 +521,6 @@ display: inline-block;
 
 font-size: 13px;
 
-left: 10px; /*déplacer le label*/
-
 min-width: 60px;
 
 padding-top: 4px;
@@ -364,9 +536,20 @@ position: relative;
 top: 5px;
 
 z-index: 1;
+
 }
 
-#form_patient select
+
+#liste_personnel select 
+{
+	border-right-width: 2px;                
+	border-left-width: 2px; 
+	border-top-width: 2px; 
+	border-bottom-width: 2px; 
+	border-color: #cccccc;"
+}
+
+#form_patient select 
 {
 	background-image: none;
 
@@ -460,14 +643,14 @@ z-index: 1;
 	
 	float: left;
 
-    margin-left: 10px;
+    margin-left: 0px;
 	
 	margin-right: 25px;
 	
 	margin-bottom: 15px;
 
 	/*enlever l'icone select*/
-    /*****-webkit-appearance: none;****/
+    /****-webkit-appearance: none;*****/
 }
 
 #form_patient option{ 
@@ -476,7 +659,6 @@ z-index: 1;
    background-color:#eee;
    font-size: 13pt;
    overflow: auto;
-
 }
 
 #form_patient input[type="text"], #form_patient textarea
@@ -556,9 +738,9 @@ position: relative;
 /* le texte des champs*/
 padding-top: 10px;
 
-padding-right: 5px;
+padding-right: 10px;
 
-padding-bottom: 5px;
+padding-bottom: 10px;
 
 margin-bottom : 15px;
 
@@ -570,15 +752,6 @@ text-indent: 0px; /* alignement du text dans le champ input*/
 
 /* balise input text*/
 display: block;
-
-height: 30px; /*la hauteur du champ input*/
-
-width: 225px; /* la largeur du champ input*/
-
-margin-left: 10px;
-
-/*z-index: 5;*/
-
 }
 
 #form_patient select
@@ -588,46 +761,66 @@ display: block;
 
 height: 30px;  /*la hauteur du champ input*/
 
-width: 225px;   /*la largeur du champ input*/
+width:  90%;   /*la largeur du champ input*/
 
 }
 
 #form_patient textarea
 {
-	height: 80px;
+	height: 90px;
+	width: 80%;
 }
 
+#form_patient input[type="text"]
+{
+	height: 30px; /*la hauteur du champ input*/
+	width:  80%; /* la largeur du champ input*/
+}
 
+#duree_soin input[type="text"]
+{
+	height: 30px; /*la hauteur du champ input*/
+	width:  76%; /* la largeur du champ input*/
+}
+
+#note_soin textarea{
+	width: 50%;
+}
 /****************************BOUTON************************/
-#thoughtbot button
+#terminer_annuler{
+	float: left;
+	width: 200px;
+    height: 40px;
+    margin-left: 490px;
+    margin-top: 10px;
+}
+
+#valider ,#annuler
 {
     width:auto;
-    padding:8px 0;
-    text-align:center;
+    padding:2px 0;
+    text-align: center;
     display: inline-block;
-    float:left;
-    margin:0 8px 0 0;
+    float:center;
+    margin:0 5px 0 0;
     border-radius:7px;
     font-size: 0.85em;
 	font-weight: bold;
     width:80px;
+	height: 40px;
     color:#000;
     font-family: Arial,sans-serif;
-	box-shadow: 0 0 1px rgba( 0, 0, 0, 0.2), 0 -1px 0 rgba( 255, 255, 255, 0.1);
+	box-shadow: 0 0 1px rgba( 0, 0, 0, 0.8), 0 -1px 0 rgba( 255, 255, 255, 0.1);
     text-shadow: 0px 1px 0px rgba( 255, 255, 255, 0.3);
 }
 
-#thoughtbot button:hover
+#valider:hover, #annuler:hover
 {
     background: #ccc;
     background: -webkit-linear-gradient( #eee, #aaa);
+    background: -moz-linear-gradient( #eee, #aaa);
+    background: -ms-linear-gradient( #eee, #aaa);
+    background: -o-linear-gradient( #eee, #aaa);
+    background: linear-gradient( #eee, #aaa);
 }
-
-a{
-	color: black;
-}
-
-p{
-	font-family: Times  New Roman;
-	color: #065d10;
-}
+/***************************************************************************************************************************************************/

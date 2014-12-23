@@ -161,7 +161,7 @@
 	    					"iDisplayLength": 3,
 	    					"oLanguage": {
 	    						//"sInfo": "_START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
-	    						"sInfoEmpty": "0 &eacute;l&eacute;ment &agrave; afficher",
+	    						//"sInfoEmpty": "0 &eacute;l&eacute;ment &agrave; afficher",
 	    						"sInfoFiltered": "",
 	    						"sUrl": "",
 	    						"oPaginate": {
@@ -297,21 +297,20 @@
       	    buttons: {
       	        "Oui": function() {
       	            $( this ).dialog( "close" );
-//      	            var cle = id;
-//      	            var chemin = tabUrl[0]+'public/personnel/supprimer-intervention';
-//      	            $.ajax({
-//      	                type: 'POST',
-//      	                url: chemin ,
-//      	                data: $(this).serialize(),  
-//      	                data:'id='+cle,
-//      	                success: function(data) { 
-//      	                	$("#"+cle).parent().parent().fadeOut(function(){
-//      	                	 	 $("#"+cle).empty();
-//      	                	 });
-//      	                },
-//      	                error:function(e){console.log(e);alert("Une erreur interne est survenue!");},
-//      	                dataType: "html"
-//      	            });
+      	            var cle = id;
+      	            var chemin = tabUrl[0]+'public/personnel/supprimer-intervention';
+      	            $.ajax({
+      	                type: 'POST',
+      	                url: chemin ,
+      	                data:'id_personne='+cle,
+      	                success: function() { 
+      	                	$("#"+cle).parent().parent().fadeOut(function(){
+      	                	 	 $("#"+cle).empty();
+      	                	});
+      	                },
+      	                error:function(e){console.log(e);alert("Une erreur interne est survenue!");},
+      	                dataType: "html"
+      	            });
       	    	     return false;
       	    	     
       	        },
@@ -348,6 +347,49 @@
         	confirmationSuppression(id);
            $("#confirmationSuppressionIntervention").dialog('open');
        	}
+        
+      //BOITE DE DIALOG POUR LA CONFIRMATION DE SUPPRESSION
+        function confirmationSuppressionUneIntervention(numero_intervention, id_personne){
+    	  $( "#confirmationSuppressionUneIntervention" ).dialog({
+    	    resizable: false,
+    	    height:180,
+    	    width:405,
+    	    autoOpen: false,
+    	    modal: true,
+    	    buttons: {
+    	        "Oui": function() {
+    	            $( this ).dialog( "close" );
+
+    	            var cle = numero_intervention;
+      	            var chemin = tabUrl[0]+'public/personnel/supprimer-une-intervention';
+      	            $.ajax({
+      	                type: 'POST',
+      	                url: chemin ,
+      	                data: {'numero_intervention': cle, 'id_personne': id_personne},
+      	                success: function(data) { 
+      	                	$("#"+cle).fadeOut(function(){
+      	                	 	 $("#"+cle).empty();
+      	                	 	var result = jQuery.parseJSON(data); 
+       	        	    	    $("#listeinterventionbis").html(result);
+      	                	});
+      	                },
+      	                error:function(e){console.log(e);alert("Une erreur interne est survenue!");},
+      	                dataType: "html"
+      	            });
+      	    	     return false;
+    	            
+    	        },
+    	        "Annuler": function() {
+                    $( this ).dialog( "close" );
+                }
+    	   }
+    	  });
+        }
+        
+        function supprimeruneintervention(numero_intervention, id_personne){
+        	confirmationSuppressionUneIntervention(numero_intervention, id_personne);
+        	$( "#confirmationSuppressionUneIntervention" ).dialog('open');
+        }
         
         /************************************************************************************************************************/
         /************************************************************************************************************************/
@@ -396,24 +438,10 @@
         	                	'date_fin_externe':date_fin_externe, 'motif_intervention_externe':motif_intervention_externe,
         	                	'note_externe':note_externe
         	                	}),
-        	        	    success: function(data) {   /*MAIS ICI ON NE SUPPRIME PAS C JUSTE POUR RAFFRAICHIR*/ 
+        	        	    success: function(data) {   /* C JUSTE POUR RAFFRAICHIR*/ 
         	        	    	 var result = jQuery.parseJSON(data); 
         	        	    	 $("#listeinterventionbis").html(result);
-		                	     //$("#listeintervention").fadeOut(function(){ $("#modification_transfert").fadeIn("fast"); }); 
-//        	        	    	 $.ajax({
-//        	     	                type: 'GET',  
-//        	     	                url: '/simens_derniereversion/public/personnel/personnel/enregistrermodificationintervention' ,  
-//        	     	                data: {'idAgent':idAgent},
-//        	     	                success: function(data) {
-//        	     	                	     var result = jQuery.parseJSON(data); 
-//        			                	     $("#listeinterventionbis").html(result);
-//        	     	                },
-//        	        	    	
-//        	     	                error:function(e){console.log(e);alert("Une erreur interne est survenue!");},
-//        	    	                dataType: "html"
-//        	        	    	 });
-        	        	    	
-        	               },
+        	        	    },
         	                error:function(e){console.log(e);alert("Une erreur interne est survenue!");},
         	                dataType: "html"
         	        	});

@@ -14,6 +14,12 @@ class DateHelper extends AbstractHelper{
 		$nouv_date = substr($date, 6, 4).'-'.substr($date, 3, 2).'-'.substr($date, 0, 2);
 		return $nouv_date;
 	}
+	
+	public function convertDateTime ($dateTime) {
+		$date = substr($dateTime, 8, 2).'/'.substr($dateTime, 5, 2).'/'.substr($dateTime, 0, 4);
+		$time = substr($dateTime, 11, 8);
+		return $date." - ".$time;
+	}
 	/*
 	 * La date est au format : dd/MM/yyyy
 	*/

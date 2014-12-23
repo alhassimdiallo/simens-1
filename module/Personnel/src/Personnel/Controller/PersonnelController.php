@@ -723,7 +723,7 @@ class PersonnelController extends AbstractActionController {
 				    $('#motif_transfert_externe, #motif_intervention_externe').css({'font-weight':'bold','color':'#065d10','font-family': 'Times  New Roman','font-size':'16px'});
 				 
 				    $('#date_debut, #date_fin, #date_debut_externe, #date_fin_externe').css({'font-weight':'bold','color':'#065d10','font-family': 'Times  New Roman','font-size':'16px'});
-				  </script>";
+				 </script>";
 		
 		$this->getResponse ()->getHeaders ()->addHeaderLine ( 'Content-Type', 'application/html; charset=utf-8' );
 		return $this->getResponse ()->setContent ( Json::encode ( $html ) );
@@ -1206,7 +1206,7 @@ class PersonnelController extends AbstractActionController {
 		
 		foreach ($listeIntervention as $Liste){
 		
-		$html .="<tr style='width: 100%;' id='".$Liste['numero_intervention']."inter'>";
+		$html .="<tr style='width: 100%;' id='".$Liste['numero_intervention']."'>";
 		$html .="<td style='width: 40%;'><div id='inform' style='float:left; font-weight:bold; font-size:17px;'>".$this->getServiceTable()->getServiceAffectation($Liste['id_service'])->nom."</div></td>";
 		$html .="<td style='width: 15%;'><div id='inform' style='float:left; font-weight:bold; font-size:17px;'>".$this->dateHelper->convertDate($Liste['date_debut'])."</div></td>";
 		$html .="<td style='width: 15%;'><div id='inform' style='float:left; font-weight:bold; font-size:17px;'>".$this->dateHelper->convertDate($Liste['date_fin'])."</div></td>";
@@ -1219,7 +1219,7 @@ class PersonnelController extends AbstractActionController {
 					    	<img style='display: inline;' src='/simens/public/images_icons/suivant.PNG' alt='Constantes' title='modifier' />
 					  </a>&nbsp;
 		
-				      <a href='javascript:supprimerintervention(".$Liste['numero_intervention'].",".$id_personne.")' >
+				      <a href='javascript:supprimeruneintervention(".$Liste['numero_intervention'].",".$id_personne.")' >
 					    	<img  style='display: inline;' src='/simens/public/images_icons/sup.PNG' alt='Constantes' title='annuler' />
 					  </a>
 				     </td>";
@@ -1489,8 +1489,59 @@ class PersonnelController extends AbstractActionController {
 		return $this->getResponse ()->setContent ( Json::encode ( $html ) );
 	}
 	
-	public function saveInterventionAction() {
+	public function raffraichirListeIntervention($id_personne){
 		$html = "";
+		$this->getDateHelper();
+		 
+		$html .="<table class='table table-bordered tab_list_mini'  style='margin-top:10px; margin-bottom:20px; margin-left:185px; width:80%;' id='listeintervention'>";
+		 
+		$html .="<thead style='width: 100%;'>
+				  <tr style='height:40px; width:100%; cursor:pointer;'>
+					<th style='width: 40%;'>Services</th>
+					<th style='width: 15%;'>Date debut</th>
+					<th style='width: 15%;'>Date fin</th>
+					<th style='width: 18%;'>Intervention</th>
+				    <th style='width: 12%;'>Options</th>
+				  </tr>
+			     </thead>";
+		 
+		$html .="<tbody style='width: 100%;'>";
+		 
+		$listeIntervention = $this->getPersonnelTable()->getListeInterventions($id_personne);
+		 
+		foreach ($listeIntervention as $Liste){
+			 
+			$html .="<tr style='width: 100%;' id='".$Liste['numero_intervention']."'>";
+			$html .="<td style='width: 40%;'><div id='inform' style='float:left; font-weight:bold; font-size:17px;'>".$this->getServiceTable()->getServiceAffectation($Liste['id_service'])->nom."</div></td>";
+			$html .="<td style='width: 15%;'><div id='inform' style='float:left; font-weight:bold; font-size:17px;'>".$this->dateHelper->convertDate($Liste['date_debut'])."</div></td>";
+			$html .="<td style='width: 15%;'><div id='inform' style='float:left; font-weight:bold; font-size:17px;'>".$this->dateHelper->convertDate($Liste['date_fin'])."</div></td>";
+			$html .="<td style='width: 18%;'><div id='inform' style='float:left; font-weight:bold; font-size:17px;'>".$Liste['type_intervention']."</div></td>";
+			$html .="<td style='width: 12%;'> <a href='javascript:vueintervention(".$Liste['numero_intervention'].") '>
+					       <img style='display: inline;' src='/simens/public/images_icons/vue.PNG' alt='Constantes' title='details' />
+					  </a>&nbsp;
+			 
+				      <a href='javascript:modifierintervention(".$Liste['numero_intervention'].",".$id_personne.")'>
+					    	<img style='display: inline;' src='/simens/public/images_icons/suivant.PNG' alt='Constantes' title='modifier' />
+					  </a>&nbsp;
+			 
+				      <a href='javascript:supprimeruneintervention(".$Liste['numero_intervention'].",".$id_personne.")' >
+					    	<img  style='display: inline;' src='/simens/public/images_icons/sup.PNG' alt='Constantes' title='annuler' />
+					  </a>
+				     </td>";
+			$html .="</tr>";
+			 
+		}
+		$html .="</tbody>";
+		 
+		$html .="</table>";
+		 
+		$html .="<script> listepatient (); </script>";
+		
+		return $html;
+	}
+	
+	public function saveInterventionAction() {
+
 		$formInterventionPersonnel = new InterventionPersonnelForm();
 		$request = $this->getRequest();
 		if ($request->isPost()) {
@@ -1511,54 +1562,32 @@ class PersonnelController extends AbstractActionController {
 			    $this->getInterventionTable()->saveIntervention($intervention);
 			    
 			    $id_personne = $intervention->id_personne;
-			    $this->getDateHelper();
 			    
-			    $html .="<table class='table table-bordered tab_list_mini'  style='margin-top:10px; margin-bottom:20px; margin-left:185px; width:80%;' id='listeintervention'>";
-			    
-			    $html .="<thead style='width: 100%;'>
-				  <tr style='height:40px; width:100%; cursor:pointer;'>
-					<th style='width: 40%;'>Services</th>
-					<th style='width: 15%;'>Date debut</th>
-					<th style='width: 15%;'>Date fin</th>
-					<th style='width: 18%;'>Intervention</th>
-				    <th style='width: 12%;'>Options</th>
-				  </tr>
-			     </thead>";
-			    
-			    $html .="<tbody style='width: 100%;'>";
-			    
-			    $listeIntervention = $this->getPersonnelTable()->getListeInterventions($id_personne);
-			    
-			    foreach ($listeIntervention as $Liste){
-			    
-			    	$html .="<tr style='width: 100%;' id='".$Liste['numero_intervention']."inter'>";
-			    	$html .="<td style='width: 40%;'><div id='inform' style='float:left; font-weight:bold; font-size:17px;'>".$this->getServiceTable()->getServiceAffectation($Liste['id_service'])->nom."</div></td>";
-			    	$html .="<td style='width: 15%;'><div id='inform' style='float:left; font-weight:bold; font-size:17px;'>".$this->dateHelper->convertDate($Liste['date_debut'])."</div></td>";
-			    	$html .="<td style='width: 15%;'><div id='inform' style='float:left; font-weight:bold; font-size:17px;'>".$this->dateHelper->convertDate($Liste['date_fin'])."</div></td>";
-			    	$html .="<td style='width: 18%;'><div id='inform' style='float:left; font-weight:bold; font-size:17px;'>".$Liste['type_intervention']."</div></td>";
-			    	$html .="<td style='width: 12%;'> <a href='javascript:vueintervention(".$Liste['numero_intervention'].") '>
-					       <img style='display: inline;' src='/simens/public/images_icons/vue.PNG' alt='Constantes' title='details' />
-					  </a>&nbsp;
-			    
-				      <a href='javascript:modifierintervention(".$Liste['numero_intervention'].",".$id_personne.")'>
-					    	<img style='display: inline;' src='/simens/public/images_icons/suivant.PNG' alt='Constantes' title='modifier' />
-					  </a>&nbsp;
-			    
-				      <a href='javascript:supprimerintervention(".$Liste['numero_intervention'].",".$id_personne.")' >
-					    	<img  style='display: inline;' src='/simens/public/images_icons/sup.PNG' alt='Constantes' title='annuler' />
-					  </a>
-				     </td>";
-			    	$html .="</tr>";
-			    
-			    }
-			    $html .="</tbody>";
-			    
-			    $html .="</table>";
-			    
-			    $html .="<script> listepatient (); </script>";
+			    $html = $this->raffraichirListeIntervention($id_personne);
 			    
 			}
 		}
+		
+		$this->getResponse ()->getHeaders ()->addHeaderLine ( 'Content-Type', 'application/html; charset=utf-8' );
+		return $this->getResponse ()->setContent ( Json::encode ( $html ) );
+	}
+	
+	public function supprimerInterventionAction(){
+		$id_personne = (int) $this->params()-> fromPost('id_personne' , 0);
+		
+		$this->getInterventionTable()->deleteIntervention($id_personne);
+		
+		$this->getResponse ()->getHeaders ()->addHeaderLine ( 'Content-Type', 'application/html; charset=utf-8' );
+		return $this->getResponse ()->setContent ( Json::encode () );
+	}
+	
+	public function supprimerUneInterventionAction(){
+		$numero_intervention = (int) $this->params()-> fromPost('numero_intervention' , 0);
+		$id_personne = (int) $this->params()-> fromPost('id_personne' , 0);
+	
+		$this->getInterventionTable()->deleteUneIntervention($numero_intervention);
+	
+		$html = $this->raffraichirListeIntervention($id_personne);
 		
 		$this->getResponse ()->getHeaders ()->addHeaderLine ( 'Content-Type', 'application/html; charset=utf-8' );
 		return $this->getResponse ()->setContent ( Json::encode ( $html ) );

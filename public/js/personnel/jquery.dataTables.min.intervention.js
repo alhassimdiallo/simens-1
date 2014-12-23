@@ -2719,7 +2719,7 @@
 			
 			/* This can be overruled by not using the _MENU_ var/macro in the language variable */
 			var sName = 'name="'+oSettings.sTableId+'_length"';
-			var sStdMenu = '<select id="listeDataTable" style="background: #fff; border: 2px solid #ccc;" size="1" '+sName+'>';
+			var sStdMenu = '<select id="listeDataTableIntervention" style="background: #fff; border: 2px solid red;" size="1" '+sName+'>';
 			var i, iLen;
 			var aLengthMenu = oSettings.aLengthMenu;
 			
@@ -7945,7 +7945,7 @@
 		 *      } );
 		 *    } );
 		 */
-		"aLengthMenu": [10, 20, 30],
+		"aLengthMenu": [10, 20, 30, 50, 100 ],
 	
 	
 		/**

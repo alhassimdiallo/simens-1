@@ -177,7 +177,7 @@ function intervention(id){
     //Annuler l'enregistrement d'une naissance
     $("#annuler").click(function(){
     	$("#annuler").css({"border-color":"#ccc", "background":"-webkit-linear-gradient( #555, #CCC)", "box-shadow":"1px 1px 10px black inset,0 1px 0 rgba( 255, 255, 255, 0.4)"});
-    	vart=  tabUrl[0]+'public/personnel/transfert';
+    	vart=  tabUrl[0]+'public/personnel/intervention';
         $(location).attr("href",vart);
         return false;
     });

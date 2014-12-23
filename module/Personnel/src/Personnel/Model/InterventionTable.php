@@ -74,4 +74,10 @@ class InterventionTable {
 
 		$this->tableGateway->delete( array('id_personne' => $id_personne));
 	}
+	
+	public function deleteUneIntervention($numero_intervention){
+		$numero_intervention = (int) $numero_intervention;
+	
+		$this->tableGateway->delete( array('numero_intervention' => $numero_intervention));
+	}
 }
