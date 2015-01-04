@@ -21,7 +21,6 @@ use Personnel\Model\AffectationTable;
 use Personnel\Model\Affectation;
 use Personnel\Model\TypepersonnelTable;
 use Personnel\Model\Typepersonnel;
-use Personnel\Model\Transfert1;
 use Personnel\Model\TransfertTable;
 use Personnel\Model\Transfert2;
 use Personnel\Model\HopitalServiceTable;

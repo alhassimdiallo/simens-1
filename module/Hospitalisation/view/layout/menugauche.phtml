@@ -14,7 +14,7 @@
 
 	   <div style="margin-left:30px; height:40px;"><a href="<?php echo $this->basePath().'/hospitalisation/suivi-patient';?>">
 	       <img style="margin-left:5px; display: inline;" src='<?php echo $this->basePath().'/images_icons/liste.png'?>' alt='Liste' />
-	       <span id="suivi_patient_style" style="font-size:15px; color: white; font-family:Times New Roman;">Suivi des patient</span></a>
+	       <span id="suivi_patient_style" style="font-size:15px; color: white; font-family:Times New Roman;">Suivi des patients</span></a>
 	   </div>
 	   
 	    <div style="margin-left:30px; height:40px;"><a href="<?php echo $this->basePath().'/hospitalisation/en-cours';?>">
@@ -32,7 +32,7 @@
 
 	<li id="plus_operation" style="background: #4a5765;" >
 	   <!-- PARTIE DES TRANSFERTS -->
-	   <div style="margin-left:30px; height:40px; padding-top:20px;"><a href="<?php echo $this->url('hospitalisation', array('action'=> 'demandes-examens'));?>"  >
+	   <div style="margin-left:30px; height:40px; padding-top:20px;"><a href="<?php echo $this->url('hospitalisation', array('action'=> 'liste-demandes-examens'));?>"  >
 	       <span id="recherche_style" style="margin-left:5px; color: white; font-size:15px; font-family:Times New Roman;"><img style="display: inline;" src='<?php echo $this->basePath().'/images_icons/liste.png'?>' alt='Liste' /> Demandes </span></a>
 	   </div>
 	   
@@ -49,7 +49,7 @@
 //operation
 function dep1(){
 	$('#operation').click(function(){
-		$("#operation").replaceWith("<li id='operation'><a href=''><span style='margin-left:0px; color: #48ce77; font-weight:bold; font-size:18px; font-family:Times New Roman;'> <img style='display: inline;' src='/simens_derniereversion/public/images_icons/add.PNG' alt='Liste' /> Examens </span></a></li>");
+		$("#operation").replaceWith("<li id='operation'><a href=''><span style='margin-left:0px; color: #48ce77; font-weight:bold; font-size:18px; font-family:Times New Roman;'> <img style='display: inline;' src='/simens/public/images_icons/add.PNG' alt='Liste' /> Examens </span></a></li>");
 		dep2();
 	    $('#plus_operation').animate({
 	        height : 'toggle'
@@ -60,7 +60,7 @@ function dep1(){
 
 function dep2(){
 	$('#operation').click(function(){
-		$("#operation").replaceWith("<li id='operation' style='background:#4a5765;'><a href=''><span style='margin-left:0px; color: #ffffff; font-weight:bold; font-size:18px; font-family:Times New Roman;'> <img style='display: inline;' src='/simens_derniereversion/public/images_icons/moins-vert.PNG' alt='Liste' /> Examens </span></a></li>");
+		$("#operation").replaceWith("<li id='operation' style='background:#4a5765;'><a href=''><span style='margin-left:0px; color: #ffffff; font-weight:bold; font-size:18px; font-family:Times New Roman;'> <img style='display: inline;' src='/simens/public/images_icons/moins-vert.PNG' alt='Liste' /> Examens </span></a></li>");
 		dep1();
 	    $('#plus_operation').animate({
 	        height : 'toggle'
@@ -71,7 +71,7 @@ function dep2(){
 
 $('#plus_operation').toggle(false);
 $('#operation').click(function(){
-	$("#operation").replaceWith("<li id='operation' style='background:#4a5765;'><a href=''><span style='margin-left:0px; color: #ffffff; font-weight:bold; font-size:18px; font-family:Times New Roman;'> <img style='display: inline;' src='/simens_derniereversion/public/images_icons/moins-vert.PNG' alt='Liste' /> Examens </span></a></li>");
+	$("#operation").replaceWith("<li id='operation' style='background:#4a5765;'><a href=''><span style='margin-left:0px; color: #ffffff; font-weight:bold; font-size:18px; font-family:Times New Roman;'> <img style='display: inline;' src='/simens/public/images_icons/moins-vert.PNG' alt='Liste' /> Examens </span></a></li>");
 	dep1();
     $('#plus_operation').animate({
         height : 'toggle'

@@ -50,7 +50,8 @@
   echo $this->headLink()->prependStylesheet($this->basePath().'/font-awesome/css/font-awesome.css');
   echo $this->headLink()->prependStylesheet($this->basePath().'/css/tooltipster.css');
   echo $this->headLink()->prependStylesheet($this->basePath().'/css/smoothness/jquery-ui.css');
-
+  echo $this->headLink()->prependStylesheet($this->basepath().'/css/tooltipster.css');
+  
   $this->headScript()->appendFile($this->basePath().'/js/jquery.min.js');
   $this->headScript()->appendFile($this->basePath().'/js/jquery.tooltipster.min.js');
   $this->headScript()->appendFile($this->basePath().'/js/bootstrap.min.js');

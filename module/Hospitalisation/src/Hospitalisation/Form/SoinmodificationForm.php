@@ -4,101 +4,91 @@ namespace Hospitalisation\Form;
 
 use Zend\Form\Form;
 
-class SoinForm extends Form {
+class SoinmodificationForm extends Form {
 	public function __construct($name = null) {
 		parent::__construct ();
 		
 		$this->add ( array (
-				'name' => 'id_sh',
+				'name' => 'id_sh_m',
 				'type' => 'Hidden',
 				'attributes' => array (
-						'id' => 'id_sh',
+						'id' => 'id_sh_m',
 				)
 		) );
 		
 		$this->add ( array (
-				'name' => 'id_hosp',
+				'name' => 'id_hosp_m',
 				'type' => 'Hidden',
 				'attributes' => array (
-						'id' => 'id_hosp',
+						'id' => 'id_hosp_m',
 				)
 		) );
 
 		$this->add ( array (
-				'name' => 'id_soins',
+				'name' => 'id_soins_m',
 				'type' => 'Zend\Form\Element\Select',
 				'options' => array (
 						'label' => 'Soin',
 				),
 				'attributes' => array (
-						'id' => 'id_soins',
+						'id' => 'id_soins_m',
 				)
 		) );
 		
 		$this->add ( array (
-				'name' => 'duree',
+				'name' => 'duree_m',
 				'type' => 'Text',
 				'options' => array (
 						'label' => 'Duree (en jour)'
 				),
 				'attributes' => array (
-						'id' => 'duree',
+						'id' => 'duree_m',
 				)
 		) );
 		
 		$this->add ( array (
-				'name' => 'date_recommandee',
+				'name' => 'date_recommandee_m',
 				'type' => 'Text',
 				'options' => array (
 						'label' => 'Date recommandee'
 				),
 				'attributes' => array (
-						'id' => 'date_recommandee',
+						'id' => 'date_recommandee_m',
 				)
 		) );
 		
 		$this->add ( array (
-				'name' => 'heure_recommandee',
+				'name' => 'heure_recommandee_m',
 				'type' => 'Text',
 				'options' => array (
 						'label' => 'Heure recommandee'
 				),
 				'attributes' => array (
-						'id' => 'heure_recommandee',
+						'id' => 'heure_recommandee_m',
 				)
 		) );
 		
 		$this->add ( array (
-				'name' => 'note',
+				'name' => 'note_m',
 				'type' => 'Textarea',
 				'options' => array (
 						'label' => 'Note'
 				),
 				'attributes' => array (
-						'id' => 'note',
+						'id' => 'note_m',
 				)
 		) );
 		
 		$this->add ( array (
-				'name' => 'motif',
+				'name' => 'motif_m',
 				'type' => 'Textarea',
 				'options' => array (
 						'label' => 'Motif'
 				),
 				'attributes' => array (
-						'id' => 'motif',
+						'id' => 'motif_m',
 				)
 		) );
-		
-		
-		$this->add( array(
-				'name' => 'terminersoin',
-				'type' => 'Button',
-				'attributes' => array(
-						'value' => 'Terminer',
-						'id' => 'terminersoin',
-				),
-		));
 		
 	}
 }

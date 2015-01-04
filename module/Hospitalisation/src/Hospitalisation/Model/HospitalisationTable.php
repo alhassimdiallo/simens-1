@@ -52,4 +52,21 @@ class HospitalisationTable {
 		);
 		return($this->tableGateway->getLastInsertValue($this->tableGateway->insert($data)));
 	}
+	
+	/**
+	 * Liberation du patient
+	 */
+	public function libererPatient($id_demande_hospi, $resumer_medical, $motif_sorti) 
+	{
+		$today = new \DateTime ();
+		$date = $today->format ( 'Y-m-d h:i:s' );
+		
+		$data = array(
+				'date_fin' => $date,
+				'resumer_medical' => $resumer_medical,
+				'motif_sorti' => $motif_sorti,
+				'terminer' => 1
+		);
+		$this->tableGateway->update($data, array('code_demande_hospitalisation' => $id_demande_hospi));
+	}
 }

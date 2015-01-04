@@ -15,6 +15,9 @@ $.mask = {
 	//Predefined character definitions
 	definitions: {
 		'9': "[0-9]",
+		'2': "[0-2]",
+		'3': "[0-3]",
+		'5': "[0-5]",
 		'a': "[A-Za-z]",
 		'*': "[A-Za-z0-9]"
 	},

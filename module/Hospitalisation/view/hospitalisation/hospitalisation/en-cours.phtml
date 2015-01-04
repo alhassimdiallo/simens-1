@@ -6,7 +6,6 @@
 <?php echo $this->headScript()->appendFile($this->basepath().'/js/hospitalisation/jsEncours.js');?>
 
 <?php $form = $this->form; ?>
-
 <div id="titre" style='font-family: police2; text-decoration: none; color: green; font-size: 20px; font-weight: bold; padding-left:20px;'>
 	<iS style='font-size: 25px;'>&curren;</iS>
 	LISTE DES PATIENTS
@@ -58,6 +57,14 @@
 
 </div>
 
+<div id="vue_liberer_patient">
+
+</div>
+
+<div id="vue_detail_hospi_patient">
+
+</div>
+
 <div id="hospitaliser">
 
     <div id="vue_patient_hospi">
@@ -65,16 +72,17 @@
     </div>
     <?php
     $form = $this->form;
-    $form->setAttribute ( 'action', $this->url ( 'hospitalisation', array ('action' => 'en-cours') ));
+    $form->setAttribute ( 'action', $this->url ( 'hospitalisation', array ('action' => 'en-courssss') ));
     $form->prepare ();
     echo $this->form ()->openTag ( $form );
     ?>
-    <?php echo $this->formhidden($form->get('id_personne'));?>
+    <?php echo $this->formhidden($form->get('id_sh'));?>
+    <?php echo $this->formhidden($form->get('id_hosp'));?>
 
     <table id="form_patient" style="margin-left: 195px; width: 80%;">  
       
       <tr class="comment-form-patient" style="width: 80%;">
-         <td style="width: 30%;"> <?php echo $this->formRow($form->get('soin'));?></td> 
+         <td style="width: 30%;"> <?php echo $this->formRow($form->get('id_soins'));?></td> 
          <td id="duree_soin" style="width: 18%;"> <?php echo $this->formRow($form->get('duree'));?></td> 
          <td style="width: 30%;"> <?php echo $this->formRow($form->get('date_recommandee'));?></td> 
          <td style="width: 22%;"> <?php echo $this->formRow($form->get('heure_recommandee'));?></td> 
@@ -84,9 +92,10 @@
     
     <table id="form_patient" style="margin-left: 195px; width: 80%;"> 
       <tr class="comment-form-patient">
-         <td id="note_soin"  style="width: 80%;"> <?php echo $this->formRow($form->get('note'));?></td>
-         <td  style="width: 10%;"><a href='javascript:ajouter()'><img style='display: inline; margin-right: 10%;' src='/simens/public/images_icons/112.png' title='ajÃ©ter le soin'></a></td>   
-         <td  style="width: 10%; float:right;"><a href='javascript:valider()'><img style='display: inline; margin-right: 10%;' src='/simens/public/images_icons/118.png' title='vider tout'></a></td>           
+         <td id="note_soin"  style="width: 40%; "> <?php echo $this->formRow($form->get('motif'));?></td>
+         <td id="note_soin"  style="width: 40%; "> <?php echo $this->formRow($form->get('note'));?></td>
+         <td  style="width: 10%;" id="ajouter"><a href='javascript:ajouter()'><img style='display: inline; margin-right: 10%;' src='/simens/public/images_icons/112.png' title='ajouter le soin'></a></td>   
+         <td  style="width: 10%;"><a href='javascript:vider_tout()'><img id='test' style='display: inline; margin-right: 10%;' src='/simens/public/images_icons/118.png' title='vider tout'></a></td>           
       </tr>
     </table> 
     
@@ -98,8 +107,7 @@
     <tr class="comment-form-patient" style="width: 80%; height: 70px; vertical-align: bottom;">
          <td style="width: 33%;"></td>
          <td style="width: 33%; padding-left: 30px;"> 
-            <?php echo $this->formSubmit($form->get('valider')); ?>
-            <?php echo $this->formSubmit($form->get('annuler')); ?>
+            <?php echo $this->formSubmit($form->get('terminersoin')); ?>
          </td> 
          <td style="width: 33%;"></td>
       </tr>
@@ -109,10 +117,68 @@
     
 </div>
 
+<!--***********************************************************************************************-->                              
 
+<!--==========================POP UP pour Confirmation Suppression=================================-->                              
+                          
+<!--***********************************************************************************************-->  
+        <div id="confirmation" title="Confirmation de l'ajout" style="display:none;">
+             <p style="font-size: 16px;">
+                 <span style="float:left; margin:0 0px 20px 0; font-size:17px; ">
+                 <img src="<?php echo $this->basepath().'/images_icons/warning_16.png';?>" />
+                                
+                 Etes-vous s&ucirc;r de vouloir ajouter le soin ?</span>
+             </p>
+         </div>
+         
+<!--***********************************************************************************************-->                              
+
+<!--==========================POP UP pour Afficher les détails =================================-->                              
+                          
+<!--***********************************************************************************************-->  
+        <div id="informations" title="D&eacute;tails des infos du soin" style="display:none;">
+             
+             <div id="info" style="font-size: 16px;">
+                              
+             </div>
+             
+        </div>
+        
+<!--***********************************************************************************************-->                              
+
+<!--==========================POP UP pour Afficher les détails =================================-->                              
+                          
+<!--***********************************************************************************************-->  
+        <div id="confirmationSup" title="Confirmation de la suppression" style="display:none;">
+             
+             <p style="font-size: 16px;">
+                 <span style="float:left; margin:0 0px 20px 0; font-size:17px; ">
+                 <img src="<?php echo $this->basepath().'/images_icons/warning_16.png';?>" />
+                                
+                 Etes-vous s&ucirc;r de vouloir supprimer ce soin ?</span>
+             </p>
+             
+        </div>
+
+<!--***********************************************************************************************-->                              
+
+<!--==========================POP UP pour Afficher les détails =================================-->                              
+                          
+<!--***********************************************************************************************-->  
+        <div id="modification" title="Modifier les donn&eacute;es du soin" style="display:none;">
+             
+            <div id="info_modif" style="font-size: 16px;">
+                              
+             </div>
+             
+        </div>
+        
+        
 <script type="text/javascript">
 
 $("#vue_patient").toggle(false);
+$("#vue_liberer_patient").toggle(false);
+$("#vue_detail_hospi_patient").toggle(false);
 $("#hospitaliser").toggle(false);
 
 var base_url = window.location.toString();

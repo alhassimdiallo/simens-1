@@ -20,6 +20,11 @@ class DateHelper extends AbstractHelper{
 		$time = substr($dateTime, 11, 8);
 		return $date." - ".$time;
 	}
+	
+	public function convertTime ($dateTime) {
+		$time = substr($dateTime, 11, 8);
+		return $time;
+	}
 	/*
 	 * La date est au format : dd/MM/yyyy
 	*/

@@ -29,6 +29,14 @@ function controle_saisie(){
 	jQuery(function($){
 		   $("#telephone").mask("(221) 79-999-99-99");
 	});
+	
+	jQuery(function($){
+		   $("#heure_recommandee").mask("23:59:59");
+	});
+	
+	jQuery(function($){
+		   $("#duree").mask("99");
+	});
 }
 
 function info_bulle(){

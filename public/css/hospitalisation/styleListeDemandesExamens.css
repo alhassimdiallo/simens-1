@@ -73,7 +73,7 @@ width: 100%; /* la largeur du champ input*/
 /* EN TETE*/
 #nom
 {
-	width: 17%;
+	width: 16%;
 }
 
 #prenom
@@ -92,17 +92,17 @@ width: 100%; /* la largeur du champ input*/
 
 #adresse
 {
-	width: 19%;
+	width: 20%;
 }
 
 #nationalite
 {
-	width: 16%;
+	width: 20%;
 }
 
 #effectuer
 {
-	width: 11%;
+	width: 7%;
 }
 
 #aa:hover /* Apparence au survol des liens */
@@ -131,6 +131,15 @@ width: 100%; /* la largeur du champ input*/
   margin-top: -15px;
 }
 
+#barre_resultat
+{
+  /*background-color: #a8a8a8;*/
+  padding-bottom:20px; /*Pour s�parer le contenu de la bordure du bas du bloc*/
+  magin-bottom:15px; /*Pour s�parer la bordure du prochain �l�ment*/
+  border-bottom: 3px solid #cccccc;/*Pour faire un trait gris horizontal*/
+  margin-top: -15px;
+}
+
 #numero
 {
 	/*background-color: #a8a8a8;*/
@@ -145,9 +154,6 @@ width: 100%; /* la largeur du champ input*/
 	text-transform : uppercase;
 }
 
-minus{
-	text-transform : lowercase;
-}
 /* STYLE POUR LA LISTE DE SELECTION DE LA TABLE*/
 #listeDataTable{
 	margin-top: 0px;
@@ -253,8 +259,8 @@ tr:hover
 	background: white;
 }
 
-#vue_patient, #vue_liberer_patient, #vue_detail_hospi_patient{
-	max-height:2500px;
+#vue_patient{
+	max-height:1500px;
     background: #fff;
     border: 3px solid #cccccc ;
     border-top: 2px solid #cccccc;
@@ -284,6 +290,21 @@ tr:hover
     border-top-right-radius: 10px;
     /*border-top-left-radius: 10px;*/
    
+}
+
+minus{
+	text-transform : lowercase;
+}
+
+#vue_detail_hospi_patient{
+	max-height:2500px;
+    background: #fff;
+    border: 3px solid #cccccc ;
+    border-top: 2px solid #cccccc;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    box-shadow: 0pt 5pt 12px rgba(0, 0, 0, 0.5);
+	padding-top: 10px;
 }
 
 #photo, #modifier_photo  /*photo*/
@@ -381,6 +402,14 @@ box-shadow: 0pt 0pt 12px rgba(0, 0, 0, 0.1);
     color: green;
     margin-top: 10px;
     margin-left: 198px;
+}
+
+#titre_info_resultat_examen{
+	font-style: italic;
+    font-family: Times  New Roman;
+    font-size: 18px;
+    color: green;
+    margin-top: 10px;
 }
 
 #barre_separateur {
@@ -739,11 +768,11 @@ box-shadow: 0pt 1px 3px rgba(204, 204, 204, 0.95) inset;
 position: relative;
 
 /* le texte des champs*/
-padding-top: 5px;
+padding-top: 10px;
 
 padding-right: 10px;
 
-padding-bottom: 5px;
+padding-bottom: 10px;
 
 margin-bottom : 15px;
 
@@ -755,6 +784,7 @@ text-indent: 0px; /* alignement du text dans le champ input*/
 
 /* balise input text*/
 display: block;
+
 }
 
 #form_patient select
@@ -764,31 +794,30 @@ display: block;
 
 height: 30px;  /*la hauteur du champ input*/
 
-width:  90%;   /*la largeur du champ input*/
+width:  85%;   /*la largeur du champ input*/
 
 }
 
 #form_patient textarea
 {
 	height: 90px;
-	width: 80%;
+	
+	width: 95%;
 }
 
-#form_patient input[type="text"]
+#form_patient input[type="text"] 
 {
 	height: 30px; /*la hauteur du champ input*/
-	width:  80%; /* la largeur du champ input*/
+ 
+	width: 225px; /* la largeur du champ input*/
 }
 
-#duree_soin input[type="text"]
+#technique input[type="text"]
 {
-	height: 30px; /*la hauteur du champ input*/
-	width:  76%; /* la largeur du champ input*/
+	width: 94%;
 }
 
-#note_soin textarea{
-	width: 85%;
-}
+
 /****************************BOUTON************************/
 #terminer_annuler{
 	float: left;
@@ -798,7 +827,7 @@ width:  90%;   /*la largeur du champ input*/
     margin-top: 10px;
 }
 
-#valider, #annuler, #terminersoin
+#valider ,#annuler
 {
     width:auto;
     padding:2px 0;
@@ -817,7 +846,7 @@ width:  90%;   /*la largeur du champ input*/
     text-shadow: 0px 1px 0px rgba( 255, 255, 255, 0.3);
 }
 
-#valider:hover, #annuler:hover, #terminersoin:hover
+#valider:hover, #annuler:hover
 {
     background: #ccc;
     background: -webkit-linear-gradient( #eee, #aaa);
