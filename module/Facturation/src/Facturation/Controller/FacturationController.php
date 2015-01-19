@@ -109,6 +109,13 @@ class FacturationController extends AbstractActionController {
 		$view = new ViewModel ();
 		return $view;
 	}
+	public function listeAdmissionAjaxAction() {
+		$patient = $this->getPatientTable ();
+		$output = $patient->laListePatientsAjax();
+		return $this->getResponse ()->setContent ( Json::encode ( $output, array (
+				'enableJsonExprFinder' => true
+		) ) );
+	}
 	public function admissionAction() {
 		$layout = $this->layout ();
 		$layout->setTemplate ( 'layout/facturation' );
@@ -278,18 +285,18 @@ class FacturationController extends AbstractActionController {
 				//ENREGISTREMENT DES DONNEES
 				$Patient->addPatient ( $donnees );
 					
-				$this->redirect ()->toRoute ( 'facturation', array (
+				return $this->redirect ()->toRoute ( 'facturation', array (
 						'action' => 'liste-patient'
 				) );
 			} else {
 				// On enregistre sans la photo
 				$Patient->addPatient ( $donnees );
-				$this->redirect ()->toRoute ( 'facturation', array (
+				return $this->redirect ()->toRoute ( 'facturation', array (
 						'action' => 'liste-patient'
 				) );
 			}
 		}
-		$this->redirect ()->toRoute ( 'facturation', array (
+		return $this->redirect ()->toRoute ( 'facturation', array (
 				'action' => 'liste-patient'
 		) );
 	}
@@ -370,20 +377,36 @@ class FacturationController extends AbstractActionController {
 				$donnees['photo'] = $nomfile;
 				$Patient->updatePatient ( $donnees , $id_patient );
 				
-				$this->redirect ()->toRoute ( 'facturation', array (
+				return $this->redirect ()->toRoute ( 'facturation', array (
 						'action' => 'liste-patient'
 				) );
 			} else {
 				$Patient->updatePatient($donnees, $id_patient);
 				
-				$this->redirect ()->toRoute ( 'facturation', array (
+				return $this->redirect ()->toRoute ( 'facturation', array (
 						'action' => 'liste-patient'
 				) );
 			}
 		}
-		$this->redirect ()->toRoute ( 'facturation', array (
+		return $this->redirect ()->toRoute ( 'facturation', array (
 				'action' => 'liste-patient'
 		) );
+	}
+	
+	public function listePatientDecesAjaxAction() {
+		$patient = $this->getPatientTable ();
+		$output = $patient->getListePatientsDecedesAjax();
+		return $this->getResponse ()->setContent ( Json::encode ( $output, array (
+				'enableJsonExprFinder' => true
+		) ) );
+	}
+	
+	public function listePatientDeclarationDecesAjaxAction() {
+		$patient = $this->getPatientTable ();
+		$output = $patient->getListeDeclarationDecesAjax();
+		return $this->getResponse ()->setContent ( Json::encode ( $output, array (
+				'enableJsonExprFinder' => true
+		) ) );
 	}
 	
 	public function declarerDecesAction() {
@@ -440,13 +463,29 @@ class FacturationController extends AbstractActionController {
 		$nouv_date = substr ( $date, 8, 2 ) . '/' . substr ( $date, 5, 2 ) . '/' . substr ( $date, 0, 4 );
 		return $nouv_date;
 	}
+	
+	public function listeNaissanceAjaxAction() {
+		$patient = $this->getPatientTable ();
+		$output = $patient->getListePatientsAjax();
+		return $this->getResponse ()->setContent ( Json::encode ( $output, array (
+				'enableJsonExprFinder' => true
+		) ) );
+	}
+	
+	public function ajouterNaissanceAjaxAction() {
+		$patient = $this->getPatientTable ();
+		$output = $patient->getListeAjouterNaissanceAjax();
+		return $this->getResponse ()->setContent ( Json::encode ( $output, array (
+				'enableJsonExprFinder' => true
+		) ) );
+	}
+	
 	public function ajouterNaissanceAction() {
 		$chemin = $this->getServiceLocator()->get('Request')->getBasePath();
 		$this->layout ()->setTemplate ( 'layout/facturation' );
 		$patient = $this->getPatientTable ();
 		// AFFICHAGE DE LA LISTE DES PATIENTS
 		$liste = $patient->listePatients ();
-		// var_dump($liste);
 		// INSTANCIATION DU FORMULAIRE D'AJOUT
 		//$local = new Zend\l
 		$ajoutNaissForm = new AjoutNaissanceForm ();
@@ -540,7 +579,7 @@ class FacturationController extends AbstractActionController {
 			//Enregistrement de la naissance
 			$naissance->addNaissance($donneesNaissance);
 			
-			$this->redirect ()->toRoute ( 'facturation', array (
+			return $this->redirect ()->toRoute ( 'facturation', array (
 					'action' => 'liste-naissance'
 			) );
 		}
@@ -637,11 +676,14 @@ class FacturationController extends AbstractActionController {
 			$deces = $this->getDecesTable();
 			$deces->addDeces ( $donnees, $date_enregistrement );
 
-			$this->redirect()->toRoute('facturation', array(
+			return $this->redirect()->toRoute('facturation', array(
 					'action' => 'liste-patients-decedes'));
 		}
 	}
 	public function listePatientsDecedesAction() {
+// 		$list = $this->getPatientTable();
+// 		$infoPatient = $list->getPatient(78);
+// 		var_dump($infoPatient); exit();
 		$this->layout ()->setTemplate ( 'layout/facturation' );
 		$Patientsdeces = $this->getDecesTable ();
 		$listePatientsDecedes = $Patientsdeces->getPatientsDecedes ();
@@ -673,7 +715,7 @@ class FacturationController extends AbstractActionController {
 			$naiss = $this->getFacturationTable ();
 			$naiss->addFacturation ( $donnees );
 			
-			$this->redirect()->toRoute('facturation', array(
+		return $this->redirect()->toRoute('facturation', array(
 					'action' =>'liste-patients-admis'));
 		}
 	}
@@ -1009,7 +1051,7 @@ class FacturationController extends AbstractActionController {
 			// Modification des donn�es du b�b� dans la table Patient
 			$modif_pat->updatePatientBebe ( $donnees );
 
-			$this->redirect ()->toRoute ( 'facturation', array (
+			return $this->redirect ()->toRoute ( 'facturation', array (
 					'action' => 'liste-naissance'
 			) );
 		}
@@ -1280,7 +1322,7 @@ class FacturationController extends AbstractActionController {
 			);
 			$deces->updateDeces($donnees);
 
-			$this->redirect()->toRoute('facturation' , array(
+			return $this->redirect()->toRoute('facturation' , array(
 					'action'=>'liste-patients-decedes') );
 		}
 	}

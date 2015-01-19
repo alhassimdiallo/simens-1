@@ -40,34 +40,47 @@ function visualiser(id){
      });
 }
 
+$(function(){
+	initialisation();
+	setTimeout(function() {
+		infoBulle();
+	}, 1000);
+});
+
+function infoBulle(){
+	/***
+	 * INFO BULLE FE LA LISTE
+	 */
+	 var tooltips = $( 'table tbody tr td infoBulleVue' ).tooltip({show: {effect: 'slideDown', delay: 250}});
+	     tooltips.tooltip( 'close' );
+	  $('table tbody tr td infoBulleVue').mouseenter(function(){
+	    var tooltips = $( 'table tbody tr td infoBulleVue' ).tooltip({show: {effect: 'slideDown', delay: 250}});
+	    tooltips.tooltip( 'open' );
+	  });
+}
 
 function initialisation(){
 	
 	var asInitVals = new Array();
 	var  oTable = $('#patient').dataTable
 	( {
-					"aaSorting": "", //pour trier la liste affich�e
-					"oLanguage": { 
-						"sProcessing":   "Traitement en cours...",
-						"sZeroRecords":  "Aucun &eacute;l&eacute;ment &agrave; afficher",
-						"sInfo": "_END_ sur _TOTAL_ ",
-						"sInfoEmpty": "0 &eacute;l&eacute;ment &agrave; afficher",
-						"sInfoFiltered": "",
-						"sInfoPostFix":  "",
-						"sSearch": "",
-						"sUrl": "",
-						"sWidth": "30px",
-						"oPaginate": {
-							"sFirst":    "",
-							"sPrevious": "",
-							"sNext":     "",
-							"sLast":     ""
-							}
-					   },
-					   "iDisplayLength": "5",
-					   "aLengthMenu": [1,3,5],
-					   
-					   
+		"sPaginationType": "full_numbers",
+		"aLengthMenu": [5,7,10,15],
+			"aaSorting": [], //On ne trie pas la liste automatiquement
+		"oLanguage": {
+			"sInfo": "_START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+			"sInfoEmpty": "0 &eacute;l&eacute;ment &agrave; afficher",
+			"sInfoFiltered": "",
+			"sUrl": "",
+			"oPaginate": {
+				"sFirst":    "|<",
+				"sPrevious": "<",
+				"sNext":     ">",
+				"sLast":     ">|"
+				}
+		   },
+
+		"sAjaxSource": ""+tabUrl[0]+"public/facturation/ajouter-naissance-ajax", 
 						
 	} );
 

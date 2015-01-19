@@ -173,11 +173,11 @@ class DemandehospitalisationTable {
 					}
 		
 					else if ($aColumns[$i] == 'id') {
-						$html  ="<a href='javascript:affichervue(".$aRow[ $aColumns[$i] ].")'>";
-						$html .="<img style='display: inline; margin-right: 15%;' src='".$tabURI[0]."public/images_icons/voir.png' title='détails'></a>";
+						$html  ="<infoBulleVue><a href='javascript:affichervue(".$aRow[ $aColumns[$i] ].")'>";
+						$html .="<img style='display: inline; margin-right: 15%;' src='".$tabURI[0]."public/images_icons/voir.png' title='détails'></a></infoBulleVue>";
 		
-						$html  .="<a href='javascript:hospitaliser(".$aRow[ $aColumns[$i] ].")'>";
-						$html .="<img style='display: inline; margin-right: 5%;' src='".$tabURI[0]."public/images_icons/details.png' title='Hospitaliser'></a>";
+						$html  .="<infoBulleVue><a href='javascript:hospitaliser(".$aRow[ $aColumns[$i] ].")'>";
+						$html .="<img style='display: inline; margin-right: 5%;' src='".$tabURI[0]."public/images_icons/details.png' title='Hospitaliser'></a></infoBulleVue>";
 		
 						$html .="<input id='".$aRow[ $aColumns[$i] ]."'   type='hidden' value='".$aRow[ 'Idcons' ]."'>";
 						$html .="<input id='".$aRow[ $aColumns[$i] ]."dh' type='hidden' value='".$aRow[ 'id_demande_hospi' ]."'>";
@@ -469,11 +469,11 @@ class DemandehospitalisationTable {
 	
 					else if ($aColumns[$i] == 'id') {
 	
-						$html  ="<a href='javascript:affichervue(".$aRow[ $aColumns[$i] ].")'>";
-						$html .="<img style='display: inline; margin-right: 10%;' src='".$tabURI[0]."public/images_icons/voir.png' title='détails'></a>";
+						$html  ="<infoBulleVue><a href='javascript:affichervue(".$aRow[ $aColumns[$i] ].")'>";
+						$html .="<img style='display: inline; margin-right: 10%;' src='".$tabURI[0]."public/images_icons/voir.png' title='détails'></a></infoBulleVue>";
 								
-						$html  .="<a href='javascript:administrerSoin(".$aRow[ $aColumns[$i] ].")'>";
-						$html .="<img style='display: inline; margin-right: 0%;' src='".$tabURI[0]."public/img/dark/blu-ray.png' title='Appliquer un soin'></a>";
+						$html  .="<infoBulleVue><a href='javascript:administrerSoin(".$aRow[ $aColumns[$i] ].")'>";
+						$html .="<img style='display: inline; margin-right: 0%;' src='".$tabURI[0]."public/img/dark/blu-ray.png' title='Appliquer un soin'></a></infoBulleVue>";
 
 						$html .="<input id='".$aRow[ $aColumns[$i] ]."'   type='hidden' value='".$aRow[ 'Idcons' ]."'>";
 						$html .="<input id='".$aRow[ $aColumns[$i] ]."dh' type='hidden' value='".$aRow[ 'id_demande_hospi' ]."'>";

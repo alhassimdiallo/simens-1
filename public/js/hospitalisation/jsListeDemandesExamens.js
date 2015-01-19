@@ -9,7 +9,7 @@
     	
     	setTimeout(function() {
     		infoBulle();
-    	}, 500);
+    	}, 1000);
 
     });
   

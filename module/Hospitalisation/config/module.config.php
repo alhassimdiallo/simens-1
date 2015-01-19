@@ -17,7 +17,7 @@ return array(
 										),
 										'defaults' => array(
 												'controller' => 'Hospitalisation\Controller\Hospitalisation',
-												'action'     => 'index',
+												'action'     => 'liste',
 										),
 								),
 						),

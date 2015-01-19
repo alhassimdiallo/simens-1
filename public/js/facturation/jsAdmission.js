@@ -45,28 +45,23 @@ function initialisation(){
 	var asInitVals = new Array();
 	var  oTable = $('#patient').dataTable
 	( {
-					"aaSorting": "", //pour trier la liste affich�e
-					"oLanguage": { 
-						"sProcessing":   "Traitement en cours...",
-						"sZeroRecords":  "Aucun &eacute;l&eacute;ment &agrave; afficher",
-						"sInfo": "_END_ sur _TOTAL_ ",
-						"sInfoEmpty": "0 &eacute;l&eacute;ment &agrave; afficher",
-						"sInfoFiltered": "",
-						"sInfoPostFix":  "",
-						"sSearch": "",
-						"sUrl": "",
-						"sWidth": "30px",
-						"oPaginate": {
-							"sFirst":    "",
-							"sPrevious": "",
-							"sNext":     "",
-							"sLast":     ""
-							}
-					   },
-					   "iDisplayLength": "5",
-					   "aLengthMenu": [1,3,5],
-					   
-					   
+		"sPaginationType": "full_numbers",
+		"aLengthMenu": [5,7,10,15],
+		"aaSorting": [], //On ne trie pas la liste automatiquement
+		"oLanguage": {
+			"sInfo": "_START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+			"sInfoEmpty": "0 &eacute;l&eacute;ment &agrave; afficher",
+			"sInfoFiltered": "",
+			"sUrl": "",
+			"oPaginate": {
+				"sFirst":    "|<",
+				"sPrevious": "<",
+				"sNext":     ">",
+				"sLast":     ">|"
+				}
+		   },
+
+		"sAjaxSource": ""+tabUrl[0]+"public/facturation/liste-admission-ajax", 
 						
 	} );
 
@@ -108,7 +103,7 @@ function animation(){
 $('#declarer_deces').toggle(false);
 
 $('#precedent').click(function(){
-	$("#titre2").replaceWith("<div id='titre' style='font-family: police2; color: green; font-size: 18px; font-weight: bold;'><iS style='font-size: 25px;'>&curren;</iS> RECHERCHER LE PATIENT </div>");	
+	$("#titre2").replaceWith("<div id='titre' style='font-family: police2; color: green; font-size: 18px; font-weight: bold; padding-left: 35px;'><iS style='font-size: 25px;'>&curren;</iS> RECHERCHER LE PATIENT </div>");	
     
 	$('#contenu').animate({
         height : 'toggle'
@@ -127,7 +122,7 @@ $('#precedent').click(function(){
 function declarer(id){
 	
 	$("#termineradmission").replaceWith("<button id='termineradmission' style='height:35px;'>Terminer</button>");
-    $("#titre").replaceWith("<div id='titre2' style='font-family: police2; color: green; font-size: 18px; font-weight: bold;'><iS style='font-size: 25px;'>&curren;</iS> ADMISSION </div>");	
+    $("#titre").replaceWith("<div id='titre2' style='font-family: police2; color: green; font-size: 18px; font-weight: bold; padding-left: 35px;'><iS style='font-size: 25px;'>&curren;</iS> ADMISSION </div>");	
 
     //R�cup�ration des donn�es du patient
     var cle = id;

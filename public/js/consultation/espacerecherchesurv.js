@@ -25,7 +25,7 @@ function initialisation(){
 							"sLast":     ">|"
 							}
 					   },
-					   "iDisplayLength": "10",
+					   "iDisplayLength": 10,
 						"bProcessing": false,
 						"bSearch": false,
 						"aLengthMenu": [5,10,15],

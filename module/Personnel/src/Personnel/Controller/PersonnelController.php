@@ -801,9 +801,9 @@ class PersonnelController extends AbstractActionController {
 				if($transfert->id_verif == 0){ 
 					$this->getPersonnelTable()->updateEtatForTransfert($transfert->id_personne);
 				}
-				$this->redirect()->toRoute('personnel', array('action' => 'liste-transfert'));
+				return $this->redirect()->toRoute('personnel', array('action' => 'liste-transfert'));
 			}else {
-				$this->redirect()->toRoute('personnel', array('action' => 'transfert'));
+				return $this->redirect()->toRoute('personnel', array('action' => 'transfert'));
 			}
 		}
 		
@@ -892,7 +892,7 @@ class PersonnelController extends AbstractActionController {
                     </div>
                     
                     <div class='block' id='thoughtbot'>
-                       <button id='annuler_modif' style='height:35px;'>Annulerr</button>
+                       <button id='annuler_modif' style='height:35px;'>Annuler</button>
                     </div>
                 </div>";
 		
@@ -1012,10 +1012,10 @@ class PersonnelController extends AbstractActionController {
 				
 				$this->getInterventionTable()->saveIntervention($intervention);
 				
-				$this->redirect()->toRoute('personnel', array('action' => 'liste-intervention'));
+				return $this->redirect()->toRoute('personnel', array('action' => 'liste-intervention'));
 			}else {
 				
-				$this->redirect()->toRoute('personnel', array('action' => 'intervention'));
+				return $this->redirect()->toRoute('personnel', array('action' => 'intervention'));
 			}
 		}
 		
@@ -1591,5 +1591,23 @@ class PersonnelController extends AbstractActionController {
 		
 		$this->getResponse ()->getHeaders ()->addHeaderLine ( 'Content-Type', 'application/html; charset=utf-8' );
 		return $this->getResponse ()->setContent ( Json::encode ( $html ) );
+	}
+	
+	//******* Recuperer les services correspondants en cliquant sur un hopital
+	public function servicesAction()
+	{
+		$id=(int)$this->params()->fromPost ('id');
+	
+		if ($this->getRequest()->isPost()){
+			$liste_select = "";
+			$services= $this->getServiceTable();
+			foreach($services->getServiceHopital($id) as $listeServices){
+				$liste_select.= "<option value=".$listeServices['Id_service'].">".$listeServices['Nom_service']."</option>";
+			}
+				
+			$this->getResponse()->getHeaders ()->addHeaderLine ( 'Content-Type', 'application/html' );
+			return $this->getResponse ()->setContent(Json::encode ( $liste_select));
+		}
+	
 	}
 }

@@ -8,7 +8,7 @@
     	initialisation();
     	setTimeout(function() {
     		infoBulle();
-    	}, 500);
+    	}, 1000);
     });
     
     function infoBulle(){

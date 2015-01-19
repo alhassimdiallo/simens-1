@@ -10,7 +10,7 @@ $Control = new DateHelper();?>
 <!-- MES JS -->
 <?php echo $this->headScript()->appendFile($this->basePath().'/js/facturation/jsListepatientDecedes.js');?>
 
-<div id="titre" style='font-family: police2; text-decoration:none; color: green; font-size: 18px; font-weight: bold;'><iS style='font-size: 25px;'>&curren;</iS> LISTE DES PATIENTS D&Eacute;C&Eacute;D&Eacute;S</div>
+<div id="titre" style='font-family: police2; text-decoration:none; color: green; font-size: 18px; font-weight: bold; padding-left: 20px;'><iS style='font-size: 25px;'>&curren;</iS> LISTE DES PATIENTS D&Eacute;C&Eacute;D&Eacute;S</div>
  <div id="contenu" >
 
 		<table class="table table-bordered tab_list_mini" id="patientdeces">
@@ -44,7 +44,7 @@ $Control = new DateHelper();?>
 					<td>
 					    <?php $id = $this->escapeHtml($donnees['Id']);?>
 					    <a href="javascript:affichervue('<?php echo $id ?>') ">
-					       <img style="display: inline;" src='<?php echo $this->basePath().'/images_icons/vue.PNG'?>' alt='Constantes' title="details" />
+					       <img style="display: inline;" src='<?php echo $this->basePath().'/images_icons/vue.PNG'?>' alt='Constantes' title="d&eacute;tails" />
 					    </a>&nbsp;
 
 					    <a href="javascript:modifierdeces('<?php echo $this->escapeHtml($donnees['Id_deces']); ?>')">
@@ -75,11 +75,7 @@ $Control = new DateHelper();?>
 				</tr>
 			</tfoot>
 		</table>
-
-		<div id="compteur" style="font-size: 15px; font-style: bold; font-family: Times  New Roman; margin-left:5px; margin-top:-20px; ">
-		    <?php echo $this->nbPatients?> au total
-		</div>
-
+		
 </div>
 
 <!-- POP UP pour Confirmation Suppression -->

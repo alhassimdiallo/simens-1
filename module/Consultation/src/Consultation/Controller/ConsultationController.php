@@ -28,6 +28,7 @@ use Personnel\Model\ServiceTable;
 use Consultation\View\Helpers\TransfertPdf;
 use Consultation\View\Helpers\RendezVousPdf;
 use Facturation\View\Helper\DateHelper;
+use Zend\Mvc\Controller\Plugin\Layout;
 
 class ConsultationController extends AbstractActionController {
 	protected $controlDate;
@@ -154,6 +155,29 @@ class ConsultationController extends AbstractActionController {
 		return $this->ordonConsommableTable;
 	}
 	
+	/**
+	 * =========================================================================
+	 * =========================================================================
+	 * =========================================================================
+	 */
+	protected $utilisateurTable;
+	
+	public function getUtilisateurTable(){
+		if(!$this->utilisateurTable){
+			$sm = $this->getServiceLocator();
+			$this->utilisateurTable = $sm->get('Admin\Model\UtilisateursTable');
+		}
+		return $this->utilisateurTable;
+	}
+	
+	public function user(){
+		$uAuth = $this->getServiceLocator()->get('Admin\Controller\Plugin\UserAuthentication'); //@todo - We must use PluginLoader $this->userAuthentication()!!
+		$username = $uAuth->getAuthService()->getIdentity();
+		$user = $this->getUtilisateurTable()->getUtilisateursWithUsername($username);
+		
+		return $user;
+	}
+	
 /***
  * *********************************************************************************************************************************
  * *********************************************************************************************************************************
@@ -162,21 +186,26 @@ class ConsultationController extends AbstractActionController {
 	public function  getDateHelper(){
 		$this->controlDate = new DateHelper();
 	}
+	
+	
 	public function rechercheAction() {
 		$this->layout ()->setTemplate ( 'layout/consultation' );
-		$user = $this->layout ()->user;
-		$service = $user ['service'];
+		
+		$user = $this->user();
+		$LeService = $this->getServiceTable()->getServiceparId($user->id_service);
+		$service = $LeService['NOM']; 
+		
 		$patient = $this->getPatientTable ();
 		$patientsAdmis = $patient->tousPatientsAdmis ( $service );
 		$view = new ViewModel ( array (
-				'donnees' => $patientsAdmis
+				'donnees' => $patientsAdmis,
 		) );
 		return $view;
 	}
 	public function espaceRechercheMedAction() {
 		$this->layout ()->setTemplate ( 'layout/consultation' );
-		$user = $this->layout ()->user;
-		$service = $user ['service'];
+		//$user = $this->layout ()->user;
+		$service = 'OPHTALMOLOGIE'; //$user ['service'];
 		$patients = $this->getPatientTable ();
 		$tab = $patients->listePatientsConsMedecin ( $service );
 		return new ViewModel ( array (
@@ -185,8 +214,8 @@ class ConsultationController extends AbstractActionController {
 	}
 	public function espaceRechercheSurvAction() {
 		$this->layout ()->setTemplate ( 'layout/consultation' );
-		$user = $this->layout ()->user;
-		$service = $user ['service'];
+		//$user = $this->layout ()->user;
+		$service = 'OPHTALMOLOGIE'; //$user ['service'];
 		$patients = $this->getPatientTable ();
 		$tab = $patients->tousPatientsCons ( $service );
 		return new ViewModel ( array (
@@ -196,8 +225,8 @@ class ConsultationController extends AbstractActionController {
 	// Liste des patients à consulter par le medecin apr�s prise des constantes par le surveillant de service
 	public function consultationMedecinAction() {
 		$this->layout ()->setTemplate ( 'layout/consultation' );
-		$user = $this->layout ()->user;
-		$service = $user ['service'];
+		//$user = $this->layout ()->user;
+		$service = 'OPHTALMOLOGIE'; //$user ['service'];
 		// $LeService = $this->_service;
 		// Recherher l'id du service
 		$serviceTable = $this->getServiceTable ();
@@ -248,8 +277,8 @@ class ConsultationController extends AbstractActionController {
 	}
 	public function ajoutDonneesConstantesAction() {
 		$this->layout ()->setTemplate ( 'layout/consultation' );
-		$user = $this->layout ()->user;
-		$LeService = $user ['service'];
+		//$user = $this->layout ()->user;
+		$LeService = 'OPHTALMOLOGIE'; //$user ['service'];
 		// Rechercher l'id du service
 		$service = $this->getServiceTable ();
 		$LigneDuService = $service->getServiceParNom ( $LeService );
@@ -279,7 +308,7 @@ class ConsultationController extends AbstractActionController {
 				$motif_admission = $this->getMotifAdmissionTable ();
 				$motif_admission->addMotifAdmission ( $infos );
 
-				$this->redirect ()->toRoute ( 'consultation', array (
+				return $this->redirect ()->toRoute ( 'consultation', array (
 						'action' => 'recherche'
 				));
 			}
@@ -373,16 +402,16 @@ class ConsultationController extends AbstractActionController {
 					$motifs->deleteMotifAdmission ( $form->get ( 'id_cons' )->getValue () );
 					$motifs->addMotifAdmission ( $infos );
 					
-					$this->redirect ()->toRoute ( 'consultation', array (
+					return $this->redirect ()->toRoute ( 'consultation', array (
 							'action' => 'recherche'
 					) );
 				}
-				$this->redirect ()->toRoute ( 'consultation', array (
+				return $this->redirect ()->toRoute ( 'consultation', array (
 						'action' => 'recherche'
 				) );
 			}
 		} else {
-			$this->redirect ()->toRoute ( 'consultation', array (
+			return $this->redirect ()->toRoute ( 'consultation', array (
 					'action' => 'recherche'
 			) );
 		}
@@ -852,7 +881,7 @@ class ConsultationController extends AbstractActionController {
 			$consultation->validerConsultation ( $valide );
 		}
 		
-		$this->redirect ()->toRoute ( 'consultation', array (
+		return $this->redirect ()->toRoute ( 'consultation', array (
 		 'action' => 'consultation-medecin'
 		) );
 	}
@@ -873,6 +902,212 @@ class ConsultationController extends AbstractActionController {
 		}
 		
 	}
+	
+	public function visualisationConsultationAction(){
+		
+
+		 $this->layout ()->setTemplate ( 'layout/consultation' );
+		 $this->getDateHelper(); 
+		 $id_pat = $this->params()->fromQuery ( 'id_patient', 0 );
+		 $id = $this->params()->fromQuery ( 'id_cons' );
+		 $form = new ConsultationForm();
+		 
+		 $list = $this->getPatientTable ();
+		 $liste = $list->getPatient ( $id_pat );
+		 // Recuperer la photo du patient
+		 $image = $list->getPhoto ( $id_pat );
+		 
+		 //POUR LES CONSTANTES
+		 //POUR LES CONSTANTES
+		 //POUR LES CONSTANTES
+		  // instancier la consultation et r�cup�rer l'enregistrement
+		  $cons = $this->getConsultationTable ();
+		  $consult = $cons->getConsult ( $id );
+		  
+		  $data = array (
+		 		'id_cons' => $consult->id_cons,
+		 		'id_medecin' => $consult->id_personne,
+		 		'id_patient' => $consult->pat_id_personne,
+		 		'date_cons' => $consult->date,
+		 		'poids' => $consult->poids,
+		 		'taille' => $consult->taille,
+		 		'temperature' => $consult->temperature,
+		 		'tension' => $consult->tension,
+		 		'pouls' => $consult->pouls,
+		 		'frequence_respiratoire' => $consult->frequence_respiratoire,
+		 		'glycemie_capillaire' => $consult->glycemie_capillaire,
+		 		'bu' => $consult->bu
+		  );
+		  
+		  //POUR LES MOTIFS D'ADMISSION
+		  //POUR LES MOTIFS D'ADMISSION
+		  //POUR LES MOTIFS D'ADMISSION
+		  // instancier le motif d'admission et recup�rer l'enregistrement
+		  $motif = $this->getMotifAdmissionTable ();
+		  $motif_admission = $motif->getMotifAdmission ( $id );
+		  $nbMotif = $motif->nbMotifs ( $id );
+		  //POUR LES MOTIFS D'ADMISSION
+		  $k = 1;
+		  foreach ( $motif_admission as $Motifs ) {
+		 	$data ['motif_admission' . $k] = $Motifs ['Libelle_motif'];
+		 	$k ++;
+		  }
+		  //POUR LES EXAMEN PHYSIQUES
+		  //POUR LES EXAMEN PHYSIQUES
+		  //POUR LES EXAMEN PHYSIQUES
+		  //instancier les donn�es de l'examen physique
+		  $examen = $this->getDonneesExamensPhysiquesTable();
+		  $examen_physique = $examen->getExamensPhysiques($id);
+		  //POUR LES EXAMEN PHYSIQUES
+		  $k = 1;
+		  foreach ($examen_physique as $Examen) {
+		  	$data['examen_donnee'.$k] = $Examen['libelle_examen'];
+		  	$k++;
+		  }
+		  
+		  // POUR LES ANTECEDENTS OU TERRAIN PARTICULIER
+		  // POUR LES ANTECEDENTS OU TERRAIN PARTICULIER
+		  // POUR LES ANTECEDENTS OU TERRAIN PARTICULIER
+		  $listeConsultation = $cons->getConsultationPatient($id_pat);
+		  
+		  //POUR LES EXAMENS COMPLEMENTAIRES
+		  //POUR LES EXAMENS COMPLEMENTAIRES
+		  //POUR LES EXAMENS COMPLEMENTAIRES
+		  // DEMANDES DES EXAMENS COMPLEMENTAIRES
+		  $demandeExamen = $this->demandeExamensTable();
+		  $listeDemandes = $demandeExamen->getDemande($id);
+		  
+		  //\Zend\Debug\Debug::dump($donnee); exit();
+		  
+		  // RESULTATS DES EXAMENS COMPLEMENTAIRES
+		  $resultatExamenMorphologique = $this->getNotesExamensMorphologiquesTable();
+		  $examen_morphologique = $resultatExamenMorphologique->getNotesExamensMorphologiques($id);
+		  
+		  $data['radio'] = $examen_morphologique['radio'];
+		  $data['ecographie'] = $examen_morphologique['ecographie'];
+		  $data['fibrocospie'] = $examen_morphologique['fibroscopie'];
+		  $data['scanner'] = $examen_morphologique['scanner'];
+		  $data['irm'] = $examen_morphologique['irm'];
+		  
+		  //DIAGNOSTICS
+		  //DIAGNOSTICS
+		  //DIAGNOSTICS
+		  //instancier les donn�es des diagnostics
+		  $diagnostics = $this->getDiagnosticsTable();
+		  $infoDiagnostics = $diagnostics->getDiagnostics($id);
+		  // POUR LES DIAGNOSTICS
+		  $k = 1;
+		  foreach ($infoDiagnostics as $diagnos){
+		  	$data['diagnostic'.$k] = $diagnos['libelle_diagnostics'];
+		  	$k++;
+		  }
+		  
+		  //TRAITEMENT (Ordonnance) *********************************************************
+		  //TRAITEMENT (Ordonnance) *********************************************************
+		  //TRAITEMENT (Ordonnance) *********************************************************
+		  
+		  //POUR LES MEDICAMENTS
+		  //POUR LES MEDICAMENTS
+		  //POUR LES MEDICAMENTS
+		  // INSTANCIATION DES MEDICAMENTS de l'ordonnance
+		  $consommable = $this->getConsommableTable();
+		  $listeMedicament = $consommable->fetchConsommable();
+
+		  // INSTANTIATION DE L'ORDONNANCE
+		  $ordonnance = $this->getOrdonnanceTable();
+		  $infoOrdonnance = $ordonnance->getOrdonnance($id); //on recupere l'id de l'ordonnance
+		  
+		  if($infoOrdonnance) {
+		  	$idOrdonnance = $infoOrdonnance->id_document; 
+		  	$duree_traitement = $infoOrdonnance->duree_traitement;
+
+		    //LISTE DES MEDICAMENTS PRESCRITS
+		  	$listeMedicamentsPrescrits = $ordonnance->getMedicamentsParIdOrdonnance($idOrdonnance);
+		  	$nbMedPrescrit = $listeMedicamentsPrescrits->count();
+		  }else{
+		  	$nbMedPrescrit = null;
+		  	$listeMedicamentsPrescrits =null;
+		  	$duree_traitement = null;
+		  }
+		  //POUR LA DEMANDE PRE-ANESTHESIQUE
+		  //POUR LA DEMANDE PRE-ANESTHESIQUE
+		  //POUR LA DEMANDE PRE-ANESTHESIQUE
+		  $DemandeVPA = $this->getDemandeVisitePreanesthesiqueTable();
+		  $donneesDemandeVPA = $DemandeVPA->getDemandeVisitePreanesthesique($id);
+		  if($donneesDemandeVPA) {
+		  	$data['diagnostic_traitement_chirurgical'] = $donneesDemandeVPA['DIAGNOSTIC'];
+		  	$data['observation'] = $donneesDemandeVPA['OBSERVATION'];
+		  	$data['intervention_prevue'] = $donneesDemandeVPA['INTERVENTION_PREVUE'];
+		  	$data['numero_vpa'] = $donneesDemandeVPA['NUMERO_VPA'];
+		  	$data['type_anesthesie_demande'] = 2;//$donneesDemandeVPA['TYPE_ANESTHESIE_DEMANDE'];
+		  }
+		  //\Zend\Debug\Debug::dump($donneesDemandeVPA['DIAGNOSTIC']); exit();
+		  
+		  //POUR LE TRANSFERT
+		  //POUR LE TRANSFERT
+		  //POUR LE TRANSFERT
+		  // INSTANCIATION DU TRANSFERT
+		  $transferer = $this->getTransfererPatientServiceTable ();
+		  // RECUPERATION DE LA LISTE DES HOPITAUX
+		  $hopital = $transferer->fetchHopital ();
+		  //LISTE DES HOPITAUX
+		  $form->get ( 'hopital_accueil' )->setValueOptions ( $hopital );
+		  // RECUPERATION DU SERVICE OU EST TRANSFERE LE PATIENT
+		  $transfertPatientService = $transferer->getServicePatientTransfert($id);
+		  
+		  if( $transfertPatientService ){
+		  	$idService = $transfertPatientService['ID_SERVICE'];
+		    // RECUPERATION DE L'HOPITAL DU SERVICE
+		  	$transfertPatientHopital = $transferer->getHopitalPatientTransfert($idService);
+		  	$idHopital = $transfertPatientHopital['ID_HOPITAL'];
+		    // RECUPERATION DE LA LISTE DES SERVICES DE L'HOPITAL OU SE TROUVE LE SERVICE OU IL EST TRANSFERE
+		  	$serviceHopital = $transferer->fetchServiceWithHopital($idHopital);
+
+		  	// LISTE DES SERVICES DE L'HOPITAL
+		  	$form->get ( 'service_accueil' )->setValueOptions ($serviceHopital);
+		  
+		    // SELECTION DE L'HOPITAL ET DU SERVICE SUR LES LISTES
+		  	$data['hopital_accueil'] = $idHopital;
+		  	$data['service_accueil'] = $idService;
+		  	$data['motif_transfert'] = $transfertPatientService['motif_transfert'];
+		  	$hopitalSelect = 1;
+		  }else {
+		  	$hopitalSelect = 0;
+		  }
+		  //POUR LE RENDEZ VOUS
+		  //POUR LE RENDEZ VOUS
+		  //POUR LE RENDEZ VOUS
+		  // RECUPERE LE RENDEZ VOUS
+		  $rendezVous = $this->getRvPatientConsTable();
+		  $leRendezVous = $rendezVous->getRendezVous($id);
+		  
+		  if($leRendezVous) { 
+		  	$data['heure_rv'] = $leRendezVous->heure;
+		  	$data['date_rv']  = $this->controlDate->convertDate($leRendezVous->date);
+		  	$data['motif_rv'] = $leRendezVous->note;
+		  }
+		  
+		  $form->populateValues($data);
+		  return array(
+		 		'id_cons' => $id,
+		 		'lesdetails' => $liste,
+		 		'form' => $form,
+		 		'nbMotifs' => $nbMotif,
+		 		'image' => $image,
+		 		'heure_cons' => $consult->heurecons,
+		 		'liste' => $listeConsultation,
+		  		'liste_med' => $listeMedicament,
+		  		'nb_med_prescrit' => $nbMedPrescrit,
+		  		'liste_med_prescrit' => $listeMedicamentsPrescrits,
+		  		'duree_traitement' => $duree_traitement,
+		  		'verifieRV' => $leRendezVous, 
+		  		'listeDemande' => $listeDemandes,
+		  		'hopitalSelect' =>$hopitalSelect
+		  );
+	
+	
+	}
+	
 	
 	public function impressionPdfAction(){
 		

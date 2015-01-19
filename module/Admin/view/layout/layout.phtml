@@ -1,4 +1,4 @@
-<?php echo $this->doctype(); ?>
+	<?php echo $this->doctype(); ?>
 
 <html lang="en">
     <head>
@@ -14,7 +14,7 @@
         <?php echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'))
                         ->prependStylesheet($this->basePath() . '/css/style.css')
                         ->prependStylesheet($this->basePath() . '/css/bootstrap-theme.min.css')
-                        ->prependStylesheet($this->basePath() . '/css/bootstrap.min.css')
+                        //->prependStylesheet($this->basePath() . '/css/bootstrap.min.css')
                         ?>
 
         <!-- Scripts -->
@@ -33,6 +33,6 @@
 <!--             <footer> -->
 <!--             </footer> -->
         </div> <!-- /container -->
-        <?php echo $this->inlineScript() ?>
+        <?php //echo $this->inlineScript() ?>
     </body>
 </html>

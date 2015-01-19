@@ -207,7 +207,7 @@ class DemandeTable {
 		
 							if($this->VerifierDemandeExamenSatisfaite($aRow[ 'Idcons' ]) == true ) {
 								$html .="<infoBulleVue><a>";
-								$html .="<img style='margin-left: 20%;' src='".$tabURI[0]."public/images_icons/tick_16.png' title='demande satisfaite'></a><infoBulleVue>";
+								$html .="<img style='margin-left: 20%;' src='".$tabURI[0]."public/images_icons/tick_16.png' title='Terminer'></a><infoBulleVue>";
 							}else {
 								$html .="<a>";
 								$html .="<img style='margin-left: 20%; color: white; opacity: 0.09;' src='".$tabURI[0]."public/images_icons/tick_16.png' ></a>";
@@ -270,10 +270,10 @@ class DemandeTable {
 	
 						if($this->VerifierDemandeExamenSatisfaite($aRow[ 'Idcons' ]) == true ) {
 							$html .="<infoBulleVue><a>";
-							$html .="<img style='margin-left: 20%;' src='".$tabURI[0]."public/images_icons/tick_16.png' title='demande satisfaite'></a><infoBulleVue>";
+							$html .="<img style='margin-left: 20%;' src='".$tabURI[0]."public/images_icons/tick_16.png' title='Terminer'></a><infoBulleVue>";
 						}else {
 							$html .="<a>";
-							$html .="<img style='margin-left: 20%; color: white; opacity: 0.09;' src='".$tabURI[0]."public/images_icons/tick_16.png' title='demande satisfaite'></a>";
+							$html .="<img style='margin-left: 20%; color: white; opacity: 0.09;' src='".$tabURI[0]."public/images_icons/tick_16.png' title='Terminer'></a>";
 						}
 						
 						

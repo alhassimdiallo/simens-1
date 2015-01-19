@@ -57,7 +57,7 @@
             data:{'id':id, 'idFacturation':idFacturation},
             success: function(data) {
        	    
-            	     $("#titre").replaceWith("<div id='titre2' style='font-family: police2; color: green; font-size: 18px; font-weight: bold;'><iS style='font-size: 25px;'>&curren;</iS> INFORMATIONS SUR LE PATIENT </div>");
+            	     $("#titre").replaceWith("<div id='titre2' style='font-family: police2; color: green; font-size: 18px; font-weight: bold; padding-left: 20px;'><iS style='font-size: 25px;'>&curren;</iS> INFORMATIONS SUR LE PATIENT </div>");
             	     var result = jQuery.parseJSON(data);  
             	     $("#contenu").fadeOut(function(){$("#vue_patient").html(result).fadeIn("fast"); }); 
             	     
@@ -71,7 +71,7 @@
     function listepatient(){
     	//Lorsqu'on clique sur terminer �a ram�ne la liste des aptients admis 
 	    $("#terminer").click(function(){
-	    	$("#titre2").replaceWith("<div id='titre' style='font-family: police2; color: green; font-size: 18px; font-weight: bold;'><iS style='font-size: 25px;'>&curren;</iS> LISTE DES PATIENTS ADMIS </div>");
+	    	$("#titre2").replaceWith("<div id='titre' style='font-family: police2; color: green; font-size: 18px; font-weight: bold; padding-left: 20px;'><iS style='font-size: 25px;'>&curren;</iS> LISTE DES PATIENTS ADMIS </div>");
   	    	$("#vue_patient").fadeOut(function(){$("#contenu").fadeIn("fast"); });
   	    });
     }
@@ -83,28 +83,21 @@
 	 var  oTable = $('#patientdeces').dataTable
 	  ( {
 		        
-					//"bJQueryUI": true,
-					//"sPaginationType": "full_numbers",
-					"aaSorting": "", //pour trier la liste affich�e
-					"oLanguage": { 
-						"sProcessing":   "Traitement en cours...",
-						//"sLengthMenu":   "Afficher _MENU_ &eacute;l&eacute;ments",
-						"sZeroRecords":  "Aucun &eacute;l&eacute;ment &agrave; afficher",
-						//"sInfo": "Total: "+nb+" &eacute;l&eacute;ments",
-						//"sInfoEmpty": "0 &eacute;l&eacute;ment &agrave; afficher",
-						"sInfoFiltered": "",
-						"sInfoPostFix":  "",
-						"sSearch": "",
-						"sUrl": "",
-						"sWidth": "30px",
-						"oPaginate": {
-							"sFirst":    "|<",
-							"sPrevious": "<",
-							"sNext":     ">",
-							"sLast":     ">|",
-						}
-					   },
-					   "iDisplayLength": "10",
+		  "sPaginationType": "full_numbers",
+			"aLengthMenu": [5,7,10,15],
+				"aaSorting": [], //On ne trie pas la liste automatiquement
+			"oLanguage": {
+				"sInfo": "_START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+				"sInfoEmpty": "0 &eacute;l&eacute;ment &agrave; afficher",
+				"sInfoFiltered": "",
+				"sUrl": "",
+				"oPaginate": {
+					"sFirst":    "|<",
+					"sPrevious": "<",
+					"sNext":     ">",
+					"sLast":     ">|"
+					}
+			   },
 					   	
 	} );
 

@@ -8,14 +8,14 @@ echo $this->headLink()->appendStylesheet($this->basePath().'/css/facturation/Dat
 
 <?php $Control = new DateHelper();?>
 
-     <div id="titre" style='font-family: police2; text-decoration:none; color: green; font-size: 18px; font-weight: bold;'><iS style='font-size: 25px;'>&curren;</iS> RECHERCHER LE PATIENT</div>
+     <div id="titre" style='font-family: police2; text-decoration:none; color: green; font-size: 18px; font-weight: bold; padding-left: 30px;'><iS style='font-size: 25px;'>&curren;</iS> RECHERCHER LE PATIENT</div>
      <div id="contenu" >
 		<table style='width:95%; margin-left: 10px; align:center' class="table table-bordered tab_list_mini" id="patient">
 			<thead >
 			    <tr >
 				    <th id="idpatient_" style='width: 10%;'><input type="text" name="search_browser" value=" ID_Patient" class="search_init" /></th>
 					<th id="nom_" style='width: 15%;'><input type="text" name="search_browser" value=" Nom" class="search_init" /></th>
-					<th id="prenom_" style='width: 17%;'><input type="text" name="search_browser" value=" Prenom" class="search_init" /></th>
+					<th id="prenom_" style='width: 17%;'><input type="text" name="search_browser" value=" Pr&eacute;nom" class="search_init" /></th>
 					<th id="date_" style='width: 13%;'><input type="text" name="search_browser" value=" Date naissance" class="search_init" /></th>
 					<th id="adresse_" style='width: 40%;'><input type="text" name="search_browser" value=" Adresse" class="search_init" /></th>
 					<th id="effectuer_" style='width: 5%;'><input type="hidden" name="search_browser" value="" class="" />Options</th>
@@ -26,7 +26,7 @@ echo $this->headLink()->appendStylesheet($this->basePath().'/css/facturation/Dat
 
 			<tbody id="donnees" class="liste_patient">
 
-	            <?php foreach($this->donnees as $donnees):?>
+	            <?php /* foreach($this->donnees as $donnees):?>
 
 				<tr id="<?php echo $this->escapeHtml($donnees['Id']);?>">
 
@@ -48,16 +48,12 @@ echo $this->headLink()->appendStylesheet($this->basePath().'/css/facturation/Dat
 					</td>
 				</tr>
 
-				<?php endforeach; ?>
+				<?php endforeach; */?>
 
 			</tbody>
 
 		</table>
 
-<script type="text/javascript">
-initialisation();
-
-</script>
 </div>
 
 <!-- POP UP pour Confirmation Suppression -->

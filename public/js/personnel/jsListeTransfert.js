@@ -222,7 +222,7 @@
     	{    
     	     $.ajax({
     	        type: 'POST',
-    	        url:  tabUrl[0]+'public/consultation/services',
+    	        url:  tabUrl[0]+'public/personnel/services',
     	        data: 'id='+cle,
     	        success: function(data) {
     	            var result = jQuery.parseJSON(data);

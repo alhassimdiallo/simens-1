@@ -4,13 +4,13 @@ $Control = new DateHelper();?>
 
 <?php echo $this->headLink()->appendStylesheet($this->basePath().'/css/consultation/recherche.css'); ?>
 
-<div id="titre" style='font-family: police2; text-decoration:none; color: green; font-size: 20px; font-weight: bold;'> <i>&curren;</i> LISTE DES CONSULTATIONS</div>
+<div id="titre" style='font-family: police2; text-decoration:none; color: green; font-size: 20px; font-weight: bold; padding-left:20px;'> <i style='font-size: 25px;'>&curren;</i> LISTE DES CONSULTATIONS</div>
 <div id="contenu" >
 
 		<table class="table table-bordered tab_list_mini" id="patient">
 			<thead>
 				<tr style="height:50px;">
-					<th id="nom" align="center">Nom</th>
+					<th id="nom" align="center">Nom </th>
 					<th id="prenom" align="center">Pr&eacute;nom</th>
 					<th id="date" align="center" name="date">Date. naiss</th>
 					<th id="sexe" align="center" name="sexe">Sexe</th>
@@ -33,6 +33,7 @@ $Control = new DateHelper();?>
  					  foreach ($resultSet1 as $resul1){}
  					  foreach ($resultSet2 as $resul2){}
 
+ 					  //var_dump($resultSet2); exit();
 				?>
 
 				<?php foreach($resultSet1 as $donnees) { ?>
@@ -69,7 +70,10 @@ $Control = new DateHelper();?>
 
 			    <!-- *****************On affiche maintenant tous ceux pour qui on a pris les constantes*********** -->
 
-			    <?php foreach($resultSet1 as $donnees) :?>
+			    <?php 
+			    //var_dump($resultSet1); exit();
+			    
+			    foreach($resultSet1 as $donnees) :?>
 
                 <?php $trouver = false;?>
 	     	    <?php foreach($resultSet2 as $donneees):?>

@@ -3,9 +3,6 @@
 namespace Consultation;
 
 use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
-use Zend\ModuleManager\Feature\ConfigProviderInterface;
-use Zend\Mvc\ModuleRouteListener;
-use Zend\Mvc\MvcEvent;
 use Zend\Db\ResultSet\ResultSet;
 use Consultation\Model\Consultation;
 use Consultation\Model\ConsultationTable;
@@ -30,20 +27,29 @@ use Consultation\Model\DemandeTable;
 use Consultation\Model\Demande;
 use Consultation\Model\OrdonConsommable;
 use Consultation\Model\OrdonConsommableTable;
+use Zend\Mvc\MvcEvent;
 
-class Module implements AutoloaderProviderInterface, ConfigProviderInterface {
+class Module implements AutoloaderProviderInterface {
+	
 	public function onBootstrap(MvcEvent $e) {
-		// $eventManager = $e->getApplication()->getEventManager();
-		// $moduleRouteListener = new ModuleRouteListener();
-		// $moduleRouteListener->attach($eventManager);
 		$serviceManager = $e->getApplication ()->getServiceManager ();
 		$viewModel = $e->getApplication ()->getMvcEvent ()->getViewModel ();
 
-		$myServiceUser = $serviceManager->get ( 'Admin\Model\UtilisateurTable' );
-		$myServiceAuth = $serviceManager->get ( 'AuthService' );
-		$login = $myServiceAuth->getIdentity ();
-		$viewModel->user = $myServiceUser->fetchUtilisateur ( $login );
+		$uAuth = $serviceManager->get( 'Admin\Controller\Plugin\UserAuthentication' ); //@todo - We must use PluginLoader $this->userAuthentication()!!
+		$username = $uAuth->getAuthService()->getIdentity();
+		
+		$uTable = $serviceManager->get( 'Admin\Model\UtilisateursTable' );
+		$user = $uTable->getUtilisateursWithUsername($username);
+		
+		if($user) {
+			$uService = $serviceManager->get( 'Personnel\Model\ServiceTable');
+			$service = $uService->getServiceparId($user->id_service);
+			
+			$viewModel->user = $user;
+			$viewModel->service = $service['NOM'];
+		}
 	}
+	
 	public function getAutoloaderConfig() {
 		return array (
 				// 'Zend\Loader\ClassMapAutoloader' => array(
@@ -56,9 +62,11 @@ class Module implements AutoloaderProviderInterface, ConfigProviderInterface {
 				)
 		);
 	}
+	
 	public function getConfig() {
 		return include __DIR__ . '/config/module.config.php';
 	}
+	
 	public function getServiceConfig() {
 		return array (
 				'factories' => array (

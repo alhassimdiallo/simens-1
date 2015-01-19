@@ -1,0 +1,123 @@
+<!-- MES STYLES --> 
+<?php echo $this->headLink()->appendStylesheet($this->basepath().'/css/admin/styleListeUtilisateurs.css');?>
+<!-- MES JS -->
+<?php 
+echo $this->headScript()->appendFile($this->basepath().'/js/admin/jsListeUtilisateurs.js');?>
+
+
+<div id="titre" style='font-family: police2; text-decoration: none; color: green; font-size: 20px; font-weight: bold; padding-left:20px;'>
+	<iS style='font-size: 25px;'>&curren;</iS>
+	LISTE DES UTILISATEURS
+</div>
+<div id="contenu"> 
+        <div style="margin-right: 20px; float:right; font-size: 15px; color: gray; margin-top:5px;"><a style="text-decoration: none; cursor:pointer;" href="javascript:ajouterUtilisateur()" ><img src='../images_icons/doctor_16.png' ><i style="font-family: Times New Roman; font-size: 15px; color: green;"> nouvel utilisateur</i></a></div>
+            <table id="utilisateurs" class="table table-bordered tab_list_mini" >
+				<thead>
+					<tr style="height: 50px; width:100%; ">
+						<th id="nom" style='cursor: pointer;'>Nom d'utilisateur</th>
+						<th id="prenom" style='cursor: pointer;'>Nom</th>
+						<th id="date" style='cursor: pointer;'>Pr&eacute;nom</th>
+						<th id="sexe" style='cursor: pointer;'>Service</th>
+						<th id="adresse" style='cursor: pointer;'>Fonction</th>
+						<th id="nationalite" style='cursor: pointer;'>Role</th>
+						<th id="effectuer">Options</th>
+					</tr>
+				</thead>
+
+				<tbody id="donnees" class="liste_patient">
+
+					<!-- ************ On affiche les patients en une liste ordonn�e************ -->
+
+				</tbody>
+
+				<tfoot id="foot" class="foot_style">
+					<tr>
+						<th id="nom_" style='width: 16%;'><input type="text" name="search_browser"
+							value=" Nom d'utilisateur" class="search_init" /></th>
+						<th id="prenom_" style='width: 14%;'><input type="text" name="search_browser"
+							value=" Nom" class="search_init" /></th>
+						<th id="date_" style='width: 19%;'><input type="text" name="search_browser"
+							value=" Pr&eacute;nom" class="search_init" /></th>
+						<th id="sexe_" style='width: 20%;'><input type="text" name="search_browser"
+							value=" Service" class="search_init" /></th>
+						<th id="adresse_" style='width: 12%;'><input type="text" name="search_browser"
+							value=" Fonction" class="search_init" /></th>
+						<th id="nationalite_" style='width: 12%;'><input type="text" name="search_browser"
+							value=" Role" class="search_init" /></th>
+						<th id="effectuer_" style='width: 7%;'><input type="hidden" name="search_browser"
+							value="" class="" /></th>
+
+					</tr>
+				</tfoot>
+			</table>
+</div>
+
+<div id="vue_patient">
+
+</div>
+
+<div id="FormUtilisateur">
+
+    <?php
+    $form = $this->formUtilisateur;
+    $form->setAttribute ( 'action', $this->url ( 'admin', array ('action' => 'utilisateurs') ));
+    $form->prepare ();
+    echo $this->form ()->openTag ( $form );
+    ?>
+    <?php echo $this->formhidden($form->get('id')); ?>
+
+    <table id="form_patient" style="margin-left: 195px; width: 80%;">  
+      
+      <tr  style="width: 80%;">
+         <td class="comment-form-patient" style="width: 33%;"> <?php echo $this->formRow($form->get('username'));?></td> 
+         <td class="comment-form-patient" style="width: 33%;"> <?php echo $this->formRow($form->get('password'));?></td> 
+         <td style="width: 33%; padding-left: 20px; vertical-align: top;" rowspan="3"> 
+             <div style="width: 75%;">
+               <a href="javascript:viderChamp()" style="display: inline; padding-right: 5px;" >
+				   <img  src='<?php echo $this->basePath().'/images_icons/9.png'?>' title="Vider les champs" />
+			   </a>
+               <a href="javascript:modifierChamp()" style="display: inline;" >
+				   <img  src='<?php echo $this->basePath().'/images_icons/2.png'?>' title="modifier les champs" />
+			   </a>
+			   <div style="width:100%; background: #cccccc; height:2px; margin-top: 5px; margin-bottom: 15px;"></div>
+			 </div>
+             <div class="comment-form-patient" ><label> Role </label></div> 
+             <div style="border-top-right-radius: 15px; width: 75%; height: 100%; background: #f5f5f5; padding-left: 10px;"> 
+                  <?php echo $this->formradio($form->get('role'));?>
+             </div>
+         </td> 
+      </tr>
+      
+      <tr class="comment-form-patient"  style="width: 80%;">
+         <td style="width: 33%;"> <?php echo $this->formRow($form->get('nomUtilisateur'));?></td> 
+         <td style="width: 33%;"> <?php echo $this->formRow($form->get('prenomUtilisateur'));?></td> 
+      </tr>
+      
+       <tr class="comment-form-patient" style="width: 80%;">
+         <td style="width: 33%;"> <?php echo $this->formRow($form->get('service'));?></td> 
+         <td style="width: 33%;"> <?php echo $this->formRow($form->get('fonction'));?></td> 
+      </tr>
+      
+      
+   
+      <tr class="comment-form-patient" style="width: 80%; height: 70px; vertical-align: bottom;">
+         <td style="width: 33%;"></td>
+         <td style="width: 33%; padding-left: 30px;"> 
+            <?php echo $this->formSubmit($form->get('enregistrer')); ?>
+            <?php echo $this->formSubmit($form->get('annuler')); ?>
+         </td> 
+         <td style="width: 33%;"></td>
+      </tr>
+      
+    </table>
+
+    <?php echo $this->form()->closeTag();?>
+    
+    <div id="scriptFormUtilisation">
+    </div>
+</div>
+
+<script type="text/javascript">
+$("#vue_patient").toggle(false);
+$("#FormUtilisateur").toggle(false);
+</script>

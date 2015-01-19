@@ -23,20 +23,20 @@ use Facturation\Model\TarifConsultationTable;
 use Facturation\Model\TarifConsultation;
 
 class Module implements AutoloaderProviderInterface, ConfigProviderInterface, ServiceProviderInterface, ViewHelperProviderInterface {
-	public function onBootstrap(MvcEvent $e) {
-		// Register a "render" event, at high priority (so it executes prior
-		// to the view attempting to render)
-		$app = $e->getApplication();
-		$app->getEventManager()->attach('render', array($this, 'registerJsonStrategy'), 100);
+// 	public function onBootstrap(MvcEvent $e) {
+// 		// Register a "render" event, at high priority (so it executes prior
+// 		// to the view attempting to render)
+// 		$app = $e->getApplication();
+// 		$app->getEventManager()->attach('render', array($this, 'registerJsonStrategy'), 100);
 
-		$serviceManager = $e->getApplication ()->getServiceManager ();
-		$viewModel = $e->getApplication ()->getMvcEvent ()->getViewModel ();
+// 		$serviceManager = $e->getApplication ()->getServiceManager ();
+// 		$viewModel = $e->getApplication ()->getMvcEvent ()->getViewModel ();
 
-		$myServiceUser = $serviceManager->get ( 'Admin\Model\UtilisateurTable' );
-		$myServiceAuth = $serviceManager->get ( 'AuthService' );
-		$login = $myServiceAuth->getIdentity ();
-		$viewModel->user = $myServiceUser->fetchUtilisateur ( $login );
-	}
+// 		$myServiceUser = $serviceManager->get ( 'Admin\Model\UtilisateurTable' );
+// 		$myServiceAuth = $serviceManager->get ( 'AuthService' );
+// 		$login = $myServiceAuth->getIdentity ();
+// 		$viewModel->user = $myServiceUser->fetchUtilisateur ( $login );
+// 	}
 
 	public function registerJsonStrategy(MvcEvent $e)
 	{

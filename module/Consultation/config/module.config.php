@@ -28,7 +28,7 @@ return array (
 				'template_map' => array (
 						'layout/consultation' => __DIR__ . '/../view/layout/consultation.phtml',
 						'layout/menugauchecons' => __DIR__ . '/../view/layout/menugauche.phtml',
-						'layout/piedpagecons' => __DIR__ . '/../view/layout/piedpage.phtml'
+						'layout/piedpagecons' => __DIR__ . '/../view/layout/piedpagecons.phtml'
 				),
 				'template_path_stack' => array (
 						'consultation' => __DIR__ . '/../view'

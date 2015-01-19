@@ -18,7 +18,7 @@ return array (
 										),
 										'defaults' => array (
 												'controller' => 'Facturation\Controller\Facturation',
-												'action' => 'listepatient'
+												'action' => 'liste-patient'
 										)
 								)
 						)
@@ -36,6 +36,5 @@ return array (
 				'strategies' => array(
 						'ViewJsonStrategy',
 				),
-				//'layout' => 'layout/facturation',
 		)
 );

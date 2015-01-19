@@ -46,35 +46,35 @@
     /************************************************************************************************************************/
     /************************************************************************************************************************/
     /************************************************************************************************************************/    
-    function modifierpersonnel(id){
-        var vart='/simens_derniereversion/public/personnel/personnel/modifierdossier/code/'+id;
-        $(location).attr("href",vart);
-    }
+//    function modifierpersonnel(id){
+//        var vart='/simens_derniereversion/public/personnel/personnel/modifierdossier/code/'+id;
+//        $(location).attr("href",vart);
+//    }
     
     
     /**********************************************************************************/
     
-    function affichervue(id){
-    	
-    	var cle = id;
-        var chemin = '/simens_derniereversion/public/personnel/personnel/vuepersonnel';
-        $.ajax({
-            type: 'POST',
-            url: chemin ,
-            data: $(this).serialize(),  
-            data:'id='+cle,
-            success: function(data) {
-       	    
-            	     $("#titre").replaceWith("<div id='titre2' style='font-family: police2; color: green; font-size: 20px; font-weight: bold;'><iS style='font-size: 25px;'>&curren;</iS> INFORMATIONS </div>");
-            	     var result = jQuery.parseJSON(data);  
-            	     $("#contenu").fadeOut(function(){$("#vue_patient").html(result).fadeIn("fast"); }); 
-            	     
-            },
-            error:function(e){console.log(e);alert("Une erreur interne est survenue!");},
-            dataType: "html"
-        });
-	    return false;
-    }
+//    function affichervue(id){
+//    	
+//    	var cle = id;
+//        var chemin = '/simens_derniereversion/public/personnel/personnel/vuepersonnel';
+//        $.ajax({
+//            type: 'POST',
+//            url: chemin ,
+//            data: $(this).serialize(),  
+//            data:'id='+cle,
+//            success: function(data) {
+//       	    
+//            	     $("#titre").replaceWith("<div id='titre2' style='font-family: police2; color: green; font-size: 20px; font-weight: bold;'><iS style='font-size: 25px;'>&curren;</iS> INFORMATIONS </div>");
+//            	     var result = jQuery.parseJSON(data);  
+//            	     $("#contenu").fadeOut(function(){$("#vue_patient").html(result).fadeIn("fast"); }); 
+//            	     
+//            },
+//            error:function(e){console.log(e);alert("Une erreur interne est survenue!");},
+//            dataType: "html"
+//        });
+//	    return false;
+//    }
     
     /************************************************************************************************************************/
     /************************************************************************************************************************/

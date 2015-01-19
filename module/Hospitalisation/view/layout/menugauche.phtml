@@ -17,10 +17,12 @@
 	       <span id="suivi_patient_style" style="font-size:15px; color: white; font-family:Times New Roman;">Suivi des patients</span></a>
 	   </div>
 	   
-	    <div style="margin-left:30px; height:40px;"><a href="<?php echo $this->basePath().'/hospitalisation/en-cours';?>">
+	   <?php //Utiliser dans l'interface du medecin ?>
+	   <div style="margin-left:30px; height:40px;"><a href="<?php echo $this->basePath().'/hospitalisation/en-cours';?>">
 	       <img style="margin-left:5px; display: inline;" src='<?php echo $this->basePath().'/images_icons/liste.png'?>' alt='Liste' />
-	       <span id="en_cours_style" style="font-size:15px; color: white; font-family:Times New Roman;">En cours</span></a>
+	       <span id="en_cours_style" style="font-size:15px; color: white; font-family:Times New Roman;">En cours (M&eacute;decin)</span></a>
 	   </div>
+	   <?php ?>
 	</li>
 
 
@@ -36,13 +38,33 @@
 	       <span id="recherche_style" style="margin-left:5px; color: white; font-size:15px; font-family:Times New Roman;"><img style="display: inline;" src='<?php echo $this->basePath().'/images_icons/liste.png'?>' alt='Liste' /> Demandes </span></a>
 	   </div>
 	   
-	   <div id="liste_operation"style="margin-left:30px; height:40px;"><a href="<?php echo $this->basePath().'/hospitalisation/liste-examens-effectues';?>">
-	       <img style="margin-left:5px; display: inline;" src='<?php echo $this->basePath().'/images_icons/liste.png'?>' alt='Liste' />
+	   <!-- div id="liste_operation"style="margin-left:30px; height:40px;"><a href="<?php //echo $this->basePath().'/hospitalisation/liste-examens-effectues';?>">
+	       <img style="margin-left:5px; display: inline;" src='<?php //echo $this->basePath().'/images_icons/liste.png'?>' alt='Liste' />
 	       <span id="liste_style" style="font-size:15px; color: white; font-family:Times New Roman;">Effectu&eacute;s</span></a>
-	   </div>
+	   </div-->
 	</li>
 
 </ul>
+
+<?php
+//CHOISIR LE MENU A AFFICHER SELON QUE C'EST LE MEDECIN OU SUR LE SURVEILLANT
+$user = $this->layout()->user;
+$role = $user->role;
+
+if($role == 'infirmier'){ ?>
+<script>
+$("#operation").toggle(false);
+</script>
+<?php
+}
+else if($role == 'laborantin'){ ?>
+<script>
+$("#dossier_personnel").toggle(false);
+</script>
+<?php
+     }
+?>
+
 
 <script>
 //*******************************************************************************************************************************

@@ -3,104 +3,83 @@
 namespace Admin;
 
 use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
-use Zend\ModuleManager\Feature\ConfigProviderInterface;
-use Admin\Model\AuthentificationService;
-use Admin\Model\AuthentificationServiceTable;
+use Admin\Model\UtilisateursTable;
 use Zend\Db\ResultSet\ResultSet;
+use Admin\Model\Utilisateurs;
 use Zend\Db\TableGateway\TableGateway;
-use Zend\Authentication\Storage;
-use Zend\Authentication\AuthenticationService;
-use Zend\Authentication\Adapter\DbTable as DbTableAuthAdapter;
-use Zend\Mvc\ModuleRouteListener;
-use Zend\Mvc\MvcEvent;
-use Zend\Session\Config\SessionConfig;
-use Zend\Session\Container;
-use Zend\Session\SessionManager;
-use Admin\Model\UtilisateurTable;
-use Admin\Model\Utilisateur;
+use Zend\EventManager\StaticEventManager;
 
-class Module implements AutoloaderProviderInterface, ConfigProviderInterface {
-	public function onBootstrap(MvcEvent $e) {
-		$eventManager = $e->getApplication ()->getEventManager ();
-		$moduleRouteListener = new ModuleRouteListener ();
-		$moduleRouteListener->attach ( $eventManager );
-
-		$this->initSession(array(
-				'remember_me_seconds' => 180,
-				'use_cookies' => true,
-				'cookie_httponly' => true,
-		));
-		$sessionTimer = new Container('timer');
-		$sessionTimer->endTime = (float) array_sum(explode(' ', microtime()));
-
-		$sessionUser = new Container('user');
-		$sessionUser->connexion = "connexion";
-	}
-	public function initSession($config)
+class Module implements AutoloaderProviderInterface
+{
+	/**
+	 * Init function
+	 *
+	 * @return void
+	 */
+	public function init()
 	{
-		$sessionConfig = new SessionConfig();
-		$sessionConfig->setOptions($config);
-		$sessionManager = new SessionManager($sessionConfig);
-		$sessionManager->start();
-		Container::setDefaultManager($sessionManager);
+		// Attach Event to EventManager
+		$events = StaticEventManager::getInstance();
+		$events->attach('Zend\Mvc\Controller\AbstractActionController', 'dispatch', array($this, 'mvcPreDispatch'), 100); //@todo - Go directly to User\Event\Authentication
+	    
 	}
-	public function getAutoloaderConfig() {
-		return array (
-				// 'Zend\Loader\ClassMapAutoloader' => array(
-				// __DIR__ . '/autoload_classmap.php',
-				// ),
-				'Zend\Loader\StandardAutoloader' => array (
-						'namespaces' => array (
-								__NAMESPACE__ => __DIR__ . '/src/' . __NAMESPACE__
-						)
-				)
-		);
-	}
+	
+	
+	
+    /**
+     * Get Autoloader Configuration
+     *
+     * @return array
+     */
+    public function getAutoloaderConfig()
+    {
+        return array(
+            'Zend\Loader\ClassMapAutoloader' => array(
+                __DIR__ . '/autoload_classmap.php'
+            ),
+            'Zend\Loader\StandardAutoloader' => array(
+                'namespaces' => array(
+                    __NAMESPACE__ => __DIR__ . '/src/' . __NAMESPACE__
+                )
+            )
+        );
+    }
+    
+    
 	public function getConfig() {
 		return include __DIR__ . '/config/module.config.php';
 	}
-	public function getServiceConfig() {
-		return array (
-				'factories' => array (
-						'Admin\Model\AuthentificationStorage' => function ($sm) {
-							return new \Admin\Model\AuthentificationStorage ( 'zf_tutorial' );
-						},
-
-						'AuthService' => function ($sm) {
-							// My assumption, you've alredy set dbAdapter
-							// and has users table with columns : user_name and pass_word
-							// that password hashed with md5
-							$dbAdapter = $sm->get ( 'Zend\Db\Adapter\Adapter' );
-							$dbTableAuthAdapter = new DbTableAuthAdapter ( $dbAdapter, 'authentification', 'login', 'password' );
-
-							$authService = new AuthenticationService ();
-							$authService->setAdapter ( $dbTableAuthAdapter );
-							$authService->setStorage ( $sm->get ('Admin\Model\AuthentificationStorage' ) );
-							return $authService;
-						},
-						'Admin\Model\AuthentificationServiceTable' => function ($sm) {
-							$tableGateway = $sm->get ( 'AuthentificationServiceTableGateway' );
-							$table = new AuthentificationServiceTable ( $tableGateway );
+	
+	
+	/**
+	 * MVC preDispatch Event
+	 *
+	 * @param $event
+	 * @return mixed
+	 */
+	public function mvcPreDispatch($event) {
+		$di = $event->getTarget()->getServiceLocator();
+		$auth = $di->get('Admin\Event\Authentication');
+	
+		return  $auth->preDispatch($event);
+	}
+	
+	public function getServiceConfig()
+	{
+		return array(
+				'factories' => array(
+						'Admin\Model\UtilisateursTable' =>  function($sm) {
+							$tableGateway = $sm->get('UtilisateursTableGateway');
+							$table = new UtilisateursTable($tableGateway);
 							return $table;
 						},
-						'AuthentificationServiceTableGateway' => function ($sm) {
-							$dbAdapter = $sm->get ( 'Zend\Db\Adapter\Adapter' );
-							$resultSetPrototype = new ResultSet ();
-							$resultSetPrototype->setArrayObjectPrototype ( new AuthentificationService () );
-							return new TableGateway ( 'authentification_service', $dbAdapter, null, $resultSetPrototype );
+						'UtilisateursTableGateway' => function ($sm) {
+							$dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+							$resultSetPrototype = new ResultSet();
+							$resultSetPrototype->setArrayObjectPrototype(new Utilisateurs());
+							return new TableGateway('utilisateurs', $dbAdapter, null, $resultSetPrototype);
 						},
-						'Admin\Model\UtilisateurTable' => function ($sm) {
-							$tableGateway = $sm->get ( 'UtilisateurTableGateway' );
-							$table = new UtilisateurTable($tableGateway) ;
-							return $table;
-						},
-						'UtilisateurTableGateway' => function ($sm) {
-							$dbAdapter = $sm->get ( 'Zend\Db\Adapter\Adapter' );
-							$resultSetPrototype = new ResultSet ();
-							$resultSetPrototype->setArrayObjectPrototype ( new Utilisateur() );
-							return new TableGateway ( 'authentification', $dbAdapter, null, $resultSetPrototype );
-						}
-				)
+				),
 		);
 	}
 }

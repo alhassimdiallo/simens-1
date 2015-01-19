@@ -219,7 +219,7 @@ class HospitalisationController extends AbstractActionController {
 			
 			$this->getLitTable()->updateLit($id_lit);
 			
-			$this->redirect()->toRoute('hospitalisation' , array('action' => 'liste'));
+			return $this->redirect()->toRoute('hospitalisation' , array('action' => 'liste'));
 		}
 		
 		return array(
@@ -755,7 +755,7 @@ class HospitalisationController extends AbstractActionController {
 		
 		$this->getHospitalisationTable()->libererPatient($id_demande_hospi, $resumer_medical, $motif_sorti);
 		
-		$this->redirect()->toRoute('hospitalisation', array('action' =>'en-cours'));
+		return $this->redirect()->toRoute('hospitalisation', array('action' =>'en-cours'));
 	}
 	
 	public function detailInfoLiberationPatientAction() {
@@ -1297,7 +1297,7 @@ class HospitalisationController extends AbstractActionController {
 		
  			if($Liste['appliquer'] == 0) {
  				$html .="<a href='javascript:appliquerExamen(".$Liste['idDemande'].")'>
- 					    	<img class='modifier".$Liste['idDemande']."' style='margin-right: 16%;' src='/simens/public/images_icons/aj.gif' alt='Constantes' title='appliquer l examen'/>
+ 					    	<img class='modifier".$Liste['idDemande']."' style='margin-right: 16%;' src='/simens/public/images_icons/aj.gif' alt='Constantes' title='Entrer les r&eacute;sultats'/>
  					     </a>";
  				
  				$html .="<a>
