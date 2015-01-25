@@ -105,6 +105,10 @@ return array(
     								'update-complement-consultation' => 'medecin',
     								'maj-complement-consultation' => 'medecin',
     								'visualisation-consultation' => 'medecin',
+    								
+    								'imagesExamensMorphologiques' => 'medecin',
+    								'supprimerImage' => 'medecin',
+    								
     								/**PDF**/
     								'impression-Pdf' => 'medecin',
     								

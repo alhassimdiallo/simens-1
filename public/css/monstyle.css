@@ -1,5 +1,57 @@
 @CHARSET "ISO-8859-1";
+/*========== STYLE IMAGES EXAMENS MORPHOLOGIQUES ===========*/
+/*========== STYLE IMAGES EXAMENS MORPHOLOGIQUES ===========*/
+/*========== STYLE IMAGES EXAMENS MORPHOLOGIQUES ===========*/
+/*====== IMAGE RADIO ======*/
+/*====== IMAGE RADIO ======*/
+/*====== IMAGE RADIO ======*/
+#AjoutImage input {
+              position:absolute;
+	          bottom:0px;
+	          right:0px;
+              font-size:0px;
+              opacity:0;
+              -moz-opacity:0;
+              filter:alpha(opacity=0);
+              cursor:pointer;
+              text-align:right; 
+         }
 
+#AjoutImage {
+              position:relative;
+              width:14px;
+              height:15px;
+              overflow:hidden;
+              background:#fff url("../images_icons/aj.gif") no-repeat right top;
+        }
+        
+/*====== IMAGE ECHOGRAPHIE ======*/    
+/*====== IMAGE ECHOGRAPHIE ======*/  
+/*====== IMAGE ECHOGRAPHIE ======*/  
+#AjoutImageEchographie input {
+              position:absolute;
+	          bottom:0px;
+	          right:0px;
+              font-size:0px;
+              opacity:0;
+              -moz-opacity:0;
+              filter:alpha(opacity=0);
+              cursor:pointer;
+              text-align:right; 
+         }
+
+#AjoutImageEchographie {
+              position:relative;
+              width:14px;
+              height:15px;
+              overflow:hidden;
+              background:#fff url("../images_icons/aj.gif") no-repeat right top;
+        }
+        
+/*========== FIN STYLE IMAGES EXAMENS MORPHOLOGIQUES ===========*/
+/*========== FIN STYLE IMAGES EXAMENS MORPHOLOGIQUES ===========*/
+/*========== FIN STYLE IMAGES EXAMENS MORPHOLOGIQUES ===========*/
+        
 #faces  /*photo*/
 {
 
@@ -964,8 +1016,6 @@ text-indent: 0px; /* alignement du text dans le champ input après saisie*/
 
 margin-bottom: 1px;
 
-margin-top: -40px;
-
 float: left;
 
 }
@@ -1020,7 +1070,7 @@ margin-left: 0px;
 
 position: relative;
 
-top: -35px;
+top: 5px;
 
 z-index: 1;
 

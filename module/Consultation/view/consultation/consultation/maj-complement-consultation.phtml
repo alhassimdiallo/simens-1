@@ -1,5 +1,14 @@
 <?php use Facturation\View\Helper\DateHelper; ?>
 
+                            <!-- SCRIPT DU NOUVEAU CODE POUR LA GESTION DES IMAGES  -->
+                            <!-- SCRIPT DU NOUVEAU CODE POUR LA GESTION DES IMAGES  -->
+                            <!-- SCRIPT DU NOUVEAU CODE POUR LA GESTION DES IMAGES  -->
+                            <?php 
+                            echo $this->headLink()->appendStylesheet($this->basePath().'/css/pikachoose/bottom.css');
+                            echo  $this->headScript()->appendFile($this->basePath().'/js/plugins/pikachoose/jquery.jcarousel.min.js');
+                            echo  $this->headScript()->appendFile($this->basePath().'/js/plugins/pikachoose/jquery.pikachoose.min.js');
+                            ?>
+
 <!-- les scripts des images dans examen morphologique   -->
 <?php echo $this->headScript()->appendFile($this->basePath().'/js/plugins/fancybox/source/jquery.fancybox.js');?>
 <?php echo $this->headLink()->appendStylesheet($this->basePath().'/js/plugins/fancybox/source/jquery.fancybox.css');?>
@@ -180,7 +189,87 @@ function getservices(cle)
 
     return false;
  }
+/*
+<!-- SCRIPT DU NOUVEAU CODE POUR LA GESTION DES IMAGES  -->
+<!-- SCRIPT DU NOUVEAU CODE POUR LA GESTION DES IMAGES  -->
+<!-- SCRIPT DU NOUVEAU CODE POUR LA GESTION DES IMAGES  -->
+*/
 
+<?php /* ?>
+var base_url = window.location.toString();
+var tabUrl = base_url.split("public");
+var i = 1;
+$(function() {
+	
+	//CACHER TOUTES LES LIGNES DES EXAMENS MORPHOLOGIQUES
+	//CACHER TOUTES LES LIGNES DES EXAMENS MORPHOLOGIQUES
+	//$('.imageRadio').toggle(false);
+	//PREMIER APPEL POUR LE CHARGEMENT DES IMAGES (EXAMEN MORPHOLOGIQUES)
+	//PREMIER APPEL POUR LE CHARGEMENT DES IMAGES (EXAMEN MORPHOLOGIQUES)
+	getimagesExamensMorphologiques();
+	
+    function Recupererimage(){
+    	$('#AjoutImage input[type="file"]').change(function() {
+    	   var file = $(this);
+ 		   var reader = new FileReader;
+ 		   
+	       reader.onload = function(event) { 
+	    		var img = new Image();
+                 
+			    document.getElementById('fichier_tmp').value = img.src = event.target.result;
+			    $("#ajout_tmp").val(1);
+			    $("#examenRadio_tmp").val(8);
+
+			    alert($("#ajout_tmp").val());
+    	};
+    	reader.readAsDataURL(file[0].files[0]);
+    	
+    	getimagesExamensMorphologiques(); 
+      });
+    }
+    
+    function getimagesExamensMorphologiques()
+    {
+    	 var id_cons = $("#id_cons").val();
+    	 var ajout_tmp = $("#ajout_tmp").val(); 
+    	 var fichier_tmp = $("#fichier_tmp").val();
+    	 var examenRadio_tmp = $("#examenRadio_tmp").val();
+         $.ajax({
+            type: 'POST',
+            url: tabUrl[0]+'public/consultation/imagesExamensMorphologiques',
+            data: {'ajout':ajout_tmp , 'id_cons':id_cons , 'fichier_tmp':fichier_tmp , 'examenRadio_tmp':examenRadio_tmp},
+            success: function(data) {
+                var result = jQuery.parseJSON(data); alert(result); 
+                $("#pika2").fadeOut(function(){ 
+                	$("#pika").html(result);
+                	if(i == 6){
+                		alert('Vous allez atteindre le nombre de '+i+' images');
+                	} i++;
+                	if(i<7) {
+                	   //AJOUTER L'IMAGE MORPHOLOGIQUE
+                	   Recupererimage();
+                	}
+                	return false;
+                }); 
+          },
+          error:function(e){console.log(e);alert("Une erreur interne est survenue!");},
+            dataType: "html"
+        });
+     }
+});
+
+function scriptExamenMorpho() {
+   	   var a = function(self){
+       	  self.anchor.fancybox();
+        };
+        $("#pikame").PikaChoose({buildFinished:a,carousel:true,carouselOptions:{wrap:'circular'}});
+}
+<?php */ ?>
+/*
+<!-- SCRIPT DU NOUVEAU CODE POUR LA GESTION DES IMAGES  -->
+<!-- SCRIPT DU NOUVEAU CODE POUR LA GESTION DES IMAGES  -->
+<!-- SCRIPT DU NOUVEAU CODE POUR LA GESTION DES IMAGES  -->
+ */
 </script>
 
 <style type='text/css'>
@@ -1095,7 +1184,8 @@ echo $this->form()->openTag($form); ?>
                        <div style='font-family: police2;font-size: 15px; font-weight: bold; color:green;'>Examens Morphologiques  </div>
                        <div style=' max-height: 320px; '>
                        <div style="margin-bottom: 8px; border-bottom: 1px solid #cccccc; margin-top:-15px;"></div>
-                            <table id="respondeee" style="width: 100%;">
+                           
+                            <?php /* <table id="respondeee" style="width: 100%;">
                                    <tr class="form-examen-morphologique" style="width: 100%;">
                                        <th style="width: 40%;"> <?php echo $this->formRow($form->get('radio'));?></th>
                                        <th style="width: 30%;"> <img src="<?php echo $this->basePath().'/images_icons/right_64.png';?>" /></th>
@@ -1150,9 +1240,92 @@ echo $this->form()->openTag($form); ?>
                                    <tr style="width: 100%;">
                                        <th colspan="4"><div style="width:100%;margin-top:0px; margin-bottom: 15px; border-bottom: 1px dashed green; margin-left: 0px; margin-right: 0px;"></div></th>
                                    </tr>
-
+                            </table> */?>
+                            
+                          <?php echo  $this->headScript()->appendFile($this->basePath().'/js/consultation/majComplementCons.js');?>
+                            <!-- POP UP pour Confirmation Suppression -->
+                            <div id="confirmation" title="Confirmation de la suppression" style="display:none;">
+                              <p style="font-size: 15px;">
+                                 <span style="float:left; margin:0 0px 20px 0; ">
+                                 <img src="<?php echo $this->basePath().'/images_icons/warning_16.png';?>" />
+                                 Etes-vous s&ucirc;r de vouloir supprimer l'image ?</span>
+                              </p>
+                            </div>
+                            <!-- NOUVEAU CODE POUR LA GESTION DES IMAGES  -->
+                            <!-- NOUVEAU CODE POUR LA GESTION DES IMAGES  -->
+                            <!-- NOUVEAU CODE POUR LA GESTION DES IMAGES  -->
+                            
+                                 <!-- RADIO RADIO RADIO  -->
+                                 <!-- RADIO RADIO RADIO  -->
+                                 <!-- RADIO RADIO RADIO  -->
+                                 <!-- RADIO RADIO RADIO  -->
+                                 <input type='hidden' id="typeExamen_tmp" />
+                            <table id="respondeee" class="imageRadio" style="width: 100%;">
+                                   <tr class="form-examen-morphologique" style="width: 100%;">
+                                       <th style="width: 40%; vertical-align: top;"> <?php echo $this->formRow($form->get('radio'));?></th>
+                                       <th style="width: 25%; vertical-align: top; padding-top: 50px;"> <img src="<?php echo $this->basePath().'/images_icons/right_64.png';?>" /></th>
+                                       <th style="width: 34%; padding-bottom:15px; margin-right: 40px;"> 
+                                           <!-- PIKACHOOSE -->
+                                           <!-- PIKACHOOSE -->
+                                           <div id="pika">
+                                             <div id="pika2">
+                                                <!-- EMPLACEMENT DES IMAGES -->
+                                                <!-- EMPLACEMENT DES IMAGES -->
+                                                <!-- EMPLACEMENT DES IMAGES -->
+                                             </div>
+                                           </div>
+                                           <div id="AjoutImage" style="float: right; position: relative; bottom: 42px; right: 5px;">
+                                                  <input type='file' name="fichier" />
+			                                      <!-- RECUPERER L'IMAGE -->
+			                                      <input type='hidden' id="fichier_tmp" name="fichier_tmp" />
+			                                      <!-- FICHIER TAMPON POUR RECUPERER L'IMAGE DANS LE CONTROLLER -->
+                                           </div>
+                                       </th>
+                                   </tr>
+                                   
+                                   <tr style="width: 100%;">
+                                       <th colspan="3"><div style="width:100%; margin-top:-20px; margin-bottom: -10px; border-bottom: 2px solid green; "></div></th>
+                                   </tr>
                             </table>
-
+                            
+                                 <!-- ECHOGRAPHIE ECHOGRAPHIE ECHOGRAPHIE  -->
+                                 <!-- ECHOGRAPHIE ECHOGRAPHIE ECHOGRAPHIE  -->
+                                 <!-- ECHOGRAPHIE ECHOGRAPHIE ECHOGRAPHIE  -->
+                                 <!-- ECHOGRAPHIE ECHOGRAPHIE ECHOGRAPHIE  -->
+                            <table id="respondeee" class="imageEchographie" style="width: 100%;">
+                                   <tr class="form-examen-morphologique" style="width: 100%;">
+                                       <th style="width: 40%; vertical-align: top;"> <?php echo $this->formRow($form->get('ecographie'));?></th>
+                                       <th style="width: 25%; vertical-align: top; padding-top: 50px;"> <img src="<?php echo $this->basePath().'/images_icons/right_64.png';?>" /></th>
+                                       <th style="width: 34%; padding-bottom:15px; margin-right: 40px;"> 
+                                           <!-- PIKACHOOSE -->
+                                           <!-- PIKACHOOSE -->
+                                           <div id="pika3">
+                                             <div id="pika4">
+                                                <!-- EMPLACEMENT DES IMAGES -->
+                                                <!-- EMPLACEMENT DES IMAGES -->
+                                                <!-- EMPLACEMENT DES IMAGES -->
+                                             </div>
+                                           </div>
+                                           <div id="AjoutImageEchographie" style="float: right; position: relative; bottom: 42px; right: 5px;">
+                                                  <input type='file' name="fichierEchographie" />
+			                                      <!-- RECUPERER L'IMAGE -->
+			                                      <input type='hidden' id="fichierEchographie_tmp" name="fichierEchographie_tmp" />
+			                                      <!-- FICHIER TAMPON POUR RECUPERER L'IMAGE DANS LE CONTROLLER -->
+                                           </div>
+                                       </th>
+                                   </tr>
+                                   
+                                   <tr style="width: 100%;">
+                                       <th colspan="3"><div style="width:100%; margin-top:-30px; margin-bottom: 15px; border-bottom: 2px solid green; margin-left: 0px; margin-right: 0px;"></div></th>
+                                   </tr>
+                            </table>
+                            
+                            
+                            
+                            
+                            <!--********************* BOUTON VALIDER OU MODIFIER ************************-->
+                            <!--********************* BOUTON VALIDER OU MODIFIER ************************-->
+                            <!--********************* BOUTON VALIDER OU MODIFIER ************************-->
                             <table>
                                        <tr>
                                             <th style="width: 250px;"></th>
@@ -1170,16 +1343,6 @@ echo $this->form()->openTag($form); ?>
                                             <th></th>
                                         </tr>
                             </table>
-
-                            <!-- POP UP pour Confirmation Suppression -->
-                            <div id="confirmation" title="Confirmation de la suppression" style="display:none;">
-                              <p style="font-size: 16px;">
-                                 <span style="float:left; margin:0 0px 20px 0; ">
-                                 <img src="<?php echo $this->basePath().'/images_icons/warning_16.png';?>" />
-
-                                 Etes-vous s&ucirc;r de vouloir supprimer cet image ?</span>
-                              </p>
-                            </div>
 
                        </div>
 

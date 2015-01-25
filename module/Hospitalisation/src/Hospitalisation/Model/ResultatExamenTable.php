@@ -29,7 +29,6 @@ class ResultatExamenTable {
 				'techniqueUtiliser' =>$donnees->techniqueUtiliser,
 				'noteResultat' =>$donnees->noteResultat,
 				'conclusion' =>$donnees->conclusion,
-				'image' =>$donnees->image,
 		);
 		
 		if($donnees->update == 0) {

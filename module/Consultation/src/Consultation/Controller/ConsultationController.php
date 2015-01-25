@@ -492,6 +492,10 @@ class ConsultationController extends AbstractActionController {
 	}
 	public function majComplementConsultationAction() {
 
+// 		 $result = $this->demandeExamensTable()->ajouterImage('s-c-020114-163152', 8);
+		 
+// 		 var_dump($result); exit();
+		 
 		 $this->layout ()->setTemplate ( 'layout/consultation' );
 		 $this->getDateHelper(); 
 		 $id_pat = $this->params()->fromQuery ( 'id_patient', 0 );
@@ -1300,9 +1304,137 @@ class ConsultationController extends AbstractActionController {
 				//Afficher le document contenant la page
 				$DocPdf->getDocument();
 			
-			
 			}
 			
+	}
+	
+	//********************************************************
+	//********************************************************
+	//********************************************************
+	public function imagesExamensMorphologiquesAction()
+	{
+		$id_cons = $this->params()->fromPost( 'id_cons' );
+		$ajout = (int)$this->params()->fromPost( 'ajout' );
+		$idExamen = (int)$this->params()->fromPost( 'typeExamen' ); /*Le type d'examen*/
+		
+		/***
+		 * INSERTION DE LA NOUVELLE IMAGE
+		 */
+		if($ajout == 1) {
+			/***
+			 * Enregistrement de l'image
+			 * Enregistrement de l'image
+			 * Enregistrement de l'image
+			*/
+			$today = new \DateTime ( 'now' );
+			$nomImage = $today->format ( 'dmy_His' );
+			if($idExamen == 8) { $nomImage = "radio_".$nomImage;}
+			
+			$date_enregistrement = $today->format ( 'Y-m-d H:i:s' );
+			$fileBase64 = $this->params ()->fromPost ( 'fichier_tmp' );
+			
+			$typeFichier = substr ( $fileBase64, 5, 5 );
+			$formatFichier = substr ($fileBase64, 11, 4 );
+			$fileBase64 = substr ( $fileBase64, 23 );
+			
+			if($fileBase64 && $typeFichier == 'image' && $formatFichier =='jpeg'){
+				$img = imagecreatefromstring(base64_decode($fileBase64));
+				if($img){
+					$resultatAjout = imagejpeg ( $img, 'C:\wamp\www\simens\public\images\images\\' . $nomImage . '.jpg' );
+				}
+				if($resultatAjout){
+					$this->demandeExamensTable()->ajouterImage($id_cons, $idExamen, $nomImage, $date_enregistrement);
+				}
+			}
+		}
+		
+		
+		
+		/**
+		 * RECUPERATION DE TOUS LES RESULTATS DES EXAMENS MORPHOLOGIQUES
+		 */
+ 		$result = $this->demandeExamensTable()->resultatExamens($id_cons);
 
+		$radio = false;
+		$echographie = false;
+		
+		
+		$pickaChoose = "";
+		foreach ($result as $resultat) {
+			/**==========================**/
+			/**Recuperer les images RADIO**/
+			/**==========================**/
+			if($resultat['idExamen'] == 8 && $idExamen == 8){
+				$radio = true;
+				$pickaChoose .=" <li><a href='../images/images/".$resultat['NomImage'].".jpg'><img src='../images/images/".$resultat['NomImage'].".jpg'/></a><span></span></li>";
+			} else 
+				/**================================**/
+				/**Recuperer les images ECHOGRAPHIE**/
+				/**================================**/
+				if($resultat['idExamen'] == 9 && $idExamen == 9){
+					$echographie = true;
+					$pickaChoose .=" <li><a href='../images/images/".$resultat['NomImage'].".jpg'><img src='../images/images/".$resultat['NomImage'].".jpg'/></a><span></span></li>";
+				}
+		}
+
+		if($radio) {
+			$html ="<div id='pika2'>
+				    <div class='pikachoose' style='height: 210px;'>
+                      <ul id='pikame' class='jcarousel-skin-pika'>";
+			$html .=$pickaChoose;
+			$html .=" </ul>
+                     </div>
+				     </div>";
+
+			$html.="<script>
+					  scriptExamenMorpho();
+					  $(function(){ $('.imageRadio').toggle(true);});
+					</script>";
+		} else 
+			if($echographie) {
+				$html ="<div id='pika4'>
+				        <div class='pikachoose' style='height: 210px;'>
+                          <ul id='pikameEchographie' class='jcarousel-skin-pika'>";
+				$html .=$pickaChoose;
+				$html .=" </ul>
+                         </div>
+				         </div>";
+			
+				$html.="<script>
+					      scriptEchographieExamenMorpho();
+					      //$(function(){ $('.imageRadio').toggle(true);});
+					    </script>";
+			}
+		
+
+		$this->getResponse()->getHeaders ()->addHeaderLine ( 'Content-Type', 'application/html' );
+		return $this->getResponse ()->setContent(Json::encode ( $html ));
+	}
+	
+	
+	//************************************************************************************
+	//************************************************************************************
+	//************************************************************************************
+	public function supprimerImageAction()
+	{
+		$id_cons = $this->params()->fromPost('id_cons');
+		$id = $this->params()->fromPost('id'); //numero de l'image dans le diapo
+		$typeExamen = $this->params()->fromPost('typeExamen');
+
+		/**
+		 * RECUPERATION DE TOUS LES RESULTATS DES EXAMENS MORPHOLOGIQUES
+		 */
+		$result = $this->demandeExamensTable()->recupererDonneesExamen($id_cons, $id, $typeExamen);
+		/**
+		 * SUPPRESSION PHYSIQUE DE L'IMAGE
+		 */
+		unlink ( 'C:\wamp\www\simens\public\images\images\\' . $result['NomImage'] . '.jpg' );
+		/**
+		 * SUPPRESSION DE L'IMAGE DANS LA BASE
+		 */
+		$this->demandeExamensTable()->supprimerImage($result['IdImage']);
+		
+		$this->getResponse()->getHeaders ()->addHeaderLine ( 'Content-Type', 'application/html' );
+		return $this->getResponse ()->setContent(Json::encode ( ));
 	}
 }
