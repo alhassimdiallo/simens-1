@@ -142,4 +142,23 @@ class DateHelper extends AbstractHelper{
 	}
 
 
+	
+	/**************************************************/
+	/*******************************************************************************************************************/
+	/** CLONAGE **/
+	/* MY CLONE  */
+	/*=================================================================================================================*/
+	
+	/*******************************************************************************************************************/
+	
+	public function construisTableauJS($tableauPHP){
+		$nomTableauJS = array();
+		echo $nomTableauJS." = new Array();";
+		foreach ( $tableauPHP as $i => $val) {
+			if(!is_array($tableauPHP[$i]))	echo $nomTableauJS."['".$i."'] = '".addslashes($tableauPHP[$i])."';";
+			else
+				$this->construisTableauJS($tableauPHP[$i], $nomTableauJS."[".$i."]");
+		}
+		return $nomTableauJS;
+	}
 }

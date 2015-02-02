@@ -107,4 +107,20 @@ class ConsommableTable{
 		}
 		return $options;
 	}
+	
+	
+	/**
+	 * Recuperation de la liste des medicaments
+	 */
+	public function listeDeTousLesMedicaments(){
+		$adapter = $this->tableGateway->getAdapter();
+		$sql = new Sql ( $adapter );
+		$select = $sql->select('consommable');
+		$select->columns(array('ID_MATERIEL','INTITULE'));
+		$stat = $sql->prepareStatementForSqlObject($select);
+		$result = $stat->execute();
+		
+		return $result;
+	}
+	
 }

@@ -4,6 +4,7 @@ namespace Consultation\Model;
 use Zend\Db\TableGateway\TableGateway;
 use Zend\Db\Sql\Sql;
 use Zend\Crypt\PublicKey\Rsa\PublicKey;
+use Zend\View\Model\RetrievableChildrenInterface;
 class DemandeTable{
 	protected $tableGateway;
 	public function __construct(TableGateway $tableGateway) {
@@ -22,6 +23,47 @@ class DemandeTable{
 
 		return $result;
 	}
+	
+	/**
+	 * Recuperer la liste des examens Morphologiques
+	 */
+	public function getDemandeExamensMorphologiques($id){
+		$adapter = $this->tableGateway->getAdapter();
+		$sql = new Sql($adapter);
+		$select = $sql->select();
+		$select->columns(array('*'));
+		$select->from(array('d'=>'demande'));
+		$select->join( array(
+				'e' => 'examens'
+		), 'd.idExamen = e.idExamen' , array ( '*' ) );
+		$select->where(array('d.idCons' => $id, 'idType' => 2));
+		$select->order('d.idDemande ASC');
+		$stat = $sql->prepareStatementForSqlObject($select);
+		$result = $stat->execute();
+	
+		return $result;
+	}
+	
+	/**
+	 * Recuperer la liste des examens Biologiques
+	 */
+	public function getDemandeExamensBiologiques($id){
+		$adapter = $this->tableGateway->getAdapter();
+		$sql = new Sql($adapter);
+		$select = $sql->select();
+		$select->columns(array('*'));
+		$select->from(array('d'=>'demande'));
+		$select->join( array(
+				'e' => 'examens'
+		), 'd.idExamen = e.idExamen' , array ( '*' ) );
+		$select->where(array('d.idCons' => $id, 'idType' => 1));
+		$select->order('d.idDemande ASC');
+		$stat = $sql->prepareStatementForSqlObject($select);
+		$result = $stat->execute();
+	
+		return $result;
+	}
+	
 	public function updateDemande($examenDemande, $noteExamen)
 	{
 		$this->tableGateway->delete(array('idCons' => $examenDemande['id_cons']));
@@ -110,19 +152,32 @@ class DemandeTable{
 				$result = $stat->execute();
 				return $result;
 			}else {
-// 				$db = $this->tableGateway->getAdapter();
-// 				$sql = new Sql($db);
-// 				$sQuery = $sql->insert()
-// 				->into('resultats_examens2')
-// 				->columns(array('idDemande', 'envoyer'))
-// 				->values(array('idDemande' => $demande['idDemande'], 'envoyer' =>1));
-// 				$stat = $sql->prepareStatementForSqlObject($sQuery);
-// 				$result = $stat->execute();
-// 				return $result;
+				//INSERTION DU RESULTAT DE LA DEMANDE
+				$db = $this->tableGateway->getAdapter();
+				$sql = new Sql($db);
+				$sQuery = $sql->insert()
+				->into('resultats_examens2')
+				->columns(array('idDemande', 'envoyer'))
+				->values(array('idDemande' => $demande['idDemande'], 'envoyer' =>1));
+				$stat = $sql->prepareStatementForSqlObject($sQuery);
+				$stat->execute();
 				
-				return false;
+				//INSERTION DE L'IMAGE DU RESULTAT DE LA DEMANDE
+				$resultat = $this->verifierResultatExiste($demande['idDemande']);
+			    if($resultat){
+			    	$db = $this->tableGateway->getAdapter();
+			    	$sql = new Sql($db);
+			    	$sQuery = $sql->insert()
+			    	->into('resultats_image2')
+			    	->columns(array('nomImage', 'dateEnregistrement', 'idResultat'))
+			    	->values(array('nomImage' => $nomImage, 'dateEnregistrement'=>$dateEnregistrement, 'idResultat' =>$resultat['idResultat']));
+			    	$stat = $sql->prepareStatementForSqlObject($sQuery);
+			    	$result = $stat->execute();
+			    	return $result;
+			    }
 			}
 		}
+		return false;
 	}
 	
 	/**
@@ -132,7 +187,7 @@ class DemandeTable{
 	 */
 	public function recupererDonneesExamen($id_cons, $id, $typeExamen)
 	{
-		if($this->getDemande($id_cons)){
+		if($this->getDemande($id_cons)->current()){
 			$db = $this->tableGateway->getAdapter();
 			$sql = new Sql($db);
 			$sQuery = $sql->select()
@@ -162,6 +217,7 @@ class DemandeTable{
 	 */
 	public function supprimerImage($idImage)
 	{
+		$idImage = (int) $idImage;
 		$db = $this->tableGateway->getAdapter();
 		$sql = new Sql($db);
 		$sQuery = $sql->delete('resultats_image2')
@@ -170,5 +226,165 @@ class DemandeTable{
 		$Result = $stat->execute();
 		return $Result;
 	}
+	
+	/**
+	 * Supression toutes les images du resultat avec IdResultat
+	 */
+	public function supprimerImageAvecIdResultat($idResultat)
+	{
+		$idResultat = (int) $idResultat;
+		$db = $this->tableGateway->getAdapter();
+		$sql = new Sql($db);
+		$sQuery = $sql->delete('resultats_image2')
+		->where(array('idResultat' => $idResultat));
+		$stat = $sql->prepareStatementForSqlObject($sQuery);
+		$Result = $stat->execute();
+		return $Result;
+	}
+	
+	/**
+	 * Supression d'un resultat
+	 */
+	public function supprimerResultat($idResultat)
+	{   
+		$idResultat = (int) $idResultat;
+		$db = $this->tableGateway->getAdapter();
+		$sql = new Sql($db);
+		$sQuery = $sql->delete('resultats_examens2')
+		->where(array('idResultat' => $idResultat));
+		$stat = $sql->prepareStatementForSqlObject($sQuery);
+		$Result = $stat->execute();
+		return $Result;
+	}
 
+	/**
+	 * 
+	 */
+	public function getExamen($id_cons, $idExamen){
+		$id_cons = (String) $id_cons;
+		$rowset = $this->tableGateway->select ( array (
+				'idCons' => $id_cons,
+				'idExamen' => $idExamen
+		) );
+		$row =  $rowset->current ();
+		if (! $row) {
+			return false;
+		}
+		return $row;
+	}
+	
+	/**
+	 * AJouter les demandes d'examens Morphologiques (Ajout ou modification)
+	 */
+	public function saveDemandesExamensMorphologiques($id_cons, $examens, $notes)
+	{
+		$today = new \DateTime ();
+		$date = $today->format ( 'Y-m-d H:i:s' );
+		
+		if($this->getDemande($id_cons)->current()){
+
+			//Suppression des examens qui ne sont pas selectionner dernierement
+			foreach ($this->getDemande($id_cons) as $listeDemande) {
+				if(!in_array($listeDemande['idExamen'], $examens)){
+					if($listeDemande['idExamen'] > 7){
+						$resultat = $this->verifierResultatExiste($listeDemande['idDemande']);
+						if($resultat){
+							//On supprime les images
+							$this->supprimerImageAvecIdResultat($resultat['idResultat']);
+							//On supprime le resultat
+							$this->supprimerResultat($resultat['idResultat']);
+							//On supprime la demande
+							$this->tableGateway->delete(array('idDemande'=>$listeDemande['idDemande']));
+						}else {
+							$this->tableGateway->delete(array('idDemande'=>$listeDemande['idDemande']));
+						}
+					}
+				}
+			}
+			
+			//modification et insertion de nouveaux examens
+			for($i=1 ; $i <= count($examens) ; $i++){
+				if($this->getExamen($id_cons, $examens[$i])){
+					$this->tableGateway->update(array('noteDemande' => $notes[$i]) , array('idCons' => $id_cons, 'idExamen' => $examens[$i]));
+				} else {
+					$this->tableGateway->insert(array(
+							'idCons' => $id_cons,
+							'idExamen'=> $examens[$i],
+							'noteDemande'=> $notes[$i],
+							'dateDemande' => $date
+					));
+				}
+			}
+			
+			
+		} else {
+			for($i=1 ; $i <= count($examens) ; $i++){
+				$examen = array(
+						'idCons' => $id_cons,
+						'idExamen'=> $examens[$i],
+						'noteDemande'=> $notes[$i],
+						'dateDemande' => $date
+				);
+				$this->tableGateway->insert($examen);
+			}
+		}
+	}
+	
+	/**
+	 * AJouter les demandes d'examens Biologiques (Ajout ou modification)
+	 */
+	public function saveDemandesExamensBiologiques($id_cons, $examens, $notes)
+	{
+		$today = new \DateTime ();
+		$date = $today->format ( 'Y-m-d H:i:s' );
+	
+		if($this->getDemande($id_cons)->current()){
+	
+			//Suppression des examens qui ne sont pas selectionner dernierement
+			foreach ($this->getDemande($id_cons) as $listeDemande) {
+				if(!in_array($listeDemande['idExamen'], $examens)){
+					if($listeDemande['idExamen'] < 7){
+						$resultat = $this->verifierResultatExiste($listeDemande['idDemande']);
+						if($resultat){
+							//On supprime les images
+							$this->supprimerImageAvecIdResultat($resultat['idResultat']);
+							//On supprime le resultat
+							$this->supprimerResultat($resultat['idResultat']);
+							//On supprime la demande
+							$this->tableGateway->delete(array('idDemande'=>$listeDemande['idDemande']));
+						}else {
+							$this->tableGateway->delete(array('idDemande'=>$listeDemande['idDemande']));
+						}
+					}
+				}
+			}
+				
+			//modification et insertion de nouveaux examens
+			for($i=1 ; $i <= count($examens) ; $i++){
+				if($this->getExamen($id_cons, $examens[$i])){
+					$this->tableGateway->update(array('noteDemande' => $notes[$i]) , array('idCons' => $id_cons, 'idExamen' => $examens[$i]));
+				} else {
+					$this->tableGateway->insert(array(
+							'idCons' => $id_cons,
+							'idExamen'=> $examens[$i],
+							'noteDemande'=> $notes[$i],
+							'dateDemande' => $date
+					));
+				}
+			}
+				
+				
+		} else {
+			for($i=1 ; $i <= count($examens) ; $i++){
+				$examen = array(
+						'idCons' => $id_cons,
+						'idExamen'=> $examens[$i],
+						'noteDemande'=> $notes[$i],
+						'dateDemande' => $date
+				);
+				$this->tableGateway->insert($examen);
+			}
+		}
+	}
+	
 }

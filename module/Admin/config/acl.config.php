@@ -108,6 +108,8 @@ return array(
     								
     								'imagesExamensMorphologiques' => 'medecin',
     								'supprimerImage' => 'medecin',
+    								'demande-examen' => 'medecin',
+    								'demande-examen-biologique' => 'medecin',
     								
     								/**PDF**/
     								'impression-Pdf' => 'medecin',

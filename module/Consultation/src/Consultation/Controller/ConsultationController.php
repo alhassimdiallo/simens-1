@@ -491,10 +491,14 @@ class ConsultationController extends AbstractActionController {
 
 	}
 	public function majComplementConsultationAction() {
-
-// 		 $result = $this->demandeExamensTable()->ajouterImage('s-c-020114-163152', 8);
-		 
-// 		 var_dump($result); exit();
+//       $result = $this->demandeExamensTable()->getDemandeExamensMorphologiques('s-c-080514-162027');
+//       $examens = array();
+//       $notes = array();
+//       foreach ($result as $res){
+//       	$examens[] = $res['idExamen'];
+//       	$notes[] = $res['noteDemande'];
+//       }
+//    	  var_dump(array_merge($examens , $notes)); exit();
 		 
 		 $this->layout ()->setTemplate ( 'layout/consultation' );
 		 $this->getDateHelper(); 
@@ -565,9 +569,9 @@ class ConsultationController extends AbstractActionController {
 		  //POUR LES EXAMENS COMPLEMENTAIRES
 		  // DEMANDES DES EXAMENS COMPLEMENTAIRES
 		  $demandeExamen = $this->demandeExamensTable();
-		  $listeDemandes = $demandeExamen->getDemande($id);
+		  $listeDemandesMorphologiques = $demandeExamen->getDemandeExamensMorphologiques($id);
+		  $listeDemandesBiologiques = $demandeExamen->getDemandeExamensBiologiques($id);
 		  
-		  //\Zend\Debug\Debug::dump($donnee); exit();
 		  
 		  // RESULTATS DES EXAMENS COMPLEMENTAIRES
 		  $resultatExamenMorphologique = $this->getNotesExamensMorphologiquesTable();
@@ -592,6 +596,8 @@ class ConsultationController extends AbstractActionController {
 		  	$k++;
 		  }
 		  
+		  //var_dump($infoDiagnostics->count()); exit();
+		  
 		  //TRAITEMENT (Ordonnance) *********************************************************
 		  //TRAITEMENT (Ordonnance) *********************************************************
 		  //TRAITEMENT (Ordonnance) *********************************************************
@@ -601,7 +607,7 @@ class ConsultationController extends AbstractActionController {
 		  //POUR LES MEDICAMENTS
 		  // INSTANCIATION DES MEDICAMENTS de l'ordonnance
 		  $consommable = $this->getConsommableTable();
-		  $listeMedicament = $consommable->fetchConsommable();
+		  $listeMedicament = $consommable->listeDeTousLesMedicaments();
 
 		  // INSTANTIATION DE L'ORDONNANCE
 		  $ordonnance = $this->getOrdonnanceTable();
@@ -691,8 +697,10 @@ class ConsultationController extends AbstractActionController {
 		  		'liste_med_prescrit' => $listeMedicamentsPrescrits,
 		  		'duree_traitement' => $duree_traitement,
 		  		'verifieRV' => $leRendezVous, 
-		  		'listeDemande' => $listeDemandes,
-		  		'hopitalSelect' =>$hopitalSelect
+		  		'listeDemandesMorphologiques' => $listeDemandesMorphologiques,
+		  		'listeDemandesBiologiques' => $listeDemandesBiologiques,
+		  		'hopitalSelect' =>$hopitalSelect,
+		  		'nbDiagnostics'=> $infoDiagnostics->count()
 		  );
 	
 	}
@@ -725,41 +733,41 @@ class ConsultationController extends AbstractActionController {
 		//POUR LES DEMANDES DES EXAMENS BIOLOGIQUES ET MORPHOLOGIQUES 
 		//POUR LES DEMANDES DES EXAMENS BIOLOGIQUES ET MORPHOLOGIQUES
 		
-		$examenDemande = array(
-				'id_cons'=> $id_cons,
-				'1'  => $this->params()->fromPost('groupe'),
-				'2'  => $this->params()->fromPost('hemmogramme'),
-				'3'  => $this->params()->fromPost('hepatique'),
-				'4'  => $this->params()->fromPost('renal'),
-				'5'  => $this->params()->fromPost('hemostase'),
-				'6'  => $this->params()->fromPost('inflammatoire'),
-				'7'  => $this->params()->fromPost('autreb'),
-				'8'  => $this->params()->fromPost('radio'),
-				'9'  => $this->params()->fromPost('ecographie'),
-				'10' => $this->params()->fromPost('irm'),
-				'11' => $this->params()->fromPost('scanner'),
-				'12' => $this->params()->fromPost('fibroscopie'),
-				'13' => $this->params()->fromPost('autrem'),
-		);
+// 		$examenDemande = array(
+// 				'id_cons'=> $id_cons,
+// 				'1'  => $this->params()->fromPost('groupe'),
+// 				'2'  => $this->params()->fromPost('hemmogramme'),
+// 				'3'  => $this->params()->fromPost('hepatique'),
+// 				'4'  => $this->params()->fromPost('renal'),
+// 				'5'  => $this->params()->fromPost('hemostase'),
+// 				'6'  => $this->params()->fromPost('inflammatoire'),
+// 				'7'  => $this->params()->fromPost('autreb'),
+// 				'8'  => $this->params()->fromPost('radio'),
+// 				'9'  => $this->params()->fromPost('ecographie'),
+// 				'10' => $this->params()->fromPost('irm'),
+// 				'11' => $this->params()->fromPost('scanner'),
+// 				'12' => $this->params()->fromPost('fibroscopie'),
+// 				'13' => $this->params()->fromPost('autrem'),
+// 		);
 		
-		$noteExamen = array(
-				'1'  => $this->params()->fromPost('ngroupe'),
-				'2'  => $this->params()->fromPost('nhemmogramme'),
-				'3'  => $this->params()->fromPost('nhepatique'),
-				'4'  => $this->params()->fromPost('nrenal'),
-				'5'  => $this->params()->fromPost('nhemostase'),
-				'6'  => $this->params()->fromPost('ninflammatoire'),
-				'7'  => $this->params()->fromPost('nautreb'),
-				'8'  => $this->params()->fromPost('nradio'),
-				'9'  => $this->params()->fromPost('necographie'),
-				'10' => $this->params()->fromPost('nirm'),
-				'11' => $this->params()->fromPost('nscanner'),
-				'12' => $this->params()->fromPost('nfibroscopie'),
-				'13' => $this->params()->fromPost('nautrem')
-		);
+// 		$noteExamen = array(
+// 				'1'  => $this->params()->fromPost('ngroupe'),
+// 				'2'  => $this->params()->fromPost('nhemmogramme'),
+// 				'3'  => $this->params()->fromPost('nhepatique'),
+// 				'4'  => $this->params()->fromPost('nrenal'),
+// 				'5'  => $this->params()->fromPost('nhemostase'),
+// 				'6'  => $this->params()->fromPost('ninflammatoire'),
+// 				'7'  => $this->params()->fromPost('nautreb'),
+// 				'8'  => $this->params()->fromPost('nradio'),
+// 				'9'  => $this->params()->fromPost('necographie'),
+// 				'10' => $this->params()->fromPost('nirm'),
+// 				'11' => $this->params()->fromPost('nscanner'),
+// 				'12' => $this->params()->fromPost('nfibroscopie'),
+// 				'13' => $this->params()->fromPost('nautrem')
+// 		);
 		
-		$demandeExamens = $this->demandeExamensTable();
-		$demandeExamens->updateDemande($examenDemande, $noteExamen);
+// 		$demandeExamens = $this->demandeExamensTable();
+// 		$demandeExamens->updateDemande($examenDemande, $noteExamen);
 		
 		//POUR LES RESULTATS DES EXAMENS MORPHOLOGIQUES
 		//POUR LES RESULTATS DES EXAMENS MORPHOLOGIQUES
@@ -806,10 +814,9 @@ class ConsultationController extends AbstractActionController {
 				$tab[$j++] = $this->params()->fromPost("medicament_0".$i);
 				$tab[$j++] = $this->params()->fromPost("medicament_1".$i);
 				$tab[$j++] = $this->params()->fromPost("medicament_2".$i);
-				$tab[$j++] = $this->params()->fromPost("medicament_3".$i);
 			}
 		}
-
+        //var_dump($tab); exit();
 		/*Mettre a jour la duree du traitement de l'ordonnance*/
 		$Ordonnance = $this->getOrdonnanceTable();
 		$idOrdonnance = $Ordonnance->updateOrdonnance($tab, $donnees);
@@ -1153,11 +1160,12 @@ class ConsultationController extends AbstractActionController {
 			
 			for($i = 1 ; $i < 10 ; $i++ ){
 				$codeMedicament = $this->params()->fromPost("medicament_0".$i);
+				//var_dump($codeMedicament); exit();
 				if($codeMedicament == true){
 					$tab[$j++] = $medicaments[$codeMedicament]; //on récupère le médicament par son nom
 					$tab[$j++] = $this->params()->fromPost("medicament_1".$i);
 					$tab[$j++] = $this->params()->fromPost("medicament_2".$i);
-					$tab[$j++] = $this->params()->fromPost("medicament_3".$i);
+					//$tab[$j++] = $this->params()->fromPost("medicament_3".$i);
 				}
 			}
 			
@@ -1329,6 +1337,10 @@ class ConsultationController extends AbstractActionController {
 			$today = new \DateTime ( 'now' );
 			$nomImage = $today->format ( 'dmy_His' );
 			if($idExamen == 8) { $nomImage = "radio_".$nomImage;}
+			if($idExamen == 9) { $nomImage = "echographie_".$nomImage;}
+			if($idExamen == 10) { $nomImage = "irm_".$nomImage;}
+			if($idExamen == 11) { $nomImage = "scanner_".$nomImage;}
+			if($idExamen == 12) { $nomImage = "fibroscopie_".$nomImage;}
 			
 			$date_enregistrement = $today->format ( 'Y-m-d H:i:s' );
 			$fileBase64 = $this->params ()->fromPost ( 'fichier_tmp' );
@@ -1340,15 +1352,13 @@ class ConsultationController extends AbstractActionController {
 			if($fileBase64 && $typeFichier == 'image' && $formatFichier =='jpeg'){
 				$img = imagecreatefromstring(base64_decode($fileBase64));
 				if($img){
-					$resultatAjout = imagejpeg ( $img, 'C:\wamp\www\simens\public\images\images\\' . $nomImage . '.jpg' );
+					$resultatAjout = $this->demandeExamensTable()->ajouterImage($id_cons, $idExamen, $nomImage, $date_enregistrement);
 				}
 				if($resultatAjout){
-					$this->demandeExamensTable()->ajouterImage($id_cons, $idExamen, $nomImage, $date_enregistrement);
+					imagejpeg ( $img, 'C:\wamp\www\simens\public\images\images\\' . $nomImage . '.jpg' );
 				}
 			}
 		}
-		
-		
 		
 		/**
 		 * RECUPERATION DE TOUS LES RESULTATS DES EXAMENS MORPHOLOGIQUES
@@ -1357,24 +1367,51 @@ class ConsultationController extends AbstractActionController {
 
 		$radio = false;
 		$echographie = false;
+		$irm = false;
+		$scanner = false;
+		$fibroscopie = false;
 		
-		
+		$html = "";
 		$pickaChoose = "";
-		foreach ($result as $resultat) {
-			/**==========================**/
-			/**Recuperer les images RADIO**/
-			/**==========================**/
-			if($resultat['idExamen'] == 8 && $idExamen == 8){
-				$radio = true;
-				$pickaChoose .=" <li><a href='../images/images/".$resultat['NomImage'].".jpg'><img src='../images/images/".$resultat['NomImage'].".jpg'/></a><span></span></li>";
-			} else 
+		
+		if($result){
+			foreach ($result as $resultat) {
+				/**==========================**/
+				/**Recuperer les images RADIO**/
+				/**==========================**/
+				if($resultat['idExamen'] == 8 && $idExamen == 8){
+					$radio = true;
+					$pickaChoose .=" <li><a href='../images/images/".$resultat['NomImage'].".jpg'><img src='../images/images/".$resultat['NomImage'].".jpg'/></a><span></span></li>";
+				} else
 				/**================================**/
 				/**Recuperer les images ECHOGRAPHIE**/
 				/**================================**/
 				if($resultat['idExamen'] == 9 && $idExamen == 9){
 					$echographie = true;
 					$pickaChoose .=" <li><a href='../images/images/".$resultat['NomImage'].".jpg'><img src='../images/images/".$resultat['NomImage'].".jpg'/></a><span></span></li>";
+				} else
+				/**================================**/
+				/**Recuperer les images IRM**/
+				/**================================**/
+				if($resultat['idExamen'] == 10 && $idExamen == 10){
+					$irm = true;
+					$pickaChoose .=" <li><a href='../images/images/".$resultat['NomImage'].".jpg'><img src='../images/images/".$resultat['NomImage'].".jpg'/></a><span></span></li>";
+				} else
+				/**================================**/
+				/**Recuperer les images SCANNER**/
+				/**================================**/
+				if($resultat['idExamen'] == 11 && $idExamen == 11){
+					$scanner = true;
+					$pickaChoose .=" <li><a href='../images/images/".$resultat['NomImage'].".jpg'><img src='../images/images/".$resultat['NomImage'].".jpg'/></a><span></span></li>";
+				} else
+				/**================================**/
+				/**Recuperer les images FIBROSCOPIE**/
+				/**================================**/
+				if($resultat['idExamen'] == 12 && $idExamen == 12){
+					$fibroscopie = true;
+					$pickaChoose .=" <li><a href='../images/images/".$resultat['NomImage'].".jpg'><img src='../images/images/".$resultat['NomImage'].".jpg'/></a><span></span></li>";
 				}
+			}
 		}
 
 		if($radio) {
@@ -1387,8 +1424,8 @@ class ConsultationController extends AbstractActionController {
 				     </div>";
 
 			$html.="<script>
-					  scriptExamenMorpho();
 					  $(function(){ $('.imageRadio').toggle(true);});
+					  scriptExamenMorpho();
 					</script>";
 		} else 
 			if($echographie) {
@@ -1401,10 +1438,52 @@ class ConsultationController extends AbstractActionController {
 				         </div>";
 			
 				$html.="<script>
+						  $(function(){ $('.imageEchographie').toggle(true);});
 					      scriptEchographieExamenMorpho();
-					      //$(function(){ $('.imageRadio').toggle(true);});
 					    </script>";
-			}
+			} else 
+				if($irm) {
+					$html ="<div id='pika6'>
+				             <div class='pikachoose' style='height: 210px;'>
+                              <ul id='pikameIRM' class='jcarousel-skin-pika'>";
+					$html .=$pickaChoose;
+					$html .=" </ul>
+                              </div>
+				             </div>";
+						
+					$html.="<script>
+						     $(function(){ $('.imageIRM').toggle(true);});
+					         scriptIRMExamenMorpho();
+					        </script>";
+				} else 
+					if($scanner) {
+						$html ="<div id='pika8'>
+				             <div class='pikachoose' style='height: 210px;'>
+                              <ul id='pikameScanner' class='jcarousel-skin-pika'>";
+						$html .=$pickaChoose;
+						$html .=" </ul>
+                              </div>
+				             </div>";
+					
+						$html.="<script>
+						     $(function(){ $('.imageScanner').toggle(true);});
+					         scriptScannerExamenMorpho();
+					        </script>";
+					} else 
+						if($fibroscopie) {
+							$html ="<div id='pika10'>
+				             <div class='pikachoose' style='height: 210px;'>
+                              <ul id='pikameFibroscopie' class='jcarousel-skin-pika'>";
+							$html .=$pickaChoose;
+							$html .=" </ul>
+                              </div>
+				             </div>";
+								
+							$html.="<script>
+						     $(function(){ $('.imageFibroscopie').toggle(true);});
+					         scriptFibroscopieExamenMorpho();
+					        </script>";
+						}
 		
 
 		$this->getResponse()->getHeaders ()->addHeaderLine ( 'Content-Type', 'application/html' );
@@ -1436,5 +1515,37 @@ class ConsultationController extends AbstractActionController {
 		
 		$this->getResponse()->getHeaders ()->addHeaderLine ( 'Content-Type', 'application/html' );
 		return $this->getResponse ()->setContent(Json::encode ( ));
+	}
+	
+	//************************************************************************************
+	//************************************************************************************
+	//************************************************************************************
+	public function demandeExamenAction()
+	{
+		$id_cons = $this->params()->fromPost('id_cons');
+		$examens = $this->params()->fromPost('examens');
+		$notes = $this->params()->fromPost('notes');
+	
+
+		$this->demandeExamensTable()->saveDemandesExamensMorphologiques($id_cons, $examens, $notes);
+		
+		$this->getResponse()->getHeaders ()->addHeaderLine ( 'Content-Type', 'application/html' );
+		return $this->getResponse ()->setContent(Json::encode (  ));
+	}
+	
+	//************************************************************************************
+	//************************************************************************************
+	//************************************************************************************
+	public function demandeExamenBiologiqueAction()
+	{
+		$id_cons = $this->params()->fromPost('id_cons');
+		$examensBio = $this->params()->fromPost('examensBio');
+		$notesBio = $this->params()->fromPost('notesBio');
+	
+	
+		$this->demandeExamensTable()->saveDemandesExamensBiologiques($id_cons, $examensBio, $notesBio);
+	
+		$this->getResponse()->getHeaders ()->addHeaderLine ( 'Content-Type', 'application/html' );
+		return $this->getResponse ()->setContent(Json::encode (  ));
 	}
 }

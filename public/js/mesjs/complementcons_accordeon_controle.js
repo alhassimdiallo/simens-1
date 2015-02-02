@@ -143,47 +143,6 @@ $(function(){
 });
   
   
-//********************* DIAGNOSTIC *****************************
-//********************* DIAGNOSTIC *****************************
-$(function(){
-	var diagnostic1 = $("#diagnostic1");
-	var diagnostic2 = $("#diagnostic2");
-	var diagnostic3 = $("#diagnostic3");
-	var diagnostic4 = $("#diagnostic4");
-	
-	//Au debut on affiche pas le bouton modifier
-	$("#bouton_diagnostic_modifier").toggle(false);
-	//Au debut on affiche le bouton valider
-	$("#bouton_diagnostic_valider").toggle(true);
-	
-	//Au debut on desactive tous les champs
-	diagnostic1.attr( 'readonly', false);
-	diagnostic2.attr( 'readonly', false);
-	diagnostic3.attr( 'readonly', false);
-	diagnostic4.attr( 'readonly', false);
-	
-	$("#bouton_diagnostic_valider").click(function(){
-		diagnostic1.attr( 'readonly', true);
-		diagnostic2.attr( 'readonly', true);
-		diagnostic3.attr( 'readonly', true);
-		diagnostic4.attr( 'readonly', true);
-		$("#bouton_diagnostic_modifier").toggle(true);
-		$("#bouton_diagnostic_valider").toggle(false);
-		return false;
-	});
-	
-	$("#bouton_diagnostic_modifier").click(function(){
-		diagnostic1.attr( 'readonly', false);
-		diagnostic2.attr( 'readonly', false);
-		diagnostic3.attr( 'readonly', false);
-		diagnostic4.attr( 'readonly', false);
-		$("#bouton_diagnostic_modifier").toggle(false);
-		$("#bouton_diagnostic_valider").toggle(true);
-		return false;
-	});
-	
-});
-  
 //********************* TRAITEMENTS CHIRURGICAUX *****************************
 //********************* TRAITEMENTS CHIRURGICAUX ***************************** 
 //********************* TRAITEMENTS CHIRURGICAUX ***************************** 

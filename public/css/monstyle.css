@@ -48,6 +48,76 @@
               background:#fff url("../images_icons/aj.gif") no-repeat right top;
         }
         
+        
+/*====== IMAGE IRM ======*/    
+/*====== IMAGE IRM ======*/  
+/*====== IMAGE IRM ======*/  
+#AjoutImageIRM input {
+              position:absolute;
+	          bottom:0px;
+	          right:0px;
+              font-size:0px;
+              opacity:0;
+              -moz-opacity:0;
+              filter:alpha(opacity=0);
+              cursor:pointer;
+              text-align:right; 
+         }
+
+#AjoutImageIRM {
+              position:relative;
+              width:14px;
+              height:15px;
+              overflow:hidden;
+              background:#fff url("../images_icons/aj.gif") no-repeat right top;
+        }        
+        
+/*====== IMAGE SCANNER ======*/    
+/*====== IMAGE SCANNER ======*/  
+/*====== IMAGE SCANNER ======*/  
+#AjoutImageScanner input {
+              position:absolute;
+	          bottom:0px;
+	          right:0px;
+              font-size:0px;
+              opacity:0;
+              -moz-opacity:0;
+              filter:alpha(opacity=0);
+              cursor:pointer;
+              text-align:right; 
+         }
+
+#AjoutImageScanner {
+              position:relative;
+              width:14px;
+              height:15px;
+              overflow:hidden;
+              background:#fff url("../images_icons/aj.gif") no-repeat right top;
+        }        
+        
+        
+/*====== IMAGE FIBROSCOPIE ======*/    
+/*====== IMAGE FIBROSCOPIE ======*/  
+/*====== IMAGE FIBROSCOPIE ======*/  
+#AjoutImageFibroscopie input {
+              position:absolute;
+	          bottom:0px;
+	          right:0px;
+              font-size:0px;
+              opacity:0;
+              -moz-opacity:0;
+              filter:alpha(opacity=0);
+              cursor:pointer;
+              text-align:right; 
+         }
+
+#AjoutImageFibroscopie {
+              position:relative;
+              width:14px;
+              height:15px;
+              overflow:hidden;
+              background:#fff url("../images_icons/aj.gif") no-repeat right top;
+        }        
 /*========== FIN STYLE IMAGES EXAMENS MORPHOLOGIQUES ===========*/
 /*========== FIN STYLE IMAGES EXAMENS MORPHOLOGIQUES ===========*/
 /*========== FIN STYLE IMAGES EXAMENS MORPHOLOGIQUES ===========*/
@@ -2986,6 +3056,58 @@ z-index: 1;
 border-top-left-radius: 5px; /*arrondir le bord du label*/ 
 
 float: left;
+
+}
+
+#responded .form-diag #label  
+{/* le label*/
+line-height: 2.0em;
+
+background-color: #eeeeee;
+
+background-image: none;
+
+background-repeat: repeat;
+
+background-attachment: scroll;
+
+background-position: 0% 0%;
+
+background-clip: border-box;
+
+background-origin: padding-box;
+
+background-size: auto auto;
+
+box-shadow: 1px 2px 2px rgba(204, 204, 204, 0.8);
+
+font-size: 13px;
+
+/*left: 150px; /*déplacer le label*/
+
+/* min-width: 60px; */
+
+/* padding-top: 8px; */
+
+padding: 2px;
+
+position: relative;
+
+width: 16px;
+
+height: 16px;
+
+display: inline-block;
+
+float:right;
+
+top: -49px;
+
+right: 3px;
+
+margin-bottom: -30px;
+
+border-bottom-left-radius: 5px; /*arrondir le bord du label*/ 
 
 }
 
