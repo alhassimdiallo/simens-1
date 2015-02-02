@@ -26,6 +26,8 @@ $(function(){
 	$( "#motif3" ).toggle(false);
 	$( "#motif4" ).toggle(false);
 	$( "#motif5" ).toggle(false);
+
+	$(".classDesMotifsAdmissions tr th input, .classDesConstantes tr td input").attr( 'readonly', true).css({'background':'#f8f8f8'});
 	
 <?php for($i=2 ; $i<=$this->nbMotifs; $i++){
          if($i == 2){?>
@@ -145,83 +147,7 @@ AntecedentScript();
 </script>
 
 <style type='text/css'>
-       #imge1, canvas { /*border: 3px solid #ccc;*/
 
-              position: relative;
-              background-color: #ffffff;
-              background-image: none;
-              background-repeat: repeat;
-              background-attachment: scroll;
-              background-position: 0% 0%;
-              background-clip: border-box;
-              background-origin: padding-box;
-              background-size: auto auto;
-              border-top-width: 1px;
-              border-right-width-value: 1px;
-              border-bottom-width: 1px;
-              border-left-width-value: 1px;
-              border-top-style: solid;
-              border-right-style-value: solid;
-              border-bottom-style: solid;
-              border-left-style-value: solid;
-              border-top-color: #dddddd;
-              border-right-color-value: #dddddd;
-              border-bottom-color: #dddddd;
-              border-left-color-value: #dddddd;
-              border-left-color: #dddddd;
-              border-right-color: #dddddd;
-              border-left-width: 1px;
-              border-right-width: 1px;
-              border-left-style: solid;
-              border-right-style: solid;
-              border-radius: 15px;
-
-              box-shadow: #dddddd;
-              padding-top: 5px;
-              padding-right: 5px;
-              padding-bottom: 5px;
-              padding-left: 5px;
-              margin-top: 0pt;
-              margin-right: 0pt;
-              margin-bottom: 5px;
-              margin-left: 0pt;
-              height: auto;
-              width: auto;
-       }
-
-
-       #sup, #sup2, #sup3, #sup4, #sup5 {
-       	    flaot: left;
-            width: 10px;
-            height: 120px;
-            padding-top: 5px;
-       }
-
-       /*** Bouton input file***/
-       /*** Bouton input file***/
-       /*** Bouton input file***/
-        .test, .test2, .test3, .test4, .test5 {
-              position:relative;
-              width:262px;
-              height:142px;
-              overflow:hidden;
-              background:#dddddd url(<?php echo $this->basePath()."/images_icons/images/radio.png"?>) no-repeat right top;
-              border-radius: 15px;
-              box-shadow: 0pt 0pt 12px rgba(0, 0, 0, 0.5);
-         }
-        .test input, .test2 input, .test3 input, .test4 input, .test5 input {
-              position:absolute;
-              right:0;
-              top:0;
-              font-size:100px;
-              opacity:0;
-              -moz-opacity:0;
-              filter:alpha(opacity=0);
-              cursor:pointer;
-              text-align:right;
-              width:262px;
-              height:142px;
-         }
        /*** Bouton input submit***/
        /*** Bouton input submit***/
        /*** Bouton input submit***/
@@ -435,7 +361,7 @@ echo $this->form()->openTag($form); ?>
                <p style='color: white; opacity: 0.5;'>
                    <img id="faces" src='<?php echo $this->basePath().'/images_icons/consult-motif.jpg'?>'  alt="consult-motif" style='float:right; margin-right:0px; margin-top:0px; width:28%; height:270px;'/>
                 </p>
-                <table id="responde" style="width: 65%;">
+                <table id="responde" class="classDesMotifsAdmissions" style="width: 65%;">
                      <tr class="form-author">
                          <th><?php echo $this->formRow($form->get('motif_admission1'));?></th>
                      </tr>
@@ -463,7 +389,7 @@ echo $this->form()->openTag($form); ?>
            <!-- **2** -->
               <div style='font-family: police2;font-size: 17px; font-weight: bold;'> Constantes </div>
                 <div>
-                 <table  id="respond" style="width: 100%;">
+                 <table  id="respond" class="classDesConstantes" style="width: 100%;">
 
                     <tr class="comment-form-author">
                         <td><?php echo $this->formRow($form->get('id_cons'));?></td>
@@ -570,11 +496,27 @@ echo $this->form()->openTag($form); ?>
                                    
          <div id="tabss-1"> 
          
-           <!-- div style=" padding-bottom:0px; margin-bottom: 5px; border-bottom: 2px solid green; margin-left: 0px;"></div-->
+           <!--****** ================== ANTECEDENTS TERRAIN PARTICULIER ================== ****** -->
+           <!--****** ================== ANTECEDENTS TERRAIN PARTICULIER ================== ****** -->
+           <!--****** ================== ANTECEDENTS TERRAIN PARTICULIER ================== ****** -->
+           <table id="MenuTerrainParticulier" style="width:100%;">
+                 <tr style="width:100%;">
+                     <td style="width:50%;">
+                        <div>    
+                            <img class="image1_TP" style='cursor: pointer; position:relative; left: 15%; width: 60%; height: 60%;' src='<?php echo $this->basepath().'/images_icons/antecedentPers2.png'?>' />
+                        </div>
+                     </td>
+                     <td style="width:50%;">
+                        <div>    
+                            <img class="image2_TP" style='cursor: pointer; position:relative; left: 15%; width: 60%; height: 60%;' src='<?php echo $this->basepath().'/images_icons/antecedentsfam.png'?>' />
+                        </div>
+                     </td>
+                 </tr>
+           </table>
            
            <table style="width: 100%;">
            <tr style="width: 100%;">
-             <td style="width: 50%;">
+           <td id="antecedentsPersonnels" style="width: 50%;">
              <div id="anteced" style="width: 50%; padding-bottom: 10px; font-size: 17px; font-family:Time new roman; "><b class="form-titre"><label>Ant&eacute;c&eacute;dents Personnels :</label></b></div>
              <table>
                  <tr id="antecedent2">
@@ -592,15 +534,20 @@ echo $this->form()->openTag($form); ?>
                      <td></td>
                      <td></td>
                  </tr>
-                  <tr id="antecedent2">
-                     <td class="form-diag"><?php echo $this->formRow($form->get('habitude_vie4'));?></td>
+                  <!--tr id="antecedent2">
+                     <td class="form-diag"><?php //echo $this->formRow($form->get('habitude_vie4'));?></td>
                      <td></td>
                      <td></td>
-                 </tr>
+                 </tr-->
               </table>
-              </td>
+              <table style="width:100%;">
+               <tr style="width:100%;">
+                   <td class='block' id='thoughtbot' style='display: inline-block;  vertical-align: bottom; width:100%; padding-bottom: 5px;'><div style="float:left;" id="TerminerAntecedentsPersonnels">Terminer</div></td>
+               <tr>
+             </table>
+           </td>
            
-           <td style="width: 50%;">
+           <td id="antecedentsFamiliaux" style="width: 50%;">
            <div id="anteced" style="width: 50%; padding-bottom: 10px; font-size: 17px; font-family:Time new roman; "><b class="form-titre"><label>Ant&eacute;c&eacute;dents Familiaux : </label></b></div>
              <table>
                  <tr id="antecedent">
@@ -627,6 +574,11 @@ echo $this->form()->openTag($form); ?>
              </td>
              </tr>
            </table>
+
+           <!--****** ================== FIN ANTECEDENTS TERRAIN PARTICULIER ================== ****** -->
+           <!--****** ================== FIN ANTECEDENTS TERRAIN PARTICULIER ================== ****** -->
+           <!--****** ================== FIN ANTECEDENTS TERRAIN PARTICULIER ================== ****** -->
+           
            </div>
            
            

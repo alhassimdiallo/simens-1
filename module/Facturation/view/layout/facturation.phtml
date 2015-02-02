@@ -2,6 +2,8 @@
 <?php echo $this->doctype("XHTML1_TRANSITIONAL"), PHP_EOL; ?>
 
 <meta name="viewport" charset="UTF-8" content="width=device-width, initial-scale=1.0" />
+        <?php echo $this->headTitle('SIMENS '. $this->translate('Systeme Information Medical'))->setSeparator(' - ')->setAutoEscape(false) ?>
+
 
 <?php
 
@@ -43,7 +45,7 @@ if($user->role == 'superAdmin') { $service = "INFORMATIQUE";}
 
 <body id = "bodbod">
 <!--Header-part-->
-<div style=" height: 70px;">
+<div id="logoSimens" style=" height: 70px;">
 			<div style="font-size: 28px; color: red; padding-top: 20px; padding-left: 35px;">+<div style="font-size: 27px; color: #48ce77; font-family: Bookman Old Style; float:left; ">SIMENS</div></div>
 	</div>
 	

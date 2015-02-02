@@ -4,6 +4,8 @@
  <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css' />
+        <?php echo $this->headTitle('SIMENS '. $this->translate('Systeme Information Medical'))->setSeparator(' - ')->setAutoEscape(false) ?>
+
 		
 <?php 	
   echo $this->headLink()->prependStylesheet($this->basePath().'/css/bootstrap.min.css');
@@ -43,13 +45,7 @@
 
 <body id="bodbod">
 	<!--Header-part-->
-	<!-- div id="header">
-		<h1>
-			<a href="">Simens admin panel</a>
-		</h1>
-	</div-->
-	
-	<div style=" height: 70px;">
+	<div id="logoSimens" style=" height: 70px;">
 			<div style="font-size: 28px; color: red; padding-top: 20px; padding-left: 35px;">+<div style="font-size: 27px; color: #48ce77; font-family: Bookman Old Style; float:left; ">SIMENS</div></div>
 	</div>
 	

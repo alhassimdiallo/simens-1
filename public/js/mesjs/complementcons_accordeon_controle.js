@@ -43,58 +43,6 @@
   });
   /*** FIN ***/
 
-//********************* ANALYSE BIOLOGIQUE *****************************
-//********************* ANALYSE BIOLOGIQUE *****************************
-$(function(){
-/*	var groupe_sanguin = $("#groupe_sanguin");
-	var hemogramme_sanguin = $("#hemogramme_sanguin");
-	var bilan_hemolyse = $("#bilan_hemolyse");
-	var bilan_hepatique = $("#bilan_hepatique");
-	var bilan_renal = $("#bilan_renal");
-	var bilan_inflammatoire = $("#bilan_inflammatoire");
-	
-	//Au debut on affiche pas le bouton modifier
-	$("#bouton_bio_modifier").toggle(false);
-	//Au debut on affiche le bouton valider
-	$("#bouton_bio_valider").toggle(true);
-	
-	//Au debut on desactive tous les champs
-	groupe_sanguin.attr( 'readonly', false);
-	hemogramme_sanguin.attr( 'readonly', false);
-	bilan_hemolyse.attr( 'readonly', false);
-	bilan_hepatique.attr( 'readonly', false);
-	bilan_renal.attr( 'readonly', false);
-	bilan_inflammatoire.attr( 'readonly', false);
-	
-	$("#bouton_bio_valider").click(function(){
-		groupe_sanguin.attr( 'readonly', true);
-		hemogramme_sanguin.attr( 'readonly', true);
-		bilan_hemolyse.attr( 'readonly', true);
-		bilan_hepatique.attr( 'readonly', true);
-		bilan_renal.attr( 'readonly', true);
-		bilan_inflammatoire.attr( 'readonly', true);
-		
-		$("#bouton_bio_modifier").toggle(true);
-		$("#bouton_bio_valider").toggle(false);
-		return false;
-	});
-	
-	$("#bouton_bio_modifier").click(function(){
-		groupe_sanguin.attr( 'readonly', false);
-		hemogramme_sanguin.attr( 'readonly', false);
-		bilan_hemolyse.attr( 'readonly', false);
-		bilan_hepatique.attr( 'readonly', false);
-		bilan_renal.attr( 'readonly', false);
-		bilan_inflammatoire.attr( 'readonly', false);
-		
-		$("#bouton_bio_modifier").toggle(false);
-		$("#bouton_bio_valider").toggle(true);
-		return false;
-	});
-	*/
-});
-  
-  
 //********************* ANALYSE MORPHOLOGIQUE *****************************
 //********************* ANALYSE MORPHOLOGIQUE *****************************
 $(function(){
@@ -154,11 +102,11 @@ $(function(){
 	var observation = $("#observation");
 	
 	$("#chirurgicalImpression").click(function(){
-		diagnostic_traitement_chirurgical.attr( 'readonly', true);
-		intervention_prevue.attr( 'readonly', true);
-		type_anesthesie_demande.attr( 'readonly', true);
-		numero_vpa.attr( 'readonly', true);
-		observation.attr( 'readonly', true);
+		diagnostic_traitement_chirurgical.attr( 'readonly', true).css({'background':'#f8f8f8'});
+		intervention_prevue.attr( 'readonly', true).css({'background':'#f8f8f8'});
+		type_anesthesie_demande.attr( 'readonly', true).css({'background':'#f8f8f8'});
+		numero_vpa.attr( 'readonly', true).css({'background':'#f8f8f8'});
+		observation.attr( 'readonly', true).css({'background':'#f8f8f8'});
 		
 		$("#bouton_chirurgical_modifier").toggle(true);
 		$("#bouton_chirurgical_valider").toggle(false);	
@@ -170,18 +118,18 @@ $(function(){
 	$("#bouton_chirurgical_valider").toggle(true);
 	
 	//Au debut on desactive tous les champs
-	diagnostic_traitement_chirurgical.attr( 'readonly', false);
-	intervention_prevue.attr( 'readonly', false);
-	type_anesthesie_demande.attr( 'readonly', false);
-	numero_vpa.attr( 'readonly', false);
-	observation.attr( 'readonly', false);
+	diagnostic_traitement_chirurgical.attr( 'readonly', false).css({'background':'#fff'});
+	intervention_prevue.attr( 'readonly', false).css({'background':'#fff'});
+	type_anesthesie_demande.attr( 'readonly', false).css({'background':'#fff'});
+	numero_vpa.attr( 'readonly', false).css({'background':'#fff'});
+	observation.attr( 'readonly', false).css({'background':'#fff'});
 	
 	$("#bouton_chirurgical_valider").click(function(){
-		diagnostic_traitement_chirurgical.attr( 'readonly', true);
-		intervention_prevue.attr( 'readonly', true);
-		type_anesthesie_demande.attr( 'readonly', true);
-		numero_vpa.attr( 'readonly', true);
-		observation.attr( 'readonly', true);
+		diagnostic_traitement_chirurgical.attr( 'readonly', true).css({'background':'#f8f8f8'});
+		intervention_prevue.attr( 'readonly', true).css({'background':'#f8f8f8'});
+		type_anesthesie_demande.attr( 'readonly', true).css({'background':'#f8f8f8'});
+		numero_vpa.attr( 'readonly', true).css({'background':'#f8f8f8'});
+		observation.attr( 'readonly', true).css({'background':'#f8f8f8'});
 		
 		$("#bouton_chirurgical_modifier").toggle(true);
 		$("#bouton_chirurgical_valider").toggle(false);
@@ -189,11 +137,11 @@ $(function(){
 	});
 	
 	$("#bouton_chirurgical_modifier").click(function(){
-		diagnostic_traitement_chirurgical.attr( 'readonly', false);
-		intervention_prevue.attr( 'readonly', false);
-		type_anesthesie_demande.attr( 'readonly', false);
-		numero_vpa.attr( 'readonly', false);
-		observation.attr( 'readonly', false);
+		diagnostic_traitement_chirurgical.attr( 'readonly', false).css({'background':'#fff'});
+		intervention_prevue.attr( 'readonly', false).css({'background':'#fff'});
+		type_anesthesie_demande.attr( 'readonly', false).css({'background':'#fff'});
+		numero_vpa.attr( 'readonly', false).css({'background':'#fff'});
+		observation.attr( 'readonly', false).css({'background':'#fff'});
 		
 		$("#bouton_chirurgical_modifier").toggle(false);
 		$("#bouton_chirurgical_valider").toggle(true);
@@ -213,11 +161,11 @@ $(function(){
 	var hopital_accueil = $("#hopital_accueil");
 	var service_accueil = $("#service_accueil");
 	$("#transfert").click(function(){
-		motif_transfert.attr( 'readonly', true);
+		motif_transfert.attr( 'readonly', true).css({'background':'#f8f8f8'});
 		$("#hopital_accueil_tampon").val(hopital_accueil.val());
-		hopital_accueil.attr( 'disabled', true);
+		hopital_accueil.attr( 'disabled', true).css({'background':'#f8f8f8'});
 		$("#service_accueil_tampon").val(service_accueil.val());
-		service_accueil.attr( 'disabled', true);
+		service_accueil.attr( 'disabled', true).css({'background':'#f8f8f8'});
 		$("#bouton_transfert_modifier").toggle(true);  //on affiche le bouton permettant de modifier les champs
 	    $("#bouton_transfert_valider").toggle(false); //on cache le bouton permettant de valider les champs
 	});
@@ -230,26 +178,26 @@ $(function(){
 	$( "#bouton_transfert_modifier" ).toggle(false);
 
 	//Au debut on desactive tous les champs
-	motif_transfert.attr( 'readonly', false );
-	hopital_accueil.attr( 'disabled', false );
-	service_accueil.attr( 'disabled', false );
+	motif_transfert.attr( 'readonly', false ).css({'background':'#fff'});;
+	hopital_accueil.attr( 'disabled', false ).css({'background':'#fff'});;
+	service_accueil.attr( 'disabled', false ).css({'background':'#fff'});;
 
 	//Valider(cach�) avec le bouton 'valider'
 	$( "#bouton_transfert_valider" ).click(function(){
-		motif_transfert.attr( 'readonly', true );     //d�sactiver le motif transfert
+		motif_transfert.attr( 'readonly', true ).css({'background':'#f8f8f8'});     //d�sactiver le motif transfert
 		$("#hopital_accueil_tampon").val(hopital_accueil.val());
-		hopital_accueil.attr( 'disabled', true );     //d�sactiver hopital accueil
+		hopital_accueil.attr( 'disabled', true ).css({'background':'#f8f8f8'});     //d�sactiver hopital accueil
 		$("#service_accueil_tampon").val(service_accueil.val());
-		service_accueil.attr( 'disabled', true );   //d�sactiver service accueil
+		service_accueil.attr( 'disabled', true ).css({'background':'#f8f8f8'});   //d�sactiver service accueil
 		$("#bouton_transfert_modifier").toggle(true);  //on affiche le bouton permettant de modifier les champs
 		$("#bouton_transfert_valider").toggle(false); //on cache le bouton permettant de valider les champs
 		return false; 
 	});
 	//Activer(d�cach�) avec le bouton 'modifier'
 	$( "#bouton_transfert_modifier" ).click(function(){
-		motif_transfert.attr( 'readonly', false );
-		hopital_accueil.attr( 'disabled', false );
-		service_accueil.attr( 'disabled', false );
+		motif_transfert.attr( 'readonly', false ).css({'background':'#fff'});
+		hopital_accueil.attr( 'disabled', false ).css({'background':'#fff'});
+		service_accueil.attr( 'disabled', false ).css({'background':'#fff'});
 	 	$("#bouton_transfert_modifier").toggle(false);   //on cache le bouton permettant de modifier les champs
 	 	$("#bouton_transfert_valider").toggle(true);    //on affiche le bouton permettant de valider les champs
 	 	return  false;
@@ -261,7 +209,7 @@ $(function(){
 $(function(){
 	var motif_hospitalisation = $("#motif_hospitalisation");
 	$("#hospitalisation").click(function(){
-		motif_hospitalisation.attr( 'readonly', true);
+		motif_hospitalisation.attr( 'readonly', true).css({'background':'#f8f8f8'});
 		$("#bouton_hospi_modifier").toggle(true);
 		$("#bouton_hospi_valider").toggle(false);	
 	});
@@ -272,17 +220,17 @@ $(function(){
 	$("#bouton_hospi_valider").toggle(true);
 	
 	//Au debut on desactive tous les champs
-	motif_hospitalisation.attr( 'readonly', false);
+	motif_hospitalisation.attr( 'readonly', false).css({'background':'#fff'});
 	
 	$("#bouton_hospi_valider").click(function(){
-		motif_hospitalisation.attr( 'readonly', true);
+		motif_hospitalisation.attr( 'readonly', true).css({'background':'#f8f8f8'});
 		$("#bouton_hospi_modifier").toggle(true);
 		$("#bouton_hospi_valider").toggle(false);
 		return false;
 	});
 	
 	$("#bouton_hospi_modifier").click(function(){
-		motif_hospitalisation.attr( 'readonly', false);
+		motif_hospitalisation.attr( 'readonly', false).css({'background':'#fff'});
 		$("#bouton_hospi_modifier").toggle(false);
 		$("#bouton_hospi_valider").toggle(true);
 		return false;
@@ -296,12 +244,13 @@ $(function(){
  var motif_rv = $('#motif_rv');
  var date_rv = $( "#date_rv" );
  var heure_rv = $("#heure_rv");
+   date_rv.attr('autocomplete', 'off');
    $( "#disable" ).click(function(){
-	  motif_rv.attr( 'readonly', true );     //d�sactiver le motif
+	  motif_rv.attr( 'readonly', true ).css({'background':'#f8f8f8'});     //d�sactiver le motif
 	  $("#date_rv_tampon").val(date_rv.val()); //Placer la date dans date_rv_tampon avant la desacivation
-      date_rv.attr( 'disabled', true );     //d�sactiver la date
+      date_rv.attr( 'disabled', true ).css({'background':'#f8f8f8'});     //d�sactiver la date
       $("#heure_rv_tampon").val(heure_rv.val()); //Placer l'heure dans heure_rv_tampon avant la desacivation
-      heure_rv.attr( 'disabled', true );   //d�sactiver l'heure
+      heure_rv.attr( 'disabled', true ).css({'background':'#f8f8f8'});   //d�sactiver l'heure
       $("#disable_bouton").toggle(true);  //on affiche le bouton permettant de modifier les champs
       $("#enable_bouton").toggle(false); //on cache le bouton permettant de valider les champs
  
@@ -317,26 +266,26 @@ $(function(){
    $("#enable_bouton").toggle(true);
    
    //Au debut on desactive tous les champs
-   motif_rv.attr( 'readonly', false );
-   date_rv.attr( 'disabled', false );
-   heure_rv.attr( 'disabled', false );
+   motif_rv.attr( 'readonly', false ).css({'background':'#fff'});
+   date_rv.attr( 'disabled', false ).css({'background':'#fff'});
+   heure_rv.attr( 'disabled', false ).css({'background':'#fff'});
 
    //Valider(cach�) avec le bouton 'valider'
    $( "#enable_bouton" ).click(function(){
-	  motif_rv.attr( 'readonly', true );     //d�sactiver le motif
+	  motif_rv.attr( 'readonly', true ).css({'background':'#f8f8f8'});     //d�sactiver le motif
 	  $("#date_rv_tampon").val(date_rv.val()); //Placer la date dans date_rv_tampon avant la desacivation
-      date_rv.attr( 'disabled', true );     //d�sactiver la date
+      date_rv.attr( 'disabled', true ).css({'background':'#f8f8f8'});     //d�sactiver la date
       $("#heure_rv_tampon").val(heure_rv.val()); //Placer l'heure dans heure_rv_tampon avant la desacivation
-	  heure_rv.attr( 'disabled', true );   //d�sactiver l'heure
+	  heure_rv.attr( 'disabled', true ).css({'background':'#f8f8f8'});   //d�sactiver l'heure
 	  $("#disable_bouton").toggle(true);  //on affiche le bouton permettant de modifier les champs
 	  $("#enable_bouton").toggle(false); //on cache le bouton permettant de valider les champs
 	  return false; 
    });
    //Activer(d�cach�) avec le bouton 'modifier'
    $( "#disable_bouton" ).click(function(){
-	  motif_rv.attr( 'readonly', false );      //activer le motif
-	  date_rv.attr( 'disabled', false );      //activer la date
-	  heure_rv.attr( 'disabled', false );    //activer l'heure
+	  motif_rv.attr( 'readonly', false ).css({'background':'#fff'});      //activer le motif
+	  date_rv.attr( 'disabled', false ).css({'background':'#fff'});      //activer la date
+	  heure_rv.attr( 'disabled', false ).css({'background':'#fff'});    //activer l'heure
  	  $("#disable_bouton").toggle(false);   //on cache le bouton permettant de modifier les champs
  	  $("#enable_bouton").toggle(true);    //on affiche le bouton permettant de valider les champs
  	  return  false;
@@ -740,10 +689,10 @@ $(function(){
 	});
 
 });
-
+ 
  /**************************************************************************************************************/
  
- /*============================================== MENU ANTECEDENTS ============================================*/
+ /*======================================== MENU ANTECEDENTS MEDICAUX =========================================*/
  
  /**************************************************************************************************************/
  function AntecedentScript(){
@@ -802,7 +751,33 @@ $(function(){
 		
 		
 	 });
+
+	 /*************************************************************************************************************/
 	 
+	 /*=================================== MENU ANTECEDENTS TERRAIN PARTICULIER ==================================*/
+	 
+	 /*************************************************************************************************************/
+		 
+	 $(function(){
+		    //ANTECEDENTS PERSONNELS
+			//ANTECEDENTS PERSONNELS
+			$("#antecedentsPersonnels").toggle(false);
+			$("#antecedentsFamiliaux").toggle(false);
+			
+			//ANTECEDENTS PERSONNELS
+			//ANTECEDENTS PERSONNELS
+			$(".image1_TP").click(function(){
+				 $("#MenuTerrainParticulier").fadeOut(function(){ 
+					 $("#antecedentsPersonnels").fadeIn("fast");
+				 });
+			});
+			
+			$("#TerminerAntecedentsPersonnels").click(function(){
+				 $("#antecedentsPersonnels").fadeOut(function(){ 
+					 $("#MenuTerrainParticulier").fadeIn("fast");
+				 });
+			});
+	 });
 }
  
  

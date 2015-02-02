@@ -187,11 +187,10 @@ class ConsultationController extends AbstractActionController {
 		$this->controlDate = new DateHelper();
 	}
 	
-	
 	public function rechercheAction() {
 		$this->layout ()->setTemplate ( 'layout/consultation' );
-		
 		$user = $this->user();
+
 		$LeService = $this->getServiceTable()->getServiceparId($user->id_service);
 		$service = $LeService['NOM']; 
 		
@@ -202,20 +201,22 @@ class ConsultationController extends AbstractActionController {
 		) );
 		return $view;
 	}
+	
 	public function espaceRechercheMedAction() {
 		$this->layout ()->setTemplate ( 'layout/consultation' );
-		//$user = $this->layout ()->user;
-		$service = 'OPHTALMOLOGIE'; //$user ['service'];
+		$service = $this->layout ()->service; 
+
 		$patients = $this->getPatientTable ();
 		$tab = $patients->listePatientsConsMedecin ( $service );
 		return new ViewModel ( array (
 				'donnees' => $tab
 		) );
 	}
+	
 	public function espaceRechercheSurvAction() {
 		$this->layout ()->setTemplate ( 'layout/consultation' );
-		//$user = $this->layout ()->user;
-		$service = 'OPHTALMOLOGIE'; //$user ['service'];
+		$service = $this->layout ()->service; 
+		
 		$patients = $this->getPatientTable ();
 		$tab = $patients->tousPatientsCons ( $service );
 		return new ViewModel ( array (
@@ -225,10 +226,8 @@ class ConsultationController extends AbstractActionController {
 	// Liste des patients à consulter par le medecin apr�s prise des constantes par le surveillant de service
 	public function consultationMedecinAction() {
 		$this->layout ()->setTemplate ( 'layout/consultation' );
-		//$user = $this->layout ()->user;
-		$service = 'OPHTALMOLOGIE'; //$user ['service'];
-		// $LeService = $this->_service;
-		// Recherher l'id du service
+		$service = $this->layout ()->service; 
+
 		$serviceTable = $this->getServiceTable ();
 		$LigneDuService = $serviceTable->getServiceParNom ( $service );
 		$IdDuService = $LigneDuService ['ID_SERVICE'];
@@ -244,7 +243,7 @@ class ConsultationController extends AbstractActionController {
 	public function ajoutConstantesAction() {
 		$this->layout ()->setTemplate ( 'layout/consultation' );
 		$id_pat = $this->params ()->fromRoute ( 'id_patient', 0 );
-		// var_dump($id_pat);exit();
+
 		$list = $this->getPatientTable ();
 		$liste = $list->getPatient ( $id_pat );
 
@@ -277,8 +276,8 @@ class ConsultationController extends AbstractActionController {
 	}
 	public function ajoutDonneesConstantesAction() {
 		$this->layout ()->setTemplate ( 'layout/consultation' );
-		//$user = $this->layout ()->user;
-		$LeService = 'OPHTALMOLOGIE'; //$user ['service'];
+		$LeService = $this->layout ()->service; 
+
 		// Rechercher l'id du service
 		$service = $this->getServiceTable ();
 		$LigneDuService = $service->getServiceParNom ( $LeService );
