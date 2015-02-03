@@ -15,11 +15,16 @@ function afficher(nbexamen_donnee) {
 	}
  });
  nbChampDonnee = nbexamen_donnee;
- if(nbChampDonnee == 1){
-		$('#supprimer_donnee_img').toggle(false);
-	}
+
  if(nbChampDonnee == 5){
 		$('#ajouter_donnee_img').toggle(false);
+	}
+ 
+ if(nbChampDonnee == 1){
+		$('#supprimer_donnee_img').toggle(false);
+		$(".supprimerDonnee1" ).replaceWith(
+				"<img class='supprimerDonnee' src='../images/images/sup2.png' />"
+			);
 	}
  ajouterDonnee();
  supprimerDonnee();
@@ -36,7 +41,7 @@ function ajouterDonnee(){
 		}
 		if(nbChampDonnee == 2){
 			$('#supprimer_donnee_img').toggle(true);
-			$(".supprimerDonnee1" ).replaceWith(
+			$(".supprimerDonnee" ).replaceWith(
 					"<img class='supprimerDonnee1' style='cursor: pointer;' src='../images/images/sup.png' title='supprimer' />"
 				);
 			supprimerLeDonnee1();
@@ -55,7 +60,7 @@ function supprimerDonnee(){
 		if(nbChampDonnee == 1){
 			$('#supprimer_donnee_img').toggle(false);
 			$(".supprimerDonnee1" ).replaceWith(
-					"<img class='supprimerDonnee1' src='../images/images/sup2.png' />"
+					"<img class='supprimerDonnee' src='../images/images/sup2.png' />"
 				);
 		}
 		if(nbChampDonnee == 4){
@@ -77,7 +82,7 @@ function supprimerLeDonnee1(){
 		if(nbChampDonnee == 2){
 			$('#supprimer_donnee_img').toggle(false);
 			$(".supprimerDonnee1" ).replaceWith(
-					"<img class='supprimerDonnee1' src='../images/images/sup2.png' />"
+					"<img class='supprimerDonnee' src='../images/images/sup2.png' />"
 				);
 		}
 		nbChampDonnee--;
@@ -98,7 +103,7 @@ function supprimerUneDonnee(){
 		if(nbChampDonnee == 2){
 			$('#supprimer_donnee_img').toggle(false);
 			$(".supprimerDonnee1" ).replaceWith(
-					"<img class='supprimerDonnee1' src='../images/images/sup2.png' />"
+					"<img class='supprimerDonnee' src='../images/images/sup2.png' />"
 				);
 		}
 		nbChampDonnee--;
@@ -117,7 +122,7 @@ function supprimerUneDonnee(){
 		if(nbChampDonnee == 2){
 			$('#supprimer_donnee_img').toggle(false);
 			$(".supprimerDonnee1" ).replaceWith(
-					"<img class='supprimerDonnee1' src='../images/images/sup2.png' />"
+					"<img class='supprimerDonnee' src='../images/images/sup2.png' />"
 				);
 		}
 		nbChampDonnee--;
@@ -136,7 +141,7 @@ function supprimerUneDonnee(){
 		if(nbChampDonnee == 2){
 			$('#supprimer_donnee_img').toggle(false);
 			$(".supprimerDonnee1" ).replaceWith(
-					"<img class='supprimerDonnee1' src='../images/images/sup2.png' />"
+					"<img class='supprimerDonnee' src='../images/images/sup2.png' />"
 				);
 		}
 		nbChampDonnee--;
@@ -155,7 +160,7 @@ function supprimerUneDonnee(){
 		if(nbChampDonnee == 2){
 			$('#supprimer_donnee_img').toggle(false);
 			$(".supprimerDonnee1" ).replaceWith(
-					"<img class='supprimerDonnee1' src='../images/images/sup2.png' />"
+					"<img class='supprimerDonnee' src='../images/images/sup2.png' />"
 				);
 		}
 		nbChampDonnee--;

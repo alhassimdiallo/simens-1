@@ -2,7 +2,6 @@
 <?php echo $this->headLink()->appendStylesheet($this->basePath().'/css/consultation/styleMajConsultation.css');?>
 
 <!-- MES JS -->
-<?php echo $this->headLink()->appendStylesheet($this->basePath().'/js/consultation/jsMajConsultation.js');?>
 <?php echo $this->headScript()->appendFile($this->basePath().'/js/mesjs/accordeon_controle_validation.js');?>
 
 <?php
@@ -138,7 +137,7 @@ echo $this->form()->openTag($form); ?>
    <!--Accordeon NOUVELLES CONSTANTES-->
 
      <div style='font-family: police2;font-size: 17px; font-weight: bold;'>Motifs d'admission et Constantes</div>
-        <div style='min-height: 460px;'>
+        <div style='max-height: 600px;'>
 
            <?php echo $this->formHidden($form->get('id_patient'));?>
            <?php echo $this->formHidden($form->get('id_medecin'));?>
@@ -202,8 +201,9 @@ echo $this->form()->openTag($form); ?>
                        </table>
                        
                        <script>
+                        var nbMotif = "<?php echo $this->nbMotifs;?>";
                         cacherToutMotif();
-                        afficherMotif(1);
+                        afficherMotif(nbMotif);
                         supprimerUnMotif();
                        </script>
                        
@@ -216,11 +216,11 @@ echo $this->form()->openTag($form); ?>
                 </div>
               </div>
                 
-               </div>
+             </div>
           <!--**************** LES CONSTANTES ************************-->
 
               <div style='font-family: police2;font-size: 17px; font-weight: bold;'> Constantes </div>
-                <div>
+                <div style="max-height: 330px;">
                  <table  id="respond" style='width: 100%;'>
 
                     <tr class="comment-form-author">

@@ -589,8 +589,10 @@ echo $this->form()->openTag($form); ?>
          </table>
          
          <script>
+          var nbMotifs = "<?php echo ($this->nbDonneesExamenPhysique - 1);?>";
+          if(nbMotifs == 0) { nbMotifs = 1;}
           cacherTouteDonnee();
-          afficher(1);
+          afficher(nbMotifs);
           supprimerUneDonnee();
          </script> 
          
@@ -826,11 +828,11 @@ echo $this->form()->openTag($form); ?>
 					        <!--********************* BOUTON AJOUTER-SUPPRIMER ************************-->
 					            <div id="controls_examenBio" style="margin-top: 20px; width: 100%;">
 					               <div style="width: 100%;">
-						             <div style="width: 3%; float: left; cursor: pointer; " id="ajouter_examenBio">
-							            <img style='margin-left: 5px;' src='../images_icons/plus-green.png' title='ajouter' />
-						             </div>
 						             <div style="width: 3%; float: left; cursor: pointer; " id="supprimer_examenBio">
 							            <img style='margin-left: 5px;' src='../images_icons/moin-green.png' title='supprimer' />
+						             </div>
+						             <div style="width: 3%; float: left; cursor: pointer; " id="ajouter_examenBio">
+							            <img style='margin-left: 5px;' src='../images_icons/plus-green.png' title='ajouter' />
 						             </div>
 					               </div>
 				                </div>
@@ -931,11 +933,11 @@ echo $this->form()->openTag($form); ?>
 					        <!--********************* BOUTON AJOUTER-SUPPRIMER ************************-->
 				            <div id="controls_element" style="margin-top: 20px; width: 100%;">
 					          <div style="width: 100%;">
-						         <div style="width: 3%; float: left; cursor: pointer; " id="ajouter_element">
-							          <img style='margin-left: 5px;' src='../images_icons/plus-green.png' title='ajouter' />
-						         </div>
 						         <div style="width: 3%; float: left; cursor: pointer; " id="supprimer_element">
 							          <img style='margin-left: 5px;' src='../images_icons/moin-green.png' title='supprimer' />
+						         </div>
+						         <div style="width: 3%; float: left; cursor: pointer; " id="ajouter_element">
+							          <img style='margin-left: 5px;' src='../images_icons/plus-green.png' title='ajouter' />
 						         </div>
 					          </div>
 				            </div>

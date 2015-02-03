@@ -491,15 +491,7 @@ class ConsultationController extends AbstractActionController {
 
 	}
 	public function majComplementConsultationAction() {
-//       $result = $this->demandeExamensTable()->getDemandeExamensMorphologiques('s-c-080514-162027');
-//       $examens = array();
-//       $notes = array();
-//       foreach ($result as $res){
-//       	$examens[] = $res['idExamen'];
-//       	$notes[] = $res['noteDemande'];
-//       }
-//    	  var_dump(array_merge($examens , $notes)); exit();
-		 
+
 		 $this->layout ()->setTemplate ( 'layout/consultation' );
 		 $this->getDateHelper(); 
 		 $id_pat = $this->params()->fromQuery ( 'id_patient', 0 );
@@ -514,7 +506,6 @@ class ConsultationController extends AbstractActionController {
 		 //POUR LES CONSTANTES
 		 //POUR LES CONSTANTES
 		 //POUR LES CONSTANTES
-		  // instancier la consultation et r�cup�rer l'enregistrement
 		  $cons = $this->getConsultationTable ();
 		  $consult = $cons->getConsult ( $id );
 		  
@@ -553,10 +544,10 @@ class ConsultationController extends AbstractActionController {
 		  $examen = $this->getDonneesExamensPhysiquesTable();
 		  $examen_physique = $examen->getExamensPhysiques($id);
 		  //POUR LES EXAMEN PHYSIQUES
-		  $k = 1;
+		  $kPhysique = 1;
 		  foreach ($examen_physique as $Examen) {
-		  	$data['examen_donnee'.$k] = $Examen['libelle_examen'];
-		  	$k++;
+		  	$data['examen_donnee'.$kPhysique] = $Examen['libelle_examen'];
+		  	$kPhysique++;
 		  }
 		  
 		  // POUR LES ANTECEDENTS OU TERRAIN PARTICULIER
@@ -700,7 +691,8 @@ class ConsultationController extends AbstractActionController {
 		  		'listeDemandesMorphologiques' => $listeDemandesMorphologiques,
 		  		'listeDemandesBiologiques' => $listeDemandesBiologiques,
 		  		'hopitalSelect' =>$hopitalSelect,
-		  		'nbDiagnostics'=> $infoDiagnostics->count()
+		  		'nbDiagnostics'=> $infoDiagnostics->count(),
+		  		'nbDonneesExamenPhysique' => $kPhysique
 		  );
 	
 	}

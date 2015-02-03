@@ -117,11 +117,11 @@ $(function(){
 	irm.attr( 'readonly', false);
 	
 	$("#bouton_morpho_valider").click(function(){
-		radio.attr( 'readonly', true);
-		ecographie.attr( 'readonly', true);
-		fibrocospie.attr( 'readonly', true);
-		scanner.attr( 'readonly', true);
-		irm.attr( 'readonly', true);
+		radio.attr( 'readonly', true).css({'background':'#f8f8f8'});
+		ecographie.attr( 'readonly', true).css({'background':'#f8f8f8'});
+		fibrocospie.attr( 'readonly', true).css({'background':'#f8f8f8'});
+		scanner.attr( 'readonly', true).css({'background':'#f8f8f8'});
+		irm.attr( 'readonly', true).css({'background':'#f8f8f8'});
 		
 		$("#bouton_morpho_modifier").toggle(true);
 		$("#bouton_morpho_valider").toggle(false);
@@ -129,11 +129,11 @@ $(function(){
 	});
 	
 	$("#bouton_morpho_modifier").click(function(){
-		radio.attr( 'readonly', false);
-		ecographie.attr( 'readonly', false);
-		fibrocospie.attr( 'readonly', false);
-		scanner.attr( 'readonly', false);
-		irm.attr( 'readonly', false);
+		radio.attr( 'readonly', false).css({'background':'#fff'});
+		ecographie.attr( 'readonly', false).css({'background':'#fff'});
+		fibrocospie.attr( 'readonly', false).css({'background':'#fff'});
+		scanner.attr( 'readonly', false).css({'background':'#fff'});
+		irm.attr( 'readonly', false).css({'background':'#fff'});
 		
 		$("#bouton_morpho_modifier").toggle(false);
 		$("#bouton_morpho_valider").toggle(true);

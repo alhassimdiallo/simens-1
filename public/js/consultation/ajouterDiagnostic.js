@@ -14,12 +14,18 @@ function afficher(nbDiag) {
 	}
  });
  nbChamp = nbDiag;
- if(nbChamp == 1){
-		$('#supprimer_diagnostic_img').toggle(false);
-	}
+
  if(nbChamp == 4){
 		$('#ajouter_diagnostic_img').toggle(false);
 	}
+ 
+ if(nbChamp == 1){
+		$('#supprimer_diagnostic_img').toggle(false);
+		$(".supprimerDiag1" ).replaceWith(
+				"<img class='supprimerDiag' src='../images/images/sup2.png' />"
+			);
+	}
+ 
  ajouterDiagnostic();
  supprimerDiagnostic();
  supprimerLeDiagnostic1();
@@ -35,7 +41,7 @@ function ajouterDiagnostic(){
 		}
 		if(nbChamp == 2){
 			$('#supprimer_diagnostic_img').toggle(true);
-			$(".supprimerDiag1" ).replaceWith(
+			$(".supprimerDiag" ).replaceWith(
 					"<img class='supprimerDiag1' style='cursor: pointer;' src='../images/images/sup.png' title='supprimer' />"
 				);
 			supprimerLeDiagnostic1();
@@ -54,7 +60,7 @@ function supprimerDiagnostic(){
 		if(nbChamp == 1){
 			$('#supprimer_diagnostic_img').toggle(false);
 			$(".supprimerDiag1" ).replaceWith(
-					"<img class='supprimerDiag1' src='../images/images/sup2.png' />"
+					"<img class='supprimerDiag' src='../images/images/sup2.png' />"
 				);
 		}
 		if(nbChamp == 3){
@@ -76,7 +82,7 @@ function supprimerLeDiagnostic1(){
 		if(nbChamp == 2){
 			$('#supprimer_diagnostic_img').toggle(false);
 			$(".supprimerDiag1" ).replaceWith(
-					"<img class='supprimerDiag1' src='../images/images/sup2.png' />"
+					"<img class='supprimerDiag' src='../images/images/sup2.png' />"
 				);
 		}
 		nbChamp--;
@@ -97,7 +103,7 @@ function supprimerUnDiagnostic(){
 		if(nbChamp == 2){
 			$('#supprimer_diagnostic_img').toggle(false);
 			$(".supprimerDiag1" ).replaceWith(
-					"<img class='supprimerDiag1' src='../images/images/sup2.png' />"
+					"<img class='supprimerDiag' src='../images/images/sup2.png' />"
 				);
 		}
 		nbChamp--;
@@ -116,7 +122,7 @@ function supprimerUnDiagnostic(){
 		if(nbChamp == 2){
 			$('#supprimer_diagnostic_img').toggle(false);
 			$(".supprimerDiag1" ).replaceWith(
-					"<img class='supprimerDiag1' src='../images/images/sup2.png' />"
+					"<img class='supprimerDiag' src='../images/images/sup2.png' />"
 				);
 		}
 		nbChamp--;
@@ -135,7 +141,7 @@ function supprimerUnDiagnostic(){
 		if(nbChamp == 2){
 			$('#supprimer_diagnostic_img').toggle(false);
 			$(".supprimerDiag1" ).replaceWith(
-					"<img class='supprimerDiag1' src='../images/images/sup2.png' />"
+					"<img class='supprimerDiag' src='../images/images/sup2.png' />"
 				);
 		}
 		nbChamp--;
