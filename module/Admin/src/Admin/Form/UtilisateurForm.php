@@ -48,6 +48,14 @@ class UtilisateurForm extends Form
 				),
 		));
 		
+		$this->add(array(
+				'name' => 'RoleSelect',
+				'type' => 'Hidden',
+				'attributes' => array(
+						'id' => 'RoleSelect',
+				),
+		));
+		
 		
 		$this->add(array(
 				'name' => 'username',

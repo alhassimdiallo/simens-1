@@ -37,12 +37,6 @@
    	{					
    		oTable.fnFilter( this.value );
    	});
-
-   	//le filtre du select du type personnel
-//	$('#type_personnel').change(function() 
-//	{					
-//		oTable.fnFilter( this.value );
-//	});
    	
    	$("tfoot input").keyup( function () {
    		/* Filter on the column (the index) of this element */
@@ -78,7 +72,6 @@
     	$("#titre2").replaceWith("<div id='titre' style='font-family: police2; color: green; font-size: 20px; font-weight: bold; padding-left:20px;'><iS style='font-size: 25px;'>&curren;</iS> LISTE DES UTILISATEURS </div>");
 	    $("#FormUtilisateur").fadeOut(function(){
 	    	$("#contenu").fadeIn("fast"); 
-	    	//$("#division").val(""); $("#salle,#lit").html("");
 	    });
 	    return false;
 	});
@@ -119,7 +112,15 @@
     }
     
     function ajouterUtilisateur(){
-    	$("#contenu").fadeOut(function(){$("#FormUtilisateur").fadeIn("fast"); });
+    	viderChamp();
+    	$('#id').val("");
+    	var role = $('#RoleSelect').val();
+    	$('input[type=radio][name=role][value='+role+']').attr('checked', false);
+    	$("#contenu").fadeOut(function(){
+    		$("#FormUtilisateur").fadeIn("fast"); 
+    		$("#titre").replaceWith("<div id='titre2' style='font-family: police2; color: green; font-size: 20px; font-weight: bold; padding-left:20px;'><iS style='font-size: 25px;'>&curren;</iS> AJOUT D'UN NOUVEL UTILISATEUR </div>");
+    		
+    	});
     }
     //    function affichervue(id_personne){
 //    	var id_cons = $("#"+id_personne).val();

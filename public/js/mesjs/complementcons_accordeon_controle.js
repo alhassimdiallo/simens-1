@@ -202,52 +202,6 @@ $(function(){
 	
 });
 
-//********************* DONNEES DE L EXAMEN PHYSIQUE *****************************
-//********************* DONNEES DE L EXAMEN PHYSIQUE *****************************
-$(function(){
-	var donnee1 = $("#examen_donnee1");
-	var donnee2 = $("#examen_donnee2");
-	var donnee3 = $("#examen_donnee3");
-	var donnee4 = $("#examen_donnee4");
-	var donnee5 = $("#examen_donnee5");
-	
-	//Au debut on affiche pas le bouton modifier
-	$("#bouton_donnee_modifier").toggle(false);
-	//Au debut on affiche le bouton valider
-	$("#bouton_donnee_valider").toggle(true);
-	
-	//Au debut on desactive tous les champs
-	donnee1.attr( 'readonly', false);
-	donnee2.attr( 'readonly', false);
-	donnee3.attr( 'readonly', false);
-	donnee4.attr( 'readonly', false);
-	donnee5.attr( 'readonly', false);
-	
-	$("#bouton_donnee_valider").click(function(){
-		donnee1.attr( 'readonly', true);
-		donnee2.attr( 'readonly', true);
-		donnee3.attr( 'readonly', true);
-		donnee4.attr( 'readonly', true);
-		donnee5.attr( 'readonly', true);
-		$("#bouton_donnee_modifier").toggle(true);
-		$("#bouton_donnee_valider").toggle(false);
-		return false;
-	});
-	
-	$("#bouton_donnee_modifier").click(function(){
-		donnee1.attr( 'readonly', false);
-		donnee2.attr( 'readonly', false);
-		donnee3.attr( 'readonly', false);
-		donnee4.attr( 'readonly', false);
-		donnee5.attr( 'readonly', false);
-		$("#bouton_donnee_modifier").toggle(false);
-		$("#bouton_donnee_valider").toggle(true);
-		return false;
-	});
-	
-});
-
-
 // *************Autres(Transfert/Hospitalisation/ Rendez-Vous )***************
 // *************Autres(Transfert/Hospitalisation/ Rendez-Vous )***************
 // *************Autres(Transfert/Hospitalisation/ Rendez-Vous )***************

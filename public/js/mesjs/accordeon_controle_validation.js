@@ -13,6 +13,7 @@ function supprimer_dernier_caractere(elm) {
 $(function() {
 	$( "#accordionss" ).accordion();
     $( "#accordions" ).accordion();
+    $( "button" ).button();
 
     /****** CONTROLE LORS DE LA SAISIE ********/ 
     /****** CONTROLE LORS DE LA SAISIE ********/ 
@@ -179,49 +180,49 @@ $(function() {
   //******************* VALIDER LES DONNEES DU TABLEAU DES MOTIFS ******************************** 
   //******************* VALIDER LES DONNEES DU TABLEAU DES MOTIFS ******************************** 
   
-  	var motif1 = $("#motif_admission1");
-  	var motif2 = $("#motif_admission2");
-  	var motif3 = $("#motif_admission3");
-  	var motif4 = $("#motif_admission4");
-  	var motif5 = $("#motif_admission5");
-
-  	$( "button" ).button();
-  	//$( "bouton_valider_motif" ).button();
-  	//$( "bouton_modifier_motif" ).button();
-
-  	//Au debut on cache le bouton modifier et on affiche le bouton valider
-  	$( "#bouton_motif_valider" ).toggle(true);
-  	$( "#bouton_motif_modifier" ).toggle(false);
-
-  	//Au debut on desactive tous les champs
-  	motif1.attr( 'readonly', false );
-  	motif2.attr( 'readonly', false );
-  	motif3.attr( 'readonly', false );
-  	motif4.attr( 'readonly', false );
-  	motif5.attr( 'readonly', false );
-
-  	//Valider(cach�) avec le bouton 'valider'
-  	$( "#bouton_motif_valider" ).click(function(){
-  		motif1.attr( 'readonly', true );     //d�sactiver le motif1
-  		motif2.attr( 'readonly', true );     //d�sactiver le motif2
-  		motif3.attr( 'readonly', true );   //d�sactiver le motif3
-  		motif4.attr( 'readonly', true );
-  		motif5.attr( 'readonly', true );
-  		$("#bouton_motif_modifier").toggle(true);  //on affiche le bouton permettant de modifier les champs
-  		$("#bouton_motif_valider").toggle(false); //on cache le bouton permettant de valider les champs
-  		return false; 
-  	});
-  	//Activer(d�cach�) avec le bouton 'modifier'
-  	$( "#bouton_motif_modifier" ).click(function(){
-  		motif1.attr( 'readonly', false );
-  		motif2.attr( 'readonly', false );
-  		motif3.attr( 'readonly', false );
-  		motif4.attr( 'readonly', false );
-  		motif5.attr( 'readonly', false );
-  	 	$("#bouton_motif_modifier").toggle(false);   //on cache le bouton permettant de modifier les champs
-  	 	$("#bouton_motif_valider").toggle(true);    //on affiche le bouton permettant de valider les champs
-  	 	return  false;
-  	});
+//  	var motif1 = $("#motif_admission1");
+//  	var motif2 = $("#motif_admission2");
+//  	var motif3 = $("#motif_admission3");
+//  	var motif4 = $("#motif_admission4");
+//  	var motif5 = $("#motif_admission5");
+//
+//  	$( "button" ).button();
+//  	//$( "bouton_valider_motif" ).button();
+//  	//$( "bouton_modifier_motif" ).button();
+//
+//  	//Au debut on cache le bouton modifier et on affiche le bouton valider
+//  	$( "#bouton_motif_valider" ).toggle(true);
+//  	$( "#bouton_motif_modifier" ).toggle(false);
+//
+//  	//Au debut on desactive tous les champs
+//  	motif1.attr( 'readonly', false );
+//  	motif2.attr( 'readonly', false );
+//  	motif3.attr( 'readonly', false );
+//  	motif4.attr( 'readonly', false );
+//  	motif5.attr( 'readonly', false );
+//
+//  	//Valider(cach�) avec le bouton 'valider'
+//  	$( "#bouton_motif_valider" ).click(function(){
+//  		motif1.attr( 'readonly', true );     //d�sactiver le motif1
+//  		motif2.attr( 'readonly', true );     //d�sactiver le motif2
+//  		motif3.attr( 'readonly', true );   //d�sactiver le motif3
+//  		motif4.attr( 'readonly', true );
+//  		motif5.attr( 'readonly', true );
+//  		$("#bouton_motif_modifier").toggle(true);  //on affiche le bouton permettant de modifier les champs
+//  		$("#bouton_motif_valider").toggle(false); //on cache le bouton permettant de valider les champs
+//  		return false; 
+//  	});
+//  	//Activer(d�cach�) avec le bouton 'modifier'
+//  	$( "#bouton_motif_modifier" ).click(function(){
+//  		motif1.attr( 'readonly', false );
+//  		motif2.attr( 'readonly', false );
+//  		motif3.attr( 'readonly', false );
+//  		motif4.attr( 'readonly', false );
+//  		motif5.attr( 'readonly', false );
+//  	 	$("#bouton_motif_modifier").toggle(false);   //on cache le bouton permettant de modifier les champs
+//  	 	$("#bouton_motif_valider").toggle(true);    //on affiche le bouton permettant de valider les champs
+//  	 	return  false;
+//  	});
 
   //********************* FIN TABLEAU VALIDATION MOTIFS *****************************
   //********************* FIN TABLEAU VALIDATION MOTIFS *****************************
@@ -430,7 +431,7 @@ $(document).ready(function() {
 	//AJOUT DE CHAMPS MOTIFS
 	//AJOUT DE CHAMPS MOTIFS
 	//AJOUT DE CHAMPS MOTIFS
-	function champ2(){
+/*	function champ2(){
 	   $( "#leschamps_2" ).click(function(){
 		  $( "#motif2" ).toggle(true);
 		  $('#plus').children().remove();
@@ -539,5 +540,5 @@ $(document).ready(function() {
 		champ2();champ3();champ4();champ5();
 		supChamp2();supChamp3();supChamp4();supChamp5();
 
-});
+});*/
 

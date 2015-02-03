@@ -167,50 +167,103 @@ function supprimerUneDonnee(){
 //********************* examen_donnee *****************************
 //********************* examen_donnee *****************************
 $(function(){
-	var diagnostic1 = $("#diagnostic1");
-	var diagnostic2 = $("#diagnostic2");
-	var diagnostic3 = $("#diagnostic3");
-	var diagnostic4 = $("#diagnostic4");
+	var donnee1 = $("#examen_donnee1");
+	var donnee2 = $("#examen_donnee2");
+	var donnee3 = $("#examen_donnee3");
+	var donnee4 = $("#examen_donnee4");
+	var donnee5 = $("#examen_donnee5");
 	
 	//Au debut on affiche pas le bouton modifier
-	$("#bouton_diagnostic_modifier").toggle(false);
+	$("#bouton_donnee_modifier").toggle(false);
 	//Au debut on affiche le bouton valider
-	$("#bouton_diagnostic_valider").toggle(true);
+	$("#bouton_donnee_valider").toggle(true);
 	
 	//Au debut on desactive tous les champs
-	diagnostic1.attr( 'readonly', false); 
-	diagnostic2.attr( 'readonly', false);
-	diagnostic3.attr( 'readonly', false);
-	diagnostic4.attr( 'readonly', false);
+	donnee1.attr( 'readonly', false);
+	donnee2.attr( 'readonly', false);
+	donnee3.attr( 'readonly', false);
+	donnee4.attr( 'readonly', false);
+	donnee5.attr( 'readonly', false);
 	
-	$("#bouton_diagnostic_valider").click(function(){
-		diagnostic1.attr( 'readonly', true).css({'background':'#f8f8f8'});;
-		diagnostic2.attr( 'readonly', true).css({'background':'#f8f8f8'});;
-		diagnostic3.attr( 'readonly', true).css({'background':'#f8f8f8'});;
-		diagnostic4.attr( 'readonly', true).css({'background':'#f8f8f8'});;
-		$("#bouton_diagnostic_modifier").toggle(true);
-		$("#bouton_diagnostic_valider").toggle(false);
+	$("#bouton_donnee_valider").click(function(){
+		donnee1.attr( 'readonly', true).css({'background':'#f8f8f8'});
+		donnee2.attr( 'readonly', true).css({'background':'#f8f8f8'});
+		donnee3.attr( 'readonly', true).css({'background':'#f8f8f8'});
+		donnee4.attr( 'readonly', true).css({'background':'#f8f8f8'});
+		donnee5.attr( 'readonly', true).css({'background':'#f8f8f8'});
+		$("#bouton_donnee_modifier").toggle(true);
+		$("#bouton_donnee_valider").toggle(false);
 		
 		$('#ajouter_donnee_img').toggle(false);
 		$('#supprimer_donnee_img').toggle(false);
 		
-		$('.supprimerDonnee1, .supprimerDonnee2, .supprimerDonnee3, .supprimerDonnee4').toggle(false);
+		$('.supprimerDonnee1, .supprimerDonnee2, .supprimerDonnee3, .supprimerDonnee4, .supprimerDonnee5').toggle(false);
 		return false;
 	});
 	
-	$("#bouton_diagnostic_modifier").click(function(){
-		diagnostic1.attr( 'readonly', false).css({'background':'#fff'});;
-		diagnostic2.attr( 'readonly', false).css({'background':'#fff'});;
-		diagnostic3.attr( 'readonly', false).css({'background':'#fff'});;
-		diagnostic4.attr( 'readonly', false).css({'background':'#fff'});;
-		$("#bouton_diagnostic_modifier").toggle(false);
-		$("#bouton_diagnostic_valider").toggle(true);
+	$("#bouton_donnee_modifier").click(function(){
+		donnee1.attr( 'readonly', false).css({'background':'#fff'});
+		donnee2.attr( 'readonly', false).css({'background':'#fff'});
+		donnee3.attr( 'readonly', false).css({'background':'#fff'});
+		donnee4.attr( 'readonly', false).css({'background':'#fff'});
+		donnee5.attr( 'readonly', false).css({'background':'#fff'});
+		$("#bouton_donnee_modifier").toggle(false);
+		$("#bouton_donnee_valider").toggle(true);
 		
 		if(nbChampDonnee != 5) { $('#ajouter_donnee_img').toggle(true); }
 		if(nbChampDonnee != 1) { $('#supprimer_donnee_img').toggle(true); }
 		
-		$('.supprimerDonnee1, .supprimerDonnee2, .supprimerDonnee3, .supprimerDonnee4').toggle(true);
+		$('.supprimerDonnee1, .supprimerDonnee2, .supprimerDonnee3, .supprimerDonnee4, .supprimerDonnee5').toggle(true);
 		return false;
 	});
 	
 });
+
+//$(function(){
+//	var diagnostic1 = $("#diagnostic1");
+//	var diagnostic2 = $("#diagnostic2");
+//	var diagnostic3 = $("#diagnostic3");
+//	var diagnostic4 = $("#diagnostic4");
+//	
+//	//Au debut on affiche pas le bouton modifier
+//	$("#bouton_diagnostic_modifier").toggle(false);
+//	//Au debut on affiche le bouton valider
+//	$("#bouton_diagnostic_valider").toggle(true);
+//	
+//	//Au debut on desactive tous les champs
+//	diagnostic1.attr( 'readonly', false); 
+//	diagnostic2.attr( 'readonly', false);
+//	diagnostic3.attr( 'readonly', false);
+//	diagnostic4.attr( 'readonly', false);
+//	
+//	$("#bouton_diagnostic_valider").click(function(){
+//		diagnostic1.attr( 'readonly', true).css({'background':'#f8f8f8'});;
+//		diagnostic2.attr( 'readonly', true).css({'background':'#f8f8f8'});;
+//		diagnostic3.attr( 'readonly', true).css({'background':'#f8f8f8'});;
+//		diagnostic4.attr( 'readonly', true).css({'background':'#f8f8f8'});;
+//		$("#bouton_diagnostic_modifier").toggle(true);
+//		$("#bouton_diagnostic_valider").toggle(false);
+//		
+//		$('#ajouter_donnee_img').toggle(false);
+//		$('#supprimer_donnee_img').toggle(false);
+//		
+//		$('.supprimerDonnee1, .supprimerDonnee2, .supprimerDonnee3, .supprimerDonnee4').toggle(false);
+//		return false;
+//	});
+//	
+//	$("#bouton_diagnostic_modifier").click(function(){
+//		diagnostic1.attr( 'readonly', false).css({'background':'#fff'});;
+//		diagnostic2.attr( 'readonly', false).css({'background':'#fff'});;
+//		diagnostic3.attr( 'readonly', false).css({'background':'#fff'});;
+//		diagnostic4.attr( 'readonly', false).css({'background':'#fff'});;
+//		$("#bouton_diagnostic_modifier").toggle(false);
+//		$("#bouton_diagnostic_valider").toggle(true);
+//		
+//		if(nbChampDonnee != 5) { $('#ajouter_donnee_img').toggle(true); }
+//		if(nbChampDonnee != 1) { $('#supprimer_donnee_img').toggle(true); }
+//		
+//		$('.supprimerDonnee1, .supprimerDonnee2, .supprimerDonnee3, .supprimerDonnee4').toggle(true);
+//		return false;
+//	});
+//	
+//});

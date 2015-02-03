@@ -10,7 +10,7 @@ echo $this->headScript()->appendFile($this->basepath().'/js/admin/jsListeUtilisa
 	LISTE DES UTILISATEURS
 </div>
 <div id="contenu"> 
-        <div style="margin-right: 20px; float:right; font-size: 15px; color: gray; margin-top:5px;"><a style="text-decoration: none; cursor:pointer;" href="javascript:ajouterUtilisateur()" ><img src='../images_icons/doctor_16.png' ><i style="font-family: Times New Roman; font-size: 15px; color: green;"> nouvel utilisateur</i></a></div>
+        <div style="margin-right: 20px; float:right; font-size: 15px; color: gray; margin-top:5px;"><a style="text-decoration: none; cursor:pointer;" href="javascript:ajouterUtilisateur()" ><img src='../images_icons/doctor_16.png' title="ajouter" /><i style="font-family: Times New Roman; font-size: 15px; color: green;"> nouvel utilisateur</i></a></div>
             <table id="utilisateurs" class="table table-bordered tab_list_mini" >
 				<thead>
 					<tr style="height: 50px; width:100%; ">
@@ -65,6 +65,7 @@ echo $this->headScript()->appendFile($this->basepath().'/js/admin/jsListeUtilisa
     echo $this->form ()->openTag ( $form );
     ?>
     <?php echo $this->formhidden($form->get('id')); ?>
+    <?php echo $this->formhidden($form->get('RoleSelect')); ?>
 
     <table id="form_patient" style="margin-left: 195px; width: 80%;">  
       

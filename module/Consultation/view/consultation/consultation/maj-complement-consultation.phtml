@@ -563,7 +563,7 @@ echo $this->form()->openTag($form); ?>
         <!--********************* BOUTON AJOUTER-SUPPRIMER ************************-->
          <!--********************* BOUTON AJOUTER-SUPPRIMER ************************-->
 		 <div id="controls_donnees" style="margin-top: 10px; width: 100%;">
-		    <div style="width: 100%; background: green;">
+		    <div style="width: 100%; ">
 		      <div style="width: 3%; height: 1px; float: left; " id="supprimer_donnee">
 			     <img id="supprimer_donnee_img" style='margin-left: 5px; cursor: pointer;' src='../images_icons/moin-green.png' title='supprimer' />
 			  </div>
@@ -589,11 +589,9 @@ echo $this->form()->openTag($form); ?>
          </table>
          
          <script>
-//              var nbdiagnostic = '<?php //echo $this->nbDiagnostics;?>';
-//               if(nbdiagnostic == 0) { nbdiagnostic = 1; }
-               cacherTouteDonnee();
-               afficher(1);
-               supprimerUneDonnee();
+          cacherTouteDonnee();
+          afficher(1);
+          supprimerUneDonnee();
          </script> 
          
         </div>
@@ -1308,11 +1306,11 @@ echo $this->form()->openTag($form); ?>
          <!--********************* BOUTON AJOUTER-SUPPRIMER ************************-->
 		 <div id="controls_diagnostics" style="margin-top: 10px; width: 100%;">
 		    <div style="width: 100%; background: green;">
-		      <div style="width: 3%; height: 1px; float: left; " id="ajouter_diagnostic">
-				 <img id="ajouter_diagnostic_img" style='margin-left: 5px; cursor: pointer;' src='../images_icons/plus-green.png' title='ajouter' />
-			  </div>
 		      <div style="width: 3%; height: 1px; float: left; " id="supprimer_diagnostic">
 			     <img id="supprimer_diagnostic_img" style='margin-left: 5px; cursor: pointer;' src='../images_icons/moin-green.png' title='supprimer' />
+			  </div>
+			  <div style="width: 3%; height: 1px; float: left; " id="ajouter_diagnostic">
+				 <img id="ajouter_diagnostic_img" style='margin-left: 5px; cursor: pointer;' src='../images_icons/plus-green.png' title='ajouter' />
 			  </div>
 		    </div>
 		 </div>
@@ -1416,11 +1414,11 @@ echo $this->form()->openTag($form); ?>
 					<!--********************* BOUTON AJOUTER-SUPPRIMER ************************-->
 					<div id="controls_medicament" style="margin-top: 20px; width: 100%;">
 					  <div style="width: 100%;">
-					    <div style="width: 3%; float: left; cursor: pointer; " id="ajouter_medicament">
-					      <img style='margin-left: 5px;' src='../images_icons/plus-green.png' title='ajouter' />
-					    </div>
 					    <div style="width: 3%; float: left; cursor: pointer; " id="supprimer_medicament">
 						  <img style='margin-left: 5px;' src='../images_icons/moin-green.png' title='supprimer' />
+					    </div>
+					    <div style="width: 3%; float: left; cursor: pointer; " id="ajouter_medicament">
+					      <img style='margin-left: 5px;' src='../images_icons/plus-green.png' title='ajouter' />
 					    </div>
 				      </div>
 				    </div>
@@ -1683,9 +1681,9 @@ echo $this->form()->openTag($form); ?>
                                   </table>
 
                                 </div>
-             </div>
+                    </div>
 
-        </div>
+       </div>
       
 </div>
 

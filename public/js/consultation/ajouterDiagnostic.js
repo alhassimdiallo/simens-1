@@ -26,7 +26,7 @@ function afficher(nbDiag) {
 }
 
 function ajouterDiagnostic(){ 
-	$('#ajouter_diagnostic_img').click(function(){ alert(nbChamp);
+	$('#ajouter_diagnostic_img').click(function(){ 
 		nbChamp++;
 		$('#diag'+(nbChamp)).toggle(true);
 		

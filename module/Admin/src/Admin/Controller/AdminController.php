@@ -108,7 +108,6 @@ class AdminController extends AbstractActionController
         	
         	}
         }
-        //echo $erreur_message; exit();
         return array(
         		'loginForm' => $form,
         		'erreur_message' => $erreur_message
@@ -179,15 +178,16 @@ class AdminController extends AbstractActionController
     	$utilisateur = $this->getUtilisateurTable()->getUtilisateurs($id);
     	$html  = "";
     	$html .="<script> 
-    			 $('#id').val('".$utilisateur->id."');
-    			 $('#username').val('".$utilisateur->username."');
-    			 //$('#password').val('".$utilisateur->password."');
-    			 $('#nomUtilisateur').val('".$utilisateur->nom."');
-    			 $('#prenomUtilisateur').val('".$utilisateur->prenom."');
-    			 $('#service').val('".$utilisateur->id_service."');
-    			 $('#fonction').val('".$utilisateur->fonction."');
-    			 $('input[type=radio][name=role][value=".$utilisateur->role."]').attr('checked', true);
-    			</script>"; 
+    			  $('#id').val('".$utilisateur->id."');
+    			  $('#username').val('".$utilisateur->username."');
+    			  $('#nomUtilisateur').val('".$utilisateur->nom."');
+    			  $('#prenomUtilisateur').val('".$utilisateur->prenom."');
+    			  $('#service').val('".$utilisateur->id_service."');
+    			  $('#fonction').val('".$utilisateur->fonction."');
+    			  $('input[type=radio][name=role][value=".$utilisateur->role."]').attr('checked', true);
+    			 
+    			  $('#RoleSelect').val('".$utilisateur->role."');  
+    			 </script>"; 
     	
     	$this->getResponse ()->getHeaders ()->addHeaderLine ( 'Content-Type', 'application/html; charset=utf-8' );
     	return $this->getResponse ()->setContent ( Json::encode ($html) );
