@@ -422,7 +422,7 @@ class ConsultationController extends AbstractActionController {
 		$id_pat = $this->params ()->fromQuery ( 'id_patient', 0 );
 		$id = $this->params ()->fromQuery ( 'id_cons' );
 		$consommable = $this->getConsommableTable();
-		$listeMedicament = $consommable->fetchConsommable();
+		$listeMedicament = $consommable->listeDeTousLesMedicaments();
 		$list = $this->getPatientTable ();
 		$liste = $list->getPatient ( $id_pat );
 

@@ -537,48 +537,65 @@ echo $this->form()->openTag($form); ?>
 
      <!--*3*-->
      <div style='font-family: police2;font-size: 17px; font-weight: bold;'>Donn&eacute;es de l'examen physique</div>
-        <div style=' max-height: 330px;'>
+        <div style=' max-height: 340px;'>
         <p style='color: white; opacity: 0.5;'>
-                   <img id="" src='<?php echo $this->basePath().'/images_icons/examenphysique.jpg'?>'  alt="consult-motif" style='float:right; margin-right:0px; width:32%; height:270px;'/>
+           <img id="" src='<?php echo $this->basePath().'/images_icons/examenphysique.jpg'?>'  alt="consult-motif" style='float:right; margin-right:0px; width:32%; height:270px;'/>
         </p>
+        <?php echo  $this->headScript()->appendFile($this->basePath().'/js/consultation/ajouterDonnees.js');?>
         <table id="responde" style="width:65%;">
-                     <tr class="form-author">
-                         <th><?php echo $this->formRow($form->get('examen_donnee1'));?></th>
-                     </tr>
-                     <tr class="form-author">
-                         <th><?php echo $this->formRow($form->get('examen_donnee2'));?></th>
-                     </tr>
-                     <tr class="form-author">
-                         <th><?php echo $this->formRow($form->get('examen_donnee3'));?></th>
-                     </tr>
-                     <tr class="form-author">
-                         <th><?php echo $this->formRow($form->get('examen_donnee4'));?></th>
-                     </tr>
-                     <tr class="form-author">
-                         <th><?php echo $this->formRow($form->get('examen_donnee5'));?></th>
-                     </tr>
+            <tr id="donnee1" class="form-author">
+               <th><?php echo $this->formRow($form->get('examen_donnee1'));?> <span id="labelSupDonnee"> <img class='supprimerDonnee1' style='cursor: pointer;' src='../images/images/sup.png' title='supprimer' /> </span> </th>
+            </tr>
+            <tr id="donnee2" class="form-author">
+               <th><?php echo $this->formRow($form->get('examen_donnee2'));?> <span id="labelSupDonnee"> <img class='supprimerDonnee2' style='cursor: pointer;' src='../images/images/sup.png' title='supprimer' /> </span></th>
+            </tr>
+            <tr id="donnee3" class="form-author">
+               <th><?php echo $this->formRow($form->get('examen_donnee3'));?> <span id="labelSupDonnee"> <img class='supprimerDonnee3' style='cursor: pointer;' src='../images/images/sup.png' title='supprimer' /> </span></th>
+            </tr>
+            <tr id="donnee4" class="form-author">
+               <th><?php echo $this->formRow($form->get('examen_donnee4'));?> <span id="labelSupDonnee"> <img class='supprimerDonnee4' style='cursor: pointer;' src='../images/images/sup.png' title='supprimer' /> </span></th>
+            </tr>
+            <tr id="donnee5" class="form-author">
+               <th><?php echo $this->formRow($form->get('examen_donnee5'));?> <span id="labelSupDonnee"> <img class='supprimerDonnee5' style='cursor: pointer;' src='../images/images/sup.png' title='supprimer' /> </span></th>
+            </tr>
+        </table>
+        
+        <!--********************* BOUTON AJOUTER-SUPPRIMER ************************-->
+         <!--********************* BOUTON AJOUTER-SUPPRIMER ************************-->
+		 <div id="controls_donnees" style="margin-top: 10px; width: 100%;">
+		    <div style="width: 100%; background: green;">
+		      <div style="width: 3%; height: 1px; float: left; " id="supprimer_donnee">
+			     <img id="supprimer_donnee_img" style='margin-left: 5px; cursor: pointer;' src='../images_icons/moin-green.png' title='supprimer' />
+			  </div>
+			  <div style="width: 3%; height: 1px; float: left; " id="ajouter_donnee">
+				 <img id="ajouter_donnee_img" style='margin-left: 5px; cursor: pointer;' src='../images_icons/plus-green.png' title='ajouter' />
+			  </div>
+		    </div>
+		 </div>
 
-                 </table>
-
-                 <table style="width:100%; margin-top:5px;">
-                      <tr style="width:100%;">
-                         <th style="width:30%; "></th>
-                         <th style="width:20%; "></th>
-                         <th style="width:20%;">
-                         <!-- On crï¿½e le bouton Valider (permettant la validation des donnï¿½es -->
-                         <div id="bouton_valider_donnee">
-                             <button id='bouton_donnee_valider'>Valider</button>
-                         </div>
-                         <!-- On crï¿½e le bouton MODIFIER (permettant la modification des donnï¿½es -->
-                         <div id="bouton_modifier_donnee">
-                              <button id='bouton_donnee_modifier'>Modifier</button>
-                         </div>
-                         </th>
-                         <th style="width:30%; "></th>
-
-                     </tr>
-                 </table>
-
+		 <!--********************* BOUTON VALIDER-MODIFIER ************************-->
+         <!--********************* BOUTON VALIDER-MODIFIER ************************-->		            
+         <table style="width: 59%; position: relative; top: 0px;">
+              <tr style="width: 90%;">
+                <th style="width:65%;">
+                    <div style="float:right;">
+                       <button id='bouton_donnee_valider'>Valider</button>
+                    </div>
+                    <div style="float:right;">
+                       <button id='bouton_donnee_modifier'>Modifier</button>
+                    </div>
+                </th>
+              </tr>
+         </table>
+         
+         <script>
+//              var nbdiagnostic = '<?php //echo $this->nbDiagnostics;?>';
+//               if(nbdiagnostic == 0) { nbdiagnostic = 1; }
+               cacherTouteDonnee();
+               afficher(1);
+               supprimerUneDonnee();
+         </script> 
+         
         </div>
 
      <!-- ********************Antécédents ou Terrain particulier ******************-->
@@ -1317,6 +1334,7 @@ echo $this->form()->openTag($form); ?>
          
          <script>
               var nbdiagnostic = '<?php echo $this->nbDiagnostics;?>';
+              if(nbdiagnostic == 0) { nbdiagnostic = 1; }
               cacherTout();
               afficher(nbdiagnostic);
               supprimerUnDiagnostic();
