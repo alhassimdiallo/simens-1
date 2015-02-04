@@ -29,6 +29,7 @@ use Consultation\View\Helpers\TransfertPdf;
 use Consultation\View\Helpers\RendezVousPdf;
 use Facturation\View\Helper\DateHelper;
 use Zend\Mvc\Controller\Plugin\Layout;
+use Admin\Form\UtilisateurForm;
 
 class ConsultationController extends AbstractActionController {
 	protected $controlDate;

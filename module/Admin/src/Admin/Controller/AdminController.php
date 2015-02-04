@@ -22,6 +22,7 @@ use Zend\Mvc\Controller\AbstractActionController,
     Admin\Form\LoginForm as LoginForm;
 use Zend\Json\Json;
 use Admin\Form\UtilisateurForm;
+use Admin\Form\ModifierUtilisateurForm;
 
 /**
  * User Controller Class
@@ -223,5 +224,76 @@ class AdminController extends AbstractActionController
     	return array(
     		'formUtilisateur' => $formUtilisateur
     	);
+    }
+    
+    //************************************************************************************
+    //************************************************************************************
+    //************************************************************************************
+    public function modifierPasswordAction()
+    {
+    	$this->layout ()->setTemplate ( 'layout/consultation' );
+    	$controller = $this->params()->fromRoute('id', 0);
+    
+    	$formUtilisateur = new ModifierUtilisateurForm();
+    		
+    	$listeService = $this->getServiceTable ()->fetchService ();
+    	$formUtilisateur->get ( 'service' )->setValueOptions ( array_merge( array(""), $listeService ) );
+    		
+ 		$request = $this->getRequest();
+    		
+  		if ($request->isPost()){
+  			$donnees = $request->getPost ();
+  			
+  			$this->getUtilisateurTable()->modifierPassword($donnees);
+   
+  			if($controller == 1){
+  				return $this->redirect()->toRoute('consultation' , array('action' => 'consultation-medecin'));
+  			} else if($controller == 2){
+  				return $this->redirect()->toRoute('consultation' , array('action' => 'recherche'));
+  			} else if($controller == 3){
+  				return $this->redirect()->toRoute('facturation' , array('action' => 'liste-patient'));
+  			} else if($controller == 4){
+  				return $this->redirect()->toRoute('hospitalisation' , array('action' => 'liste'));
+  			} else if($controller == 5){
+  				return $this->redirect()->toRoute('hospitalisation' , array('action' => 'liste-demandes-examens'));
+  			}
+  			
+  		}
+    
+  		$uAuth = $this->getServiceLocator()->get('Admin\Controller\Plugin\UserAuthentication'); //@todo - We must use PluginLoader $this->userAuthentication()!!
+  		$username = $uAuth->getAuthService()->getIdentity();
+  		$user = $this->getUtilisateurTable()->getUtilisateursWithUsername($username);
+  		$utilisateur = $this->getUtilisateurTable()->getUtilisateurs($user->id);
+  		
+  		$data = array(
+  				'id' => $utilisateur->id,
+  				'nomUtilisateur' => $utilisateur->nom,
+  				'prenomUtilisateur' => $utilisateur->prenom,
+  				'username' => $utilisateur->username,
+  				'fonction' => $utilisateur->fonction,
+  				'service' => $utilisateur->id_service,
+  		);
+  		
+  		$formUtilisateur->populateValues($data);
+    	return array(
+    			'formUtilisateur' => $formUtilisateur,
+    			'controller' => $controller,
+    	);
+    }
+    
+    public function verifierPasswordAction()
+    {
+    	$id = $this->params()->fromPost('id');
+    	$password = $this->params()->fromPost('password');
+    
+    	$utilisateur = $this->getUtilisateurTable()->getUtilisateurs($id);
+    	$passwordDecrypte = $this->getUtilisateurTable()->encryptPassword($password);
+    	$resultComparer = 0;
+    	if($passwordDecrypte == $utilisateur->password) {
+    		$resultComparer = 1;
+    	}
+    	
+    	$this->getResponse ()->getHeaders ()->addHeaderLine ( 'Content-Type', 'application/html; charset=utf-8' );
+    	return $this->getResponse ()->setContent ( Json::encode ($resultComparer) );
     }
 }

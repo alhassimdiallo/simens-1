@@ -28,6 +28,8 @@ return array(
     								'login' => 'guest',
     								'logout' => 'guest',
     								'bienvenue' => 'guest',
+    								'modifier-password' => 'guest',
+    								'verifier-password' => 'guest',
     								'utilisateurs' => 'superAdmin',
     								'liste-utilisateurs-ajax' => 'superAdmin',
     								'modifier-utilisateur' => 'superAdmin'

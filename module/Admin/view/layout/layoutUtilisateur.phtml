@@ -39,26 +39,28 @@
     
 <body id="bodbod">
 	<!--Header-part-->
-		<div style=" height: 70px;">
+		<div id="logoSimens" style=" height: 70px;">
 			<div style="font-size: 28px; color: red; padding-top: 30px; padding-left: 45px;">+<div style="font-size: 27px; color: #45ed0a; font-family: Bookman Old Style; float:left; ">SIMENS</div></div>
 		</div>
+		
 	<!--close-Header-part-->
 	<!--top Menu au dessus -->
-<div id="user-nav" class="navbar navbar-inverse" style="padding-top: 0px; width: 80%;">
+<div id="user-nav" class="navbar navbar-inverse" style="padding-top: 0px; padding-left: 0px; width: 83%;">
  <div style="width:100%;">
   <ul class="nav" style="width:100%;">
     <li  class="dropdown" style=" width: 30%;"><a title=""  class="dropdown-toggle">
       <i> <span style="color: white; font-size: 13px;">Service: </span></i>
-      <b class="caret" ></b> <span style="font-size: 18px; color: white; font-family: Times  New Roman;"><?php echo $service;?></span></a>
+      <b class="caret" ></b> <span style="font-size: 15px; color: white; font-family: Times  New Roman;"><?php echo $service;?></span></a>
     </li>
 
     <li  class="dropdown" style=" width: 55%;"><a title="" class="dropdown-toggle">
-      <i class="icon icon-user"></i>  <span style="color: white; font-size: 13px;"><i>Bienvenue: </i> M.</span>
-      <b class="caret" ></b> <span style="font-size: 18px; color: white;font-family: Times  New Roman;"><?php echo $prenom.'  '.$nom;?></span></a>
+      <i><img id="modifierPassword" style="cursor:pointer; position:relative; top: -2px;" title="Mon profil" src="../img/light/admin_user_2.png"/>
+      </i><span style="color: white; font-size: 13px;"><i>Bienvenue: </i> M.</span>
+      <b class="caret" ></b> <span style="font-size: 15px; color: white;font-family: Times  New Roman;"><?php echo $prenom.'  '.$nom;?></span></a>
     </li>
 
     <li style="width: 15%;"><a title="" style="" href="<?php echo $this->url('admin', array('action'=>'logout'));?>">
-      <i class="icon icon-share-alt"></i> <span style="color: white;">D&eacute;connexion</span></a>
+      <i><img src="../img/light/bended_arrow_right.png"/></i> <span style="color: white; font-size: 12px;">D&eacute;connexion</span></a>
     </li>
   </ul>
  </div>
@@ -66,7 +68,7 @@
 	
 	<!--Menu de droite-->
 <div id="sidebar" >
-  <?php echo $this->partial('layout/layoutGauche'); ?>
+  <?php //echo $this->partial('layout/layoutGauche'); ?>
 </div>
 	<div id="content">
 		<div id="content-header">

@@ -36,9 +36,9 @@ body {
 
 
 <div id="loginbox" style="width: 100%;">
-    <div style='width: 100%; '>
-	  <div style="width: 70%; float:left; text-align: left; margin-left: 10px; font-size: 20px; color: white;">
-		<?php echo "Bonjour M. ".$this->user->prenom."  ".$this->user->nom;?>
+    <div style='width: 100%; margin-top: 60px;'>
+	  <div style="width: 70%; float:left; text-align: left; margin-left: 10px;  font-size: 20px; color: white;">
+		<?php echo "Bienvenue: M. ".$this->user->prenom."  ".$this->user->nom;?>
 	  </div>
 	  <div style="width: 27%; float:left; text-align: right; font-size: 15px; color: white; margin-right: 10px;">
 		<a href="<?php echo $this->url('admin', array('action'=>'logout'));?>">

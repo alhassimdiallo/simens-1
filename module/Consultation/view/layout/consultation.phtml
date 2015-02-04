@@ -13,7 +13,7 @@
  echo $this->headLink()->prependStylesheet($this->basePath().'/css/jquery.contextMenu.css');
  echo $this->headLink()->prependStylesheet($this->basePath().'/css/matrix-style-cons.css');
  echo $this->headLink()->prependStylesheet($this->basePath().'/css/matrix-media.css');
- echo $this->headLink()->prependStylesheet($this->basePath().'/font-awesome/css/font-awesome.css');
+ //echo $this->headLink()->prependStylesheet($this->basePath().'/font-awesome/css/font-awesome.css');
 
  $this->headScript()->appendFile($this->basePath().'/js/jquery.min.js');
  //$this->headScript()->appendFile($this->basePath().'/js/jquery.ui.custom.js');
@@ -54,7 +54,7 @@
 	
 	<!--close-Header-part-->
 	<!--top Menu au dessus -->
-<div id="user-nav" class="navbar navbar-inverse" style="padding-top: 0px; width: 80%;">
+<div id="user-nav" class="navbar navbar-inverse" style="padding-top: 0px; padding-left: 0px; width: 83%;">
  <div style="width:100%;">
   <ul class="nav" style="width:100%;">
     <li  class="dropdown" style=" width: 30%;"><a title=""  class="dropdown-toggle">
@@ -63,12 +63,14 @@
     </li>
 
     <li  class="dropdown" style=" width: 55%;"><a title="" class="dropdown-toggle">
-      <i class="icon icon-user"></i>  <span style="color: white; font-size: 13px;"><i>Bienvenue: </i> M.</span>
+      
+      <i><img id="modifierPassword" style="cursor:pointer; position:relative; top:-2px;" title="" src="<?php echo $this->basePath().'/img/light/admin_user_2.png';?>"/>
+      </i><span style="color: white; font-size: 13px;"><i>Bienvenue: </i> M.</span>
       <b class="caret" ></b> <span style="font-size: 15px; color: white;font-family: Times  New Roman;"><?php echo $prenom.'  '.$nom;?></span></a>
     </li>
 
     <li style="width: 15%;"><a title="" style="" href="<?php echo $this->url('admin', array('action'=>'logout'));?>">
-      <i class="icon icon-share-alt"></i> <span style="color: white; font-size: 12px;">D&eacute;connexion</span></a>
+      <i><img src="<?php echo $this->basePath().'/img/light/bended_arrow_right.png';?>"/></i> <span style="color: white; font-size: 12px;">D&eacute;connexion</span></a>
     </li>
   </ul>
  </div>
@@ -94,10 +96,10 @@
 	</div>
 	<!--Fin de pied de page-->
 </body>
+
 </html>
 
 <style>
-
 .ui-tooltip {
 	padding: 8px;
 	position: absolute;
@@ -113,6 +115,9 @@ body .ui-tooltip {
 </style>
 
 <script>
+var base_url = window.location.toString();
+var tabUrl = base_url.split("public");
+
 jQuery(document).ready(function($){
     $('a,img,hass').tooltip({
         animation: true,
@@ -122,9 +127,16 @@ jQuery(document).ready(function($){
             effect: "slideDown",
             delay: 250
           }
-
     });
 
-
+    $('#modifierPassword').click(function(){
+        var role = "<?php echo $user->role;?>";
+        var id = 0;
+        if(role == 'medecin'){id = 1;}
+        if(role == 'surveillant'){id = 2;}
+        
+    	vart=tabUrl[0]+'public/admin/modifier-password/'+id;
+        $(location).attr("href",vart);
+    });
 });
 </script>

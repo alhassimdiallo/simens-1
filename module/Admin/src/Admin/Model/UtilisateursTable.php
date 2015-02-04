@@ -214,6 +214,21 @@ class UtilisateursTable
 		}
 	}
 	
+	public function modifierPassword($donnees)
+	{
+		$date = new \DateTime ("now");
+		$formatDate = $date->format ( 'Y-m-d H:i:s' );
+		$data = array(
+				'username' => $donnees->username,
+				'password' => $this->_encryptPassword($donnees->nouveaupassword),
+				'nom' => $donnees->nomUtilisateur,
+				'prenom' => $donnees->prenomUtilisateur,
+				'date_de_modification' => $formatDate,
+		);
+	
+		$this->tableGateway->update($data, array('id' => $donnees->id));
+	}
+	
 	/**
 	 * Encrypts a value by md5 + static token
 	 * 10 times
