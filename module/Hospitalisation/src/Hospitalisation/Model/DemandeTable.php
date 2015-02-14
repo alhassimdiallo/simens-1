@@ -144,7 +144,7 @@ class DemandeTable {
 		->join(array('cons' => 'consultation'), 'cons.pat_id_personne = pat.id_personne', array('Datedemande'=>'date', 'Idcons'=>'id_cons'))
 		->join(array('d' => 'demande'), 'd.idCons = cons.id_cons' , array('*'))
 		->join(array('med' => 'medecin') , 'med.id_personne = cons.id_personne' , array('NomMedecin' =>'nom', 'PrenomMedecin' => 'prenom'))
-		->order('cons.date ASC')
+		->order('d.idDemande ASC')
 		->group('d.idCons');
 	
 		/* Data set length after filtering */
@@ -202,7 +202,7 @@ class DemandeTable {
 		
 						else if ($aColumns[$i] == 'id') {
 		
-							$html  ="<infoBulleVue><a href='javascript:listeExamens(".$aRow[ $aColumns[$i] ].")'>";
+							$html  ="<infoBulleVue><a href='javascript:listeExamens(". $aRow[ $aColumns[$i] ] .",". $aRow[ 'idDemande' ] .")'>";
 							$html .="<img src='".$tabURI[0]."public/images_icons/voir.png' title='détails'></a><infoBulleVue>";
 		
 							if($this->VerifierDemandeExamenSatisfaite($aRow[ 'Idcons' ]) == true ) {
@@ -214,7 +214,7 @@ class DemandeTable {
 							}
 		
 		
-							$html .="<input id='".$aRow[ $aColumns[$i] ]."'  type='hidden' value='".$aRow[ 'Idcons' ]."'>";
+							$html .="<input id='".$aRow[ 'idDemande' ]."'  type='hidden' value='".$aRow[ 'Idcons' ]."'>";
 		
 							$row[] = $html;
 						}
@@ -265,7 +265,7 @@ class DemandeTable {
 	
 					else if ($aColumns[$i] == 'id') {
 	
-						$html  ="<infoBulleVue><a href='javascript:listeExamens(".$aRow[ $aColumns[$i] ].")'>";
+						$html  ="<infoBulleVue><a href='javascript:listeExamens(". $aRow[ $aColumns[$i] ] .",". $aRow[ 'idDemande' ] .")'>";
 						$html .="<img src='".$tabURI[0]."public/images_icons/voir.png' title='détails'></a><infoBulleVue>";
 	
 						if($this->VerifierDemandeExamenSatisfaite($aRow[ 'Idcons' ]) == true ) {
@@ -277,7 +277,7 @@ class DemandeTable {
 						}
 						
 						
-						$html .="<input id='".$aRow[ $aColumns[$i] ]."'  type='hidden' value='".$aRow[ 'Idcons' ]."'>";
+						$html .="<input id='".$aRow[ 'idDemande' ]."'  type='hidden' value='".$aRow[ 'Idcons' ]."'>";
 	
 						$row[] = $html;
 					}

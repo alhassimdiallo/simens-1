@@ -25,6 +25,8 @@ class Consultation implements InputFilterAwareInterface{
 	public $dateonly;
 	public $heurecons;
 	public $id_service;
+	public $pression_arterielle;
+	
 	protected $inputFilter;
 
 	public function exchangeArray($data) {
@@ -46,6 +48,7 @@ class Consultation implements InputFilterAwareInterface{
 		$this->dateonly = (! empty ( $data ['DATEONLY'] )) ? $data ['DATEONLY'] : null;
 		$this->heurecons = (! empty ( $data ['HEURECONS'] )) ? $data ['HEURECONS'] : null;
 		$this->id_service = (! empty ( $data ['ID_SERVICE'] )) ? $data ['ID_SERVICE'] : null;
+		$this->pression_arterielle = (! empty ( $data ['PRESSION_ARTERIELLE'] )) ? $data ['PRESSION_ARTERIELLE'] : null;
 	}
 // 	public function exchangeArray($data) {
 // 		$this->id_cons = (! empty ( $data ['id_cons'] )) ? $data ['id_cons'] : null;

@@ -188,7 +188,7 @@ box-shadow: 0pt 0pt 12px rgba(0, 0, 0, 0.1);
 
 {
 
-line-height: 2.0em;
+line-height: 1.7em;
 
 }
 
@@ -440,11 +440,9 @@ tr:hover /* Apparence au survol des liens */
 
 /************************************ style du tableau N°1 ****************************************/
 
-#responde input[type="text"], #respond textarea 
+#responde input[type="text"], #respond textarea , #respondeMotif input[type="text"]
 
 { /*le input ou le textarea*/
-
-/*background-color: #fffffa; /*la couleur du champ*/
 
 background-image: none;
 
@@ -555,7 +553,12 @@ float: left;
 
 }
 
-#responde .form-author label  
+#respond input[type="text"]
+{
+	margin-bottom: 20px;
+}
+
+#responde .form-author label , #respondeMotif .form-author label
 {/* le label*/
 line-height: 2.0em;
 
@@ -606,6 +609,58 @@ border-top-left-radius: 5px; /*arrondir le bord du label*/
 float: left;
 
 margin-left: 2px;
+
+}
+
+#respondeMotif .form-author #labelSupMotif  
+{/* le label*/
+line-height: 2.0em;
+
+background-color: #eeeeee;
+
+background-image: none;
+
+background-repeat: repeat;
+
+background-attachment: scroll;
+
+background-position: 0% 0%;
+
+background-clip: border-box;
+
+background-origin: padding-box;
+
+background-size: auto auto;
+
+box-shadow: 1px 2px 2px rgba(204, 204, 204, 0.8);
+
+font-size: 13px;
+
+/*left: 150px; /*déplacer le label*/
+
+/* min-width: 60px; */
+
+/* padding-top: 8px; */
+
+padding: 2px;
+
+position: relative;
+
+width: 16px;
+
+height: 16px;
+
+display: inline-block;
+
+float:right;
+
+top: -39px;
+
+right: 35px;
+
+margin-bottom: -30px;
+
+border-bottom-left-radius: 5px; /*arrondir le bord du label*/ 
 
 }
 
@@ -661,7 +716,7 @@ border-bottom-left-radius: 5px; /*arrondir le bord du label*/
 
 }
 
-#responde input[type="text"] 
+#responde input[type="text"]
 {
 
 display: block;
@@ -672,7 +727,18 @@ width: 100%; /* la largeur du champ input*/
 
 }
 
-#responde input[type="text"]:focus, #responde textarea:focus 
+#respondeMotif input[type="text"]
+{
+
+display: block;
+
+height: 50px; /*la hauteur du champ input*/
+
+width: 95%; /* la largeur du champ input*/
+
+}
+
+#responde input[type="text"]:focus, #responde textarea:focus, #respondeMotif input[type="text"]:focus
 {
 
 text-indent: 0pt;
@@ -3618,3 +3684,32 @@ margin-left: 2px;
 
 /*----fin style--------*/
 
+#BUcheckbox label 
+{/* le label*/
+line-height: 1.7em;
+
+background-color: #f3f3f3;
+
+background-size: auto auto;
+
+box-shadow: 1px 1px 2px rgba(204, 204, 204, 0.8);
+
+color: #555555;
+
+display: inline-block;
+
+font-size: 16px;
+
+padding-top: 4px;
+
+padding-right: 10px;
+
+padding-bottom: 4px;
+
+padding-left: 10px;
+
+position: relative;
+
+font-family: time new romans;
+
+}

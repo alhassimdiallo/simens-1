@@ -1318,10 +1318,21 @@ class HospitalisationController extends AbstractActionController {
  					$html .="<a>
  					    	<img style='margin-right: 16%; color: white; opacity: 0.09;' src='/simens/public/images_icons/pencil_16.png'/>
  					     </a>";
- 					$html .="<a>
+ 					
+ 					if($Liste['responsable'] == 1) { /*Envoyer par le medecin*/
+ 						$html .="<a>
+ 					    	<img class='envoyer".$Liste['idDemande']."' src='/simens/public/images_icons/tick_16.png' title='examen valid&eacute; par le medecin'/>
+ 					     </a>
+ 				         </td>";
+ 					} else 
+ 					    { /*Envoyer par le laborantin*/
+ 					     $html .="<a>
  					    	<img class='envoyer".$Liste['idDemande']."' src='/simens/public/images_icons/tick_16.png' title='examen envoy&eacute;'/>
  					     </a>
  				         </td>";
+ 					    }
+ 					
+ 					
  				} else {
  					$html .="<a href='javascript:modifierExamen(".$Liste['idDemande'].")'>
  					    	<img class='modifier".$Liste['idDemande']."' style='margin-right: 16%;' src='/simens/public/images_icons/pencil_16.png' alt='Constantes' title='modifier r&eacute;sultat'/>

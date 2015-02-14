@@ -123,13 +123,13 @@ echo $this->form()->openTag($form); ?>
 	       <div style='color: white; opacity: 1; width:95px; height:40px; float:right'>
              <img  src='<?php echo $this->basePath().'/images_icons/fleur1.jpg'?>'  alt="fleur1" />
           </div>
-          <table id="numero" style=" padding-top:5px; width: 400px;">
-           <tr>
+          <table id="numero" style=" padding-top:5px; width: 550px;">
+           <tr style="width: 550px;">
              <td style="padding-top:5px; width: 70px; font-size: 12px;"> Consultation: </td>
              <td style="font-weight: bold;"> <?php echo $this->id_cons;?></td>
              <td style="font-weight: bold; width:10px;">|</td>
-             <td style="padding-top:5px; width: 30px; font-size: 12px; "> Heure: </td>
-             <td style="font-weight: bold;"> <?php echo $this->heure_cons;?></td>
+             <td style="padding-top:5px; width: 80px; font-size: 12px; "> Date & Heure: </td>
+             <td style="font-weight: bold;"> <?php echo $Control->convertDate($this->dateonly);?>  -  <?php echo $this->heure_cons;?></td>
            </tr>
           </table>
       </div>
@@ -141,8 +141,7 @@ echo $this->form()->openTag($form); ?>
 
            <?php echo $this->formHidden($form->get('id_patient'));?>
            <?php echo $this->formHidden($form->get('id_medecin'));?>
-
-           <!-- div style=" height: 310px; width: 1030px; text-align: justify; border: 0px solid black; overflow: auto;"-->
+           <?php echo $this->formHidden($form->get('id_cons'));?>
 
      <!-- **************************************************************************************************************** -->
            <!-- SOUS ACCORDEON MOTIF D'ADMISSION ET CONSTANTES -->
@@ -221,66 +220,66 @@ echo $this->form()->openTag($form); ?>
 
               <div style='font-family: police2;font-size: 17px; font-weight: bold;'> Constantes </div>
                 <div style="max-height: 330px;">
-                 <table  id="respond" style='width: 100%;'>
+                 <table  id="respond" style="width: 100%">
 
                     <tr class="comment-form-author">
-                        <td><?php echo $this->formRow($form->get('id_cons'));?></td>
-                     	<td><?php echo $this->formRow($form->get('tension'));?></td>
-                    	<td><?php echo $this->formRow($form->get('taille'));?></td>
-                    	<td><?php echo $this->formRow($form->get('bu'));?></td>
+                        <td><?php echo $this->formRow($form->get('poids'));?></td>
+                        <td><?php echo $this->formRow($form->get('taille'));?></td>
+                        <td><?php echo $this->formRow($form->get('temperature'));?></td>
+                     	<td><?php echo $this->formRow($form->get('pressionarterielle'));?></td>
                     </tr>
-
                        <!-- GESTION DES ERREURS -->
                        <tr>
-                           <td></td>
-                           <td> <div id="erreur_tension"></div> </td>
-                           <td> <div id="erreur_taille"></div> </td>
-                           <td> <div id="erreur_bu"></div> </td>
-                       </tr>
-
-                    <tr class="comment-form-author">
-                        <td><?php echo $this->formRow($form->get('date_cons'));?></td>
-                        <td><?php echo $this->formRow($form->get('poids'));?></td>
-                        <td><?php echo $this->formRow($form->get('temperature'));?></td>
-                        <td><?php echo $this->formRow($form->get('glycemie_capillaire'));?></td>
-                    </tr>
-
-                        <!-- GESTION DES ERREURS -->
-                       <tr>
-                           <td></td>
                            <td> <div id="erreur_poids"></div> </td>
+                           <td> <div id="erreur_taille"></div> </td>
                            <td> <div id="erreur_temperature"></div> </td>
-                           <td> <div id="erreur_glycemie"></div> </td>
+                           <td> <div id="erreur_pressionarterielle"></div></td>
                        </tr>
 
+                       
                     <tr class="comment-form-author">
                         <td><?php echo $this->formRow($form->get('pouls'));?></td>
                         <td><?php echo $this->formRow($form->get('frequence_respiratoire'));?></td>
+                        <td><?php echo $this->formRow($form->get('glycemie_capillaire'));?></td>
                     </tr>
-
                         <!-- GESTION DES ERREURS -->
                        <tr>
                            <td> <div id="erreur_pouls"></div> </td>
                            <td> <div id="erreur_frequence"></div> </td>
-                           <td></td>
-                           <td></td>
+                           <td> <div id="erreur_glycemie"></div> </td>
+                           <td> </td>
                        </tr>
 
-                    <tr class="comment-form-author" style="height: 10px;">
+                    <tr style="height: 115px;">
+                        <td rowspan="2" colspan="2" style="vertical-align: top;" >
+                        <div class="comment-form-author"> <label> <img style="cursor: pointer; position: absolute; padding-right: 120px; margin-left: -5px;" id="depliantBandelette" src='<?php echo $this->basePath().'/img/light/plus.png'?>' title="deplier"/> <pouss style='margin-left: 20px;'>Bandelette urinaire</pouss> </label> </div>
+                        <div id="BUcheckbox" style="background: #ffffff; width: 91%; height: 117px; border: 0px solid #eeeeee;">
+                        
+                           <div style="float: left;"><label style="width: 125px; text-align: right;"> Albumine :  </label><?php echo $this->formRow($form->get('albumine'));?></div><div id="labelAlbumine"  style="float: left;"> <div id="fleche"  style="float: left;"> <label style="width: 15px;text-align: center;"> » </label></div> <div id="ChoixPlus"  style="float: left;"><label style="width: 15px;text-align: center;"> 3+ </label></div><div id="labelCroixAlbumine"  style="float: left;"><?php echo $this->formRow($form->get('croixalbumine'));?></div></div> <br>
+                           <div style="float: left;"><label style="width: 125px; text-align: right;"> Sucre :  </label><?php echo $this->formRow($form->get('sucre'));?></div><div id="labelSucre"  style="float: left;"> <div id="fleche2"  style="float: left;"> <label style="width: 15px;text-align: center;"> » </label></div> <div id="ChoixPlus2"  style="float: left;"><label style="width: 15px;text-align: center;"> 3+ </label></div><div id="labelCroixSucre"  style="float: left;"><?php echo $this->formRow($form->get('croixsucre'));?></div></div> <br>
+                           <div style="float: left;"><label style="width: 125px; text-align: right;"> Corps cétoniques :  </label><?php echo $this->formRow($form->get('corpscetonique'));?></div><div id="labelCorpscetonique"  style="float: left;"> <div id="fleche3"  style="float: left;"><label style="width: 15px;text-align: center;"> » </label></div> <div id="ChoixPlus3"  style="float: left;"><label style="width: 15px;text-align: center;"> 3+ </label></div><div id="labelCroixCorpscetonique"  style="float: left;"><?php echo $this->formRow($form->get('croixcorpscetonique'));?></div></div>
+                        
+                        </div>
+                        
+                        </td>
                         <td></td>
                         <td></td>
-                        <th > </th>
-                        <th style="float:right; height:10px; padding-top: 35px;">
-                           <!-- On cr�e le bouton Valider (permettant la validation des donn�es -->
-                             <div id="bouton_valider_consantes">
+                    </tr>
+                      
+                      
+                    <tr class="comment-form-author">
+                        <td></td>
+                        <td style="height: 5px; margin-top: 25px;">
+                             <div style="float:right;">
                                   <button id='bouton_constantes_valider'>Valider</button>
                              </div>
-                             <!-- On cr�e le bouton MODIFIER (permettant la modification des donn�es -->
-                             <div id="bouton_modifier_constantes">
+                             <div style="float:right;">
                                   <button id='bouton_constantes_modifier'>Modifier</button>
                              </div>
-                        </th>
+                        </td>
                     </tr>
+                    
+                    
                  </table>
                 </div>
             </div>
@@ -311,9 +310,200 @@ echo $this->form()->openTag($form); ?>
 
 <?php echo $this->form()->closeTag();?>
 <script>
+$(function(){
+	$('#responde input, #respond input').attr('autocomplete', 'off');
+	//*********************************************************************
+	//*********************************************************************
+	//*********************************************************************
+		function dep1(){
+			$('#depliantBandelette').click(function(){
+				$("#depliantBandelette").replaceWith("<img id='depliantBandelette' style='cursor: pointer; position: absolute; padding-right: 120px; margin-left: -5px;' src='<?php echo $this->basePath().'/img/light/plus.png'?>' title='deplier' />");
+				dep();
+			    $('#BUcheckbox').animate({
+			        height : 'toggle'
+			    },1000);
+			 return false;
+			});
+		}
+		
+		$('#BUcheckbox').toggle(false);
+		if(<?php echo $this->temoin;?> == 1){
+			$('#BUcheckbox').toggle(true);
+		}
+		
+		dep();
+		function dep(){
+			$('#depliantBandelette').click(function(){
+				$("#depliantBandelette").replaceWith("<img id='depliantBandelette' style='cursor: pointer; position: absolute; padding-right: 120px; margin-left: -5px;' src='<?php echo $this->basePath().'/img/light/minus.png'?>' title='plier' />");
+				dep1();
+			    $('#BUcheckbox').animate({
+			        height : 'toggle'
+			    },1000);
+			 return false;
+			});
+		}
+		
+	});
+
+
+	//TESTER LEQUEL DES CHECKBOX est coch�
+	//TESTER LEQUEL DES CHECKBOX est coch�
+	maskDeSaisie();
+	OptionCochee();
+	function OptionCochee() {
+		$("#labelAlbumine").toggle(false);
+		$("#labelSucre").toggle(false);
+		$("#labelCorpscetonique").toggle(false);
+
+		//AFFICHER SI C'EST COCHE
+		//AFFICHER SI C'EST COCHE
+		var boutonsAlbumine = $('#BUcheckbox input[name=albumine]');
+		if(boutonsAlbumine[1].checked){ $("#labelAlbumine").toggle(true); }
+		
+		var boutonsSucre = $('#BUcheckbox input[name=sucre]');
+		if(boutonsSucre[1].checked){ $("#labelSucre").toggle(true); }
+
+		var boutonsCorps = $('#BUcheckbox input[name=corpscetonique]');
+		if(boutonsCorps[1].checked){ $("#labelCorpscetonique").toggle(true); }
+
+		//AFFICHER AU CLICK SI C'EST COCHE
+		//AFFICHER AU CLICK SI C'EST COCHE
+		$('#BUcheckbox input[name=albumine]').click(function(){
+			$("#ChoixPlus").toggle(false);
+			var boutons = $('#BUcheckbox input[name=albumine]');
+			if(boutons[0].checked){	$("#labelAlbumine").toggle(false); $("#BUcheckbox input[name=croixalbumine]").attr('checked', false); }
+			if(boutons[1].checked){ $("#labelAlbumine").toggle(true); $("#labelCroixAlbumine").toggle(true);}
+		});
+
+		$('#BUcheckbox input[name=sucre]').click(function(){
+			$("#ChoixPlus2").toggle(false);
+			var boutons = $('#BUcheckbox input[name=sucre]');
+			if(boutons[0].checked){	$("#labelSucre").toggle(false); $("#BUcheckbox input[name=croixsucre]").attr('checked', false); }
+			if(boutons[1].checked){ $("#labelSucre").toggle(true); $("#labelCroixSucre").toggle(true);}
+		});
+
+		$('#BUcheckbox input[name=corpscetonique]').click(function(){
+			$("#ChoixPlus3").toggle(false);
+			var boutons = $('#BUcheckbox input[name=corpscetonique]');
+			if(boutons[0].checked){	$("#labelCorpscetonique").toggle(false); $("#BUcheckbox input[name=croixcorpscetonique]").attr('checked', false); }
+			if(boutons[1].checked){ $("#labelCorpscetonique").toggle(true); $("#labelCroixCorpscetonique").toggle(true);}
+		});
+
+
+		//CHOIX DU CROIX
+		//========================================================
+		$("#ChoixPlus").toggle(false);
+		albumineOption();
+		function albumineOption(){
+			var boutons = $('#BUcheckbox input[name=croixalbumine]');
+			if(boutons[0].checked){
+				$("#labelCroixAlbumine").toggle(false); 
+				$("#ChoixPlus").toggle(true); 
+				$("#ChoixPlus label").html("1+");
+
+			}
+			if(boutons[1].checked){ 
+				$("#labelCroixAlbumine").toggle(false); 
+				$("#ChoixPlus").toggle(true); 
+				$("#ChoixPlus label").html("2+");
+
+			}
+			if(boutons[2].checked){ 
+				$("#labelCroixAlbumine").toggle(false); 
+				$("#ChoixPlus").toggle(true); 
+				$("#ChoixPlus label").html("3+");
+				
+			}
+			if(boutons[3].checked){ 
+				$("#labelCroixAlbumine").toggle(false); 
+				$("#ChoixPlus").toggle(true); 
+				$("#ChoixPlus label").html("4+");
+
+			}
+		}
+		
+		$('#BUcheckbox input[name=croixalbumine]').click(function(){
+			albumineOption();
+		});
+
+		//========================================================
+		$("#ChoixPlus2").toggle(false);
+		sucreOption();
+		function sucreOption(){
+			var boutons = $('#BUcheckbox input[name=croixsucre]');
+			if(boutons[0].checked){
+				$("#labelCroixSucre").toggle(false); 
+				$("#ChoixPlus2").toggle(true); 
+				$("#ChoixPlus2 label").html("1+");
+
+			}
+			if(boutons[1].checked){ 
+				$("#labelCroixSucre").toggle(false); 
+				$("#ChoixPlus2").toggle(true); 
+				$("#ChoixPlus2 label").html("2+");
+
+			}
+			if(boutons[2].checked){ 
+				$("#labelCroixSucre").toggle(false); 
+				$("#ChoixPlus2").toggle(true); 
+				$("#ChoixPlus2 label").html("3+");
+				
+			}
+			if(boutons[3].checked){ 
+				$("#labelCroixSucre").toggle(false); 
+				$("#ChoixPlus2").toggle(true); 
+				$("#ChoixPlus2 label").html("4+");
+
+			}
+		}
+		$('#BUcheckbox input[name=croixsucre]').click(function(){
+			sucreOption();
+		});
+
+		//========================================================
+		$("#ChoixPlus3").toggle(false);
+		corpscetoniqueOption();
+		function corpscetoniqueOption(){
+			var boutons = $('#BUcheckbox input[name=croixcorpscetonique]');
+			if(boutons[0].checked){
+				$("#labelCroixCorpscetonique").toggle(false); 
+				$("#ChoixPlus3").toggle(true); 
+				$("#ChoixPlus3 label").html("1+");
+
+			}
+			if(boutons[1].checked){ 
+				$("#labelCroixCorpscetonique").toggle(false); 
+				$("#ChoixPlus3").toggle(true); 
+				$("#ChoixPlus3 label").html("2+");
+
+			}
+			if(boutons[2].checked){ 
+				$("#labelCroixCorpscetonique").toggle(false); 
+				$("#ChoixPlus3").toggle(true); 
+				$("#ChoixPlus3 label").html("3+");
+				
+			}
+			if(boutons[3].checked){ 
+				$("#labelCroixCorpscetonique").toggle(false); 
+				$("#ChoixPlus3").toggle(true); 
+				$("#ChoixPlus3 label").html("4+");
+
+			}
+		}
+		$('#BUcheckbox input[name=croixcorpscetonique]').click(function(){
+			corpscetoniqueOption();
+		});
+		
+	}
+
+
+	//*********************************************************************
+	//*********************************************************************
+	//*********************************************************************
 //POUR LE MENU GAUCHE dans -elementgauche.phtml
 $('#plus_naissance').toggle(true);
 $("#naissance").replaceWith("<li id='naissance' style='background:#4a5765;'><a href=''><span style='margin-left:0px; color: #ffffff; font-weight:bold; font-size:18px; font-family:Times New Roman;'> <img style='display: inline;' src='<?php echo $this->basePath().'/images_icons/moins-vert.PNG'?>' alt='Liste' /> Surveillant de service </span></a></li>");
 dep1();
 $('#ajouter_style').css({'font-weight':'bold','color':'white','font-size':'22px'});
 </script>
+<?php  echo $this->headScript()->appendFile($this->basePath().'/js/jquery.maskedinput.cons.js');?>

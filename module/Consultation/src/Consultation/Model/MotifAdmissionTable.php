@@ -35,12 +35,13 @@ class MotifAdmissionTable{
 		$this->tableGateway->delete(array('id_cons'=>$id));
 	}
 	public function addMotifAdmission($values){
-		for($i=1 ; $i<=5; $i++){ // 5 car on s'arrete a 5 motifs
-			if($values['motif_admission'.$i]){
+		for($i=1 ; $i<=5; $i++){ 
+			if($values->get ( 'motif_admission'.$i )->getValue ()){ 
 				$datamotifadmission	 = array(
-						'libelle_motif' => $values['motif_admission'.$i],
-						'id_cons' => $values['id_cons'],
+						'libelle_motif' => $values->get ( 'motif_admission'.$i )->getValue (),
+						'id_cons' => $values->get ( 'id_cons' )->getValue (),
 				);
+				
 				$this->tableGateway->insert($datamotifadmission);
 			}
 

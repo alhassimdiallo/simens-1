@@ -1,6 +1,19 @@
-<?php use Facturation\View\Helper\DateHelper;
+<?php 
+use Facturation\View\Helper\DateHelper;
 use Zend\Db\ResultSet\ResultSet;
-$Control = new DateHelper();?>
+$Control = new DateHelper();
+
+function AdresseText($Text){
+	$chaine = $Text;
+	if(strlen($Text)>30){
+		$chaine = substr($Text, 0, 30);
+		$nb = strrpos($chaine, ' ');
+		$chaine = substr($chaine, 0, $nb);
+		$chaine .=' ...';
+	}
+	return $chaine;
+}
+?>
 
 <?php echo $this->headLink()->appendStylesheet($this->basePath().'/css/consultation/recherche.css'); ?>
 
@@ -49,7 +62,7 @@ $Control = new DateHelper();?>
 				    <td><?php echo $this->escapeHtml($donnees['Prenom']);?></td>
 					<td><?php echo $Control->convertDate($this->escapeHtml($donnees['Datenaissance']));?></td>
 					<td><?php echo $this->escapeHtml($donnees['Sexe']);?></td>
-					<td><?php echo $this->escapeHtml($donnees['Adresse']);?></td>
+					<td><?php echo AdresseText($this->escapeHtml($donnees['Adresse']));?></td>
 					<td><?php echo $this->escapeHtml($donnees['Nationalite']);?></td>
 					<td>
 					    <a href="<?php echo $this->url('consultation', array('action'=>'ajout-constantes','id_patient'=>$this->escapeHtml($donnees['Id'])));?>">
@@ -86,7 +99,7 @@ $Control = new DateHelper();?>
 				    <td><?php echo $this->escapeHtml($donnees['Prenom']);?></td>
 					<td><?php echo $Control->convertDate($this->escapeHtml($donnees['Datenaissance']));?></td>
 					<td><?php echo $this->escapeHtml($donnees['Sexe']);?></td>
-					<td><?php echo $this->escapeHtml($donnees['Adresse']);?></td>
+					<td><?php echo AdresseText($this->escapeHtml($donnees['Adresse']));?></td>
 					<td><?php echo $this->escapeHtml($donnees['Nationalite']);?></td>
 					<td>
 					    <a>
@@ -133,7 +146,7 @@ $Control = new DateHelper();?>
 			( {
 							"bJQueryUI": false,
 							"sPaginationType": "full_numbers",
-							"aaSorting": "", //pour trier la liste affich�e
+							"aaSorting": [], //pour trier la liste affich�e
 							"oLanguage": {
 								"sInfo": "_START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
 								"sInfoEmpty": "0 &eacute;l&eacute;ment &agrave; afficher",

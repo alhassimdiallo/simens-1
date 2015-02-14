@@ -107,4 +107,23 @@ class TransfererPatientServiceTable{
 			$this->tableGateway->insert($info_transfert);
 		}
 	}
+	
+	
+	
+	public function fetchServiceWithHopitalNotServiceActual($idHopital, $idDuService){
+		$adapter = $this->tableGateway->getAdapter();
+		$sql = new Sql($adapter);
+		$select = $sql->select(array('hs' =>'hopital_service'));
+		$select->where(array('hs.ID_HOPITAL' => $idHopital));
+		$select->columns(array('hs_IdService'=>'ID_SERVICE', 'hs_IdHopital'=>'ID_HOPITAL'));
+		$select->join(array('s'=>'service'), 's.ID_SERVICE = hs.ID_SERVICE' , array('*'));
+		$stat = $sql->prepareStatementForSqlObject($select);
+		$result = $stat->execute();
+		foreach ($result as $data) {
+			if($data['ID_SERVICE'] != $idDuService){
+				$options[$data['ID_SERVICE']] = $data['NOM'];
+			}
+		}
+		return $options;
+	}
 }

@@ -15,6 +15,7 @@ class Demande {
 	public $idCons;
 	public $idExamen;
 	public $appliquer;
+	public $responsable;
 	
 	public function exchangeArray($data) {
  			$this->idDemande = (! empty ( $data ['idDemande'] )) ? $data ['idDemande'] : null;
@@ -23,6 +24,7 @@ class Demande {
  			$this->idCons = (! empty ( $data ['idCons'] )) ? $data ['idCons'] : null;
  			$this->idExamen = (! empty ( $data ['idExamen'] )) ? $data ['idExamen'] : null;
  			$this->appliquer = (! empty ( $data ['appliquer'] )) ? $data ['appliquer'] : null;
+ 			$this->responsable = (! empty ( $data ['responsable'] )) ? $data ['responsable'] : null;
 	}
 	
 }

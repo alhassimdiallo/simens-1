@@ -258,7 +258,8 @@ class PatientTable {
 		$result2 = $statement2->execute ();
 		$tab = array($result1,$result2);
 		return $tab;
-	}
+	} 
+	
 	public function listePatients() {
 		$adapter = $this->tableGateway->getAdapter ();
 		$sql1 = new Sql ( $adapter );
@@ -750,7 +751,7 @@ class PatientTable {
 		return $result;
 
 	}
-	//liste des patients à consulter par le medecin dans ce service
+	//liste des patients à consulter par le medecin dans le service de ce dernier
 	public function listePatientsConsParMedecin($idDuService){
 		$today = new \DateTime();
 		$date = $today->format('Y-m-d');
@@ -771,10 +772,18 @@ class PatientTable {
 				'Id' => 'ID_PERSONNE'
 		) );
 		$select->join(array('c' => 'consultation'), 'p.ID_PERSONNE = c.PAT_ID_PERSONNE', array('Id_cons' => 'ID_CONS', 'dateonly' => 'DATEONLY', 'Consprise' => 'CONSPRISE', 'date' => 'DATE'));
-		$where = new Where();
-		$where->equalTo('c.ID_SERVICE', $idDuService);
-		$where->equalTo('DATEONLY', $date);
-		$select->where($where);
+		$select->join(array('f' => 'facturation'), 'c.PAT_ID_PERSONNE = f.id_patient', array('Id_facturation' => 'id_facturation'));
+// 		$where = new Where();
+// 		$where->equalTo('c.ID_SERVICE', $idDuService);
+// 		$where->equalTo('DATEONLY', $date);
+// 		$where->equalTo('f.date_cons', $date);
+// 		$select->where($where);
+
+		$select->where(array('c.ID_SERVICE' => $idDuService, 'DATEONLY' => $date, 'f.date_cons' => $date));
+		$select->order('id_facturation ASC');
+		
+		//$select->group('f.id_patient');
+		
 		$stmt = $sql->prepareStatementForSqlObject($select);
 		$result = $stmt->execute();
 		return $result;

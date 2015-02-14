@@ -22,12 +22,14 @@
  //$this->headScript()->appendFile($this->basePath().'/js/select2.min.js');
  $this->headScript()->appendFile($this->basePath().'/js/jquery.dataTables.min.js');
  $this->headScript()->appendFile($this->basePath().'/js/matrix.js');
-
+ 
  echo $this->headTitle($this->pageTitle);?> 
         <?php echo $this->headLink()->appendStylesheet($this->basePath().'/css/smoothness/jquery-ui.css');?>
 
-        <?php $this->headScript()->appendFile($this->basePath().'/js/jquery-1.9.1.js');?>
-		<?php $this->headScript()->appendFile($this->basePath().'/js/jquery-ui.js');?>
+        <?php $this->headScript()->appendFile($this->basePath().'/js/jquery-1.9.1.js');
+		      $this->headScript()->appendFile($this->basePath().'/js/jquery-ui.js');
+		      
+		?>
 
 		<?php echo $this->headScript();?>
 <head>

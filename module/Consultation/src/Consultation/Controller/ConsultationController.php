@@ -272,9 +272,11 @@ class ConsultationController extends AbstractActionController {
 				'image' => $image,
 				'form' => $form,
 				'id_cons' => $id_cons,
-				'heure_cons' => $heure_cons
+				'heure_cons' => $heure_cons,
+				'dateonly' => $consult['dateonly'],
 		) );
 	}
+	
 	public function ajoutDonneesConstantesAction() {
 		$this->layout ()->setTemplate ( 'layout/consultation' );
 		$LeService = $this->layout ()->service; 
@@ -283,37 +285,41 @@ class ConsultationController extends AbstractActionController {
 		$service = $this->getServiceTable ();
 		$LigneDuService = $service->getServiceParNom ( $LeService );
 		$IdDuService = $LigneDuService ['ID_SERVICE'];
-
 		$consModel = new Consultation ();
 
-		if (isset ( $_POST ['terminer'] )) {
+		if (isset ( $_POST ['terminer'] )) { 
 			$form = new ConsultationForm ();
 			$formData = $this->getRequest ()->getPost ();
 			$test = $this->params()->fromPost('date_cons');
 			$form->setData ( $formData );
-			$form->remove('heure_rv');
-			$form->remove('type_anesthesie_demande');
-			$form->remove('hopital_accueil');
-			$form->remove('service_accueil');
-			if ($form->isValid() == true) {
-				
-				$id_cons = $form->get ( "id_cons" )->getValue ();
-				$infos = $form->getData ();
-				
-				// instancier Consultation
-				$consultation = $this->getConsultationTable ();
-				$consultation->addConsultation ( $infos, $IdDuService );
 
-				// instancier motif admission
-				$motif_admission = $this->getMotifAdmissionTable ();
-				$motif_admission->addMotifAdmission ( $infos );
+			// instancier Consultation
+			$consultation = $this->getConsultationTable ();
+			$consultation->addConsultation ( $form, $IdDuService );
 
-				return $this->redirect ()->toRoute ( 'consultation', array (
-						'action' => 'recherche'
-				));
-			}
+			//Recuperer les donnees sur les bandelettes urinaires
+			//Recuperer les donnees sur les bandelettes urinaires
+			$bandelettes = array(
+					'id_cons' => $form->get ( "id_cons" )->getValue (),
+					'albumine' => $form->get ( "albumine" )->getValue (),
+					'sucre' => $form->get ( "sucre" )->getValue (),
+					'corpscetonique' => $form->get ( "corpscetonique" )->getValue (),
+					'croixalbumine' => $form->get ( "croixalbumine" )->getValue (),
+					'croixsucre' => $form->get ( "croixsucre" )->getValue (),
+					'croixcorpscetonique' => $form->get ( "croixcorpscetonique" )->getValue (),
+			);
+			$this->getConsultationTable ()->addBandelette($bandelettes);
+			
+			// instancier motif admission
+			$motif_admission = $this->getMotifAdmissionTable ();
+     	    $motif_admission->addMotifAdmission ( $form );
+
+			return $this->redirect ()->toRoute ( 'consultation', array (
+					'action' => 'recherche'
+			));
 		} 
 	}
+	
 	public function majConsultationAction() {
 		$this->layout ()->setTemplate ( 'layout/consultation' );
 
@@ -340,21 +346,19 @@ class ConsultationController extends AbstractActionController {
 		// Pour verifier la date du rendez vous afin de le signaler
 		$rv = $this->getRvPatientConsTable ();
 		$rendez_vous = $rv->getRendezVous ( $id );
-
+		
 		$data = array (
 				'id_cons' => $consult->id_cons,
 				'id_medecin' => $consult->id_personne,
 				'id_patient' => $consult->pat_id_personne,
-				'motif_admission' => $consult->motif_admission,
 				'date_cons' => $consult->date,
 				'poids' => $consult->poids,
 				'taille' => $consult->taille,
 				'temperature' => $consult->temperature,
-				'tension' => $consult->tension,
+				'pressionarterielle' => $consult->pression_arterielle,
 				'pouls' => $consult->pouls,
 				'frequence_respiratoire' => $consult->frequence_respiratoire,
 				'glycemie_capillaire' => $consult->glycemie_capillaire,
-				'bu' => $consult->bu
 		);
 
 		$k = 1;
@@ -363,7 +367,10 @@ class ConsultationController extends AbstractActionController {
 			$k ++;
 		}
 
-		$form->populateValues ( $data );
+		// Pour recuper les bandelettes
+		$bandelettes = $this->getConsultationTable ()->getBandelette($id);
+		
+		$form->populateValues ( array_merge($data,$bandelettes) );
 		return array (
 				'lesdetails' => $liste,
 				'image' => $image,
@@ -371,41 +378,48 @@ class ConsultationController extends AbstractActionController {
 				'id_cons' => $id,
 				'verifieRV' => $rendez_vous,
 				'heure_cons' => $consult->heurecons,
-				'nbMotifs' => $nbMotif
+				'dateonly' => $consult->dateonly,
+				'nbMotifs' => $nbMotif,
+				'temoin' => $bandelettes['temoin']
 		);
 	}
+	
+	
 	public function majConsDonneesAction() {
 		$this->layout ()->setTemplate ( 'layout/consultation' );
 		$consultation = new Consultation ();
+		
 		if (isset ( $_POST ['terminer'] )) {
-
 			$form = new ConsultationForm ();
-			//$form->bind ( $consultation );
 			if ($this->getRequest ()->isPost ()) {
 				$formData = $this->getRequest ()->getPost ();
-				//$form->setInputFilter ( $consultation->getInputFilter () );
 				$form->setData ( $formData );
-				$form->remove('heure_rv');
-				$form->remove('type_anesthesie_demande');
-				$form->remove('hopital_accueil');
-				$form->remove('service_accueil');
-				
-				if ($form->isValid ()) {
-					$infos = $form->getData ();
 
-					// mettre a jour la consultation
-					$cons = $this->getConsultationTable ();
-					$cons->updateConsultation ( $infos );
-					
-					// mettre a jour les motifs d'admission
-					$motifs = $this->getMotifAdmissionTable ();
-					$motifs->deleteMotifAdmission ( $form->get ( 'id_cons' )->getValue () );
-					$motifs->addMotifAdmission ( $infos );
-					
-					return $this->redirect ()->toRoute ( 'consultation', array (
-							'action' => 'recherche'
-					) );
-				}
+				//mettre a jour la consultation
+				$this->getConsultationTable ()->updateConsultation ( $form );
+				
+				
+				//Recuperer les donnees sur les bandelettes urinaires
+				//Recuperer les donnees sur les bandelettes urinaires
+				$bandelettes = array(
+						'id_cons' => $form->get ( "id_cons" )->getValue (),
+						'albumine' => $form->get ( "albumine" )->getValue (),
+						'sucre' => $form->get ( "sucre" )->getValue (),
+						'corpscetonique' => $form->get ( "corpscetonique" )->getValue (),
+						'croixalbumine' => $form->get ( "croixalbumine" )->getValue (),
+						'croixsucre' => $form->get ( "croixsucre" )->getValue (),
+						'croixcorpscetonique' => $form->get ( "croixcorpscetonique" )->getValue (),
+				);
+				// mettre a jour les bandelettes urinaires
+				$this->getConsultationTable ()->deleteBandelette($form->get ( "id_cons" )->getValue ());
+				$this->getConsultationTable ()->addBandelette($bandelettes);
+				
+				
+				
+				// mettre a jour les motifs d'admission
+				$this->getMotifAdmissionTable ()->deleteMotifAdmission ( $form->get ( 'id_cons' )->getValue () );
+				$this->getMotifAdmissionTable ()->addMotifAdmission ( $form );
+				
 				return $this->redirect ()->toRoute ( 'consultation', array (
 						'action' => 'recherche'
 				) );
@@ -418,6 +432,10 @@ class ConsultationController extends AbstractActionController {
 	}
 	// Données du patient à consulter par le medecin et complément à faire par le medecin
 	public function complementConsultationAction() { 
+		$LeService = $this->layout ()->service;
+		$LigneDuService = $this->getServiceTable ()->getServiceParNom ( $LeService );
+		$IdDuService = $LigneDuService ['ID_SERVICE'];
+		
 		$this->layout ()->setTemplate ( 'layout/consultation' );
 		$id_pat = $this->params ()->fromQuery ( 'id_patient', 0 );
 		$id = $this->params ()->fromQuery ( 'id_cons' );
@@ -444,8 +462,18 @@ class ConsultationController extends AbstractActionController {
 		$transferer = $this->getTransfererPatientServiceTable ();
 		// r�cup�ration de la liste des hopitaux
 		$hopital = $transferer->fetchHopital ();
-
 		$form->get ( 'hopital_accueil' )->setValueOptions ( $hopital );
+		// RECUPERATION DE L'HOPITAL DU SERVICE
+		$transfertPatientHopital = $transferer->getHopitalPatientTransfert($IdDuService);
+		$idHopital = $transfertPatientHopital['ID_HOPITAL'];
+		// RECUPERATION DE LA LISTE DES SERVICES DE L'HOPITAL OU SE TROUVE LE SERVICE OU LE MEDECIN TRAVAILLE
+		$serviceHopital = $transferer->fetchServiceWithHopitalNotServiceActual($idHopital, $IdDuService);
+		
+		//Suppression du service actuel dans la liste des services a affich� pour le transfert du patient
+		
+		//var_dump($serviceHopital); exit();
+		// LISTE DES SERVICES DE L'HOPITAL
+		$form->get ( 'service_accueil' )->setValueOptions ($serviceHopital);
 
 		// liste des heures rv
 		$heure_rv = array (
@@ -466,18 +494,22 @@ class ConsultationController extends AbstractActionController {
 				'poids' => $consult->poids,
 				'taille' => $consult->taille,
 				'temperature' => $consult->temperature,
-				'tension' => $consult->tension,
 				'pouls' => $consult->pouls,
 				'frequence_respiratoire' => $consult->frequence_respiratoire,
 				'glycemie_capillaire' => $consult->glycemie_capillaire,
-				'bu' => $consult->bu
+				'pressionarterielle' => $consult->pression_arterielle,
+				'hopital_accueil' => $idHopital,
 		);
 		$k = 1;
 		foreach ( $motif_admission as $Motifs ) {
 			$data ['motif_admission' . $k] = $Motifs ['Libelle_motif'];
 			$k ++;
 		}
-		$form->populateValues ( $data );
+		
+		// Pour recuper les bandelettes
+		$bandelettes = $this->getConsultationTable ()->getBandelette($id);
+		
+		$form->populateValues ( array_merge($data,$bandelettes) );
 		return array (
 				'lesdetails' => $liste,
 				'id_cons' => $id,
@@ -485,7 +517,9 @@ class ConsultationController extends AbstractActionController {
 				'image' => $image,
 				'form' => $form,
 				'heure_cons' => $consult->heurecons,
-				'liste_med' => $listeMedicament
+				'dateonly' => $consult->dateonly,
+				'liste_med' => $listeMedicament,
+				'temoin' => $bandelettes['temoin']
 
 		);
 
@@ -517,11 +551,10 @@ class ConsultationController extends AbstractActionController {
 		 		'poids' => $consult->poids,
 		 		'taille' => $consult->taille,
 		 		'temperature' => $consult->temperature,
-		 		'tension' => $consult->tension,
+		 		'pressionarterielle' => $consult->pression_arterielle,
 		 		'pouls' => $consult->pouls,
 		 		'frequence_respiratoire' => $consult->frequence_respiratoire,
 		 		'glycemie_capillaire' => $consult->glycemie_capillaire,
-		 		'bu' => $consult->bu
 		  );
 		  
 		  //POUR LES MOTIFS D'ADMISSION
@@ -586,8 +619,6 @@ class ConsultationController extends AbstractActionController {
 		  	$data['diagnostic'.$k] = $diagnos['libelle_diagnostics'];
 		  	$k++;
 		  }
-		  
-		  //var_dump($infoDiagnostics->count()); exit();
 		  
 		  //TRAITEMENT (Ordonnance) *********************************************************
 		  //TRAITEMENT (Ordonnance) *********************************************************
@@ -673,8 +704,10 @@ class ConsultationController extends AbstractActionController {
 		  	$data['date_rv']  = $this->controlDate->convertDate($leRendezVous->date);
 		  	$data['motif_rv'] = $leRendezVous->note;
 		  }
+		  // Pour recuper les bandelettes
+		  $bandelettes = $this->getConsultationTable ()->getBandelette($id);
 		  
-		  $form->populateValues($data);
+		  $form->populateValues ( array_merge($data,$bandelettes) );
 		  return array(
 		 		'id_cons' => $id,
 		 		'lesdetails' => $liste,
@@ -692,7 +725,9 @@ class ConsultationController extends AbstractActionController {
 		  		'listeDemandesBiologiques' => $listeDemandesBiologiques,
 		  		'hopitalSelect' =>$hopitalSelect,
 		  		'nbDiagnostics'=> $infoDiagnostics->count(),
-		  		'nbDonneesExamenPhysique' => $kPhysique
+		  		'nbDonneesExamenPhysique' => $kPhysique,
+		  		'dateonly' => $consult->dateonly,
+		  		'temoin' => $bandelettes['temoin']
 		  );
 	
 	}
@@ -706,10 +741,39 @@ class ConsultationController extends AbstractActionController {
 		$this->getDateHelper();
 		$id_cons = $this->params()->fromPost('id_cons');
 		
+		//**********-- MODIFICATION DES CONSTANTES --********
+		//**********-- MODIFICATION DES CONSTANTES --********
+		//**********-- MODIFICATION DES CONSTANTES --********
+		$form = new ConsultationForm ();
+		$formData = $this->getRequest ()->getPost ();
+		$form->setData ( $formData );
+		
+		// mettre a jour les motifs d'admission
+		$this->getMotifAdmissionTable ()->deleteMotifAdmission ( $id_cons );
+		$this->getMotifAdmissionTable ()->addMotifAdmission ( $form );
+		
+		//mettre a jour la consultation
+		$this->getConsultationTable ()->updateConsultation ( $form );
+		
+		//Recuperer les donnees sur les bandelettes urinaires
+		//Recuperer les donnees sur les bandelettes urinaires
+		$bandelettes = array(
+				'id_cons' => $id_cons,
+				'albumine' => $this->params()->fromPost('albumine'),
+				'sucre' => $this->params()->fromPost('sucre'),
+				'corpscetonique' => $this->params()->fromPost('corpscetonique'),
+				'croixalbumine' => $this->params()->fromPost('croixalbumine'),
+				'croixsucre' => $this->params()->fromPost('croixsucre'),
+				'croixcorpscetonique' => $this->params()->fromPost('croixcorpscetonique'),
+		);
+		//mettre a jour les bandelettes urinaires
+		$this->getConsultationTable ()->deleteBandelette($id_cons);
+		$this->getConsultationTable ()->addBandelette($bandelettes);
+		
+		
 		//POUR LES EXAMENS PHYSIQUES
 		//POUR LES EXAMENS PHYSIQUES
 		//POUR LES EXAMENS PHYSIQUES
-
 		$info_donnees_examen_physique = array(
 				'id_cons' => $id_cons,
 				'donnee1' => $this->params()->fromPost('examen_donnee1'),
@@ -724,42 +788,7 @@ class ConsultationController extends AbstractActionController {
 		//POUR LES DEMANDES DES EXAMENS BIOLOGIQUES ET MORPHOLOGIQUES 
 		//POUR LES DEMANDES DES EXAMENS BIOLOGIQUES ET MORPHOLOGIQUES 
 		//POUR LES DEMANDES DES EXAMENS BIOLOGIQUES ET MORPHOLOGIQUES
-		
-// 		$examenDemande = array(
-// 				'id_cons'=> $id_cons,
-// 				'1'  => $this->params()->fromPost('groupe'),
-// 				'2'  => $this->params()->fromPost('hemmogramme'),
-// 				'3'  => $this->params()->fromPost('hepatique'),
-// 				'4'  => $this->params()->fromPost('renal'),
-// 				'5'  => $this->params()->fromPost('hemostase'),
-// 				'6'  => $this->params()->fromPost('inflammatoire'),
-// 				'7'  => $this->params()->fromPost('autreb'),
-// 				'8'  => $this->params()->fromPost('radio'),
-// 				'9'  => $this->params()->fromPost('ecographie'),
-// 				'10' => $this->params()->fromPost('irm'),
-// 				'11' => $this->params()->fromPost('scanner'),
-// 				'12' => $this->params()->fromPost('fibroscopie'),
-// 				'13' => $this->params()->fromPost('autrem'),
-// 		);
-		
-// 		$noteExamen = array(
-// 				'1'  => $this->params()->fromPost('ngroupe'),
-// 				'2'  => $this->params()->fromPost('nhemmogramme'),
-// 				'3'  => $this->params()->fromPost('nhepatique'),
-// 				'4'  => $this->params()->fromPost('nrenal'),
-// 				'5'  => $this->params()->fromPost('nhemostase'),
-// 				'6'  => $this->params()->fromPost('ninflammatoire'),
-// 				'7'  => $this->params()->fromPost('nautreb'),
-// 				'8'  => $this->params()->fromPost('nradio'),
-// 				'9'  => $this->params()->fromPost('necographie'),
-// 				'10' => $this->params()->fromPost('nirm'),
-// 				'11' => $this->params()->fromPost('nscanner'),
-// 				'12' => $this->params()->fromPost('nfibroscopie'),
-// 				'13' => $this->params()->fromPost('nautrem')
-// 		);
-		
-// 		$demandeExamens = $this->demandeExamensTable();
-// 		$demandeExamens->updateDemande($examenDemande, $noteExamen);
+
 		
 		//POUR LES RESULTATS DES EXAMENS MORPHOLOGIQUES
 		//POUR LES RESULTATS DES EXAMENS MORPHOLOGIQUES
@@ -868,7 +897,6 @@ class ConsultationController extends AbstractActionController {
 		);
 		$transfert = $this->getTransfererPatientServiceTable();
 		$transfert->updateTransfertPatientService($info_transfert);
-		//\Zend\Debug\Debug::dump($info_transfert); exit();
 		
 		//POUR LA PAGE complement-consultation
 		//POUR LA PAGE complement-consultation

@@ -152,6 +152,9 @@ class DemandeTable{
 				$result = $stat->execute();
 				return $result;
 			}else {
+				//C'est ici qu'on met appliquer à 1
+				$this->tableGateway->update(array('appliquer' => 1, 'responsable' => 1) , array('idCons' => $id_cons, 'idExamen' => $idExamen));
+				
 				//INSERTION DU RESULTAT DE LA DEMANDE
 				$db = $this->tableGateway->getAdapter();
 				$sql = new Sql($db);

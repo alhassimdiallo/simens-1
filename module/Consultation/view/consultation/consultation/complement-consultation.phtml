@@ -22,30 +22,8 @@
   ?>
 <script>
 $(function(){
-	$( "#motif2" ).toggle(false);
-	$( "#motif3" ).toggle(false);
-	$( "#motif4" ).toggle(false);
-	$( "#motif5" ).toggle(false);
-
-	$(".classDesMotifsAdmissions tr th input, .classDesConstantes tr td input").attr( 'readonly', true).css({'background':'#f8f8f8'});
-	
-<?php for($i=2 ; $i<=$this->nbMotifs; $i++){
-         if($i == 2){?>
-        	 $( "#motif2" ).toggle(true);     	    
-   <?php }
-         if($i == 3){?>
-        	 $( "#motif3" ).toggle(true);
-   <?php }
-         if($i == 4){?>
-             $( "#motif4" ).toggle(true);
-   <?php }
-         if($i == 5){?>
-             $( "#motif5" ).toggle(true);
-   <?php }
-}?>
-
   document.getElementById('service_accueil').value="";
-  document.getElementById('hopital_accueil').value="";
+  //document.getElementById('hopital_accueil').value="";
   document.getElementById('heure_rv').value="";
 });
 
@@ -237,7 +215,7 @@ width: 190px; /* la largeur du champ input*/
 
 <?php echo $this->headLink()->appendStylesheet($this->basePath().'/css/monstyle.css');?>
 
-<?php $Control = new DateHelper();
+<?php //$Control = new DateHelper();
 $form = $this->form;
 $form->setName('AVIS');
 $form->setAttribute('action', $this->url('consultation', array('action'=>'impression-Pdf')));
@@ -326,13 +304,13 @@ echo $this->form()->openTag($form); ?>
              <img  src='<?php echo $this->basePath().'/images_icons/fleur1.jpg'?>'  alt="fleur1" />
            </div>
 
-	       <table id="numero" style=" padding-top:5px; width: 400px;">
-           <tr>
+	       <table id="numero" style=" padding-top:5px; width: 550px;">
+           <tr style="width: 550px;">
              <td style="padding-top:5px; width: 70px; font-size: 12px;"> Consultation: </td>
              <td style="font-weight: bold;"> <?php echo $this->id_cons;?></td>
              <td style="font-weight: bold; width:10px;">|</td>
-             <td style="padding-top:5px; width: 30px; font-size: 12px; "> Heure: </td>
-             <td style="font-weight: bold;"> <?php echo $this->heure_cons;?></td>
+             <td style="padding-top:5px; width: 80px; font-size: 12px; "> Date & Heure: </td>
+             <td style="font-weight: bold;"> <?php echo $Control->convertDate($this->dateonly);?>  -  <?php echo $this->heure_cons;?></td>
            </tr>
           </table>
 
@@ -344,11 +322,12 @@ echo $this->form()->openTag($form); ?>
 
    <!--*2*-->
      <div style='font-family: police2;font-size: 17px; font-weight: bold;'>Motifs d'admission et Constantes</div>
-        <div style=' max-height: 410px;'>
+        <div style=' max-height: 470px;'>
 
 
            <?php echo $this->formHidden($form->get('id_patient'));?>
            <?php echo $this->formHidden($form->get('id_medecin'));?>
+           <?php echo $this->formHidden($form->get('id_cons'));?>
 
      <!-- **************************************************************************************************************** -->
            <!-- SOUS ACCORDEON MOTIF D'ADMISSION ET CONSTANTES -->
@@ -358,61 +337,152 @@ echo $this->form()->openTag($form); ?>
            <!-- **1** -->
               <div style='font-family: police2;font-size: 17px; font-weight: bold;'> Motifs d'admission </div>
                <div>
-               <p style='color: white; opacity: 0.5;'>
-                   <img id="faces" src='<?php echo $this->basePath().'/images_icons/consult-motif.jpg'?>'  alt="consult-motif" style='float:right; margin-right:0px; margin-top:0px; width:28%; height:270px;'/>
-                </p>
-                <table id="responde" class="classDesMotifsAdmissions" style="width: 65%;">
-                     <tr class="form-author">
-                         <th><?php echo $this->formRow($form->get('motif_admission1'));?></th>
-                     </tr>
+                <?php echo  $this->headScript()->appendFile($this->basePath().'/js/consultation/ajouterMotifs.js');?>
+                <div style='width: 100%; height: 30px;'>
+                   <div style='width: 70%; float: left; '>
+                       <table id="respondeMotif" style='width: 100%;'>
+                          <tr class="form-author" id="motif1">
+                              <th><?php echo $this->formRow($form->get('motif_admission1'));?> <span id="labelSupMotif"> <img class='supprimerMotif1' style='cursor: pointer;' src='../images/images/sup.png' title='supprimer' /> </span> </th>
+                          </tr>
+                          <tr class="form-author" id="motif2">
+                              <th><?php echo $this->formRow($form->get('motif_admission2'));?> <span id="labelSupMotif"> <img class='supprimerMotif2' style='cursor: pointer;' src='../images/images/sup.png' title='supprimer' /> </span> </th>
+                          </tr>
+                          <tr class="form-author" id="motif3">
+                              <th><?php echo $this->formRow($form->get('motif_admission3'));?> <span id="labelSupMotif"> <img class='supprimerMotif3' style='cursor: pointer;' src='../images/images/sup.png' title='supprimer' /> </span> </th>
+                          </tr>
+                          <tr class="form-author" id="motif4">
+                              <th><?php echo $this->formRow($form->get('motif_admission4'));?> <span id="labelSupMotif"> <img class='supprimerMotif4' style='cursor: pointer;' src='../images/images/sup.png' title='supprimer' /> </span> </th>
+                          </tr>
+                          <tr class="form-author" id="motif5">
+                              <th><?php echo $this->formRow($form->get('motif_admission5'));?> <span id="labelSupMotif"> <img class='supprimerMotif5' style='cursor: pointer;' src='../images/images/sup.png' title='supprimer' /> </span> </th>
+                          </tr>
+                       </table>
+                       
+                       
+                       <!--********************* BOUTON AJOUTER-SUPPRIMER ************************-->
+                       <!--********************* BOUTON AJOUTER-SUPPRIMER ************************-->
+		               <div id="controls_motifs" style="margin-top: 10px; width: 100%;">
+		                  <div style="width: 100%; ">
+		                     <div style="width: 4.5%; height: 1px; float: left; " id="supprimer_donnee">
+			                     <img id="supprimer_motif_img" style='margin-left: 5px; cursor: pointer;' src='../images_icons/moin-green.png' title='supprimer' />
+			                 </div>
+			                 <div style="width: 4.5%; height: 1px; float: left; " id="ajouter_donnee">
+				                 <img id="ajouter_motif_img" style='margin-left: 5px; cursor: pointer;' src='../images_icons/plus-green.png' title='ajouter' />
+			                 </div>
+		                  </div>
+		               </div>
 
-                     <tr class="form-author" id="motif2">
-                         <th ><?php echo $this->formRow($form->get('motif_admission2'));?></th>
-                     <tr>
-
-                     <tr class="form-author" id="motif3">
-                         <th><?php echo $this->formRow($form->get('motif_admission3'));?></th>
-                     </tr>
-
-                     <tr class="form-author" id="motif4">
-                         <th><?php echo $this->formRow($form->get('motif_admission4'));?></th>
-                     </tr>
-
-                     <tr class="form-author" id="motif5">
-                         <th><?php echo $this->formRow($form->get('motif_admission5'));?></th>
-                     </tr>
-
-                 </table>
-               </div>
+		               <!--********************* BOUTON VALIDER-MODIFIER ************************-->
+                       <!--********************* BOUTON VALIDER-MODIFIER ************************-->		            
+                       <table style="width: 86%; position: relative; top: 0px;">
+                          <tr style="width: 100%;">
+                             <th style="width:65%;">
+                                <div style="float:right;">
+                                     <button id='bouton_motif_valider'>Valider</button>
+                                </div>
+                                <div style="float:right;">
+                                     <button id='bouton_motif_modifier'>Modifier</button>
+                                </div>
+                             </th>
+                          </tr>
+                       </table>
+                       
+                       <script>
+                        var nbMotif = "<?php echo $this->nbMotifs;?>";
+                        cacherToutMotif();
+                        afficherMotif(nbMotif);
+                        supprimerUnMotif();
+                       </script>
+                       
+                   </div>
+                
+                <div style='width: 27%; float: left;'>
+                  <p style='color: white; opacity: 0.5;'>
+                     <img id="faces" src='<?php echo $this->basePath().'/images_icons/consult-motif.jpg'?>'  alt="consult-motif" style='margin-right:5px; width: 100%; height:315px;'/>
+                  </p>
+                </div>
+              </div>
+                
+             </div>
           <!--**************** sous accordeon LES CONSTANTES ************************-->
           <!--**************** sous accordeon LES CONSTANTES ************************-->
            <!-- **2** -->
               <div style='font-family: police2;font-size: 17px; font-weight: bold;'> Constantes </div>
-                <div>
-                 <table  id="respond" class="classDesConstantes" style="width: 100%;">
+                <div style="max-height: 400px;">
+                 <table  id="respond" style="width: 100%;">
 
                     <tr class="comment-form-author">
-                        <td><?php echo $this->formRow($form->get('id_cons'));?></td>
-                     	<td><?php echo $this->formRow($form->get('tension'));?></td>
-                    	<td><?php echo $this->formRow($form->get('taille'));?></td>
-                    	<td><?php echo $this->formRow($form->get('bu'));?></td>
-                    </tr>
-
-                    <tr class="comment-form-author">
-                        <td><?php echo $this->formRow($form->get('date_cons'));?></td>
                         <td><?php echo $this->formRow($form->get('poids'));?></td>
+                        <td><?php echo $this->formRow($form->get('taille'));?></td>
                         <td><?php echo $this->formRow($form->get('temperature'));?></td>
-                        <td><?php echo $this->formRow($form->get('glycemie_capillaire'));?></td>
+                     	<td><?php echo $this->formRow($form->get('pressionarterielle'));?></td>
                     </tr>
+                       <!-- GESTION DES ERREURS -->
+                       <tr>
+                           <td> <div id="erreur_poids"></div> </td>
+                           <td> <div id="erreur_taille"></div> </td>
+                           <td> <div id="erreur_temperature"></div> </td>
+                           <td> <div id="erreur_pressionarterielle"></div></td>
+                       </tr>
 
+                       
                     <tr class="comment-form-author">
-                     	<td><?php echo $this->formRow($form->get('pouls'));?></td>
+                        <td><?php echo $this->formRow($form->get('pouls'));?></td>
                         <td><?php echo $this->formRow($form->get('frequence_respiratoire'));?></td>
+                        <td><?php echo $this->formRow($form->get('glycemie_capillaire'));?></td>
+                        <td></td>
                     </tr>
+                        <!-- GESTION DES ERREURS -->
+                       <tr>
+                           <td> <div id="erreur_pouls"></div> </td>
+                           <td> <div id="erreur_frequence"></div> </td>
+                           <td> <div id="erreur_glycemie"></div> </td>
+                       </tr>
 
+                    <tr style="height: 115px;">
+                        <td rowspan="2" colspan="2" style="vertical-align: top;" >
+                        <div class="comment-form-author"> <label> <img style="cursor: pointer; position: absolute; padding-right: 120px; margin-left: -5px;" id="depliantBandelette" src='<?php echo $this->basePath().'/img/light/plus.png'?>' title="deplier"/> <pouss style='margin-left: 20px;'>Bandelette urinaire</pouss> </label> </div>
+                        <div id="BUcheckbox" style="background: #ffffff; width: 95%; height: 117px; border: 0px solid #eeeeee;">
+                        
+                           <div style="float: left;"><label style="width: 125px; text-align: right;"> Albumine :  </label><?php echo $this->formRow($form->get('albumine'));?></div><div id="labelAlbumine"  style="float: left;"> <div id="fleche"  style="float: left;"> <label style="width: 15px;text-align: center;"> » </label></div> <div id="ChoixPlus"  style="float: left;"><label style="width: 15px;text-align: center;"> 3+ </label></div><div id="labelCroixAlbumine"  style="float: left;"><?php echo $this->formRow($form->get('croixalbumine'));?></div></div> <br>
+                           <div style="float: left;"><label style="width: 125px; text-align: right;"> Sucre :  </label><?php echo $this->formRow($form->get('sucre'));?></div><div id="labelSucre"  style="float: left;"> <div id="fleche2"  style="float: left;"> <label style="width: 15px;text-align: center;"> » </label></div> <div id="ChoixPlus2"  style="float: left;"><label style="width: 15px;text-align: center;"> 3+ </label></div><div id="labelCroixSucre"  style="float: left;"><?php echo $this->formRow($form->get('croixsucre'));?></div></div> <br>
+                           <div style="float: left;"><label style="width: 125px; text-align: right;"> Corps cétoniques :  </label><?php echo $this->formRow($form->get('corpscetonique'));?></div><div id="labelCorpscetonique"  style="float: left;"> <div id="fleche3"  style="float: left;"><label style="width: 15px;text-align: center;"> » </label></div> <div id="ChoixPlus3"  style="float: left;"><label style="width: 15px;text-align: center;"> 3+ </label></div><div id="labelCroixCorpscetonique"  style="float: left;"><?php echo $this->formRow($form->get('croixcorpscetonique'));?></div></div>
+                        
+                        </div>
+                        
+                        </td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                      
+                      
+                    <tr class="comment-form-author">
+                        <td></td>
+                        <td style="height: 5px; margin-top: 25px;">
+                             <div style="float:right;">
+                                  <button id='bouton_constantes_valider'>Valider</button>
+                             </div>
+                             <div style="float:right;">
+                                  <button id='bouton_constantes_modifier'>Modifier</button>
+                             </div>
+                        </td>
+                    </tr>
+                    
+                    
                  </table>
                 </div>
             </div>
+            
+            
+            <script>
+             if(<?php echo $this->temoin;?> != 1){ 
+      				$('#BUcheckbox').toggle(false);
+			 }
+             dep();
+
+             /****** MASK DE SAISIE ********/
+          	 maskSaisie();
+            </script>
      <!-- **************************************************************************************************************** -->
 
      </div>
@@ -1341,10 +1411,6 @@ echo $this->form()->openTag($form); ?>
                  <!--********************* CHARGEMENT DES DONNEES  ************************-->
                  <!--********************* CHARGEMENT DES DONNEES  ************************-->
                  <!--********************* CHARGEMENT DES DONNEES  ************************-->
-                 <?php 
-                     //$nbMedicaments = $this->nb_med_prescrit;
-                     //if($nbMedicaments == 0){$nbMedicaments = 1;}
-                 ?>
                  <script> 
                    ValiderOrdonnance();
                    var myArrayMedicament = [''];
@@ -1591,3 +1657,6 @@ $("#deces").replaceWith("<li id='deces' style='background:#4a5765;'><a href=''><
 dep_deces1();
 $('#declarer_style').css({'font-weight':'bold','color':'white','font-size':'22px'});
 </script>
+
+<!-- SCRIPT LOURD -->
+<?php  echo $this->headScript()->appendFile($this->basePath().'/js/jquery.maskedinput.cons.js');?>

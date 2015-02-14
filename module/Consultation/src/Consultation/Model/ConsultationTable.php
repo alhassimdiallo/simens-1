@@ -37,59 +37,54 @@ class ConsultationTable {
 		
 		return $result;
 	}
+	
 	public function updateConsultation($values)
 	{
 		$donnees = array(
-				'ID_PERSONNE'=> $values['id_medecin'],
-				'PAT_ID_PERSONNE'=> $values['id_patient'],
-				'MOTIF_ADMISSION'=> $values['motif_admission'],
-				'DATE'=> $values['date_cons'],
-				'POIDS' => $values['poids'],
-				'TAILLE' => $values['taille'],
-				'TEMPERATURE' => $values['temperature'],
-				'TENSION' => $values['tension'],
-				'POULS' => $values['pouls'],
-				'FREQUENCE_RESPIRATOIRE' => $values['frequence_respiratoire'],
-				'GLYCEMIE_CAPILLAIRE' => $values['glycemie_capillaire'],
-				'BU' => $values['bu'],
-				'OBSERVATION'=> $values['observation'],
+				'POIDS' => $values->get ( "poids" )->getValue (), 
+				'TAILLE' => $values->get ( "taille" )->getValue (), 
+				'TEMPERATURE' => $values->get ( "temperature" )->getValue (), 
+				'PRESSION_ARTERIELLE' => $values->get ( "pressionarterielle" )->getValue (), 
+				'POULS' => $values->get ( "pouls" )->getValue (), 
+				'FREQUENCE_RESPIRATOIRE' => $values->get ( "frequence_respiratoire" )->getValue (), 
+				'GLYCEMIE_CAPILLAIRE' => $values->get ( "glycemie_capillaire" )->getValue (), 
 		);
-		$this->tableGateway->update($donnees, array('ID_CONS'=> $values['id_cons']));
+		$this->tableGateway->update( $donnees, array('ID_CONS'=> $values->get ( "id_cons" )->getValue ()) );
 	}
+	
 	public function validerConsultation($values){
 		$donnees = array('CONSPRISE' => $values['valide']);
 		$this->tableGateway->update($donnees, array('ID_CONS'=> $values['id_cons']));
 	}
+	
 	public function addConsultation($values , $IdDuService){
 		$this->tableGateway->getAdapter()->getDriver()->getConnection()->beginTransaction();
 		try {
 			$dataconsultation = array(
-					'id_cons'=>$values['id_cons'],
-					'id_personne'=> $values['id_medecin'],
-					'PAT_ID_PERSONNE'=> $values['id_patient'],
-					'MOTIF_ADMISSION'=> $values['motif_admission'],
-					'DATE'=> $values['date_cons'],
-					'POIDS' => $values['poids'],
-					'taille' => $values['taille'],
-					'temperature' => $values['temperature'],
-					'tension' => $values['tension'],
-					'pouls' => $values['pouls'],
-					'frequence_respiratoire' => $values['frequence_respiratoire'],
-					'glycemie_capillaire' => $values['glycemie_capillaire'],
-					'bu' => $values['bu'],
-					'observation'=> $values['observation'],
-					'DATEONLY' => $values['dateonly'],
-					'HEURECONS' => $values['heure_cons'],
+					'ID_CONS'=> $values->get ( "id_cons" )->getValue (), 
+					'ID_PERSONNE'=> $values->get ( "id_medecin" )->getValue (), 
+					'PAT_ID_PERSONNE'=> $values->get ( "id_patient" )->getValue (), 
+					'DATE'=> $values->get ( "date_cons" )->getValue (), 
+					'POIDS' => $values->get ( "poids" )->getValue (), 
+					'TAILLE' => $values->get ( "taille" )->getValue (), 
+					'TEMPERATURE' => $values->get ( "temperature" )->getValue (), 
+					'PRESSION_ARTERIELLE' => $values->get ( "pressionarterielle" )->getValue (), 
+					'POULS' => $values->get ( "pouls" )->getValue (), 
+					'FREQUENCE_RESPIRATOIRE' => $values->get ( "frequence_respiratoire" )->getValue (), 
+					'GLYCEMIE_CAPILLAIRE' => $values->get ( "glycemie_capillaire" )->getValue (), 
+					'DATEONLY' => $values->get ( "dateonly" )->getValue (),
+					'HEURECONS' => $values->get ( "heure_cons" )->getValue (),
 					'ID_SERVICE' => $IdDuService
 			);
+			
 			$this->tableGateway->insert($dataconsultation);
 
 			$this->tableGateway->getAdapter()->getDriver()->getConnection()->commit();
 		} catch (\Exception $e) {
 			$this->tableGateway->getAdapter()->getDriver()->getConnection()->rollback();
-			//Zend_Debug::dump($e->getMessage());
 		}
 	}
+	
 	public function getInfoPatientMedecin($idcons){
 		$adapter = $this->tableGateway->getAdapter ();
 		$sql = new Sql ( $adapter );
@@ -119,5 +114,73 @@ class ConsultationTable {
 		$result = $stat->execute ();
 		
 		return $result;
+	}
+	
+	public function addBandelette($bandelettes){
+		$values = array();
+		if($bandelettes['albumine'] == 1){
+			$values[] = array('ID_TYPE_BANDELETTE'=>1, 'ID_CONS'=>$bandelettes['id_cons'], 'CROIX_BANDELETTE'=>(int)$bandelettes['croixalbumine']);
+		}
+		if($bandelettes['sucre'] == 1){
+			$values[] = array('ID_TYPE_BANDELETTE'=>2, 'ID_CONS'=>$bandelettes['id_cons'], 'CROIX_BANDELETTE'=>(int)$bandelettes['croixsucre']);
+		}
+		if($bandelettes['corpscetonique'] == 1){
+			$values[] = array('ID_TYPE_BANDELETTE'=>3, 'ID_CONS'=>$bandelettes['id_cons'], 'CROIX_BANDELETTE'=>(int)$bandelettes['croixcorpscetonique']);
+		}
+		
+		for($i = 0 ; $i < count($values) ; $i++ ){
+			$db = $this->tableGateway->getAdapter();
+			$sql = new Sql($db);
+			$sQuery = $sql->insert()
+			->into('bandelette2')
+			->columns(array('ID_TYPE_BANDELETTE', 'ID_CONS', 'CROIX_BANDELETTE'))
+			->values($values[$i]);
+			$stat = $sql->prepareStatementForSqlObject($sQuery);
+			$stat->execute();
+		}
+		
+	}
+	
+	public function getBandelette($id_cons){
+		$db = $this->tableGateway->getAdapter();
+		$sql = new Sql($db);
+		$sQuery = $sql->select()
+		->from('bandelette2')
+		->columns(array('*'))
+		->where(array('id_cons' => $id_cons));
+		$stat = $sql->prepareStatementForSqlObject($sQuery);
+		$result = $stat->execute();
+		
+		$donnees = array();
+		$donnees['temoin'] = 0;
+		foreach ($result as $resultat){
+			if($resultat['ID_TYPE_BANDELETTE'] == 1){
+				$donnees['albumine'] = 1; //C'est à coché
+				$donnees['croixalbumine'] = $resultat['CROIX_BANDELETTE'];
+			}
+			if($resultat['ID_TYPE_BANDELETTE'] == 2){
+				$donnees['sucre'] = 1; //C'est à coché
+				$donnees['croixsucre'] = $resultat['CROIX_BANDELETTE'];
+			}
+			if($resultat['ID_TYPE_BANDELETTE'] == 3){
+				$donnees['corpscetonique'] = 1; //C'est à coché
+				$donnees['croixcorpscetonique'] = $resultat['CROIX_BANDELETTE'];
+			}
+			
+			//temoin
+			$donnees['temoin'] = 1;
+		}
+		
+		return $donnees;
+	}
+	
+	public function deleteBandelette($id_cons){
+		$db = $this->tableGateway->getAdapter();
+		$sql = new Sql($db);
+		$sQuery = $sql->delete()
+		->from('bandelette2')
+		->where(array('id_cons' => $id_cons));
+		$stat = $sql->prepareStatementForSqlObject($sQuery);
+		$result = $stat->execute();
 	}
 }

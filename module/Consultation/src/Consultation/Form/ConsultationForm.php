@@ -17,7 +17,7 @@ class ConsultationForm extends Form {
 
 		$this->add ( array (
 				'name' => 'id_cons',
-				'type' => 'Text',
+				'type' => 'hidden',
 				'options' => array (
 						'label' => 'Code consultation'
 				),
@@ -428,7 +428,7 @@ class ConsultationForm extends Form {
 		 */
 		$this->add ( array (
 				'name' => 'date_cons',
-				'type' => 'Text',
+				'type' => 'hidden',
 				'options' => array (
 						'label' => 'Date'
 				),
@@ -465,7 +465,7 @@ class ConsultationForm extends Form {
 				'name' => 'temperature',
 				'type' => 'Text',
 				'options' => array (
-						'label' => iconv ( 'ISO-8859-1', 'UTF-8', 'Temperature (C)' )
+						'label' => iconv ( 'ISO-8859-1', 'UTF-8', 'Température (°C)' )
 				),
 				'attributes' => array (
 						'class' => 'temperature_only_numeric',
@@ -473,6 +473,7 @@ class ConsultationForm extends Form {
 						'id' => 'temperature'
 				)
 		) );
+		
 		$this->add ( array (
 				'name' => 'tension',
 				'type' => 'Text',
@@ -485,11 +486,24 @@ class ConsultationForm extends Form {
 						'id' => 'tension'
 				)
 		) );
+		
+		$this->add ( array (
+				'name' => 'pressionarterielle',
+				'type' => 'Text',
+				'options' => array (
+						'label' => iconv('ISO-8859-1', 'UTF-8', 'Pression artérielle (mmHg)')
+				),
+				'attributes' => array (
+						'class' => 'tension_only_numeric',
+						'id' => 'pressionarterielle'
+				)
+		) );
+		
 		$this->add ( array (
 				'name' => 'pouls',
 				'type' => 'Text',
 				'options' => array (
-						'label' => 'Pouls'
+						'label' => 'Pouls (bat/min)'
 				),
 				'attributes' => array (
 						'class' => 'pouls_only_numeric',
@@ -501,7 +515,7 @@ class ConsultationForm extends Form {
 				'name' => 'frequence_respiratoire',
 				'type' => 'Text',
 				'options' => array (
-						'label' => 'Frequence respiratoire'
+						'label' => iconv('ISO-8859-1', 'UTF-8','Fréquence respiratoire')
 				),
 				'attributes' => array (
 						'class' => 'frequence_only_numeric',
@@ -513,7 +527,7 @@ class ConsultationForm extends Form {
 				'name' => 'glycemie_capillaire',
 				'type' => 'Text',
 				'options' => array (
-						'label' => 'Glycemie capillaire'
+						'label' => iconv('ISO-8859-1', 'UTF-8', 'Glycémie capillaire (g/l)') 
 				),
 				'attributes' => array (
 						'class' => 'glycemie_only_numeric',
@@ -533,6 +547,110 @@ class ConsultationForm extends Form {
 						'id' => 'bu'
 				)
 		) );
+		
+		/*** LES TYPES DE BANDELETTES URINAIRES ***/
+		/*** LES TYPES DE BANDELETTES URINAIRES ***/
+		/*** LES TYPES DE BANDELETTES URINAIRES ***/
+		$this->add ( array (
+				'name' => 'albumine',
+				'type' => 'radio',
+				'options' => array (
+						'value_options' => array (
+								'0' => 'â€“',
+								'1' => '+',
+						)
+				),
+				'attributes' => array (
+						'id' => 'albumine',
+						
+				)
+		) );
+		$this->add ( array (
+				'name' => 'croixalbumine',
+				'type' => 'radio',
+				'options' => array (
+						'value_options' => array (
+								'1' => '1',
+								'2' => '2',
+								'3' => '3',
+								'4' => '4',
+						)
+				),
+				'attributes' => array (
+						'id' => 'croixalbumine',
+		
+				)
+		) );
+		
+		
+		$this->add ( array (
+				'name' => 'sucre',
+				'type' => 'radio',
+				'options' => array (
+						'value_options' => array (
+								'0' => 'â€“',
+								'1' => '+',
+						)
+				),
+				'attributes' => array (
+						'id' => 'sucre',
+		
+				)
+		) );
+		$this->add ( array (
+				'name' => 'croixsucre',
+				'type' => 'radio',
+				'options' => array (
+						'value_options' => array (
+								'1' => '1',
+								'2' => '2',
+								'3' => '3',
+								'4' => '4',
+						)
+				),
+				'attributes' => array (
+						'id' => 'croixsucre',
+		
+				)
+		) );
+		
+		
+		
+		$this->add ( array (
+				'name' => 'corpscetonique',
+				'type' => 'radio',
+				'options' => array (
+						'value_options' => array (
+								'0' => 'â€“',
+								'1' => '+',
+						)
+				),
+				'attributes' => array (
+						'id' => 'corpscetonique',
+		
+				)
+		) );
+		$this->add ( array (
+				'name' => 'croixcorpscetonique',
+				'type' => 'radio',
+				'options' => array (
+						'value_options' => array (
+								'1' => '1',
+								'2' => '2',
+								'3' => '3',
+								'4' => '4',
+						)
+				),
+				'attributes' => array (
+						'id' => 'croixcorpscetonique',
+						'class' => 'croixcorpscetonique',
+		
+				)
+		) );
+		/*** FIN LES TYPES DE BANDELETTES URINAIRES ***/
+		/*** FIN LES TYPES DE BANDELETTES URINAIRES ***/
+		
+		
 		$this->add ( array (
 				'name' => 'observation',
 				'type' => 'Textarea',
