@@ -31,7 +31,7 @@
 <script>
 $(function(){
   <?php if($this->hopitalSelect == 0){?>	  
-      document.getElementById('hopital_accueil').value="";
+      document.getElementById('service_accueil').value="";
   <?php }?>
 });
 </script>
@@ -685,7 +685,8 @@ echo $this->form()->openTag($form); ?>
                     <div style="float:left;"><label style="width: 100px; height:30px; text-align:right;">Fumeur <?php echo $this->formRow($form->get('FumeurHV'));?></label></div> 
                     <div style="float:left" id="dateDebFumeur"><label style="width: 230px; height:30px; text-align:right;">Date d&eacute;but <?php echo $this->formRow($form->get('DateDebutFumeurHV'));?></label></div>
                     <div style="float:left" id="dateFinFumeur"><label style="width: 230px; height:30px; text-align:right;">Date d'arret <?php echo $this->formRow($form->get('DateFinFumeurHV'));?></label></div>
-                    <div style="float:left" id="nbPaquetJour"><label style="width: 230px; height:30px; text-align:right;">Nbre de paquets/jour <?php echo $this->formRow($form->get('DateFinFumeurHV'));?></label></div>
+                    <div style="float:left" id="nbPaquetJour"><label  style="width: 190px; height:30px; text-align:right;">Nbre de paquets/jour <?php echo $this->formRow($form->get('nbPaquetFumeurHV'));?></label></div>
+                    <div style="float:left" id="nbPaquetAnnee"><label style="width: 110px; height:30px; text-align:right;"> --- nbPaquet/an --- </label></div>
                   </td>
                 </tr>
                 <tr style="width:100%;">
@@ -866,7 +867,22 @@ echo $this->form()->openTag($form); ?>
                <tr>
                
            </table>
-           
+           <script>
+             var temoinAlcoolique = <?php echo $this->donneesAntecedentsPersonnels['AlcooliqueHV'];?>;
+             var temoinFumeurHV   = <?php echo $this->donneesAntecedentsPersonnels['FumeurHV'];?>; var nbPaquetFumeurHV = <?php echo (int)$this->donneesAntecedentsPersonnels['nbPaquetFumeurHV'];?>;
+             var temoinDroguerHV  = <?php echo $this->donneesAntecedentsPersonnels['DroguerHV'];?>;
+
+             var temoinDiabeteAM = <?php echo $this->donneesAntecedentsPersonnels['DiabeteAM'];?>;
+             var temoindrepanocytoseAM = <?php echo $this->donneesAntecedentsPersonnels['drepanocytoseAM'];?>;
+             var temoinhtaAM = <?php echo $this->donneesAntecedentsPersonnels['htaAM'];?>;
+             var temoindislipidemieAM = <?php echo $this->donneesAntecedentsPersonnels['dislipidemieAM'];?>;
+             var temoinasthmeAM = <?php echo $this->donneesAntecedentsPersonnels['asthmeAM'];?>;
+             
+             var temoinMenarcheGO = <?php echo $this->donneesAntecedentsPersonnels['MenarcheGO'];?>;
+             var temoinGestiteGO = <?php echo $this->donneesAntecedentsPersonnels['GestiteGO'];?>;
+             var temoinPariteGO = <?php echo $this->donneesAntecedentsPersonnels['PariteGO'];?>;
+             var temoinCycleGO = <?php echo $this->donneesAntecedentsPersonnels['CycleGO'];?>;
+           </script>
            
            <!--****** ================== ANTECEDENTS FAMILIAUX ================== ****** -->
            <!--****** ================== ANTECEDENTS FAMILIAUX ================== ****** -->
@@ -907,7 +923,12 @@ echo $this->form()->openTag($form); ?>
                <tr>
                
            </table>
-
+           <script>
+               var temoinDiabeteAF = <?php echo $this->donneesAntecedentsFamiliaux['DiabeteAF'];?>;
+               var temoinDrepanocytoseAF = <?php echo $this->donneesAntecedentsFamiliaux['DrepanocytoseAF'];?>;
+               var temoinhtaAF = <?php echo $this->donneesAntecedentsFamiliaux['htaAF'];?>;
+           </script>
+           
            <!--****** ================== FIN ANTECEDENTS TERRAIN PARTICULIER ================== ****** -->
            <!--****** ================== FIN ANTECEDENTS TERRAIN PARTICULIER ================== ****** -->
            <!--****** ================== FIN ANTECEDENTS TERRAIN PARTICULIER ================== ****** -->
@@ -964,7 +985,7 @@ echo $this->form()->openTag($form); ?>
                     <td style="width:20%;" > <?php echo $donnees['HEURECONS'];?> </td>
                     <td style="width:20%;" > <?php echo $donnees['POULS'];?> </td>
                     <td style="width:20%;" > <?php echo $donnees['TEMPERATURE'];?> </td>
-                    <td style="width:15%;" > <?php echo $donnees['TENSION'];?> </td>
+                    <td style="width:15%;" > <?php echo $donnees['PRESSION_ARTERIELLE'];?> </td>
                     <td style="width:5%;" >
                    										
             		<a href="<?php echo $this->url('consultation', array('action'=>'visualisation-consultation'),  array('query'=>array('id_patient'=>$this->escapeHtml($donnees['PAT_ID_PERSONNE']),'id_cons'=>$this->escapeHtml($donnees['ID_CONS']))));?>" target="_blank">

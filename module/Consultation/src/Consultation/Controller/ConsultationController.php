@@ -48,6 +48,8 @@ class ConsultationController extends AbstractActionController {
 	protected $notesExamensMorphologiquesTable;
 	protected $demandeExamensTable;
 	protected $ordonConsommableTable;
+	protected $antecedantPersonnelTable;
+	protected $antecedantsFamiliauxTable;
 
 	
 	public function getPatientTable() {
@@ -154,6 +156,21 @@ class ConsultationController extends AbstractActionController {
 			$this->ordonConsommableTable = $sm->get ( 'Consultation\Model\OrdonConsommableTable' );
 		}
 		return $this->ordonConsommableTable;
+	}
+	public function getAntecedantPersonnelTable() {
+		if (! $this->antecedantPersonnelTable) {
+			$sm = $this->getServiceLocator ();
+			$this->antecedantPersonnelTable = $sm->get ( 'Consultation\Model\AntecedentPersonnelTable' );
+		}
+		return $this->antecedantPersonnelTable;
+	}
+	
+	public function getAntecedantsFamiliauxTable() {
+		if (! $this->antecedantsFamiliauxTable) {
+			$sm = $this->getServiceLocator ();
+			$this->antecedantsFamiliauxTable = $sm->get ( 'Consultation\Model\AntecedentsFamiliauxTable' );
+		}
+		return $this->antecedantsFamiliauxTable;
 	}
 	
 	/**
@@ -474,7 +491,6 @@ class ConsultationController extends AbstractActionController {
 		
 		//Suppression du service actuel dans la liste des services a affiché pour le transfert du patient
 		
-		//var_dump($serviceHopital); exit();
 		// LISTE DES SERVICES DE L'HOPITAL
 		$form->get ( 'service_accueil' )->setValueOptions ($serviceHopital);
 
@@ -512,7 +528,16 @@ class ConsultationController extends AbstractActionController {
 		// Pour recuper les bandelettes
 		$bandelettes = $this->getConsultationTable ()->getBandelette($id);
 		
-		$form->populateValues ( array_merge($data,$bandelettes) );
+		//RECUPERATION DES ANTECEDENTS
+		//RECUPERATION DES ANTECEDENTS
+		//RECUPERATION DES ANTECEDENTS
+		$donneesAntecedentsPersonnels = $this->getAntecedantPersonnelTable()->getTableauAntecedentsPersonnels($id_pat);
+		$donneesAntecedentsFamiliaux  = $this->getAntecedantsFamiliauxTable()->getTableauAntecedentsFamiliaux($id_pat);
+		//FIN ANTECEDENTS --- FIN ANTECEDENTS --- FIN ANTECEDENTS 
+		//FIN ANTECEDENTS --- FIN ANTECEDENTS --- FIN ANTECEDENTS
+		
+		
+		$form->populateValues ( array_merge($data,$bandelettes,$donneesAntecedentsPersonnels,$donneesAntecedentsFamiliaux) );
 		return array (
 				'lesdetails' => $liste,
 				'id_cons' => $id,
@@ -524,13 +549,18 @@ class ConsultationController extends AbstractActionController {
 				'liste_med' => $listeMedicament,
 				'temoin' => $bandelettes['temoin'],
 				'listeForme' => $listeForme,
-				'listetypeQuantiteMedicament' => $listetypeQuantiteMedicament,
-
+				'listetypeQuantiteMedicament'  => $listetypeQuantiteMedicament,
+				'donneesAntecedentsPersonnels' => $donneesAntecedentsPersonnels,
+				'donneesAntecedentsFamiliaux'  => $donneesAntecedentsFamiliaux,
 		);
-
 	}
+	
 	public function majComplementConsultationAction() {
 
+		$LeService = $this->layout ()->service;
+		$LigneDuService = $this->getServiceTable ()->getServiceParNom ( $LeService );
+		$IdDuService = $LigneDuService ['ID_SERVICE'];
+		
 		 $this->layout ()->setTemplate ( 'layout/consultation' );
 		 $this->getDateHelper(); 
 		 $id_pat = $this->params()->fromQuery ( 'id_patient', 0 );
@@ -697,6 +727,14 @@ class ConsultationController extends AbstractActionController {
 		  	$hopitalSelect = 1;
 		  }else {
 		  	$hopitalSelect = 0;
+		  	// RECUPERATION DE L'HOPITAL DU SERVICE
+		  	$transfertPatientHopital = $transferer->getHopitalPatientTransfert($IdDuService);
+		  	$idHopital = $transfertPatientHopital['ID_HOPITAL'];
+		  	$data['hopital_accueil'] = $idHopital;
+		  	// RECUPERATION DE LA LISTE DES SERVICES DE L'HOPITAL OU SE TROUVE LE SERVICE OU LE MEDECIN TRAVAILLE
+		  	$serviceHopital = $transferer->fetchServiceWithHopitalNotServiceActual($idHopital, $IdDuService);
+		  	// LISTE DES SERVICES DE L'HOPITAL
+		  	$form->get ( 'service_accueil' )->setValueOptions ($serviceHopital);
 		  }
 		  //POUR LE RENDEZ VOUS
 		  //POUR LE RENDEZ VOUS
@@ -713,7 +751,15 @@ class ConsultationController extends AbstractActionController {
 		  // Pour recuper les bandelettes
 		  $bandelettes = $this->getConsultationTable ()->getBandelette($id);
 		  
-		  $form->populateValues ( array_merge($data,$bandelettes) );
+		  //RECUPERATION DES ANTECEDENTS
+		  //RECUPERATION DES ANTECEDENTS
+		  //RECUPERATION DES ANTECEDENTS
+		  $donneesAntecedentsPersonnels = $this->getAntecedantPersonnelTable()->getTableauAntecedentsPersonnels($id_pat);
+		  $donneesAntecedentsFamiliaux = $this->getAntecedantsFamiliauxTable()->getTableauAntecedentsFamiliaux($id_pat);
+		  //FIN ANTECEDENTS --- FIN ANTECEDENTS --- FIN ANTECEDENTS
+		  //FIN ANTECEDENTS --- FIN ANTECEDENTS --- FIN ANTECEDENTS
+		  
+		  $form->populateValues ( array_merge($data,$bandelettes,$donneesAntecedentsPersonnels,$donneesAntecedentsFamiliaux) );
 		  return array(
 		 		'id_cons' => $id,
 		 		'lesdetails' => $liste,
@@ -735,7 +781,9 @@ class ConsultationController extends AbstractActionController {
 		  		'dateonly' => $consult->dateonly,
 		  		'temoin' => $bandelettes['temoin'],
 		  		'listeForme' => $listeForme,
-		  		'listetypeQuantiteMedicament' => $listetypeQuantiteMedicament,
+		  		'listetypeQuantiteMedicament'  => $listetypeQuantiteMedicament,
+		  		'donneesAntecedentsPersonnels' => $donneesAntecedentsPersonnels,
+		  		'donneesAntecedentsFamiliaux'  => $donneesAntecedentsFamiliaux,
 		  );
 	
 	}
@@ -748,17 +796,6 @@ class ConsultationController extends AbstractActionController {
 	public function updateComplementConsultationAction(){
 		$this->getDateHelper();
 		$id_cons = $this->params()->fromPost('id_cons');
-		
-		//TEST TEST TEST TEST 
-		 var_dump(
-		 $this->params()->fromPost('DiabeteAF').' ---  '.$this->params()->fromPost('NoteDiabeteAF').'   '.
- 		 $this->params()->fromPost('DrepanocytoseAF').' --- '.$this->params()->fromPost('NoteDrepanocytoseAF').'   '.
- 		 $this->params()->fromPost('htaAF').' --- '.$this->params()->fromPost('NoteHtaAF').'   '.
- 		 $this->params()->fromPost('autresAF').' --- '.$this->params()->fromPost('NoteAutresAF')
- 	 	//.'   '.
-// 		 $this->params()->fromPost('RegulariteCycleGO').' --- '.$this->params()->fromPost('DysmenorrheeCycleGO')
-		 			
-		 ); exit();
 		
 		//**********-- MODIFICATION DES CONSTANTES --********
 		//**********-- MODIFICATION DES CONSTANTES --********
@@ -804,11 +841,66 @@ class ConsultationController extends AbstractActionController {
 		$examen = $this->getDonneesExamensPhysiquesTable();
 		$examen->updateExamenPhysique($info_donnees_examen_physique);
 		
-		//POUR LES DEMANDES DES EXAMENS BIOLOGIQUES ET MORPHOLOGIQUES 
-		//POUR LES DEMANDES DES EXAMENS BIOLOGIQUES ET MORPHOLOGIQUES 
-		//POUR LES DEMANDES DES EXAMENS BIOLOGIQUES ET MORPHOLOGIQUES
-
-		
+		//POUR LES ANTECEDENTS ANTECEDENTS ANTECEDENTS
+		//POUR LES ANTECEDENTS ANTECEDENTS ANTECEDENTS
+		//POUR LES ANTECEDENTS ANTECEDENTS ANTECEDENTS
+	    $donneesDesAntecedents = array(
+	    		//**=== ANTECEDENTS PERSONNELS
+	    		//**=== ANTECEDENTS PERSONNELS
+	    		//LES HABITUDES DE VIE DU PATIENTS
+	    		/*Alcoolique*/
+	    		'AlcooliqueHV' => $this->params()->fromPost('AlcooliqueHV'),
+	    		'DateDebutAlcooliqueHV' => $this->params()->fromPost('DateDebutAlcooliqueHV'),
+	    		'DateFinAlcooliqueHV' => $this->params()->fromPost('DateFinAlcooliqueHV'),
+	    		/*Fumeur*/
+	            'FumeurHV' => $this->params()->fromPost('FumeurHV'),
+	            'DateDebutFumeurHV' => $this->params()->fromPost('DateDebutFumeurHV'),
+	            'DateFinFumeurHV' => $this->params()->fromPost('DateFinFumeurHV'),
+	            'nbPaquetFumeurHV' => $this->params()->fromPost('nbPaquetFumeurHV'),
+	            /*Droguer*/
+	            'DroguerHV' => $this->params()->fromPost('DroguerHV'),
+	            'DateDebutDroguerHV' => $this->params()->fromPost('DateDebutDroguerHV'),
+	            'DateFinDroguerHV' => $this->params()->fromPost('DateFinDroguerHV'),
+	            
+	            //LES ANTECEDENTS MEDICAUX
+	            'DiabeteAM' => $this->params()->fromPost('DiabeteAM'),
+	            'htaAM' => $this->params()->fromPost('htaAM'),
+	            'drepanocytoseAM' => $this->params()->fromPost('drepanocytoseAM'),
+	            'dislipidemieAM' => $this->params()->fromPost('dislipidemieAM'),
+	            'asthmeAM' => $this->params()->fromPost('asthmeAM'),
+	            
+	            //GYNECO-OBSTETRIQUE
+	            /*Menarche*/
+	            'MenarcheGO' => $this->params()->fromPost('MenarcheGO'),
+	            'NoteMenarcheGO' => $this->params()->fromPost('NoteMenarcheGO'),
+	            /*Gestite*/
+	            'GestiteGO' => $this->params()->fromPost('GestiteGO'),
+	            'NoteGestiteGO' => $this->params()->fromPost('NoteGestiteGO'),
+	            /*Parite*/
+	            'PariteGO' => $this->params()->fromPost('PariteGO'),
+	            'NotePariteGO' => $this->params()->fromPost('NotePariteGO'),
+	            /*Cycle*/
+	            'CycleGO' => $this->params()->fromPost('CycleGO'),
+	            'DureeCycleGO' => $this->params()->fromPost('DureeCycleGO'),
+	            'RegulariteCycleGO' => $this->params()->fromPost('RegulariteCycleGO'),
+	            'DysmenorrheeCycleGO' => $this->params()->fromPost('DysmenorrheeCycleGO'),
+	            
+	            //**=== ANTECEDENTS FAMILIAUX
+	            //**=== ANTECEDENTS FAMILIAUX
+	            'DiabeteAF' => $this->params()->fromPost('DiabeteAF'),
+	            'NoteDiabeteAF' => $this->params()->fromPost('NoteDiabeteAF'),
+	            'DrepanocytoseAF' => $this->params()->fromPost('DrepanocytoseAF'),
+	            'NoteDrepanocytoseAF' => $this->params()->fromPost('NoteDrepanocytoseAF'),
+	            'htaAF' => $this->params()->fromPost('htaAF'),
+	            'NoteHtaAF' => $this->params()->fromPost('NoteHtaAF'),
+	    );
+	    
+		$id_personne = $this->getAntecedantPersonnelTable()->getIdPersonneParIdCons($id_cons);
+	    $this->getAntecedantPersonnelTable()->addAntecedentsPersonnels($donneesDesAntecedents, $id_personne);
+	    $this->getAntecedantsFamiliauxTable()->addAntecedentsFamiliaux($donneesDesAntecedents, $id_personne);
+	    
+	    
+		//var_dump($id_personne); exit();
 		//POUR LES RESULTATS DES EXAMENS MORPHOLOGIQUES
 		//POUR LES RESULTATS DES EXAMENS MORPHOLOGIQUES
 		//POUR LES RESULTATS DES EXAMENS MORPHOLOGIQUES

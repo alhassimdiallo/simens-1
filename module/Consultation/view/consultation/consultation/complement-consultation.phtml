@@ -626,7 +626,7 @@ echo $this->form()->openTag($form); ?>
            <table id="HabitudesDeVie" style="width:100%;">
                 <tr style="width:100%;">
                   <td style="">
-                    <div style="width: 100%; font-family: Times New Roman;  color: green; font-size: 17px; font-weight: bold; padding-bottom: 10px;" ><iS style='font-size: 25px;'>&curren;</iS> LES HABITUDES DE VIE DU PATIENTS</div>
+                    <div style="width: 100%; font-family: Times New Roman;  color: green; font-size: 17px; font-weight: bold; padding-bottom: 10px;" ><iS style='font-size: 25px;'>&curren;</iS> LES HABITUDES DE VIE</div>
                   </td>
                 </tr>
                 <tr style="width:100%;">
@@ -822,6 +822,22 @@ echo $this->form()->openTag($form); ?>
                <tr>
                
            </table>
+           <script>
+             var temoinAlcoolique = <?php echo $this->donneesAntecedentsPersonnels['AlcooliqueHV'];?>;
+             var temoinFumeurHV   = <?php echo $this->donneesAntecedentsPersonnels['FumeurHV'];?>; var nbPaquetFumeurHV = <?php echo (int)$this->donneesAntecedentsPersonnels['nbPaquetFumeurHV'];?>;
+             var temoinDroguerHV  = <?php echo $this->donneesAntecedentsPersonnels['DroguerHV'];?>;
+
+             var temoinDiabeteAM = <?php echo $this->donneesAntecedentsPersonnels['DiabeteAM'];?>;
+             var temoindrepanocytoseAM = <?php echo $this->donneesAntecedentsPersonnels['drepanocytoseAM'];?>;
+             var temoinhtaAM = <?php echo $this->donneesAntecedentsPersonnels['htaAM'];?>;
+             var temoindislipidemieAM = <?php echo $this->donneesAntecedentsPersonnels['dislipidemieAM'];?>;
+             var temoinasthmeAM = <?php echo $this->donneesAntecedentsPersonnels['asthmeAM'];?>;
+             
+             var temoinMenarcheGO = <?php echo $this->donneesAntecedentsPersonnels['MenarcheGO'];?>;
+             var temoinGestiteGO = <?php echo $this->donneesAntecedentsPersonnels['GestiteGO'];?>;
+             var temoinPariteGO = <?php echo $this->donneesAntecedentsPersonnels['PariteGO'];?>;
+             var temoinCycleGO = <?php echo $this->donneesAntecedentsPersonnels['CycleGO'];?>;
+           </script>
            
            
            <!--****** ================== ANTECEDENTS FAMILIAUX ================== ****** -->
@@ -863,6 +879,11 @@ echo $this->form()->openTag($form); ?>
                <tr>
                
            </table>
+           <script>
+               var temoinDiabeteAF = <?php echo $this->donneesAntecedentsFamiliaux['DiabeteAF'];?>;
+               var temoinDrepanocytoseAF = <?php echo $this->donneesAntecedentsFamiliaux['DrepanocytoseAF'];?>;
+               var temoinhtaAF = <?php echo $this->donneesAntecedentsFamiliaux['htaAF'];?>;
+           </script>
 
            <!--****** ================== FIN ANTECEDENTS TERRAIN PARTICULIER ================== ****** -->
            <!--****** ================== FIN ANTECEDENTS TERRAIN PARTICULIER ================== ****** -->
@@ -921,7 +942,7 @@ echo $this->form()->openTag($form); ?>
                     <td style="width:20%;" > <?php //echo $this->escape($donnees['HEURECONS']);?> </td>
                     <td style="width:20%;" > <?php //echo $this->escape($donnees['POULS']);?> </td>
                     <td style="width:20%;" > <?php //echo $this->escape($donnees['TEMPERATURE']);?> </td>
-                    <td style="width:15%;" > <?php //echo $this->escape($donnees['TENSION']);?> </td>
+                    <td style="width:15%;" > <?php //echo $this->escape($donnees['PRESSION_ARTERIELLE']);?> </td>
                     <td style="width:5%;" >
                     <a  href="<?php /*echo $this->url(array('module'=>'consultation','controller'=>'Consultation',
             													'action'=>'visualisationconsultation','id_patient'=>$this->escape($donnees['PAT_ID_PERSONNE']),'id_cons'=>$this->escape($donnees['ID_CONS'])));*/?>" target="_blank">

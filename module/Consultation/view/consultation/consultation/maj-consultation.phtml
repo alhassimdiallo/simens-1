@@ -201,6 +201,7 @@ echo $this->form()->openTag($form); ?>
                        
                        <script>
                         var nbMotif = "<?php echo $this->nbMotifs;?>";
+                        if(nbMotif == 0){ nbMotif = 1;}
                         cacherToutMotif();
                         afficherMotif(nbMotif);
                         supprimerUnMotif();

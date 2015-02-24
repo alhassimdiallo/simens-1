@@ -931,21 +931,44 @@ $(function(){
 			//HABITUDES DE VIE TESTER SI UNE HABITUDE EST COCHEE OU PAS
 			//HABITUDES DE VIE TESTER SI UNE HABITUDE EST COCHEE OU PAS
 			//$("#HabitudesDeVie input[name=testHV]").attr('checked', true);
-			$("#dateDebAlcoolique, #dateFinAlcoolique").toggle(false);
-			$("#dateDebFumeur, #dateFinFumeur, #nbPaquetJour, #nbPaquetAnnee").toggle(false);
-			$("#dateDebDroguer, #dateFinDroguer").toggle(false);
+			
+			if(temoinAlcoolique != 1){
+				$("#dateDebAlcoolique, #dateFinAlcoolique").toggle(false);
+			}
+			if(temoinFumeurHV != 1){
+				$("#dateDebFumeur, #dateFinFumeur, #nbPaquetJour, #nbPaquetAnnee").toggle(false);
+				$('#nbPaquetFumeurHV').val("");
+				$('#nbPaquetAnnee').toggle(false);
+			}else{
+				if(nbPaquetFumeurHV != 0 ){
+					var nbPaquetAnnee = nbPaquetFumeurHV*365;
+					$("#nbPaquetAnnee label").html("<span style='font-weight: bold; color: green;'>"+nbPaquetAnnee+"</span> paquets/an");
+				}else{
+					$('#nbPaquetFumeurHV').val("");
+					$('#nbPaquetAnnee').toggle(false);
+				}
+			}
+			if(temoinDroguerHV != 1){
+				$("#dateDebDroguer, #dateFinDroguer").toggle(false);
+			}
+			
 			$("#DivNoteAutresHV").toggle(false);
 			
+			if($('#DateDebutAlcooliqueHV').val() == '00/00/0000'){ $('#DateDebutAlcooliqueHV').val("");}
+			if($('#DateFinAlcooliqueHV').val() == '00/00/0000'){ $('#DateFinAlcooliqueHV').val("");}
 			$('#HabitudesDeVie input[name=AlcooliqueHV]').click(function(){
 				var boutons = $('#HabitudesDeVie input[name=AlcooliqueHV]');
 				if( boutons[1].checked){ $("#dateDebAlcoolique, #dateFinAlcoolique").toggle(true); }
 				if(!boutons[1].checked){ $("#dateDebAlcoolique, #dateFinAlcoolique").toggle(false); }
 			});
 			
+			if($('#DateDebutFumeurHV').val() == '00/00/0000'){ $('#DateDebutFumeurHV').val("");}
+			if($('#DateFinFumeurHV').val() == '00/00/0000'){ $('#DateFinFumeurHV').val("");}
 			$('#HabitudesDeVie input[name=FumeurHV]').click(function(){
 				var boutons = $('#HabitudesDeVie input[name=FumeurHV]');
-				if( boutons[1].checked){ $("#dateDebFumeur, #dateFinFumeur, #nbPaquetJour").toggle(true); }
-				if(!boutons[1].checked){ $("#dateDebFumeur, #dateFinFumeur, #nbPaquetJour").toggle(false); }
+				if( boutons[1].checked){ $("#dateDebFumeur, #dateFinFumeur, #nbPaquetJour, #nbPaquetAnnee").toggle(true); }
+				if(!boutons[1].checked){ $("#dateDebFumeur, #dateFinFumeur, #nbPaquetJour, #nbPaquetAnnee").toggle(false); }
+				if($('#nbPaquetFumeurHV').val() == ""){ $('#nbPaquetAnnee').toggle(false);} 
 			});
 			
 			$('#nbPaquetFumeurHV').keyup(function(){
@@ -961,8 +984,10 @@ $(function(){
 				}else{
 					$("#nbPaquetAnnee").toggle(false);
 				}
-			});
+			}); 
 			
+			if($('#DateDebutDroguerHV').val() == '00/00/0000'){ $('#DateDebutDroguerHV').val("");}
+			if($('#DateFinDroguerHV').val() == '00/00/0000'){ $('#DateFinDroguerHV').val("");}
 			$('#HabitudesDeVie input[name=DroguerHV]').click(function(){
 				var boutons = $('#HabitudesDeVie input[name=DroguerHV]');
 				if( boutons[1].checked){ $("#dateDebDroguer, #dateFinDroguer").toggle(true); }
@@ -977,11 +1002,21 @@ $(function(){
 			
 			//ANTECEDENTS MEDICAUX TESTER SI C'EST COCHE
 			//ANTECEDENTS MEDICAUX TESTER SI C'EST COCHE
-			$(".imageValiderDiabeteAM").toggle(false);
-			$(".imageValiderHtaAM").toggle(false);
-			$(".imageValiderDrepanocytoseAM").toggle(false);
-			$(".imageValiderDislipidemieAM").toggle(false);
-			$(".imageValiderAsthmeAM").toggle(false);
+			if(temoinDiabeteAM != 1){
+				$(".imageValiderDiabeteAM").toggle(false);
+			}
+			if(temoinhtaAM != 1){
+				$(".imageValiderHtaAM").toggle(false);
+			}
+			if(temoindrepanocytoseAM != 1){
+				$(".imageValiderDrepanocytoseAM").toggle(false);
+			}
+			if(temoindislipidemieAM != 1){
+				$(".imageValiderDislipidemieAM").toggle(false);
+			}
+			if(temoinasthmeAM != 1){
+				$(".imageValiderAsthmeAM").toggle(false);
+			}
 			
 			$('#AntecedentMedicaux input[name=DiabeteAM]').click(function(){
 				var boutons = $('#AntecedentMedicaux input[name=DiabeteAM]');
@@ -1015,10 +1050,18 @@ $(function(){
 			
 			//GYNECO-OBSTETRIQUE TESTER SI C'EST COCHE
 			//GYNECO-OBSTETRIQUE TESTER SI C'EST COCHE
-			$("#NoteMonarche").toggle(false);
-			$("#NoteGestite").toggle(false);
-			$("#NoteParite").toggle(false);
-			$("#RegulariteON, #DysmenorrheeON, #DureeGO").toggle(false);
+			if(temoinMenarcheGO != 1){
+				$("#NoteMonarche").toggle(false);
+			}
+			if(temoinGestiteGO != 1){
+				$("#NoteGestite").toggle(false);
+			}
+			if(temoinPariteGO != 1){
+				$("#NoteParite").toggle(false);
+			}
+			if(temoinCycleGO != 1){
+				$("#RegulariteON, #DysmenorrheeON, #DureeGO").toggle(false);
+			}
 			$("#DivNoteAutresGO").toggle(false);
 			
 			$('#GynecoObstetrique input[name=MenarcheGO]').click(function(){
@@ -1053,9 +1096,15 @@ $(function(){
 			
 			//ANTECEDENTS FAMILIAUX TESTER SI C'EST COCHE
 			//ANTECEDENTS FAMILIAUX TESTER SI C'EST COCHE
-			$("#DivNoteDiabeteAF").toggle(false);
-			$("#DivNoteDrepanocytoseAF").toggle(false);
-			$("#DivNoteHtaAF").toggle(false);
+			if(temoinDiabeteAF != 1){
+				$("#DivNoteDiabeteAF").toggle(false);
+			}
+			if(temoinDrepanocytoseAF != 1){
+				$("#DivNoteDrepanocytoseAF").toggle(false);
+			}
+			if(temoinhtaAF != 1){
+				$("#DivNoteHtaAF").toggle(false);
+			}
 			$("#DivNoteAutresAF").toggle(false);
 			
 			$('#AntecedentsFamiliaux input[name=DiabeteAF]').click(function(){ 

@@ -28,6 +28,10 @@ use Consultation\Model\Demande;
 use Consultation\Model\OrdonConsommable;
 use Consultation\Model\OrdonConsommableTable;
 use Zend\Mvc\MvcEvent;
+use Consultation\Model\AntecedentPersonnelTable;
+use Consultation\Model\AntecedentPersonnel;
+use Consultation\Model\AntecedentsFamiliauxTable;
+use Consultation\Model\AntecedentsFamiliaux;
 
 class Module implements AutoloaderProviderInterface {
 	
@@ -190,6 +194,28 @@ class Module implements AutoloaderProviderInterface {
 							$resultSetPrototype = new ResultSet();
 							$resultSetPrototype->setArrayObjectPrototype ( new OrdonConsommable());
 							return new TableGateway ( 'ordon_consommable', $dbAdapter, null, $resultSetPrototype );
+						},
+						'Consultation\Model\AntecedentPersonnelTable' => function ($sm) {
+							$tableGateway = $sm->get ( 'AntecedentPersonnelTableGateway' );
+							$table = new AntecedentPersonnelTable($tableGateway);
+							return $table;
+						},
+						'AntecedentPersonnelTableGateway' => function ($sm) {
+							$dbAdapter = $sm->get ( 'Zend\Db\Adapter\Adapter' );
+							$resultSetPrototype = new ResultSet();
+							$resultSetPrototype->setArrayObjectPrototype ( new AntecedentPersonnel());
+							return new TableGateway ( 'ant_personnels_personne', $dbAdapter, null, $resultSetPrototype );
+						},
+						'Consultation\Model\AntecedentsFamiliauxTable' => function ($sm) {
+							$tableGateway = $sm->get ( 'AntecedentsFamiliauxTableGateway' );
+							$table = new AntecedentsFamiliauxTable($tableGateway);
+							return $table;
+						},
+						'AntecedentsFamiliauxTableGateway' => function ($sm) {
+							$dbAdapter = $sm->get ( 'Zend\Db\Adapter\Adapter' );
+							$resultSetPrototype = new ResultSet();
+							$resultSetPrototype->setArrayObjectPrototype ( new AntecedentsFamiliaux());
+							return new TableGateway ( 'ant_familiaux_personne', $dbAdapter, null, $resultSetPrototype );
 						}
 						
 				)
