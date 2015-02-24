@@ -45,6 +45,16 @@ class ConsultationForm extends Form {
 				)
 		) );
 		$this->add ( array (
+				'name' => 'id_surveillant',
+				'type' => 'Hidden',
+				'options' => array (
+						'decorators' => $this->decor
+				),
+				'attributes' => array (
+						'id' => 'id_surveillant'
+				)
+		) );
+		$this->add ( array (
 				'name' => 'id_patient',
 				'type' => 'Hidden',
 				'options' => array (
@@ -1261,6 +1271,52 @@ class ConsultationForm extends Form {
 				'type' => 'text',
 				'attributes' => array (
 						'id' => 'NoteAutresAF'
+				)
+		) );
+		
+		/**** TRAITEMENTS CHIRURGICAUX ****/
+		/**** TRAITEMENTS CHIRURCICAUX ****/
+		$this->add ( array (
+				'name' => 'endoscopieInterventionnelle',
+				'type' => 'Text',
+				'options' => array (
+						'label' => 'Endoscopie Interventionnelle :'
+				),
+				'attributes' => array (
+						'id' => 'endoscopieInterventionnelle',
+				)
+		) );
+		
+		$this->add ( array (
+				'name' => 'radiologieInterventionnelle',
+				'type' => 'Text',
+				'options' => array (
+						'label' => 'Radiologie Interventionnelle :'
+				),
+				'attributes' => array (
+						'id' => 'radiologieInterventionnelle',
+				)
+		) );
+		
+		$this->add ( array (
+				'name' => 'cardiologieInterventionnelle',
+				'type' => 'Text',
+				'options' => array (
+						'label' => 'Cardiologie Interventionnelle :'
+				),
+				'attributes' => array (
+						'id' => 'cardiologieInterventionnelle',
+				)
+		) );
+		
+		$this->add ( array (
+				'name' => 'autresIntervention',
+				'type' => 'Text',
+				'options' => array (
+						'label' => 'Autres interventions:'
+				),
+				'attributes' => array (
+						'id' => 'autresIntervention',
 				)
 		) );
 	}

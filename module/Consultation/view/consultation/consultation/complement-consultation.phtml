@@ -633,14 +633,14 @@ echo $this->form()->openTag($form); ?>
                   <td id="BUcheckbox" style="">
                     <div style="float:left;"><label style="width: 100px; height:30px; text-align:right;">Alcoolique <?php echo $this->formRow($form->get('AlcooliqueHV'));?></label></div> 
                     <div style="float:left" id="dateDebAlcoolique"><label style="width: 220px; height:30px; text-align:right;">Date d&eacute;but <?php echo $this->formRow($form->get('DateDebutAlcooliqueHV'));?> </label></div>
-                    <div style="float:left" id="dateFinAlcoolique"><label style="width: 220px; height:30px; text-align:right;">Date d'arret <?php echo $this->formRow($form->get('DateFinAlcooliqueHV'));?></label></div>
+                    <div style="float:left" id="dateFinAlcoolique"><label style="width: 220px; height:30px; text-align:right;">Date d'arr&ecirc;t <?php echo $this->formRow($form->get('DateFinAlcooliqueHV'));?></label></div>
                   </td>
                 </tr>
                 <tr style="width:100%;">
                   <td id="BUcheckbox" style="">
                     <div style="float:left;"><label style="width: 100px; height:30px; text-align:right;">Fumeur <?php echo $this->formRow($form->get('FumeurHV'));?></label></div> 
                     <div style="float:left" id="dateDebFumeur"><label style="width: 220px; height:30px; text-align:right;">Date d&eacute;but <?php echo $this->formRow($form->get('DateDebutFumeurHV'));?></label></div>
-                    <div style="float:left" id="dateFinFumeur"><label style="width: 220px; height:30px; text-align:right;">Date d'arret <?php echo $this->formRow($form->get('DateFinFumeurHV'));?></label></div>
+                    <div style="float:left" id="dateFinFumeur"><label style="width: 220px; height:30px; text-align:right;">Date d'arr&ecirc;t <?php echo $this->formRow($form->get('DateFinFumeurHV'));?></label></div>
                     <div style="float:left" id="nbPaquetJour"><label  style="width: 190px; height:30px; text-align:right;">Nbre de paquets/jour <?php echo $this->formRow($form->get('nbPaquetFumeurHV'));?></label></div>
                     <div style="float:left" id="nbPaquetAnnee"><label style="width: 110px; height:30px; text-align:right;"> --- nbPaquet/an --- </label></div>
                   </td>
@@ -649,7 +649,7 @@ echo $this->form()->openTag($form); ?>
                   <td id="BUcheckbox" style="">
                     <div style="float:left;"><label style="width: 100px; height:30px; text-align:right;">Drogu&eacute;  <?php echo $this->formRow($form->get('DroguerHV'));?></label></div> 
                     <div style="float:left" id="dateDebDroguer"><label style="width: 220px; height:30px; text-align:right;">Date d&eacute;but <?php echo $this->formRow($form->get('DateDebutDroguerHV'));?></label></div>
-                    <div style="float:left" id="dateFinDroguer"><label style="width: 220px; height:30px; text-align:right;">Date d'arret <?php echo $this->formRow($form->get('DateFinDroguerHV'));?></label></div>
+                    <div style="float:left" id="dateFinDroguer"><label style="width: 220px; height:30px; text-align:right;">Date d'arr&ecirc;t <?php echo $this->formRow($form->get('DateFinDroguerHV'));?></label></div>
                   </td>
                 </tr>
                 <tr style="width:100%;">
@@ -926,33 +926,28 @@ echo $this->form()->openTag($form); ?>
              <table class="table table-bordered  tab_list_mini" id="ListeConsultationPatient" style="width:100%;">
 			   <thead>
 				  <tr style="height:40px; width:100%;">
-					<th style="width:20%;" >DATE</th>
-					<th style="width:20%;" >HEURE</th>
-					<th style="width:20%;" >POULS</th>
-					<th style="width:20%;" >TEMPERATURE</th>
-					<th style="width:15%;" >TENSION</th>
+					<th style="width:25%;" >DATE & HEURE</th>
+					<th style="width:35%;" >SURVEILLANT DE SERVICE</th>
+					<th style="width:35%;" >M&Eacute;DECIN CONSULTANT</th>
 					<th style="width:5%;">Vue</th>
 				  </tr>
 			  </thead>
 			  
-			  <?php //foreach($this->liste as $donnees) :?>
+			  <?php foreach($this->liste as $donnees) :?>
 			   <tbody>	
-                 <!-- tr  style="width:100%;">
-                    <td style="width:20%;" > <?php //echo $Control->convertDate($this->escape($donnees['DATEONLY']));?> </td>
-                    <td style="width:20%;" > <?php //echo $this->escape($donnees['HEURECONS']);?> </td>
-                    <td style="width:20%;" > <?php //echo $this->escape($donnees['POULS']);?> </td>
-                    <td style="width:20%;" > <?php //echo $this->escape($donnees['TEMPERATURE']);?> </td>
-                    <td style="width:15%;" > <?php //echo $this->escape($donnees['PRESSION_ARTERIELLE']);?> </td>
+                 <tr  style="width:100%;">
+                    <td style="width:25%;" > <?php echo $Control->convertDateTime($donnees['DATE']);?> </td>
+                    <td style="width:35%;" > <?php echo $donnees['PrenomSurveillant'];?>  <?php echo $donnees['NomSurveillant'];?></td>
+                    <td style="width:35%;" > <?php echo $donnees['PRENOM'];?>  <?php echo $donnees['NOM'];?> </td>
                     <td style="width:5%;" >
-                    <a  href="<?php /*echo $this->url(array('module'=>'consultation','controller'=>'Consultation',
-            													'action'=>'visualisationconsultation','id_patient'=>$this->escape($donnees['PAT_ID_PERSONNE']),'id_cons'=>$this->escape($donnees['ID_CONS'])));*/?>" target="_blank">
-					       <img style="display: inline;"  src='<?php //echo $this->baseUrl().'/images_icons/voird.PNG'?>' alt='Constantes' title="Voire les d&eacute;tails de la consultation" />
-					</a>&nbsp;
+            		   <a href="<?php echo $this->url('consultation', array('action'=>'visualisation-consultation'),  array('query'=>array('id_patient'=>$this->escapeHtml($donnees['PAT_ID_PERSONNE']),'id_cons'=>$this->escapeHtml($donnees['ID_CONS']))));?>" target="_blank">
+					       <img style="display: inline;"  src='<?php echo $this->basepath().'/images_icons/voird.PNG'?>' alt='Constantes' title="Voir les d&eacute;tails de la consultation" />
+					   </a>&nbsp;
 					</td>
-                 </tr-->
+                 </tr>
                  
                </tbody>	
-              <?php //endforeach; ?>
+              <?php endforeach; ?>
              </table>
                
              <table id="boutonTerminerConsultation" style="width:100%;">
@@ -1557,7 +1552,7 @@ echo $this->form()->openTag($form); ?>
 
    <!--*6*-->
      <div style='font-family: police2;font-size: 17px; font-weight: bold;'>Traitements (Ordonnance)</div>
-        <div>
+        <div style="max-height: 550px;">
               <!--**************** NOUVELLE ACCORDEON *********************  -->
               <!--**************** NOUVELLE ACCORDEON *********************  -->
              <div id="accordionssss">
@@ -1695,7 +1690,7 @@ echo $this->form()->openTag($form); ?>
                         <!-- ************** Traitement Chirurgical **************** -->
                             <!-- **2** -->
                             <div style='font-family: police2;font-size: 17px; font-weight: bold;'> Chirurgical</div>
-                                  <div>
+                                  <div >
 
                                    <div style=" padding-bottom:0px; margin-bottom: 5px; border-bottom: 2px solid green; margin-left: 0px;"></div>
                                        <!-- LE PDF POUR IMPRESSION-->
@@ -1715,13 +1710,13 @@ echo $this->form()->openTag($form); ?>
                                             <th style="width: 33%;"> <?php echo $this->formRow($form->get('intervention_prevue'));?> </th>
                                         </tr>
                                         <tr class="form-chirurgical" style="width: 100%;">
-                                            <th style="width: 25%;"> <?php echo $this->formRow($form->get('numero_vpa'));?> </th>
-                                            <th> <?php echo $this->formRow($form->get('type_anesthesie_demande'));?> </th>
-                                            <th>
-                                                <div id="bouton_valider_chirurgical" style='margin-top:70px; float:right; margin-right:20px;'> 
+                                            <th style="width: 33%;">  </th>
+                                            <th style="width: 33%;">  </th>
+                                            <th style="width: 33%; padding-right:30px;">
+                                                <div id="bouton_valider_chirurgical" style='margin-top:30px; float:right; '> 
                                                      <button id='bouton_chirurgical_valider'>Valider</button>  
                                                 </div >
-                                                <div id="bouton_modifier_chirurgical" style='margin-top:70px; float:right;'> 
+                                                <div id="bouton_modifier_chirurgical" style='margin-top:30px; float:right; '> 
                                                      <button id='bouton_chirurgical_modifier'>Modifier</button>  
                                                 </div>
                                             </th>
@@ -1736,12 +1731,47 @@ echo $this->form()->openTag($form); ?>
                         <!-- ************** Traitement Instrumental **************** -->
                            <!-- **3** -->
                             <div style='font-family: police2;font-size: 17px; font-weight: bold;'> Instrumental</div>
-                                  <div >PAS ENCORE FAIT
-                                     <table>
-                                       <tr style = "height: 340px; ">
-                                       </tr>
-                                     </table>
-                                  </div>
+                                <div>
+
+                                  <div style=" padding-bottom:0px; margin-bottom: 5px; border-bottom: 2px solid green; margin-left: 0px;"></div>
+                                       <!-- LE PDF POUR IMPRESSION-->
+                                       <div class="rendezvous">
+                                           <hass><input type="submit" alt="Constantes" title="Imprimer" name="traitement_instrumental" id="instrumental1"></hass>
+                                       </div>
+
+                                       <div class="annulertransfert">
+                                           <hass><input type="submit" alt="Constantes" title="Annuler" name="annuler_traitement_instrumental" id="annuler_traitement_instrumental"></hass>
+                                       </div>
+                                   <div style=" padding-bottom:40px; margin-bottom: 10px; border-bottom: 1px dashed green; margin-left: 0px; margin-right: 0px;"></div>
+
+                                   <table id="Traitementinstrumental" style="width: 100%;">
+                                        <tr class="form-instrumental" style="width: 90%;">
+                                            <th style="width: 95%;"> <?php echo $this->formRow($form->get('endoscopieInterventionnelle'));?> </th>
+                                        </tr>
+                                        <tr class="form-instrumental" style="width: 90%;">
+                                            <th style="width: 95%;"> <?php echo $this->formRow($form->get('radiologieInterventionnelle'));?> </th>
+                                        </tr>
+                                        <tr class="form-instrumental" style="width: 90%;">
+                                            <th style="width: 95%;"> <?php echo $this->formRow($form->get('cardiologieInterventionnelle'));?> </th>
+                                        </tr>
+                                        <tr class="form-instrumental" style="width: 90%;">
+                                            <th style="width: 95%;"> <?php echo $this->formRow($form->get('autresIntervention'));?> </th>
+                                        </tr>
+                                        <tr style="width: 90%; height: 50px;">
+                                            <th style="width: 100%; padding-right:30px;">
+                                                <div style='margin-top: 10px; float:right; '> 
+                                                     <button id='bouton_instrumental_valider'>Valider</button>  
+                                                </div >
+                                                <div style='margin-top: 10px; float:right; '> 
+                                                     <button id='bouton_instrumental_modifier'>Modifier</button>  
+                                                </div>
+                                            </th>
+                                           
+                                        </tr>
+                                    </table>
+
+                                 </div>
+                            
 
              </div>
 

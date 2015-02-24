@@ -11,6 +11,7 @@ class Utilisateurs
 	public $role;
 	public $id_service;
 	public $fonction;
+	public $id_personne;
 	
 
 	public function exchangeArray($data)
@@ -23,5 +24,6 @@ class Utilisateurs
 		$this->role  = (!empty($data['role'])) ? $data['role'] : null;
 		$this->id_service  = (!empty($data['id_service'])) ? $data['id_service'] : null;
 		$this->fonction  = (!empty($data['fonction'])) ? $data['fonction'] : null;
+		$this->id_personne  = (!empty($data['id_personne'])) ? $data['id_personne'] : null;
 	}
 }

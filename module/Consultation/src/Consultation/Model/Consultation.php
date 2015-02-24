@@ -9,6 +9,7 @@ use Zend\InputFilter\InputFilterInterface;
 class Consultation implements InputFilterAwareInterface{
 	public $id_cons;
 	public $id_personne;
+	public $id_surveillant;
 	public $pat_id_personne;
 	public $motif_admission;
 	public $date;
@@ -32,6 +33,7 @@ class Consultation implements InputFilterAwareInterface{
 	public function exchangeArray($data) {
 		$this->id_cons = (! empty ( $data ['ID_CONS'] )) ? $data ['ID_CONS'] : null;
 		$this->id_personne = (! empty ( $data ['ID_PERSONNE'] )) ? $data ['ID_PERSONNE'] : null;
+		$this->id_surveillant = (! empty ( $data ['ID_SURVEILLANT'] )) ? $data ['ID_SURVEILLANT'] : null;
 		$this->pat_id_personne = (! empty ( $data ['PAT_ID_PERSONNE'] )) ? $data ['PAT_ID_PERSONNE'] : null;
 		$this->motif_admission = (! empty ( $data ['MOTIF_ADMISSION'] )) ? $data ['MOTIF_ADMISSION'] : null;
 		$this->date = (! empty ( $data ['DATE'] )) ? $data ['DATE'] : null;

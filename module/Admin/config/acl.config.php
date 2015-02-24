@@ -46,6 +46,7 @@ return array(
     								'info-patient' => 'facturation',
     								'modifier' => 'facturation',
     								'enregistrement-modification' => 'facturation',
+    								'enregistrement' => 'facturation',
     								
     								'liste-patient' => 'facturation',
     								'liste-patient-ajax' => 'facturation',

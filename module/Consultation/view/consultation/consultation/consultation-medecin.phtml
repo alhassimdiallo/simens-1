@@ -6,6 +6,18 @@
 use Facturation\View\Helper\DateHelper;
 use Zend\Db\ResultSet\ResultSet;
 $Control = new DateHelper();
+
+
+function AdresseText($Text){
+	$chaine = $Text;
+	if(strlen($Text)>30){
+		$chaine = substr($Text, 0, 30);
+		$nb = strrpos($chaine, ' ');
+		$chaine = substr($chaine, 0, $nb);
+		$chaine .=' ...';
+	}
+	return $chaine;
+}
 ?>
 
 <div id="titre" style='font-family: police2; color: green; font-size: 20px; font-weight: bold; padding-left:20px;'><i style='font-size: 25px;'>&curren; </i> LISTE DES CONSULTATIONS</div>
@@ -38,7 +50,7 @@ $Control = new DateHelper();
 				    <td><?php echo $this->escapeHtml($donnees['Prenom']);?></td>
 					<td><?php echo $Control->convertDate($this->escapeHtml($donnees['Datenaissance']));?></td>
 					<td><?php echo $this->escapeHtml($donnees['Sexe']);?></td>
-					<td><?php echo $this->escapeHtml($donnees['Adresse']);?></td>
+					<td><?php echo AdresseText($this->escapeHtml($donnees['Adresse']));?></td>
 					<td><?php echo $this->escapeHtml($donnees['Nationalite']);?></td>
 					<td>
 
@@ -68,7 +80,7 @@ $Control = new DateHelper();
 				    <td><?php echo $this->escapeHtml($donnees['Prenom']);?></td>
 					<td><?php echo $Control->convertDate($this->escapeHtml($donnees['Datenaissance']));?></td>
 					<td><?php echo $this->escapeHtml($donnees['Sexe']);?></td>
-					<td><?php echo $this->escapeHtml($donnees['Adresse']);?></td>
+					<td><?php echo AdresseText($this->escapeHtml($donnees['Adresse']));?></td>
 					<td><?php echo $this->escapeHtml($donnees['Nationalite']);?></td>
 					<td>
 					    <a>

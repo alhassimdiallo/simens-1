@@ -97,15 +97,15 @@ $(function(){
 $(function(){
 	var diagnostic_traitement_chirurgical = $("#diagnostic_traitement_chirurgical");
 	var intervention_prevue = $("#intervention_prevue");
-	var type_anesthesie_demande = $("#type_anesthesie_demande");
-	var numero_vpa = $("#numero_vpa");
+	//var type_anesthesie_demande = $("#type_anesthesie_demande");
+	//var numero_vpa = $("#numero_vpa");
 	var observation = $("#observation");
 	
 	$("#chirurgicalImpression").click(function(){
 		diagnostic_traitement_chirurgical.attr( 'readonly', true).css({'background':'#f8f8f8'});
 		intervention_prevue.attr( 'readonly', true).css({'background':'#f8f8f8'});
-		type_anesthesie_demande.attr( 'readonly', true).css({'background':'#f8f8f8'});
-		numero_vpa.attr( 'readonly', true).css({'background':'#f8f8f8'});
+		//type_anesthesie_demande.attr( 'readonly', true).css({'background':'#f8f8f8'});
+		//numero_vpa.attr( 'readonly', true).css({'background':'#f8f8f8'});
 		observation.attr( 'readonly', true).css({'background':'#f8f8f8'});
 		
 		$("#bouton_chirurgical_modifier").toggle(true);
@@ -120,15 +120,15 @@ $(function(){
 	//Au debut on desactive tous les champs
 	diagnostic_traitement_chirurgical.attr( 'readonly', false).css({'background':'#fff'});
 	intervention_prevue.attr( 'readonly', false).css({'background':'#fff'});
-	type_anesthesie_demande.attr( 'readonly', false).css({'background':'#fff'});
-	numero_vpa.attr( 'readonly', false).css({'background':'#fff'});
+	//type_anesthesie_demande.attr( 'readonly', false).css({'background':'#fff'});
+	//numero_vpa.attr( 'readonly', false).css({'background':'#fff'});
 	observation.attr( 'readonly', false).css({'background':'#fff'});
 	
 	$("#bouton_chirurgical_valider").click(function(){
 		diagnostic_traitement_chirurgical.attr( 'readonly', true).css({'background':'#f8f8f8'});
 		intervention_prevue.attr( 'readonly', true).css({'background':'#f8f8f8'});
-		type_anesthesie_demande.attr( 'readonly', true).css({'background':'#f8f8f8'});
-		numero_vpa.attr( 'readonly', true).css({'background':'#f8f8f8'});
+		//type_anesthesie_demande.attr( 'readonly', true).css({'background':'#f8f8f8'});
+		//numero_vpa.attr( 'readonly', true).css({'background':'#f8f8f8'});
 		observation.attr( 'readonly', true).css({'background':'#f8f8f8'});
 		
 		$("#bouton_chirurgical_modifier").toggle(true);
@@ -139,12 +139,63 @@ $(function(){
 	$("#bouton_chirurgical_modifier").click(function(){
 		diagnostic_traitement_chirurgical.attr( 'readonly', false).css({'background':'#fff'});
 		intervention_prevue.attr( 'readonly', false).css({'background':'#fff'});
-		type_anesthesie_demande.attr( 'readonly', false).css({'background':'#fff'});
-		numero_vpa.attr( 'readonly', false).css({'background':'#fff'});
+		//type_anesthesie_demande.attr( 'readonly', false).css({'background':'#fff'});
+		//numero_vpa.attr( 'readonly', false).css({'background':'#fff'});
 		observation.attr( 'readonly', false).css({'background':'#fff'});
 		
 		$("#bouton_chirurgical_modifier").toggle(false);
 		$("#bouton_chirurgical_valider").toggle(true);
+		return false;
+	});
+	
+});
+
+//********************* TRAITEMENTS INSTRUMENTAUX *****************************
+//********************* TRAITEMENTS INSTRUMENTAUX ***************************** 
+//********************* TRAITEMENTS INSTRUMENTAUX ***************************** 
+$(function(){
+	var endoscopieInterventionnelle = $("#endoscopieInterventionnelle");
+	var radiologieInterventionnelle = $("#radiologieInterventionnelle");
+	var cardiologieInterventionnelle = $("#cardiologieInterventionnelle"); 
+	var autresIntervention = $("#autresIntervention");
+	
+	$("#chirurgicalImpression").click(function(){
+		endoscopieInterventionnelle.attr( 'readonly', true).css({'background':'#f8f8f8'});
+		radiologieInterventionnelle.attr( 'readonly', true).css({'background':'#f8f8f8'});
+		autresIntervention.attr( 'readonly', true).css({'background':'#f8f8f8'});
+		cardiologieInterventionnelle.attr( 'readonly', true).css({'background':'#f8f8f8'});
+		
+		$("#bouton_chirurgical_modifier").toggle(true);
+		$("#bouton_chirurgical_valider").toggle(false);	
+	});
+	
+	$("#bouton_instrumental_modifier").toggle(false);
+	$("#bouton_instrumental_valider").toggle(true);
+	
+	endoscopieInterventionnelle.attr( 'readonly', false).css({'background':'#fff'});
+	radiologieInterventionnelle.attr( 'readonly', false).css({'background':'#fff'});
+	autresIntervention.attr( 'readonly', false).css({'background':'#fff'});
+	cardiologieInterventionnelle.attr( 'readonly', false).css({'background':'#fff'});
+	
+	$("#bouton_instrumental_valider").click(function(){
+		endoscopieInterventionnelle.attr( 'readonly', true).css({'background':'#f8f8f8'});
+		radiologieInterventionnelle.attr( 'readonly', true).css({'background':'#f8f8f8'});
+		autresIntervention.attr( 'readonly', true).css({'background':'#f8f8f8'});
+		cardiologieInterventionnelle.attr( 'readonly', true).css({'background':'#f8f8f8'});
+		
+		$("#bouton_instrumental_modifier").toggle(true);
+		$("#bouton_instrumental_valider").toggle(false);
+		return false;
+	});
+	
+	$("#bouton_instrumental_modifier").click(function(){
+		endoscopieInterventionnelle.attr( 'readonly', false).css({'background':'#fff'});
+		radiologieInterventionnelle.attr( 'readonly', false).css({'background':'#fff'});
+		autresIntervention.attr( 'readonly', false).css({'background':'#fff'});
+		cardiologieInterventionnelle.attr( 'readonly', false).css({'background':'#fff'});
+		
+		$("#bouton_instrumental_modifier").toggle(false);
+		$("#bouton_instrumental_valider").toggle(true);
 		return false;
 	});
 	
@@ -337,28 +388,42 @@ $(function(){
  	/****** MASK DE SAISIE ********/
 	function maskSaisie() {
 		$(function(){
-	    	$("#poids").mask("299");
-	    	$("#taille").mask("299");
+	    	//$("#poids").mask("299");
+	    	//$("#taille").mask("299");
 	    	$("#temperature").mask("49");
 	    	$("#pressionarterielle").mask("299/299");
 	    	$("#glycemie_capillaire").mask("9,99");
-	    	$("#pouls").mask("299");
-	    	$("#frequence_respiratoire").mask("299");
+	    	//$("#pouls").mask("299");
+	    	//$("#frequence_respiratoire").mask("299");
 	    });
 	    
-	    $("#taille").blur(function(){
-	    	if($("#taille").val() > 250 || $("#taille").val() == "___"){
-	    		$("#taille").val('');
-	    		$("#taille").mask("299");
-	    		$("#taille").css("border-color","#FF0000");
-	    		$("#erreur_taille").fadeIn().text("Max: 250cm").css({"color":"#ff5b5b","padding":" 0 10px 0 10px","margin-top":"-18px","font-size":"13px","font-style":"italic"});
-	    	} else 
-	    		if($("#taille").val() <= 250){
-	    			$("#taille").css("border-color","");
-	    			$("#erreur_taille").fadeOut();
-	    		}
-	    	return false;
-	    });
+		 $("#taille").keyup(function(){
+		    	var valeur = $('#taille').val();
+				if(isNaN(valeur/1) || valeur > 300){
+					$('#taille').val("");
+					valeur = null;
+					$("#taille").css("border-color","#FF0000");
+		             $("#erreur_taille").fadeIn().text("Max: 250cm").css({"color":"#ff5b5b","padding":" 0 10px 0 10px","margin-top":"-18px","font-size":"13px","font-style":"italic"});
+				}else{
+					$("#taille").css("border-color","");
+					$("#erreur_taille").fadeOut();
+				}
+		    });
+		    
+		 
+//	    $("#taille").blur(function(){
+//	    	if($("#taille").val() > 250 || $("#taille").val() == "___"){
+//	    		$("#taille").val('');
+//	    		$("#taille").mask("299");
+//	    		$("#taille").css("border-color","#FF0000");
+//	    		$("#erreur_taille").fadeIn().text("Max: 250cm").css({"color":"#ff5b5b","padding":" 0 10px 0 10px","margin-top":"-18px","font-size":"13px","font-style":"italic"});
+//	    	} else 
+//	    		if($("#taille").val() <= 250){
+//	    			$("#taille").css("border-color","");
+//	    			$("#erreur_taille").fadeOut();
+//	    		}
+//	    	return false;
+//	    });
 	    	
 	    $("#temperature").blur(function(){ 
 	    	if($("#temperature").val() > 45 || $("#temperature").val() < 34 || $("#temperature").val() == "__"){
@@ -374,19 +439,32 @@ $(function(){
 	    	return false;
 	    });
 	    
-	    $("#poids").blur(function(){
-	    	if($("#poids").val() > 300 || $("#poids").val() == "___"){
-	    		$("#poids").val('');
-	    		$("#poids").mask("299");
-	    		$("#poids").css("border-color","#FF0000");
-	    		$("#erreur_poids").fadeIn().text("Max: 300kg").css({"color":"#ff5b5b","padding":" 0 10px 0 10px","margin-top":"-18px","font-size":"13px","font-style":"italic"});
-	    	} else 
-	    		if($("#poids").val() <= 300){
-	    			$("#poids").css("border-color","");
-	    			$("#erreur_poids").fadeOut();
-	    		}
-	    	return false;
+	    $("#poids").keyup(function(){
+	    	var valeur = $('#poids').val();
+			if(isNaN(valeur/1) || valeur > 300){
+				$('#poids').val("");
+				valeur = null;
+				$("#poids").css("border-color","#FF0000");
+	             $("#erreur_poids").fadeIn().text("Max: 300kg").css({"color":"#ff5b5b","padding":" 0 10px 0 10px","margin-top":"-18px","font-size":"13px","font-style":"italic"});
+			}else{
+				$("#poids").css("border-color","");
+				$("#erreur_poids").fadeOut();
+			}
 	    });
+	    
+//	    $("#poids").blur(function(){
+//	    	if($("#poids").val() > 300 || $("#poids").val() == "___"){
+//	    		$("#poids").val('');
+//	    		$("#poids").mask("299");
+//	    		$("#poids").css("border-color","#FF0000");
+//	    		$("#erreur_poids").fadeIn().text("Max: 300kg").css({"color":"#ff5b5b","padding":" 0 10px 0 10px","margin-top":"-18px","font-size":"13px","font-style":"italic"});
+//	    	} else 
+//	    		if($("#poids").val() <= 300){
+//	    			$("#poids").css("border-color","");
+//	    			$("#erreur_poids").fadeOut();
+//	    		}
+//	    	return false;
+//	    });
 	    
 	    $("#pressionarterielle").blur(function(){
 	    	if($("#pressionarterielle").val() > 300 || $("#pressionarterielle").val() == "___/___"){
@@ -402,33 +480,59 @@ $(function(){
 	    	return false;
 	    });
 	    
-	    $("#pouls").blur(function(){
-	    	if($("#pouls").val() > 150 || $("#pouls").val() == "___"){
-	    		$("#pouls").val('');
-	    		$("#pouls").mask("199");
-	    		$("#pouls").css("border-color","#FF0000");
-	    		$("#erreur_pouls").fadeIn().text("Max: 150battements").css({"color":"#ff5b5b","padding":" 0 10px 0 10px","margin-top":"-18px","font-size":"13px","font-style":"italic"});
-	    	} else 
-	    		if($("#pouls").val() <= 150){
-	    			$("#pouls").css("border-color","");
-	    			$("#erreur_pouls").fadeOut();
-	    		}
-	    	return false;
+	    $("#pouls").keyup(function(){
+	    	var valeur = $('#pouls').val();
+			if(isNaN(valeur/1) || valeur > 150){
+				$('#pouls').val("");
+				valeur = null;
+				$("#pouls").css("border-color","#FF0000");
+	             $("#erreur_pouls").fadeIn().text("Max: 150 battements").css({"color":"#ff5b5b","padding":" 0 10px 0 10px","margin-top":"-18px","font-size":"13px","font-style":"italic"});
+			}else{
+				$("#pouls").css("border-color","");
+				$("#erreur_pouls").fadeOut();
+			}
 	    });
 	    
-	    $("#frequence_respiratoire").blur(function(){
-	    	if($("#frequence_respiratoire").val() > 300 || $("#frequence_respiratoire").val() == "___"){
-	    		$("#frequence_respiratoire").val('');
-	    		$("#frequence_respiratoire").mask("299");
-	    		$("#frequence_respiratoire").css("border-color","#FF0000");
-	    		$("#erreur_frequence").fadeIn().text("Ce champs est requis").css({"color":"#ff5b5b","padding":" 0 10px 0 10px","margin-top":"-18px","font-size":"13px","font-style":"italic"});
-	    	} else 
-	    		if($("#frequence_respiratoire").val() <= 300){
-	    			$("#frequence_respiratoire").css("border-color","");
-	    			$("#erreur_frequence").fadeOut();
-	    		}
-	    	return false;
+//	    $("#pouls").blur(function(){
+//	    	if($("#pouls").val() > 150 || $("#pouls").val() == "___"){
+//	    		$("#pouls").val('');
+//	    		$("#pouls").mask("199");
+//	    		$("#pouls").css("border-color","#FF0000");
+//	    		$("#erreur_pouls").fadeIn().text("Max: 150 battements").css({"color":"#ff5b5b","padding":" 0 10px 0 10px","margin-top":"-18px","font-size":"13px","font-style":"italic"});
+//	    	} else 
+//	    		if($("#pouls").val() <= 150){
+//	    			$("#pouls").css("border-color","");
+//	    			$("#erreur_pouls").fadeOut();
+//	    		}
+//	    	return false;
+//	    });
+	    
+	    $("#frequence_respiratoire").keyup(function(){
+	    	var valeur = $('#frequence_respiratoire').val();
+			if(isNaN(valeur/1) || valeur > 150){
+				$('#frequence_respiratoire').val("");
+				valeur = null;
+				$("#frequence_respiratoire").css("border-color","#FF0000");
+	             $("#erreur_frequence").fadeIn().text("Ce champs est requis").css({"color":"#ff5b5b","padding":" 0 10px 0 10px","margin-top":"-18px","font-size":"13px","font-style":"italic"});
+			}else{
+				$("#frequence_respiratoire").css("border-color","");
+				$("#erreur_frequence").fadeOut();
+			}
 	    });
+	    
+//	    $("#frequence_respiratoire").blur(function(){
+//	    	if($("#frequence_respiratoire").val() > 300 || $("#frequence_respiratoire").val() == "___"){
+//	    		$("#frequence_respiratoire").val('');
+//	    		$("#frequence_respiratoire").mask("299");
+//	    		$("#frequence_respiratoire").css("border-color","#FF0000");
+//	    		$("#erreur_frequence").fadeIn().text("Ce champs est requis").css({"color":"#ff5b5b","padding":" 0 10px 0 10px","margin-top":"-18px","font-size":"13px","font-style":"italic"});
+//	    	} else 
+//	    		if($("#frequence_respiratoire").val() <= 300){
+//	    			$("#frequence_respiratoire").css("border-color","");
+//	    			$("#erreur_frequence").fadeOut();
+//	    		}
+//	    	return false;
+//	    });
 	
 	/****** ======================================================================= *******/
 	/****** ======================================================================= *******/

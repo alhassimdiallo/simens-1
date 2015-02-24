@@ -20,7 +20,6 @@ class ConsultationTable {
  		if (! $row) {
  			throw new \Exception ( "Could not find row $id" );
  		}
-	    //\Zend\Debug\Debug::dump($row->id_cons); exit();
 		return $row;
 	}
 	public function getConsultationPatient($id_pat){
@@ -29,7 +28,10 @@ class ConsultationTable {
 		$select = $sql->select ();
 		$select->columns( array( '*' ));
 		$select->from( array( 'c' => 'consultation' ));
-		$select->where(array('c.PAT_ID_PERSONNE' =>$id_pat));
+		$select->join( array('m' => 'medecin'), 'm.ID_PERSONNE = c.ID_PERSONNE' , array('*'));
+		$select->join( array('surv' => 'surveillant'), 'surv.ID_PERSONNE = c.ID_SURVEILLANT' , array('NomSurveillant' => 'NOM', 'PrenomSurveillant' => 'PRENOM'));
+		$select->join( array('s' => 'service'), 's.ID_SERVICE = c.ID_SERVICE' , array('nomService' => 'NOM', 'domaineService' => 'DOMAINE'));
+		$select->where(array('c.PAT_ID_PERSONNE' => $id_pat));
 		$select->order('DATEONLY DESC');
 		
 		$stat = $sql->prepareStatementForSqlObject ( $select );
@@ -53,16 +55,20 @@ class ConsultationTable {
 	}
 	
 	public function validerConsultation($values){
-		$donnees = array('CONSPRISE' => $values['valide']);
+		$donnees = array(
+				'CONSPRISE' => $values['valide'],
+				'ID_PERSONNE' => $values['id_personne']
+		);
 		$this->tableGateway->update($donnees, array('ID_CONS'=> $values['id_cons']));
 	}
 	
 	public function addConsultation($values , $IdDuService){
 		$this->tableGateway->getAdapter()->getDriver()->getConnection()->beginTransaction();
 		try {
+		
 			$dataconsultation = array(
 					'ID_CONS'=> $values->get ( "id_cons" )->getValue (), 
-					'ID_PERSONNE'=> $values->get ( "id_medecin" )->getValue (), 
+					'ID_SURVEILLANT'=> $values->get ( "id_surveillant" )->getValue (), 
 					'PAT_ID_PERSONNE'=> $values->get ( "id_patient" )->getValue (), 
 					'DATE'=> $values->get ( "date_cons" )->getValue (), 
 					'POIDS' => $values->get ( "poids" )->getValue (), 
@@ -76,7 +82,7 @@ class ConsultationTable {
 					'HEURECONS' => $values->get ( "heure_cons" )->getValue (),
 					'ID_SERVICE' => $IdDuService
 			);
-			
+			//var_dump($dataconsultation); exit();
 			$this->tableGateway->insert($dataconsultation);
 
 			$this->tableGateway->getAdapter()->getDriver()->getConnection()->commit();

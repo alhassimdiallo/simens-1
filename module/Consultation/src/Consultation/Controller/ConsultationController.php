@@ -261,6 +261,10 @@ class ConsultationController extends AbstractActionController {
 	public function ajoutConstantesAction() {
 		$this->layout ()->setTemplate ( 'layout/consultation' );
 		$id_pat = $this->params ()->fromRoute ( 'id_patient', 0 );
+		
+		// Rechercher l'id du surveillant de service pour savoir quel surveillant a pris les constantes du patient
+		$user = $this->layout()->user;
+		$id_surveillant = $user->id_personne; //Ici c'est l'id du surveillant connecté
 
 		$list = $this->getPatientTable ();
 		$liste = $list->getPatient ( $id_pat );
@@ -268,7 +272,7 @@ class ConsultationController extends AbstractActionController {
 		// Recuperer la photo du patient
 		$image = $list->getPhoto ( $id_pat );
 
-		// crÃ©er le formulaire
+		// creer le formulaire
 		$today = new \DateTime ();
 		$date = $today->format ( 'Y-m-d H:i:s' );
 		$form = new ConsultationForm ();
@@ -276,10 +280,10 @@ class ConsultationController extends AbstractActionController {
 		$heure_cons = $form->get ( 'heure_cons' )->getValue ();
 		// peupler le formulaire
 		$dateonly = $today->format ( 'Y-m-d' );
-		$id_med = 100;
+		
 		$consult = array (
 				'id_patient' => $id_pat,
-				'id_medecin' => $id_med,
+				'id_surveillant' => $id_surveillant,
 				'date_cons' => $date,
 				'dateonly' => $dateonly
 		);
@@ -366,7 +370,7 @@ class ConsultationController extends AbstractActionController {
 		
 		$data = array (
 				'id_cons' => $consult->id_cons,
-				'id_medecin' => $consult->id_personne,
+				'id_surveillant' => $consult->id_surveillant,
 				'id_patient' => $consult->pat_id_personne,
 				'date_cons' => $consult->date,
 				'poids' => $consult->poids,
@@ -453,6 +457,10 @@ class ConsultationController extends AbstractActionController {
 		$LigneDuService = $this->getServiceTable ()->getServiceParNom ( $LeService );
 		$IdDuService = $LigneDuService ['ID_SERVICE'];
 		
+		// Rechercher l'id du surveillant de service pour savoir quel surveillant a pris les constantes du patient
+		$user = $this->layout()->user;
+		$id_medecin = $user->id_personne; //Ici c'est l'id du surveillant connecté
+		
 		$this->layout ()->setTemplate ( 'layout/consultation' );
 		$id_pat = $this->params ()->fromQuery ( 'id_patient', 0 );
 		$id = $this->params ()->fromQuery ( 'id_cons' );
@@ -472,6 +480,12 @@ class ConsultationController extends AbstractActionController {
 		// instancier la consultation et rï¿½cupï¿½rer l'enregistrement
 		$cons = $this->getConsultationTable ();
 		$consult = $cons->getConsult ( $id );
+		
+		// POUR LES ANTECEDENTS OU TERRAIN PARTICULIER
+		// POUR LES ANTECEDENTS OU TERRAIN PARTICULIER
+		// POUR LES ANTECEDENTS OU TERRAIN PARTICULIER
+		$listeConsultation = $cons->getConsultationPatient($id_pat);
+		//var_dump($listeConsultation); exit();
 
 		// instancier le motif d'admission et recupï¿½rer l'enregistrement
 		$motif = $this->getMotifAdmissionTable ();
@@ -506,7 +520,7 @@ class ConsultationController extends AbstractActionController {
 
 		$data = array (
 				'id_cons' => $consult->id_cons,
-				'id_medecin' => $consult->id_personne,
+				'id_medecin' => $id_medecin,
 				'id_patient' => $consult->pat_id_personne,
 				'motif_admission' => $consult->motif_admission,
 				'date_cons' => $consult->date,
@@ -552,6 +566,7 @@ class ConsultationController extends AbstractActionController {
 				'listetypeQuantiteMedicament'  => $listetypeQuantiteMedicament,
 				'donneesAntecedentsPersonnels' => $donneesAntecedentsPersonnels,
 				'donneesAntecedentsFamiliaux'  => $donneesAntecedentsFamiliaux,
+				'liste' => $listeConsultation,
 		);
 	}
 	
@@ -1018,9 +1033,12 @@ class ConsultationController extends AbstractActionController {
 		if ($this->params ()->fromPost ( 'terminer' ) == 'save') {
 		
 			//VALIDER EN METTANT '1' DANS CONSPRISE Signifiant que le medecin a consulter le patient
+			//Ajouter l'id du medecin ayant consulter le patient
 			$valide = array (
 					'valide' => 1,
-					'id_cons' => $id_cons
+					'id_cons' => $id_cons,
+					'id_personne' => $this->params()->fromPost('med_id_personne')
+					
 			);
 			$consultation = $this->getConsultationTable ();
 			$consultation->validerConsultation ( $valide );

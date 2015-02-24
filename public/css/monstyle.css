@@ -3749,3 +3749,235 @@ font-family: time new romans;
 {
 	width:288px; margin-top:5px; padding-left: 10px; font-family: time new romans; font-size: 18px;
 }
+
+/*POUR LES RESULTATS DES VISITES PRE-ANESTHESISTES*/
+.resultatVisistePreanesthesique label  
+{
+line-height: 1.5em;
+
+background-color: #eeeeee;
+
+background-image: none;
+
+background-repeat: repeat;
+
+background-attachment: scroll;
+
+background-position: 0% 0%;
+
+background-clip: border-box;
+
+background-origin: padding-box;
+
+background-size: auto auto;
+
+box-shadow: 1px 2px 2px rgba(204, 204, 204, 0.8);
+
+color: #555555;
+
+display: inline-block;
+
+font-size: 17px;
+
+float: left;
+
+min-width: 60px;
+
+padding-top: 10px;
+
+padding-right: 10px;
+
+padding-bottom: 4px;
+
+padding-left: 10px;
+
+position: relative;
+
+top: 6px;
+	
+font-family: time new romans;
+
+}
+
+/*POUR LES TRAITEMENTS CHIRURGICAUX*/
+/*POUR LES TRAITEMENTS CHIRURGICAUX*/
+#Traitementinstrumental input[type="text"], #Traitementinstrumental textarea 
+
+{ /*le input ou le textarea*/
+
+background-image: none;
+
+background-repeat: repeat;
+
+background-attachment: scroll;
+
+background-position: 0% 0%;
+
+background-clip: border-box;
+
+background-origin: padding-box;
+
+background-size: auto auto;
+
+/*border-top-width: 4px;*/
+
+border-right-width-value: 4px;
+
+border-right-width-ltr-source: physical;
+
+border-right-width-rtl-source: physical;
+
+/*border-bottom-width: 4px;*/
+
+border-left-width-value: 4px;
+
+border-left-width-ltr-source: physical;
+
+border-left-width-rtl-source: physical;
+
+border-top-style: solid;
+
+border-right-style-value: solid;
+
+border-right-style-ltr-source: physical;
+
+border-right-style-rtl-source: physical;
+
+border-bottom-style: solid;
+
+border-left-style-value: solid;
+
+border-left-style-ltr-source: physical;
+
+border-left-style-rtl-source: physical;
+
+border-top-color: #eeeeee;
+
+border-right-color-value: #eeeeee;
+
+border-right-color-ltr-source: physical;
+
+border-right-color-rtl-source: physical;
+
+border-bottom-color: #eeeeee;
+
+border-left-color-value: #eeeeee;
+
+border-left-color-ltr-source: physical;
+
+border-left-color-rtl-source: physical;
+
+/* Arrondir les bordures des input */
+border-top-left-radius: 5px; 
+
+border-top-right-radius: 5px;
+
+border-bottom-right-radius: 5px;
+
+border-bottom-left-radius: 5px;
+
+border-left-color: #eeeeee;
+
+border-right-color: #eeeeee;
+
+box-shadow: 0pt 1px 3px rgba(204, 204, 204, 0.95) inset;
+
+position: relative;
+
+/* les cotés des champs */
+
+border-right-width: 2px;
+
+border-left-width: 2px;
+
+border-top-width: 2px;
+
+border-bottom-width: 2px;
+
+
+/* le texte des champs*/
+padding-top: 5px;
+
+padding-right: 10px;
+
+padding-bottom: 5px;
+
+padding-left: 10px; /* padding du text dans le champ*/
+
+text-indent: 210px; /* alignement du text dans le champ input après saisie*/
+
+margin-bottom: 1px;
+
+margin-top: -40px;
+
+float: left;
+
+}
+
+#Traitementinstrumental .form-instrumental label  
+{/* le label*/
+line-height: 2.0em;
+
+background-color: #eeeeee;
+
+background-image: none;
+
+background-repeat: repeat;
+
+background-attachment: scroll;
+
+background-position: 0% 0%;
+
+background-clip: border-box;
+
+background-origin: padding-box;
+
+background-size: auto auto;
+
+box-shadow: 1px 2px 2px rgba(204, 204, 204, 0.8);
+
+display: inline-block;
+
+font-size: 13px;
+
+width: 200px;
+
+padding-top: 8px;
+
+padding-right: 10px;
+
+padding-bottom: 4px;
+
+padding-left: 5px;
+
+position: relative;
+
+top: 6px;
+
+z-index: 1;
+
+border-top-left-radius: 5px; /*arrondir le bord du label*/ 
+
+float: left;
+
+}
+
+#Traitementinstrumental input[type="text"] 
+{
+
+display: block;
+
+height: 50px; /*la hauteur du champ input*/
+
+width: 100%; /* la largeur du champ input*/
+
+}
+
+#Traitementinstrumental input[type="text"]:focus, #Traitementinstrumental textarea:focus 
+{
+
+text-indent: 0pt;
+
+z-index: 5;
+
+} 
