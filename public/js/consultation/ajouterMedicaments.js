@@ -1,4 +1,22 @@
-function creerLalisteMedicament ($listeDesElements) {
+function chargerMedicaments(myArrayMedicament, myArrayForme, myArrayTypeQuantiteMedicament){
+	
+$(function(){
+  $( "LesMedicaments khass input" ).autocomplete({
+	  source: myArrayMedicament
+  });
+  
+  $( "LesMedicaments khassForme input" ).autocomplete({
+	  source: myArrayForme
+  });
+  
+  $( "LesMedicaments khassQuantite input" ).autocomplete({
+	  source: myArrayTypeQuantiteMedicament
+  });
+});
+
+}
+
+function creerLalisteMedicament ($listeDesElements, $ListeForme, $ListeQuantite) {
     	var index = $("LesMedicaments").length; 
 			        $liste = "<div id='Medicament_"+(index+1)+"'>"+
 				             "<LesMedicaments>"+
@@ -9,23 +27,21 @@ function creerLalisteMedicament ($listeDesElements) {
                              "<label style='width: 100%; margin-top: 10px; margin-left: 5px; font-weight: bold; font-family: police2; font-size: 14px;' >"+(index+1)+"</label>" +
                              "</th >"+
                              
-                             "<th id='SelectMedicament_"+(index+1)+"' style='width: 29%;'>"+
-                             "<select style='width: 100%; margin-top: 3px; margin-bottom: 0px; font-size: 13px;' id='medicament_0"+(index+1)+"' name='medicament_0"+(index+1)+"'>"+
-			                 "<option value=''> -- S&eacute;l&eacute;ctionner un m&eacute;dicament -- </option>";
-                             for(var i = 1 ; i < $listeDesElements.length ; i++){
-                            	 if($listeDesElements[i]){
-                    $liste +="<option value='"+i+"'>"+$listeDesElements[i]+"</option>";
-                            	 }
-                             }   
-                    $liste +="</select>"+                           
-                             "</th>"+
+                             "<th id='SelectMedicament_"+(index+1)+"' style='width: 29%;'>";
+			        $liste +="<khass> <input style='width: 100%; margin-top: 3px; margin-bottom: 0px; font-size: 13px; height: 30px; font-size: 15px; padding-left: 10px;' id='medicament_0"+(index+1)+"' name='medicament_0"+(index+1)+"' type='text' > </khass>";
+                    $liste +="</th>"+
                              
                              "<th id='noteMedicament_"+(index+1)+"' style='width: 29%;'  >"+
-                             "<input type='text' id='medicament_1"+(index+1)+"' name='medicament_1"+(index+1)+"' style='width: 100%; margin-top: 3px; height: 30px; margin-bottom: 0px; font-size: 15px; padding-left: 10px;' >" +
+                             "<khassForme><input type='text' id='forme_"+(index+1)+"' name='forme_"+(index+1)+"' style='width: 100%; margin-top: 3px; height: 30px; margin-bottom: 0px; font-size: 15px; padding-left: 10px;' > </khassForme>" +
                              "</th >"+
                              
                              "<th id='noteMedicament2_"+(index+1)+"' style='width: 29%;'  >"+
-                             "<input type='text' id='medicament_2"+(index+1)+"' name='medicament_2"+(index+1)+"' style='width: 100%; margin-top: 3px; height: 30px; margin-bottom: 0px; font-size: 15px; padding-left: 10px;' >" +
+                             "<input type='text' id='nb_medicament_"+(index+1)+"' name='nb_medicament_"+(index+1)+"' style=' float: left; width: 13%; margin-top: 3px; height: 30px; margin-bottom: 0px; font-size: 15px; padding-left: 5px;' >"+
+                             "<div id='increm_decrem' style='float: left; height: 30px; width: 7%;'> " +
+                             "<img id='incrementer_"+(index+1)+"' style='cursor:pointer; position:absolute; height: 16px; width: 16px; margin-top: 1px; margin-bottom: 0px; font-size: 15px;' src='../images_icons/increment2.png'/> " +
+                             "<img id='decrementer_"+(index+1)+"' style='cursor:pointer; position:absolute; height: 16px; width: 16px; margin-top: 19px; margin-bottom: 0px; font-size: 15px; padding-left: 1px;' src='../images_icons/decrement2.png'/> " +
+                             "</div>"+
+                             "<khassQuantite><input type='text' id='quantite_"+(index+1)+"' name='quantite_"+(index+1)+"' style='float: left; width: 80%; margin-top: 3px; height: 30px; margin-bottom: 0px; font-size: 15px; padding-left: 10px;' > </khassQuantite>" +
                              "</th >"+
                              
                              "<th id='iconeMedicament_supp_vider' style='width: 9%;'  >"+
@@ -64,6 +80,22 @@ function creerLalisteMedicament ($listeDesElements) {
                     if((index+1) == 2){
                     	$("#supprimer_medicament").toggle(true);
                     }
+                    
+                    //CHARGEMENT DES AUTO-COMPLETIONS
+                    chargerMedicaments($listeDesElements, $ListeForme, $ListeQuantite);
+                    
+                    var $nb = 0;
+                    //INCREMENTER OU DECREMENTER AU CLICK
+                    $('#incrementer_'+(index+1)).click(function(){ 
+                    	if($nb < 10){
+                    		$("#nb_medicament_"+(index+1)).val(++$nb); 
+                    	}
+                    });
+                    $('#decrementer_'+(index+1)).click(function(){
+                    	if($nb > 1){
+                    		$("#nb_medicament_"+(index+1)).val(--$nb); 
+                    	}
+                    });
 }
 
 //NOMBRE DE LISTE AFFICHEES
@@ -95,10 +127,10 @@ $(function () {
 
 
 //FONCTION INITIALISATION (Par défaut)
-function partDefautMedicament (Liste, n) { 
+function partDefautMedicament (Liste, ListeForme, ListeQuantite, n) { 
 	var i = 0;
 	for( i ; i < n ; i++){
-		creerLalisteMedicament(Liste);
+		creerLalisteMedicament(Liste, ListeForme, ListeQuantite);
 	}
 	if(n == 1){
 		$(".supprimerMedicament" ).replaceWith(
@@ -106,7 +138,7 @@ function partDefautMedicament (Liste, n) {
 			);
 	}
 	$('#ajouter_medicament').click(function(){ 
-		creerLalisteMedicament(Liste);
+		creerLalisteMedicament(Liste, ListeForme, ListeQuantite);
 		if(nbListeMedicaments() == 2){
 		$(".supprimerMedicament" ).replaceWith(
 				"<img class='supprimerMedicament' style='margin-left: 5px; margin-top: 10px; cursor: pointer;' src='../images/images/sup.png' title='Supprimer' />"
@@ -127,13 +159,16 @@ function supprimer_medicament_selectionne(id) {
 
 	for(var i = (id+1); i <= nbListeMedicaments(); i++ ){
 		var element = $('#medicament_0'+i).val();
-		$("#SelectMedicament_"+(i-1)+" option[value='"+element+"']").attr('selected','selected');
+		$("#medicament_0"+(i-1)).val(element);
 		
 		var note = $('#noteMedicament_'+i+' input').val();
 		$("#noteMedicament_"+(i-1)+" input").val(note);
 		
-		var note2 = $('#noteMedicament2_'+i+' input').val();
-		$("#noteMedicament2_"+(i-1)+" input").val(note2);
+		var note2 = $('#noteMedicament2_'+i+'  input').val();
+		$("#noteMedicament2_"+(i-1)+"  input").val(note2);
+		
+		var note2 = $('#noteMedicament2_'+i+' khassQuantite input').val();
+		$("#noteMedicament2_"+(i-1)+" khassQuantite input").val(note2);
 	}
 
 	if(nbListeMedicaments() <= 2 && id <= 2){
@@ -155,7 +190,7 @@ function supprimer_medicament_selectionne(id) {
 
 //VIDER LES CHAMPS DE L'ELEMENT SELECTIONNER
 function vider_medicament_selectionne(id) {
-	$("#SelectMedicament_"+id+" option[value='']").attr('selected','selected');
+	$("#medicament_0"+id).val("");
 	$("#noteMedicament_"+id+" input").val("");
 	$("#noteMedicament2_"+id+" input").val("");
 }
@@ -203,6 +238,7 @@ $(function(){
 	    		$("#iconeMedicament_supp_vider a img").toggle(false);
 	    		$("#bouton_Medicament_modifier_demande").toggle(true);
 	    		$("#bouton_Medicament_valider_demande").toggle(false);
+	    		$("#increm_decrem img").toggle(false);
 	    		return false;
 //	      },
 //	      error:function(e){console.log(e);alert("Une erreur interne est survenue!");},
@@ -227,6 +263,7 @@ $(function(){
 			$("#iconeMedicament_supp_vider a img").toggle(false);
 			$("#bouton_Medicament_modifier_demande").toggle(true);
 			$("#bouton_Medicament_valider_demande").toggle(false);
+			$("#increm_decrem img").toggle(false);
 		}, 1500);
 	});
 	
@@ -243,6 +280,7 @@ $(function(){
 		$("#iconeMedicament_supp_vider a img").toggle(true);
 		$("#bouton_Medicament_modifier_demande").toggle(false);
 		$("#bouton_Medicament_valider_demande").toggle(true);
+		$("#increm_decrem img").toggle(true);
 		return false;
 	});
 });

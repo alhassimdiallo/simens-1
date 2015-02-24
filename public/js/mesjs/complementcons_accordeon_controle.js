@@ -745,9 +745,9 @@ $(function(){
 	    for(var i = 1 ; i < 10 ; i++ ){
 	     	if($("#medicament_0"+i).val()){
 	     		donnees['medicament_0'+i] = $("#medicament_0"+i).val();
-	     		donnees['medicament_1'+i] = $("#medicament_1"+i).val();
-	     		donnees['medicament_2'+i] = $("#medicament_2"+i).val();
-	     		donnees['medicament_3'+i] = $("#medicament_3"+i).val();
+	     		donnees['forme_'+i] = $("#forme_"+i).val();
+	     		donnees['nb_medicament_'+i] = $("#nb_medicament_"+i).val();
+	     		donnees['quantite_'+i] = $("#quantite_"+i).val();
 	     	}
 	     }
 	    
@@ -926,9 +926,15 @@ $(function(){
 		    //ANTECEDENTS PERSONNELS
 			//ANTECEDENTS PERSONNELS
 			$("#antecedentsPersonnels").toggle(false);
-			$("#antecedentsFamiliaux").toggle(false);
+			$("#AntecedentsFamiliaux").toggle(false);
 			$("#MenuAntecedentPersonnel").toggle(false);
+			$("#HabitudesDeVie").toggle(false);
+			$("#AntecedentMedicaux").toggle(false);
+			$("#AntecedentChirurgicaux").toggle(false);
+			$("#GynecoObstetrique").toggle(false);
 			
+	//*****************************************************************
+    //*****************************************************************
 			//ANTECEDENTS PERSONNELS
 			//ANTECEDENTS PERSONNELS
 			$(".image1_TP").click(function(){
@@ -943,11 +949,134 @@ $(function(){
 				 });
 			});
 			
-			$("#TerminerAntecedentsPersonnels").click(function(){
-				 $("#antecedentsPersonnels").fadeOut(function(){ 
-					 $("#MenuTerrainParticulier").fadeIn("fast");
+			//HABITUDES DE VIE
+			//HABITUDES DE VIE
+			$(".image1_AP").click(function(){
+				 $("#MenuAntecedentPersonnel").fadeOut(function(){ 
+					 $("#HabitudesDeVie").fadeIn("fast");
 				 });
 			});
+			
+			$("#TerminerHabitudeDeVie").click(function(){
+				$("#HabitudesDeVie").fadeOut(function(){ 
+					 $("#MenuAntecedentPersonnel").fadeIn("fast");
+				 });
+			});
+			
+			//ANTECEDENTS MEDICAUX
+			//ANTECEDENTS MEDICAUX
+			$(".image2_AP").click(function(){
+				 $("#MenuAntecedentPersonnel").fadeOut(function(){ 
+					 $("#AntecedentMedicaux").fadeIn("fast");
+				 });
+			});
+			
+			$("#TerminerAntecedentMedicaux").click(function(){
+				$("#AntecedentMedicaux").fadeOut(function(){ 
+					 $("#MenuAntecedentPersonnel").fadeIn("fast");
+				 });
+			});
+			
+			//ANTECEDENTS CHIRURGICAUX
+			//ANTECEDENTS CHIRURGICAUX
+			$(".image3_AP").click(function(){
+				 $("#MenuAntecedentPersonnel").fadeOut(function(){ 
+					 $("#AntecedentChirurgicaux").fadeIn("fast");
+				 });
+			});
+			
+			$("#TerminerAntecedentChirurgicaux").click(function(){
+				$("#AntecedentChirurgicaux").fadeOut(function(){ 
+					 $("#MenuAntecedentPersonnel").fadeIn("fast");
+				 });
+			});
+			
+			//ANTECEDENTS CHIRURGICAUX
+			//ANTECEDENTS CHIRURGICAUX
+			$(".image4_AP").click(function(){
+				 $("#MenuAntecedentPersonnel").fadeOut(function(){ 
+					 $("#GynecoObstetrique").fadeIn("fast");
+				 });
+			});
+			
+			$("#TerminerGynecoObstetrique").click(function(){
+				$("#GynecoObstetrique").fadeOut(function(){ 
+					 $("#MenuAntecedentPersonnel").fadeIn("fast");
+				 });
+			});
+			
+			
+			//HABITUDES DE VIE TESTER SI UNE HABITUDE EST COCHEE OU PAS
+			//HABITUDES DE VIE TESTER SI UNE HABITUDE EST COCHEE OU PAS
+			//$("#HabitudesDeVie input[name=testHV]").attr('checked', true);
+			$("#dateDebAlcoolique, #dateFinAlcoolique").toggle(false);
+			$("#dateDebFumeur, #dateFinFumeur, #nbPaquetJour").toggle(false);
+			$("#dateDebDroguer, #dateFinDroguer").toggle(false);
+			
+			$('#HabitudesDeVie input[name=AlcooliqueHV]').click(function(){
+				var boutons = $('#HabitudesDeVie input[name=AlcooliqueHV]');
+				if( boutons[0].checked){ $("#dateDebAlcoolique, #dateFinAlcoolique").toggle(true); }
+				if(!boutons[0].checked){ $("#dateDebAlcoolique, #dateFinAlcoolique").toggle(false); }
+			});
+			
+			$('#HabitudesDeVie input[name=FumeurHV]').click(function(){
+				var boutons = $('#HabitudesDeVie input[name=FumeurHV]');
+				if( boutons[0].checked){ $("#dateDebFumeur, #dateFinFumeur, #nbPaquetJour").toggle(true); }
+				if(!boutons[0].checked){ $("#dateDebFumeur, #dateFinFumeur, #nbPaquetJour").toggle(false); }
+			});
+			
+			$('#HabitudesDeVie input[name=DroguerHV]').click(function(){
+				var boutons = $('#HabitudesDeVie input[name=DroguerHV]');
+				if( boutons[0].checked){ $("#dateDebDroguer, #dateFinDroguer").toggle(true); }
+				if(!boutons[0].checked){ $("#dateDebDroguer, #dateFinDroguer").toggle(false); }
+			});
+			
+			
+			//GYNECO-OBSTETRIQUE TESTER SI C'EST COCHE
+			//GYNECO-OBSTETRIQUE TESTER SI C'EST COCHE
+			$("#NoteMonarche").toggle(false);
+			$("#NoteGestite").toggle(false);
+			$("#NoteParite").toggle(false);
+			$("#RegulariteON, #DysmenorrheeON, #DureeGO").toggle(false);
+			
+			$('#GynecoObstetrique input[name=MonarcheGO]').click(function(){
+				var boutons = $('#GynecoObstetrique input[name=MonarcheGO]');
+				if( boutons[0].checked){ $("#NoteMonarche").toggle(true); }
+				if(!boutons[0].checked){ $("#NoteMonarche").toggle(false); }
+			});
+			
+			$('#GynecoObstetrique input[name=GestiteGO]').click(function(){
+				var boutons = $('#GynecoObstetrique input[name=GestiteGO]');
+				if( boutons[0].checked){ $("#NoteGestite").toggle(true); }
+				if(!boutons[0].checked){ $("#NoteGestite").toggle(false); }
+			});
+			
+			$('#GynecoObstetrique input[name=PariteGO]').click(function(){
+				var boutons = $('#GynecoObstetrique input[name=PariteGO]');
+				if( boutons[0].checked){ $("#NoteParite").toggle(true); }
+				if(!boutons[0].checked){ $("#NoteParite").toggle(false); }
+			});
+			
+			$('#GynecoObstetrique input[name=CycleGO]').click(function(){
+				var boutons = $('#GynecoObstetrique input[name=CycleGO]');
+				if( boutons[0].checked){ $("#RegulariteON, #DysmenorrheeON, #DureeGO").toggle(true); }
+				if(!boutons[0].checked){ $("#RegulariteON, #DysmenorrheeON, #DureeGO").toggle(false); }
+			});
+			
+			
+    //******************************************************************************
+	//******************************************************************************
+			$(".image2_TP").click(function(){
+				$("#MenuTerrainParticulier").fadeOut(function(){ 
+					 $("#AntecedentsFamiliaux").fadeIn("fast");
+				 });
+			}); 
+			
+			$("#TerminerAntecedentsFamiliaux").click(function(){
+				$("#AntecedentsFamiliaux").fadeOut(function(){ 
+					 $("#MenuTerrainParticulier").fadeIn("fast");
+				 });
+			}); 
 	 });
 }
  
@@ -1256,3 +1385,30 @@ $(function(){
 	  	 	$("#bouton_constantes_valider").toggle(true);    //on affiche le bouton permettant de valider les champs
 	  	 	return  false;
 	  	});
+
+	  	$('#dateDebAlcoolique input, #dateFinAlcoolique input, #dateDebFumeur input, #dateFinFumeur input, #dateDebDroguer input, #dateFinDroguer input').datepicker(
+				$.datepicker.regional['fr'] = {
+						closeText: 'Fermer',
+						changeYear: true,
+						yearRange: 'c-80:c',
+						prevText: '&#x3c;Préc',
+						nextText: 'Suiv&#x3e;',
+						currentText: 'Courant',
+						monthNames: ['Janvier','Fevrier','Mars','Avril','Mai','Juin',
+						'Juillet','Aout','Septembre','Octobre','Novembre','Decembre'],
+						monthNamesShort: ['Jan','Fev','Mar','Avr','Mai','Jun',
+						'Jul','Aout','Sep','Oct','Nov','Dec'],
+						dayNames: ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'],
+						dayNamesShort: ['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'],
+						dayNamesMin: ['Di','Lu','Ma','Me','Je','Ve','Sa'],
+						weekHeader: 'Sm',
+						dateFormat: 'dd/mm/yy',
+						firstDay: 1,
+						isRTL: false,
+						showMonthAfterYear: false,
+						yearRange: '1990:2015',
+						showAnim : 'bounce',
+						changeMonth: true,
+						changeYear: true,
+						yearSuffix: ''}
+		);

@@ -561,11 +561,11 @@ echo $this->form()->openTag($form); ?>
          <div id="tabsAntecedents">
                   <ul>
                      <li><a href="#tabss-1">Terrain particulier</a></li>
-                     <li><a href="#tabss-2">Ant&eacute;c&eacute;dents</a></li>
+                     <li><a href="#tabss-2">Historiques</a></li>
                   </ul>
                                    
          <div id="tabss-1"> 
-         
+           
            <!--****** ================== ANTECEDENTS TERRAIN PARTICULIER ================== ****** -->
            <!--****** ================== ANTECEDENTS TERRAIN PARTICULIER ================== ****** -->
            <!--****** ================== ANTECEDENTS TERRAIN PARTICULIER ================== ****** -->
@@ -584,65 +584,230 @@ echo $this->form()->openTag($form); ?>
                  </tr>
            </table>
            
-           <table style="width: 100%;">
-           <tr style="width: 100%;">
-           <td id="antecedentsPersonnels" style="width: 50%;">
-             <div id="anteced" style="width: 50%; padding-bottom: 10px; font-size: 17px; font-family:Time new roman; "><b class="form-titre"><label>Ant&eacute;c&eacute;dents Personnels :</label></b></div>
-             <table>
-                 <tr id="antecedent2">
-                     <td class="form-diag"><?php echo $this->formRow($form->get('habitude_vie1'));?></td>
-                     <td></td>
-                     <td></td>
+           <!--****** ================== ANTECEDENTS PERSONNELS ================== ****** -->
+           <!--****** ================== ANTECEDENTS PERSONNELS ================== ****** -->
+           <table id="MenuAntecedentPersonnel" style="width:100%;">
+                <tr style="width:100%;">
+                  <td style="">
+                     <img class="image_fleche" style='cursor: pointer;' src='<?php echo $this->basepath().'/images_icons/flecheg.png'?>' title ="pr&eacute;c&eacute;dent" style=''/>
+                  </td>
+                </tr>
+                <tr style="width:100%;">
+                     <td style="width:25%;">
+                        <div>    
+                            <img class="image1_AP" style='cursor: pointer;' src='<?php echo $this->basepath().'/images_icons/image1_AP.png'?>' style=''/>
+                        </div>
+                     </td>
+                     <td style="width:25%;">
+                        <div>    
+                            <img class="image2_AP" style='cursor: pointer;' src='<?php echo $this->basepath().'/images_icons/image2_AP.png'?>' style=''/>
+                        </div>
+                     </td>
+                     <td style="width:25%;">
+                        <div>    
+                            <img class="image3_AP" style='cursor: pointer;' src='<?php echo $this->basepath().'/images_icons/image3_AP.png'?>' style=''/>
+                        </div>
+                     </td>
+                     <td style="width:25%;">
+                        <div>    
+                            <img class="image4_AP" style='cursor: pointer;' src='<?php echo $this->basepath().'/images_icons/image4_AP.png'?>' style=''/>
+                        </div>
+                     </td>
                  </tr>
-                 <tr id="antecedent2">
-                     <td class="form-diag"><?php echo $this->formRow($form->get('habitude_vie2'));?></td>
-                     <td></td>
-                     <td></td>
-                 </tr>
-                 <tr id="antecedent2">
-                     <td class="form-diag"><?php echo $this->formRow($form->get('habitude_vie3'));?></td>
-                     <td></td>
-                     <td></td>
-                 </tr>
-                  <!--tr id="antecedent2">
-                     <td class="form-diag"><?php //echo $this->formRow($form->get('habitude_vie4'));?></td>
-                     <td></td>
-                     <td></td>
-                 </tr-->
-              </table>
-              <table style="width:100%;">
-               <tr style="width:100%;">
-                   <td class='block' id='thoughtbot' style='display: inline-block;  vertical-align: bottom; width:100%; padding-bottom: 5px;'><div style="float:left;" id="TerminerAntecedentsPersonnels">Terminer</div></td>
-               <tr>
-             </table>
-           </td>
+           </table>
+           <script> 
+             $(".image4_AP").toggle(false);
+             if("<?php echo $this->lesdetails->civilite;?>" != "M" ){ $(".image4_AP").toggle(true); }
+           </script>
            
-           <td id="antecedentsFamiliaux" style="width: 50%;">
-           <div id="anteced" style="width: 50%; padding-bottom: 10px; font-size: 17px; font-family:Time new roman; "><b class="form-titre"><label>Ant&eacute;c&eacute;dents Familiaux : </label></b></div>
-             <table>
-                 <tr id="antecedent">
-                     <td class="form-diag"><?php echo $this->formRow($form->get('antecedent_familial1'));?></td>
-                     <td></td>
-                     <td></td>
-                 </tr>
-                  <tr id="antecedent">
-                     <td class="form-diag"><?php echo $this->formRow($form->get('antecedent_familial2'));?></td>
-                     <td></td>
-                     <td></td>
-                 </tr>
-                 <tr id="antecedent">
-                     <td class="form-diag"><?php echo $this->formRow($form->get('antecedent_familial3'));?></td>
-                     <td></td>
-                     <td></td>
-                 </tr>
-                  <tr id="antecedent">
-                     <td class="form-diag"><?php echo $this->formRow($form->get('antecedent_familial4'));?></td>
-                     <td></td>
-                     <td></td>
-                 </tr>
-             </table>
-             </td>
-             </tr>
+           <table id="HabitudesDeVie" style="width:100%;">
+                <tr style="width:100%;">
+                  <td style="">
+                    <div style="width: 100%; font-family: Times New Roman;  color: green; font-size: 17px; font-weight: bold; padding-bottom: 10px;" ><iS style='font-size: 25px;'>&curren;</iS> LES HABITUDES DE VIE DU PATIENTS</div>
+                  </td>
+                </tr>
+                <tr style="width:100%;">
+                  <td id="BUcheckbox" style="">
+                    <div style="float:left;"><label style="width: 100px; height:30px; text-align:right;">Alcoolique <input name="AlcooliqueHV" type="checkbox"></label></div> 
+                    <div style="float:left" id="dateDebAlcoolique"><label style="width: 230px; height:30px; text-align:right;">Date d&eacute;but <input style="width:130px; margin-top:5px;" type="text"></label></div>
+                    <div style="float:left" id="dateFinAlcoolique"><label style="width: 230px; height:30px; text-align:right;">Date d'arret <input style="width:130px; margin-top:5px;" type="text"></label></div>
+                  </td>
+                </tr>
+                <tr style="width:100%;">
+                  <td id="BUcheckbox" style="">
+                    <div style="float:left;"><label style="width: 100px; height:30px; text-align:right;">Fumeur <input name="FumeurHV" type="checkbox"></label></div> 
+                    <div style="float:left" id="dateDebFumeur"><label style="width: 230px; height:30px; text-align:right;">Date d&eacute;but <input style="width:130px; margin-top:5px;" type="text"></label></div>
+                    <div style="float:left" id="dateFinFumeur"><label style="width: 230px; height:30px; text-align:right;">Date d'arret <input style="width:130px; margin-top:5px;" type="text"></label></div>
+                    <div style="float:left" id="nbPaquetJour"><label style="width: 230px; height:30px; text-align:right;">Nbre de paquets/jour <input style="width:60px; margin-top:5px;" type="text"></label></div>
+                  </td>
+                </tr>
+                <tr style="width:100%;">
+                  <td id="BUcheckbox" style="">
+                    <div style="float:left;"><label style="width: 100px; height:30px; text-align:right;">Drogu&eacute;  <input name="DroguerHV" type="checkbox"></label></div> 
+                    <div style="float:left" id="dateDebDroguer"><label style="width: 230px; height:30px; text-align:right;">Date d&eacute;but <input style="width:130px; margin-top:5px;" type="text"></label></div>
+                    <div style="float:left" id="dateFinDroguer"><label style="width: 230px; height:30px; text-align:right;">Date d'arret <input style="width:130px; margin-top:5px;" type="text"></label></div>
+                  </td>
+                </tr>
+                
+                
+                <tr style="width:100%;">
+                   <td class='block' id='thoughtbot' style='display: inline-block;  vertical-align: bottom; width:100%; padding-bottom: 5px; padding-top: 15px;'><div style="float:left;" id="TerminerHabitudeDeVie">Terminer</div></td>
+               <tr>
+           </table>
+           
+           <table id="AntecedentMedicaux" style="width:100%;">
+                <tr style="width:100%;">
+                  <td colspan="3" style="width:60%;" >
+                    <div style="font-family: Times New Roman;  color: green; font-size: 17px; font-weight: bold; padding-bottom: 10px;" ><iS style='font-size: 25px;'>&curren;</iS> LES ANTECEDENTS MEDICAUX</div>
+                  </td>
+                  <td>  </td>
+                  <td>  </td>
+                </tr>
+                <tr style="width:100%; height: 50px; ">
+                  <td id="BUcheckbox" style="width: 20%; ">
+                    <div ><label style="width: 90%; height:30px; text-align:right;">Diab&egrave;te <input name="AlcooliqueAM" type="checkbox"></label></div> 
+                  </td>
+                
+                  <td id="BUcheckbox" style="width: 20%; ">
+                    <div ><label style="width: 90%; height:30px; text-align:right;">HTA <input name="FumeurAM" type="checkbox"></label></div> 
+                  </td>
+                
+                  <td id="BUcheckbox" style="width: 20%; ">
+                    <div ><label style="width: 90%; height:30px; text-align:right;">Dr&eacute;panocytose <input name="DroguerAM" type="checkbox"></label></div> 
+                  </td>
+                  
+                  <td id="BUcheckbox" style="width: 20%; ">
+                    <div ><label style="width: 90%; height:30px; text-align:right;">Dislipid&eacute;mie  <input name="DislipidemieAM" type="checkbox"></label></div> 
+                  </td>
+                  
+                  <td id="BUcheckbox" style="width: 20%; ">
+                    <div ><label style="width: 90%; height:30px; text-align:right;">Asthme  <input name="AsthmeAM" type="checkbox"></label></div> 
+                  </td>
+                  
+                </tr>
+                <tr style="width:100%;">
+                  <td id="BUcheckbox" colspan="3" style="width:60%;" >
+                     <div><label style="width: 50%; height:30px; text-align:right;">Autres  <input style="width:220px; margin-top:5px;" type="text"></label></div>
+                  </td>
+                  <td>  </td>
+                  <td>  </td>
+                </tr>
+                
+                <tr style="width:100%;">
+                   <td class='block' id='thoughtbot' style='display: inline-block;  vertical-align: bottom; width:20%; padding-bottom: 5px; padding-top: 35px;'><div style="float:left;" id="TerminerAntecedentMedicaux">Terminer</div></td>
+                   <td>  </td>
+                   <td>  </td>
+                   <td>  </td>
+                   <td>  </td>
+                <tr>
+           </table>
+           
+           <table id="AntecedentChirurgicaux" style="width:100%;">
+                <tr style="width:100%;">
+                  <td style="">
+                    LES ANTECEDENTS CHIRURGICAUX
+                  </td>
+                </tr>
+                
+                <tr style="width:100%;">
+                   <td class='block' id='thoughtbot' style='display: inline-block;  vertical-align: bottom; width:100%; padding-bottom: 5px;'><div style="float:left;" id="TerminerAntecedentChirurgicaux">Terminer</div></td>
+               <tr>
+           </table>
+           
+           <table id="GynecoObstetrique" style="width:100%;">
+                <tr style="width:100%;">
+                  <td style="">
+                    <div style="width: 100%; font-family: Times New Roman;  color: green; font-size: 17px; font-weight: bold; padding-bottom: 10px;" ><iS style='font-size: 25px;'>&curren;</iS> GYNECO-OBSTETRIQUE </div>
+                  </td>
+                </tr>
+                <tr style="width:100%;">
+                  <td id="BUcheckbox" style="">
+                    <div style="float:left;"><label style="width: 120px; height:30px; text-align:right;">M&eacute;narche <input name="MonarcheGO" type="checkbox"></label></div> 
+                    <div style="float:left" id="NoteMonarche"><label style="width: 260px; height:30px; text-align:right;">Note <input style="width:200px; margin-top:5px;" type="text"></label></div>
+                  </td>
+                </tr>
+                <tr style="width:100%;">
+                  <td id="BUcheckbox" style="">
+                    <div style="float:left;"><label style="width: 120px; height:30px; text-align:right;">Gestit&eacute; <input name="GestiteGO" type="checkbox"></label></div> 
+                    <div style="float:left" id="NoteGestite"><label style="width: 260px; height:30px; text-align:right;">Note <input style="width:200px; margin-top:5px;" type="text"></label></div>
+                  </td>
+                </tr>
+                <tr style="width:100%;">
+                  <td id="BUcheckbox" style="">
+                    <div style="float:left;"><label style="width: 120px; height:30px; text-align:right;">Parit&eacute; <input name="PariteGO" type="checkbox"></label></div> 
+                    <div style="float:left" id="NoteParite"><label style="width: 260px; height:30px; text-align:right;">Note <input style="width:200px; margin-top:5px;" type="text"></label></div>
+                  </td>
+                </tr>
+                <tr style="width:100%;">
+                  <td id="BUcheckbox" style="">
+                    <div style="float:left;"><label style="width: 120px; height:30px; text-align:right;">Cycle <input name="CycleGO" type="checkbox"></label></div> 
+                    
+                    <div style="float:left;" id="DureeGO"><label style="width: 120px; height:30px; text-align:right;">Dur&eacute;e <input style="width:60px; margin-top:5px; height:25px; " type="text"></label></div> 
+                    
+                    <div style="float:left" id="RegulariteON"><label style="width: 160px; height:30px; text-align:right;">R&eacute;gularit&eacute; 
+                      <select style="width:60px; margin-top:5px; height: 25px;">
+                         <option>Oui</option>
+                         <option>Non</option>
+                      </select>
+                      </label>
+                    </div>
+                    <div style="float:left" id="DysmenorrheeON"><label style="width: 160px; height:30px; text-align:right;">Dysm&eacute;norrh&eacute;e
+                      <select style="width:60px; margin-top:5px; height: 25px;">
+                         <option>Oui</option>
+                         <option>Non</option>
+                      </select>
+                      </label>
+                    </div>
+                    
+                  </td>
+                </tr>
+                
+                
+                <tr style="width:100%;">
+                   <td class='block' id='thoughtbot' style='display: inline-block;  vertical-align: bottom; width:100%; padding-bottom: 5px; padding-top: 15px;'><div style="float:left;" id="TerminerGynecoObstetrique">Terminer</div></td>
+               <tr>
+               
+           </table>
+           
+           
+           <!--****** ================== ANTECEDENTS FAMILIAUX ================== ****** -->
+           <!--****** ================== ANTECEDENTS FAMILIAUX ================== ****** -->
+           <table id="AntecedentsFamiliaux" style="width:100%;">
+                <tr style="width:100%;">
+                  <td style="">
+                    <div style="width: 100%; font-family: Times New Roman;  color: green; font-size: 17px; font-weight: bold; padding-bottom: 10px;" ><iS style='font-size: 25px;'>&curren;</iS> ANTECEDENTS FAMILIAUX </div>
+                  </td>
+                </tr>
+                <tr style="width:100%;">
+                  <td id="BUcheckbox" style="">
+                    <div style="float:left;"><label style="width: 230px; height:30px; text-align:right;">Diab&egrave;te <input name="MonarcheGO" type="checkbox"></label></div> 
+                    <div style="float:left" id="NoteMonarche"><label style="width: 260px; height:30px; text-align:right;">Note <input style="width:200px; margin-top:5px;" type="text"></label></div>
+                  </td>
+                </tr>
+                <tr style="width:100%;">
+                  <td id="BUcheckbox" style="">
+                    <div style="float:left;"><label style="width: 230px; height:30px; text-align:right;">Dr&eacute;panocytose <input name="GestiteGO" type="checkbox"></label></div> 
+                    <div style="float:left" id="NoteGestite"><label style="width: 260px; height:30px; text-align:right;">Note <input style="width:200px; margin-top:5px;" type="text"></label></div>
+                  </td>
+                </tr>
+                <tr style="width:100%;">
+                  <td id="BUcheckbox" style="">
+                    <div style="float:left;"><label style="width: 230px; height:30px; text-align:right;">HTA <input name="PariteGO" type="checkbox"></label></div> 
+                    <div style="float:left" id="NoteParite"><label style="width: 260px; height:30px; text-align:right;">Note <input style="width:200px; margin-top:5px;" type="text"></label></div>
+                  </td>
+                </tr>
+                <tr style="width:100%;">
+                  <td id="BUcheckbox" style="">
+                    <div style="float:left;"><label style="width: 230px; height:30px; text-align:right;">Autres pathog&egrave;nes h&eacute;r&eacute;ditaires <input name="CycleGO" type="checkbox"></label></div> 
+                    <div style="float:left" id="NoteCycle"><label style="width: 260px; height:30px; text-align:right;">Note <input style="width:200px; margin-top:5px;" type="text"></label></div>
+                  </td>
+                </tr>
+                
+                
+                <tr style="width:100%;">
+                   <td class='block' id='thoughtbot' style='display: inline-block;  vertical-align: bottom; width:100%; padding-bottom: 5px; padding-top: 15px;'><div style="float:left;" id="TerminerAntecedentsFamiliaux">Terminer</div></td>
+               <tr>
+               
            </table>
 
            <!--****** ================== FIN ANTECEDENTS TERRAIN PARTICULIER ================== ****** -->
@@ -936,7 +1101,7 @@ echo $this->form()->openTag($form); ?>
                             <script> 
                                ValiderDemande();
                                var myArray = [''];
-                               myArray[8] = 'Radio';
+                               myArray[8] = 'Radiologie';
                                myArray[9] = 'Echographie';
                                myArray[10] = 'IRM';
                                myArray[11] = 'Scanner';

@@ -630,6 +630,8 @@ class ConsultationController extends AbstractActionController {
 		  // INSTANCIATION DES MEDICAMENTS de l'ordonnance
 		  $consommable = $this->getConsommableTable();
 		  $listeMedicament = $consommable->listeDeTousLesMedicaments();
+		  $listeForme = $consommable->formesMedicaments();
+		  $listetypeQuantiteMedicament = $consommable->typeQuantiteMedicaments();
 
 		  // INSTANTIATION DE L'ORDONNANCE
 		  $ordonnance = $this->getOrdonnanceTable();
@@ -659,7 +661,6 @@ class ConsultationController extends AbstractActionController {
 		  	$data['numero_vpa'] = $donneesDemandeVPA['NUMERO_VPA'];
 		  	$data['type_anesthesie_demande'] = 2;//$donneesDemandeVPA['TYPE_ANESTHESIE_DEMANDE'];
 		  }
-		  //\Zend\Debug\Debug::dump($donneesDemandeVPA['DIAGNOSTIC']); exit();
 		  
 		  //POUR LE TRANSFERT
 		  //POUR LE TRANSFERT
@@ -727,7 +728,9 @@ class ConsultationController extends AbstractActionController {
 		  		'nbDiagnostics'=> $infoDiagnostics->count(),
 		  		'nbDonneesExamenPhysique' => $kPhysique,
 		  		'dateonly' => $consult->dateonly,
-		  		'temoin' => $bandelettes['temoin']
+		  		'temoin' => $bandelettes['temoin'],
+		  		'listeForme' => $listeForme,
+		  		'listetypeQuantiteMedicament' => $listetypeQuantiteMedicament,
 		  );
 	
 	}
@@ -828,22 +831,25 @@ class ConsultationController extends AbstractActionController {
 		/**** MEDICAUX ****/
 		$dureeTraitement = $this->params()->fromPost('duree_traitement_ord');
 		$donnees = array('id_cons' => $id_cons, 'duree_traitement' => $dureeTraitement);
+		
+		$Consommable = $this->getOrdonConsommableTable();
 		$tab = array();
 		$j = 1;
 		for($i = 1 ; $i < 10 ; $i++ ){
 			if($this->params()->fromPost("medicament_0".$i)){
-				$tab[$j++] = $this->params()->fromPost("medicament_0".$i);
-				$tab[$j++] = $this->params()->fromPost("medicament_1".$i);
-				$tab[$j++] = $this->params()->fromPost("medicament_2".$i);
+				$tab[$j++] = $Consommable->getMedicamentByName($this->params()->fromPost("medicament_0".$i))['ID_MATERIEL'];
+				$tab[$j++] = $this->params()->fromPost("forme_".$i);
+				$tab[$j++] = $this->params()->fromPost("nb_medicament_".$i);
+				$tab[$j++] = $this->params()->fromPost("quantite_".$i);
 			}
 		}
-        //var_dump($tab); exit();
+
+		
 		/*Mettre a jour la duree du traitement de l'ordonnance*/
 		$Ordonnance = $this->getOrdonnanceTable();
 		$idOrdonnance = $Ordonnance->updateOrdonnance($tab, $donnees);
 
 		/*Mettre a jour les medicaments*/
-		$Consommable = $this->getOrdonConsommableTable();
 		$resultat = $Consommable->updateOrdonConsommable($tab, $idOrdonnance);
 		
 		/*si aucun médicament n'est ajouté ($resultat = false) on supprime l'ordonnance*/
@@ -1178,14 +1184,25 @@ class ConsultationController extends AbstractActionController {
 			$tab = array();
 			$j = 1;
 			
+// 			for($i = 1 ; $i < 10 ; $i++ ){
+// 				$codeMedicament = $this->params()->fromPost("medicament_0".$i);
+// 				//var_dump($codeMedicament); exit();
+// 				if($codeMedicament == true){
+// 					$tab[$j++] = $medicaments[$codeMedicament]; //on récupère le médicament par son nom
+// 					$tab[$j++] = $this->params()->fromPost("medicament_1".$i);
+// 					$tab[$j++] = $this->params()->fromPost("medicament_2".$i);
+// 					//$tab[$j++] = $this->params()->fromPost("medicament_3".$i);
+// 				}
+// 			}
+			
+			//NOUVEAU CODE AVEC AUTOCOMPLETION 
 			for($i = 1 ; $i < 10 ; $i++ ){
-				$codeMedicament = $this->params()->fromPost("medicament_0".$i);
-				//var_dump($codeMedicament); exit();
-				if($codeMedicament == true){
-					$tab[$j++] = $medicaments[$codeMedicament]; //on récupère le médicament par son nom
-					$tab[$j++] = $this->params()->fromPost("medicament_1".$i);
-					$tab[$j++] = $this->params()->fromPost("medicament_2".$i);
-					//$tab[$j++] = $this->params()->fromPost("medicament_3".$i);
+				$nomMedicament = $this->params()->fromPost("medicament_0".$i);
+				if($nomMedicament == true){
+					$tab[$j++] = $this->params()->fromPost("medicament_0".$i);
+					$tab[$j++] = $this->params()->fromPost("forme_".$i);
+					$tab[$j++] = $this->params()->fromPost("nb_medicament_".$i);
+					$tab[$j++] = $this->params()->fromPost("quantite_".$i);
 				}
 			}
 			
@@ -1567,5 +1584,47 @@ class ConsultationController extends AbstractActionController {
 	
 		$this->getResponse()->getHeaders ()->addHeaderLine ( 'Content-Type', 'application/html' );
 		return $this->getResponse ()->setContent(Json::encode (  ));
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/****************************************************************************************/
+	/****************************************************************************************/
+	/****************************************************************************************/
+	public function testAction(){
+		
 	}
 }

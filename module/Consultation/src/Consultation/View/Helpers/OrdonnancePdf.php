@@ -119,6 +119,16 @@ class OrdonnancePdf
 		$this->_page->setFont($font, 12);
 	}
 	
+	protected function nbAnnees($debut, $fin) {
+		//60 secondes X 60 minutes X 24 heures dans une journee
+		$nbSecondes = 60*60*24*365;
+	
+		$debut_ts = strtotime($debut);
+		$fin_ts = strtotime($fin);
+		$diff = $fin_ts - $debut_ts;
+		return round($diff / $nbSecondes);
+	}
+	
 	protected  function getNoteMedicaments(){
 		$Control = new DateHelper();
 		
@@ -179,7 +189,13 @@ class OrdonnancePdf
 					$this->_leftMargin+102,
 					$this->_yPosition);
 			$this->_page->setFont($this->_newTime, 9);
-			$this->_page->drawText($Control->convertDate($value['date_naissance']),
+			
+			$today = new \DateTime(); 
+			$date_actu = $today->format('Y-m-d');
+			$dateNaissance = $Control->convertDate($value['date_naissance']);
+			$this->nbAnnees($date_actu,$dateNaissance);
+			
+			$this->_page->drawText($dateNaissance."  (".$this->nbAnnees($dateNaissance,$date_actu)." ans)",
 					$this->_leftMargin+210,
 					$this->_yPosition);
  			//-----------------------------------------------
@@ -214,7 +230,7 @@ class OrdonnancePdf
 		
 		$taille = count($this->_Medicaments);
 		
-		while($cpt <17) {
+		while($cpt <14) {
 			
 			while($d < $taille){
 				$this->getNewItalique();
@@ -222,14 +238,14 @@ class OrdonnancePdf
 						$this->_leftMargin,
 						$this->_yPosition);
 				$this->getNewTime();
-				$this->_page->drawText($this->_Medicaments[$d++],
+				$this->_page->drawText(iconv ( 'UTF-8', 'ISO-8859-1',$this->_Medicaments[$d++]),
 						$this->_leftMargin+20,
 						$this->_yPosition);
-				$this->_page->drawText($this->_Medicaments[$d++],
+				$this->_page->drawText(iconv ( 'UTF-8', 'ISO-8859-1',$this->_Medicaments[$d++]),
 						$this->_leftMargin+180,
 						$this->_yPosition);
-				$this->_page->drawText($this->_Medicaments[$d++],
-						$this->_leftMargin+310,
+				$this->_page->drawText(iconv ( 'UTF-8', 'ISO-8859-1',$this->_Medicaments[$d++]).' '.iconv ( 'UTF-8', 'ISO-8859-1',$this->_Medicaments[$d++]),
+						$this->_leftMargin+350,
 						$this->_yPosition);
 			
 				$this->_page->drawLine($this->_leftMargin,

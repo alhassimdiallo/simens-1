@@ -29,6 +29,10 @@ class OrdonnanceTable{
 		$select->from( array( 'oc' => 'ordon_consommable' ));
 		$select->join( array( 'o' => 'ordonnance'
 		), 'oc.ID_DOCUMENT = o.ID_DOCUMENT' , array ('DureeTraitementOrdonnance' =>'DUREE_TRAITEMENT') );
+		
+		$select->join( array( 'c' => 'consommable'
+		), 'c.ID_MATERIEL = oc.ID_MATERIEL' , array ('Intitule' =>'INTITULE') );
+		
 		$select->where ( array( 'o.ID_DOCUMENT' => $idOrdonnance));
 		
 		$stat = $sql->prepareStatementForSqlObject ( $select );
@@ -79,4 +83,5 @@ class OrdonnanceTable{
 	public function deleteOrdonnance($idOrdonnance){
 		$this->tableGateway->delete(array("ID_DOCUMENT" =>$idOrdonnance));
 	}
+	
 }

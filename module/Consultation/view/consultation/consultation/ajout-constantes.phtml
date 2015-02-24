@@ -282,9 +282,18 @@ echo $this->form()->openTag($form); ?>
 
 <?php echo $this->form()->closeTag();?>
 
+
+<style>
+/* #responde input:focus  {outline-style : none; background-color: none !important; } */
+/* #responde input:-webkit-autofill { */
+/* background-color: none !important; */
+/* background-image: none !important; */
+/* } */
+</style>
+
 <script>
 $(function(){
-	$('#responde input, #respond input').attr('autocomplete', 'off')
+	$('#responde input, #respond input').attr('autocomplete','off');
 //*********************************************************************
 //*********************************************************************
 //*********************************************************************

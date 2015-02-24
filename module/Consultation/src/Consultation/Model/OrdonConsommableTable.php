@@ -57,9 +57,8 @@ class OrdonConsommableTable{
 				$data = array(
 						'id_document'=>$idOrdonnance,
 						'id_materiel'=>$tab[$i++],
-						'posologie'=>$tab[$i++],
-						'quantite'=>$tab[$i],
-						//'duree_traitement'=>$tab[$i],
+						'forme'=>$tab[$i++],
+						'quantite'=>$tab[$i++].' '.$tab[$i],
 				);
 				$this->tableGateway->insert($data);
 			}
@@ -67,5 +66,22 @@ class OrdonConsommableTable{
 		}else{
 			return false;
 		}
+	}
+	
+	/**
+	 * Recuperer les medicaments par leur nom
+	 */
+	public function getMedicamentByName($intitule){
+		$adapter = $this->tableGateway->getAdapter ();
+		$sql = new Sql ( $adapter );
+		$select = $sql->select ();
+		$select->columns( array('*'));
+		$select->from( array( 'c' => 'consommable' ));
+		$select->where ( array( 'c.INTITULE' => $intitule));
+		
+		$stat = $sql->prepareStatementForSqlObject ( $select );
+		$result = $stat->execute ()->current();
+		
+		return $result;
 	}
 }

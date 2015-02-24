@@ -32,7 +32,7 @@ return array(
     								'verifier-password' => 'guest',
     								'utilisateurs' => 'superAdmin',
     								'liste-utilisateurs-ajax' => 'superAdmin',
-    								'modifier-utilisateur' => 'superAdmin'
+    								'modifier-utilisateur' => 'superAdmin',
     						),
     						
     						
@@ -115,6 +115,8 @@ return array(
     								
     								/**PDF**/
     								'impression-Pdf' => 'medecin',
+    								
+    								'test' => 'guest'
     								
     						),
     						

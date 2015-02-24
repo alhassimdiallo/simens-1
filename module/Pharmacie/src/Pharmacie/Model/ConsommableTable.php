@@ -123,4 +123,38 @@ class ConsommableTable{
 		return $result;
 	}
 	
+	
+	/** 
+	 * RECUPERER LA FORME DES MEDICAMENTS 
+	 */
+
+	public function formesMedicaments(){
+		$adapter = $this->tableGateway->getAdapter ();
+		$sql = new Sql ( $adapter );
+		$select = $sql->select ();
+		$select->columns( array('*'));
+		$select->from( array( 'forme' => 'forme_medicament' ));
+	
+		$stat = $sql->prepareStatementForSqlObject ( $select );
+		$result = $stat->execute ();
+		
+		return $result;
+	}
+	
+	/**
+	 * RECUPERER LES TYPES DE QUANTITE DES MEDICAMENTS
+	 */
+	
+	public function typeQuantiteMedicaments(){
+		$adapter = $this->tableGateway->getAdapter ();
+		$sql = new Sql ( $adapter );
+		$select = $sql->select ();
+		$select->columns( array('*'));
+		$select->from( array( 'typeQuantite' => 'quantite_medicament' ));
+	
+		$stat = $sql->prepareStatementForSqlObject ( $select );
+		$result = $stat->execute ();
+	
+		return $result;
+	}
 }
