@@ -160,7 +160,7 @@ setTimeout(function(){
 	  "#AjoutImageScanner input[name=fichierScanner], " +
 	  "#AjoutImageFibroscopie input[name=fichierFibroscopie]").attr( "disabled", true ).css({'background':'#f8f8f8'});
 	
-	$("#pika2 .pika-fermer").toggle(false);
+	$(".confirmation").toggle(false);
 	
 	$("#controls_element div").toggle(false);
 	$("#icone_supp_vider a img").toggle(false);
@@ -269,7 +269,6 @@ setTimeout(function(){
    	/****** MASK DE SAISIE ********/ 
  	/****** MASK DE SAISIE ********/
 	function maskSaisie() {}
-	
 	
 	/****** CONTROLE APRES VALIDATION ********/ 
 	/****** CONTROLE APRES VALIDATION ********/ 
@@ -637,6 +636,10 @@ setTimeout(function(){
 			
 			//ANTECEDENTS FAMILIAUX TESTER SI C'EST COCHE
 			//ANTECEDENTS FAMILIAUX TESTER SI C'EST COCHE
+			setTimeout(function(){
+				 $("#DiabeteAF, #NoteDiabeteAF, #DrepanocytoseAF, #NoteDrepanocytoseAF, " +
+				   "#htaAF, #NoteHtaAF, #autresAF, #NoteAutresAF").attr( 'disabled' , true).css({'background':'#f8f8f8'});
+			}, 1000);
 			if(temoinDiabeteAF != 1){
 				$("#DivNoteDiabeteAF").toggle(false);
 			}
