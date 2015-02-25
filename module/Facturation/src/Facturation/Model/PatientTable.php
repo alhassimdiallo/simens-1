@@ -251,8 +251,38 @@ class PatientTable {
 		return $output;
 	}
 	
+	public function getPatientsRV($id_service){
+		$today = new \DateTime();
+		$date = $today->format('Y-m-d');
+		
+		$adapter = $this->tableGateway->getAdapter();
+		$sql = new Sql( $adapter );
+		$select = $sql->select();
+		$select->from( array(
+				'rv' =>  'rv_patient_cons'
+		));
+		$select->where( array(
+				'date' => $date,
+				'ID_SERVICE' => $id_service,
+		) );
+		
+		$statement = $sql->prepareStatementForSqlObject( $select );
+		$resultat = $statement->execute();
+		
+		$tab = array(); //Tableau des heures des personnes
+		foreach ($resultat as $result) {
+			$tab[$result['ID_PERSONNE']] = $result['heure'];
+		}
+		
+// 		if(array_key_exists(13, $tab)){
+// 			var_dump($tab[3]); exit();
+// 		}
+// 		var_dump($tab); exit();
+
+		return $tab;
+	}
+	
 	public function tousPatientsAdmis($service) {
-		//var_dump($service);exit();
 		$today = new \DateTime();
 		$date = $today->format('Y-m-d');
 		$adapter = $this->tableGateway->getAdapter ();

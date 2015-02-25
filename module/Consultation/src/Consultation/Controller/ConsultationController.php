@@ -214,8 +214,13 @@ class ConsultationController extends AbstractActionController {
 		
 		$patient = $this->getPatientTable ();
 		$patientsAdmis = $patient->tousPatientsAdmis ( $service );
+		
+		//RECUPERER TOUS LES PATIENTS AYANT UN RV aujourd'hui
+		$tabPatientRV = $patient->getPatientsRV($user->id_service);
+		 
 		$view = new ViewModel ( array (
 				'donnees' => $patientsAdmis,
+				'tabPatientRV' => $tabPatientRV,
 		) );
 		return $view;
 	}
@@ -288,6 +293,17 @@ class ConsultationController extends AbstractActionController {
 				'dateonly' => $dateonly
 		);
 		$form->populateValues ( $consult );
+		
+		$patient = $this->getPatientTable ();
+		//RECUPERER TOUS LES PATIENTS AYANT UN RV aujourd'hui
+		$tabPatientRV = $patient->getPatientsRV($user->id_service);
+		$resultRV = null;
+		if(array_key_exists($id_pat, $tabPatientRV)){
+			$resultRV = $tabPatientRV[ $id_pat ];  
+		}
+		
+		//var_dump($resultRV); exit();
+		
 		return new ViewModel ( array (
 				'lesdetails' => $liste,
 				'image' => $image,
@@ -295,6 +311,7 @@ class ConsultationController extends AbstractActionController {
 				'id_cons' => $id_cons,
 				'heure_cons' => $heure_cons,
 				'dateonly' => $consult['dateonly'],
+				'resultRV' => $resultRV,
 		) );
 	}
 	
@@ -344,6 +361,9 @@ class ConsultationController extends AbstractActionController {
 	public function majConsultationAction() {
 		$this->layout ()->setTemplate ( 'layout/consultation' );
 
+		// Rechercher l'id du surveillant de service pour savoir quel surveillant a pris les constantes du patient
+		$user = $this->layout()->user;
+		
 		$id_pat = $this->params ()->fromQuery ( 'id_patient', 0 );
 		$list = $this->getPatientTable ();
 		$liste = $list->getPatient ( $id_pat );
@@ -392,6 +412,15 @@ class ConsultationController extends AbstractActionController {
 		$bandelettes = $this->getConsultationTable ()->getBandelette($id);
 		
 		$form->populateValues ( array_merge($data,$bandelettes) );
+		
+		$patient = $this->getPatientTable ();
+		//RECUPERER TOUS LES PATIENTS AYANT UN RV aujourd'hui
+		$tabPatientRV = $patient->getPatientsRV($user->id_service);
+		$resultRV = null;
+		if(array_key_exists($id_pat, $tabPatientRV)){
+			$resultRV = $tabPatientRV[ $id_pat ];
+		}
+		
 		return array (
 				'lesdetails' => $liste,
 				'image' => $image,
@@ -401,7 +430,8 @@ class ConsultationController extends AbstractActionController {
 				'heure_cons' => $consult->heurecons,
 				'dateonly' => $consult->dateonly,
 				'nbMotifs' => $nbMotif,
-				'temoin' => $bandelettes['temoin']
+				'temoin' => $bandelettes['temoin'],
+				'resultRV' => $resultRV,
 		);
 	}
 	

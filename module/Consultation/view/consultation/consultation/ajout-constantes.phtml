@@ -82,12 +82,24 @@ echo $this->form()->openTag($form); ?>
 			    <td style='display:"block"; width: 195px; font-family: police1;font-size: 12px;'>
 			   		<div id="aa"><a style="text-decoration: underline;">Adresse</a><br><p style='font-weight: bold;font-size: 19px; color:green;'><?php echo $this->lesdetails->adresse;?></p></div>
 			   	</td>
+			   	
+			   	<td style='display:"block"; width: 300px; font-family: police1;font-size: 12px; text-align: right;'>
+			   	
+			   	    <?php if($this->resultRV){?>
+			   	       <span id='image-neon' style='color:red; font-weight:bold; font-size: 17px; '>Rendez-vous &agrave; <?php echo $this->resultRV; ?> </span>
+			   	       
+			   	    <?php } ?>
+			   	</td>
 			  </tr>
-			  	 <tr>
-
-			  	 </tr>
+			  
          </table>
 
+         <script>
+          function FaireClignoterImage (){
+                  $('#image-neon').fadeOut(900).delay(300).fadeIn(800);
+          }
+          setInterval('FaireClignoterImage()',2200);
+		 </script>
            <div id="barre"></div>
            <div style='color: white; opacity: 1; width:95px; height:40px; float:right'>
              <img  src='<?php echo $this->basePath().'/images_icons/fleur1.jpg'?>'  alt="fleur1" />

@@ -59,8 +59,8 @@ function AdresseText($Text){
 				<?php if($trouver == false){ ?>
 				<tr>
 				    <td id="nomMaj">
-				      <div style="width: 8px; height: 19px; float:left;" >
-				        <img id="image-alert" style=" vertical-align: top;" src='<?php echo $this->basePath().'/images_icons/barre-alert.png'?>' />
+				      <div id="<?php echo $donnees['Id']; ?>" style="width: 12px; height: 22px; margin-left: -10px; margin-right: 0.5px; float:left;" >
+				        <img id="image-alert" style=" vertical-align: top;" src='<?php echo $this->basePath().'/images_icons/alert_rv_r.png'?>' />
 				      </div>
 				      <?php echo $this->escapeHtml($donnees['Nom']);?>
 				    </td>
@@ -83,6 +83,18 @@ function AdresseText($Text){
 					    </a>
 					</td>
 				</tr>
+				<script> $("#"+"<?php echo $donnees['Id']; ?>").toggle(false); </script>
+				<?php if( array_key_exists($donnees['Id'], $this->tabPatientRV) ){?>
+					<script>
+					   $("#"+"<?php echo $donnees['Id']; ?>").toggle(true); 
+
+					   function FaireClignoterImage (){
+						    $("#nomMaj div img").fadeOut(900).delay(300).fadeIn(800);
+					   }
+					   setInterval('FaireClignoterImage()',2200);
+					</script>
+				<?php }?>
+				
 				<?php }?>
 				<?php }?>
 
@@ -100,7 +112,12 @@ function AdresseText($Text){
 
 				<?php if($trouver == true){?>
 				<tr>
-				    <td id="nomMaj"><?php echo $this->escapeHtml($donnees['Nom']);?></td>
+				    <td id="nomMaj">
+				       <div id="<?php echo $donnees['Id']; ?>" style="width: 12px; height: 22px; margin-left: -10px; margin-right: 0.5px; float:left;" >
+				          <img id="image-alert" style=" vertical-align: top;" src='<?php echo $this->basePath().'/images_icons/alert_rv_r.png'?>' />
+				       </div>
+				       <?php echo $this->escapeHtml($donnees['Nom']);?>
+				    </td>
 				    <td><?php echo $this->escapeHtml($donnees['Prenom']);?></td>
 					<td><?php echo $Control->convertDate($this->escapeHtml($donnees['Datenaissance']));?></td>
 					<td><?php echo $this->escapeHtml($donnees['Sexe']);?></td>
@@ -121,6 +138,19 @@ function AdresseText($Text){
 					    </a>
 					</td>
 				</tr>
+				
+				<script> $("#"+"<?php echo $donnees['Id']; ?>").toggle(false); </script>
+				<?php if( array_key_exists($donnees['Id'], $this->tabPatientRV) ){?>
+					<script>
+					   $("#"+"<?php echo $donnees['Id']; ?>").toggle(true); 
+
+					   function FaireClignoterImage (){
+						    $("#nomMaj div img").fadeOut(900).delay(300).fadeIn(800);
+					   }
+					   setInterval('FaireClignoterImage()',2200);
+					</script>
+				<?php }?>
+				
 				<?php }?>
 				<?php endforeach; ?>
 
@@ -146,6 +176,8 @@ function AdresseText($Text){
 	</div>
 
 <script type="text/javascript">
+            //$("#nomMaj div").toggle(false); 
+
 			var asInitVals = new Array();
 			var oTable = $('#patient').dataTable
 			( {
@@ -209,15 +241,11 @@ function AdresseText($Text){
 			setTimeout(function() {
 				vart='<?php echo $this->basePath().'/consultation/recherche';?>';
 			    $(location).attr("href",vart);
-			}, 10000);
+			}, 15000);
 
 </script>
 
 <script>
-function FaireClignoterImage (){
-    $("#nomMaj div img").fadeOut(900).delay(300).fadeIn(800);
-}
-setInterval('FaireClignoterImage()',2200);
 
 //POUR LE MENU GAUCHE dans -elementgauche.phtml
 $('#plus_naissance').toggle(true);
