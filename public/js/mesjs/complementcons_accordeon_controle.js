@@ -856,7 +856,6 @@ $(function(){
 	//Annuler le transfert au clic
 	$("#annulertransfert").click(function() {
 		$("#motif_transfert").val("");
-		//document.getElementById('hopital_accueil').value="";
 		document.getElementById('service_accueil').value="";
 		return false;
 	});
@@ -873,8 +872,6 @@ $(function(){
 	$("#annuler_traitement_chirurgical").click(function() {
 		$("#diagnostic_traitement_chirurgical").val("");
 		$("#intervention_prevue").val("");
-		document.getElementById('type_anesthesie_demande').value="";
-		$("#numero_vpa").val("");
 		$("#observation").val("");
 		return false;
 	});

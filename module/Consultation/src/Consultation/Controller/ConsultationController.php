@@ -1067,8 +1067,11 @@ class ConsultationController extends AbstractActionController {
 	}
 	
 	public function visualisationConsultationAction(){
-		
 
+		$LeService = $this->layout ()->service;
+		$LigneDuService = $this->getServiceTable ()->getServiceParNom ( $LeService );
+		$IdDuService = $LigneDuService ['ID_SERVICE'];
+		
 		 $this->layout ()->setTemplate ( 'layout/consultation' );
 		 $this->getDateHelper(); 
 		 $id_pat = $this->params()->fromQuery ( 'id_patient', 0 );
@@ -1083,7 +1086,6 @@ class ConsultationController extends AbstractActionController {
 		 //POUR LES CONSTANTES
 		 //POUR LES CONSTANTES
 		 //POUR LES CONSTANTES
-		  // instancier la consultation et r�cup�rer l'enregistrement
 		  $cons = $this->getConsultationTable ();
 		  $consult = $cons->getConsult ( $id );
 		  
@@ -1095,11 +1097,10 @@ class ConsultationController extends AbstractActionController {
 		 		'poids' => $consult->poids,
 		 		'taille' => $consult->taille,
 		 		'temperature' => $consult->temperature,
-		 		'tension' => $consult->tension,
+		 		'pressionarterielle' => $consult->pression_arterielle,
 		 		'pouls' => $consult->pouls,
 		 		'frequence_respiratoire' => $consult->frequence_respiratoire,
 		 		'glycemie_capillaire' => $consult->glycemie_capillaire,
-		 		'bu' => $consult->bu
 		  );
 		  
 		  //POUR LES MOTIFS D'ADMISSION
@@ -1122,10 +1123,10 @@ class ConsultationController extends AbstractActionController {
 		  $examen = $this->getDonneesExamensPhysiquesTable();
 		  $examen_physique = $examen->getExamensPhysiques($id);
 		  //POUR LES EXAMEN PHYSIQUES
-		  $k = 1;
+		  $kPhysique = 1;
 		  foreach ($examen_physique as $Examen) {
-		  	$data['examen_donnee'.$k] = $Examen['libelle_examen'];
-		  	$k++;
+		  	$data['examen_donnee'.$kPhysique] = $Examen['libelle_examen'];
+		  	$kPhysique++;
 		  }
 		  
 		  // POUR LES ANTECEDENTS OU TERRAIN PARTICULIER
@@ -1138,9 +1139,9 @@ class ConsultationController extends AbstractActionController {
 		  //POUR LES EXAMENS COMPLEMENTAIRES
 		  // DEMANDES DES EXAMENS COMPLEMENTAIRES
 		  $demandeExamen = $this->demandeExamensTable();
-		  $listeDemandes = $demandeExamen->getDemande($id);
+		  $listeDemandesMorphologiques = $demandeExamen->getDemandeExamensMorphologiques($id);
+		  $listeDemandesBiologiques = $demandeExamen->getDemandeExamensBiologiques($id);
 		  
-		  //\Zend\Debug\Debug::dump($donnee); exit();
 		  
 		  // RESULTATS DES EXAMENS COMPLEMENTAIRES
 		  $resultatExamenMorphologique = $this->getNotesExamensMorphologiquesTable();
@@ -1174,7 +1175,9 @@ class ConsultationController extends AbstractActionController {
 		  //POUR LES MEDICAMENTS
 		  // INSTANCIATION DES MEDICAMENTS de l'ordonnance
 		  $consommable = $this->getConsommableTable();
-		  $listeMedicament = $consommable->fetchConsommable();
+		  $listeMedicament = $consommable->listeDeTousLesMedicaments();
+		  $listeForme = $consommable->formesMedicaments();
+		  $listetypeQuantiteMedicament = $consommable->typeQuantiteMedicaments();
 
 		  // INSTANTIATION DE L'ORDONNANCE
 		  $ordonnance = $this->getOrdonnanceTable();
@@ -1204,7 +1207,6 @@ class ConsultationController extends AbstractActionController {
 		  	$data['numero_vpa'] = $donneesDemandeVPA['NUMERO_VPA'];
 		  	$data['type_anesthesie_demande'] = 2;//$donneesDemandeVPA['TYPE_ANESTHESIE_DEMANDE'];
 		  }
-		  //\Zend\Debug\Debug::dump($donneesDemandeVPA['DIAGNOSTIC']); exit();
 		  
 		  //POUR LE TRANSFERT
 		  //POUR LE TRANSFERT
@@ -1236,6 +1238,14 @@ class ConsultationController extends AbstractActionController {
 		  	$hopitalSelect = 1;
 		  }else {
 		  	$hopitalSelect = 0;
+		  	// RECUPERATION DE L'HOPITAL DU SERVICE
+		  	$transfertPatientHopital = $transferer->getHopitalPatientTransfert($IdDuService);
+		  	$idHopital = $transfertPatientHopital['ID_HOPITAL'];
+		  	$data['hopital_accueil'] = $idHopital;
+		  	// RECUPERATION DE LA LISTE DES SERVICES DE L'HOPITAL OU SE TROUVE LE SERVICE OU LE MEDECIN TRAVAILLE
+		  	$serviceHopital = $transferer->fetchServiceWithHopitalNotServiceActual($idHopital, $IdDuService);
+		  	// LISTE DES SERVICES DE L'HOPITAL
+		  	$form->get ( 'service_accueil' )->setValueOptions ($serviceHopital);
 		  }
 		  //POUR LE RENDEZ VOUS
 		  //POUR LE RENDEZ VOUS
@@ -1249,8 +1259,18 @@ class ConsultationController extends AbstractActionController {
 		  	$data['date_rv']  = $this->controlDate->convertDate($leRendezVous->date);
 		  	$data['motif_rv'] = $leRendezVous->note;
 		  }
+		  // Pour recuper les bandelettes
+		  $bandelettes = $this->getConsultationTable ()->getBandelette($id);
 		  
-		  $form->populateValues($data);
+		  //RECUPERATION DES ANTECEDENTS
+		  //RECUPERATION DES ANTECEDENTS
+		  //RECUPERATION DES ANTECEDENTS
+		  $donneesAntecedentsPersonnels = $this->getAntecedantPersonnelTable()->getTableauAntecedentsPersonnels($id_pat);
+		  $donneesAntecedentsFamiliaux = $this->getAntecedantsFamiliauxTable()->getTableauAntecedentsFamiliaux($id_pat);
+		  //FIN ANTECEDENTS --- FIN ANTECEDENTS --- FIN ANTECEDENTS
+		  //FIN ANTECEDENTS --- FIN ANTECEDENTS --- FIN ANTECEDENTS
+		  
+		  $form->populateValues ( array_merge($data,$bandelettes,$donneesAntecedentsPersonnels,$donneesAntecedentsFamiliaux) );
 		  return array(
 		 		'id_cons' => $id,
 		 		'lesdetails' => $liste,
@@ -1264,10 +1284,18 @@ class ConsultationController extends AbstractActionController {
 		  		'liste_med_prescrit' => $listeMedicamentsPrescrits,
 		  		'duree_traitement' => $duree_traitement,
 		  		'verifieRV' => $leRendezVous, 
-		  		'listeDemande' => $listeDemandes,
-		  		'hopitalSelect' =>$hopitalSelect
+		  		'listeDemandesMorphologiques' => $listeDemandesMorphologiques,
+		  		'listeDemandesBiologiques' => $listeDemandesBiologiques,
+		  		'hopitalSelect' =>$hopitalSelect,
+		  		'nbDiagnostics'=> $infoDiagnostics->count(),
+		  		'nbDonneesExamenPhysique' => $kPhysique,
+		  		'dateonly' => $consult->dateonly,
+		  		'temoin' => $bandelettes['temoin'],
+		  		'listeForme' => $listeForme,
+		  		'listetypeQuantiteMedicament'  => $listetypeQuantiteMedicament,
+		  		'donneesAntecedentsPersonnels' => $donneesAntecedentsPersonnels,
+		  		'donneesAntecedentsFamiliaux'  => $donneesAntecedentsFamiliaux,
 		  );
-	
 	
 	}
 	
