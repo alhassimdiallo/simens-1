@@ -811,6 +811,9 @@ class ConsultationController extends AbstractActionController {
 	public function updateComplementConsultationAction(){
 		$this->getDateHelper();
 		$id_cons = $this->params()->fromPost('id_cons');
+		$LeService = $this->layout ()->service;
+		$LigneDuService = $this->getServiceTable ()->getServiceParNom ( $LeService );
+		$IdDuService = $LigneDuService ['ID_SERVICE'];
 		
 		//**********-- MODIFICATION DES CONSTANTES --********
 		//**********-- MODIFICATION DES CONSTANTES --********
@@ -1004,7 +1007,7 @@ class ConsultationController extends AbstractActionController {
 		}
 		$infos_rv = array(
 				'ID_PERSONNE' => $id_patient,
-				'ID_SERVICE'  => '2',
+				'ID_SERVICE'  => $IdDuService, 
 				'ID_CONS'     => $id_cons,
 				'date'     => $date_RV,
 				'NOTE'  => $this->params()->fromPost('motif_rv'),

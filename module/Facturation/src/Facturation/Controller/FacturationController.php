@@ -140,9 +140,15 @@ class FacturationController extends AbstractActionController {
 			
 			$today = new \DateTime ();
 			$numero = $today->format ( 'mHis' );
+			$dateAujourdhui = $today->format( 'Y-m-d' );
 			
 			$id = ( int ) $this->params ()->fromPost ( 'id', 0 );
 			$pat = $this->getPatientTable ();
+			
+			//Verifier si le patient a un rendez-vous et si oui dans quel service et a quel heure
+			$RendezVOUS = $pat->verifierRV($id, $dateAujourdhui);
+			
+			
 			$unPatient = $pat->getPatient ( $id );
 
 			$photo = $pat->getPhoto ( $id );
@@ -171,7 +177,15 @@ class FacturationController extends AbstractActionController {
 			$html .= "<td style='width: 20%; height: 50px; vertical-align: top;'><a style='text-decoration:underline; font-size:12px;'>Date de naissance:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $date . "</p></td>";
 			$html .= "<td style='width: 30%; height: 50px; vertical-align: top;'><a style='text-decoration:underline; font-size:12px;'>Adresse:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $unPatient->adresse . "</p></td>";
 			$html .= "<td style='width: 20%; height: 50px; vertical-align: top;'><a style='text-decoration:underline; font-size:12px;'>Profession:</a><br><p style=' font-weight:bold; font-size:17px;'>" .  $unPatient->profession . "</p></td>";
-			$html .= "<td style='width: 30%; height: 50px;'></td>";
+			$html .= "<td style='width: 30%; height: 50px;'>";
+			if($RendezVOUS){
+				$html .= "<span> <i style='color:green;'>
+					        <span id='image-neon' style='color:red; font-weight:bold;'>Rendez-vous </span> <br>
+					        <span style='font-size: 16px;'>Service:</span> <span style='font-size: 16px; font-weight:bold;'> ". $pat->getServiceParId($RendezVOUS[ 'ID_SERVICE' ])[ 'NOM' ]." </span> <br> 
+					        <span style='font-size: 16px;'>Heure:</span>  <span style='font-size: 16px; font-weight:bold;'>". $RendezVOUS[ 'heure' ]." </span> </i>
+			              </span>";
+			}
+			$html .="</td>";
 			$html .= "</tr>";
 			$html .= "</table>";
 			$html .="</div>";
@@ -190,6 +204,11 @@ class FacturationController extends AbstractActionController {
 
 					         $('#montant').css({'background':'#eee','border-bottom-width':'0px','border-top-width':'0px','border-left-width':'0px','border-right-width':'0px','font-weight':'bold','color':'blue','font-family': 'Times  New Roman','font-size':'22px'});
 					         $('#montant').attr('readonly',true);
+					
+					         function FaireClignoterImage (){
+                                $('#image-neon').fadeOut(900).delay(300).fadeIn(800);
+                             }
+                             setInterval('FaireClignoterImage()',2200);
 					 </script>"; // Uniquement pour la facturation
 
 			$this->getResponse ()->getHeaders ()->addHeaderLine ( 'Content-Type', 'application/html; charset=utf-8' );

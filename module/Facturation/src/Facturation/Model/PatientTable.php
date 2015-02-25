@@ -31,6 +31,35 @@ class PatientTable {
 		}
 		return $row;
 	}
+	
+	public function verifierRV($id_personne, $dateAujourdhui){
+		$db = $this->tableGateway->getAdapter();
+		$sql = new Sql($db);
+		$sQuery = $sql->select()
+		->from(array('r' => 'rv_patient_cons'))
+		->columns( array( '*' ))
+		->where(array('ID_PERSONNE' => $id_personne, 'date' => $dateAujourdhui));
+		
+		$stat = $sql->prepareStatementForSqlObject($sQuery);
+		$resultat = $stat->execute()->current();
+		
+		return $resultat;
+	}
+	
+	public function getServiceParId($id_service){
+		$db = $this->tableGateway->getAdapter();
+		$sql = new Sql($db);
+		$sQuery = $sql->select()
+		->from(array('s' => 'service'))
+		->columns( array( '*' ))
+		->where(array('ID_SERVICE' => $id_service));
+		
+		$stat = $sql->prepareStatementForSqlObject($sQuery);
+		$resultat = $stat->execute()->current();
+		
+		return $resultat;
+	}
+	
 	public function savePatient(Patient $patient) {
 		$control = new DateHelper();
 		$data = array (
