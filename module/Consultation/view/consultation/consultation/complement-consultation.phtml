@@ -476,9 +476,12 @@ echo $this->form()->openTag($form); ?>
             
             <script>
              if(<?php echo $this->temoin;?> != 1){ 
-      				$('#BUcheckbox').toggle(false);
-			 }
-             dep();
+      			 $('#BUcheckbox').toggle(false);
+       			 dep();
+			 }else {
+				 $("#depliantBandelette").replaceWith("<img id='depliantBandelette' style='cursor: pointer; position: absolute; padding-right: 120px; margin-left: -5px;' src='../img/light/minus.png' />");
+				 dep1();
+				 }
 
              /****** MASK DE SAISIE ********/
           	 maskSaisie();
@@ -556,8 +559,8 @@ echo $this->form()->openTag($form); ?>
      <!-- ********************Antécédents ou Terrain particulier ******************-->
      <!-- ********************Antécédents ou Terrain particulier ******************--> 
      
-     <div style='font-family: police2;font-size: 17px; font-weight: bold;'>Ant&eacute;c&eacute;dents ou terrain particulier</div>  
-        <div style=' max-height: 370px;'>
+     <div style='font-family: police2;font-size: 17px; font-weight: bold;'>Historiques ou terrain particulier</div>  
+        <div style=' max-height: 410px;'>
          <div id="tabsAntecedents">
                   <ul>
                      <li><a href="#tabss-1">Terrain particulier</a></li>
@@ -628,24 +631,31 @@ echo $this->form()->openTag($form); ?>
                 </tr>
                 <tr style="width:100%;">
                   <td id="BUcheckbox" style="">
-                    <div style="float:left;"><label style="width: 100px; height:30px; text-align:right;">Alcoolique <input name="AlcooliqueHV" type="checkbox"></label></div> 
-                    <div style="float:left" id="dateDebAlcoolique"><label style="width: 230px; height:30px; text-align:right;">Date d&eacute;but <input style="width:130px; margin-top:5px;" type="text"></label></div>
-                    <div style="float:left" id="dateFinAlcoolique"><label style="width: 230px; height:30px; text-align:right;">Date d'arret <input style="width:130px; margin-top:5px;" type="text"></label></div>
+                    <div style="float:left;"><label style="width: 100px; height:30px; text-align:right;">Alcoolique <?php echo $this->formRow($form->get('AlcooliqueHV'));?></label></div> 
+                    <div style="float:left" id="dateDebAlcoolique"><label style="width: 220px; height:30px; text-align:right;">Date d&eacute;but <?php echo $this->formRow($form->get('DateDebutAlcooliqueHV'));?> </label></div>
+                    <div style="float:left" id="dateFinAlcoolique"><label style="width: 220px; height:30px; text-align:right;">Date d'arret <?php echo $this->formRow($form->get('DateFinAlcooliqueHV'));?></label></div>
                   </td>
                 </tr>
                 <tr style="width:100%;">
                   <td id="BUcheckbox" style="">
-                    <div style="float:left;"><label style="width: 100px; height:30px; text-align:right;">Fumeur <input name="FumeurHV" type="checkbox"></label></div> 
-                    <div style="float:left" id="dateDebFumeur"><label style="width: 230px; height:30px; text-align:right;">Date d&eacute;but <input style="width:130px; margin-top:5px;" type="text"></label></div>
-                    <div style="float:left" id="dateFinFumeur"><label style="width: 230px; height:30px; text-align:right;">Date d'arret <input style="width:130px; margin-top:5px;" type="text"></label></div>
-                    <div style="float:left" id="nbPaquetJour"><label style="width: 230px; height:30px; text-align:right;">Nbre de paquets/jour <input style="width:60px; margin-top:5px;" type="text"></label></div>
+                    <div style="float:left;"><label style="width: 100px; height:30px; text-align:right;">Fumeur <?php echo $this->formRow($form->get('FumeurHV'));?></label></div> 
+                    <div style="float:left" id="dateDebFumeur"><label style="width: 220px; height:30px; text-align:right;">Date d&eacute;but <?php echo $this->formRow($form->get('DateDebutFumeurHV'));?></label></div>
+                    <div style="float:left" id="dateFinFumeur"><label style="width: 220px; height:30px; text-align:right;">Date d'arret <?php echo $this->formRow($form->get('DateFinFumeurHV'));?></label></div>
+                    <div style="float:left" id="nbPaquetJour"><label  style="width: 190px; height:30px; text-align:right;">Nbre de paquets/jour <?php echo $this->formRow($form->get('nbPaquetFumeurHV'));?></label></div>
+                    <div style="float:left" id="nbPaquetAnnee"><label style="width: 110px; height:30px; text-align:right;"> --- nbPaquet/an --- </label></div>
                   </td>
                 </tr>
                 <tr style="width:100%;">
                   <td id="BUcheckbox" style="">
-                    <div style="float:left;"><label style="width: 100px; height:30px; text-align:right;">Drogu&eacute;  <input name="DroguerHV" type="checkbox"></label></div> 
-                    <div style="float:left" id="dateDebDroguer"><label style="width: 230px; height:30px; text-align:right;">Date d&eacute;but <input style="width:130px; margin-top:5px;" type="text"></label></div>
-                    <div style="float:left" id="dateFinDroguer"><label style="width: 230px; height:30px; text-align:right;">Date d'arret <input style="width:130px; margin-top:5px;" type="text"></label></div>
+                    <div style="float:left;"><label style="width: 100px; height:30px; text-align:right;">Drogu&eacute;  <?php echo $this->formRow($form->get('DroguerHV'));?></label></div> 
+                    <div style="float:left" id="dateDebDroguer"><label style="width: 220px; height:30px; text-align:right;">Date d&eacute;but <?php echo $this->formRow($form->get('DateDebutDroguerHV'));?></label></div>
+                    <div style="float:left" id="dateFinDroguer"><label style="width: 220px; height:30px; text-align:right;">Date d'arret <?php echo $this->formRow($form->get('DateFinDroguerHV'));?></label></div>
+                  </td>
+                </tr>
+                <tr style="width:100%;">
+                  <td id="BUcheckbox" style="">
+                    <div style="float:left;"><label style="width: 100px; height:30px; text-align:right;">Autres  <?php echo $this->formRow($form->get('AutresHV'));?></label></div> 
+                    <div style="float:left" id="DivNoteAutresHV"><label style="width: 350px; height:30px; text-align:right;">Note <?php echo $this->formRow($form->get('NoteAutresHV'));?></label></div>
                   </td>
                 </tr>
                 
@@ -658,36 +668,78 @@ echo $this->form()->openTag($form); ?>
            <table id="AntecedentMedicaux" style="width:100%;">
                 <tr style="width:100%;">
                   <td colspan="3" style="width:60%;" >
-                    <div style="font-family: Times New Roman;  color: green; font-size: 17px; font-weight: bold; padding-bottom: 10px;" ><iS style='font-size: 25px;'>&curren;</iS> LES ANTECEDENTS MEDICAUX</div>
+                    <div style="font-family: Times New Roman;  color: green; font-size: 17px; font-weight: bold; padding-bottom: 10px;" ><iS style='font-size: 25px;'>&curren;</iS> LES ANT&Eacute;C&Eacute;DENTS M&Eacute;DICAUX</div>
                   </td>
                   <td>  </td>
                   <td>  </td>
                 </tr>
                 <tr style="width:100%; height: 50px; ">
                   <td id="BUcheckbox" style="width: 20%; ">
-                    <div ><label style="width: 90%; height:30px; text-align:right;">Diab&egrave;te <input name="AlcooliqueAM" type="checkbox"></label></div> 
+                    <div >
+                      <label  style="width: 90%; height:30px; text-align:right; font-family: time new romans; font-size: 18px;">
+                         <span> 
+                            <img class="imageValiderDiabeteAM" style='cursor: pointer; padding-right: 10px;' src='<?php echo $this->basepath().'/images_icons/tick-icon2.png'?>' />  
+                         </span> 
+                         
+                         Diab&egrave;te 
+                         <?php echo $this->formRow($form->get('DiabeteAM'));?>
+                      </label>
+                    </div> 
                   </td>
                 
                   <td id="BUcheckbox" style="width: 20%; ">
-                    <div ><label style="width: 90%; height:30px; text-align:right;">HTA <input name="FumeurAM" type="checkbox"></label></div> 
+                    <div >
+                     <label style="width: 90%; height:30px; text-align:right; font-family: time new romans; font-size: 18px;">
+                        <span> 
+                           <img class="imageValiderHtaAM" style='cursor: pointer; padding-right: 10px;' src='<?php echo $this->basepath().'/images_icons/tick-icon2.png'?>' />  
+                        </span> 
+                         
+                        HTA 
+                        <?php echo $this->formRow($form->get('htaAM'));?>
+                     </label>
+                    </div> 
                   </td>
                 
                   <td id="BUcheckbox" style="width: 20%; ">
-                    <div ><label style="width: 90%; height:30px; text-align:right;">Dr&eacute;panocytose <input name="DroguerAM" type="checkbox"></label></div> 
+                    <div >
+                     <label style="width: 90%; height:30px; text-align:right; font-family: time new romans; font-size: 18px;">
+                        <span> 
+                           <img class="imageValiderDrepanocytoseAM" style='cursor: pointer; padding-right: 0px;' src='<?php echo $this->basepath().'/images_icons/tick-icon2.png'?>' />  
+                        </span> 
+                        
+                        Dr&eacute;panocytose <?php echo $this->formRow($form->get('drepanocytoseAM'));?>
+                     </label>
+                    </div> 
                   </td>
                   
                   <td id="BUcheckbox" style="width: 20%; ">
-                    <div ><label style="width: 90%; height:30px; text-align:right;">Dislipid&eacute;mie  <input name="DislipidemieAM" type="checkbox"></label></div> 
+                    <div >
+                     <label style="width: 90%; height:30px; text-align:right; font-family: time new romans; font-size: 18px;">
+                        <span> 
+                           <img class="imageValiderDislipidemieAM" style='cursor: pointer; padding-right: 10px;' src='<?php echo $this->basepath().'/images_icons/tick-icon2.png'?>' />  
+                        </span>  
+                        
+                        Dislipid&eacute;mie  <?php echo $this->formRow($form->get('dislipidemieAM'));?>
+                     </label>
+                    </div> 
                   </td>
                   
                   <td id="BUcheckbox" style="width: 20%; ">
-                    <div ><label style="width: 90%; height:30px; text-align:right;">Asthme  <input name="AsthmeAM" type="checkbox"></label></div> 
+                    <div >
+                     <label style="width: 90%; height:30px; text-align:right; font-family: time new romans; font-size: 18px;">
+                        <span> 
+                           <img class="imageValiderAsthmeAM" style='cursor: pointer; padding-right: 10px;' src='<?php echo $this->basepath().'/images_icons/tick-icon2.png'?>' />  
+                        </span> 
+                     
+                        Asthme  <?php echo $this->formRow($form->get('asthmeAM'));?>
+                     </label>
+                    </div> 
                   </td>
                   
                 </tr>
                 <tr style="width:100%;">
                   <td id="BUcheckbox" colspan="3" style="width:60%;" >
-                     <div><label style="width: 50%; height:30px; text-align:right;">Autres  <input style="width:220px; margin-top:5px;" type="text"></label></div>
+                     <div><label style="width: 50%; height:30px; text-align:right;">Autres  <?php echo $this->formRow($form->get('autresAM'));?></label></div>
                   </td>
                   <td>  </td>
                   <td>  </td>
@@ -705,7 +757,7 @@ echo $this->form()->openTag($form); ?>
            <table id="AntecedentChirurgicaux" style="width:100%;">
                 <tr style="width:100%;">
                   <td style="">
-                    LES ANTECEDENTS CHIRURGICAUX
+                    <div style="width: 100%; font-family: Times New Roman;  color: green; font-size: 17px; font-weight: bold; padding-bottom: 10px;" ><iS style='font-size: 25px;'>&curren;</iS> LES ANT&Eacute;C&Eacute;DENTS CHIRURGICAUX </div>
                   </td>
                 </tr>
                 
@@ -717,51 +769,53 @@ echo $this->form()->openTag($form); ?>
            <table id="GynecoObstetrique" style="width:100%;">
                 <tr style="width:100%;">
                   <td style="">
-                    <div style="width: 100%; font-family: Times New Roman;  color: green; font-size: 17px; font-weight: bold; padding-bottom: 10px;" ><iS style='font-size: 25px;'>&curren;</iS> GYNECO-OBSTETRIQUE </div>
+                    <div style="width: 100%; font-family: Times New Roman;  color: green; font-size: 17px; font-weight: bold; padding-bottom: 10px;" ><iS style='font-size: 25px;'>&curren;</iS> GYNECO-OBST&Eacute;TRIQUE </div>
                   </td>
                 </tr>
                 <tr style="width:100%;">
                   <td id="BUcheckbox" style="">
-                    <div style="float:left;"><label style="width: 120px; height:30px; text-align:right;">M&eacute;narche <input name="MonarcheGO" type="checkbox"></label></div> 
-                    <div style="float:left" id="NoteMonarche"><label style="width: 260px; height:30px; text-align:right;">Note <input style="width:200px; margin-top:5px;" type="text"></label></div>
+                    <div style="float:left;"><label style="width: 120px; height:30px; text-align:right;">M&eacute;narche <?php echo $this->formRow($form->get('MenarcheGO'));?></label></div> 
+                    <div style="float:left" id="NoteMonarche"><label style="width: 260px; height:30px; text-align:right;">Note <?php echo $this->formRow($form->get('NoteMenarcheGO'));?></label></div>
                   </td>
                 </tr>
                 <tr style="width:100%;">
                   <td id="BUcheckbox" style="">
-                    <div style="float:left;"><label style="width: 120px; height:30px; text-align:right;">Gestit&eacute; <input name="GestiteGO" type="checkbox"></label></div> 
-                    <div style="float:left" id="NoteGestite"><label style="width: 260px; height:30px; text-align:right;">Note <input style="width:200px; margin-top:5px;" type="text"></label></div>
+                    <div style="float:left;"><label style="width: 120px; height:30px; text-align:right;">Gestit&eacute; <?php echo $this->formRow($form->get('GestiteGO'));?></label></div> 
+                    <div style="float:left" id="NoteGestite"><label style="width: 260px; height:30px; text-align:right;">Note <?php echo $this->formRow($form->get('NoteGestiteGO'));?></label></div>
                   </td>
                 </tr>
                 <tr style="width:100%;">
                   <td id="BUcheckbox" style="">
-                    <div style="float:left;"><label style="width: 120px; height:30px; text-align:right;">Parit&eacute; <input name="PariteGO" type="checkbox"></label></div> 
-                    <div style="float:left" id="NoteParite"><label style="width: 260px; height:30px; text-align:right;">Note <input style="width:200px; margin-top:5px;" type="text"></label></div>
+                    <div style="float:left;"><label style="width: 120px; height:30px; text-align:right;">Parit&eacute; <?php echo $this->formRow($form->get('PariteGO'));?></label></div> 
+                    <div style="float:left" id="NoteParite"><label style="width: 260px; height:30px; text-align:right;">Note <?php echo $this->formRow($form->get('NotePariteGO'));?></label></div>
                   </td>
                 </tr>
                 <tr style="width:100%;">
                   <td id="BUcheckbox" style="">
-                    <div style="float:left;"><label style="width: 120px; height:30px; text-align:right;">Cycle <input name="CycleGO" type="checkbox"></label></div> 
+                    <div style="float:left;"><label style="width: 120px; height:30px; text-align:right;">Cycle <?php echo $this->formRow($form->get('CycleGO'));?></label></div> 
+                    <div style="float:left;" id="DureeGO"><label style="width: 120px; height:30px; text-align:right;">Dur&eacute;e <?php echo $this->formRow($form->get('DureeCycleGO'));?> </label></div> 
                     
-                    <div style="float:left;" id="DureeGO"><label style="width: 120px; height:30px; text-align:right;">Dur&eacute;e <input style="width:60px; margin-top:5px; height:25px; " type="text"></label></div> 
-                    
-                    <div style="float:left" id="RegulariteON"><label style="width: 160px; height:30px; text-align:right;">R&eacute;gularit&eacute; 
-                      <select style="width:60px; margin-top:5px; height: 25px;">
-                         <option>Oui</option>
-                         <option>Non</option>
-                      </select>
+                    <div style="float:left" id="RegulariteON">
+                      <label style="width: 160px; height:30px; text-align:right;">
+                         R&eacute;gularit&eacute; 
+                         <?php echo $this->formRow($form->get('RegulariteCycleGO'));?>
                       </label>
                     </div>
-                    <div style="float:left" id="DysmenorrheeON"><label style="width: 160px; height:30px; text-align:right;">Dysm&eacute;norrh&eacute;e
-                      <select style="width:60px; margin-top:5px; height: 25px;">
-                         <option>Oui</option>
-                         <option>Non</option>
-                      </select>
+                    <div style="float:left" id="DysmenorrheeON">
+                      <label style="width: 160px; height:30px; text-align:right;">
+                         Dysm&eacute;norrh&eacute;e
+                         <?php echo $this->formRow($form->get('DysmenorrheeCycleGO'));?>
                       </label>
                     </div>
                     
                   </td>
                 </tr>
-                
+                <tr style="width:100%;">
+                  <td id="BUcheckbox" style="">
+                    <div style="float:left;"><label style="width: 120px; height:30px; text-align:right;">Autres <?php echo $this->formRow($form->get('AutresGO'));?></label></div> 
+                    <div style="float:left" id="DivNoteAutresGO"><label style="width: 260px; height:30px; text-align:right;">Note <?php echo $this->formRow($form->get('NoteAutresGO'));?></label></div>
+                  </td>
+                </tr>
                 
                 <tr style="width:100%;">
                    <td class='block' id='thoughtbot' style='display: inline-block;  vertical-align: bottom; width:100%; padding-bottom: 5px; padding-top: 15px;'><div style="float:left;" id="TerminerGynecoObstetrique">Terminer</div></td>
@@ -775,31 +829,31 @@ echo $this->form()->openTag($form); ?>
            <table id="AntecedentsFamiliaux" style="width:100%;">
                 <tr style="width:100%;">
                   <td style="">
-                    <div style="width: 100%; font-family: Times New Roman;  color: green; font-size: 17px; font-weight: bold; padding-bottom: 10px;" ><iS style='font-size: 25px;'>&curren;</iS> ANTECEDENTS FAMILIAUX </div>
+                    <div style="width: 100%; font-family: Times New Roman;  color: green; font-size: 17px; font-weight: bold; padding-bottom: 10px;" ><iS style='font-size: 25px;'>&curren;</iS> ANT&Eacute;C&Eacute;DENTS FAMILIAUX </div>
                   </td>
                 </tr>
                 <tr style="width:100%;">
                   <td id="BUcheckbox" style="">
-                    <div style="float:left;"><label style="width: 230px; height:30px; text-align:right;">Diab&egrave;te <input name="MonarcheGO" type="checkbox"></label></div> 
-                    <div style="float:left" id="NoteMonarche"><label style="width: 260px; height:30px; text-align:right;">Note <input style="width:200px; margin-top:5px;" type="text"></label></div>
+                    <div style="float:left;"><label style="width: 230px; height:30px; text-align:right;">Diab&egrave;te <?php echo $this->formRow($form->get('DiabeteAF'));?></label></div> 
+                    <div style="float:left" id="DivNoteDiabeteAF"><label style="width: 260px; height:30px; text-align:right;">Note <?php echo $this->formRow($form->get('NoteDiabeteAF'));?></label></div>
                   </td>
                 </tr>
                 <tr style="width:100%;">
                   <td id="BUcheckbox" style="">
-                    <div style="float:left;"><label style="width: 230px; height:30px; text-align:right;">Dr&eacute;panocytose <input name="GestiteGO" type="checkbox"></label></div> 
-                    <div style="float:left" id="NoteGestite"><label style="width: 260px; height:30px; text-align:right;">Note <input style="width:200px; margin-top:5px;" type="text"></label></div>
+                    <div style="float:left;"><label style="width: 230px; height:30px; text-align:right;">Dr&eacute;panocytose <?php echo $this->formRow($form->get('DrepanocytoseAF'));?></label></div> 
+                    <div style="float:left" id="DivNoteDrepanocytoseAF"><label style="width: 260px; height:30px; text-align:right;">Note <?php echo $this->formRow($form->get('NoteDrepanocytoseAF'));?></label></div>
                   </td>
                 </tr>
                 <tr style="width:100%;">
                   <td id="BUcheckbox" style="">
-                    <div style="float:left;"><label style="width: 230px; height:30px; text-align:right;">HTA <input name="PariteGO" type="checkbox"></label></div> 
-                    <div style="float:left" id="NoteParite"><label style="width: 260px; height:30px; text-align:right;">Note <input style="width:200px; margin-top:5px;" type="text"></label></div>
+                    <div style="float:left;"><label style="width: 230px; height:30px; text-align:right;">HTA <?php echo $this->formRow($form->get('htaAF'));?></label></div> 
+                    <div style="float:left" id="DivNoteHtaAF"><label style="width: 260px; height:30px; text-align:right;">Note <?php echo $this->formRow($form->get('NoteHtaAF'));?></label></div>
                   </td>
                 </tr>
                 <tr style="width:100%;">
                   <td id="BUcheckbox" style="">
-                    <div style="float:left;"><label style="width: 230px; height:30px; text-align:right;">Autres pathog&egrave;nes h&eacute;r&eacute;ditaires <input name="CycleGO" type="checkbox"></label></div> 
-                    <div style="float:left" id="NoteCycle"><label style="width: 260px; height:30px; text-align:right;">Note <input style="width:200px; margin-top:5px;" type="text"></label></div>
+                    <div style="float:left;"><label style="width: 230px; height:30px; text-align:right;">Autres <?php echo $this->formRow($form->get('autresAF'));?></label></div> 
+                    <div style="float:left" id="DivNoteAutresAF"><label style="width: 260px; height:30px; text-align:right;">Note <?php echo $this->formRow($form->get('NoteAutresAF'));?></label></div>
                   </td>
                 </tr>
                 
@@ -1578,12 +1632,40 @@ echo $this->form()->openTag($form); ?>
                  <!--********************* CHARGEMENT DES DONNEES  ************************-->
                  <script> 
                    ValiderOrdonnance();
-                   var myArrayMedicament = [''];
-                   <?php foreach($this->liste_med as $Liste) {?>
+
+                   //var myArrayMedicament = [''];
+                   <?php /* foreach($this->liste_med as $Liste) {?>
                             myArrayMedicament["<?php echo $Liste['ID_MATERIEL']; ?>"] = "<?php echo $Liste['INTITULE']; ?>"; 
-                   <?php } ?>
+                   <?php } */ ?>
                                
-                   partDefautMedicament(myArrayMedicament, 1);
+                   //partDefautMedicament(myArrayMedicament, 1);
+
+
+                   var myArrayMedicament = [''];
+                   var myArrayForme = [''];
+                   var myArrayTypeQuantiteMedicament = [''];
+
+                   /*Nouveau Code Ajouter*/
+                   /*Nouveau Code Ajouter*/
+                   /*Nouveau Code Ajouter*/ 
+                    var j = 0;
+                    <?php foreach($this->liste_med as $Liste) {?>
+                           myArrayMedicament[j++] = "<?php echo $Liste['INTITULE']; ?>"; 
+                    <?php } ?>
+                    
+                    var j = 0;
+                    <?php foreach($this->listeForme as $ListeForme) {?>
+                           myArrayForme[j++] = "<?php echo $ListeForme['libelleForme']; ?>"; 
+                    <?php } ?>
+
+                    var j = 0;
+                    <?php foreach($this->listetypeQuantiteMedicament as $listetypeQuantiteMedicament) {?>
+                           myArrayTypeQuantiteMedicament[j++] = "<?php echo $listetypeQuantiteMedicament['libelleQuantite']; ?>"; 
+                    <?php } ?>
+
+                    partDefautMedicament(myArrayMedicament, myArrayForme, myArrayTypeQuantiteMedicament, 1);
+                    
+                    /* =================== */
                  </script>
                            
                </div>

@@ -328,173 +328,6 @@ $(function(){
     }); 
 	
 		
-/***ON CREE UN FORMULAIRE OU ON MET LES DONNEES POUR POUVOIR LES RECUPERER AVEC LA METHOD POST**/
-/***ON CREE UN FORMULAIRE OU ON MET LES DONNEES POUR POUVOIR LES RECUPERER AVEC LA METHOD POST**/
-	//Method POST pour consultationmedecin
-	//Method POST pour consultationmedecin
-	//Method POST pour consultationmedecin
-//	function executerRequetePost(donnees) {
-//		// Le formulaire ï¿½ monFormulaire ï¿½ existe dï¿½jï¿½ dans la page
-//	    var formulaire = document.createElement("form");
-//	 
-//	    formulaire.setAttribute("action","/simens/public/consultation/update-complement-consultation"); 
-//	    formulaire.setAttribute("method","POST"); 
-//	    for( donnee in donnees){
-//	     // Ajout dynamique de champs dans le formulaire
-//	        var champ = document.createElement("input");
-//	        champ.setAttribute("type", "hidden");
-//	        champ.setAttribute("name", donnee);
-//	        champ.setAttribute("value", donnees[donnee]);
-//	        formulaire.appendChild(champ);
-//	    }
-//	    // Envoi de la requï¿½te
-//	    formulaire.submit();
-//	    // Suppression du formulaire
-//	    document.body.removeChild(formulaire);
-//	}
-	
-    /***LORS DU CLICK SUR 'Terminer' ****/
-	/***LORS DU CLICK SUR 'Terminer' ****/
-//	$("#terminer2").click(function() {
-//		event.preventDefault(); 
-//	    var donnees = new Array();
-//	    
-//	    // **********-- Pour la validation de la consultation par le médecin --*********
-//	    donnees['terminer'] = 'save';
-//	    donnees['id_cons']    = $("#id_cons").val();
-//	    
-//	    // **********-- Donnees de l'examen physique --*******
-//        // **********-- Donnees de l'examen physique --*******
-//	    donnees['examen_donnee1'] = $("#examen_donnee1").val();
-//	    donnees['examen_donnee2'] = $("#examen_donnee2").val();
-//	    donnees['examen_donnee3'] = $("#examen_donnee3").val();
-//	    donnees['examen_donnee4'] = $("#examen_donnee4").val();
-//	    donnees['examen_donnee5'] = $("#examen_donnee5").val();
-//	    
-//	    //**********-- ANALYSE BIOLOGIQUE --************
-//        //**********-- ANALYSE BIOLOGIQUE --************
-//	    donnees['groupe_sanguin']      = $("#groupe_sanguin").val();
-//	    donnees['hemogramme_sanguin']  = $("#hemogramme_sanguin").val();
-//	    donnees['bilan_hemolyse']      = $("#bilan_hemolyse").val();
-//	    donnees['bilan_hepatique']     = $("#bilan_hepatique").val();
-//	    donnees['bilan_renal']         = $("#bilan_renal").val();
-//	    donnees['bilan_inflammatoire'] = $("#bilan_inflammatoire").val();
-//	    
-//	    //**********-- ANALYSE MORPHOLOGIQUE --************
-//        //**********-- ANALYSE MORPHOLOGIQUE --************
-//	    donnees['radio_']        = $("#radio").val();
-//	    donnees['ecographie_']   = $("#ecographie").val();
-//	    donnees['fibroscopie_']  = $("#fibrocospie").val();
-//	    donnees['scanner_']      = $("#scanner").val();
-//	    donnees['irm_']          = $("#irm").val();
-//	    
-//	    //*********** DIAGNOSTICS ************
-//	    //*********** DIAGNOSTICS ************
-//	    donnees['diagnostic1'] = $("#diagnostic1").val();
-//	    donnees['diagnostic2'] = $("#diagnostic2").val();
-//	    donnees['diagnostic3'] = $("#diagnostic3").val();
-//	    donnees['diagnostic4'] = $("#diagnostic4").val();
-//	    
-//	    //*********** ORDONNACE (Mï¿½dical) ************
-//	    //*********** ORDONNACE (Mï¿½dical) ************
-//	    donnees['duree_traitement_ord'] = $("#duree_traitement_ord").val();
-//	     
-//	    for(var i = 1 ; i < 10 ; i++ ){
-//	     	if($("#medicament_0"+i).val()){
-//	     		donnees['medicament_0'+i] = $("#medicament_0"+i).val();
-//	     		donnees['medicament_1'+i] = $("#medicament_1"+i).val();
-//	     		donnees['medicament_2'+i] = $("#medicament_2"+i).val();
-//	     		donnees['medicament_3'+i] = $("#medicament_3"+i).val();
-//	     	}
-//	     }
-//	    
-//	    //*********** TRAITEMENTS CHIRURGICAUX ************
-//		//*********** TRAITEMENTS CHIRURGICAUX ************
-//	    donnees['diagnostic_traitement_chirurgical'] = $("#diagnostic_traitement_chirurgical").val();
-//	    donnees['intervention_prevue'] = $("#intervention_prevue").val();
-//	    donnees['type_anesthesie_demande'] = $("#type_anesthesie_demande").val();
-//	    donnees['numero_vpa'] = $("#numero_vpa").val();
-//	    donnees['observation'] = $("#observation").val();
-//	    
-//	    // **********-- Rendez Vous --*******
-//        // **********-- Rendez Vous --*******
-//		donnees['id_patient'] = $("#id_patient").val();
-//		   //Au cas ou l'utilisateur ne valide pas ou n'imprime pas cela veut dire que le champ n'est pas dï¿½sactiver
-//		   if($("#date_rv").val()){$("#date_rv_tampon").val($("#date_rv").val());}
-//		donnees['date_rv']    = $("#date_rv_tampon").val();
-//		donnees['motif_rv']   = $("#motif_rv").val();
-//		   //Au cas ou l'utilisateur ne valide pas ou n'imprime pas cela veut dire que le champ n'est pas dï¿½sactiver
-//		   if($("#heure_rv").val()){$("#heure_rv_tampon").val($("#heure_rv").val());}
-//		donnees['heure_rv']   = $("#heure_rv_tampon").val();
-//		
-//		// **********-- Hospitalisation --*******
-//        // **********-- Hospitalisation --*******
-//		donnees['motif_hospitalisation'] = $("#motif_hospitalisation").val();
-//		
-//		// **********-- Transfert --*******
-//        // **********-- Transfert --*******
-//		//Au cas ou l'utilisateur ne valide pas ou n'imprime pas cela veut dire que le champ n'est pas dï¿½sactiver
-//		   if($("#service_accueil").val()){$("#service_accueil_tampon").val($("#service_accueil").val());};
-//		
-//		donnees['id_service']      = $("#service_accueil_tampon").val();
-//		donnees['med_id_personne'] = $("#id_medecin").val();
-//		donnees['date']            = $("#date_cons").val();
-//		donnees['motif_transfert'] = $("#motif_transfert").val();
-//	    
-//		
-//		//**********-- Demande Examens (Biologique et Morphologique) --********
-//		//**********-- Demande Examens (Biologique et Morphologique) --********
-////	    var checkbox = [];
-////	    $('input[name="cdemande"]:checked').each(function(i){
-////	      checkbox[$(this).attr('value')] = $(this).attr('value');
-////	    });
-////	    
-////	    if(!checkbox[1]){ checkbox[1] = null;}
-////	    if(!checkbox[2]){ checkbox[2] = null;}
-////	    if(!checkbox[3]){ checkbox[3] = null;}
-////	    if(!checkbox[4]){ checkbox[4] = null;}
-////	    if(!checkbox[5]){ checkbox[5] = null;}
-////	    if(!checkbox[6]){ checkbox[6] = null;}
-////	    if(!checkbox[7]){ checkbox[7] = null;}
-////	    if(!checkbox[8]){ checkbox[8] = null;}
-////	    if(!checkbox[9]){ checkbox[9] = null;}
-////	    if(!checkbox[10]){ checkbox[10] = null;}
-////	    if(!checkbox[11]){ checkbox[11] = null;}
-////	    if(!checkbox[12]){ checkbox[12] = null;}
-////	    if(!checkbox[13]){ checkbox[13] = null;}
-////	    
-////		donnees['groupe']        = checkbox[1];
-////		donnees['hemmogramme']   = checkbox[2];
-////		donnees['hepatique']     = checkbox[3];
-////		donnees['renal']         = checkbox[4];
-////		donnees['hemostase']     = checkbox[5];
-////		donnees['inflammatoire'] = checkbox[6];
-////		donnees['autreb']        = checkbox[7];
-////		donnees['radio']         = checkbox[8];
-////		donnees['ecographie']    = checkbox[9];
-////		donnees['irm']           = checkbox[10];
-////		donnees['scanner']       = checkbox[11];
-////		donnees['fibroscopie']   = checkbox[12];
-////		donnees['autrem']        = checkbox[13];
-////		
-////		
-////		//note sur les examens
-////		donnees['ngroupe']       = $("#note1").val();
-////		donnees['nhemmogramme']  = $("#note2").val();
-////		donnees['nhepatique']    = $("#note3").val();
-////		donnees['nrenal']        = $("#note4").val();
-////		donnees['nhemostase']    = $("#note5").val();
-////		donnees['ninflammatoire']= $("#note6").val();
-////		donnees['nautreb']       = $("#note7").val();
-////		donnees['nradio']        = $("#note8").val();
-////		donnees['necographie']   = $("#note9").val();
-////		donnees['nirm']          = $("#note10").val();
-////		donnees['nscanner']      = $("#note11").val();
-////		donnees['nfibroscopie']  = $("#note12").val();
-////		donnees['nautrem']       = $("#note13").val();
-//		
-//		executerRequetePost(donnees);
-//	});
 	var valid = true;  // VARIABLE GLOBALE utilisï¿½e dans 'VALIDER LES DONNEES DU TABLEAU DES CONSTANTES'
 	/****** ======================================================================= *******/
 	/****** ======================================================================= *******/
@@ -821,6 +654,95 @@ $(function(){
 		donnees['croixcorpscetonique'] = $('#BUcheckbox input[name=croixcorpscetonique]:checked').val();
 		if(!donnees['croixcorpscetonique']){ donnees['croixcorpscetonique'] = 0;}
 		
+		//GESTION DES ANDECEDENTS
+		//GESTION DES ANDECEDENTS
+		//GESTION DES ANDECEDENTS
+		//GESTION DES ANDECEDENTS
+		//**=== ANTECEDENTS PERSONNELS
+		//**=== ANTECEDENTS PERSONNELS
+		
+		//LES HABITUDES DE VIE DU PATIENTS
+		/*Alcoolique*/
+		donnees['AlcooliqueHV'] = $("#AlcooliqueHV:checked").val();
+		if(!donnees['AlcooliqueHV']){ donnees['AlcooliqueHV'] = 0;}
+		donnees['DateDebutAlcooliqueHV'] = $("#DateDebutAlcooliqueHV").val();
+		donnees['DateFinAlcooliqueHV'] = $("#DateFinAlcooliqueHV").val();
+		/*Fumeur*/
+		donnees['FumeurHV'] = $("#FumeurHV:checked").val();
+		if(!donnees['FumeurHV']){ donnees['FumeurHV'] = 0;}
+		donnees['DateDebutFumeurHV'] = $("#DateDebutFumeurHV").val();
+		donnees['DateFinFumeurHV'] = $("#DateFinFumeurHV").val();
+		donnees['nbPaquetFumeurHV'] = $("#nbPaquetFumeurHV").val();
+		/*Droguer*/ 
+		donnees['DroguerHV'] = $("#DroguerHV:checked").val(); 
+		if(!donnees['DroguerHV']){ donnees['DroguerHV'] = 0;}
+		donnees['DateDebutDroguerHV'] = $("#DateDebutDroguerHV").val();
+		donnees['DateFinDroguerHV'] = $("#DateFinDroguerHV").val();
+		/*AutresHV*/
+		donnees['AutresHV'] = $("#AutresHV:checked").val(); 
+		if(!donnees['AutresHV']){ donnees['AutresHV'] = 0;}
+		donnees['NoteAutresHV'] = $("#NoteAutresHV").val();
+		
+		//LES ANTECEDENTS MEDICAUX
+		/*Diabete*/ 
+		donnees['DiabeteAM'] = $("#DiabeteAM:checked").val(); 
+		if(!donnees['DiabeteAM']){ donnees['DiabeteAM'] = 0;}
+		/*Hta*/
+		donnees['htaAM'] = $("#htaAM:checked").val(); 
+		if(!donnees['htaAM']){ donnees['htaAM'] = 0;}
+		/*Drepanocytose*/
+		donnees['drepanocytoseAM'] = $("#drepanocytoseAM:checked").val(); 
+		if(!donnees['drepanocytoseAM']){ donnees['drepanocytoseAM'] = 0;}
+		/*Dislipidémie*/
+		donnees['dislipidemieAM'] = $("#dislipidemieAM:checked").val(); 
+		if(!donnees['dislipidemieAM']){ donnees['dislipidemieAM'] = 0;}
+		/*Asthme*/ 
+		donnees['asthmeAM'] = $("#asthmeAM:checked").val(); 
+		if(!donnees['asthmeAM']){ donnees['asthmeAM'] = 0;}
+		
+		//GYNECO-OBSTETRIQUE
+		/*Menarche*/
+		donnees['MenarcheGO'] = $("#MenarcheGO:checked").val(); 
+		if(!donnees['MenarcheGO']){ donnees['MenarcheGO'] = 0;}
+		donnees['NoteMenarcheGO'] = $("#NoteMenarcheGO").val();
+		/*Gestite*/
+		donnees['GestiteGO'] = $("#GestiteGO:checked").val(); 
+		if(!donnees['GestiteGO']){ donnees['GestiteGO'] = 0;}
+		donnees['NoteGestiteGO'] = $("#NoteGestiteGO").val();
+		/*Parite*/
+		donnees['PariteGO'] = $("#PariteGO:checked").val(); 
+		if(!donnees['PariteGO']){ donnees['PariteGO'] = 0;}
+		donnees['NotePariteGO'] = $("#NotePariteGO").val();
+		/*Cycle*/
+		donnees['CycleGO'] = $("#CycleGO:checked").val(); 
+		if(!donnees['CycleGO']){ donnees['CycleGO'] = 0;}
+		donnees['DureeCycleGO'] = $("#DureeCycleGO").val();
+		donnees['RegulariteCycleGO'] = $("#RegulariteCycleGO").val(); 
+		donnees['DysmenorrheeCycleGO'] = $("#DysmenorrheeCycleGO").val();
+		/*Autres*/
+		donnees['AutresGO'] = $("#AutresGO:checked").val(); 
+		if(!donnees['AutresGO']){ donnees['AutresGO'] = 0;}
+		donnees['NoteAutresGO'] = $("#NoteAutresGO").val();
+
+		//**=== ANTECEDENTS FAMILIAUX
+		//**=== ANTECEDENTS FAMILIAUX 
+		donnees['DiabeteAF'] = $("#DiabeteAF:checked").val(); 
+		if(!donnees['DiabeteAF']){ donnees['DiabeteAF'] = 0;}
+		donnees['NoteDiabeteAF'] = $("#NoteDiabeteAF").val();
+		
+		donnees['DrepanocytoseAF'] = $("#DrepanocytoseAF:checked").val(); 
+		if(!donnees['DrepanocytoseAF']){ donnees['DrepanocytoseAF'] = 0;}
+		donnees['NoteDrepanocytoseAF'] = $("#NoteDrepanocytoseAF").val();
+		
+		donnees['htaAF'] = $("#htaAF:checked").val(); 
+		if(!donnees['htaAF']){ donnees['htaAF'] = 0;}
+		donnees['NoteHtaAF'] = $("#NoteHtaAF").val();
+		
+		donnees['autresAF'] = $("#autresAF:checked").val(); 
+		if(!donnees['autresAF']){ donnees['autresAF'] = 0;}
+		donnees['NoteAutresAF'] = $("#NoteAutresAF").val();
+		
+		
 		
 		updateexecuterRequetePost(donnees);
 	});
@@ -1010,27 +932,86 @@ $(function(){
 			//HABITUDES DE VIE TESTER SI UNE HABITUDE EST COCHEE OU PAS
 			//$("#HabitudesDeVie input[name=testHV]").attr('checked', true);
 			$("#dateDebAlcoolique, #dateFinAlcoolique").toggle(false);
-			$("#dateDebFumeur, #dateFinFumeur, #nbPaquetJour").toggle(false);
+			$("#dateDebFumeur, #dateFinFumeur, #nbPaquetJour, #nbPaquetAnnee").toggle(false);
 			$("#dateDebDroguer, #dateFinDroguer").toggle(false);
+			$("#DivNoteAutresHV").toggle(false);
 			
 			$('#HabitudesDeVie input[name=AlcooliqueHV]').click(function(){
 				var boutons = $('#HabitudesDeVie input[name=AlcooliqueHV]');
-				if( boutons[0].checked){ $("#dateDebAlcoolique, #dateFinAlcoolique").toggle(true); }
-				if(!boutons[0].checked){ $("#dateDebAlcoolique, #dateFinAlcoolique").toggle(false); }
+				if( boutons[1].checked){ $("#dateDebAlcoolique, #dateFinAlcoolique").toggle(true); }
+				if(!boutons[1].checked){ $("#dateDebAlcoolique, #dateFinAlcoolique").toggle(false); }
 			});
 			
 			$('#HabitudesDeVie input[name=FumeurHV]').click(function(){
 				var boutons = $('#HabitudesDeVie input[name=FumeurHV]');
-				if( boutons[0].checked){ $("#dateDebFumeur, #dateFinFumeur, #nbPaquetJour").toggle(true); }
-				if(!boutons[0].checked){ $("#dateDebFumeur, #dateFinFumeur, #nbPaquetJour").toggle(false); }
+				if( boutons[1].checked){ $("#dateDebFumeur, #dateFinFumeur, #nbPaquetJour").toggle(true); }
+				if(!boutons[1].checked){ $("#dateDebFumeur, #dateFinFumeur, #nbPaquetJour").toggle(false); }
+			});
+			
+			$('#nbPaquetFumeurHV').keyup(function(){
+				var valeur = $('#nbPaquetFumeurHV').val();
+				if(isNaN(valeur/1) || valeur > 10){
+					$('#nbPaquetFumeurHV').val("");
+					valeur = null;
+				}
+				if(valeur){
+					var nbPaquetAnnee = valeur*365;
+					$("#nbPaquetAnnee").toggle(true);
+					$("#nbPaquetAnnee label").html("<span style='font-weight: bold; color: green;'>"+nbPaquetAnnee+"</span> paquets/an");
+				}else{
+					$("#nbPaquetAnnee").toggle(false);
+				}
 			});
 			
 			$('#HabitudesDeVie input[name=DroguerHV]').click(function(){
 				var boutons = $('#HabitudesDeVie input[name=DroguerHV]');
-				if( boutons[0].checked){ $("#dateDebDroguer, #dateFinDroguer").toggle(true); }
-				if(!boutons[0].checked){ $("#dateDebDroguer, #dateFinDroguer").toggle(false); }
+				if( boutons[1].checked){ $("#dateDebDroguer, #dateFinDroguer").toggle(true); }
+				if(!boutons[1].checked){ $("#dateDebDroguer, #dateFinDroguer").toggle(false); }
 			});
 			
+			$('#HabitudesDeVie input[name=AutresHV]').click(function(){
+				var boutons = $('#HabitudesDeVie input[name=AutresHV]');
+				if( boutons[1].checked){ $("#DivNoteAutresHV").toggle(true); }
+				if(!boutons[1].checked){ $("#DivNoteAutresHV").toggle(false); }
+			});
+			
+			//ANTECEDENTS MEDICAUX TESTER SI C'EST COCHE
+			//ANTECEDENTS MEDICAUX TESTER SI C'EST COCHE
+			$(".imageValiderDiabeteAM").toggle(false);
+			$(".imageValiderHtaAM").toggle(false);
+			$(".imageValiderDrepanocytoseAM").toggle(false);
+			$(".imageValiderDislipidemieAM").toggle(false);
+			$(".imageValiderAsthmeAM").toggle(false);
+			
+			$('#AntecedentMedicaux input[name=DiabeteAM]').click(function(){
+				var boutons = $('#AntecedentMedicaux input[name=DiabeteAM]');
+				if( boutons[1].checked){ $(".imageValiderDiabeteAM").toggle(true); }
+				if(!boutons[1].checked){ $(".imageValiderDiabeteAM").toggle(false); }
+			});
+			
+			$('#AntecedentMedicaux input[name=htaAM]').click(function(){
+				var boutons = $('#AntecedentMedicaux input[name=htaAM]');
+				if( boutons[1].checked){ $(".imageValiderHtaAM").toggle(true); }
+				if(!boutons[1].checked){ $(".imageValiderHtaAM").toggle(false); }
+			});
+			
+			$('#AntecedentMedicaux input[name=drepanocytoseAM]').click(function(){
+				var boutons = $('#AntecedentMedicaux input[name=drepanocytoseAM]');
+				if( boutons[1].checked){ $(".imageValiderDrepanocytoseAM").toggle(true); }
+				if(!boutons[1].checked){ $(".imageValiderDrepanocytoseAM").toggle(false); }
+			});
+			
+			$('#AntecedentMedicaux input[name=dislipidemieAM]').click(function(){
+				var boutons = $('#AntecedentMedicaux input[name=dislipidemieAM]');
+				if( boutons[1].checked){ $(".imageValiderDislipidemieAM").toggle(true); }
+				if(!boutons[1].checked){ $(".imageValiderDislipidemieAM").toggle(false); }
+			});
+			
+			$('#AntecedentMedicaux input[name=asthmeAM]').click(function(){
+				var boutons = $('#AntecedentMedicaux input[name=asthmeAM]');
+				if( boutons[1].checked){ $(".imageValiderAsthmeAM").toggle(true); }
+				if(!boutons[1].checked){ $(".imageValiderAsthmeAM").toggle(false); }
+			});
 			
 			//GYNECO-OBSTETRIQUE TESTER SI C'EST COCHE
 			//GYNECO-OBSTETRIQUE TESTER SI C'EST COCHE
@@ -1038,32 +1019,68 @@ $(function(){
 			$("#NoteGestite").toggle(false);
 			$("#NoteParite").toggle(false);
 			$("#RegulariteON, #DysmenorrheeON, #DureeGO").toggle(false);
+			$("#DivNoteAutresGO").toggle(false);
 			
-			$('#GynecoObstetrique input[name=MonarcheGO]').click(function(){
-				var boutons = $('#GynecoObstetrique input[name=MonarcheGO]');
-				if( boutons[0].checked){ $("#NoteMonarche").toggle(true); }
-				if(!boutons[0].checked){ $("#NoteMonarche").toggle(false); }
+			$('#GynecoObstetrique input[name=MenarcheGO]').click(function(){
+				var boutons = $('#GynecoObstetrique input[name=MenarcheGO]');
+				if( boutons[1].checked){ $("#NoteMonarche").toggle(true); }
+				if(!boutons[1].checked){ $("#NoteMonarche").toggle(false); }
 			});
 			
 			$('#GynecoObstetrique input[name=GestiteGO]').click(function(){
 				var boutons = $('#GynecoObstetrique input[name=GestiteGO]');
-				if( boutons[0].checked){ $("#NoteGestite").toggle(true); }
-				if(!boutons[0].checked){ $("#NoteGestite").toggle(false); }
+				if( boutons[1].checked){ $("#NoteGestite").toggle(true); }
+				if(!boutons[1].checked){ $("#NoteGestite").toggle(false); }
 			});
 			
 			$('#GynecoObstetrique input[name=PariteGO]').click(function(){
 				var boutons = $('#GynecoObstetrique input[name=PariteGO]');
-				if( boutons[0].checked){ $("#NoteParite").toggle(true); }
-				if(!boutons[0].checked){ $("#NoteParite").toggle(false); }
+				if( boutons[1].checked){ $("#NoteParite").toggle(true); }
+				if(!boutons[1].checked){ $("#NoteParite").toggle(false); }
 			});
 			
 			$('#GynecoObstetrique input[name=CycleGO]').click(function(){
 				var boutons = $('#GynecoObstetrique input[name=CycleGO]');
-				if( boutons[0].checked){ $("#RegulariteON, #DysmenorrheeON, #DureeGO").toggle(true); }
-				if(!boutons[0].checked){ $("#RegulariteON, #DysmenorrheeON, #DureeGO").toggle(false); }
+				if( boutons[1].checked){ $("#RegulariteON, #DysmenorrheeON, #DureeGO").toggle(true); }
+				if(!boutons[1].checked){ $("#RegulariteON, #DysmenorrheeON, #DureeGO").toggle(false); }
 			});
 			
+			$('#GynecoObstetrique input[name=AutresGO]').click(function(){
+				var boutons = $('#GynecoObstetrique input[name=AutresGO]');
+				if( boutons[1].checked){ $("#DivNoteAutresGO").toggle(true); }
+				if(!boutons[1].checked){ $("#DivNoteAutresGO").toggle(false); }
+			});
 			
+			//ANTECEDENTS FAMILIAUX TESTER SI C'EST COCHE
+			//ANTECEDENTS FAMILIAUX TESTER SI C'EST COCHE
+			$("#DivNoteDiabeteAF").toggle(false);
+			$("#DivNoteDrepanocytoseAF").toggle(false);
+			$("#DivNoteHtaAF").toggle(false);
+			$("#DivNoteAutresAF").toggle(false);
+			
+			$('#AntecedentsFamiliaux input[name=DiabeteAF]').click(function(){ 
+				var boutons = $('#AntecedentsFamiliaux input[name=DiabeteAF]');
+				if( boutons[1].checked){ $("#DivNoteDiabeteAF").toggle(true); }
+				if(!boutons[1].checked){ $("#DivNoteDiabeteAF").toggle(false); }
+			});
+			
+			$('#AntecedentsFamiliaux input[name=DrepanocytoseAF]').click(function(){ 
+				var boutons = $('#AntecedentsFamiliaux input[name=DrepanocytoseAF]');
+				if( boutons[1].checked){ $("#DivNoteDrepanocytoseAF").toggle(true); }
+				if(!boutons[1].checked){ $("#DivNoteDrepanocytoseAF").toggle(false); }
+			});
+			
+			$('#AntecedentsFamiliaux input[name=htaAF]').click(function(){ 
+				var boutons = $('#AntecedentsFamiliaux input[name=htaAF]');
+				if( boutons[1].checked){ $("#DivNoteHtaAF").toggle(true); }
+				if(!boutons[1].checked){ $("#DivNoteHtaAF").toggle(false); }
+			});
+			
+			$('#AntecedentsFamiliaux input[name=autresAF]').click(function(){ 
+				var boutons = $('#AntecedentsFamiliaux input[name=autresAF]');
+				if( boutons[1].checked){ $("#DivNoteAutresAF").toggle(true); }
+				if(!boutons[1].checked){ $("#DivNoteAutresAF").toggle(false); }
+			});
     //******************************************************************************
 	//******************************************************************************
 			$(".image2_TP").click(function(){

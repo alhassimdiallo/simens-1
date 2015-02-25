@@ -273,6 +273,12 @@ class OrdonnancePdf
 				$this->_yPosition);
 		$this->_yPosition -= $noteLineHeight;
 		}
+		
+		$this->_page->drawText(iconv ( 'UTF-8', 'ISO-8859-1', 'Caché et Signature'),
+				$this->_leftMargin+350,
+				$this->_yPosition);
+		
+		
 	} 
 	
 	public function getPiedPage(){

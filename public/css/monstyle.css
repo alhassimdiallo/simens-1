@@ -3713,3 +3713,39 @@ position: relative;
 font-family: time new romans;
 
 }
+
+/*LES HABITUDES DE VIE DU PATIENTS*/
+#dateDebAlcoolique input, #dateFinAlcoolique input, #dateDebFumeur input, #dateFinFumeur input, #dateDebDroguer input, #dateFinDroguer input
+{
+	width:130px; margin-top:5px; padding-left: 10px; font-family: time new romans; font-size: 18px;
+}
+#nbPaquetJour input
+{
+	width:40px; margin-top:5px; padding-left: 10px; font-family: time new romans; font-size: 18px;
+}
+
+#autresAM
+{
+	width:220px; margin-top:5px; padding-left: 10px; font-family: time new romans; font-size: 18px;
+}
+
+#NoteMenarcheGO, #NoteGestiteGO, #NotePariteGO, #NoteAutresGO
+{
+	width:200px; margin-top:5px; padding-left: 10px; font-family: time new romans; font-size: 18px;
+}
+#DureeCycleGO
+{
+	width:60px; margin-top:5px; height:25px; padding-left: 10px; font-family: time new romans; font-size: 18px;
+}
+#RegulariteCycleGO, #DysmenorrheeCycleGO
+{
+	width:60px; margin-top:5px; height: 25px;
+}
+#NoteDiabeteAF, #NoteDrepanocytoseAF, #NoteHtaAF, #NoteAutresAF
+{
+	width:200px; margin-top:5px; padding-left: 10px; font-family: time new romans; font-size: 18px;
+}
+#NoteAutresHV
+{
+	width:288px; margin-top:5px; padding-left: 10px; font-family: time new romans; font-size: 18px;
+}

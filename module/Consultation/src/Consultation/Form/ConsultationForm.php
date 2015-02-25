@@ -924,19 +924,344 @@ class ConsultationForm extends Form {
 						'id' => 'heure_rv'
 				)
 		) );
-		// $this->add ( array (
-		// 'name' => 'terminer',
-		// 'type' => 'Submit',
-		// 'options' => array (
-		// 'label' => 'terminer',
-		// )
-		// ) );
-		// $this->add ( array (
-		// 'name' => 'annuler',
-		// 'type' => 'Submit',
-		// 'options' => array (
-		// 'label' => 'annuler',
-		// )
-		// ) );
+		
+		/**
+		 * LES HISTORIQUES OU TERRAINS PARTICULIERS
+		 * LES HISTORIQUES OU TERRAINS PARTICULIERS
+		 * LES HISTORIQUES OU TERRAINS PARTICULIERS
+		 */
+		/**** ANTECEDENTS PERSONNELS ****/
+		/**** ANTECEDENTS PERSONNELS ****/
+		
+		/*LES HABITUDES DE VIE DU PATIENTS*/
+		/*Alcoolique*/
+		$this->add ( array (
+				'name' => 'AlcooliqueHV',
+				'type' => 'checkbox',
+				'attributes' => array (
+						'id' => 'AlcooliqueHV'
+				)
+		) );
+		$this->add ( array (
+				'name' => 'DateDebutAlcooliqueHV',
+				'type' => 'text',
+				'attributes' => array (
+						'id' => 'DateDebutAlcooliqueHV'
+				)
+		) );
+		$this->add ( array (
+				'name' => 'DateFinAlcooliqueHV',
+				'type' => 'text',
+				'attributes' => array (
+						'id' => 'DateFinAlcooliqueHV'
+				)
+		) );
+		$this->add ( array (
+				'name' => 'AutresHV',
+				'type' => 'checkbox',
+				'attributes' => array (
+						'id' => 'AutresHV'
+				)
+		) );
+		$this->add ( array (
+				'name' => 'NoteAutresHV',
+				'type' => 'text',
+				'attributes' => array (
+						'id' => 'NoteAutresHV'
+				)
+		) );
+		/*Fumeur*/
+		$this->add ( array (
+				'name' => 'FumeurHV',
+				'type' => 'checkbox',
+				'attributes' => array (
+						'id' => 'FumeurHV'
+				)
+		) );
+		$this->add ( array (
+				'name' => 'DateDebutFumeurHV',
+				'type' => 'text',
+				'attributes' => array (
+						'id' => 'DateDebutFumeurHV'
+				)
+		) );
+		$this->add ( array (
+				'name' => 'DateFinFumeurHV',
+				'type' => 'text',
+				'attributes' => array (
+						'id' => 'DateFinFumeurHV'
+				)
+		) );
+		$this->add ( array (
+				'name' => 'nbPaquetFumeurHV',
+				'type' => 'text',
+				'attributes' => array (
+						'id' => 'nbPaquetFumeurHV'
+				)
+		) );
+		$this->add ( array (
+				'name' => 'nbPaquetAnneeFumeurHV',
+				'type' => 'text',
+				'attributes' => array (
+						'id' => 'nbPaquetAnneeFumeurHV'
+				)
+		) );
+		/*Drogué*/
+		$this->add ( array (
+				'name' => 'DroguerHV',
+				'type' => 'checkbox',
+				'attributes' => array (
+						'id' => 'DroguerHV'
+				)
+		) );
+		$this->add ( array (
+				'name' => 'DateDebutDroguerHV',
+				'type' => 'text',
+				'attributes' => array (
+						'id' => 'DateDebutDroguerHV'
+				)
+		) );
+		$this->add ( array (
+				'name' => 'DateFinDroguerHV',
+				'type' => 'text',
+				'attributes' => array (
+						'id' => 'DateFinDroguerHV'
+				)
+		) );
+		/*LES ANTECEDENTS MEDICAUX*/
+		/*Diabete*/
+		$this->add ( array (
+				'name' => 'DiabeteAM',
+				'type' => 'checkbox',
+				'attributes' => array (
+						'id' => 'DiabeteAM'
+				)
+		) );
+		/*HTA*/
+		$this->add ( array (
+				'name' => 'htaAM',
+				'type' => 'checkbox',
+				'attributes' => array (
+						'id' => 'htaAM'
+				)
+		) );
+		/*Drepanocytose*/
+		$this->add ( array (
+				'name' => 'drepanocytoseAM',
+				'type' => 'checkbox',
+				'attributes' => array (
+						'id' => 'drepanocytoseAM'
+				)
+		) );
+		/*Dislipidemie*/
+		$this->add ( array (
+				'name' => 'dislipidemieAM',
+				'type' => 'checkbox',
+				'attributes' => array (
+						'id' => 'dislipidemieAM'
+				)
+		) );
+		/*Asthme*/
+		$this->add ( array (
+				'name' => 'asthmeAM',
+				'type' => 'checkbox',
+				'attributes' => array (
+						'id' => 'asthmeAM'
+				)
+		) );
+		/*Autre*/
+		$this->add ( array (
+				'name' => 'autresAM',
+				'type' => 'text',
+				'attributes' => array (
+						'id' => 'autresAM'
+				)
+		) );
+		/*GYNECO-OBSTETRIQUE*/
+		/*Menarche*/
+		$this->add ( array (
+				'name' => 'MenarcheGO',
+				'type' => 'checkbox',
+				'attributes' => array (
+						'id' => 'MenarcheGO'
+				)
+		) );
+		/*Note Menarche*/
+		$this->add ( array (
+				'name' => 'NoteMenarcheGO',
+				'type' => 'text',
+				'attributes' => array (
+						'id' => 'NoteMenarcheGO'
+				)
+		) );
+		
+		/*Gestite*/
+		$this->add ( array (
+				'name' => 'GestiteGO',
+				'type' => 'checkbox',
+				'attributes' => array (
+						'id' => 'GestiteGO'
+				)
+		) );
+		/*Note Gestite*/
+		$this->add ( array (
+				'name' => 'NoteGestiteGO',
+				'type' => 'text',
+				'attributes' => array (
+						'id' => 'NoteGestiteGO'
+				)
+		) );
+		
+
+		/*Parite*/
+		$this->add ( array (
+				'name' => 'PariteGO',
+				'type' => 'checkbox',
+				'attributes' => array (
+						'id' => 'PariteGO'
+				)
+		) );
+		/*Note Parite*/
+		$this->add ( array (
+				'name' => 'NotePariteGO',
+				'type' => 'text',
+				'attributes' => array (
+						'id' => 'NotePariteGO'
+				)
+		) );
+		
+		/*Cycle*/
+		$this->add ( array (
+				'name' => 'CycleGO',
+				'type' => 'checkbox',
+				'attributes' => array (
+						'id' => 'CycleGO'
+				)
+		) );
+		/*Duree Cycle*/
+		$this->add ( array (
+				'name' => 'DureeCycleGO',
+				'type' => 'text',
+				'attributes' => array (
+						'id' => 'DureeCycleGO'
+				)
+		) );
+		/*Regularite cycle*/
+		$this->add ( array (
+				'name' => 'RegulariteCycleGO',
+				'type' => 'Zend\Form\Element\Select',
+				'options' => array (
+						'value_options' => array (
+								' ' => '',
+								'1' => 'Oui',
+								'0' => 'Non',
+						)
+				),
+				'attributes' => array (
+						'id' => 'RegulariteCycleGO'
+				)
+		) );
+		/*Dysmenorrhee cycle*/
+		$this->add ( array (
+				'name' => 'DysmenorrheeCycleGO',
+				'type' => 'Zend\Form\Element\Select',
+				'options' => array (
+						'value_options' => array (
+								' ' => '',
+								'1' => 'Oui',
+								'0' => 'Non',
+						)
+				),
+				'attributes' => array (
+						'id' => 'DysmenorrheeCycleGO'
+				)
+		) );
+		
+		/*Autres*/
+		$this->add ( array (
+				'name' => 'AutresGO',
+				'type' => 'checkbox',
+				'attributes' => array (
+						'id' => 'AutresGO'
+				)
+		) );
+		/*Note Autres*/
+		$this->add ( array (
+				'name' => 'NoteAutresGO',
+				'type' => 'text',
+				'attributes' => array (
+						'id' => 'NoteAutresGO'
+				)
+		) );
+		/**** ANTECEDENTS FAMILIAUX ****/
+		/**** ANTECEDENTS FAMILIAUX ****/
+		
+		/*Diabete*/
+		$this->add ( array (
+				'name' => 'DiabeteAF',
+				'type' => 'checkbox',
+				'attributes' => array (
+						'id' => 'DiabeteAF'
+				)
+		) );
+		/*Note Diabete*/
+		$this->add ( array (
+				'name' => 'NoteDiabeteAF',
+				'type' => 'text',
+				'attributes' => array (
+						'id' => 'NoteDiabeteAF'
+				)
+		) );
+		
+		/*Drepanocytose*/
+		$this->add ( array (
+				'name' => 'DrepanocytoseAF',
+				'type' => 'checkbox',
+				'attributes' => array (
+						'id' => 'DrepanocytoseAF'
+				)
+		) );
+		/*Note Drepanocytose*/
+		$this->add ( array (
+				'name' => 'NoteDrepanocytoseAF',
+				'type' => 'text',
+				'attributes' => array (
+						'id' => 'NoteDrepanocytoseAF'
+				)
+		) );
+		
+		/*HTA*/
+		$this->add ( array (
+				'name' => 'htaAF',
+				'type' => 'checkbox',
+				'attributes' => array (
+						'id' => 'htaAF'
+				)
+		) );
+		/*Note HTA*/
+		$this->add ( array (
+				'name' => 'NoteHtaAF',
+				'type' => 'text',
+				'attributes' => array (
+						'id' => 'NoteHtaAF'
+				)
+		) );
+		
+		/*Autres*/
+		$this->add ( array (
+				'name' => 'autresAF',
+				'type' => 'checkbox',
+				'attributes' => array (
+						'id' => 'autresAF'
+				)
+		) );
+		/*Note Autres*/
+		$this->add ( array (
+				'name' => 'NoteAutresAF',
+				'type' => 'text',
+				'attributes' => array (
+						'id' => 'NoteAutresAF'
+				)
+		) );
 	}
 }

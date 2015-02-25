@@ -441,6 +441,9 @@ class ConsultationController extends AbstractActionController {
 		$id = $this->params ()->fromQuery ( 'id_cons' );
 		$consommable = $this->getConsommableTable();
 		$listeMedicament = $consommable->listeDeTousLesMedicaments();
+		$listeForme = $consommable->formesMedicaments();
+		$listetypeQuantiteMedicament = $consommable->typeQuantiteMedicaments();
+		
 		$list = $this->getPatientTable ();
 		$liste = $list->getPatient ( $id_pat );
 
@@ -519,7 +522,9 @@ class ConsultationController extends AbstractActionController {
 				'heure_cons' => $consult->heurecons,
 				'dateonly' => $consult->dateonly,
 				'liste_med' => $listeMedicament,
-				'temoin' => $bandelettes['temoin']
+				'temoin' => $bandelettes['temoin'],
+				'listeForme' => $listeForme,
+				'listetypeQuantiteMedicament' => $listetypeQuantiteMedicament,
 
 		);
 
@@ -743,6 +748,17 @@ class ConsultationController extends AbstractActionController {
 	public function updateComplementConsultationAction(){
 		$this->getDateHelper();
 		$id_cons = $this->params()->fromPost('id_cons');
+		
+		//TEST TEST TEST TEST 
+		 var_dump(
+		 $this->params()->fromPost('DiabeteAF').' ---  '.$this->params()->fromPost('NoteDiabeteAF').'   '.
+ 		 $this->params()->fromPost('DrepanocytoseAF').' --- '.$this->params()->fromPost('NoteDrepanocytoseAF').'   '.
+ 		 $this->params()->fromPost('htaAF').' --- '.$this->params()->fromPost('NoteHtaAF').'   '.
+ 		 $this->params()->fromPost('autresAF').' --- '.$this->params()->fromPost('NoteAutresAF')
+ 	 	//.'   '.
+// 		 $this->params()->fromPost('RegulariteCycleGO').' --- '.$this->params()->fromPost('DysmenorrheeCycleGO')
+		 			
+		 ); exit();
 		
 		//**********-- MODIFICATION DES CONSTANTES --********
 		//**********-- MODIFICATION DES CONSTANTES --********
