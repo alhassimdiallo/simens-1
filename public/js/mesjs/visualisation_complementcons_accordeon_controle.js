@@ -128,7 +128,7 @@ var diagnostic4 = $("#diagnostic4");
 
 	diagnostic1.attr( 'disabled', true).css({'background':'#f8f8f8'});;
 	diagnostic2.attr( 'disabled', true).css({'background':'#f8f8f8'});;
-	diagnostic3.attr( 'disabeld', true).css({'background':'#f8f8f8'});;
+	diagnostic3.attr( 'disabled', true).css({'background':'#f8f8f8'});;
 	diagnostic4.attr( 'disabled', true).css({'background':'#f8f8f8'});;
 	$("#bouton_diagnostic_modifier").toggle(false);
 	$("#bouton_diagnostic_valider").toggle(false);

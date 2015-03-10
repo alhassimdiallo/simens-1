@@ -30,11 +30,16 @@ function initialisation(){
 	} );
     tampon = oTable;
 
-	//le filtre du select du type personnel
-    $('#calendrier').keyup(function()  //Assure la recherche après clic sur 'ENTREE'
+    $('#calendrier').keyup(function()  //Assure la recherche dès la saisie d'une valeur
 	{					
     	oTable.fnFilter( $('#calendrier').val() );
 	});
+    
+//    //le filtre du calendrier
+//    $('#calendrier').mouseover(function()  //Assure la recherche 
+//	{					
+//    	oTable.fnFilter( $('#calendrier').val() );
+//	});
 	
     $('#rechercher').click(function(){
     	oTable.fnFilter( $('#calendrier').val() );

@@ -24,29 +24,6 @@ $Control = new DateHelper();?>
 
 			<tbody id="donnees" class="liste_patient">
 
-	            <?php /* foreach($this->donnees as $donnees):?>
-
-				<tr id="<?php echo $this->escapeHtml($donnees['Id']);?>">
-
-				    <td><?php echo $this->escapeHtml($donnees['Id']);?></td>
-				    <td style="text-transform : uppercase;"><?php echo $this->escapeHtml($donnees['Nom']);?></td>
-				    <td><?php echo $this->escapeHtml($donnees['Prenom']);?></td>
-					<td><?php echo $Control->convertDate($this->escapeHtml($donnees['Datenaissance']));?></td>
-					<td><?php echo $this->escapeHtml($donnees['Adresse']);?></td>
-					<td>
-					    <?php $id = $this->escapeHtml($donnees['Id']);?>
-					    <a href="javascript:visualiser('<?php echo $id ?>')" style="display: inline;" >
-					    	<img  src='<?php echo $this->basePath().'/images_icons/vue.PNG'?>' alt='Constantes' title="Visualiser" />
-					    </a> &nbsp;&nbsp;
-
-					    <a href="javascript:ajouternaiss('<?php echo $id ?>')">
-					       <img style="display: inline;" src='<?php echo $this->basePath().'/images_icons/transfert_droite.PNG'?>' alt='Constantes' title="suivant" />
-					    </a>
-
-					</td>
-				</tr>
-
-				<?php endforeach; */?>
 
 			</tbody>
 
@@ -82,7 +59,7 @@ $Control = new DateHelper();?>
 		        $form->prepare();
 		       echo $this->form()->openTag($form);?>
 
-		  <div id="info_bebe" style='width: 100%'>
+		  <div id="info_bebe" >
                <div style="float:left; margin-left:40px; margin-top:25px; margin-right:35px; width:11%; height:105px;">
 		       <img style="display: inline; " src='<?php echo $this->basePath().'/images_icons/bebe.jpg'?>' alt='Photo bebe' />
 		       </div>
@@ -137,7 +114,7 @@ $Control = new DateHelper();?>
 
           </div>
                
-               <div id="terminer_annuler" style='width:100%;'>
+               <div id="terminer_annuler" >
                     <div class="block" id="thoughtbot">
                        <button type="submit" id="terminer" style=" height:35px; ">Terminer</button>
                     </div>

@@ -1,3 +1,11 @@
+<script>
+//POUR LE MENU GAUCHE dans -elementgauche.phtml
+$('#plus_deces').toggle(true);
+$("#deces").replaceWith("<li id='deces' style='background:#4a5765;'><a href=''><span style='margin-left:0px; color: #ffffff; font-weight:bold; font-size:20px; font-family:Times New Roman;'> <img style='display: inline;' src='<?php echo $this->basePath().'/images_icons/moins-vert.PNG';?>' alt='Liste' /> Consultations</span></a></li>");
+dep_deces1();
+$('#declarer_style').css({'font-weight':'bold','color':'white','font-size':'22px'});
+</script>
+
 <?php use Facturation\View\Helper\DateHelper; ?>
 
 <!-- SCRIPT DU NOUVEAU CODE POUR LA GESTION DES IMAGES  -->
@@ -143,7 +151,7 @@ function getservices(cle)
               height:32px;
               background: url(<?php echo $this->basePath()."/images_icons/pdf.PNG"?>) no-repeat right top;
 
-         } .annulertransfert, .annulerrendezvous{
+         } .annulertransfert, .annulerrendezvous, .annulerhospitalisation{
               position:relative;
               width:32px;
               height:32px;
@@ -158,7 +166,7 @@ function getservices(cle)
              display: inline;float:right;border:transparent; margin-bottom: 5px; title:'Imprimer';
          }
 
-         .transf input, .rendezvous input, .ordonnance input, .annulertransfert input, .annulerrendezvous input{
+         .transf input, .rendezvous input, .ordonnance input, .annulertransfert input, .annulerrendezvous input, .annulerhospitalisation input{
               position:absolute;
               right:0;
               top:0;
@@ -218,12 +226,27 @@ height: 25px; /*la hauteur du champ input*/
 width: 190px; /* la largeur du champ input*/
 }
 
+#etat_civil
+{
+	color: green;
+}
 
-/* #contenu{ display:none; }  */
+#contenu{ visibility: hidden }
 
 </style>
 
-<!-- <div id="wait"><img src="../images/loading/chargement 6.gif"/></div> -->
+
+<script>
+
+$(window).load(function () {
+
+	$('#wait').toggle(false);
+	$('#contenu').fadeIn().css({'visibility':'visible'});
+	 
+});
+</script>
+
+<div id="wait" style="color: gray; font-size: 20px; text-align: center; margin-top: 80px;" > <span> Chargement ... </span> </div>
 
 <div id="contenu" >
 <?php echo $this->headLink()->appendStylesheet($this->basePath().'/css/monstyle.css');?>
@@ -253,7 +276,7 @@ echo $this->form()->openTag($form); ?>
        <p style='color: white; opacity: 0.09;'>
          <img id="faces" src='<?php echo $this->basePath().'/img/photos_patients/'.$this->image;?>'  alt="Jonathan Verrecchia" style='float:right; margin-right:15px; width:95px; height:95px;'/>
         </p>
-         <table>
+         <table id="etat_civil">
              <tr>
 			   	<td style='width:160px; font-family: police1;font-size: 12px;'>
 			   		<div id="aa"><a style="text-decoration: underline;">Civilit&eacute;</a><br><p style='font-weight: bold;font-size: 17px;'><?php echo $this->lesdetails->civilite;?></p></div>
@@ -299,7 +322,7 @@ echo $this->form()->openTag($form); ?>
 
 			 </tr>
 
-			  <tr>
+			 <tr>
 			   	<td style=' font-family: police1;font-size: 12px;'>
 			   		<div id="aa"><a style="text-decoration: underline;">Date de naissance</a><br><p style='font-weight: bold;font-size: 19px;'><?php echo $Control->convertDate($this->lesdetails->date_naissance);?></p></div>
 			   	</td>
@@ -308,9 +331,7 @@ echo $this->form()->openTag($form); ?>
 			   		<div id="aa"><a style="text-decoration: underline;">Adresse</a><br><p style='font-weight: bold;font-size: 19px;'><?php echo $this->lesdetails->adresse;?></p></div>
 
 			   	</td>
-			   	<td>  
 			   	
-			   	</td>
 			   	<?php
 
 			   	if($this->verifieRV != false) {
@@ -320,16 +341,19 @@ echo $this->form()->openTag($form); ?>
                          $date = "Ajourd'hui";
                       }else if(nbJours($date_actu,$dateRV) < 0){$date = 'd&eacute;pass&eacute;';}
                 ?>
-			   	<td>
-			   	   <a>
-				     <?php  echo ($this->verifieRV)? "<span id='image-neon' style='font-weight: bold; font-style: italic; font-size: 12px; color: red;'> Rendez-vous ".$date."</span>":""; ?>
-				   </a>
+			   	<td style='width: 300px; font-family: time new romans; text-align:right;'>
+				     <?php  echo ($this->verifieRV)? "<span id='image-neon' style='font-weight: bold; font-style: italic; font-size: 15px; color: red;'> Rendez-vous ".$date."</span>":""; ?>
 				</td>
                 <?php }?>
-			  </tr>
-			  	 <tr>
-
-			  	 </tr>
+                
+                <?php if($this->resultRV && $this->verifieRV == false){?>
+                <td style='display:"block"; width: 300px; font-family: police1; font-size: 12px; text-align: right;'>
+			   	   <span id='image-neon' style='color:red; font-weight:bold; font-size: 17px; '>Rendez-vous &agrave; <?php echo $this->resultRV; ?> </span>
+			   	</td>
+			   	<?php } ?>
+			   	
+			 </tr>
+			  
          </table>
            <script>
 			   	function FaireClignoterImage (){
@@ -1954,22 +1978,25 @@ echo $this->form()->openTag($form); ?>
                                        <div class="rendezvous">
                                           <hass><input type="submit" alt="Constantes" title="Imprimer" name="hospitalisation" id="hospitalisation"></hass>
                                        </div>
+                                       <div class="annulerhospitalisation">
+                                           <hass><input type="submit" name="annulerhospitalisation" id="annulerhospitalisation"></hass>
+                                       </div>
                                 <div style=" padding-bottom:40px; margin-bottom: 10px; border-bottom: 1px dashed green; margin-left: 0px; margin-right: 0px;"></div>
 
                                 <p style='color: white; opacity: 0.5; '>
-                                  <img id="" src='<?php echo $this->basePath().'/images_icons/hospitalisation.jpg'?>'  alt="consult-motif" style='float:right; margin-right:10px; padding-top:10px; width:33%; height:180px;'/>
+                                  <img id="" src='<?php echo $this->basePath().'/images_icons/hospitalisation.jpg'?>'  alt="consult-motif" style='float:right; margin-right:10px; padding-top:10px; width:25%; height:180px;'/>
                                 </p>
 
-                                    <table id="hospitalisation" style="width: 60%;">
-                                        <tr class="form-hospitalisation">
-                                            <th> <?php echo $this->formRow($form->get('motif_hospitalisation'));?> </th>
-
+                                    <table id="hospitalisation" style="width: 73%;">
+                                        <tr>
+                                            <th class="form-hospitalisation" style="width: 60%;"> <?php echo $this->formRow($form->get('motif_hospitalisation'));?> </th>
+                                            <th class="form-hospitalisation_date_fin_prevue_hospi" style="width: 40%"> <?php echo $this->formRow($form->get('date_fin_hospitalisation_prevue'));?> </th>
                                         </tr>
                                     </table>
 
                                     <table style="width: 100%; margin-top: 20px;">
                                     <tr>
-                                            <th style="width:40%;"></th>
+                                            <th style="width:55%;"></th>
                                             <th style="width:10%;">
                                                 <!-- On cr�e le bouton Valider (permettant la validation des donn�es -->
                                                 <div id="bouton_valider_hospi">
@@ -1980,8 +2007,8 @@ echo $this->form()->openTag($form); ?>
                                                      <button id='bouton_hospi_modifier'>Modifier</button>
                                                 </div>
                                             </th>
-                                            <th style="width:50%;"></th>
-                                        </tr>
+                                            <th style="width:35%;"></th>
+                                    </tr>
                                     </table>
                                 </div>
 
@@ -2061,14 +2088,6 @@ echo $this->form()->openTag($form); ?>
 
 <?php echo $this->form()->closeTag();?>
 </div>
-
-<script>
-//POUR LE MENU GAUCHE dans -elementgauche.phtml
-$('#plus_deces').toggle(true);
-$("#deces").replaceWith("<li id='deces' style='background:#4a5765;'><a href=''><span style='margin-left:0px; color: #ffffff; font-weight:bold; font-size:18px; font-family:Times New Roman;'> <img style='display: inline;' src='<?php echo $this->basePath().'/images_icons/moins-vert.PNG';?>' alt='Liste' /> M&eacute;decin de service </span></a></li>");
-dep_deces1();
-$('#declarer_style').css({'font-weight':'bold','color':'white','font-size':'22px'});
-</script>
 
 <!-- SCRIPT LOURD -->
 <?php  echo $this->headScript()->appendFile($this->basePath().'/js/jquery.maskedinput.cons.js');?>

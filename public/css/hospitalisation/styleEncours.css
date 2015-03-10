@@ -777,7 +777,7 @@ width:  90%;   /*la largeur du champ input*/
 #form_patient input[type="text"]
 {
 	height: 30px; /*la hauteur du champ input*/
-	width:  80%; /* la largeur du champ input*/
+	width:  85%; /* la largeur du champ input*/
 }
 
 #duree_soin input[type="text"]

@@ -180,7 +180,7 @@ class FacturationController extends AbstractActionController {
 			$html .= "<td style='width: 30%; height: 50px;'>";
 			if($RendezVOUS){
 				$html .= "<span> <i style='color:green;'>
-					        <span id='image-neon' style='color:red; font-weight:bold;'>Rendez-vous </span> <br>
+					        <span id='image-neon' style='color:red; font-weight:bold;'>Rendez-vous! </span> <br>
 					        <span style='font-size: 16px;'>Service:</span> <span style='font-size: 16px; font-weight:bold;'> ". $pat->getServiceParId($RendezVOUS[ 'ID_SERVICE' ])[ 'NOM' ]." </span> <br> 
 					        <span style='font-size: 16px;'>Heure:</span>  <span style='font-size: 16px; font-weight:bold;'>". $RendezVOUS[ 'heure' ]." </span> </i>
 			              </span>";
@@ -627,7 +627,7 @@ class FacturationController extends AbstractActionController {
 
 			$date = $this->convertDate ( $unPatient->date_naissance );
 			
-			$html  = "<div style='width:100%;'>";
+			$html  = "<div>";
 			
 			$html .= "<div style='width: 18%; height: 180px; float:left;'>";
 			$html .= "<div id='photo' style='float:left; margin-left:40px; margin-top:10px; margin-right:30px;'> <img style='width:105px; height:105px;' src='".$this->baseUrl()."public/img/photos_patients/" . $photo . "' ></div>";
@@ -925,7 +925,7 @@ class FacturationController extends AbstractActionController {
 				     Retour
 		             </a>
 
-		    <div id='info_maman'  style='width:100%;'> ";
+		    <div id='info_maman'  style=''> ";
 				
 			$html .= "<div style='width: 18%; height: 200px; float:left;'>";
 			$html .= "<div id='photo' style='float:left; margin-left:40px; margin-top:10px; margin-right:30px;'> <img style='width:105px; height:105px;' src='".$chemin."/img/photos_patients/" . $photo . "' ></div>";
@@ -961,7 +961,7 @@ class FacturationController extends AbstractActionController {
             
 			<form  method='post' action='".$chemin."/facturation/modifier-naissance'>
 					
-		    <div id='info_bebe' style='width:100%;'>
+		    <div id='info_bebe' style=''>
                <div  style='float:left; margin-left:40px; margin-top:25px; margin-right:35px; width:11%; height:105px;'>
 		       <img style='display: inline;' src='".$this->baseUrl()."public/images_icons/bebe.jpg' alt='Photo bebe'>
 		       </div>".$formHidden($form->get( 'id_personne' ))."
@@ -1015,7 +1015,7 @@ class FacturationController extends AbstractActionController {
                
 		       </div>
 
-		        <div id='terminer_annuler' style='width:100%;'>
+		        <div id='terminer_annuler' >
                     <div class='block' id='thoughtbot'>
                        <button type='submit' style='height:35px; margin-right:10px;'>Terminer</button>
                     </div>
@@ -1370,6 +1370,12 @@ class FacturationController extends AbstractActionController {
 		$Admis = $this->getFacturationTable();
 		$InfoAdmis = $Admis->getPatientAdmis($idFacturation);
 
+		//Verifier si le patient a un rendez-vous et si oui dans quel service et a quel heure
+		$today = new \DateTime ();
+		$dateAujourdhui = $today->format( 'Y-m-d' );
+		$pat = $this->getPatientTable ();
+		$RendezVOUS = $pat->verifierRV($id, $dateAujourdhui);
+		
 		//Recuperer le service
 		$service = $this->getServiceTable();
 		$InfoService = $service->getServiceAffectation($InfoAdmis->id_service);
@@ -1392,9 +1398,18 @@ class FacturationController extends AbstractActionController {
 		$html .= "<td><a style='text-decoration:underline; font-size:12px;'>Nationalit&eacute; actuelle:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $unPatient->nationalite_actuelle . "</p></td>";
 		$html .= "<td><a style='text-decoration:underline; font-size:12px;'>Email:</a><br><p style='width:200px; font-weight:bold; font-size:17px;'>" . $unPatient->email . "</p></td>";
 		$html .= "</tr><tr>";
-		$html .= "<td style='vertical-align: top;'><a style='text-decoration:underline; font-size:12px;'>Date de naissance:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $this->convertDate($unPatient->date_naissance) . "</p></td>";
-		$html .= "<td style='vertical-align: top;'><a style='text-decoration:underline; font-size:12px;'>Adresse:</a><br><p style='width:210px; font-weight:bold; font-size:17px;'>" . $unPatient->adresse . "</p></td>";
-		$html .= "<td style='vertical-align: top;'><a style='text-decoration:underline; font-size:12px;'>Profession:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $unPatient->profession . "</p></td>";
+		$html .= "<td style='width: 30%;vertical-align: top;'><a style='text-decoration:underline; font-size:12px;'>Date de naissance:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $this->convertDate($unPatient->date_naissance) . "</p></td>";
+		$html .= "<td style='width: 20%;vertical-align: top;'><a style='text-decoration:underline; font-size:12px;'>Adresse:</a><br><p style='width:210px; font-weight:bold; font-size:17px;'>" . $unPatient->adresse . "</p></td>";
+		$html .= "<td style='width: 20%;vertical-align: top;'><a style='text-decoration:underline; font-size:12px;'>Profession:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $unPatient->profession . "</p></td>";
+		$html .= "<td style='width: 30%; height: 50px;'>";
+		if($RendezVOUS){
+			$html .= "<span> <i style='color:green;'>
+					        <span id='image-neon' style='color:red; font-weight:bold;'>Rendez-vous! </span> <br>
+					        <span style='font-size: 16px;'>Service:</span> <span style='font-size: 16px; font-weight:bold;'> ". $pat->getServiceParId($RendezVOUS[ 'ID_SERVICE' ])[ 'NOM' ]." </span> <br>
+					        <span style='font-size: 16px;'>Heure:</span>  <span style='font-size: 16px; font-weight:bold;'>". $RendezVOUS[ 'heure' ]." </span> </i>
+			              </span>";
+		}
+		$html .= "</td'>";
 		$html .= "</tr>";
 		$html .= "</table>";
 		$html .="</div>";
@@ -1405,10 +1420,10 @@ class FacturationController extends AbstractActionController {
 			
 		$html .= "</div>";
 		
-		$html .="<div id='titre_info_deces'>Informations sur la facturation</div>";
+		$html .="<div id='titre_info_admis'>Informations sur la facturation</div>";
 		$html .="<div id='barre_separateur'></div>";
 
-		$html .="<table style='margin-top:10px; margin-left:170px;'>";
+		$html .="<table style='margin-top:10px; margin-left:195px;'>";
 		$html .="<tr>";
 		$html .="<td style='width:240px; '><a style='float:left; margin-right: 10px; text-decoration:underline; font-size:13px;'>Date consultation:</a><div id='inform' style='width:100px; float:left; font-weight:bold; font-size:17px;'>".$this->convertDate($InfoAdmis->date_cons)."</div></td>";
 		$html .="<td style='width:220px; '><a style='float:left; margin-right: 10px; text-decoration:underline; font-size:13px;'>Num&eacute;ro facture:</a><div id='inform' style='width:60px; float:left; font-weight:bold; font-size:17px;'>".$InfoAdmis->numero."</div></td>";
@@ -1417,7 +1432,7 @@ class FacturationController extends AbstractActionController {
 		$html .="<tr><td style='width:200px; padding-top: 10px;'><a style='float:left; margin-right: 10px; text-decoration:underline; font-size:13px;'> Montant:</a><div id='inform' style='width:100px; float:left; font-weight:bold; font-size:17px;'>".$InfoAdmis->montant." francs</div></td></tr>";
 
 		$html .="</table>";
-		$html .="<table style='margin-top:10px; margin-left:170px;'>";
+		$html .="<table style='margin-top:10px; margin-left:195px;'>";
 		$html .="<tr>";
 		$html .="<td style='padding-top: 10px;'><a style='text-decoration:underline; font-size:13px;'>Note:</a><br><p id='circonstance_deces' style='background:#f8faf8; font-weight:bold; font-size:17px;'>".$InfoAdmis->note."</p></td>";
 		$html .="<td class='block' id='thoughtbot' style='display: inline-block;  vertical-align: bottom; padding-left:350px; padding-bottom: 15px;'><button type='submit' id='terminer'>Terminer</button></td>";
@@ -1428,7 +1443,12 @@ class FacturationController extends AbstractActionController {
                           <img  src='".$chemin."/images_icons/fleur1.jpg' />
                      </div>";
 
-		$html .="<script>listepatient();</script>";
+		$html .="<script>listepatient();
+				  function FaireClignoterImage (){
+                    $('#image-neon').fadeOut(900).delay(300).fadeIn(800);
+                  }
+                  setInterval('FaireClignoterImage()',2200);
+				 </script>";
 
 		$this->getResponse ()->getHeaders ()->addHeaderLine ( 'Content-Type', 'application/html; charset=utf-8' );
 		return $this->getResponse()->setContent(Json::encode($html));

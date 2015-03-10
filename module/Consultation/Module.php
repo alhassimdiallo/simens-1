@@ -32,6 +32,24 @@ use Consultation\Model\AntecedentPersonnelTable;
 use Consultation\Model\AntecedentPersonnel;
 use Consultation\Model\AntecedentsFamiliauxTable;
 use Consultation\Model\AntecedentsFamiliaux;
+use Consultation\Model\DemandehospitalisationTable;
+use Consultation\Model\Demandehospitalisation;
+use Consultation\Model\Soinhospitalisation;
+use Consultation\Model\SoinhospitalisationTable;
+use Consultation\Model\SoinsTable;
+use Consultation\Model\Soins;
+use Consultation\Model\HospitalisationTable;
+use Consultation\Model\Hospitalisation;
+use Consultation\Model\HospitalisationlitTable;
+use Consultation\Model\Hospitalisationlit;
+use Consultation\Model\LitTable;
+use Consultation\Model\Lit;
+use Consultation\Model\SalleTable;
+use Consultation\Model\Salle;
+use Consultation\Model\BatimentTable;
+use Consultation\Model\Batiment;
+use Consultation\Model\Soinhospitalisation3Table;
+use Consultation\Model\Soinhospitalisation3;
 
 class Module implements AutoloaderProviderInterface {
 	
@@ -216,8 +234,106 @@ class Module implements AutoloaderProviderInterface {
 							$resultSetPrototype = new ResultSet();
 							$resultSetPrototype->setArrayObjectPrototype ( new AntecedentsFamiliaux());
 							return new TableGateway ( 'ant_familiaux_personne', $dbAdapter, null, $resultSetPrototype );
-						}
-						
+						},
+						'Consultation\Model\DemandehospitalisationTable' => function ($sm) {
+							$tableGateway = $sm->get ( 'DemandehospitalisationTableGateway' );
+							$table = new DemandehospitalisationTable ( $tableGateway );
+							return $table;
+						},
+						'DemandehospitalisationTableGateway' => function ($sm) {
+							$dbAdapter = $sm->get ( 'Zend\Db\Adapter\Adapter' );
+							$resultSetPrototype = new ResultSet ();
+							$resultSetPrototype->setArrayObjectPrototype ( new Demandehospitalisation () );
+							return new TableGateway ( 'demande_hospitalisation2', $dbAdapter, null, $resultSetPrototype );
+						},
+						'Consultation\Model\SoinhospitalisationTable' => function ($sm) {
+							$tableGateway = $sm->get ( 'SoinhospitalisationTableGateway' );
+							$table = new SoinhospitalisationTable( $tableGateway );
+							return $table;
+						},
+						'SoinhospitalisationTableGateway' => function ($sm) {
+							$dbAdapter = $sm->get ( 'Zend\Db\Adapter\Adapter' );
+							$resultSetPrototype = new ResultSet ();
+							$resultSetPrototype->setArrayObjectPrototype ( new Soinhospitalisation() );
+							return new TableGateway ( 'soins_hospitalisation_2', $dbAdapter, null, $resultSetPrototype );
+						},
+						'Consultation\Model\Soinhospitalisation3Table' => function ($sm) {
+							$tableGateway = $sm->get ( 'Soinhospitalisation3TableGateway' );
+							$table = new Soinhospitalisation3Table( $tableGateway );
+							return $table;
+						},
+						'Soinhospitalisation3TableGateway' => function ($sm) {
+							$dbAdapter = $sm->get ( 'Zend\Db\Adapter\Adapter' );
+							$resultSetPrototype = new ResultSet ();
+							$resultSetPrototype->setArrayObjectPrototype ( new Soinhospitalisation3() );
+							return new TableGateway ( 'soins_hospitalisation_3', $dbAdapter, null, $resultSetPrototype );
+						},
+						'Consultation\Model\SoinsTable' => function ($sm) {
+							$tableGateway = $sm->get ( 'SoinsTableGateway' );
+							$table = new SoinsTable( $tableGateway );
+							return $table;
+						},
+						'SoinsTableGateway' => function ($sm) {
+							$dbAdapter = $sm->get ( 'Zend\Db\Adapter\Adapter' );
+							$resultSetPrototype = new ResultSet ();
+							$resultSetPrototype->setArrayObjectPrototype ( new Soins() );
+							return new TableGateway ( 'soins', $dbAdapter, null, $resultSetPrototype );
+						},
+						'Consultation\Model\HospitalisationTable' => function ($sm) {
+							$tableGateway = $sm->get ( 'HospitalisationTableGateway' );
+							$table = new HospitalisationTable ( $tableGateway );
+							return $table;
+						},
+						'HospitalisationTableGateway' => function ($sm) {
+							$dbAdapter = $sm->get ( 'Zend\Db\Adapter\Adapter' );
+							$resultSetPrototype = new ResultSet ();
+							$resultSetPrototype->setArrayObjectPrototype ( new Hospitalisation() );
+							return new TableGateway ( 'hospitalisation', $dbAdapter, null, $resultSetPrototype );
+						},
+						'Consultation\Model\HospitalisationlitTable' => function ($sm) {
+							$tableGateway = $sm->get ( 'HospitalisationlitTableGateway' );
+							$table = new HospitalisationlitTable ( $tableGateway );
+							return $table;
+						},
+						'HospitalisationlitTableGateway' => function ($sm) {
+							$dbAdapter = $sm->get ( 'Zend\Db\Adapter\Adapter' );
+							$resultSetPrototype = new ResultSet ();
+							$resultSetPrototype->setArrayObjectPrototype ( new Hospitalisationlit() );
+							return new TableGateway ( 'hospitalisation_lit', $dbAdapter, null, $resultSetPrototype );
+						},
+						'Consultation\Model\LitTable' => function ($sm) {
+							$tableGateway = $sm->get ( 'LitTableGateway' );
+							$table = new LitTable ( $tableGateway );
+							return $table;
+						},
+						'LitTableGateway' => function ($sm) {
+							$dbAdapter = $sm->get ( 'Zend\Db\Adapter\Adapter' );
+							$resultSetPrototype = new ResultSet ();
+							$resultSetPrototype->setArrayObjectPrototype ( new Lit() );
+							return new TableGateway ( 'lit', $dbAdapter, null, $resultSetPrototype );
+						},
+						'Consultation\Model\SalleTable' => function ($sm) {
+							$tableGateway = $sm->get ( 'SalleTableGateway' );
+							$table = new SalleTable( $tableGateway );
+							return $table;
+						},
+						'SalleTableGateway' => function ($sm) {
+							$dbAdapter = $sm->get ( 'Zend\Db\Adapter\Adapter' );
+							$resultSetPrototype = new ResultSet ();
+							$resultSetPrototype->setArrayObjectPrototype ( new Salle() );
+							return new TableGateway ( 'salle', $dbAdapter, null, $resultSetPrototype );
+						},
+						'Consultation\Model\BatimentTable' => function ($sm) {
+							$tableGateway = $sm->get ( 'BatimentTableGateway' );
+							$table = new BatimentTable ( $tableGateway );
+							return $table;
+						},
+						'BatimentTableGateway' => function ($sm) {
+							$dbAdapter = $sm->get ( 'Zend\Db\Adapter\Adapter' );
+							$resultSetPrototype = new ResultSet ();
+							$resultSetPrototype->setArrayObjectPrototype ( new Batiment () );
+							return new TableGateway ( 'batiment', $dbAdapter, null, $resultSetPrototype );
+						},
 				)
 		);
 	}

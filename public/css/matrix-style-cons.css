@@ -33,7 +33,7 @@ hr{ border-top-color:#dadada;}
 .label-important, .badge-important{ background:#f74d4d;}
 
 /*Metro Background color class*/
-.bg_lb{ background:#27a9e3;}
+/*.bg_lb{ background:#27a9e3;}*/
 .bg_db{ background:#2295c9;}
 .bg_lg{ background:#28b779;}
 .bg_dg{ background:#28b779;}
@@ -163,7 +163,7 @@ hr{ border-top-color:#dadada;}
 	color: #939da8;
 }
 #sidebar > ul > li > a:hover {
-	background-color: #27a9e3; color:#fff; text-decoration:none;
+	/*background-color: #27a9e3;*/ color:#fff; text-decoration:none;
 }
 #sidebar > ul > li > a > i {
 	margin-right: 10px;
@@ -1373,7 +1373,7 @@ form {
 	display:none;
 }
 #sidebar > ul > li:hover {
-	background-color:#27a9e3;
+	/*background-color:#27a9e3;*/
 }
 #sidebar > ul > li:hover a {
 	background:none;

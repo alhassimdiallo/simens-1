@@ -185,8 +185,6 @@ div .dataTables_paginate
 }
 
 #barre_separateur {
-	width: 890px;
-    height: 2px;
     border-bottom: 2px solid #ccc;
     margin-top: 3px;
     margin-left: 195px;

@@ -114,10 +114,20 @@ return array(
     								'demande-examen' => 'medecin',
     								'demande-examen-biologique' => 'medecin',
     								
+    								'en-cours' => 'medecin',
+    								'liste-patient-encours-ajax' => 'medecin',
+    								'info-patient' => 'medecin',
+    								'detail-info-liberation-patient' => 'medecin',
+    								'info-patient-hospi' => 'medecin',
+    								'liste-soin' => 'medecin',
+    								'supprimer-soin' => 'medecin',
+    								'modifier-soin' => 'medecin',
+    								'vue-soin-appliquer' => 'medecin',
+    								'liberer-patient' => 'medecin',
+    								'liste-soins-prescrits' => 'medecin',
+    								
     								/**PDF**/
     								'impression-Pdf' => 'medecin',
-    								
-    								'test' => 'guest'
     								
     						),
     						

@@ -18,7 +18,7 @@
 	   </div>
 	   
 	   <?php //Utiliser dans l'interface du medecin ?>
-	   <div style="margin-left:30px; height:40px;"><a href="<?php echo $this->basePath().'/hospitalisation/en-cours';?>">
+	   <div id="en_cours_icone" style="margin-left:30px; height:40px;"><a href="<?php echo $this->basePath().'/hospitalisation/en-cours';?>">
 	       <img style="margin-left:5px; display: inline;" src='<?php echo $this->basePath().'/images_icons/liste.png'?>' alt='Liste' />
 	       <span id="en_cours_style" style="font-size:15px; color: white; font-family:Times New Roman;">En cours (M&eacute;decin)</span></a>
 	   </div>
@@ -67,6 +67,7 @@ $("#dossier_personnel").toggle(false);
 
 
 <script>
+$("#en_cours_icone").toggle(false);
 //*******************************************************************************************************************************
 //operation
 function dep1(){

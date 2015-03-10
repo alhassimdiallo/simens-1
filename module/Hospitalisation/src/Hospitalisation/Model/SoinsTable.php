@@ -34,7 +34,7 @@ class SoinsTable {
 	public function listeSoins()
 	{
 		$rowset = $this->tableGateway->select(array())->toArray();
-		
+		$options = array();
 		foreach ($rowset as $data) {
 			$options[$data['id_soins']] = $data['libelle'];
 		}

@@ -59,7 +59,7 @@ function AdresseText($Text){
 				<?php if($trouver == false){ ?>
 				<tr>
 				    <td id="nomMaj">
-				      <div id="<?php echo $donnees['Id']; ?>" style="width: 12px; height: 22px; margin-left: -10px; margin-right: 0.5px; float:left;" >
+				      <div id="<?php echo $donnees['Id']; ?>" style="width: 10px; height: 22px; margin-left: -10px; margin-right: 0.5px; float:left;" >
 				        <img id="image-alert" style=" vertical-align: top;" src='<?php echo $this->basePath().'/images_icons/alert_rv_r.png'?>' />
 				      </div>
 				      <?php echo $this->escapeHtml($donnees['Nom']);?>
@@ -113,7 +113,7 @@ function AdresseText($Text){
 				<?php if($trouver == true){?>
 				<tr>
 				    <td id="nomMaj">
-				       <div id="<?php echo $donnees['Id']; ?>" style="width: 12px; height: 22px; margin-left: -10px; margin-right: 0.5px; float:left;" >
+				       <div id="<?php echo $donnees['Id']; ?>" style="width: 10px; height: 22px; margin-left: -10px; margin-right: 0.5px; float:left;" >
 				          <img id="image-alert" style=" vertical-align: top;" src='<?php echo $this->basePath().'/images_icons/alert_rv_r.png'?>' />
 				       </div>
 				       <?php echo $this->escapeHtml($donnees['Nom']);?>
@@ -249,7 +249,7 @@ function AdresseText($Text){
 
 //POUR LE MENU GAUCHE dans -elementgauche.phtml
 $('#plus_naissance').toggle(true);
-$("#naissance").replaceWith("<li id='naissance' style='background:#4a5765;'><a href=''><span style='margin-left:0px; color: #ffffff; font-weight:bold; font-size:18px; font-family:Times New Roman;'> <img style='display: inline;' src='<?php echo $this->basePath().'/images_icons/moins-vert.PNG'?>' alt='Liste' /> Surveillant de service </span></a></li>");
+$("#naissance").replaceWith("<li id='naissance' style='background:#4a5765;'><a href=''><span style='margin-left:0px; color: #ffffff; font-weight:bold; font-size:20px; font-family:Times New Roman;'> <img style='display: inline;' src='<?php echo $this->basePath().'/images_icons/moins-vert.PNG'?>' alt='Liste' /> Consultations </span></a></li>");
 dep1();
 $('#ajouter_style').css({'font-weight':'bold','color':'white','font-size':'22px'});
 </script>

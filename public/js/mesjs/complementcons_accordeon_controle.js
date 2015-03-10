@@ -259,33 +259,45 @@ $(function(){
 //********************* HOSPITALISATION *****************************
 $(function(){
 	var motif_hospitalisation = $("#motif_hospitalisation");
+	var date_fin_hospitalisation = $("#date_fin_hospitalisation_prevue");
 	$("#hospitalisation").click(function(){
-		motif_hospitalisation.attr( 'readonly', true).css({'background':'#f8f8f8'});
+		motif_hospitalisation.attr( 'disabled', true).css({'background':'#f8f8f8'});
+		date_fin_hospitalisation.attr( 'disabled', true).css({'background':'#f8f8f8'});
 		$("#bouton_hospi_modifier").toggle(true);
 		$("#bouton_hospi_valider").toggle(false);	
 	});
 	
+	$("#annulerhospitalisation").click(function(){
+		motif_hospitalisation.val("");
+		date_fin_hospitalisation.val("");
+		return false;
+	});
 	//Au debut on affiche pas le bouton modifier
 	$("#bouton_hospi_modifier").toggle(false);
 	//Au debut on affiche le bouton valider
 	$("#bouton_hospi_valider").toggle(true);
 	
 	//Au debut on desactive tous les champs
-	motif_hospitalisation.attr( 'readonly', false).css({'background':'#fff'});
+	motif_hospitalisation.attr( 'disabled', false).css({'background':'#fff'});
+	date_fin_hospitalisation.attr( 'disabled', false).css({'background':'#fff'});
 	
 	$("#bouton_hospi_valider").click(function(){
-		motif_hospitalisation.attr( 'readonly', true).css({'background':'#f8f8f8'});
+		motif_hospitalisation.attr( 'disabled', true).css({'background':'#f8f8f8'});
+		date_fin_hospitalisation.attr( 'disabled', true).css({'background':'#f8f8f8'});
 		$("#bouton_hospi_modifier").toggle(true);
 		$("#bouton_hospi_valider").toggle(false);
 		return false;
 	});
 	
 	$("#bouton_hospi_modifier").click(function(){
-		motif_hospitalisation.attr( 'readonly', false).css({'background':'#fff'});
+		motif_hospitalisation.attr( 'disabled', false).css({'background':'#fff'});
+		date_fin_hospitalisation.attr( 'disabled', false).css({'background':'#fff'});
 		$("#bouton_hospi_modifier").toggle(false);
 		$("#bouton_hospi_valider").toggle(true);
 		return false;
 	});
+	
+	
 	
 });
 
@@ -707,7 +719,11 @@ $(function(){
 		
 		// **********-- Hospitalisation --*******
         // **********-- Hospitalisation --*******
+		//Desactivation des champs pour la recuperation des donnees
+		$("#motif_hospitalisation").attr( 'disabled', false);
+		$("#date_fin_hospitalisation_prevue").attr( 'disabled', false);
 		donnees['motif_hospitalisation'] = $("#motif_hospitalisation").val();
+		donnees['date_fin_hospitalisation_prevue'] = $("#date_fin_hospitalisation_prevue").val();
 		
 		// **********-- Transfert --*******
         // **********-- Transfert --*******
@@ -845,8 +861,6 @@ $(function(){
 		donnees['autresAF'] = $("#autresAF:checked").val(); 
 		if(!donnees['autresAF']){ donnees['autresAF'] = 0;}
 		donnees['NoteAutresAF'] = $("#NoteAutresAF").val();
-		
-		
 		
 		updateexecuterRequetePost(donnees);
 	});
@@ -1553,7 +1567,7 @@ $(function(){
 	  	 	return  false;
 	  	});
 
-	  	$('#dateDebAlcoolique input, #dateFinAlcoolique input, #dateDebFumeur input, #dateFinFumeur input, #dateDebDroguer input, #dateFinDroguer input').datepicker(
+	  	$('#dateDebAlcoolique input, #dateFinAlcoolique input, #dateDebFumeur input, #dateFinFumeur input, #dateDebDroguer input, #dateFinDroguer input, #date_fin_hospitalisation_prevue').datepicker(
 				$.datepicker.regional['fr'] = {
 						closeText: 'Fermer',
 						changeYear: true,
@@ -1573,7 +1587,7 @@ $(function(){
 						firstDay: 1,
 						isRTL: false,
 						showMonthAfterYear: false,
-						yearRange: '1990:2015',
+						yearRange: '1990:2025',
 						showAnim : 'bounce',
 						changeMonth: true,
 						changeYear: true,

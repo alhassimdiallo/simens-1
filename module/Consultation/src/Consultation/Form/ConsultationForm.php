@@ -809,10 +809,21 @@ class ConsultationForm extends Form {
 						'label' => 'Motif hospitalisation :'
 				),
 				'attributes' => array (
-						'readonly' => 'readonly',
 						'id' => 'motif_hospitalisation'
 				)
 		) );
+		
+		$this->add ( array (
+				'name' => 'date_fin_hospitalisation_prevue',
+				'type' => 'Text',
+				'options' => array (
+						'label' => iconv ( 'ISO-8859-1', 'UTF-8', 'Date fin prévue :'),
+				),
+				'attributes' => array (
+						'id' => 'date_fin_hospitalisation_prevue'
+				)
+		) );
+		
 		/* C))************** Rendez-vous ************ */
 		/*C))************** Rendez-vous *************/
 		$this->add ( array (

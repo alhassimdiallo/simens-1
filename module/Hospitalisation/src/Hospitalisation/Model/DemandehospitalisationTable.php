@@ -81,7 +81,7 @@ class DemandehospitalisationTable {
 
 		$db = $this->tableGateway->getAdapter();
 		
-		$aColumns = array('Nom','Prenom','Datenaissance','Sexe', 'Datedemandehospi', 'Prenom&NomMedecin' , 'id');
+		$aColumns = array('Nom','Prenom','Datenaissance','Sexe', 'date_demande_hospi', 'Prenom&NomMedecin' , 'id');
 		
 		/* Indexed column (used for fast and accurate table cardinality) */
 		$sIndexColumn = "id";
@@ -189,8 +189,8 @@ class DemandehospitalisationTable {
 						$row[] = $aRow[ 'PrenomMedecin' ]." ".$aRow[ 'NomMedecin' ];
 					}
 					
-					else if ($aColumns[$i] == 'Datedemandehospi') {
-						$row[] = $Control->convertDateTime($aRow[ 'Datedemandehospi' ]);
+					else if ($aColumns[$i] == 'date_demande_hospi') {
+						$row[] = $Control->convertDateTime($aRow[ 'date_demande_hospi' ]);
 					}
 					
 					else {
