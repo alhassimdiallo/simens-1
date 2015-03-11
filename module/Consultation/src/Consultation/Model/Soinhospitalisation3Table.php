@@ -68,6 +68,24 @@ class Soinhospitalisation3Table {
 		}
 	}
 	
+	public function getHeures($id_sh)
+	{
+			$adapter = $this->tableGateway->getAdapter();
+			$sql = new Sql($adapter);
+			$select = $sql->select();
+			$select->from('heures_soins');
+			$select->where(array('id_sh'=>$id_sh));
+				
+			$stat = $sql->prepareStatementForSqlObject($select);
+			$result = $stat->execute();
+			
+			$tab = array();
+			foreach ($result as $resultat){
+				$tab[] = $resultat['heure'];
+			}
+			return $tab;
+	}
+	
 	public function saveSoinhospitalisation($SoinHospitalisation, $id_medecin)
 	{
 		$this->getDateHelper();
@@ -82,7 +100,6 @@ class Soinhospitalisation3Table {
 				'voie_administration' => $SoinHospitalisation->voie_administration,
 				'frequence' => $SoinHospitalisation->frequence,
 				'dosage' => $SoinHospitalisation->dosage,
-				//'heure_recommandee' => $SoinHospitalisation->heure_recommandee,
 				'motif' => $SoinHospitalisation->motif,
 				'note' => $SoinHospitalisation->note,
 				'id_personne' => $id_medecin,
@@ -91,14 +108,16 @@ class Soinhospitalisation3Table {
 		$id_sh = (int)$SoinHospitalisation->id_sh;
 		if($id_sh == 0){
 			return($this->tableGateway->getLastInsertValue($this->tableGateway->insert($data)));
-			//$this->tableGateway->insert($data);
 		} else {
 			$data = array(
-					'date_modification'=> $date_enreg,
-					'date_recommandee' => $this->conversionDate->convertDateInAnglais($SoinHospitalisation->date_recommandee)." ".$SoinHospitalisation->heure_recommandee,
-					'duree' => $SoinHospitalisation->duree,
-					'note' => $SoinHospitalisation->note,
+					'date_modifcation_medecin'=> $date_enreg,
+					'date_application_recommandee' => $this->conversionDate->convertDateInAnglais($SoinHospitalisation->date_application),
+					'medicament' => $SoinHospitalisation->medicament,
+					'voie_administration' => $SoinHospitalisation->voie_administration,
+					'frequence' => $SoinHospitalisation->frequence,
+					'dosage' => $SoinHospitalisation->dosage,
 					'motif' => $SoinHospitalisation->motif,
+					'note' => $SoinHospitalisation->note,
 			);
 			if($this->getSoinhospitalisationWithId_sh($id_sh)) {
 				$this->tableGateway->update($data, array('id_sh' => $id_sh));

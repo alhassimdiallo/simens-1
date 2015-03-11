@@ -253,8 +253,12 @@ class FacturationController extends AbstractActionController {
 		$this->layout ()->setTemplate ( 'layout/facturation' );
 		$form = $this->getForm ();
 		$patientTable = $this->getPatientTable();
-		$form->get('nationalite_origine')->setvalueOptions($patientTable->listePays());
-		$form->get('nationalite_actuelle')->setvalueOptions($patientTable->listePays());
+		$form->get('nationalite_origine')->setvalueOptions($patientTable->listeDeTousLesPays());
+		$form->get('nationalite_actuelle')->setvalueOptions($patientTable->listeDeTousLesPays());
+		$data = array('nationalite_origine' => 'Sénégal', 'nationalite_actuelle' => 'Sénégal');
+		
+		$form->populateValues($data);
+		
 		return new ViewModel ( array (
 				'form' => $form
 		) );

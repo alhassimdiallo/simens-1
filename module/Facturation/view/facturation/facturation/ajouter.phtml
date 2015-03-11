@@ -8,7 +8,6 @@ echo $this->headLink ()->appendStylesheet ( $this->basePath () . '/css/facturati
 ?>
 
 <script>
-
 info_bulle();
 controle_saisie();
 
@@ -19,7 +18,6 @@ $('#plus_dossier_patient').toggle(true);
 $("#dossier_patient").replaceWith("<li id='dossier_patient' style='background:#4a5765;'><a href=''><span style='margin-left:0px; color: #ffffff; font-weight:bold; font-size:18px; font-family:Times New Roman;'> <img style='display: inline;' src='"+tabUrl[0]+"public/images_icons/moins-vert.PNG' alt='Liste' /> Dossier Patient </span></a></li>");
 dep_dossier_patient1();
 $('#nouveau_style').css({'font-weight':'bold','color':'white','font-size':'22px'});
-
 </script>
 
 <?php
@@ -48,7 +46,7 @@ echo $this->form ()->openTag ( $form );
 		<table id="form_patient" style="float: left;">
 
 			<tr class="comment-form-patient">
-				<td style="width: 270px;"> <?php echo $this->formRow($this->form->get('civilite'))?></td>
+				<td style="width: 270px;"> <?php echo $this->formRow($this->form->get('sexe'))?></td>
 				<td style="width: 270px;"> <?php echo $this->formRow($this->form->get('lieu_naissance'));?></td>
 				<td style="width: 275px;"> <?php echo $this->formRow($this->form->get('email'));?></td>
 
@@ -69,7 +67,7 @@ echo $this->form ()->openTag ( $form );
 			<tr class="comment-form-patient">
 				<td> <?php echo $this->formRow($this->form->get('date_naissance'));?></td>
 				<td> <?php echo $this->formRow($this->form->get('adresse'));?></td>
-				<td> <?php echo $this->formRow($this->form->get('sexe'));?></td>
+				<td> <?php //echo $this->formRow($this->form->get('sexe'));?></td>
 			</tr>
 
 		</table>
@@ -165,8 +163,6 @@ echo $this->form ()->openTag ( $form );
 	});
     $(function(){
     	$('#civilite').val('');
-    	$('#nationalite_origine').val('');
-    	$('#nationalite_actuelle').val('');
     	$('#sexe').val('');
         });
 </script>

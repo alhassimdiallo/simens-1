@@ -143,7 +143,7 @@
   	    	});
   	    });
 	    
-	    $('#date_recommandee, #date_recommandee_m, #date_application').datepicker($.datepicker.regional['fr'] = {
+	    $('#date_recommandee, #date_recommandee_m, #date_application, #date_application_m').datepicker($.datepicker.regional['fr'] = {
 				closeText: 'Fermer',
 				changeYear: true,
 				yearRange: 'c-80:c',
@@ -236,7 +236,6 @@
             	$("#code_demande").val($("#"+id_personne+"dh").val());
             	listeSoinsPrescrits(id_hosp);
             	$("#contenu").fadeOut(function(){
-            		//$("#hospitaliser").fadeIn("fast");
             		$("#hospitaliser").css({'visibility':'visible'});
             	}); 
             },
@@ -308,7 +307,7 @@
     }
     
     function vider_tout() {
-    	$('#medicament, #voie_administration, #frequence, #dosage, #date_application').val('');
+    	$('#medicament, #voie_administration, #frequence, #dosage, #date_application, #heure_recommandee_, #motif_, #note_').val('');
     }
     
     /*************************************************************************************************************************/
@@ -349,9 +348,9 @@
 	                    success: function(data) {
 	                    	 var result = jQuery.parseJSON(data);
 	                    	 alert(result);
-	                    	 return false;
-	                    	listeSoinsPrescrits(id_hosp);
-	                    	vider_tout();
+	                    	 //return false;
+	                    	 listeSoinsPrescrits(id_hosp);
+	                    	 vider_tout();
 	                    },
 	                    error:function(e){console.log(e);alert("Une erreur interne est survenue!");},
 	                    dataType: "html"
@@ -458,7 +457,7 @@
     	function vueSoinAppliquer(){
         	$( "#informations" ).dialog({
         	    resizable: false,
-        	    height:325,
+        	    height:365,
         	    width:700,
         	    autoOpen: false,
         	    modal: true,
@@ -522,10 +521,10 @@
             	            return false;
             	        },
             	   
-           	        "Non": function() {
-           	            $( this ).dialog( "close" );             	     
-           	            return false;
-           	        }
+           	            "Non": function() {
+           	            	$( this ).dialog( "close" );             	     
+           	            	return false;
+           	            }
             	       
             	    }
             	   
@@ -542,7 +541,7 @@
             	function modifiersoinPopup(id_sh,id_hosp){
                 	$( "#modification" ).dialog({
                 	    resizable: false,
-                	    height:360,
+                	    height:430,
                 	    width:930,
                 	    autoOpen: false,
                 	    modal: true,
@@ -595,57 +594,97 @@
                 /************************************************************************************************************************/
                 function controleSaisiPopup(id_sh,id_hosp) {
                 	
-            		$("#id_soins_m, #duree_m, #date_recommandee_m, #heure_recommandee_m").css("border-color","");
-                	if(!$('#id_soins_m').val()){
-                		$("#id_soins_m").css("border-color","#FF0000");
-                		$('#id_soins_m').attr({'title': 'Veuillez selectionner un soin'});
-                			var tooltips = $( "#id_soins_m" ).tooltip();
+            		$("#medicament_m, #voie_administration_m, #frequence_m, #dosage_m, #date_application_m, #heure_recommandee_m, #motif_m, #note_m").css("border-color","");
+                	if(!$('#medicament_m').val()){
+                		$("#medicament_m").css("border-color","#FF0000");
+                		$('#medicament_m').attr({'title': 'Veuillez séléctionner un médicament'});
+                			var tooltips = $( "#medicament_m" ).tooltip();
                 			tooltips.tooltip( "open" );
                 			
-                	}else if(!$('#duree_m').val()){
-                		$("#duree_m").css("border-color","#FF0000");
-                		$('#duree_m').attr({'title': 'Ce champ est requis'});
-                			var tooltips = $( "#duree_m" ).tooltip();
+                	}else if(!$('#voie_administration_m').val()){
+                		$("#voie_administration_m").css("border-color","#FF0000");
+                		$('#voie_administration_m').attr({'title': 'Ce champ est requis'});
+                			var tooltips = $( "#voie_administration_m" ).tooltip();
                 			tooltips.tooltip( "open" );
                 			
-                    		$("#id_soins_m").css("border-color","");
+                    		$("#medicament_m").css("border-color","");
                     		
-                	}else if(!$('#date_recommandee_m').val()){
-                		$("#date_recommandee_m").css("border-color","#FF0000");
-                		$('#date_recommandee_m').attr({'title': 'Ce champ est requis'});
-                			var tooltips = $( "#date_recommandee_m" ).tooltip();
+                	}else if(!$('#frequence_m').val()){
+                		$("#frequence_m").css("border-color","#FF0000");
+                		$('#frequence_m').attr({'title': 'Ce champ est requis'});
+                			var tooltips = $( "#frequence_m" ).tooltip();
                 			tooltips.tooltip( "open" );
                 			
-                    		$("#duree_m").css("border-color","");
+                    		$("#voie_administration_m").css("border-color","");
                     		
-                	}else if(!$('#heure_recommandee_m').val()){
+                	}else if(!$('#dosage_m').val()){
+                		$("#dosage_m").css("border-color","#FF0000");
+                		$('#dosage_m').attr({'title': 'Ce champ est requis'});
+                			var tooltips = $( "#dosage_m" ).tooltip();
+                			tooltips.tooltip( "open" );
+                			
+                    		$("#frequence_m").css("border-color","");
+                    		
+                	}else if(!$('#date_application_m').val()){
+                		$("#date_application_m").css("border-color","#FF0000");
+                		$('#date_application_m').attr({'title': 'Ce champ est requis'});
+                			var tooltips = $( "#date_application_m" ).tooltip();
+                			tooltips.tooltip( "open" );
+                			
+                    		$("#dosage_m").css("border-color","");
+                    		
+                	}
+                	else if(!$('#heure_recommandee_m').val()){
                 		$("#heure_recommandee_m").css("border-color","#FF0000");
                 		$('#heure_recommandee_m').attr({'title': 'Ce champ est requis'});
                 			var tooltips = $( "#heure_recommandee_m" ).tooltip();
                 			tooltips.tooltip( "open" );
                 			
-                    		$("#date_recommandee_m").css("border-color","");
+                    		$("#date_application_m").css("border-color","");
                     		
-                	}else {
+                	}
+                	else if(!$('#motif_m').val()){
+                		$("#motif_m").css("border-color","#FF0000");
+                		$('#motif_m').attr({'title': 'Ce champ est requis'});
+                			var tooltips = $( "#motif_m" ).tooltip();
+                			tooltips.tooltip( "open" );
+                			
+                    		$("#heure_recommandee_m").css("border-color","");
+                    		
+                	}
+                	else if(!$('#note_m').val()){
+                		$("#note_m").css("border-color","#FF0000");
+                		$('#note_m').attr({'title': 'Ce champ est requis'});
+                			var tooltips = $( "#note_m" ).tooltip();
+                			tooltips.tooltip( "open" );
+                			
+                    		$("#motif_m").css("border-color","");
+                    		
+                	}
+                	else {
                 		/**
         	        	 * Enregistrer les modifications
         	        	 */
-                		 var id_soins_m = $('#id_soins_m').val();
-                		 var date_recommandee_m = $('#date_recommandee_m').val();
+                		 var medicament_m = $('#medicament_m').val();
+                		 var voie_administration_m = $('#voie_administration_m').val();
+                		 var frequence_m = $('#frequence_m').val();
+                		 var dosage_m = $('#dosage_m').val();
+                		 var date_application_m = $('#date_application_m').val();
                 		 var heure_recommandee_m = $('#heure_recommandee_m').val();
-                		 var duree_m = $('#duree_m').val();
-                		 var note_m = $('#note_m').val();
                 		 var motif_m = $('#motif_m').val();
+                		 var note_m = $('#note_m').val();
+
         	        	 var chemin = tabUrl[0]+'public/consultation/en-cours';
      	                 $.ajax({
      	                    type: 'POST',
      	                    url: chemin ,
      	                    data:({
-     	                    	'id_sh':id_sh, 'id_soins':id_soins_m, 'date_recommandee':date_recommandee_m,
-     	                    	'heure_recommandee':heure_recommandee_m, 'duree':duree_m, 'note':note_m, 'motif':motif_m
+     	                    	'id_sh':id_sh, 'medicament':medicament_m, 'voie_administration':voie_administration_m, 
+     	                    	'frequence':frequence_m, 'dosage':dosage_m, 'date_application':date_application_m, 
+     	                    	'heure_recommandee':heure_recommandee_m, 'motif':motif_m, 'note':note_m, 
      	                    }),
      	                    success: function() {  
-                 	        		listeSoins(id_hosp);
+     	                    	listeSoinsPrescrits(id_hosp);
      	                    },
      	                    error:function(e){console.log(e);alert("Une erreur interne est survenue!");},
      	                    dataType: "html",

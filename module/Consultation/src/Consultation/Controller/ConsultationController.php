@@ -1967,7 +1967,7 @@ class ConsultationController extends AbstractActionController {
 
     public function enCoursAction() {
 		$this->layout()->setTemplate('layout/consultation');
-		
+
 		$LeService = $this->layout ()->service;
 		$LigneDuService = $this->getServiceTable ()->getServiceParNom ( $LeService );
 		$IdDuService = $LigneDuService ['ID_SERVICE'];
@@ -1997,9 +1997,8 @@ class ConsultationController extends AbstractActionController {
 
 			$data = $this->getRequest()->getPost();
 			
-			
-		    //$id_sh = $this->getSoinHospitalisation3Table()->saveSoinhospitalisation($data, $id_medecin);
-		    //$this->getSoinHospitalisation3Table()->saveHeure($data,$id_sh);
+		    $id_sh = $this->getSoinHospitalisation3Table()->saveSoinhospitalisation($data, $id_medecin);
+		    $this->getSoinHospitalisation3Table()->saveHeure($data,$id_sh);
 			$test = 'En cours de développement';
 			$this->getResponse ()->getHeaders ()->addHeaderLine ( 'Content-Type', 'application/html; charset=utf-8' );
 		    return $this->getResponse ()->setContent ( Json::encode ($test) );
@@ -2484,7 +2483,7 @@ class ConsultationController extends AbstractActionController {
 	
 	public function raffraichirListeSoinsPrescrit($id_hosp){
 	
-		$liste_soins = $this->getSoinHospitalisationTable()->getAllSoinhospitalisation($id_hosp);
+		$liste_soins = $this->getSoinHospitalisation3Table()->getAllSoinhospitalisation($id_hosp);
 		$html = "";
 		$this->getDateHelper();
 			
@@ -2492,10 +2491,10 @@ class ConsultationController extends AbstractActionController {
 			
 		$html .="<thead style='width: 100%;'>
 				  <tr style='height:40px; width:100%; cursor:pointer;'>
-					<th style='width: 28%;'>Soin</th>
-					<th style='width: 8%;'>Dur&eacute;e</th>
-					<th style='width: 23%;'>Date prescrite</th>
-					<th style='width: 23%;'>Date recommand&eacute;e</th>
+					<th style='width: 23%;'>M&eacute;dicament</th>
+					<th style='width: 21%;'>Voie d'administration</th>
+					<th style='width: 19%;'>Date prescription</th>
+					<th style='width: 19%;'>Date recommand&eacute;e</th>
 				    <th style='width: 12%;'>Options</th>
 				    <th style='width: 6%;'>Etat</th>
 				  </tr>
@@ -2506,10 +2505,10 @@ class ConsultationController extends AbstractActionController {
 		rsort($liste_soins);
 		foreach ($liste_soins as $cle => $Liste){
 			$html .="<tr style='width: 100%;' id='".$Liste['id_sh']."'>";
-			$html .="<td style='width: 28%;'><div id='inform' style='float:left; font-weight:bold; font-size:17px;'>".$this->getSoinsTable()->getSoins($Liste['id_soins'])->libelle."</div></td>";
-			$html .="<td style='width: 8%;'><div id='inform' style='float:left; font-weight:bold; font-size:17px;'>".$Liste['duree']." <minus>jrs</minus></div></td>";
-			$html .="<td style='width: 23%;'><div id='inform' style='float:left; font-weight:bold; font-size:17px;'>".$this->controlDate->convertDateTime($Liste['date_enreg'])."</div></td>";
-			$html .="<td style='width: 23%;'><div id='inform' style='float:left; font-weight:bold; font-size:17px;'>".$this->controlDate->convertDateTime($Liste['date_recommandee'])."</div></td>";
+			$html .="<td style='width: 23%;'><div id='inform' style='float:left; font-weight:bold; font-size:17px;'>".$Liste['medicament']."</div></td>";
+			$html .="<td style='width: 21%;'><div id='inform' style='float:left; font-weight:bold; font-size:17px;'>".$Liste['voie_administration']."</div></td>";
+			$html .="<td style='width: 19%;'><div id='inform' style='float:left; font-weight:bold; font-size:17px;'>".$this->controlDate->convertDateTime($Liste['date_enregistrement'])."</div></td>";
+			$html .="<td style='width: 19%;'><div id='inform' style='float:left; font-weight:bold; font-size:17px;'>".$this->controlDate->convertDate($Liste['date_application_recommandee'])." <!--minus style='font-size: 10px; font-family: time new romans; cursor: pointer; padding-left: 10px;'>Heures</minus--> </div></td>";
 			$html .="<td style='width: 12%;'> <a href='javascript:vuesoin(".$Liste['id_sh'].") '>
 					       <img class='visualiser".$Liste['id_sh']."' style='display: inline;' src='/simens/public/images_icons/voird.png' alt='Constantes' title='d&eacute;tails' />
 					  </a>&nbsp";
@@ -2724,7 +2723,7 @@ class ConsultationController extends AbstractActionController {
 	
 	public function supprimerSoinAction() {
 		$id_sh = $this->params()->fromPost('id_sh', 0);
-		$this->getSoinHospitalisationTable()->supprimerHospitalisation($id_sh);
+		$this->getSoinHospitalisation3Table()->supprimerHospitalisation($id_sh);
 	
 		$this->getResponse ()->getHeaders ()->addHeaderLine ( 'Content-Type', 'application/html; charset=utf-8' );
 		return $this->getResponse ()->setContent ( Json::encode () );
@@ -2735,23 +2734,29 @@ class ConsultationController extends AbstractActionController {
 		$id_sh = $this->params()->fromPost('id_sh', 0);
 		
 		$this->getDateHelper();
-		$soin = $this->getSoinHospitalisationTable()->getSoinhospitalisationWithId_sh($id_sh);
+		$soin = $this->getSoinHospitalisation3Table()->getSoinhospitalisationWithId_sh($id_sh);
+		$heure = $this->getSoinHospitalisation3Table()->getHeures($id_sh);
+		
+		$lesHeures = "";
+		if($heure){
+			for ($i = 0; $i<count($heure); $i++){
+			if($i == count($heure)-1) {
+					$lesHeures.= $heure[$i];
+				} else {
+					$lesHeures.= $heure[$i].'  -  ';
+				}
+			}
+		}
 		
 		$form = new SoinmodificationForm();
-		$form->get('id_soins_m')->setvalueOptions($this->getSoinsTable()->listeSoins());
 		if($soin){
-			$duree = $soin->duree;
-			if(strlen($soin->duree) == 1){
-				$duree = "0".$soin->duree;
-			}
-		
 				
 			$data = array(
-					'id_soins_m' => $soin->id_soins,
-					'duree_m' => $duree,
-					'date_recommandee_m' => $this->controlDate->convertDate($soin->date_recommandee),
-					'heure_recommandee_m'=> $this->controlDate->convertTime($soin->date_recommandee),
-						
+					'medicament_m' => $soin->medicament,
+ 					'voie_administration_m' => $soin->voie_administration,
+					'frequence_m' => $soin->frequence,
+					'dosage_m' => $soin->dosage,
+ 					'date_application_m' => $this->controlDate->convertDate($soin->date_application_recommandee),
 					'motif_m' => $soin->motif,
 					'note_m' => $soin->note,
 			);
@@ -2764,56 +2769,82 @@ class ConsultationController extends AbstractActionController {
 		$formSelect = new FormSelect();
 		$formTextArea = new FormTextarea();
 		
+		$listeMedicament = $this->getConsommableTable()->listeDeTousLesMedicaments();
+		
 		$html ="<table id='form_patient' style='width: 100%;'>
 		
 		           <tr class='comment-form-patient' style='width: 100%;'>
-		             <td style='width: 30%;'> ".$formRow($form->get('id_soins_m')).$formSelect($form->get('id_soins_m'))."</td>
-		             <td id='duree_soin' style='width: 18%;'>".$formRow($form->get('duree_m')).$formText($form->get('duree_m'))."</td>
-		             <td id='duree_recommandee_soin' style='width: 30%;'>".$formRow($form->get('date_recommandee_m')).$formText($form->get('date_recommandee_m'))."</td>
-		             <td id='heure_soin' style='width: 22%;'>".$formRow($form->get('heure_recommandee_m')).$formText($form->get('heure_recommandee_m'))."</td>
+		             <td style='width: 25%;'> ".$formRow($form->get('medicament_m')).$formText($form->get('medicament_m'))."</td>
+		             <td style='width: 25%;'>".$formRow($form->get('voie_administration_m')).$formText($form->get('voie_administration_m'))."</td>
+		             <td style='width: 25%;'>".$formRow($form->get('frequence_m')).$formText($form->get('frequence_m'))."</td>
+		             <td style='width: 25%;'>".$formRow($form->get('dosage_m')).$formText($form->get('dosage_m'))."</td>
+		           </tr>
+		             		
+		           <tr class='comment-form-patient' style='width: 100%;'>
+		             <td style='width: 25%;'> ".$formRow($form->get('date_application_m')).$formText($form->get('date_application_m'))."</td>
+		             <td colspan='2' style='width: 25%;'>".$formRow($form->get('heure_recommandee_m')).$formText($form->get('heure_recommandee_m'))."</td>
+		             <td style='width: 25%;'></td>
 		           </tr>
 		         </table>
 		
 		         <table id='form_patient' style='width: 100%;'>
 		           <tr class='comment-form-patient'>
-		             <td id='note_soin'  style='width: 40%; '>". $formRow($form->get('motif_m')).$formTextArea($form->get('motif_m'))."</td>
-		             <td id='note_soin'  style='width: 40%; '>". $formRow($form->get('note_m')).$formTextArea($form->get('note_m'))."</td>
+		             <td id='note_soin' style='width: 40%; '>". $formRow($form->get('motif_m')).$formTextArea($form->get('motif_m'))."</td>
+		             <td id='note_soin' style='width: 40%; '>". $formRow($form->get('note_m')).$formTextArea($form->get('note_m'))."</td>
 		             <td  style='width: 10%;' id='ajouter'></td>
 		             <td  style='width: 10%;'></td>
 		           </tr>
 		         </table>";
 		$html .="<script>
-				$('#date_recommandee_m, #heure_recommandee_m, #id_soins_m, #duree_m, #note_m, #motif_m').css({'font-weight':'bold','color':'#065d10','font-family': 'Times  New Roman','font-size':'16px'});
-		
-				$(function($){
-		          $('#heure_soin input').mask('23:59:59');
-	            });
-		
-	            $(function($){
-		          $('#duree_soin input').mask('99');
-	            });
-		
-				listepatient();
-				</script>";
+				  $('#medicament_m, #voie_administration_m, #frequence_m, #dosage_m, #date_application_m, #heure_recommandee_m, #motif_m, #note_m').css({'font-weight':'bold','color':'#065d10','font-family': 'Times  New Roman','font-size':'18px'});
+				    $('#heure_recommandee_m').val('".$lesHeures."');
+				    $(function() {
+    	              $('.SlectBox').SumoSelect({ csvDispCount: 6 });
+				    });
+				    var myArrayMedicament = [''];
+			        var j = 0;";
+                foreach($listeMedicament as $Liste) {
+                	$html .="myArrayMedicament[j++] = '". $Liste['INTITULE']."';"; 
+                }
+		$html .=" $('#medicament_m' ).autocomplete({
+    		         source: myArrayMedicament
+                     });
+				     listepatient();
+				 </script>";
 		
 		$this->getResponse ()->getHeaders ()->addHeaderLine ( 'Content-Type', 'application/html; charset=utf-8' );
 		return $this->getResponse ()->setContent ( Json::encode ($html) );
-		
 	}
 	
 	public function vueSoinAppliquerAction() {
 
 		$this->getDateHelper();
 		$id_sh = $this->params()->fromPost('id_sh', 0);
-		$soinHosp = $this->getSoinHospitalisationTable()->getSoinhospitalisationWithId_sh($id_sh);
+		$soinHosp = $this->getSoinHospitalisation3Table()->getSoinhospitalisationWithId_sh($id_sh);
+		$heure = $this->getSoinHospitalisation3Table()->getHeures($id_sh);
 		
-		$html  ="<table style='width: 95%;'>";
-		$html .="<tr style='width: 95%;'>";
-		$html .="<td style='width: 30%; vertical-align:top;'><a style='text-decoration:underline; font-size:12px;'>Soin:</a><br><p style='font-weight:bold; font-size:17px;'> ".$this->getSoinsTable()->getSoins($soinHosp->id_soins)->libelle." </p></td>";
-		$html .="<td style='width: 15%; vertical-align:top;'><a style='text-decoration:underline; font-size:12px;'>Dur&eacute;e:</a><br><p style='font-weight:bold; font-size:17px;'> ".$soinHosp->duree." jour(s) </p></td>";
-		$html .="<td style='width: 29%; vertical-align:top;'><a style='text-decoration:underline; font-size:12px;'>Date prescrite:</a><br><p style='font-weight:bold; font-size:17px;'> ".$this->controlDate->convertDateTime($soinHosp->date_enreg)." </p></td>";
-		$html .="<td style='width: 25%; vertical-align:top;'><a style='text-decoration:underline; font-size:12px;'>Date recommand&eacute;e:</a><br><p style='font-weight:bold; font-size:17px;'> ".$this->controlDate->convertDateTime($soinHosp->date_recommandee)." </p></td>";
+		$lesHeures = "";
+		if($heure){
+			for ($i = 0; $i<count($heure); $i++){
+				if($i == count($heure)-1) {
+					$lesHeures.= $heure[$i];
+				} else {
+					$lesHeures.= $heure[$i].'  -  ';
+				}
+			}
+		}
+		
+		$html  ="<table style='width: 99%;'>";
+		$html .="<tr style='width: 99%;'>";
+		$html .="<td style='width: 30%; vertical-align:top;'><a style='text-decoration:underline; font-size:12px;'>M&eacute;dicament:</a><br><p style='font-weight:bold; font-size:17px;'> ".$soinHosp->medicament." </p></td>";
+		$html .="<td style='width: 22%; vertical-align:top;'><a style='text-decoration:underline; font-size:12px;'>Voie d'administration:</a><br><p style='font-weight:bold; font-size:17px;'> ".$soinHosp->voie_administration." </p></td>";
+		$html .="<td style='width: 25%; vertical-align:top;'><a style='text-decoration:underline; font-size:12px;'>Date prescription:</a><br><p style='font-weight:bold; font-size:17px;'> ".$this->controlDate->convertDateTime($soinHosp->date_enregistrement)." </p></td>";
+		$html .="<td style='width: 20%; vertical-align:top;'><a style='text-decoration:underline; font-size:12px;'>Date recommand&eacute;e:</a><br><p style='font-weight:bold; font-size:17px;'> ".$this->controlDate->convertDate($soinHosp->date_application_recommandee)." </p></td>";
 		$html .="</tr>";
+		
+		$html .="<tr style='width: 99%;'>";
+		$html .="<td colspan='3' style='width: 80%; vertical-align:top;'><a style='text-decoration:underline; font-size:12px;'>Heures recommand&eacute;es:</a><br><p style='font-weight:bold; font-size:17px;'> ".$lesHeures." </p></td>";
+		
 		$html .="</table>";
 		
 		$html .="<table style='width: 95%;'>";
@@ -2826,8 +2857,8 @@ class ConsultationController extends AbstractActionController {
 		if($soinHosp->appliquer == 1) {
 			$html .="<table style='width: 95%; padding-top: 30px;'>";
 			$html .="<tr style='width: 95%;'>";
-			$html .="<td style='width: 50%; vertical-align:top;'><a style='text-decoration:underline; font-size:12px;'>Date d'application:</a><br><p style='font-weight:bold; font-size:17px;'> ".$this->controlDate->convertDateTime($soinHosp->date_application)." </p></td>";
-			$html .="<td style='width: 50%; vertical-align:top;'><a style='text-decoration:underline; font-size:13px;'>Note application:</a><br><p id='circonstance_deces' style='background:#f8faf8; font-weight:bold; font-size:17px; padding-left: 5px;'> ".$soinHosp->note_application." </p></td>";
+			$html .="<td style='width: 50%; vertical-align:top;'><a style='text-decoration:underline; font-size:12px;'>Date d'application:</a><br><p style='font-weight:bold; font-size:17px;'> ".$this->controlDate->convertDate($soinHosp->date_application)." </p></td>";
+			$html .="<td style='width: 50%; vertical-align:top;'><a style='text-decoration:underline; font-size:13px;'>Note:</a><br><p id='circonstance_deces' style='background:#f8faf8; font-weight:bold; font-size:17px; padding-left: 5px;'> ".$soinHosp->note_application." </p></td>";
 			$html .= "</tr>";
 		}
 		

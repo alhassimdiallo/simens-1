@@ -215,7 +215,7 @@ $(function() {
     					firstDay: 1,
     					isRTL: false,
     					showMonthAfterYear: false,
-    					yearRange: '1990:2015',
+    					yearRange: '1900:2050',
     					showAnim : 'bounce',
     					changeMonth: true,
     					changeYear: true,

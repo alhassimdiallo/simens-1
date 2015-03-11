@@ -749,6 +749,22 @@ class PatientTable {
 		return $options;
 	}
 	
+	public function listeDeTousLesPays()
+	{
+		$adapter = $this->tableGateway->getAdapter ();
+		$sql = new Sql ( $adapter );
+		$select = $sql->select ();
+		$select->from(array('p'=>'pays'));
+		$select->columns(array ('nom_fr_fr'));
+		$select->order('nom_fr_fr ASC');
+		$stmt = $sql->prepareStatementForSqlObject($select);
+		$result = $stmt->execute();
+		foreach ($result as $data) {
+			$options[$data['nom_fr_fr']] = $data['nom_fr_fr'];
+		}
+		return $options;
+	}
+	
 	public function listeServices()
 	{
 		$adapter = $this->tableGateway->getAdapter ();

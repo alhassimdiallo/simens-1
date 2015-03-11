@@ -28,7 +28,6 @@ class PatientForm extends Form {
 				'attributes' => array (
 						'id' => 'civilite',
 						'value' => 'M',
-						'required' => true,
 				)
 		) );
 		$this->add ( array (
@@ -82,7 +81,7 @@ class PatientForm extends Form {
 				),
 				'attributes' => array (
 						'id' => 'date_naissance',
-						'required' => true,
+						//'required' => true,
 				)
 				) );
 
@@ -95,7 +94,7 @@ class PatientForm extends Form {
 				),
 				'attributes' => array (
 						'id' => 'lieu_naissance',
-						'required' => true,
+						//'required' => true,
 				)
 				) );
 
@@ -109,9 +108,6 @@ class PatientForm extends Form {
 				'attributes' => array (
 						'id' => 'nationalite_origine',
 				)
-		// 'attributes' => array (
-		// 'required' => true,
-		// )
 				) );
 		$this->add ( array (
 				'name' => 'nationalite_actuelle',
@@ -125,9 +121,7 @@ class PatientForm extends Form {
 				'attributes' => array (
 						'id' => 'nationalite_actuelle'
 				)
-		// 'attributes' => array (
-		// 'required' => true,
-		// )
+
 				) );
 		$this->add ( array (
 				'name' => 'adresse',

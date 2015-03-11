@@ -519,7 +519,64 @@ class SoinForm extends Form {
 						'id' => 'motif_transfert'
 				)
 		) );
-		/*************** FIN TRANSFERT ************ */
 		/*************** FIN TRANSFERT *************/
+		/*************** FIN TRANSFERT *************/
+		
+		
+		/********** LES MOTIFS D ADMISSION **********/
+		/********** LES MOTIFS D ADMISSION *********/
+		$this->add ( array (
+				'name' => 'motif_admission1',
+				'type' => 'Text',
+				'options' => array (
+						'label' => 'plainte 1'
+				),
+				'attributes' => array (
+						'id' => 'motif_admission1'
+				)
+		) );
+		$this->add ( array (
+				'name' => 'motif_admission2',
+				'type' => 'Text',
+				'options' => array (
+						'label' => 'plainte 2'
+				),
+				'attributes' => array (
+						'id' => 'motif_admission2'
+				)
+		) );
+		$this->add ( array (
+				'name' => 'motif_admission3',
+				'type' => 'Text',
+				'options' => array (
+						'label' => 'plainte 3'
+				),
+				'attributes' => array (
+						'id' => 'motif_admission3'
+				)
+		) );
+		$this->add ( array (
+				'name' => 'motif_admission4',
+				'type' => 'Text',
+				'options' => array (
+						'label' => 'plainte 4'
+				),
+				'attributes' => array (
+						'id' => 'motif_admission4'
+				)
+		) );
+		$this->add ( array (
+				'name' => 'motif_admission5',
+				'type' => 'Text',
+				'options' => array (
+						'label' => 'plainte 5'
+				),
+				'attributes' => array (
+						'id' => 'motif_admission5'
+				)
+		) );
+		
+		/********** FIN LES MOTIFS D ADMISSION **********/
+		/********** FIN LES MOTIFS D ADMISSION *********/
 	}
 }
