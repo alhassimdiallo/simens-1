@@ -12,16 +12,13 @@
 </style>
 
 <script>
-$(function(){
-	initialisation();
-});
 var base_url = window.location.toString();
 var tabUrl = base_url.split("public");
 /***POUR LE MENU GAUCHE dans -elementgauche.phtml***/
 $('#plus_operation').toggle(true); 
 $("#operation").replaceWith("<li id='operation' style='background:#4a5765;'><a href=''><span style='margin-left:0px; color: #ffffff; font-weight:bold; font-size:18px; font-family:Times New Roman;'> <img style='display: inline;' src='"+tabUrl[0]+"public/images_icons/moins-vert.PNG' alt='Liste' /> Demandes d'examen </span></a></li>");
 dep1();
-$('#recherche_style').css({'font-weight':'bold','color':'white','font-size':'21px'});
+$('#liste_style').css({'font-weight':'bold','color':'white','font-size':'21px'});
 
 
 $(window).load(function () {
@@ -151,6 +148,10 @@ $(window).load(function () {
         
         
 <script type="text/javascript">
+$(function(){
+	initialisationListeRehercheExamensEffectues();
+});
+
 $("#vue_detail_hospi_patient").toggle(false);
 $("#vue_patient").toggle(false);
 $("#hospitaliser").toggle(false);

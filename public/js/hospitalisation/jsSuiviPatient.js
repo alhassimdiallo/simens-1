@@ -101,9 +101,9 @@
     /************************************************************************************************************************/
     /************************************************************************************************************************/
     /************************************************************************************************************************/
-    function affichervue(id_personne){
-    	var id_cons = $("#"+id_personne).val();
-    	var id_demande_hospi = $("#"+id_personne+"dh").val();
+    function affichervue(id_demande_hospi){ 
+    	var id_cons = $("#"+id_demande_hospi).val();
+    	var id_personne = $("#"+id_demande_hospi+"idPers").val();
     	var chemin = tabUrl[0]+'public/hospitalisation/info-patient';
         $.ajax({
             type: 'POST',
@@ -124,11 +124,11 @@
     /************************************************************************************************************************/
     /************************************************************************************************************************/
     /************************************************************************************************************************/
-    function vueSoinAppliquer(){
+    function vueSoinAppliquer(x, y){
     	$( "#informations" ).dialog({
     		resizable: false,
-    		height:325,
-    		width:700,
+    		width:x,
+    		height:y,
     		autoOpen: false,
     		modal: true,
     		buttons: {
@@ -141,7 +141,7 @@
     }
     
     function vuesoin(id_sh){
-    	vueSoinAppliquer();
+    	vueSoinAppliquer(735, 370);
     	var chemin = tabUrl[0]+'public/hospitalisation/vue-soin-appliquer';
     	$.ajax({
     		type: 'POST',
@@ -158,6 +158,23 @@
     	});
     }
     
+    function vuesoinApp(id_sh){
+    	vueSoinAppliquer(735, 480);
+    	var chemin = tabUrl[0]+'public/hospitalisation/vue-soin-appliquer';
+    	$.ajax({
+    		type: 'POST',
+    		url: chemin ,
+    		data:({'id_sh':id_sh}),
+    		success: function(data) {    
+    			var result = jQuery.parseJSON(data);   
+    			$("#info").html(result);
+    			$("#informations").dialog('open'); 
+    		},
+            
+    		error:function(e){console.log(e);alert("Une erreur interne est survenue!");},
+    		dataType: "html"
+    	});
+    }
     /*************************************************************************************************************************/
     /*************************************************************************************************************************/
     /*************************************************************************************************************************/
@@ -204,9 +221,9 @@
     /************************************************************************************************************************/
     /************************************************************************************************************************/
     /************************************************************************************************************************/
-    function administrerSoin(id_personne){ 
-    	var id_cons = $("#"+id_personne).val();
-    	var id_demande_hospi = $("#"+id_personne+"dh").val();
+    function administrerSoin(id_demande_hospi){ 
+    	var id_cons = $("#"+id_demande_hospi).val();
+    	var id_personne = $("#"+id_demande_hospi+"idPers").val();
     	var chemin = tabUrl[0]+'public/hospitalisation/administrer-soin-patient';
     	$.ajax({
     		type: 'POST',

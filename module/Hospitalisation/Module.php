@@ -30,16 +30,11 @@ use Hospitalisation\Model\ExamenTable;
 use Hospitalisation\Model\Examen;
 use Hospitalisation\Model\ResultatExamenTable;
 use Hospitalisation\Model\ResultatExamen;
+use Hospitalisation\Model\Soinhospitalisation3Table;
+use Hospitalisation\Model\Soinhospitalisation3;
 
 class Module implements AutoloaderProviderInterface, ConfigProviderInterface
 {
-// 	public function onBootstrap(MvcEvent $e)
-// 	{
-// 		$eventManager        = $e->getApplication()->getEventManager();
-// 		$moduleRouteListener = new ModuleRouteListener();
-// 		$moduleRouteListener->attach($eventManager);
-// 	}
-
 	public function registerJsonStrategy(MvcEvent $e)
 	{
 		$app          = $e->getTarget();
@@ -202,6 +197,17 @@ class Module implements AutoloaderProviderInterface, ConfigProviderInterface
 							$resultSetPrototype = new ResultSet ();
 							$resultSetPrototype->setArrayObjectPrototype ( new ResultatExamen() );
 							return new TableGateway ( 'resultats_examens2', $dbAdapter, null, $resultSetPrototype );
+						},
+						'Hospitalisation\Model\Soinhospitalisation3Table' => function ($sm) {
+							$tableGateway = $sm->get ( 'Soinhospitalisation3TableGateway' );
+							$table = new Soinhospitalisation3Table( $tableGateway );
+							return $table;
+						},
+						'Soinhospitalisation3TableGateway' => function ($sm) {
+							$dbAdapter = $sm->get ( 'Zend\Db\Adapter\Adapter' );
+							$resultSetPrototype = new ResultSet ();
+							$resultSetPrototype->setArrayObjectPrototype ( new Soinhospitalisation3() );
+							return new TableGateway ( 'soins_hospitalisation_3', $dbAdapter, null, $resultSetPrototype );
 						},
 						
 						)

@@ -115,9 +115,9 @@
     /************************************************************************************************************************/
     /************************************************************************************************************************/
     /************************************************************************************************************************/
-    function affichervue(id_personne){
-    	var id_cons = $("#"+id_personne).val();
-    	var id_demande_hospi = $("#"+id_personne+"dh").val();
+    function affichervue(id_demande_hospi){ 
+    	var id_cons = $("#"+id_demande_hospi).val();
+    	var id_personne = $("#"+id_demande_hospi+"idPers").val();
     	var chemin = tabUrl[0]+'public/consultation/info-patient';
         $.ajax({
             type: 'POST',
@@ -307,7 +307,17 @@
     }
     
     function vider_tout() {
-    	$('#medicament, #voie_administration, #frequence, #dosage, #date_application, #heure_recommandee_, #motif_, #note_').val('');
+    	$('#medicament, #voie_administration, #frequence, #dosage, #date_application, #motif_, #note_').val('');
+
+    	//POUR LA SUPPRESSION DES ELEMENTS SELECTIONNES SUR LA LISTE
+    	for(var j = 0; j < 24; j++){
+    		$('.SlectBox')[0].sumo.unSelectItem(j);
+    	}
+    	//POUR LA SUPPRESSION DES ICONES COCHES SUR LA LISTE
+    	$(function(){
+            $('select.SlectBox')[0].sumo.unload();
+            $('.SlectBox').SumoSelect({ csvDispCount: 6 });
+           });
     }
     
     /*************************************************************************************************************************/
@@ -345,10 +355,7 @@
 	                    	  'frequence':frequence, 'dosage':dosage, 'date_application':date_application,
 	                    	  'heure_recommandee':heure_recommandee, 'motif': motif, 'note':note
 	                    	  },
-	                    success: function(data) {
-	                    	 var result = jQuery.parseJSON(data);
-	                    	 alert(result);
-	                    	 //return false;
+	                    success: function() {
 	                    	 listeSoinsPrescrits(id_hosp);
 	                    	 vider_tout();
 	                    },
@@ -379,7 +386,7 @@
      * Lors d'un click
      */
     function click() {
-    	$('#medicament, #voie_administration, #frequence, #dosage, #date_application, #heure_recommandee_').click(function(){
+    	$('#titre_info_admis, #medicament, #voie_administration, #frequence, #dosage, #date_application, #heure_recommandee_').click(function(){
 			var tooltips = $( "#medicament, #voie_administration, #frequence, #dosage, #date_application, #heure_recommandee_" ).tooltip();
 			tooltips.tooltip( "close" );
 			$("#medicament, #voie_administration, #frequence, #dosage, #date_application, #heure_recommandee_").attr({'title':''});
@@ -454,11 +461,11 @@
     /************************************************************************************************************************/
     /************************************************************************************************************************/
     /************************************************************************************************************************/
-    	function vueSoinAppliquer(){
+    	function vueSoinAppliquer(x, y){
         	$( "#informations" ).dialog({
         	    resizable: false,
-        	    height:365,
-        	    width:700,
+        	    width: x, 
+        	    height: y, 
         	    autoOpen: false,
         	    modal: true,
         	    buttons: {
@@ -471,7 +478,27 @@
           }
         
         function vuesoin(id_sh){
-        	vueSoinAppliquer();
+        	vueSoinAppliquer(700, 420);
+            var chemin = tabUrl[0]+'public/consultation/vue-soin-appliquer';
+            $.ajax({
+                type: 'POST',
+                url: chemin ,
+                data:({'id_sh':id_sh}),
+                success: function(data) {    
+                	    var result = jQuery.parseJSON(data);   
+                	     $("#info").html(result);
+                	     
+                	     $("#informations").dialog('open'); 
+                	       
+                },
+                error:function(e){console.log(e);alert("Une erreur interne est survenue!");},
+                dataType: "html"
+            });
+        }
+        
+        
+        function vuesoinApp(id_sh){
+        	vueSoinAppliquer(700, 585);
             var chemin = tabUrl[0]+'public/consultation/vue-soin-appliquer';
             $.ajax({
                 type: 'POST',
@@ -702,9 +729,9 @@
                 /************************************************************************************************************************/
                 /************************************************************************************************************************/
                 /************************************************************************************************************************/
-                function liberer(id_personne) {
-                	var id_cons = $("#"+id_personne).val();
-                	var id_demande_hospi = $("#"+id_personne+"dh").val();
+                function liberer(id_demande_hospi) {
+                	var id_cons = $("#"+id_demande_hospi).val();
+                	var id_personne = $("#"+id_demande_hospi+"idPers").val();
                 	var chemin = tabUrl[0]+'public/consultation/info-patient';
                     $.ajax({
                         type: 'POST',
@@ -725,9 +752,10 @@
     /************************************************************************************************************************/
     /************************************************************************************************************************/
     /************************************************************************************************************************/
-    function affichervuedetailhospi(id_personne){
-    	var id_cons = $("#"+id_personne).val();
-    	var id_demande_hospi = $("#"+id_personne+"dh").val();
+    function affichervuedetailhospi(id_demande_hospi){
+    	var id_cons = $("#"+id_demande_hospi).val();
+    	var id_personne = $("#"+id_demande_hospi+"idPers").val();
+    	
     	var chemin = tabUrl[0]+'public/consultation/detail-info-liberation-patient';
     	$.ajax({
     		type: 'POST',

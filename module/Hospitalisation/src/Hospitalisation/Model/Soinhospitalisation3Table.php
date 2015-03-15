@@ -1,6 +1,6 @@
 <?php
 
-namespace Consultation\Model;
+namespace Hospitalisation\Model;
 
 use Zend\Db\TableGateway\TableGateway;
 use Facturation\View\Helper\DateHelper;
@@ -128,16 +128,7 @@ class Soinhospitalisation3Table {
 	public function supprimerHospitalisation($id_sh) {
 		
 		if($this->getSoinhospitalisationWithId_sh($id_sh)){
-			$adapter = $this->tableGateway->getAdapter();
-			$sql = new Sql($adapter);
-			$select = $sql->delete();
-			$select->from('heures_soins');
-			$select->where(array('id_sh'=>$id_sh));
-			
-			$stat = $sql->prepareStatementForSqlObject($select);
-			$result = $stat->execute();
-			
-			$this->tableGateway->delete(array('id_sh' => $id_sh)); 
+			$this->tableGateway->delete(array('id_sh' => $id_sh));
 		}
 	}
 	

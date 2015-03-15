@@ -146,7 +146,6 @@ function getservices(cle)
        /*** Bouton input submit***/
        /*** Bouton input submit***/
          .transf, .rendezvous, .ordonnance {
-              position:relative;
               width:32px;
               height:32px;
               background: url(<?php echo $this->basePath()."/images_icons/pdf.PNG"?>) no-repeat right top;
@@ -163,11 +162,11 @@ function getservices(cle)
          }
 
          .ordonnance {
-             display: inline;float:right;border:transparent; margin-bottom: 5px; title:'Imprimer';
+             display: inline; border:transparent; margin-bottom: 5px; title:'Imprimer';
+             position: relative; float:right;
          }
 
          .transf input, .rendezvous input, .ordonnance input, .annulertransfert input, .annulerrendezvous input, .annulerhospitalisation input{
-              position:absolute;
               right:0;
               top:0;
               font-size:100px;
@@ -665,29 +664,29 @@ echo $this->form()->openTag($form); ?>
                 <tr style="width:100%;">
                      <td style="width:25%;">
                         <div>    
-                            <img class="image1_AP" style='cursor: pointer;' src='<?php echo $this->basepath().'/images_icons/image1_AP.png'?>' style=''/>
+                            <img class="image1_AP" style='cursor: pointer; width: 100%;' src='<?php echo $this->basepath().'/images_icons/image1_AP.png'?>' style=''/>
                         </div>
                      </td>
                      <td style="width:25%;">
                         <div>    
-                            <img class="image2_AP" style='cursor: pointer;' src='<?php echo $this->basepath().'/images_icons/image2_AP.png'?>' style=''/>
+                            <img class="image2_AP" style='cursor: pointer; width: 100%;' src='<?php echo $this->basepath().'/images_icons/image2_AP.png'?>' style=''/>
                         </div>
                      </td>
                      <td style="width:25%;">
                         <div>    
-                            <img class="image3_AP" style='cursor: pointer;' src='<?php echo $this->basepath().'/images_icons/image3_AP.png'?>' style=''/>
+                            <img class="image3_AP" style='cursor: pointer; width: 100%;' src='<?php echo $this->basepath().'/images_icons/image3_AP.png'?>' style=''/>
                         </div>
                      </td>
                      <td style="width:25%;">
                         <div>    
-                            <img class="image4_AP" style='cursor: pointer;' src='<?php echo $this->basepath().'/images_icons/image4_AP.png'?>' style=''/>
+                            <img class="image4_AP" style='cursor: pointer; width: 100%;' src='<?php echo $this->basepath().'/images_icons/image4_AP.png'?>' style=''/>
                         </div>
                      </td>
                  </tr>
            </table>
            <script> 
              $(".image4_AP").toggle(false);
-             if("<?php echo $this->lesdetails->civilite;?>" != "M" ){ $(".image4_AP").toggle(true); }
+             if("<?php echo $this->lesdetails->sexe;?>" != "Masculin" ){ $(".image4_AP").toggle(true); }
            </script>
            
            <table id="HabitudesDeVie" style="width:100%;">
@@ -963,22 +962,22 @@ echo $this->form()->openTag($form); ?>
                  <tr style="width:100%;">
                      <td style="width:25%;">
                         <div>    
-                            <img class="image1" style='cursor: pointer;' src='<?php echo $this->basepath().'/images_icons/Consultant_logo.jpg'?>'  alt="consult-motif" style=''/>
+                            <img class="image1" style='cursor: pointer; width: 100%; height:200px;' src='<?php echo $this->basepath().'/images_icons/Consultant_logo.jpg'?>'  alt="consult-motif" style=''/>
                         </div>
                      </td>
                      <td style="width:25%;">
                         <div>    
-                            <img class="image2" style='cursor: pointer;' src='<?php echo $this->basepath().'/images_icons/hospitalisatione.jpg'?>'  alt="consult-motif" style=''/>
+                            <img class="image2" style='cursor: pointer; width: 100%; height:200px;' src='<?php echo $this->basepath().'/images_icons/hospitalisatione.jpg'?>'  alt="consult-motif" style=''/>
                         </div>
                      </td>
                      <td style="width:25%;">
                         <div>    
-                            <img class="image3" style='cursor: pointer;' src='<?php echo $this->basepath().'/images_icons/examens.jpg'?>'  alt="consult-motif" style=''/>
+                            <img class="image3" style='cursor: pointer; width: 100%; height:200px;' src='<?php echo $this->basepath().'/images_icons/examens.jpg'?>'  alt="consult-motif" style=''/>
                         </div>
                      </td>
                      <td style="width:25%;">
                         <div>    
-                            <img class="image4" style='cursor: pointer;' src='<?php echo $this->basepath().'/images_icons/autres.jpg'?>'  alt="consult-motif" style=''/>
+                            <img class="image4" style='cursor: pointer; width: 100%; height:200px;' src='<?php echo $this->basepath().'/images_icons/autres.jpg'?>'  alt="consult-motif" style=''/>
                         </div>
                      </td>
                  </tr>
@@ -1122,7 +1121,7 @@ echo $this->form()->openTag($form); ?>
                             <!--********************* BOUTON VALIDER OU MODIFIER ************************-->
                                <table style="width: 90%; float:right; position: relative; right: 0;">
                                     <tr style="width: 100%;">
-                                       <th style="height:15px;">
+                                       <th  id="bouton_modifier_valider_ExamenBio_Effectuer" style="height:15px;">
                                           <div id='bouton_ExamenBio_valider_demande' style="float:right;">
                                               <button >Valider</button>
                                           </div>
@@ -1167,6 +1166,15 @@ echo $this->form()->openTag($form); ?>
                                    //Faire attention aux caracteres " et ' 
                                    chargementModificationBio( indligneBio++, "<?php echo $Liste['idExamen'];?>" , "<?php echo $Liste['noteDemande'];?>");   
                                <?php } ?>
+
+                               //ON CACHE TOUT AU CAS OU LE LABORANTIN COMMENCE A AJOUTER DES RESULTATS
+                               if(<?php echo $this->listeDemandesBioEff; ?> != 0){
+                            	   //LES EXAMENS BIOLOGIQUES
+                             		$("#lesExamensBiologiques input, #lesExamensBiologiques select").attr( "disabled", true ).css({'background':'#f8f8f8'});
+                               		$("#controls_examenBio div").toggle(false);
+                               		$("#iconeExamenBio_supp_vider a img").toggle(false);
+                               		$("#bouton_modifier_valider_ExamenBio_Effectuer").toggle(false);
+                               }
                             </script>
                             
                             </div>
@@ -1674,7 +1682,7 @@ echo $this->form()->openTag($form); ?>
                    echo  $this->headScript()->appendFile($this->basePath().'/js/consultation/ajouterMedicaments.js');
                   ?>    
                                    
-                 <div id="listeMedicaments" style="width: 100%; height:260px;">
+                 <div id="listeMedicaments" style="float:left; width: 100%;">
 				                  
 				    <table class="table table-bordered" style="width: 100%; margin-bottom: 0px; margin-left: 0px;">
                       <thead style="width: 100%;">
@@ -1688,7 +1696,7 @@ echo $this->form()->openTag($form); ?>
 		              </thead>
 			        </table>
 			                         
-					<div id="Medicament_0">
+					<div id="Medicament_0" style="width: 100%;">
 					    <!-- A ne pas enlever -->
 					</div>
 					

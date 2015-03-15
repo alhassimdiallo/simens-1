@@ -141,7 +141,7 @@ width: 100%; /* la largeur du champ input*/
 	color: green;
 }
 
-#nomMaj, #inform{
+#nomMaj, #infor{
 	text-transform : uppercase;
 }
 

@@ -5,8 +5,6 @@
     /************************************************************************************************************************/
     /************************************************************************************************************************/
     $(function(){
-    	initialisation();
-    	
     	setTimeout(function() {
     		infoBulle();
     	}, 1000);
@@ -109,7 +107,7 @@
         $.ajax({
             type: 'POST',
             url: chemin ,
-            data:{'id_personne':id_personne, 'id_cons':id_cons, 'encours':111},
+            data:{'id_personne':id_personne, 'id_cons':id_cons, 'encours':111, 'examensBio': 1},
             success: function(data) {
            	         
             	$("#titre").replaceWith("<div id='titre2' style='font-family: police2; color: green; font-size: 20px; font-weight: bold; padding-left:20px;'><iS style='font-size: 25px;'>&curren;</iS> AJOUTER LES R&Eacute;SULTATS DES EXAMENS </div>");
@@ -218,8 +216,10 @@
 	    	    $('div .dataTables_paginate').css({ 'margin-right' : '0'});
 	    		$('#listeDataTable').css({'margin-left' : '-10'});
 	    		
-	    		vart=tabUrl[0]+'public/hospitalisation/liste-demandes-examens';
-			    $(location).attr("href",vart);
+	    		//setTimeout(function(){
+		    	  //vart=tabUrl[0]+'public/hospitalisation/liste-demandes-examens';
+				  //$(location).attr("href",vart);
+	    		//}, 1500);
 	    	});
 	    });
     	
@@ -621,4 +621,377 @@
     function envoyer(idDemande){
     	EnvoyerExamen(idDemande);
 		$("#envoyer_examen").dialog('open'); 
+    }
+    
+    
+    /********** POUR LES EXAMENS BIOLOGIQUES *** POUR LES EXAMENS BIOLOGIQUES *** POUR LES EXAMENS BIOLOGIQUES **************/
+    /********** POUR LES EXAMENS BIOLOGIQUES *** POUR LES EXAMENS BIOLOGIQUES *** POUR LES EXAMENS BIOLOGIQUES **************/
+    /********** POUR LES EXAMENS BIOLOGIQUES *** POUR LES EXAMENS BIOLOGIQUES *** POUR LES EXAMENS BIOLOGIQUES **************/
+    
+    /** APPLICATION DE L'EXAMEN --- APPLICATION DE L'EXAMEN**/
+    /** APPLICATION DE L'EXAMEN --- APPLICATION DE L'EXAMEN**/
+    /** APPLICATION DE L'EXAMEN --- APPLICATION DE L'EXAMEN**/
+    function listeExamensBio(id_personne, idDemande){ 
+    	var id_cons = $("#"+idDemande).val();
+    	var chemin = tabUrl[0]+'public/hospitalisation/liste-examens-demander';
+        $.ajax({
+            type: 'POST',
+            url: chemin ,
+            data:{'id_personne':id_personne, 'id_cons':id_cons, 'encours':111, 'examensBio': 1},
+            success: function(data) {
+           	         
+            	$("#titre").replaceWith("<div id='titre2' style='font-family: police2; color: green; font-size: 20px; font-weight: bold; padding-left:20px;'><iS style='font-size: 25px;'>&curren;</iS> AJOUTER LES R&Eacute;SULTATS DES EXAMENS </div>");
+            	var result = jQuery.parseJSON(data);
+            	$("#contenu").fadeOut(function(){$("#vue_patient").html(result).fadeIn("fast"); }); 
+            	     
+            },
+            error:function(e){console.log(e);alert("Une erreur interne est survenue!");},
+            dataType: "html"
+        });
+    }
+    
+    function EffectuerExamenBio(idDemande){
+    	$( "#application_examen" ).dialog({
+    		resizable: false,
+    		height:350,
+    		width:600,
+    		autoOpen: false,
+    		modal: true,
+    		buttons: {
+    			"Terminer": function() {
+    				if( controleSaisi() ) {
+    					
+    				var technique_utilise = $('#technique_utilise').val();
+    				var resultat = $('#resultat').val();
+    				var conclusion = $('#conclusion').val();
+
+    				var chemin = tabUrl[0]+'public/hospitalisation/appliquer-examen';
+    		    	$.ajax({
+    		    		type: 'POST',
+    		    		url: chemin ,
+    		    		data:({'idDemande':idDemande, 'techniqueUtiliser':technique_utilise, 'noteResultat':resultat, 'conclusion':conclusion, 'update':0}),
+    		    		success: function() {    
+
+    		    			var id_cons = $('#Examen_id_cons').val();
+    		    			
+    		    			var chemin = tabUrl[0]+'public/hospitalisation/raffraichir-liste-examens-bio';
+    	    		    	$.ajax({
+    	    		    		type: 'POST',
+    	    		    		url: chemin ,
+    	    		    		data:({'id_cons':id_cons}),
+    	    		    		success: function(data) {    
+    	    		    			var result = jQuery.parseJSON(data);
+    	    		    			$("#info_liste").fadeOut(function(){$("#info_liste").html(result).fadeIn("fast"); });
+    	    		    			
+    	    		    			$('#technique_utilise').val('');
+    	    		    			$('#resultat').val('');
+    	    		    			$('#conclusion').val('');
+    	    		    		},
+    	    		            
+    	    		    		error:function(e){console.log(e);alert("Une erreur interne est survenue!");},
+    	    		    		dataType: "html"
+    	    		    	});
+    		    			
+    		    		},
+    		            
+    		    		error:function(e){console.log(e);alert("Une erreur interne est survenue!");},
+    		    		dataType: "html"
+    		    	});
+    				
+    		    	$( this ).dialog( "close" );             	     
+    				return false;
+    				
+    				}
+    			},
+    			
+    			"Annuler": function() {
+    				var tooltips = $( "#technique_utilise, #resultat, #conclusion" ).tooltip();
+    		    	tooltips.tooltip( "close" );
+    				$( this ).dialog( "close" );             	     
+    				return false;
+    			}
+    		}
+    	});
+    }
+    
+    function appliquerExamenBio(idDemande) {
+    	$("#technique_utilise, #resultat, #conclusion").css("border-color","");
+    	$("#technique_utilise, #resultat, #conclusion").attr({'title':''});
+    	
+    	$('#technique_utilise').val('');
+		$('#resultat').val('');
+		$('#conclusion').val('');
+		
+		//*** CACHER L'ICONE INSERTION D'IMAGES ***//
+		$('#imagesExamensMorphologiques').toggle(false);
+		
+    	EffectuerExamenBio(idDemande);
+		$("#application_examen").dialog('open'); 
+    }
+    
+    
+    /** ENVOIE --- ENVOIE --- ENVOIE **/
+    /** ENVOIE --- ENVOIE --- ENVOIE **/
+    /** ENVOIE --- ENVOIE --- ENVOIE **/
+    function EnvoyerExamenBio(idDemande){
+    	$( "#envoyer_examen" ).dialog({
+    		resizable: false,
+    		height:180,
+    		width:460,
+    		autoOpen: false,
+    		modal: true,
+    		buttons: {
+    			"Terminer": function() {
+
+    				var id_cons = $('#Examen_id_cons').val();
+    				var chemin = tabUrl[0]+'public/hospitalisation/envoyer-examen-bio';
+    		    	$.ajax({
+    		    		type: 'POST',
+    		    		url: chemin ,
+    		    		data:({'idDemande':idDemande, 'id_cons':id_cons}),
+    		    		success: function(data) {    
+    		    			var result = jQuery.parseJSON(data);
+    		    			$("#info_liste").fadeOut(function(){$("#info_liste").html(result).fadeIn("fast"); });
+    		    			
+    		    		},
+    		            
+    		    		error:function(e){console.log(e);alert("Une erreur interne est survenue!");},
+    		    		dataType: "html"
+    		    	});
+    				
+    		    	$( this ).dialog( "close" );             	     
+    				return false;
+    			},
+    			
+    			"Annuler": function() {
+    				$( this ).dialog( "close" );             	     
+    				return false;
+    			}
+    		}
+    	});
+    }
+    function envoyerBio(idDemande){
+    	EnvoyerExamenBio(idDemande);
+		$("#envoyer_examen").dialog('open'); 
+    }
+    
+    
+    /** MODIFICATION --- MODIFICATION --- MODIFICATION **/
+    /** MODIFICATION --- MODIFICATION --- MODIFICATION **/
+    /** MODIFICATION --- MODIFICATION --- MODIFICATION **/
+    function modifierDonneesExamenBio(idDemande){
+    	$( "#application_examen" ).dialog({
+    		resizable: false,
+    		height:350,
+    		width:600,
+    		autoOpen: false,
+    		modal: true,
+    		buttons: {
+    			"Terminer": function() {
+    				if( controleSaisi() ) {
+    					
+    				var technique_utilise = $('#technique_utilise').val();
+    				var resultat = $('#resultat').val();
+    				var conclusion = $('#conclusion').val();
+
+    				var chemin = tabUrl[0]+'public/hospitalisation/appliquer-examen';
+    		    	$.ajax({
+    		    		type: 'POST',
+    		    		url: chemin ,
+    		    		data:({'idDemande':idDemande, 'techniqueUtiliser':technique_utilise, 'noteResultat':resultat, 'conclusion':conclusion, 'update':1}),
+    		    		success: function() {    
+
+    		    			var id_cons = $('#Examen_id_cons').val();
+    		    			
+    		    			var chemin = tabUrl[0]+'public/hospitalisation/raffraichir-liste-examens-bio';
+    	    		    	$.ajax({
+    	    		    		type: 'POST',
+    	    		    		url: chemin ,
+    	    		    		data:({'id_cons':id_cons}),
+    	    		    		success: function(data) {    
+    	    		    			var result = jQuery.parseJSON(data);
+    	    		    			$("#info_liste").fadeOut(function(){$("#info_liste").html(result).fadeIn("fast"); });
+    	    		    			
+    	    		    			$('#technique_utilise').val('');
+    	    		    			$('#resultat').val('');
+    	    		    			$('#conclusion').val('');
+    	    		    		},
+    	    		            
+    	    		    		error:function(e){console.log(e);alert("Une erreur interne est survenue!");},
+    	    		    		dataType: "html"
+    	    		    	});
+    		    			
+    		    		},
+    		            
+    		    		error:function(e){console.log(e);alert("Une erreur interne est survenue!");},
+    		    		dataType: "html"
+    		    	});
+    				
+    		    	$( this ).dialog( "close" );             	     
+    				return false;
+    				
+    			    }
+    			},
+    			
+    			"Annuler": function() {
+    				
+    		    	var tooltips = $( "#technique_utilise, #resultat, #conclusion" ).tooltip();
+    		    	tooltips.tooltip( "close" );
+    		    		
+    				$( this ).dialog( "close" );             	     
+    				return false;
+    			}
+    		}
+    	});
+    }
+    
+    function modifierExamenBio(idDemande) {
+    	$("#technique_utilise, #resultat, #conclusion").css("border-color","");
+    	$("#technique_utilise, #resultat, #conclusion").attr({'title':''});
+    	
+    	//*** CACHER L'ICONE INSERTION D'IMAGES ***//
+		$('#imagesExamensMorphologiques').toggle(false);
+		
+    	var chemin = tabUrl[0]+'public/hospitalisation/modifier-examen';
+    	$.ajax({
+    		type: 'POST',
+    		url: chemin ,
+    		data:({'idDemande':idDemande}),
+    		success: function(data) {    
+    			var result = jQuery.parseJSON(data);
+    			$("#script_donnees").html(result);
+    			
+    			modifierDonneesExamenBio(idDemande);
+    			$("#application_examen").dialog('open'); 
+    		},
+            
+    		error:function(e){console.log(e);alert("Une erreur interne est survenue!");},
+    		dataType: "html"
+    	});
+    }
+    
+
+    /** VISUALISATION --- VISUALISATION --- VISUALISATION **/
+    /** VISUALISATION --- VISUALISATION --- VISUALISATION **/
+    /** VISUALISATION --- VISUALISATION --- VISUALISATION **/
+    function vueExamenBio(idDemande){
+    	var chemin = tabUrl[0]+'public/hospitalisation/verifier-si-resultat-existe';
+    	$.ajax({
+    		type: 'POST',
+    		url: chemin ,
+    		data:({'idDemande':idDemande}),
+    		success: function(data) {    
+    			var result = jQuery.parseJSON(data);   
+    			
+    			var hauteur = 345;
+				var largeur = 500;
+    			if(result == 1) {
+    				 hauteur = 560;
+    				 largeur = 650;
+    			}
+    			
+    			vueExamenAAppliquer(hauteur, largeur);
+    	    	var chemin = tabUrl[0]+'public/hospitalisation/vue-examen-appliquer';
+    	    	$.ajax({
+    	    		type: 'POST',
+    	    		url: chemin ,
+    	    		data:({'idDemande':idDemande}),
+    	    		success: function(data) {    
+    	    			var result = jQuery.parseJSON(data);   
+    	    			$("#info").html(result);
+    	    			//CECHER L'ICONE IMAGE 
+    	    			$('#visualisationImageResultats').toggle(false);
+    	    			$("#informations").dialog('open'); 
+    	    		},
+    	            
+    	    		error:function(e){console.log(e);alert("Une erreur interne est survenue!");},
+    	    		dataType: "html"
+    	    	});
+    			
+    	    	
+    		},
+            
+    		error:function(e){console.log(e);alert("Une erreur interne est survenue!");},
+    		dataType: "html"
+    	});
+    	
+    }
+    
+    
+    /** POUR LA LISTE DES EXAMENS DEJA EFFECTUES --- POUR LA LISTE DES EXAMENS DEJA EFFECTUES **/
+    /** POUR LA LISTE DES EXAMENS DEJA EFFECTUES --- POUR LA LISTE DES EXAMENS DEJA EFFECTUES **/
+    /** POUR LA LISTE DES EXAMENS DEJA EFFECTUES --- POUR LA LISTE DES EXAMENS DEJA EFFECTUES **/
+    function initialisationListeRehercheExamensEffectues(){
+        var  oTable = $('#patient').dataTable
+    	( {
+    					"sPaginationType": "full_numbers",
+    					"aLengthMenu": [5,7,10,15],
+     					"aaSorting": [], //On ne trie pas la liste automatiquement
+    					"oLanguage": {
+    						"sInfo": "_START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+    						"sInfoEmpty": "0 &eacute;l&eacute;ment &agrave; afficher",
+    						"sInfoFiltered": "",
+    						"sUrl": "",
+    						"oPaginate": {
+    							"sFirst":    "|<",
+    							"sPrevious": "<",
+    							"sNext":     ">",
+    							"sLast":     ">|"
+    							}
+    					   },
+
+    					"sAjaxSource": ""+tabUrl[0]+"public/hospitalisation/liste-recherche-examens-effectues-ajax", 
+    					
+    	}); 
+        
+        var asInitVals = new Array();
+    
+   	//le filtre du select
+   	$('#filter_statut').change(function() 
+   	{					
+   		oTable.fnFilter( this.value );
+   	});
+
+   	//le filtre du select du type personnel
+	$('#type_personnel').change(function() 
+	{					
+		oTable.fnFilter( this.value );
+	});
+   	
+   	$("tfoot input").keyup( function () {
+   		/* Filter on the column (the index) of this element */
+   		oTable.fnFilter( this.value, $("tfoot input").index(this) );
+   	} );
+   	
+   	/*
+   	 * Support functions to provide a little bit of 'user friendlyness' to the textboxes in 
+   	 * the footer
+   	 */
+   	$("tfoot input").each( function (i) {
+   		asInitVals[i] = this.value;
+   	} );
+   	
+   	$("tfoot input").focus( function () {
+   		if ( this.className == "search_init" )
+   		{
+   			this.className = "";
+   			this.value = "";
+   		}
+   		
+   	} );
+   	
+   	$("tfoot input").blur( function (i) {
+   		if ( this.value == "" )
+   		{
+   			this.className = "search_init";
+   			this.value = asInitVals[$("tfoot input").index(this)];
+   		}
+   	} );
+
+    $("#annuler").click(function(){
+    	$("#titre2").replaceWith("<div id='titre' style='font-family: police2; color: green; font-size: 20px; font-weight: bold; padding-left:20px;'><iS style='font-size: 25px;'>&curren;</iS> LISTE DES PATIENTS </div>");
+	    $("#hospitaliser").fadeOut(function(){$("#contenu").fadeIn("fast"); $("#division").val(""); $("#salle,#lit").html("");});
+	    return false;
+	});
+      
     }

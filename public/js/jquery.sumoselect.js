@@ -105,7 +105,7 @@
 
                 //## Creates a LI element from a given option and binds events to it
                 //## Adds it to UL at a given index (Last by default)
-                createLi: function (opt,i) {
+                createLi: function (opt,i) { 
                     var O = this;
                     li = $('<li id="heure'+indice+'" data-val="' + opt.val() + '"><labelKh>' + opt.text() + '</labelKh></li>');
                     if (O.is_multi) li.prepend('<span id="img'+indice+'"><i></i></span>');
@@ -120,7 +120,8 @@
               	  	    } else { 
                 	  	  	   $("#img"+j+" i").html(''); i=1;
               	  	  	   }
-              	    });});
+              	    });
+                    });
                     indice++;
                     //FIN MON CODE
                     

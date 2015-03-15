@@ -8,9 +8,11 @@ use Zend\Db\ResultSet\ResultSet;
 use Admin\Model\Utilisateurs;
 use Zend\Db\TableGateway\TableGateway;
 use Zend\EventManager\StaticEventManager;
+use Zend\Mvc\MvcEvent;
 
 class Module implements AutoloaderProviderInterface
 {
+	
 	/**
 	 * Init function
 	 *
@@ -23,8 +25,6 @@ class Module implements AutoloaderProviderInterface
 		$events->attach('Zend\Mvc\Controller\AbstractActionController', 'dispatch', array($this, 'mvcPreDispatch'), 100); //@todo - Go directly to User\Event\Authentication
 	    
 	}
-	
-	
 	
     /**
      * Get Autoloader Configuration
@@ -81,5 +81,26 @@ class Module implements AutoloaderProviderInterface
 						},
 				),
 		);
+	}
+	
+	
+	/** UTILISER PAR TOUS LES MODULES **/
+	public function onBootstrap(MvcEvent $e) {
+		$serviceManager = $e->getApplication ()->getServiceManager ();
+		$viewModel = $e->getApplication ()->getMvcEvent ()->getViewModel ();
+	
+		$uAuth = $serviceManager->get( 'Admin\Controller\Plugin\UserAuthentication' ); //@todo - We must use PluginLoader $this->userAuthentication()!!
+		$username = $uAuth->getAuthService()->getIdentity();
+	
+		$uTable = $serviceManager->get( 'Admin\Model\UtilisateursTable' );
+		$user = $uTable->getUtilisateursWithUsername($username);
+	
+		if($user) {
+			$uService = $serviceManager->get( 'Personnel\Model\ServiceTable');
+			$service = $uService->getServiceparId($user->id_service);
+	
+			$viewModel->user = $user;
+			$viewModel->service = $service['NOM'];
+		}
 	}
 }

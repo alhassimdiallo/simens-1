@@ -201,8 +201,13 @@ return array(
     								'vue-examen-appliquer' => 'laborantin',
     								'appliquer-examen' => 'laborantin',
     								'raffraichir-liste-examens' => 'laborantin',
+    								'raffraichir-liste-examens-bio' => 'laborantin',
     								'modifier-examen' => 'laborantin',
     								'envoyer-examen' => 'laborantin',
+    								'envoyer-examen-bio' => 'laborantin',
+    								
+    								'liste-examens-effectues' => 'laborantin',
+    								'liste-recherche-examens-effectues-ajax' => 'laborantin',
     						),
     						
     				),

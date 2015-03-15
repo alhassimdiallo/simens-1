@@ -97,15 +97,11 @@ $(function(){
 $(function(){
 	var diagnostic_traitement_chirurgical = $("#diagnostic_traitement_chirurgical");
 	var intervention_prevue = $("#intervention_prevue");
-	//var type_anesthesie_demande = $("#type_anesthesie_demande");
-	//var numero_vpa = $("#numero_vpa");
 	var observation = $("#observation");
 	
 	$("#chirurgicalImpression").click(function(){
 		diagnostic_traitement_chirurgical.attr( 'readonly', true).css({'background':'#f8f8f8'});
 		intervention_prevue.attr( 'readonly', true).css({'background':'#f8f8f8'});
-		//type_anesthesie_demande.attr( 'readonly', true).css({'background':'#f8f8f8'});
-		//numero_vpa.attr( 'readonly', true).css({'background':'#f8f8f8'});
 		observation.attr( 'readonly', true).css({'background':'#f8f8f8'});
 		
 		$("#bouton_chirurgical_modifier").toggle(true);
@@ -120,31 +116,29 @@ $(function(){
 	//Au debut on desactive tous les champs
 	diagnostic_traitement_chirurgical.attr( 'readonly', false).css({'background':'#fff'});
 	intervention_prevue.attr( 'readonly', false).css({'background':'#fff'});
-	//type_anesthesie_demande.attr( 'readonly', false).css({'background':'#fff'});
-	//numero_vpa.attr( 'readonly', false).css({'background':'#fff'});
 	observation.attr( 'readonly', false).css({'background':'#fff'});
 	
 	$("#bouton_chirurgical_valider").click(function(){
 		diagnostic_traitement_chirurgical.attr( 'readonly', true).css({'background':'#f8f8f8'});
 		intervention_prevue.attr( 'readonly', true).css({'background':'#f8f8f8'});
-		//type_anesthesie_demande.attr( 'readonly', true).css({'background':'#f8f8f8'});
-		//numero_vpa.attr( 'readonly', true).css({'background':'#f8f8f8'});
 		observation.attr( 'readonly', true).css({'background':'#f8f8f8'});
 		
 		$("#bouton_chirurgical_modifier").toggle(true);
 		$("#bouton_chirurgical_valider").toggle(false);
+		
+		$("#annuler_traitement_chirurgical").attr('disabled', true);
 		return false;
 	});
 	
 	$("#bouton_chirurgical_modifier").click(function(){
 		diagnostic_traitement_chirurgical.attr( 'readonly', false).css({'background':'#fff'});
 		intervention_prevue.attr( 'readonly', false).css({'background':'#fff'});
-		//type_anesthesie_demande.attr( 'readonly', false).css({'background':'#fff'});
-		//numero_vpa.attr( 'readonly', false).css({'background':'#fff'});
 		observation.attr( 'readonly', false).css({'background':'#fff'});
 		
 		$("#bouton_chirurgical_modifier").toggle(false);
 		$("#bouton_chirurgical_valider").toggle(true);
+		
+		$("#annuler_traitement_chirurgical").attr('disabled', false);
 		return false;
 	});
 	
@@ -185,6 +179,8 @@ $(function(){
 		
 		$("#bouton_instrumental_modifier").toggle(true);
 		$("#bouton_instrumental_valider").toggle(false);
+		
+		$('#annuler_traitement_instrumental').attr('disabled', true);
 		return false;
 	});
 	
@@ -196,6 +192,17 @@ $(function(){
 		
 		$("#bouton_instrumental_modifier").toggle(false);
 		$("#bouton_instrumental_valider").toggle(true);
+		
+		$('#annuler_traitement_instrumental').attr('disabled', false);
+		return false;
+	});
+	
+	
+	$('#annuler_traitement_instrumental').click(function(){
+		endoscopieInterventionnelle.val('');
+		radiologieInterventionnelle.val('');
+		autresIntervention.val('');
+		cardiologieInterventionnelle.val('');
 		return false;
 	});
 	
@@ -242,6 +249,8 @@ $(function(){
 		service_accueil.attr( 'disabled', true ).css({'background':'#f8f8f8'});   //d�sactiver service accueil
 		$("#bouton_transfert_modifier").toggle(true);  //on affiche le bouton permettant de modifier les champs
 		$("#bouton_transfert_valider").toggle(false); //on cache le bouton permettant de valider les champs
+		
+		$("#annulertransfert").attr('disabled', true);
 		return false; 
 	});
 	//Activer(d�cach�) avec le bouton 'modifier'
@@ -251,6 +260,8 @@ $(function(){
 		service_accueil.attr( 'disabled', false ).css({'background':'#fff'});
 	 	$("#bouton_transfert_modifier").toggle(false);   //on cache le bouton permettant de modifier les champs
 	 	$("#bouton_transfert_valider").toggle(true);    //on affiche le bouton permettant de valider les champs
+	 	
+	 	$("#annulertransfert").attr('disabled', false);
 	 	return  false;
 	});
 });
@@ -286,6 +297,8 @@ $(function(){
 		date_fin_hospitalisation.attr( 'disabled', true).css({'background':'#f8f8f8'});
 		$("#bouton_hospi_modifier").toggle(true);
 		$("#bouton_hospi_valider").toggle(false);
+		
+	 	$("#annulerhospitalisation").attr('disabled', true);
 		return false;
 	});
 	
@@ -294,6 +307,8 @@ $(function(){
 		date_fin_hospitalisation.attr( 'disabled', false).css({'background':'#fff'});
 		$("#bouton_hospi_modifier").toggle(false);
 		$("#bouton_hospi_valider").toggle(true);
+		
+	 	$("#annulerhospitalisation").attr('disabled', false);
 		return false;
 	});
 	
@@ -342,6 +357,8 @@ $(function(){
 	  heure_rv.attr( 'disabled', true ).css({'background':'#f8f8f8'});   //d�sactiver l'heure
 	  $("#disable_bouton").toggle(true);  //on affiche le bouton permettant de modifier les champs
 	  $("#enable_bouton").toggle(false); //on cache le bouton permettant de valider les champs
+	  
+	  $("#annulerrendezvous").attr('disabled', true);
 	  return false; 
    });
    //Activer(d�cach�) avec le bouton 'modifier'
@@ -351,6 +368,8 @@ $(function(){
 	  heure_rv.attr( 'disabled', false ).css({'background':'#fff'});    //activer l'heure
  	  $("#disable_bouton").toggle(false);   //on cache le bouton permettant de modifier les champs
  	  $("#enable_bouton").toggle(true);    //on affiche le bouton permettant de valider les champs
+ 	  
+	  $("#annulerrendezvous").attr('disabled', false);
  	  return  false;
    });
    

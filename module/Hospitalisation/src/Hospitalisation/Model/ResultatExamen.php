@@ -15,6 +15,8 @@ class ResultatExamen {
 	public $noteResultat;
 	public $conclusion;
 	public $envoyer;
+	public $date_enregistrement;
+	public $date_modification;
 	
 	public function exchangeArray($data) {
  			$this->idResultat = (! empty ( $data ['idResultat'] )) ? $data ['idResultat'] : null;
@@ -23,6 +25,8 @@ class ResultatExamen {
  			$this->noteResultat = (! empty ( $data ['noteResultat'] )) ? $data ['noteResultat'] : null;
  			$this->conclusion = (! empty ( $data ['conclusion'] )) ? $data ['conclusion'] : null;
  			$this->envoyer = (! empty ( $data ['envoyer'] )) ? $data ['envoyer'] : null;
+ 			$this->date_enregistrement = (! empty ( $data ['date_enregistrement'] )) ? $data ['date_enregistrement'] : null;
+ 			$this->date_modification = (! empty ( $data ['date_modification'] )) ? $data ['date_modification'] : null;
 	}
 	
 }

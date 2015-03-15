@@ -122,7 +122,8 @@ class DemandehospitalisationTable {
 		->join(array('cons' => 'consultation'), 'cons.pat_id_personne = pat.id_personne', array('Datedemandehospi'=>'date', 'Idcons'=>'id_cons'))
 		->join(array('dh' => 'demande_hospitalisation2'), 'dh.id_cons = cons.id_cons' , array('*'))
 		->join(array('med' => 'medecin') , 'med.id_personne = cons.id_personne' , array('NomMedecin' =>'nom', 'PrenomMedecin' => 'prenom'))
-		->where(array('dh.valider_demande_hospi'=>0));
+		->where(array('dh.valider_demande_hospi'=>0))
+		->order('id_demande_hospi asc');
 		
 		/* Data set length after filtering */
 		$stat = $sql->prepareStatementForSqlObject($sQuery);
@@ -311,17 +312,17 @@ class DemandehospitalisationTable {
 					else if ($aColumns[$i] == 'id') {
 						
 						if($aRow[ 'Terminer' ] == 0) {
-							$html  ="<infoBulleVue><a href='javascript:affichervue(".$aRow[ $aColumns[$i] ].")'>";
+							$html  ="<infoBulleVue><a href='javascript:affichervue(".$aRow[ 'id_demande_hospi' ].")'>";
 							$html .="<img style='display: inline; margin-right: 10%;' src='".$tabURI[0]."public/images_icons/voir.png' title='détails'></a></infoBulleVue>";
 							
-							$html  .="<infoBulleVue><a href='javascript:administrerSoin(".$aRow[ $aColumns[$i] ].")'>";
+							$html  .="<infoBulleVue><a href='javascript:administrerSoin(".$aRow[ 'id_demande_hospi' ].")'>";
 							$html .="<img style='display: inline; margin-right: 14%;' src='".$tabURI[0]."public/images_icons/details.png' title='Administrer'></a></infoBulleVue>";
 	
-							$html  .="<infoBulleVue><a href='javascript:liberer(".$aRow[ $aColumns[$i] ].")'>";
+							$html  .="<infoBulleVue><a href='javascript:liberer(".$aRow[ 'id_demande_hospi' ].")'>";
 							$html .="<img style='display: inline;' src='".$tabURI[0]."public/images_icons/edit_item_btn.png' title='Libérer'></a></infoBulleVue>";
 						
 						}else {
-							$html  ="<infoBulleVue><a href='javascript:affichervuedetailhospi(".$aRow[ $aColumns[$i] ].")'>";
+							$html  ="<infoBulleVue><a href='javascript:affichervuedetailhospi(".$aRow[ 'id_demande_hospi' ].")'>";
 							$html .="<img style='display: inline; margin-right: 10%;' src='".$tabURI[0]."public/images_icons/voir.png' title='détails'></a></infoBulleVue>";
 								
 							$html  .="<infoBulleVue><a>";
@@ -332,9 +333,9 @@ class DemandehospitalisationTable {
 							
 						}
 						
-						$html .="<input id='".$aRow[ $aColumns[$i] ]."'   type='hidden' value='".$aRow[ 'Idcons' ]."'>";
-						$html .="<input id='".$aRow[ $aColumns[$i] ]."dh' type='hidden' value='".$aRow[ 'id_demande_hospi' ]."'>";
-						$html .="<input id='".$aRow[ $aColumns[$i] ]."hp' type='hidden' value='".$aRow[ 'Idhosp' ]."'>";
+						$html .="<input id='".$aRow[ 'id_demande_hospi' ]."'   type='hidden' value='".$aRow[ 'Idcons' ]."'>";
+						$html .="<input id='".$aRow[ 'id_demande_hospi' ]."hp' type='hidden' value='".$aRow[ 'Idhosp' ]."'>";
+						$html .="<input id='".$aRow[ 'id_demande_hospi' ]."idPers' type='hidden' value='".$aRow[ $aColumns[$i] ]."'>";
 						
 						$row[] = $html;
 					}
@@ -469,15 +470,15 @@ class DemandehospitalisationTable {
 	
 					else if ($aColumns[$i] == 'id') {
 	
-						$html  ="<infoBulleVue><a href='javascript:affichervue(".$aRow[ $aColumns[$i] ].")'>";
+						$html  ="<infoBulleVue><a href='javascript:affichervue(".$aRow[ 'id_demande_hospi' ].")'>";
 						$html .="<img style='display: inline; margin-right: 10%;' src='".$tabURI[0]."public/images_icons/voir.png' title='détails'></a></infoBulleVue>";
 								
-						$html  .="<infoBulleVue><a href='javascript:administrerSoin(".$aRow[ $aColumns[$i] ].")'>";
+						$html  .="<infoBulleVue><a href='javascript:administrerSoin(".$aRow[ 'id_demande_hospi' ].")'>";
 						$html .="<img style='display: inline; margin-right: 0%;' src='".$tabURI[0]."public/img/dark/blu-ray.png' title='Appliquer un soin'></a></infoBulleVue>";
 
-						$html .="<input id='".$aRow[ $aColumns[$i] ]."'   type='hidden' value='".$aRow[ 'Idcons' ]."'>";
-						$html .="<input id='".$aRow[ $aColumns[$i] ]."dh' type='hidden' value='".$aRow[ 'id_demande_hospi' ]."'>";
-						$html .="<input id='".$aRow[ $aColumns[$i] ]."hp' type='hidden' value='".$aRow[ 'Idhosp' ]."'>";
+						$html .="<input id='".$aRow[ 'id_demande_hospi' ]."'   type='hidden' value='".$aRow[ 'Idcons' ]."'>";
+						$html .="<input id='".$aRow[ 'id_demande_hospi' ]."hp' type='hidden' value='".$aRow[ 'Idhosp' ]."'>";
+						$html .="<input id='".$aRow[ 'id_demande_hospi' ]."idPers' type='hidden' value='".$aRow[ $aColumns[$i] ]."'>";
 	
 						$row[] = $html;
 					}

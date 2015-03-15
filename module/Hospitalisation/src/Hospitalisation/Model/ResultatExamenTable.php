@@ -23,19 +23,25 @@ class ResultatExamenTable {
 		return $row;
 	}
 	
-	public function saveResultatsExamens($donnees)
+	public function saveResultatsExamens($donnees, $id_personne)
 	{
+		$today = new \DateTime ();
+		$date = $today->format ( 'Y-m-d H:i:s' );
+		
 		$data = array(
-				'techniqueUtiliser' =>$donnees->techniqueUtiliser,
-				'noteResultat' =>$donnees->noteResultat,
-				'conclusion' =>$donnees->conclusion,
+				'techniqueUtiliser' => $donnees->techniqueUtiliser,
+				'noteResultat' => $donnees->noteResultat,
+				'conclusion' => $donnees->conclusion,
+				'id_personne' => $id_personne,
 		);
 		
 		if($donnees->update == 0) {
 			$data['idDemande'] = $donnees->idDemande;
+			$data['date_enregistrement'] = $date;
 			$this->tableGateway->insert($data);
 		} else {
 			if($this->getResultatExamen($donnees->idDemande)) {
+				$data['date_modifcation'] = $date;
 				$this->tableGateway->update($data, array('idDemande' =>$donnees->idDemande));
 			}
 		}

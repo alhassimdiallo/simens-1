@@ -1088,7 +1088,7 @@ width: 72%; /* la largeur du champ input*/
 
 height: 45px; /*la hauteur du champ input*/
 
-width: 50px; /* la largeur du champ input*/
+width: 60px; /* la largeur du champ input*/
 
 margin-top: -5px;
 
@@ -3964,7 +3964,7 @@ padding-bottom: 5px;
 
 padding-left: 10px; /* padding du text dans le champ*/
 
-text-indent: 210px; /* alignement du text dans le champ input après saisie*/
+text-indent: 220px; /* alignement du text dans le champ input après saisie*/
 
 margin-bottom: 1px;
 
@@ -4000,7 +4000,7 @@ display: inline-block;
 
 font-size: 13px;
 
-width: 200px;
+width: 210px;
 
 padding-top: 8px;
 
@@ -4016,7 +4016,7 @@ top: 6px;
 
 z-index: 1;
 
-border-top-left-radius: 5px; /*arrondir le bord du label*/ 
+border-top-left-radius: 5px;  
 
 float: left;
 

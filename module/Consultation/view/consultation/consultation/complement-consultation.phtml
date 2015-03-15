@@ -1,7 +1,7 @@
 <script>
 //POUR LE MENU GAUCHE dans -elementgauche.phtml
 $('#plus_deces').toggle(true);
-$("#deces").replaceWith("<li id='deces' style='background:#4a5765;'><a href=''><span style='margin-left:0px; color: #ffffff; font-weight:bold; font-size:18px; font-family:Times New Roman;'> <img style='display: inline;' src='<?php echo $this->basePath().'/images_icons/moins-vert.PNG';?>' alt='Liste' /> M&eacute;decin de service </span></a></li>");
+$("#deces").replaceWith("<li id='deces' style='background:#4a5765;'><a href=''><span style='margin-left:0px; color: #ffffff; font-weight:bold; font-size:20px; font-family:Times New Roman;'> <img style='display: inline;' src='<?php echo $this->basePath().'/images_icons/moins-vert.PNG';?>' alt='Liste' /> Consultations </span></a></li>");
 dep_deces1();
 $('#declarer_style').css({'font-weight':'bold','color':'white','font-size':'22px'});
 </script>
@@ -138,7 +138,6 @@ AntecedentScript();
        /*** Bouton input submit***/
        /*** Bouton input submit***/
          .transf, .rendezvous, .ordonnance {
-              position:relative;
               width:32px;
               height:32px;
               background: url(<?php echo $this->basePath()."/images_icons/pdf.PNG"?>) no-repeat right top;
@@ -155,11 +154,11 @@ AntecedentScript();
          }
 
          .ordonnance {
-             display: inline;float:right;border:transparent; margin-bottom: 5px; title:'Imprimer';
+             display: inline; border:transparent; margin-bottom: 5px; title:'Imprimer';
+             position: relative; float:right;
          }
 
          .transf input, .rendezvous input, .ordonnance input, .annulertransfert input, .annulerrendezvous input, .annulerhospitalisation input{
-              position:absolute;
               right:0;
               top:0;
               font-size:100px;
@@ -229,12 +228,7 @@ width: 190px; /* la largeur du champ input*/
 </style>
 
 <script>
-// $(function() {
-// 	$( "#progressbar" ).progressbar({
-// 	value: 37
-// 	});
-// });
-	
+
 $(window).load(function () {
 
 	$('#wait').toggle(false);
@@ -644,29 +638,29 @@ echo $this->form()->openTag($form); ?>
                 <tr style="width:100%;">
                      <td style="width:25%;">
                         <div>    
-                            <img class="image1_AP" style='cursor: pointer;' src='<?php echo $this->basepath().'/images_icons/image1_AP.png'?>' style=''/>
+                            <img class="image1_AP" style='cursor: pointer; width: 100%;' src='<?php echo $this->basepath().'/images_icons/image1_AP.png'?>' style=''/>
                         </div>
                      </td>
                      <td style="width:25%;">
                         <div>    
-                            <img class="image2_AP" style='cursor: pointer;' src='<?php echo $this->basepath().'/images_icons/image2_AP.png'?>' style=''/>
+                            <img class="image2_AP" style='cursor: pointer; width: 100%;' src='<?php echo $this->basepath().'/images_icons/image2_AP.png'?>' style=''/>
                         </div>
                      </td>
                      <td style="width:25%;">
                         <div>    
-                            <img class="image3_AP" style='cursor: pointer;' src='<?php echo $this->basepath().'/images_icons/image3_AP.png'?>' style=''/>
+                            <img class="image3_AP" style='cursor: pointer; width: 100%;' src='<?php echo $this->basepath().'/images_icons/image3_AP.png'?>' style=''/>
                         </div>
                      </td>
                      <td style="width:25%;">
                         <div>    
-                            <img class="image4_AP" style='cursor: pointer;' src='<?php echo $this->basepath().'/images_icons/image4_AP.png'?>' style=''/>
+                            <img class="image4_AP" style='cursor: pointer; width: 100%;' src='<?php echo $this->basepath().'/images_icons/image4_AP.png'?>' style=''/>
                         </div>
                      </td>
                  </tr>
            </table>
            <script> 
              $(".image4_AP").toggle(false);
-             if("<?php echo $this->lesdetails->civilite;?>" != "M" ){ $(".image4_AP").toggle(true); }
+             if("<?php echo $this->lesdetails->sexe;?>" != "Masculin" ){ $(".image4_AP").toggle(true); }
            </script>
            
            <table id="HabitudesDeVie" style="width:100%;">
@@ -939,30 +933,30 @@ echo $this->form()->openTag($form); ?>
            
            
            <div id="tabss-2"> 
-               <table id="MenuAntecedent" style="width:100%;">
+               <table id="MenuAntecedent" style="width:100%; ">
                  <tr style="width:100%;">
                      <td style="width:25%;">
                         <div>    
-                            <img class="image1" style='cursor: pointer;' src='<?php echo $this->basepath().'/images_icons/Consultant_logo.jpg'?>'  alt="consult-motif" style=''/>
+                            <img class="image1" style='cursor: pointer; width: 100%; height:200px;' src='<?php echo $this->basepath().'/images_icons/Consultant_logo.jpg'?>' />
                         </div>
                      </td>
                      <td style="width:25%;">
                         <div>    
-                            <img class="image2" style='cursor: pointer;' src='<?php echo $this->basepath().'/images_icons/hospitalisatione.jpg'?>'  alt="consult-motif" style=''/>
+                            <img class="image2" style='cursor: pointer; width: 100%; height:200px;' src='<?php echo $this->basepath().'/images_icons/hospitalisatione.jpg'?>'  />
                         </div>
                      </td>
                      <td style="width:25%;">
                         <div>    
-                            <img class="image3" style='cursor: pointer;' src='<?php echo $this->basepath().'/images_icons/examens.jpg'?>'  alt="consult-motif" style=''/>
+                            <img class="image3" style='cursor: pointer; width: 100%; height:200px;' src='<?php echo $this->basepath().'/images_icons/examens.jpg'?>'  />
                         </div>
                      </td>
                      <td style="width:25%;">
                         <div>    
-                            <img class="image4" style='cursor: pointer;' src='<?php echo $this->basepath().'/images_icons/Autres.jpg'?>'  alt="consult-motif" style=''/>
+                            <img class="image4" style='cursor: pointer; width: 100%; height:200px;' src='<?php echo $this->basepath().'/images_icons/Autres.jpg'?>'  />
                         </div>
                      </td>
                  </tr>
-             </table>
+               </table>
              
              <!-- LISTE DES CONSULTATIONS DU PATIENT -->
              <!-- LISTE DES CONSULTATIONS DU PATIENT -->
@@ -1027,9 +1021,9 @@ echo $this->form()->openTag($form); ?>
            
       </div>
       </div>
-     <!-- ********************Examen compl�mentaire (examen et analyse)******************-->
-     <!-- ********************Examen compl�mentaire (examen et analyse)******************-->
-     <!-- ********************Examen compl�mentaire (examen et analyse)******************-->
+     <!-- ********************Examen complementaire (examen et analyse)******************-->
+     <!-- ********************Examen complementaire (examen et analyse)******************-->
+     <!-- ********************Examen complementaire (examen et analyse)******************-->
     <!--*4*-->
      <div style='font-family: police2;font-size: 17px; font-weight: bold;'>Examens compl&eacute;mentaires</div>
         <div style='max-height: 560px;'>
@@ -1613,18 +1607,18 @@ echo $this->form()->openTag($form); ?>
               <div style=" padding-bottom:0px; margin-bottom: 5px; border-bottom: 2px solid green; margin-left: 0px;"></div>
               <!-- LE PDF POUR IMPRESSION-->
                  <div class="ordonnance">
-                      <hass><input type="submit" alt="Constantes" title="Imprimer" name="ordonnance" id="ordonnance"></hass>
+                      <hass ><input type="submit" alt="Constantes" title="Imprimer" name="ordonnance" id="ordonnance"></hass>
                  </div>
 
                  <!-- LE CHAMP POUR LA DUREE DU TRAITEMENT DE L'ORDONNANCE-->
-                 <div id="duree_traitement">
+                 <div id="duree_traitement" >
                     <div class="form-duree_">
                       <label> Dur&eacute;e traitement m&eacute;dical </label><input style=" margin-top: 2px; margin-bottom: 5px;" type="text" class="duree_traitement_ord" id="duree_traitement_ord" name="duree_traitement_ord" />
                     </div>
                     <p style="display: inline;float:left;border:transparent; margin-top: 8px; margin-left: 5px; font-family: police3;font-size: 19px;">jours</p>
                  </div>
 
-                 <div style=" padding-bottom:40px; margin-bottom: 10px; border-bottom: 1px dashed green; margin-left: 0px; margin-right: 0px;"></div>
+                 <div style="padding-bottom:40px; margin-bottom: 10px; border-bottom: 1px dashed green; margin-left: 0px; margin-right: 0px;"></div>
                     
                     <!--******* ======= MEDICAMENTS MEDICAMENTS =======  ******-->
                     <!--******* ======= MEDICAMENTS MEDICAMENTS =======  ******-->
@@ -1639,7 +1633,7 @@ echo $this->form()->openTag($form); ?>
                    echo  $this->headScript()->appendFile($this->basePath().'/js/consultation/ajouterMedicaments.js');
                   ?>    
                                    
-                 <div id="listeMedicaments" style="width: 100%; height:260px;">
+                 <div id="listeMedicaments" style="float:left; width: 100%;">
 				                  
 				    <table class="table table-bordered" style="width: 100%; margin-bottom: 0px; margin-left: 0px;">
                       <thead style="width: 100%;">
@@ -1653,7 +1647,7 @@ echo $this->form()->openTag($form); ?>
 		              </thead>
 			        </table>
 			                         
-					<div id="Medicament_0">
+					<div id="Medicament_0" style="width: 100%;">
 					    <!-- A ne pas enlever -->
 					</div>
 					

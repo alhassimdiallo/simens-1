@@ -64,6 +64,29 @@ class DemandeTable{
 		return $result;
 	}
 	
+	/**
+	 * Recuperer la liste des examens Biologiques Effectués et Envoyés par le laborantion (biologiste)
+	 */
+	public function getDemandeExamensBiologiquesEffectues($id){
+		$adapter = $this->tableGateway->getAdapter();
+		$sql = new Sql($adapter);
+		$select = $sql->select();
+		$select->columns(array('*'));
+		$select->from(array('d'=>'demande'));
+		$select->join( array(
+				'e' => 'examens'
+		), 'd.idExamen = e.idExamen' , array ( '*' ) );
+		$select->join( array(
+				'r' => 'resultats_examens2'
+		), 'd.idDemande = r.idDemande' , array ( '*' ) );
+		$select->where(array('d.idCons' => $id, 'idType' => 1, 'appliquer' => 1 , 'envoyer' => 1));
+		$select->order('d.idDemande ASC');
+		$stat = $sql->prepareStatementForSqlObject($select);
+		$result = $stat->execute();
+	
+		return $result;
+	}
+	
 	public function updateDemande($examenDemande, $noteExamen)
 	{
 		$this->tableGateway->delete(array('idCons' => $examenDemande['id_cons']));

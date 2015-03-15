@@ -796,8 +796,31 @@ class ConsultationController extends AbstractActionController {
 		  $listeDemandesMorphologiques = $demandeExamen->getDemandeExamensMorphologiques($id);
 		  $listeDemandesBiologiques = $demandeExamen->getDemandeExamensBiologiques($id);
 		  
+		  ////RESULTATS DES EXAMENS BIOLOGIQUES DEJA EFFECTUES ET ENVOYER PAR LE BIOLOGISTE
+		  $listeDemandesBiologiquesEffectuer = $demandeExamen->getDemandeExamensBiologiquesEffectues($id);
+
+		  foreach ($listeDemandesBiologiquesEffectuer as $listeExamenBioEffectues){
+		  	if($listeExamenBioEffectues['idExamen'] == 1){
+		  		$data['groupe_sanguin'] =  $listeExamenBioEffectues['noteResultat'];
+		  	}
+		  	if($listeExamenBioEffectues['idExamen'] == 2){
+		  		$data['hemogramme_sanguin'] =  $listeExamenBioEffectues['noteResultat'];
+		  	}
+		  	if($listeExamenBioEffectues['idExamen'] == 3){
+		  		$data['bilan_hepatique'] =  $listeExamenBioEffectues['noteResultat'];
+		  	}
+		  	if($listeExamenBioEffectues['idExamen'] == 4){
+		  		$data['bilan_renal'] =  $listeExamenBioEffectues['noteResultat'];
+		  	}
+		  	if($listeExamenBioEffectues['idExamen'] == 5){
+		  		$data['bilan_hemolyse'] =  $listeExamenBioEffectues['noteResultat'];
+		  	}
+		  	if($listeExamenBioEffectues['idExamen'] == 6){
+		  		$data['bilan_inflammatoire'] =  $listeExamenBioEffectues['noteResultat'];
+		  	}
+		  }
 		  
-		  // RESULTATS DES EXAMENS COMPLEMENTAIRES
+		  ////RESULTATS DES EXAMENS MORPHOLOGIQUE
 		  $resultatExamenMorphologique = $this->getNotesExamensMorphologiquesTable();
 		  $examen_morphologique = $resultatExamenMorphologique->getNotesExamensMorphologiques($id);
 		  
@@ -932,7 +955,6 @@ class ConsultationController extends AbstractActionController {
 		  	$data['motif_hospitalisation'] = $donneesHospi->motif_demande_hospi;
 		  	$data['date_fin_hospitalisation_prevue'] = $this->controlDate->convertDate($donneesHospi->date_fin_prevue_hospi);
 		  }
-		  
 		  $form->populateValues ( array_merge($data,$bandelettes,$donneesAntecedentsPersonnels,$donneesAntecedentsFamiliaux) );
 		  return array(
 		 		'id_cons' => $id,
@@ -959,6 +981,7 @@ class ConsultationController extends AbstractActionController {
 		  		'donneesAntecedentsPersonnels' => $donneesAntecedentsPersonnels,
 		  		'donneesAntecedentsFamiliaux'  => $donneesAntecedentsFamiliaux,
 		  		'resultRV' => $resultRV,
+		  		'listeDemandesBioEff' => $listeDemandesBiologiquesEffectuer->count(),
 		  );
 	
 	}
@@ -1202,6 +1225,7 @@ class ConsultationController extends AbstractActionController {
 				'date_demande_hospi' => $dateAujourdhui,
 				'date_fin_prevue_hospi' => $this->controlDate->convertDateInAnglais($this->params()->fromPost('date_fin_hospitalisation_prevue')),
 				'id_cons' => $id_cons,
+				'date_fin_test' => $this->params()->fromPost('date_fin_hospitalisation_prevue'),
 		);
 		$this->getDemandeHospitalisationTable()->saveDemandehospitalisation($infoDemandeHospitalisation);
 		//POUR LA PAGE complement-consultation
@@ -1319,6 +1343,29 @@ class ConsultationController extends AbstractActionController {
 		  $listeDemandesMorphologiques = $demandeExamen->getDemandeExamensMorphologiques($id);
 		  $listeDemandesBiologiques = $demandeExamen->getDemandeExamensBiologiques($id);
 		  
+		  ////RESULTATS DES EXAMENS BIOLOGIQUES DEJA EFFECTUES ET ENVOYER PAR LE BIOLOGISTE
+		  $listeDemandesBiologiquesEffectuer = $demandeExamen->getDemandeExamensBiologiquesEffectues($id);
+		  
+		  foreach ($listeDemandesBiologiquesEffectuer as $listeExamenBioEffectues){
+		  	if($listeExamenBioEffectues['idExamen'] == 1){
+		  		$data['groupe_sanguin'] =  $listeExamenBioEffectues['noteResultat'];
+		  	}
+		  	if($listeExamenBioEffectues['idExamen'] == 2){
+		  		$data['hemogramme_sanguin'] =  $listeExamenBioEffectues['noteResultat'];
+		  	}
+		  	if($listeExamenBioEffectues['idExamen'] == 3){
+		  		$data['bilan_hepatique'] =  $listeExamenBioEffectues['noteResultat'];
+		  	}
+		  	if($listeExamenBioEffectues['idExamen'] == 4){
+		  		$data['bilan_renal'] =  $listeExamenBioEffectues['noteResultat'];
+		  	}
+		  	if($listeExamenBioEffectues['idExamen'] == 5){
+		  		$data['bilan_hemolyse'] =  $listeExamenBioEffectues['noteResultat'];
+		  	}
+		  	if($listeExamenBioEffectues['idExamen'] == 6){
+		  		$data['bilan_inflammatoire'] =  $listeExamenBioEffectues['noteResultat'];
+		  	}
+		  }
 		  
 		  // RESULTATS DES EXAMENS COMPLEMENTAIRES
 		  $resultatExamenMorphologique = $this->getNotesExamensMorphologiquesTable();
@@ -1515,17 +1562,6 @@ class ConsultationController extends AbstractActionController {
 			$tab = array();
 			$j = 1;
 			
-// 			for($i = 1 ; $i < 10 ; $i++ ){
-// 				$codeMedicament = $this->params()->fromPost("medicament_0".$i);
-// 				//var_dump($codeMedicament); exit();
-// 				if($codeMedicament == true){
-// 					$tab[$j++] = $medicaments[$codeMedicament]; //on récupère le médicament par son nom
-// 					$tab[$j++] = $this->params()->fromPost("medicament_1".$i);
-// 					$tab[$j++] = $this->params()->fromPost("medicament_2".$i);
-// 					//$tab[$j++] = $this->params()->fromPost("medicament_3".$i);
-// 				}
-// 			}
-			
 			//NOUVEAU CODE AVEC AUTOCOMPLETION 
 			for($i = 1 ; $i < 10 ; $i++ ){
 				$nomMedicament = $this->params()->fromPost("medicament_0".$i);
@@ -1681,6 +1717,20 @@ class ConsultationController extends AbstractActionController {
 				$DocPdf->getDocument();
 			
 			}
+			else
+			//**********TRAITEMENT INSTRUMENTAL ****************
+			//**********TRAITEMENT INSTRUMENTAL ****************
+			//**********TRAITEMENT INSTRUMENTAL ****************
+			if(isset ($_POST['traitement_instrumental'])){
+					echo ('<span style="font-size: 20px; font-family: Times New Roman; font-weight: bold; color: green;">En cours de develppement "TRAITEMENT INSTRUMENTAL"</span>'); exit();
+			}
+			else 
+				//**********HOSPITALISATION ****************
+				//**********HOSPITALISATION ****************
+				//**********HOSPITALISATION ****************
+				if(isset ($_POST['hospitalisation'])){
+					echo ('<span style="font-size: 20px; font-family: Times New Roman; font-weight: bold; color: green;">En cours de develppement "HOSPITALISATION" </span>'); exit();
+				}
 			
 	}
 	
@@ -1959,7 +2009,10 @@ class ConsultationController extends AbstractActionController {
 	/* ======== POUR LA GESTION DES HOSPITALISATIONS =========*/
 	/* ======== POUR LA GESTION DES HOSPITALISATIONS =========*/
 	public function listePatientEncoursAjaxAction() {
-		$output = $this->getDemandeHospitalisationTable()->getListePatientEncoursHospitalisation();
+		$user = $this->layout()->user;
+		$id_medecin = $user->id_personne;
+		
+		$output = $this->getDemandeHospitalisationTable()->getListePatientEncoursHospitalisation($id_medecin);
 		return $this->getResponse ()->setContent ( Json::encode ( $output, array (
 				'enableJsonExprFinder' => true
 		) ) );
@@ -1975,7 +2028,7 @@ class ConsultationController extends AbstractActionController {
 		$user = $this->layout()->user;
 		$id_medecin = $user->id_personne;
 		
-		$formSoin = new SoinForm();
+ 		$formSoin = new SoinForm();
 		
 		$transferer = $this->getTransfererPatientServiceTable ();
 		$hopital = $transferer->fetchHopital ();
@@ -1999,9 +2052,9 @@ class ConsultationController extends AbstractActionController {
 			
 		    $id_sh = $this->getSoinHospitalisation3Table()->saveSoinhospitalisation($data, $id_medecin);
 		    $this->getSoinHospitalisation3Table()->saveHeure($data,$id_sh);
-			$test = 'En cours de dÃ©veloppement';
+			//$test = 'En cours de dÃ©veloppement';
 			$this->getResponse ()->getHeaders ()->addHeaderLine ( 'Content-Type', 'application/html; charset=utf-8' );
-		    return $this->getResponse ()->setContent ( Json::encode ($test) );
+		    return $this->getResponse ()->setContent ( Json::encode () );
 		}
 		
 		$listeMedicament = $this->getConsommableTable()->listeDeTousLesMedicaments();
@@ -2140,7 +2193,7 @@ class ConsultationController extends AbstractActionController {
 					 <tr class='comment-form-patient' style='width: 100%'>
 					   <td id='note_soin'  style='width: 45%; '>". $formRow($formLiberation->get('resumer_medical')).$formTextArea($formLiberation->get('resumer_medical'))."</td>
 					   <td id='note_soin'  style='width: 45%; '>". $formRow($formLiberation->get('motif_sorti')).$formTextArea($formLiberation->get('motif_sorti'))."</td>
-					   <td  style='width: 10%;'><a href='javascript:vider_liberation()'><img id='test' style=' margin-left: 25%;' src='/simens/public/images_icons/118.png' title='vider tout'></a></td>
+					   <td  style='width: 10%;'><a href='javascript:vider_liberation()'><img id='test' style=' margin-left: 25%;' src='../images_icons/118.png' title='vider tout'></a></td>
 					 </tr>
 					 </table>";
 			$html .="</div>";
@@ -2360,37 +2413,37 @@ class ConsultationController extends AbstractActionController {
 			$html .="<td style='width: 23%;'><div id='inform' style='float:left; font-weight:bold; font-size:17px;'>".$this->controlDate->convertDateTime($Liste['date_enreg'])."</div></td>";
 			$html .="<td style='width: 23%;'><div id='inform' style='float:left; font-weight:bold; font-size:17px;'>".$this->controlDate->convertDateTime($Liste['date_recommandee'])."</div></td>";
 			$html .="<td style='width: 12%;'> <a href='javascript:vuesoin(".$Liste['id_sh'].") '>
-					       <img class='visualiser".$Liste['id_sh']."' style='display: inline;' src='/simens/public/images_icons/voird.png' alt='Constantes' title='d&eacute;tails' />
+					       <img class='visualiser".$Liste['id_sh']."' style='display: inline;' src='../images_icons/voird.png' alt='Constantes' title='d&eacute;tails' />
 					  </a>&nbsp";
 		
 			if($Liste['appliquer'] == 0) {
 		
 				$html .="<a href='javascript:modifiersoin(".$Liste['id_sh'].",".$Liste['id_hosp'].")'>
-					    	<img class='modifier".$Liste['id_sh']."'  src='/simens/public/images_icons/modifier.png' alt='Constantes' title='modifier'/>
+					    	<img class='modifier".$Liste['id_sh']."'  src='../images_icons/modifier.png' alt='Constantes' title='modifier'/>
 					     </a>&nbsp;
 		
 				         <a href='javascript:supprimersoin(".$Liste['id_sh'].",".$Liste['id_hosp'].")'>
-					    	<img class='supprimer".$Liste['id_sh']."'  src='/simens/public/images_icons/sup.png' alt='Constantes' title='annuler' />
+					    	<img class='supprimer".$Liste['id_sh']."'  src='../images_icons/sup.png' alt='Constantes' title='annuler' />
 					     </a>
 				         </td>";
 					
 				$html .="<td style='width: 6%;'>
-					       <img class='etat_oui".$Liste['id_sh']."' style='margin-left: 20%;' src='/simens/public/images_icons/non.png' alt='Constantes' title='soin non encore appliqu&eacute;' />
+					       <img class='etat_oui".$Liste['id_sh']."' style='margin-left: 20%;' src='../images_icons/non.png' alt='Constantes' title='soin non encore appliqu&eacute;' />
 					     &nbsp;
 				         </td>";
 			}else {
 		
 				$html .="<a>
-					    	<img class='modifier".$Liste['id_sh']."' style='color: white; opacity: 0.15;' src='/simens/public/images_icons/modifier.png' alt='Constantes' title='modifier'/>
+					    	<img class='modifier".$Liste['id_sh']."' style='color: white; opacity: 0.15;' src='../images_icons/modifier.png' alt='Constantes' title='modifier'/>
 					     </a>&nbsp;
 		
 				         <a >
-					    	<img class='supprimer".$Liste['id_sh']."' style='color: white; opacity: 0.15;' src='/simens/public/images_icons/sup.png' alt='Constantes' title='annuler' />
+					    	<img class='supprimer".$Liste['id_sh']."' style='color: white; opacity: 0.15;' src='../images_icons/sup.png' alt='Constantes' title='annuler' />
 					     </a>
 				         </td>";
 					
 				$html .="<td style='width: 6%;'>
-					       <img class='etat_non".$Liste['id_sh']."' style='margin-left: 20%;' src='/simens/public/images_icons/oui.png' alt='Constantes' title='soin d&eacute;ja appliqu&eacute;' />
+					       <img class='etat_non".$Liste['id_sh']."' style='margin-left: 20%;' src='../images_icons/oui.png' alt='Constantes' title='soin d&eacute;ja appliqu&eacute;' />
 					     &nbsp;
 				         </td>";
 		
@@ -2508,39 +2561,43 @@ class ConsultationController extends AbstractActionController {
 			$html .="<td style='width: 23%;'><div id='inform' style='float:left; font-weight:bold; font-size:17px;'>".$Liste['medicament']."</div></td>";
 			$html .="<td style='width: 21%;'><div id='inform' style='float:left; font-weight:bold; font-size:17px;'>".$Liste['voie_administration']."</div></td>";
 			$html .="<td style='width: 19%;'><div id='inform' style='float:left; font-weight:bold; font-size:17px;'>".$this->controlDate->convertDateTime($Liste['date_enregistrement'])."</div></td>";
-			$html .="<td style='width: 19%;'><div id='inform' style='float:left; font-weight:bold; font-size:17px;'>".$this->controlDate->convertDate($Liste['date_application_recommandee'])." <!--minus style='font-size: 10px; font-family: time new romans; cursor: pointer; padding-left: 10px;'>Heures</minus--> </div></td>";
-			$html .="<td style='width: 12%;'> <a href='javascript:vuesoin(".$Liste['id_sh'].") '>
-					       <img class='visualiser".$Liste['id_sh']."' style='display: inline;' src='/simens/public/images_icons/voird.png' alt='Constantes' title='d&eacute;tails' />
-					  </a>&nbsp";
+			$html .="<td style='width: 19%;'><div id='inform' style='float:left; font-weight:bold; font-size:17px;'>".$this->controlDate->convertDate($Liste['date_application_recommandee'])."  </div></td>";
 	
 			if($Liste['appliquer'] == 0) {
+				$html .="<td style='width: 12%;'> <a href='javascript:vuesoin(".$Liste['id_sh'].") '>
+					       <img class='visualiser".$Liste['id_sh']."' style='display: inline;' src='../images_icons/voird.png' alt='Constantes' title='d&eacute;tails' />
+					  </a>&nbsp";
 	
 				$html .="<a href='javascript:modifiersoin(".$Liste['id_sh'].",".$Liste['id_hosp'].")'>
-					    	<img class='modifier".$Liste['id_sh']."'  src='/simens/public/images_icons/modifier.png' alt='Constantes' title='modifier'/>
+					    	<img class='modifier".$Liste['id_sh']."'  src='../images_icons/modifier.png' alt='Constantes' title='modifier'/>
 					     </a>&nbsp;
 	
 				         <a href='javascript:supprimersoin(".$Liste['id_sh'].",".$Liste['id_hosp'].")'>
-					    	<img class='supprimer".$Liste['id_sh']."'  src='/simens/public/images_icons/sup.png' alt='Constantes' title='annuler' />
+					    	<img class='supprimer".$Liste['id_sh']."'  src='../images_icons/sup.png' alt='Constantes' title='annuler' />
 					     </a>
 				         </td>";
 					
 				$html .="<td style='width: 6%;'>
-					       <img class='etat_oui".$Liste['id_sh']."' style='margin-left: 20%;' src='/simens/public/images_icons/non.png' alt='Constantes' title='soin non encore appliqu&eacute;' />
+					       <img class='etat_oui".$Liste['id_sh']."' style='margin-left: 20%;' src='../images_icons/non.png' alt='Constantes' title='soin non encore appliqu&eacute;' />
 					     &nbsp;
 				         </td>";
 			}else {
 	
+				$html .="<td style='width: 12%;'> <a href='javascript:vuesoinApp(".$Liste['id_sh'].") '>
+					       <img class='visualiser".$Liste['id_sh']."' style='display: inline;' src='../images_icons/voird.png' alt='Constantes' title='d&eacute;tails' />
+					  </a>&nbsp";
+				
 				$html .="<a>
-					    	<img class='modifier".$Liste['id_sh']."' style='color: white; opacity: 0.15;' src='/simens/public/images_icons/modifier.png' alt='Constantes' title='modifier'/>
+					    	<img class='modifier".$Liste['id_sh']."' style='color: white; opacity: 0.15;' src='../images_icons/modifier.png' alt='Constantes'/>
 					     </a>&nbsp;
 	
 				         <a >
-					    	<img class='supprimer".$Liste['id_sh']."' style='color: white; opacity: 0.15;' src='/simens/public/images_icons/sup.png' alt='Constantes' title='annuler' />
+					    	<img class='supprimer".$Liste['id_sh']."' style='color: white; opacity: 0.15;' src='../images_icons/sup.png' alt='Constantes'/>
 					     </a>
 				         </td>";
 					
 				$html .="<td style='width: 6%;'>
-					       <img class='etat_non".$Liste['id_sh']."' style='margin-left: 20%;' src='/simens/public/images_icons/oui.png' alt='Constantes' title='soin d&eacute;ja appliqu&eacute;' />
+					       <img class='etat_non".$Liste['id_sh']."' style='margin-left: 20%;' src='../images_icons/oui.png' alt='Constantes' title='soin d&eacute;ja appliqu&eacute;' />
 					     &nbsp;
 				         </td>";
 	
@@ -2799,7 +2856,7 @@ class ConsultationController extends AbstractActionController {
 				  $('#medicament_m, #voie_administration_m, #frequence_m, #dosage_m, #date_application_m, #heure_recommandee_m, #motif_m, #note_m').css({'font-weight':'bold','color':'#065d10','font-family': 'Times  New Roman','font-size':'18px'});
 				    $('#heure_recommandee_m').val('".$lesHeures."');
 				    $(function() {
-    	              $('.SlectBox').SumoSelect({ csvDispCount: 6 });
+    	              $('.SlectBox_m').SumoSelect({ csvDispCount: 6 });
 				    });
 				    var myArrayMedicament = [''];
 			        var j = 0;";
@@ -2837,13 +2894,21 @@ class ConsultationController extends AbstractActionController {
 		$html  ="<table style='width: 99%;'>";
 		$html .="<tr style='width: 99%;'>";
 		$html .="<td style='width: 30%; vertical-align:top;'><a style='text-decoration:underline; font-size:12px;'>M&eacute;dicament:</a><br><p style='font-weight:bold; font-size:17px;'> ".$soinHosp->medicament." </p></td>";
-		$html .="<td style='width: 22%; vertical-align:top;'><a style='text-decoration:underline; font-size:12px;'>Voie d'administration:</a><br><p style='font-weight:bold; font-size:17px;'> ".$soinHosp->voie_administration." </p></td>";
-		$html .="<td style='width: 25%; vertical-align:top;'><a style='text-decoration:underline; font-size:12px;'>Date prescription:</a><br><p style='font-weight:bold; font-size:17px;'> ".$this->controlDate->convertDateTime($soinHosp->date_enregistrement)." </p></td>";
-		$html .="<td style='width: 20%; vertical-align:top;'><a style='text-decoration:underline; font-size:12px;'>Date recommand&eacute;e:</a><br><p style='font-weight:bold; font-size:17px;'> ".$this->controlDate->convertDate($soinHosp->date_application_recommandee)." </p></td>";
+		$html .="<td style='width: 25%; vertical-align:top;'><a style='text-decoration:underline; font-size:12px;'>Voie d'administration:</a><br><p style='font-weight:bold; font-size:17px;'> ".$soinHosp->voie_administration." </p></td>";
+		$html .="<td style='width: 22%; vertical-align:top;'><a style='text-decoration:underline; font-size:12px;'>Fr&eacute;quence:</a><br><p style='font-weight:bold; font-size:17px;'> ".$soinHosp->frequence." </p></td>";
+		$html .="<td style='width: 20%; vertical-align:top;'><a style='text-decoration:underline; font-size:12px;'>Dosage:</a><br><p style='font-weight:bold; font-size:17px;'> ".$soinHosp->dosage." </p></td>";
+		$html .="</tr>";
+		
+		$html .="<tr style='width: 99%;'>";
+		$html .="<td style='width: 30%; vertical-align:top;'><a style='text-decoration:underline; font-size:12px;'>Date prescription:</a><br><p style='font-weight:bold; font-size:17px;'> ".$this->controlDate->convertDateTime($soinHosp->date_enregistrement)." </p></td>";
+		$html .="<td style='width: 25%; vertical-align:top;'><a style='text-decoration:underline; font-size:12px;'>Date d'application:</a><br><p style='font-weight:bold; font-size:17px;'> ".$this->controlDate->convertDate($soinHosp->date_application_recommandee)." </p></td>";
+		$html .="<td style='width: 22%;'></td>";
+		$html .="<td style='width: 20%;'></td>";
 		$html .="</tr>";
 		
 		$html .="<tr style='width: 99%;'>";
 		$html .="<td colspan='3' style='width: 80%; vertical-align:top;'><a style='text-decoration:underline; font-size:12px;'>Heures recommand&eacute;es:</a><br><p style='font-weight:bold; font-size:17px;'> ".$lesHeures." </p></td>";
+		$html .="</tr>";
 		
 		$html .="</table>";
 		
@@ -2855,10 +2920,16 @@ class ConsultationController extends AbstractActionController {
 		$html .= "</tr>";
 		
 		if($soinHosp->appliquer == 1) {
+			
 			$html .="<table style='width: 95%; padding-top: 30px;'>";
-			$html .="<tr style='width: 95%;'>";
-			$html .="<td style='width: 50%; vertical-align:top;'><a style='text-decoration:underline; font-size:12px;'>Date d'application:</a><br><p style='font-weight:bold; font-size:17px;'> ".$this->controlDate->convertDate($soinHosp->date_application)." </p></td>";
-			$html .="<td style='width: 50%; vertical-align:top;'><a style='text-decoration:underline; font-size:13px;'>Note:</a><br><p id='circonstance_deces' style='background:#f8faf8; font-weight:bold; font-size:17px; padding-left: 5px;'> ".$soinHosp->note_application." </p></td>";
+			$html .="<tr style='width: 95%;'> 
+					   <td colspan='2' style='width: 95%;'> 
+					     <div id='titre_info_admis'>Informations sur l'application du soin</div><div id='barre_admis'></div> 
+					   </td> 
+					 </tr>";
+			$html .="<tr style='width: 95%; height: 140px;'>";
+			$html .="<td style='width: 50%; '><a style='text-decoration:underline; font-size:12px;'>Date d'application:</a><br><p style='font-weight:bold; font-size:17px;'> ".$this->controlDate->convertDate($soinHosp->date_application)." </p></td>";
+			$html .="<td style='width: 50%; '><a style='text-decoration:underline; font-size:13px;'>Note:</a><br><p id='circonstance_deces' style='background:#f8faf8; font-weight:bold; font-size:17px; padding-left: 5px;'> ".$soinHosp->note_application." </p></td>";
 			$html .= "</tr>";
 		}
 		
@@ -2875,6 +2946,19 @@ class ConsultationController extends AbstractActionController {
 		$motif_sorti = $this->params()->fromPost('motif_sorti', 0);
 	
 		$this->getHospitalisationTable()->libererPatient($id_demande_hospi, $resumer_medical, $motif_sorti);
+		
+		/**
+		 * LIBERATION DU LIT
+		 */
+		$ligne_hosp = $this->getHospitalisationTable()->getHospitalisationWithCodedh($id_demande_hospi);
+		if($ligne_hosp){
+			$id_hosp = $ligne_hosp->id_hosp;
+			$ligne_lit_hosp = $this->getHospitalisationlitTable()->getHospitalisationlit($id_hosp);
+			if($ligne_lit_hosp){
+				$id_materiel = $ligne_lit_hosp->id_materiel;
+				$this->getLitTable()->libererLit($id_materiel);
+			}
+		}
 	
 		return $this->redirect()->toRoute('consultation', array('action' =>'en-cours'));
 	}

@@ -53,24 +53,24 @@ use Consultation\Model\Soinhospitalisation3;
 
 class Module implements AutoloaderProviderInterface {
 	
-	public function onBootstrap(MvcEvent $e) {
-		$serviceManager = $e->getApplication ()->getServiceManager ();
-		$viewModel = $e->getApplication ()->getMvcEvent ()->getViewModel ();
+// 	public function onBootstrap(MvcEvent $e) {
+// 		$serviceManager = $e->getApplication ()->getServiceManager ();
+// 		$viewModel = $e->getApplication ()->getMvcEvent ()->getViewModel ();
 
-		$uAuth = $serviceManager->get( 'Admin\Controller\Plugin\UserAuthentication' ); //@todo - We must use PluginLoader $this->userAuthentication()!!
-		$username = $uAuth->getAuthService()->getIdentity();
+// 		$uAuth = $serviceManager->get( 'Admin\Controller\Plugin\UserAuthentication' ); //@todo - We must use PluginLoader $this->userAuthentication()!!
+// 		$username = $uAuth->getAuthService()->getIdentity();
 		
-		$uTable = $serviceManager->get( 'Admin\Model\UtilisateursTable' );
-		$user = $uTable->getUtilisateursWithUsername($username);
+// 		$uTable = $serviceManager->get( 'Admin\Model\UtilisateursTable' );
+// 		$user = $uTable->getUtilisateursWithUsername($username);
 		
-		if($user) {
-			$uService = $serviceManager->get( 'Personnel\Model\ServiceTable');
-			$service = $uService->getServiceparId($user->id_service);
+// 		if($user) {
+// 			$uService = $serviceManager->get( 'Personnel\Model\ServiceTable');
+// 			$service = $uService->getServiceparId($user->id_service);
 			
-			$viewModel->user = $user;
-			$viewModel->service = $service['NOM'];
-		}
-	}
+// 			$viewModel->user = $user;
+// 			$viewModel->service = $service['NOM'];
+// 		}
+// 	}
 	
 	public function getAutoloaderConfig() {
 		return array (

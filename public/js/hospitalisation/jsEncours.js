@@ -114,10 +114,10 @@
     /************************************************************************************************************************/
     /************************************************************************************************************************/
     /************************************************************************************************************************/
-    function affichervue(id_personne){
-    	var id_cons = $("#"+id_personne).val();
-    	var id_demande_hospi = $("#"+id_personne+"dh").val();
-    	var chemin = tabUrl[0]+'public/hospitalisation/info-patient';
+    function affichervue(id_demande_hospi){ 
+    	var id_cons = $("#"+id_demande_hospi).val();
+    	var id_personne = $("#"+id_demande_hospi+"idPers").val();
+    	var chemin = tabUrl[0]+'public/consultation/info-patient';
         $.ajax({
             type: 'POST',
             url: chemin ,

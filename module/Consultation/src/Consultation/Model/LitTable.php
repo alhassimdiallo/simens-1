@@ -27,4 +27,9 @@ class LitTable {
 	{
 		$this->tableGateway->update(array('disponible' => 1), array('id_materiel' => $id_lit));
 	}
+	
+	public function libererLit($id_materiel)
+	{
+		$this->tableGateway->update(array('disponible' => 0), array('id_materiel' => $id_materiel));
+	}
 }

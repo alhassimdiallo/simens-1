@@ -8,12 +8,21 @@
 <?php $form = $this->form; ?>
 
 <script type="text/javascript">
+$(window).load(function () {
+	$('#wait').toggle(false);
+	$('#contenu').fadeIn().css({'visibility':'visible'});
+});
 </script>
+
+<style>
+#contenu{ visibility: hidden };
+</style>
 
 <div id="titre" style='font-family: police2; text-decoration: none; color: green; font-size: 20px; font-weight: bold; padding-left:20px;'>
 	<iS style='font-size: 25px;'>&curren;</iS>
 	LISTE DES PATIENTS
 </div>
+<div id="wait" style="color: gray; font-size: 20px; text-align: center; margin-top: 80px;" > <span> Chargement ... </span> </div>
 <div id="contenu"> 
 
             <table id="patient" class="table table-bordered tab_list_mini" >

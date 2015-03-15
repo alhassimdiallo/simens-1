@@ -42,6 +42,7 @@ class BatimentTable {
 		$select->order('bat.id_batiment ASC');
 		$stmt = $sql->prepareStatementForSqlObject($select);
 		$result = $stmt->execute();
+		$options = array();
 		foreach ($result as $data) {
 			$options[$data['IdBatiment']] = $data['IdSalle'];
 		}

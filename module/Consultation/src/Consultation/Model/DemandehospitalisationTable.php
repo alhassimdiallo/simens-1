@@ -28,7 +28,10 @@ class DemandehospitalisationTable {
 	public function saveDemandehospitalisation($infoDemandeHospitalisation)
 	{
 		if(!$this->getDemandehospitalisation($infoDemandeHospitalisation)){
-			$this->tableGateway->insert($infoDemandeHospitalisation);
+			if($infoDemandeHospitalisation['motif_demande_hospi'] && $infoDemandeHospitalisation['date_fin_test']){
+				$this->tableGateway->insert($infoDemandeHospitalisation);				
+			}
+
 		}
 	}
 	
@@ -37,24 +40,6 @@ class DemandehospitalisationTable {
 		
 		return $this->conversionDate;
 	}
-	
-// 	public function getDemandehospitalisation($data)
-// 	{
-// 		$rowset = $this->tableGateway->select(array(
-// 				'id_personne' => (int) $data['id_personne'],
-// 		));
-// 		$row = $rowset->current();
-// 		if (!$row) {
-// 			$row = null;
-// 		}
-// 		return $row;
-// 	}
-	
-// 	public function saveDemandehospitalisation()
-// 	{
-// 		$today = new \DateTime ( 'now' );
-// 		$date = $today->format ( 'Y-m-d' );
-// 	}
 	
 	public function deleteDemandehospitalisation($id_demande_hospi){
 		$id_demande_hospi = (int) $id_demande_hospi;
@@ -229,7 +214,7 @@ class DemandehospitalisationTable {
 	/**
 	 * Recuperation de la liste des patients en cours d'hospitalisation et deja hospitaliser
 	 */
-	public function getListePatientEncoursHospitalisation()
+	public function getListePatientEncoursHospitalisation($id_medecin)
 	{
 	
 		$db = $this->tableGateway->getAdapter();
@@ -268,7 +253,7 @@ class DemandehospitalisationTable {
 	
 		/*
 		 * SQL queries
-		*/
+		 */
 		$sql = new Sql($db);
 		$sQuery = $sql->select()
 		->from(array('pat' => 'patient'))->columns(array('Nom'=>'nom','Prenom'=>'prenom','Datenaissance'=>'date_naissance','Sexe'=>'sexe','Adresse'=>'adresse','id'=>'id_personne'))
@@ -276,7 +261,7 @@ class DemandehospitalisationTable {
 		->join(array('dh' => 'demande_hospitalisation2'), 'dh.id_cons = cons.id_cons' , array('*'))
 		->join(array('med' => 'medecin') , 'med.id_personne = cons.id_personne' , array('NomMedecin' =>'nom', 'PrenomMedecin' => 'prenom'))
 		->join(array('h' => 'hospitalisation'), 'h.code_demande_hospitalisation = dh.id_demande_hospi' , array('Datedebut'=>'date_debut', 'Idhosp'=>'id_hosp', 'Terminer'=>'terminer'))
-		->where(array('dh.valider_demande_hospi'=>1))
+		->where(array('dh.valider_demande_hospi'=>1 , 'med.id_personne'=> $id_medecin))
 		->order('h.terminer ASC');
 	
 		/* Data set length after filtering */
@@ -330,17 +315,17 @@ class DemandehospitalisationTable {
 					else if ($aColumns[$i] == 'id') {
 						
 						if($aRow[ 'Terminer' ] == 0) {
-							$html  ="<infoBulleVue><a href='javascript:affichervue(".$aRow[ $aColumns[$i] ].")'>";
+							$html  ="<infoBulleVue><a href='javascript:affichervue(".$aRow[ 'id_demande_hospi' ].")'>";
 							$html .="<img style='display: inline; margin-right: 10%;' src='".$tabURI[0]."public/images_icons/voir.png' title='détails'></a></infoBulleVue>";
 							
-							$html  .="<infoBulleVue><a href='javascript:administrerSoin(".$aRow[ $aColumns[$i] ].")'>";
+							$html  .="<infoBulleVue><a href='javascript:administrerSoin(".$aRow[ 'id_demande_hospi' ].")'>";
 							$html .="<img style='display: inline; margin-right: 14%;' src='".$tabURI[0]."public/images_icons/details.png' title='Administrer'></a></infoBulleVue>";
 	
-							$html  .="<infoBulleVue><a href='javascript:liberer(".$aRow[ $aColumns[$i] ].")'>";
+							$html  .="<infoBulleVue><a href='javascript:liberer(".$aRow[ 'id_demande_hospi' ].")'>";
 							$html .="<img style='display: inline;' src='".$tabURI[0]."public/images_icons/edit_item_btn.png' title='Libérer'></a></infoBulleVue>";
 						
 						}else {
-							$html  ="<infoBulleVue><a href='javascript:affichervuedetailhospi(".$aRow[ $aColumns[$i] ].")'>";
+							$html  ="<infoBulleVue><a href='javascript:affichervuedetailhospi(".$aRow[ 'id_demande_hospi' ].")'>";
 							$html .="<img style='display: inline; margin-right: 10%;' src='".$tabURI[0]."public/images_icons/voir.png' title='détails'></a></infoBulleVue>";
 								
 							$html  .="<infoBulleVue><a>";
@@ -351,9 +336,9 @@ class DemandehospitalisationTable {
 							
 						}
 						
-						$html .="<input id='".$aRow[ $aColumns[$i] ]."'   type='hidden' value='".$aRow[ 'Idcons' ]."'>";
-						$html .="<input id='".$aRow[ $aColumns[$i] ]."dh' type='hidden' value='".$aRow[ 'id_demande_hospi' ]."'>";
-						$html .="<input id='".$aRow[ $aColumns[$i] ]."hp' type='hidden' value='".$aRow[ 'Idhosp' ]."'>";
+						$html .="<input id='".$aRow[ 'id_demande_hospi' ]."'   type='hidden' value='".$aRow[ 'Idcons' ]."'>";
+						$html .="<input id='".$aRow[ 'id_demande_hospi' ]."hp' type='hidden' value='".$aRow[ 'Idhosp' ]."'>";
+						$html .="<input id='".$aRow[ 'id_demande_hospi' ]."idPers' type='hidden' value='".$aRow[ $aColumns[$i] ]."'>";
 						
 						$row[] = $html;
 					}

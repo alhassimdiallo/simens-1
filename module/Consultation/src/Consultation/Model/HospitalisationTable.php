@@ -44,7 +44,7 @@ class HospitalisationTable {
 	public function saveHospitalisation($code_demande)
 	{
 		$today = new \DateTime ();
-		$date = $today->format ( 'Y-m-d' );
+		$date = $today->format ( 'Y-m-d H:i:s' );
 		
 		$data = array(
 				'date_debut' => $date,
@@ -67,6 +67,7 @@ class HospitalisationTable {
 				'motif_sorti' => $motif_sorti,
 				'terminer' => 1
 		);
+		
 		$this->tableGateway->update($data, array('code_demande_hospitalisation' => $id_demande_hospi));
 	}
 }
