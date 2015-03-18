@@ -31,7 +31,6 @@ $('#declarer_style').css({'font-weight':'bold','color':'white','font-size':'22px
 <script>
 $(function(){
   document.getElementById('service_accueil').value="";
-  //document.getElementById('hopital_accueil').value="";
   document.getElementById('heure_rv').value="";
 });
 
@@ -529,72 +528,7 @@ echo $this->form()->openTag($form); ?>
      <!-- **************************************************************************************************************** -->
 
      </div>
-
-     <!-- ********************Accordeon DONNEES DE L'EXAMEN PHYSIQUE******************-->
-     <!-- ********************Accordeon DONNEES DE L'EXAMEN PHYSIQUE******************-->
-     <!-- ********************Accordeon DONNEES DE L'EXAMEN PHYSIQUE******************-->
-
-   <!--*3*-->
-     <div style='font-family: police2;font-size: 17px; font-weight: bold;'>Donn&eacute;es de l'examen physique</div>
-        <div style=' max-height: 340px;'>
-        <p style='color: white; opacity: 0.5;'>
-           <img id="" src='<?php echo $this->basePath().'/images_icons/examenphysique.jpg'?>'  alt="consult-motif" style='float:right; margin-right:0px; width:32%; height:270px;'/>
-        </p>
-        <?php echo  $this->headScript()->appendFile($this->basePath().'/js/consultation/ajouterDonnees.js');?>
-        <table id="responde" style="width:65%;">
-            <tr id="donnee1" class="form-author">
-               <th><?php echo $this->formRow($form->get('examen_donnee1'));?> <span id="labelSupDonnee"> <img class='supprimerDonnee1' style='cursor: pointer;' src='../images/images/sup.png' title='supprimer' /> </span> </th>
-            </tr>
-            <tr id="donnee2" class="form-author">
-               <th><?php echo $this->formRow($form->get('examen_donnee2'));?> <span id="labelSupDonnee"> <img class='supprimerDonnee2' style='cursor: pointer;' src='../images/images/sup.png' title='supprimer' /> </span></th>
-            </tr>
-            <tr id="donnee3" class="form-author">
-               <th><?php echo $this->formRow($form->get('examen_donnee3'));?> <span id="labelSupDonnee"> <img class='supprimerDonnee3' style='cursor: pointer;' src='../images/images/sup.png' title='supprimer' /> </span></th>
-            </tr>
-            <tr id="donnee4" class="form-author">
-               <th><?php echo $this->formRow($form->get('examen_donnee4'));?> <span id="labelSupDonnee"> <img class='supprimerDonnee4' style='cursor: pointer;' src='../images/images/sup.png' title='supprimer' /> </span></th>
-            </tr>
-            <tr id="donnee5" class="form-author">
-               <th><?php echo $this->formRow($form->get('examen_donnee5'));?> <span id="labelSupDonnee"> <img class='supprimerDonnee5' style='cursor: pointer;' src='../images/images/sup.png' title='supprimer' /> </span></th>
-            </tr>
-        </table>
-        
-        <!--********************* BOUTON AJOUTER-SUPPRIMER ************************-->
-         <!--********************* BOUTON AJOUTER-SUPPRIMER ************************-->
-		 <div id="controls_donnees" style="margin-top: 10px; width: 100%;">
-		    <div style="width: 100%; ">
-		      <div style="width: 3%; height: 1px; float: left; " id="supprimer_donnee">
-			     <img id="supprimer_donnee_img" style='margin-left: 5px; cursor: pointer;' src='../images_icons/moin-green.png' title='supprimer' />
-			  </div>
-			  <div style="width: 3%; height: 1px; float: left; " id="ajouter_donnee">
-				 <img id="ajouter_donnee_img" style='margin-left: 5px; cursor: pointer;' src='../images_icons/plus-green.png' title='ajouter' />
-			  </div>
-		    </div>
-		 </div>
-
-		 <!--********************* BOUTON VALIDER-MODIFIER ************************-->
-         <!--********************* BOUTON VALIDER-MODIFIER ************************-->		            
-         <table style="width: 59%; position: relative; top: 0px;">
-              <tr style="width: 90%;">
-                <th style="width:65%;">
-                    <div style="float:right;">
-                       <button id='bouton_donnee_valider'>Valider</button>
-                    </div>
-                    <div style="float:right;">
-                       <button id='bouton_donnee_modifier'>Modifier</button>
-                    </div>
-                </th>
-              </tr>
-         </table>
-         
-         <script>
-          cacherTouteDonnee();
-          afficher(1);
-          supprimerUneDonnee();
-         </script> 
-
-        </div>
-
+    
      <!-- ********************Antécédents ou Terrain particulier ******************-->
      <!-- ********************Antécédents ou Terrain particulier ******************-->
      <!-- ********************Antécédents ou Terrain particulier ******************--> 
@@ -1021,6 +955,72 @@ echo $this->form()->openTag($form); ?>
            
       </div>
       </div>
+      
+     <!-- ********************Accordeon DONNEES DE L'EXAMEN PHYSIQUE******************-->
+     <!-- ********************Accordeon DONNEES DE L'EXAMEN PHYSIQUE******************-->
+     <!-- ********************Accordeon DONNEES DE L'EXAMEN PHYSIQUE******************-->
+
+   <!--*4*-->
+     <div style='font-family: police2;font-size: 17px; font-weight: bold;'>Donn&eacute;es de l'examen physique</div>
+        <div style=' max-height: 340px;'>
+        <p style='color: white; opacity: 0.5;'>
+           <img id="" src='<?php echo $this->basePath().'/images_icons/examenphysique.jpg'?>'  alt="consult-motif" style='float:right; margin-right:0px; width:32%; height:270px;'/>
+        </p>
+        <?php echo  $this->headScript()->appendFile($this->basePath().'/js/consultation/ajouterDonnees.js');?>
+        <table id="responde" style="width:65%;">
+            <tr id="donnee1" class="form-author">
+               <th><?php echo $this->formRow($form->get('examen_donnee1'));?> <span id="labelSupDonnee"> <img class='supprimerDonnee1' style='cursor: pointer;' src='../images/images/sup.png' title='supprimer' /> </span> </th>
+            </tr>
+            <tr id="donnee2" class="form-author">
+               <th><?php echo $this->formRow($form->get('examen_donnee2'));?> <span id="labelSupDonnee"> <img class='supprimerDonnee2' style='cursor: pointer;' src='../images/images/sup.png' title='supprimer' /> </span></th>
+            </tr>
+            <tr id="donnee3" class="form-author">
+               <th><?php echo $this->formRow($form->get('examen_donnee3'));?> <span id="labelSupDonnee"> <img class='supprimerDonnee3' style='cursor: pointer;' src='../images/images/sup.png' title='supprimer' /> </span></th>
+            </tr>
+            <tr id="donnee4" class="form-author">
+               <th><?php echo $this->formRow($form->get('examen_donnee4'));?> <span id="labelSupDonnee"> <img class='supprimerDonnee4' style='cursor: pointer;' src='../images/images/sup.png' title='supprimer' /> </span></th>
+            </tr>
+            <tr id="donnee5" class="form-author">
+               <th><?php echo $this->formRow($form->get('examen_donnee5'));?> <span id="labelSupDonnee"> <img class='supprimerDonnee5' style='cursor: pointer;' src='../images/images/sup.png' title='supprimer' /> </span></th>
+            </tr>
+        </table>
+        
+        <!--********************* BOUTON AJOUTER-SUPPRIMER ************************-->
+         <!--********************* BOUTON AJOUTER-SUPPRIMER ************************-->
+		 <div id="controls_donnees" style="margin-top: 10px; width: 100%;">
+		    <div style="width: 100%; ">
+		      <div style="width: 3%; height: 1px; float: left; " id="supprimer_donnee">
+			     <img id="supprimer_donnee_img" style='margin-left: 5px; cursor: pointer;' src='../images_icons/moin-green.png' title='supprimer' />
+			  </div>
+			  <div style="width: 3%; height: 1px; float: left; " id="ajouter_donnee">
+				 <img id="ajouter_donnee_img" style='margin-left: 5px; cursor: pointer;' src='../images_icons/plus-green.png' title='ajouter' />
+			  </div>
+		    </div>
+		 </div>
+
+		 <!--********************* BOUTON VALIDER-MODIFIER ************************-->
+         <!--********************* BOUTON VALIDER-MODIFIER ************************-->		            
+         <table style="width: 59%; position: relative; top: 0px;">
+              <tr style="width: 90%;">
+                <th style="width:65%;">
+                    <div style="float:right;">
+                       <button id='bouton_donnee_valider'>Valider</button>
+                    </div>
+                    <div style="float:right;">
+                       <button id='bouton_donnee_modifier'>Modifier</button>
+                    </div>
+                </th>
+              </tr>
+         </table>
+         
+         <script>
+          cacherTouteDonnee();
+          afficher(1);
+          supprimerUneDonnee();
+         </script> 
+
+        </div>
+      
      <!-- ********************Examen complementaire (examen et analyse)******************-->
      <!-- ********************Examen complementaire (examen et analyse)******************-->
      <!-- ********************Examen complementaire (examen et analyse)******************-->

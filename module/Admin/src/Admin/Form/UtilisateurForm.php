@@ -142,6 +142,7 @@ class UtilisateurForm extends Form
 								'laborantin' => 'Laborantin',
 								'infirmier' => 'Infirmier',
 								'facturation' => 'Facturation',
+								'radiologie' => 'Radiologie',
 								),
 				),
 				'attributes' => array(

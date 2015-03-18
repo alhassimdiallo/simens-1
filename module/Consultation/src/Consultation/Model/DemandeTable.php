@@ -107,6 +107,9 @@ class DemandeTable{
 		}
 	}	
 	
+	/** RECUPERATION DES RESULTATS POUR L'INTERFACE DU MEDECIN **/
+	/** RECUPERATION DES RESULTATS POUR L'INTERFACE DU MEDECIN **/
+	/** RECUPERATION DES RESULTATS POUR L'INTERFACE DU MEDECIN **/
 	public function resultatExamens($id_cons)
 	{
 		if($this->getDemande($id_cons)){
@@ -127,6 +130,90 @@ class DemandeTable{
 		
 	}
 	
+	/** RECUPERATION DES RESULTATS POUR L'INTERFACE DU RADIOLOGUE (Examen morpho) **/
+	/** RECUPERATION DES RESULTATS POUR L'INTERFACE DU RADIOLOGUE (Examen morpho) **/
+	/** RECUPERATION DES RESULTATS POUR L'INTERFACE DU RADIOLOGUE (Examen morpho) **/
+	public function resultatExamensMorpho($id_cons)
+	{
+		if($this->getDemande($id_cons)){
+			$db = $this->tableGateway->getAdapter();
+			$sql = new Sql($db);
+			$sQuery = $sql->select()
+			->from(array('d'=>'demande'))->columns(array('*'))
+			->join(array('result' => 'resultats_examens2'), 'result.idDemande = d.idDemande', array('*'))
+			->join(array('resul_Img' => 'resultats_image2'), 'resul_Img.idResultat = result.idResultat' , array('NomImage' => 'nomImage'))
+			->where(array('d.idCons' => $id_cons))
+			->order('resul_Img.idImage DESC');
+				
+			$stat = $sql->prepareStatementForSqlObject($sQuery);
+			$Result = $stat->execute();
+				
+			return $Result;
+		}
+	
+	}
+	
+	public function ajouterImageMorpho($id_cons, $idExamen, $nomImage, $dateEnregistrement, $id_personne)
+	{
+		$demande = $this->verifierDemandeExiste($id_cons, $idExamen);
+		if($demande){
+			$resultat = $this->verifierResultatExiste($demande['idDemande']);
+			if($resultat){
+				//INSERTION DU RESULTAT DE LA DEMANDE
+				$db = $this->tableGateway->getAdapter();
+				$sql = new Sql($db);
+				$sQuery = $sql->update('resultats_examens2')
+				->set(array('date_modifcation' => $dateEnregistrement))
+				->where(array('idResultat' =>$resultat['idResultat']));
+				$stat = $sql->prepareStatementForSqlObject($sQuery);
+				$stat->execute();
+				
+				//INSERTION DES RESULTATS DES IMAGES
+				$db = $this->tableGateway->getAdapter();
+				$sql = new Sql($db);
+				$sQuery = $sql->insert()
+				->into('resultats_image2')
+				->columns(array('nomImage', 'dateEnregistrement', 'idResultat'))
+				->values(array('nomImage' => $nomImage, 'dateEnregistrement'=>$dateEnregistrement, 'idResultat' =>$resultat['idResultat']));
+				$stat = $sql->prepareStatementForSqlObject($sQuery);
+				$result = $stat->execute();
+				return $result;
+			}else {
+				//C'est ici qu'on met appliquer à 1
+				$this->tableGateway->update(array('appliquer' => 1, 'responsable' => 0) , array('idCons' => $id_cons, 'idExamen' => $idExamen));
+	
+				//INSERTION DU RESULTAT DE LA DEMANDE
+				$db = $this->tableGateway->getAdapter();
+				$sql = new Sql($db);
+				$sQuery = $sql->insert()
+				->into('resultats_examens2')
+				->columns(array('idDemande', 'date_enregistrement', 'id_personne'))
+				->values(array('idDemande' => $demande['idDemande'], 'id_personne' => $id_personne,  'date_enregistrement' => $dateEnregistrement));
+				$stat = $sql->prepareStatementForSqlObject($sQuery);
+				$stat->execute();
+	
+				//INSERTION DE L'IMAGE DU RESULTAT DE LA DEMANDE
+				$resultat = $this->verifierResultatExiste($demande['idDemande']);
+				if($resultat){
+					$db = $this->tableGateway->getAdapter();
+					$sql = new Sql($db);
+					$sQuery = $sql->insert()
+					->into('resultats_image2')
+					->columns(array('nomImage', 'dateEnregistrement', 'idResultat'))
+					->values(array('nomImage' => $nomImage, 'dateEnregistrement'=>$dateEnregistrement, 'idResultat' =>$resultat['idResultat']));
+					$stat = $sql->prepareStatementForSqlObject($sQuery);
+					$result = $stat->execute();
+					return $result;
+				}
+			}
+		}
+		return false;
+	}
+	
+	
+	/** FIN FIN RECUPERATION DES RESULTATS POUR L'INTERFACE DU RADIOLOGUE (Examen morpho) **/
+	/** FIN FIN RECUPERATION DES RESULTATS POUR L'INTERFACE DU RADIOLOGUE (Examen morpho) **/
+	/** FIN FIN RECUPERATION DES RESULTATS POUR L'INTERFACE DU RADIOLOGUE (Examen morpho) **/
 	
 	/**
 	 * Verifier si la demande existe
@@ -159,7 +246,7 @@ class DemandeTable{
 		return $result;
 	}
 	
-	public function ajouterImage($id_cons, $idExamen, $nomImage, $dateEnregistrement)
+	public function ajouterImage($id_cons, $idExamen, $nomImage, $dateEnregistrement, $id_personne)
 	{
 		$demande = $this->verifierDemandeExiste($id_cons, $idExamen);
 		if($demande){
@@ -183,8 +270,8 @@ class DemandeTable{
 				$sql = new Sql($db);
 				$sQuery = $sql->insert()
 				->into('resultats_examens2')
-				->columns(array('idDemande', 'envoyer'))
-				->values(array('idDemande' => $demande['idDemande'], 'envoyer' =>1));
+				->columns(array('idDemande', 'id_personne', 'envoyer'))
+				->values(array('idDemande' => $demande['idDemande'], 'id_personne' => $id_personne, 'envoyer' =>1));
 				$stat = $sql->prepareStatementForSqlObject($sQuery);
 				$stat->execute();
 				
@@ -232,6 +319,34 @@ class DemandeTable{
 				$i++;
 			}
 			
+			$donnees = array('IdImage' => $tabIdImage[$id], 'NomImage'=> $tabNomImage[$id]);
+			return $donnees;
+		}
+	
+	}
+	
+	
+	public function recupererDonneesExamenMorpho($id_cons, $id, $typeExamen)
+	{
+		if($this->getDemande($id_cons)->current()){
+			$db = $this->tableGateway->getAdapter();
+			$sql = new Sql($db);
+			$sQuery = $sql->select()
+			->from(array('d'=>'demande'))->columns(array('*'))
+			->join(array('result' => 'resultats_examens2'), 'result.idDemande = d.idDemande', array('*'))
+			->join(array('resul_Img' => 'resultats_image2'), 'resul_Img.idResultat = result.idResultat' , array('IdImage' => 'idImage', 'NomImage' => 'nomImage'))
+			->where(array('d.idCons' => $id_cons, 'd.idExamen'=>$typeExamen))
+			->order('resul_Img.idImage DESC');
+	
+			$stat = $sql->prepareStatementForSqlObject($sQuery);
+			$Result = $stat->execute();
+			$i = 1;
+			foreach ($Result as $resultat){
+				$tabIdImage[$i] = $resultat['IdImage'];
+				$tabNomImage[$i] = $resultat['NomImage'];
+				$i++;
+			}
+				
 			$donnees = array('IdImage' => $tabIdImage[$id], 'NomImage'=> $tabNomImage[$id]);
 			return $donnees;
 		}

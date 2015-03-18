@@ -8,6 +8,7 @@ return array(
         		'laborantin' => 'guest',
         		'admin' => 'guest',
         		'facturation' => 'guest',
+        		'radiologie' => 'guest',
         		
         		'surveillant' => 'guest',
         		'medecin'     => 'surveillant',
@@ -110,7 +111,7 @@ return array(
     								'visualisation-consultation' => 'medecin',
     								
     								'imagesExamensMorphologiques' => 'medecin',
-    								'supprimerImage' => 'medecin',
+    								'supprimerImage' => 'medecin', 
     								'demande-examen' => 'medecin',
     								'demande-examen-biologique' => 'medecin',
     								
@@ -125,6 +126,9 @@ return array(
     								'vue-soin-appliquer' => 'medecin',
     								'liberer-patient' => 'medecin',
     								'liste-soins-prescrits' => 'medecin',
+    								
+    								'supprimer-image-morpho' => 'radiologie', //PARTIE EXAMEN MORPHO
+    								'images-examens-morphologiques' => 'radiologie', //PARTIE EXAMEN MORPHO
     								
     								/**PDF**/
     								'impression-Pdf' => 'medecin',
@@ -196,19 +200,28 @@ return array(
     								
     								'liste-demandes-examens' => 'laborantin',
     								'liste-demandes-examens-ajax' => 'laborantin',
-    								'liste-examens-demander' => 'laborantin',
-    								'verifier-si-resultat-existe' => 'laborantin',
+    								'liste-examens-demander' => 'laborantin', 
     								'vue-examen-appliquer' => 'laborantin',
-    								'appliquer-examen' => 'laborantin',
-    								'raffraichir-liste-examens' => 'laborantin',
     								'raffraichir-liste-examens-bio' => 'laborantin',
-    								'modifier-examen' => 'laborantin',
-    								'envoyer-examen' => 'laborantin',
     								'envoyer-examen-bio' => 'laborantin',
+    								
+    								'verifier-si-resultat-existe' => 'guest',
+    								'modifier-examen' => 'guest',
+    								'envoyer-examen' => 'guest',
+    								'appliquer-examen' => 'guest',
+    								'raffraichir-liste-examens' => 'guest',
     								
     								'liste-examens-effectues' => 'laborantin',
     								'liste-recherche-examens-effectues-ajax' => 'laborantin',
-    						),
+
+    								
+    								'liste-demandes-examens-morpho' => 'radiologie',
+    								'liste-demandes-examens-morpho-ajax' => 'radiologie',
+    								'liste-examens-demander-morpho' => 'radiologie',
+    								'vue-examen-appliquer-morpho' => 'radiologie',
+    								'liste-examens-effectues-morpho' => 'radiologie',
+    								'liste-recherche-examens-effectues-morpho-ajax' => 'radiologie',
+     						),
     						
     				),
     		),

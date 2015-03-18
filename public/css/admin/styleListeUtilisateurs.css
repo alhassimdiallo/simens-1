@@ -769,13 +769,13 @@ box-shadow: 0pt 1px 3px rgba(204, 204, 204, 0.95) inset;
 position: relative;
 
 /* le texte des champs*/
-padding-top: 5px;
+padding-top: 7px;
 
 padding-right: 10px;
 
-padding-bottom: 10px;
+padding-bottom: 7px;
 
-margin-bottom : 15px;
+margin-bottom : 18px;
 
 margin-right: 25px;
 
@@ -784,6 +784,8 @@ padding-left: 10px; /* padding du text dans le champ*/
 text-indent: 0px; /* alignement du text dans le champ input*/
 
 width: 85%; /* la largeur du champ input*/
+
+font-size: 17px;
 
 }
 

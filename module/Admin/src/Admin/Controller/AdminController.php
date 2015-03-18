@@ -161,6 +161,10 @@ class AdminController extends AbstractActionController
     	{
     		return $this->redirect()->toRoute('hospitalisation', array('action' => 'liste-demandes-examens'));
     	}
+    	elseif($user->role == "radiologie")
+    	{
+    		return $this->redirect()->toRoute('hospitalisation', array('action' => 'liste-demandes-examens-morpho'));
+    	}
     	
     	
     	echo '<div style="font-size: 25px; color: green; padding-bottom: 15px;" >vous n\'avez aucun privilège. Contacter l\'administrateur ----> Merci !!! </div>'; 

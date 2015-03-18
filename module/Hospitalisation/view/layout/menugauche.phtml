@@ -28,7 +28,7 @@
 
 
 
-	<!-- MENU ***EXAMENS** -->
+	<!-- MENU ***EXAMENS BIOLOGIQUES** -->
 	<li id="operation"><a href="">
 	    <span style="margin-left:0px; color: #48ce77; font-weight:bold; font-size:18px; font-family:Times New Roman;"> <img id="image" style="display: inline;" src='<?php echo $this->basePath().'/images_icons/add.png'?>' /> Demandes d'examen </span></a> </li>
 
@@ -44,6 +44,22 @@
 	   </div>
 	</li>
 
+	
+	<!-- MENU ***EXAMENS MORPHOLOGIQUES** -->
+	<li id="operationMorpho"><a href="">
+	    <span style="margin-left:0px; color: #48ce77; font-weight:bold; font-size:18px; font-family:Times New Roman;"> <img id="image" style="display: inline;" src='<?php echo $this->basePath().'/images_icons/add.png'?>' /> Demandes d'examen </span></a> </li>
+
+	<li id="plus_operationMorpho" style="background: #4a5765;" >
+	   <!-- PARTIE DES TRANSFERTS -->
+	   <div style="margin-left:30px; height:40px; padding-top:20px;"><a href="<?php echo $this->url('hospitalisation', array('action'=> 'liste-demandes-examens-morpho'));?>"  >
+	       <span id="liste_styleMorpho" style="margin-left:5px; color: white; font-size:15px; font-family:Times New Roman;"><img style="display: inline;" src='<?php echo $this->basePath().'/images_icons/liste.png'?>' /> En cours </span></a>
+	   </div>
+	   
+	   <div id="liste_rechercheMorpho"style="margin-left:30px; height:40px;"><a href="<?php echo $this->basePath().'/hospitalisation/liste-examens-effectues-morpho';?>">
+	       <img style="margin-left:5px; display: inline;" src='<?php echo $this->basePath().'/images_icons/liste.png'?>' alt='Liste' />
+	       <span id="recherche_styleMorpho" style="font-size:15px; color: white; font-family:Times New Roman;">Recherche</span></a>
+	   </div>
+	</li>
 </ul>
 
 <?php
@@ -55,22 +71,30 @@ if($role == 'infirmier'){ ?>
 <script>
 $("#operation").toggle(false);
 $("#liste_recherche").toggle(false);
+$("#operationMorpho").toggle(false);
 </script>
 <?php
 }
 else if($role == 'laborantin'){ ?>
 <script>
 $("#dossier_personnel").toggle(false);
+$("#operationMorpho").toggle(false);
 </script>
 <?php
-     }
+}
+else if($role == 'radiologie'){ ?>
+<script>
+$("#dossier_personnel").toggle(false);
+$("#operation").toggle(false);
+</script>
+<?php
+}
 ?>
 
 
 <script>
 $("#en_cours_icone").toggle(false);
 //*******************************************************************************************************************************
-//operation
 function dep1(){
 	$('#operation').click(function(){
 		$("#operation").replaceWith("<li id='operation'><a href=''><span style='margin-left:0px; color: #48ce77; font-weight:bold; font-size:18px; font-family:Times New Roman;'> <img style='display: inline;' src='/simens/public/images_icons/add.PNG' alt='Liste' /> Demandes d'examen </span></a></li>");
@@ -205,6 +229,43 @@ $('#plus_dossier_personnel').animate({
 height : 'toggle'
 },1000);
 return false;
+});
+
+
+//PARTIE DU RADIOLOGUE
+//PARTIE DU RADIOLOGUE
+//PARTIE DU RADIOLOGUE
+//*******************************************************************************************************************************
+function dep3(){
+	$('#operationMorpho').click(function(){
+		$("#operationMorpho").replaceWith("<li id='operationMorpho'><a href=''><span style='margin-left:0px; color: #48ce77; font-weight:bold; font-size:18px; font-family:Times New Roman;'> <img style='display: inline;' src='/simens/public/images_icons/add.PNG' alt='Liste' /> Demandes d'examen </span></a></li>");
+		dep4();
+	    $('#plus_operationMorpho').animate({
+	        height : 'toggle'
+	    },1000);
+	 return false;
+	});
+}
+
+function dep4(){
+	$('#operationMorpho').click(function(){
+		$("#operationMorpho").replaceWith("<li id='operationMorpho' style='background:#4a5765;'><a href=''><span style='margin-left:0px; color: #ffffff; font-weight:bold; font-size:18px; font-family:Times New Roman;'> <img style='display: inline;' src='/simens/public/images_icons/moins-vert.PNG' alt='Liste' /> Demandes d'examen </span></a></li>");
+		dep3();
+	    $('#plus_operationMorpho').animate({
+	        height : 'toggle'
+	    },1000);
+	 return false;
+	});
+}
+
+$('#plus_operationMorpho').toggle(false);
+$('#operationMorpho').click(function(){
+	$("#operationMorpho").replaceWith("<li id='operationMorpho' style='background:#4a5765;'><a href=''><span style='margin-left:0px; color: #ffffff; font-weight:bold; font-size:18px; font-family:Times New Roman;'> <img style='display: inline;' src='/simens/public/images_icons/moins-vert.PNG' alt='Liste' /> Demandes d'examen </span></a></li>");
+	dep3(); alert();
+    $('#plus_operationMorpho').animate({
+        height : 'toggle'
+    },1000);
+ return false;
 });
 
 </script>

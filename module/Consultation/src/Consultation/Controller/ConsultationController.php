@@ -1742,6 +1742,10 @@ class ConsultationController extends AbstractActionController {
 		$id_cons = $this->params()->fromPost( 'id_cons' );
 		$ajout = (int)$this->params()->fromPost( 'ajout' );
 		$idExamen = (int)$this->params()->fromPost( 'typeExamen' ); /*Le type d'examen*/
+		$utilisateur = (int)$this->params()->fromPost( 'utilisateur' ); /* 1==radiologue sinon Medecin  */
+		
+		$user = $this->layout()->user;
+		$id_personne = $user->id_personne; //Identité de l'utilisateur connecté
 		
 		/***
 		 * INSERTION DE LA NOUVELLE IMAGE
@@ -1767,21 +1771,42 @@ class ConsultationController extends AbstractActionController {
 			$formatFichier = substr ($fileBase64, 11, 4 );
 			$fileBase64 = substr ( $fileBase64, 23 );
 			
-			if($fileBase64 && $typeFichier == 'image' && $formatFichier =='jpeg'){
-				$img = imagecreatefromstring(base64_decode($fileBase64));
-				if($img){
-					$resultatAjout = $this->demandeExamensTable()->ajouterImage($id_cons, $idExamen, $nomImage, $date_enregistrement);
+			if($utilisateur == 1){
+				
+				if($fileBase64 && $typeFichier == 'image' && $formatFichier =='jpeg'){
+					$img = imagecreatefromstring(base64_decode($fileBase64));
+					if($img){
+						$resultatAjout = $this->demandeExamensTable()->ajouterImageMorpho($id_cons, $idExamen, $nomImage, $date_enregistrement, $id_personne);
+					}
+					if($resultatAjout){
+						imagejpeg ( $img, 'C:\wamp\www\simens\public\images\images\\' . $nomImage . '.jpg' );
+					}
 				}
-				if($resultatAjout){
-					imagejpeg ( $img, 'C:\wamp\www\simens\public\images\images\\' . $nomImage . '.jpg' );
+				
+			}else {
+				
+				if($fileBase64 && $typeFichier == 'image' && $formatFichier =='jpeg'){
+					$img = imagecreatefromstring(base64_decode($fileBase64));
+					if($img){
+						$resultatAjout = $this->demandeExamensTable()->ajouterImage($id_cons, $idExamen, $nomImage, $date_enregistrement, $id_personne);
+					}
+					if($resultatAjout){
+						imagejpeg ( $img, 'C:\wamp\www\simens\public\images\images\\' . $nomImage . '.jpg' );
+					}
 				}
+				
 			}
+			
 		}
 		
 		/**
 		 * RECUPERATION DE TOUS LES RESULTATS DES EXAMENS MORPHOLOGIQUES
 		 */
- 		$result = $this->demandeExamensTable()->resultatExamens($id_cons);
+		if($utilisateur == 1){
+			$result = $this->demandeExamensTable()->resultatExamensMorpho($id_cons);
+		}else {
+			$result = $this->demandeExamensTable()->resultatExamens($id_cons);
+		}
 
 		$radio = false;
 		$echographie = false;
@@ -1933,6 +1958,32 @@ class ConsultationController extends AbstractActionController {
 		
 		$this->getResponse()->getHeaders ()->addHeaderLine ( 'Content-Type', 'application/html' );
 		return $this->getResponse ()->setContent(Json::encode ( ));
+	}
+	
+	/** POUR LES EXAMENS MORPHOLOGIQUES **/
+	/** POUR LES EXAMENS MORPHOLOGIQUES **/
+	/** POUR LES EXAMENS MORPHOLOGIQUES **/
+	public function supprimerImageMorphoAction()
+	{
+		$id_cons = $this->params()->fromPost('id_cons');
+		$id = $this->params()->fromPost('id'); //numero de l'image dans le diapo
+		$typeExamen = $this->params()->fromPost('typeExamen');
+	
+		/**
+		 * RECUPERATION DE TOUS LES RESULTATS DES EXAMENS MORPHOLOGIQUES
+		*/
+		 $result = $this->demandeExamensTable()->recupererDonneesExamenMorpho($id_cons, $id, $typeExamen);
+		/**
+		 * SUPPRESSION PHYSIQUE DE L'IMAGE
+		*/
+		 unlink ( 'C:\wamp\www\simens\public\images\images\\' . $result['NomImage'] . '.jpg' );
+		/**
+		 * SUPPRESSION DE L'IMAGE DANS LA BASE
+		*/
+		 $this->demandeExamensTable()->supprimerImage($result['IdImage']);
+	
+		$this->getResponse()->getHeaders ()->addHeaderLine ( 'Content-Type', 'application/html' );
+		return $this->getResponse ()->setContent(Json::encode ());
 	}
 	
 	//************************************************************************************

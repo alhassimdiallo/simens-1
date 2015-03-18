@@ -20,6 +20,7 @@ use Hospitalisation\Form\AppliquerSoinForm;
 use Hospitalisation\Form\AppliquerExamenForm;
 use Zend\Server\Method\Prototype;
 use Hospitalisation\Model\ResultatExamen;
+use Zend\Crypt\PublicKey\Rsa\PublicKey;
 
 class HospitalisationController extends AbstractActionController {
 	
@@ -1292,185 +1293,6 @@ class HospitalisationController extends AbstractActionController {
 		);
 	}
 	
-	public function listeExamensAction($id_cons) {
-
-		$liste_examens_demandes = $this->getDemandeTable()->getDemandesExamens($id_cons);
-		$html = "";
-		$this->getDateHelper();
-			
-		$html .="<table class='table table-bordered tab_list_mini'  style='margin-top:10px; margin-bottom:20px; margin-left:195px; width:80%;' id='listeDesExamens'>";
-			
-		$html .="<thead style='width: 100%;'>
-				  <tr style='height:40px; width:100%; cursor:pointer; font-family: Times New Roman; font-weight: bold;'>
-					<th style='width: 9%;'>Num&eacute;ro</th>
-					<th style='width: 32%;'>Libelle examen</th>
-					<th style='width: 40%;'>Note</th>
-				    <th style='width: 13%;'>Options</th>
-				    <th style='width: 6%;'>Etat</th>
-				  </tr>
-			     </thead>";
-			
-		$html .="<tbody style='width: 100%;'>";
-		$cmp = 1;
- 		foreach ($liste_examens_demandes as $Liste){
- 			$html .="<tr style='width: 100%;' id='".$Liste['idDemande']."'>";
- 			$html .="<td style='width: 9%;'><div id='inform' style='margin-left: 25%; float:left; font-weight:bold; font-size:17px;'> " .$cmp++. ". </div></td>";
- 			$html .="<td style='width: 32%;'><div  style='color: green; font-family: Times New Roman; float:left; font-weight: bold; font-size:18px;'> " .$this->getExamenTable()->getExamen($Liste['idExamen'])->libelleExamen. " </div></td>";
- 			$html .="<td style='width: 40%;'><div  style='color: green; font-family: Times New Roman; float:left; font-weight: bold; font-size:18px;'> " .$Liste['noteDemande']. " </div></td>";
-  			$html .="<td style='width: 13%;'> 
-  					    <a href='javascript:vueExamen(".$Liste['idDemande'].") '>
-  					       <img class='visualiser".$Liste['idDemande']."' style='margin-right: 9%; margin-left: 3%;' src='/simens/public/images_icons/voird.png' alt='Constantes' title='d&eacute;tails' />
-  					    </a>&nbsp";
-		
- 			if($Liste['appliquer'] == 0) {
- 				$html .="<a href='javascript:appliquerExamen(".$Liste['idDemande'].")'>
- 					    	<img class='modifier".$Liste['idDemande']."' style='margin-right: 16%;' src='/simens/public/images_icons/aj.gif' alt='Constantes' title='Entrer les r&eacute;sultats'/>
- 					     </a>";
- 				
- 				$html .="<a>
- 					    	<img style='color: white; opacity: 0.09;' src='/simens/public/images_icons/74biss.png' alt='Constantes' />
- 					     </a>
- 				         </td>";
- 				
- 				$html .="<td style='width: 6%;'>
-  					     <a>
-  					        <img class='etat_non".$Liste['idDemande']."' style='margin-left: 25%;' src='/simens/public/images_icons/non.png' alt='Constantes' title='examen non encore effectu&eacute;' />
-  					     </a>
-  					     </td>";
- 			}else {
- 				
- 				$resultat = $this->getResultatExamenTable()->getResultatExamen($Liste['idDemande']);
-
- 				if($resultat->envoyer == 1) {
- 					$html .="<a>
- 					    	<img style='margin-right: 16%; color: white; opacity: 0.09;' src='/simens/public/images_icons/pencil_16.png'/>
- 					     </a>";
- 					
- 					if($Liste['responsable'] == 1) { /*Envoyer par le medecin*/
- 						$html .="<a>
- 					    	<img class='envoyer".$Liste['idDemande']."' src='/simens/public/images_icons/tick_16.png' title='examen valid&eacute; par le medecin'/>
- 					     </a>
- 				         </td>";
- 					} else 
- 					    { /*Envoyer par le laborantin*/
- 					     $html .="<a>
- 					    	<img class='envoyer".$Liste['idDemande']."' src='/simens/public/images_icons/tick_16.png' title='examen envoy&eacute;'/>
- 					     </a>
- 				         </td>";
- 					    }
- 					
- 					
- 				} else {
- 					$html .="<a href='javascript:modifierExamen(".$Liste['idDemande'].")'>
- 					    	<img class='modifier".$Liste['idDemande']."' style='margin-right: 16%;' src='/simens/public/images_icons/pencil_16.png' alt='Constantes' title='modifier r&eacute;sultat'/>
- 					     </a>";
- 					$html .="<a href='javascript:envoyer(".$Liste['idDemande'].")'>
- 					    	<img class='envoyer".$Liste['idDemande']."' src='/simens/public/images_icons/74biss.png' alt='Constantes' title='envoyer'/>
- 					     </a>
- 				         </td>";
- 				}
- 				
- 				
- 				$html .="<td style='width: 6%;'>
-  					     <a>
-  					        <img class='etat_oui".$Liste['idDemande']."' style='margin-left: 25%;' src='/simens/public/images_icons/oui.png' alt='Constantes' title='examen d&eacute;ja effectu&eacute;' />
-  					     </a>
-  					     </td>";
-			}
-		
-			$html .="</tr>";
-		
-			$html .="<script>
-					  $('.visualiser".$Liste['idDemande']." ').mouseenter(function(){
-	                    var tooltips = $( '.visualiser".$Liste['idDemande']."' ).tooltip({show: {effect: 'slideDown', delay: 250}});
-	                    tooltips.tooltip( 'open' );
-	                  });
-	                  $('.visualiser".$Liste['idDemande']."').mouseleave(function(){
-	                    var tooltips = $( '.visualiser".$Liste['idDemande']."' ).tooltip();
-	                    tooltips.tooltip( 'close' );
-	                  });
-	                  /************************/
-	                  /************************/
-	                  /************************/
-                      $('.modifier".$Liste['idDemande']." ').mouseenter(function(){
-	                    var tooltips = $( '.modifier".$Liste['idDemande']." ' ).tooltip({show: {effect: 'slideDown', delay: 250}});
-	                    tooltips.tooltip( 'open' );
-	                  });
-				      $('.modifier".$Liste['idDemande']." ').mouseleave(function(){
-	                    var tooltips = $( '.modifier".$Liste['idDemande']." ' ).tooltip();
-	                    tooltips.tooltip( 'close' );
-	                  });
-	                  /*************************/
-	                  /*************************/
-	                  /*************************/
-	                  $('.supprimer".$Liste['idDemande']." ').mouseenter(function(){
-	                    var tooltips = $( '.supprimer".$Liste['idDemande']."' ).tooltip({show: {effect: 'slideDown', delay: 250}});
-	                    tooltips.tooltip( 'open' );
-	                  });
-	                  $('.supprimer".$Liste['idDemande']."').mouseleave(function(){
-	                    var tooltips = $( '.supprimer".$Liste['idDemande']."' ).tooltip();
-	                    tooltips.tooltip( 'close' );
-	                  });
-		
-	                  /*************************/
-	                  /*************************/
-	                  /*************************/
-	                  $('.etat_oui".$Liste['idDemande']." ').mouseenter(function(){
-	                    var tooltips = $( '.etat_oui".$Liste['idDemande']."' ).tooltip({show: {effect: 'slideDown', delay: 250}});
-	                    tooltips.tooltip( 'open' );
-	                  });
-	                  $('.etat_oui".$Liste['idDemande']."').mouseleave(function(){
-	                    var tooltips = $( '.etat_oui".$Liste['idDemande']."' ).tooltip();
-	                    tooltips.tooltip( 'close' );
-	                  });
-	                  /*************************/
-	                  /*************************/
-	                  /*************************/
-	                  $('.etat_non".$Liste['idDemande']." ').mouseenter(function(){
-	                    var tooltips = $( '.etat_non".$Liste['idDemande']."' ).tooltip({show: {effect: 'slideDown', delay: 250}});
-	                    tooltips.tooltip( 'open' );
-	                  });
-	                  $('.etat_non".$Liste['idDemande']."').mouseleave(function(){
-	                    var tooltips = $( '.etat_non".$Liste['idDemande']."' ).tooltip();
-	                    tooltips.tooltip( 'close' );
-	                  });
-	                   /*************************/
-	                  /*************************/
-	                  /*************************/
-	                  $('.envoyer".$Liste['idDemande']." ').mouseenter(function(){
-	                    var tooltips = $( '.envoyer".$Liste['idDemande']."' ).tooltip({show: {effect: 'slideDown', delay: 250}});
-	                    tooltips.tooltip( 'open' );
-	                  });
-			        </script>";
-		}
-		$html .="</tbody>";
-		$html .="</table>";
-		
-		$html .="<style>
-				  #listeDataTable{
-	                margin-left: 185px;
-                  }
-		
-				  div .dataTables_paginate
-                  {
-				    margin-right: 20px;
-                  }
-				
-				  #listeDesExamens tbody tr{
-				    background: #fbfbfb;
-				  }
-				
-				  #listeDesExamens tbody tr:hover{
-				    background: #fefefe;
-				  }
-				  
-				 </style>";
-		$html .="<script> listepatient (); listeDesSoins(); $('#Examen_id_cons').val('".$id_cons."'); </script>";
-		
-		return $html;
-		
-	}
-	
 	
 	public function listeExamensBiologiquesAction($id_cons) {
 	
@@ -1877,4 +1699,356 @@ class HospitalisationController extends AbstractActionController {
 		);
 	}
 	
+	
+	
+	/* POUR LES EXAMENS MORPHOLOGIQUES ------ POUR LES EXAMENS MORPHOLOGIQUES ------ POUR LES EXAMENS MORPHOLOGIQUES */
+	/* POUR LES EXAMENS MORPHOLOGIQUES ------ POUR LES EXAMENS MORPHOLOGIQUES ------ POUR LES EXAMENS MORPHOLOGIQUES */
+	/* POUR LES EXAMENS MORPHOLOGIQUES ------ POUR LES EXAMENS MORPHOLOGIQUES ------ POUR LES EXAMENS MORPHOLOGIQUES */
+	public function vueExamenAppliquerMorphoAction() {
+		$this->getDateHelper();
+		$idDemande = $this->params()->fromPost('idDemande', 0);
+	
+		$demande = $this->getDemandeTable()->getDemande($idDemande);
+	
+		$html  ="<table style='width: 95%;'>";
+		$html .="<tr style='width: 95%;'>";
+		$html .="<td style='width: 100%; vertical-align:top;'><a style='text-decoration:underline; font-size:12px;'>Libelle examen:</a><br><p style='font-weight:bold; font-size:17px;'> ". $this->getExamenTable()->getExamen($demande->idExamen)->libelleExamen ." </p></td>";
+		$html .="</tr>";
+		$html .="</table>";
+	
+		$html .="<table style='width: 95%; margin-bottom: 25px;'>";
+		$html .="<tr style='width: 95%;'>";
+		$html .="<td style='width: 90%; padding-top: 10px; padding-right:25px;'><a style='text-decoration:underline; font-size:13px;'>Motif:</a><br><p id='circonstance_deces' style='background:#f8faf8; font-weight:bold; font-size:17px; padding-left: 5px;'> ". $demande->noteDemande ." </p></td>";
+		$html .="<td style='width: 10%;'> </td>";
+		$html .= "</tr>";
+		$html .="</table>";
+	
+		if($demande->appliquer == 1){
+			$resultat = $this->getResultatExamenTable()->getResultatExamen($idDemande);
+			$html .= "<div id='titre_info_resultat_examen'>R&eacute;sultat de l'examen  <span style='position: absolute; right: 20px; font-size: 14px; font-weight: bold;'>". $this->dateHelper->convertDateTime($resultat->date_enregistrement)." </span></div>
+			          <div id='barre_resultat' ></div>";
+				
+			$html .="<table style='width: 100%; margin-top: 10px;'>";
+			$html .="<tr style='width: 100%;'>";
+			$html .="<td style='width: 50%; vertical-align:top;'><a style='text-decoration:underline; font-size:12px;'>Technique utilis&eacute;e:</a><br><p style='font-weight:bold; font-size:17px;'> ". $resultat->techniqueUtiliser ." </p></td>";
+			$html .="<td id='visualisationImageResultats' style='width: 50%; vertical-align:top;'><img style='height: 50px;' src='../images_icons/jpg_file.png' title='Visualiser'/></td>";
+			$html .="</tr>";
+			$html .="</table>";
+				
+			$html .="<table style='width: 100%;'>";
+			$html .="<tr style='width: 100%;'>";
+			$html .="<td style='width: 50%; padding-top: 10px; padding-right:10px;'><a style='text-decoration:underline; font-size:13px;'>Note R&eacute;sultat:</a><br><p id='circonstance_deces' style='background:#f8faf8; font-weight:bold; font-size:17px; padding-left: 5px;'> ". $resultat->noteResultat ." </p></td>";
+			$html .="<td style='width: 50%; padding-top: 10px; padding-right:10px;'><a style='text-decoration:underline; font-size:13px;'>Conclusion:</a><br><p id='circonstance_deces' style='background:#f8faf8; font-weight:bold; font-size:17px; padding-left: 5px;'> ". $resultat->conclusion ." </p></td>";
+			$html .= "</tr>";
+			$html .="</table>";
+		}
+	
+		$this->getResponse ()->getHeaders ()->addHeaderLine ( 'Content-Type', 'application/html; charset=utf-8' );
+		return $this->getResponse ()->setContent ( Json::encode ($html) );
+	}
+	
+	public function listeExamensAction($id_cons) {
+	
+		$liste_examens_demandes = $this->getDemandeTable()->getDemandesExamensMorphologiques($id_cons);
+		$html = "";
+		$this->getDateHelper();
+			
+		$html .="<table class='table table-bordered tab_list_mini'  style='margin-top:10px; margin-bottom:20px; margin-left:195px; width:80%;' id='listeDesExamens'>";
+			
+		$html .="<thead style='width: 100%;'>
+				  <tr style='height:40px; width:100%; cursor:pointer; font-family: Times New Roman; font-weight: bold;'>
+					<th style='width: 9%;'>Num&eacute;ro</th>
+					<th style='width: 32%;'>Libelle examen</th>
+					<th style='width: 40%;'>Note</th>
+				    <th style='width: 13%;'>Options</th>
+				    <th style='width: 6%;'>Etat</th>
+				  </tr>
+			     </thead>";
+			
+		$html .="<tbody style='width: 100%;'>";
+		$cmp = 1;
+		foreach ($liste_examens_demandes as $Liste){
+			$html .="<tr style='width: 100%;' id='".$Liste['idDemande']."'>";
+			$html .="<td style='width: 9%;'><div id='inform' style='margin-left: 25%; float:left; font-weight:bold; font-size:17px;'> " .$cmp++. ". </div></td>";
+			$html .="<td style='width: 32%;'><div  style='color: green; font-family: Times New Roman; float:left; font-weight: bold; font-size:18px;'> " .$this->getExamenTable()->getExamen($Liste['idExamen'])->libelleExamen. " </div></td>";
+			$html .="<td style='width: 40%;'><div  style='color: green; font-family: Times New Roman; float:left; font-weight: bold; font-size:18px;'> " .$Liste['noteDemande']. " </div></td>";
+			$html .="<td style='width: 13%;'>
+  					    <a href='javascript:vueExamenMorpho(".$Liste['idDemande'].") '>
+  					       <img class='visualiser".$Liste['idDemande']."' style='margin-right: 9%; margin-left: 3%;' src='/simens/public/images_icons/voird.png' alt='Constantes' title='d&eacute;tails' />
+  					    </a>&nbsp";
+	
+			if($Liste['appliquer'] == 0) {
+				$html .="<a href='javascript:appliquerExamen(".$Liste['idDemande'].")'>
+ 					    	<img class='modifier".$Liste['idDemande']."' style='margin-right: 16%;' src='/simens/public/images_icons/aj.gif' alt='Constantes' title='Entrer les r&eacute;sultats'/>
+ 					     </a>";
+					
+				$html .="<a>
+ 					    	<img style='color: white; opacity: 0.09;' src='/simens/public/images_icons/74biss.png' alt='Constantes' />
+ 					     </a>
+ 				         </td>";
+					
+				$html .="<td style='width: 6%;'>
+  					     <a>
+  					        <img class='etat_non".$Liste['idDemande']."' style='margin-left: 25%;' src='/simens/public/images_icons/non.png' alt='Constantes' title='examen non encore effectu&eacute;' />
+  					     </a>
+  					     </td>";
+			}else {
+					
+				$resultat = $this->getResultatExamenTable()->getResultatExamen($Liste['idDemande']);
+	
+				if($resultat->envoyer == 1) {
+					$html .="<a>
+ 					    	<img style='margin-right: 16%; color: white; opacity: 0.09;' src='/simens/public/images_icons/pencil_16.png'/>
+ 					     </a>";
+	
+					if($Liste['responsable'] == 1) { /*Envoyer par le medecin*/
+						$html .="<a>
+ 					    	<img class='envoyer".$Liste['idDemande']."' src='/simens/public/images_icons/tick_16.png' title='examen valid&eacute; par le medecin'/>
+ 					     </a>
+ 				         </td>";
+					} else
+					{ /*Envoyer par le laborantin*/
+						$html .="<a>
+ 					    	<img class='envoyer".$Liste['idDemande']."' src='/simens/public/images_icons/tick_16.png' title='examen envoy&eacute;'/>
+ 					     </a>
+ 				         </td>";
+					}
+	
+	
+				} else {
+					$html .="<a href='javascript:modifierExamen(".$Liste['idDemande'].")'>
+ 					    	<img class='modifier".$Liste['idDemande']."' style='margin-right: 16%;' src='/simens/public/images_icons/pencil_16.png' alt='Constantes' title='modifier r&eacute;sultat'/>
+ 					     </a>";
+					$html .="<a href='javascript:envoyer(".$Liste['idDemande'].")'>
+ 					    	<img class='envoyer".$Liste['idDemande']."' src='/simens/public/images_icons/74biss.png' alt='Constantes' title='envoyer'/>
+ 					     </a>
+ 				         </td>";
+				}
+					
+					
+				$html .="<td style='width: 6%;'>
+  					     <a>
+  					        <img class='etat_oui".$Liste['idDemande']."' style='margin-left: 25%;' src='/simens/public/images_icons/oui.png' alt='Constantes' title='examen d&eacute;ja effectu&eacute;' />
+  					     </a>
+  					     </td>";
+			}
+	
+			$html .="</tr>";
+	
+			$html .="<script>
+					  $('.visualiser".$Liste['idDemande']." ').mouseenter(function(){
+	                    var tooltips = $( '.visualiser".$Liste['idDemande']."' ).tooltip({show: {effect: 'slideDown', delay: 250}});
+	                    tooltips.tooltip( 'open' );
+	                  });
+	                  $('.visualiser".$Liste['idDemande']."').mouseleave(function(){
+	                    var tooltips = $( '.visualiser".$Liste['idDemande']."' ).tooltip();
+	                    tooltips.tooltip( 'close' );
+	                  });
+	                  /************************/
+	                  /************************/
+	                  /************************/
+                      $('.modifier".$Liste['idDemande']." ').mouseenter(function(){
+	                    var tooltips = $( '.modifier".$Liste['idDemande']." ' ).tooltip({show: {effect: 'slideDown', delay: 250}});
+	                    tooltips.tooltip( 'open' );
+	                  });
+				      $('.modifier".$Liste['idDemande']." ').mouseleave(function(){
+	                    var tooltips = $( '.modifier".$Liste['idDemande']." ' ).tooltip();
+	                    tooltips.tooltip( 'close' );
+	                  });
+	                  /*************************/
+	                  /*************************/
+	                  /*************************/
+	                  $('.supprimer".$Liste['idDemande']." ').mouseenter(function(){
+	                    var tooltips = $( '.supprimer".$Liste['idDemande']."' ).tooltip({show: {effect: 'slideDown', delay: 250}});
+	                    tooltips.tooltip( 'open' );
+	                  });
+	                  $('.supprimer".$Liste['idDemande']."').mouseleave(function(){
+	                    var tooltips = $( '.supprimer".$Liste['idDemande']."' ).tooltip();
+	                    tooltips.tooltip( 'close' );
+	                  });
+	
+	                  /*************************/
+	                  /*************************/
+	                  /*************************/
+	                  $('.etat_oui".$Liste['idDemande']." ').mouseenter(function(){
+	                    var tooltips = $( '.etat_oui".$Liste['idDemande']."' ).tooltip({show: {effect: 'slideDown', delay: 250}});
+	                    tooltips.tooltip( 'open' );
+	                  });
+	                  $('.etat_oui".$Liste['idDemande']."').mouseleave(function(){
+	                    var tooltips = $( '.etat_oui".$Liste['idDemande']."' ).tooltip();
+	                    tooltips.tooltip( 'close' );
+	                  });
+	                  /*************************/
+	                  /*************************/
+	                  /*************************/
+	                  $('.etat_non".$Liste['idDemande']." ').mouseenter(function(){
+	                    var tooltips = $( '.etat_non".$Liste['idDemande']."' ).tooltip({show: {effect: 'slideDown', delay: 250}});
+	                    tooltips.tooltip( 'open' );
+	                  });
+	                  $('.etat_non".$Liste['idDemande']."').mouseleave(function(){
+	                    var tooltips = $( '.etat_non".$Liste['idDemande']."' ).tooltip();
+	                    tooltips.tooltip( 'close' );
+	                  });
+	                   /*************************/
+	                  /*************************/
+	                  /*************************/
+	                  $('.envoyer".$Liste['idDemande']." ').mouseenter(function(){
+	                    var tooltips = $( '.envoyer".$Liste['idDemande']."' ).tooltip({show: {effect: 'slideDown', delay: 250}});
+	                    tooltips.tooltip( 'open' );
+	                  });
+			        </script>";
+		}
+		$html .="</tbody>";
+		$html .="</table>";
+	
+		$html .="<style>
+				  #listeDataTable{
+	                margin-left: 185px;
+                  }
+	
+				  div .dataTables_paginate
+                  {
+				    margin-right: 20px;
+                  }
+	
+				  #listeDesExamens tbody tr{
+				    background: #fbfbfb;
+				  }
+	
+				  #listeDesExamens tbody tr:hover{
+				    background: #fefefe;
+				  }
+	
+				 </style>";
+		$html .="<script> listepatient (); listeDesSoins(); $('#Examen_id_cons').val('".$id_cons."'); </script>";
+	
+		return $html;
+	
+	}
+	
+	
+	Public function listeExamensDemanderMorphoAction() {
+		$this->getDateHelper();
+		$id_personne = $this->params()->fromPost('id_personne',0);
+		$id_cons = $this->params()->fromPost('id_cons',0);
+		$terminer = $this->params()->fromPost('terminer',0);
+		$examensBio = $this->params()->fromPost('examensBio',0);
+		
+		$unPatient = $this->getPatientTable()->getPatient($id_personne);
+		$photo = $this->getPatientTable()->getPhoto($id_personne);
+		
+		$demande = $this->getDemandeTable()->getDemandeWithIdcons($id_cons);
+		
+		$date = $this->dateHelper->convertDate( $unPatient->date_naissance );
+		
+		$html  = "<div style='width:100%;'>";
+			
+		$html .= "<div style='width: 18%; height: 180px; float:left;'>";
+		$html .= "<div id='photo' style='float:left; margin-left:40px; margin-top:10px; margin-right:30px;'> <img style='width:105px; height:105px;' src='".$this->getPath()."/img/photos_patients/" . $photo . "' ></div>";
+		$html .= "</div>";
+			
+		$html .= "<div style='width: 65%; height: 180px; float:left;'>";
+		$html .= "<table style='margin-top:10px; float:left; width: 100%;'>";
+		$html .= "<tr style='width: 100%;'>";
+		$html .= "<td style='width: 20%; height: 50px;'><a style='text-decoration:underline; font-size:12px;'>Nom:</a><br><p style='font-weight:bold; font-size:17px;'>" . $unPatient->nom . "</p></td>";
+		$html .= "<td style='width: 30%; height: 50px;'><a style='text-decoration:underline; font-size:12px;'>Lieu de naissance:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $unPatient->lieu_naissance . "</p></td>";
+		$html .= "<td style='width: 20%; height: 50px;'><a style='text-decoration:underline; font-size:12px;'>Nationalit&eacute; actuelle:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $unPatient->nationalite_actuelle . "</p></td>";
+		$html .= "<td style='width: 30%; height: 50px;'></td>";
+		$html .= "</tr><tr style='width: 100%;'>";
+		$html .= "<td style='width: 20%; height: 50px;'><a style='text-decoration:underline; font-size:12px;'>Pr&eacute;nom:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $unPatient->prenom . "</p></td>";
+		$html .= "<td style='width: 30%; height: 50px;'><a style='text-decoration:underline; font-size:12px;'>T&eacute;l&eacute;phone:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $unPatient->telephone . "</p></td>";
+		$html .= "<td style='width: 20%; height: 50px;'><a style='text-decoration:underline; font-size:12px;'>Nationalit&eacute; d'origine:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $unPatient->nationalite_origine. "</p></td>";
+		$html .= "<td style='width: 30%; height: 50px;'><a style='text-decoration:underline; font-size:12px;'>Email:</a><br><p style='font-weight:bold; font-size:17px;'>" . $unPatient->email . "</p></td>";
+		$html .= "</tr><tr style='width: 100%;'>";
+		$html .= "<td style='width: 20%; height: 50px; vertical-align: top;'><a style='text-decoration:underline; font-size:12px;'>Date de naissance:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $date . "</p></td>";
+		$html .= "<td style='width: 30%; height: 50px; vertical-align: top;'><a style='text-decoration:underline; font-size:12px;'>Adresse:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $unPatient->adresse . "</p></td>";
+		$html .= "<td style='width: 20%; height: 50px; vertical-align: top;'><a style='text-decoration:underline; font-size:12px;'>Profession:</a><br><p style=' font-weight:bold; font-size:17px;'>" .  $unPatient->profession . "</p></td>";
+		$html .= "<td style='width: 30%; height: 50px;'></td>";
+		$html .= "</tr>";
+		$html .= "</table>";
+		$html .="</div>";
+			
+		$html .= "<div style='width: 17%; height: 180px; float:left;'>";
+		$html .= "<div id='' style='color: white; opacity: 0.09; float:left; margin-right:20px; margin-left:25px; margin-top:5px;'> <img style='width:105px; height:105px;' src='".$this->getPath()."/img/photos_patients/" . $photo . "'></div>";
+		$html .= "</div>";
+			
+		$html .= "</div>";
+		
+		$html .= "<div id='titre_info_deces'>Informations sur la demande d'examen </div>
+		          <div id='barre'></div>";
+		foreach ($demande as $donnees) {
+			$html .= "<table style='margin-top:10px; margin-left: 195px; width: 80%;'>";
+			$html .= "<tr style='width: 80%;'>";
+			$html .= "<td style='width: 25%; height: 50px; vertical-align: top;'><a style='text-decoration:underline; font-size:12px;'>Consultation:</a><br><p style='font-weight:bold; font-size:17px;'>" . $id_cons . "</p></td>";
+			$html .= "<td style='width: 25%; height: 50px; vertical-align: top;'><a style='text-decoration:underline; font-size:12px;'>Date de la demande:</a><br><p style=' font-weight:bold; font-size:17px;'>" .$this->dateHelper->convertDateTime($donnees['dateDemande']). "</p></td>";
+			$html .= "<td style='width: 30%; height: 50px; vertical-align: top;'><a style='text-decoration:underline; font-size:12px;'>M&eacute;decin demandeur:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $donnees['PrenomMedecin'] ." ".$donnees['NomMedecin'] . "</p></td>";
+			$html .= "</tr>";
+			$html .= "</table>";
+		}
+		
+		$html .= "<div id='titre_info_deces'>Liste des examens demand&eacute;s </div>
+		          <div id='barre'></div>
+		
+				 <div id='info_liste'>";
+		if($examensBio == 1){
+			$html .= $this->listeExamensBiologiquesAction($id_cons);
+		}
+		else /* POUR LES EXAMENS MORPHOLOGIQUES (Radiologie ... )*/
+		{
+			$html .= $this->listeExamensAction($id_cons);
+		}
+		$html .="</div>";
+		
+		if($terminer == 0) {
+			$html .="<div style='width: 100%; height: 100px;'>
+	    		     <div style='margin-left:40px; color: white; opacity: 1; width:95px; height:40px; padding-right:15px; float:left;'>
+                        <img  src='".$this->path."/images_icons/fleur1.jpg' />
+                     </div>";
+			$html .="<div class='block' id='thoughtbot' style='vertical-align: bottom; padding-left:60%; margin-bottom: 40px; padding-top: 35px; font-size: 18px; font-weight: bold;'><button type='submit' id='terminer'>Terminer</button></div>
+                     </div>";
+		}
+		
+		$html .="</div>";
+		
+		$this->getResponse ()->getHeaders ()->addHeaderLine ( 'Content-Type', 'application/html; charset=utf-8' );
+		return $this->getResponse ()->setContent ( Json::encode ( $html ) );
+		
+	}
+	
+	public function listeDemandesExamensMorphoAjaxAction() {
+		$output = $this->getDemandeTable()->getListeDemandesExamensMorpho();
+		return $this->getResponse ()->setContent ( Json::encode ( $output, array (
+				'enableJsonExprFinder' => true
+		) ) );
+	}
+	
+	public function listeDemandesExamensMorphoAction() {
+		$this->layout()->setTemplate('layout/Hospitalisation');
+	
+		//$output = $this->getDemandeTable()->getListeExamensMorphoEffectues();
+		//var_dump($output); exit();
+		
+		$formAppliquerExamen = new AppliquerExamenForm();
+	
+		return array(
+				'form' => $formAppliquerExamen
+		);
+	}
+	
+    public function listeExamensEffectuesMorphoAction() {
+		$this->layout()->setTemplate('layout/Hospitalisation');
+		
+		$formAppliquerExamen = new AppliquerExamenForm();
+		
+		return array(
+				'form' => $formAppliquerExamen
+		);
+	}
+	//POUR LA LISTE DES EXAMENS EFFECTUES PAR LE RADIOLOGUE
+	public function listeRechercheExamensEffectuesMorphoAjaxAction() {
+		$output = $this->getDemandeTable()->getListeExamensMorphoEffectues();
+		return $this->getResponse ()->setContent ( Json::encode ( $output, array (
+				'enableJsonExprFinder' => true
+		) ) );
+	}
 }
