@@ -26,7 +26,7 @@ class ResultatExamen {
  			$this->conclusion = (! empty ( $data ['conclusion'] )) ? $data ['conclusion'] : null;
  			$this->envoyer = (! empty ( $data ['envoyer'] )) ? $data ['envoyer'] : null;
  			$this->date_enregistrement = (! empty ( $data ['date_enregistrement'] )) ? $data ['date_enregistrement'] : null;
- 			$this->date_modification = (! empty ( $data ['date_modification'] )) ? $data ['date_modification'] : null;
+ 			$this->date_modification = (! empty ( $data ['date_modifcation'] )) ? $data ['date_modifcation'] : null;
 	}
 	
 }

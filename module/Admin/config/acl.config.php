@@ -221,6 +221,7 @@ return array(
     								'vue-examen-appliquer-morpho' => 'radiologie',
     								'liste-examens-effectues-morpho' => 'radiologie',
     								'liste-recherche-examens-effectues-morpho-ajax' => 'radiologie',
+    								'ajouter-examen' => 'radiologie',
      						),
     						
     				),

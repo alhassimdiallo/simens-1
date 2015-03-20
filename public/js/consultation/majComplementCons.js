@@ -437,7 +437,7 @@ function RecupererImageEchographie(){
 	                		return false;
 	                	}); 
 	                }else {
-	                	alert('cet examen ne fait pas l\'objet d\'une demande'); return false;
+	                	alert('En cours de traitement! Veuillez attendre les resultats ...'); return false;
 	                }
 	          },
 	          error:function(e){console.log(e);alert("Une erreur interne est survenue!");},
@@ -544,7 +544,7 @@ function RecupererImageIRM(){
 	                		return false;
 	                	}); 
 	                }else {
-	                	alert('cet examen ne fait pas l\'objet d\'une demande'); return false;
+	                	alert('En cours de traitement! Veuillez attendre les resultats ...'); return false;
 	                }
 	          },
 	          error:function(e){console.log(e);alert("Une erreur interne est survenue!");},
@@ -650,7 +650,7 @@ function RecupererImageScanner(){
 	                		return false;
 	                	}); 
 	                }else {
-	                	alert('cet examen ne fait pas l\'objet d\'une demande'); return false;
+	                	alert('En cours de traitement! Veuillez attendre les resultats ...'); return false;
 	                }
 	          },
 	          error:function(e){console.log(e);alert("Une erreur interne est survenue!");},
@@ -756,7 +756,7 @@ function RecupererImageFibroscopie(){
 	                		return false;
 	                	}); 
 	                }else {
-	                	alert('cet examen ne fait pas l\'objet d\'une demande'); return false;
+	                	alert('En cours de traitement! Veuillez attendre les resultats ...'); return false;
 	                }
 	          },
 	          error:function(e){console.log(e);alert("Une erreur interne est survenue!");},

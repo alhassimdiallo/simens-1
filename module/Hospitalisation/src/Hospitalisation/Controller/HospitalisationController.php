@@ -1647,13 +1647,31 @@ class HospitalisationController extends AbstractActionController {
 	public function modifierExamenAction() {
 		$idDemande = $this->params()->fromPost('idDemande');
 		
+		$demandeDem = $this->getDemandeTable()->getDemande($idDemande);
+		
 		$demande = $this->getResultatExamenTable()->getResultatExamen($idDemande);
 		$html ="<script>
 				   $('#technique_utilise').val('".$demande->techniqueUtiliser."');
 				   $('#resultat').val('".$demande->noteResultat."');
 				   $('#conclusion').val('".$demande->conclusion."');
+				   $('#typeExamen_tmp').val(".$demandeDem->idExamen.");
 				</script>";
 		
+		$this->getResponse ()->getHeaders ()->addHeaderLine ( 'Content-Type', 'application/html; charset=utf-8' );
+		return $this->getResponse ()->setContent ( Json::encode ($html) );
+	}
+	
+	//POUR SAVOIR DE QUEL EXAMEN IL S'AGIT
+	//POUR SAVOIR DE QUEL EXAMEN IL S'AGIT
+	public function ajouterExamenAction() {
+		$idDemande = $this->params()->fromPost('idDemande');
+	
+		$demandeDem = $this->getDemandeTable()->getDemande($idDemande);
+	
+		$html ="<script>
+				   $('#typeExamen_tmp').val(".$demandeDem->idExamen.");
+				</script>";
+	
 		$this->getResponse ()->getHeaders ()->addHeaderLine ( 'Content-Type', 'application/html; charset=utf-8' );
 		return $this->getResponse ()->setContent ( Json::encode ($html) );
 	}
@@ -1725,13 +1743,12 @@ class HospitalisationController extends AbstractActionController {
 	
 		if($demande->appliquer == 1){
 			$resultat = $this->getResultatExamenTable()->getResultatExamen($idDemande);
-			$html .= "<div id='titre_info_resultat_examen'>R&eacute;sultat de l'examen  <span style='position: absolute; right: 20px; font-size: 14px; font-weight: bold;'>". $this->dateHelper->convertDateTime($resultat->date_enregistrement)." </span></div>
+			$html .= "<div id='titre_info_resultat_examen'>R&eacute;sultat de l'examen  <span style='position: absolute; right: 20px; font-size: 14px; font-weight: bold;'>". $this->dateHelper->convertDateTime($resultat->date_modification)." </span></div>
 			          <div id='barre_resultat' ></div>";
 				
 			$html .="<table style='width: 100%; margin-top: 10px;'>";
 			$html .="<tr style='width: 100%;'>";
-			$html .="<td style='width: 50%; vertical-align:top;'><a style='text-decoration:underline; font-size:12px;'>Technique utilis&eacute;e:</a><br><p style='font-weight:bold; font-size:17px;'> ". $resultat->techniqueUtiliser ." </p></td>";
-			$html .="<td id='visualisationImageResultats' style='width: 50%; vertical-align:top;'><img style='height: 50px;' src='../images_icons/jpg_file.png' title='Visualiser'/></td>";
+			$html .="<td style='width: 100%; vertical-align:top;'><a style='text-decoration:underline; font-size:12px;'>Technique utilis&eacute;e:</a><br><p style='font-weight:bold; font-size:17px;'> ". $resultat->techniqueUtiliser ." </p></td>";
 			$html .="</tr>";
 			$html .="</table>";
 				
@@ -1742,12 +1759,14 @@ class HospitalisationController extends AbstractActionController {
 			$html .= "</tr>";
 			$html .="</table>";
 		}
-	
+		
+		$html .="<script> $('#typeExamen_tmp').val(".$demande->idExamen.");</script>";
+		
 		$this->getResponse ()->getHeaders ()->addHeaderLine ( 'Content-Type', 'application/html; charset=utf-8' );
 		return $this->getResponse ()->setContent ( Json::encode ($html) );
 	}
 	
-	public function listeExamensAction($id_cons) {
+	public function listeExamensAction($id_cons, $idListe=null) {
 	
 		$liste_examens_demandes = $this->getDemandeTable()->getDemandesExamensMorphologiques($id_cons);
 		$html = "";
@@ -1774,42 +1793,49 @@ class HospitalisationController extends AbstractActionController {
 			$html .="<td style='width: 40%;'><div  style='color: green; font-family: Times New Roman; float:left; font-weight: bold; font-size:18px;'> " .$Liste['noteDemande']. " </div></td>";
 			$html .="<td style='width: 13%;'>
   					    <a href='javascript:vueExamenMorpho(".$Liste['idDemande'].") '>
-  					       <img class='visualiser".$Liste['idDemande']."' style='margin-right: 9%; margin-left: 3%;' src='/simens/public/images_icons/voird.png' alt='Constantes' title='d&eacute;tails' />
+  					       <img class='visualiser".$Liste['idDemande']."' style='margin-right: 9%; margin-left: 3%;' src='../images_icons/voird.png' alt='Constantes' title='d&eacute;tails' />
   					    </a>&nbsp";
 	
 			if($Liste['appliquer'] == 0) {
+				
+				if($idListe != 2){ //L'APPEL EST FAIT DANS LA LISTE 'RECHERCHE' POUR UNIQUEMENT LA VISUALISATION
 				$html .="<a href='javascript:appliquerExamen(".$Liste['idDemande'].")'>
- 					    	<img class='modifier".$Liste['idDemande']."' style='margin-right: 16%;' src='/simens/public/images_icons/aj.gif' alt='Constantes' title='Entrer les r&eacute;sultats'/>
+ 				     	 <img class='modifier".$Liste['idDemande']."' style='margin-right: 16%;' src='../images_icons/aj.gif' alt='Constantes' title='Entrer les r&eacute;sultats'/>
  					     </a>";
-					
+				
 				$html .="<a>
- 					    	<img style='color: white; opacity: 0.09;' src='/simens/public/images_icons/74biss.png' alt='Constantes' />
+ 					    	<img style='color: white; opacity: 0.09;' src='../images_icons/74biss.png' alt='Constantes' />
  					     </a>
  				         </td>";
 					
+				}
+				
 				$html .="<td style='width: 6%;'>
   					     <a>
-  					        <img class='etat_non".$Liste['idDemande']."' style='margin-left: 25%;' src='/simens/public/images_icons/non.png' alt='Constantes' title='examen non encore effectu&eacute;' />
+  					        <img class='etat_non".$Liste['idDemande']."' style='margin-left: 25%;' src='../images_icons/non.png' alt='Constantes' title='examen non encore effectu&eacute;' />
   					     </a>
   					     </td>";
 			}else {
+				
+				if($idListe != 2){ //L'APPEL EST FAIT DANS LA LISTE 'RECHERCHE' POUR UNIQUEMENT LA VISUALISATION
 					
 				$resultat = $this->getResultatExamenTable()->getResultatExamen($Liste['idDemande']);
 	
 				if($resultat->envoyer == 1) {
+					
 					$html .="<a>
- 					    	<img style='margin-right: 16%; color: white; opacity: 0.09;' src='/simens/public/images_icons/pencil_16.png'/>
- 					     </a>";
-	
+ 					  	     <img style='margin-right: 16%; color: white; opacity: 0.09;' src='../images_icons/pencil_16.png'/>
+ 					         </a>";
+					
 					if($Liste['responsable'] == 1) { /*Envoyer par le medecin*/
 						$html .="<a>
- 					    	<img class='envoyer".$Liste['idDemande']."' src='/simens/public/images_icons/tick_16.png' title='examen valid&eacute; par le medecin'/>
+ 					    	<img class='envoyer".$Liste['idDemande']."' src='../images_icons/tick_16.png' title='examen valid&eacute; par le medecin'/>
  					     </a>
  				         </td>";
 					} else
 					{ /*Envoyer par le laborantin*/
 						$html .="<a>
- 					    	<img class='envoyer".$Liste['idDemande']."' src='/simens/public/images_icons/tick_16.png' title='examen envoy&eacute;'/>
+ 					    	<img class='envoyer".$Liste['idDemande']."' src='../images_icons/tick_16.png' title='examen envoy&eacute;'/>
  					     </a>
  				         </td>";
 					}
@@ -1817,18 +1843,20 @@ class HospitalisationController extends AbstractActionController {
 	
 				} else {
 					$html .="<a href='javascript:modifierExamen(".$Liste['idDemande'].")'>
- 					    	<img class='modifier".$Liste['idDemande']."' style='margin-right: 16%;' src='/simens/public/images_icons/pencil_16.png' alt='Constantes' title='modifier r&eacute;sultat'/>
+ 					    	<img class='modifier".$Liste['idDemande']."' style='margin-right: 16%;' src='../images_icons/pencil_16.png' alt='Constantes' title='modifier r&eacute;sultat'/>
  					     </a>";
 					$html .="<a href='javascript:envoyer(".$Liste['idDemande'].")'>
- 					    	<img class='envoyer".$Liste['idDemande']."' src='/simens/public/images_icons/74biss.png' alt='Constantes' title='envoyer'/>
+ 					    	<img class='envoyer".$Liste['idDemande']."' src='../images_icons/74biss.png' alt='Constantes' title='envoyer'/>
  					     </a>
  				         </td>";
 				}
 					
-					
+			
+				}	
+				
 				$html .="<td style='width: 6%;'>
   					     <a>
-  					        <img class='etat_oui".$Liste['idDemande']."' style='margin-left: 25%;' src='/simens/public/images_icons/oui.png' alt='Constantes' title='examen d&eacute;ja effectu&eacute;' />
+  					        <img class='etat_oui".$Liste['idDemande']."' style='margin-left: 25%;' src='../images_icons/oui.png' alt='Constantes' title='examen d&eacute;ja effectu&eacute;' />
   					     </a>
   					     </td>";
 			}
@@ -1933,6 +1961,7 @@ class HospitalisationController extends AbstractActionController {
 		$id_cons = $this->params()->fromPost('id_cons',0);
 		$terminer = $this->params()->fromPost('terminer',0);
 		$examensBio = $this->params()->fromPost('examensBio',0);
+		$idListe = $this->params()->fromPost('id',0); //POUR SAVOIR S'IL S'AGIT DE LA LISTE 'RECHERCHE' ou 'EN-COURS'
 		
 		$unPatient = $this->getPatientTable()->getPatient($id_personne);
 		$photo = $this->getPatientTable()->getPhoto($id_personne);
@@ -1995,7 +2024,7 @@ class HospitalisationController extends AbstractActionController {
 		}
 		else /* POUR LES EXAMENS MORPHOLOGIQUES (Radiologie ... )*/
 		{
-			$html .= $this->listeExamensAction($id_cons);
+			$html .= $this->listeExamensAction($id_cons, $idListe);
 		}
 		$html .="</div>";
 		
@@ -2012,7 +2041,6 @@ class HospitalisationController extends AbstractActionController {
 		
 		$this->getResponse ()->getHeaders ()->addHeaderLine ( 'Content-Type', 'application/html; charset=utf-8' );
 		return $this->getResponse ()->setContent ( Json::encode ( $html ) );
-		
 	}
 	
 	public function listeDemandesExamensMorphoAjaxAction() {
@@ -2044,7 +2072,7 @@ class HospitalisationController extends AbstractActionController {
 				'form' => $formAppliquerExamen
 		);
 	}
-	//POUR LA LISTE DES EXAMENS EFFECTUES PAR LE RADIOLOGUE
+	//POUR LA LISTE DES EXAMENS DEJA EFFECTUES PAR LE RADIOLOGUE 
 	public function listeRechercheExamensEffectuesMorphoAjaxAction() {
 		$output = $this->getDemandeTable()->getListeExamensMorphoEffectues();
 		return $this->getResponse ()->setContent ( Json::encode ( $output, array (
