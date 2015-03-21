@@ -260,6 +260,8 @@ class AdminController extends AbstractActionController
   				return $this->redirect()->toRoute('hospitalisation' , array('action' => 'liste'));
   			} else if($controller == 5){
   				return $this->redirect()->toRoute('hospitalisation' , array('action' => 'liste-demandes-examens'));
+  			} else if($controller == 6){
+  				return $this->redirect()->toRoute('hospitalisation' , array('action' => 'liste-demandes-examens-morpho'));
   			}
   			
   		}

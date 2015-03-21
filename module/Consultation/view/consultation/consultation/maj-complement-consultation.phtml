@@ -1176,6 +1176,7 @@ echo $this->form()->openTag($form); ?>
                                		$("#iconeExamenBio_supp_vider a img").toggle(false);
                                		$("#bouton_modifier_valider_ExamenBio_Effectuer").toggle(false);
                                }
+
                             </script>
                             
                             </div>
@@ -1236,7 +1237,7 @@ echo $this->form()->openTag($form); ?>
                             <!--********************* BOUTON VALIDER OU MODIFIER ************************-->
                             <table style="width: 90%; float:right; position: relative; right: 0;">
                                        <tr style="width: 100%;">
-                                            <th style="height:15px;">
+                                            <th id="bouton_modifier_valider_ExamenMorpho_Effectuer" style="height:15px;">
                                                 <div id='bouton_morpho_valider_demande' style="float:right;">
                                                      <button >Valider</button>
                                                 </div>
@@ -1276,6 +1277,20 @@ echo $this->form()->openTag($form); ?>
                                    //Faire attention aux caracteres " et ' 
                                    chargementModification( indligne++, "<?php echo $Liste['idExamen'];?>" , "<?php echo $Liste['noteDemande'];?>");   
                                <?php } ?>
+
+
+                               //ON CACHE TOUT AU CAS OU LE RADIOLOGUE COMMENCE A AJOUTER DES RESULTATS
+                               if(<?php echo $this->listeDemandesMorphoEff;?> != 0){
+                                   //LES EXAMENS MORPHOLOGIQUES
+                                   $(function(){
+                                	   $("#lesElements input, #lesElements select").attr( "disabled", true ).css({'background':'#f8f8f8'});
+                                   });
+                                   
+                                   $("#controls_element div").toggle(false);
+                                   $("#icone_supp_vider img").toggle(false);
+                                   $("#bouton_modifier_valider_ExamenMorpho_Effectuer").toggle(false);
+
+                               }
                             </script>
                             
                             <?php
@@ -1377,6 +1392,7 @@ echo $this->form()->openTag($form); ?>
                                  <!-- RADIO RADIO RADIO  -->
                                  <!-- RADIO RADIO RADIO  -->
                                  <input type='hidden' id="typeExamen_tmp" />
+                                 <input type='hidden' id="VerifierSiMedecinOuLaborantin" />
                             <table id="respondeee" class="imageRadio" style="width: 100%;">
                                    <tr class="form-examen-morphologique" style="width: 100%;">
                                        <th style="width: 40%; vertical-align: top;"> <?php echo $this->formRow($form->get('radio'));?></th>

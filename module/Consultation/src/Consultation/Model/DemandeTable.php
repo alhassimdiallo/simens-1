@@ -79,7 +79,30 @@ class DemandeTable{
 		$select->join( array(
 				'r' => 'resultats_examens2'
 		), 'd.idDemande = r.idDemande' , array ( '*' ) );
-		$select->where(array('d.idCons' => $id, 'idType' => 1, 'appliquer' => 1 , 'envoyer' => 1));
+		$select->where(array('d.idCons' => $id, 'idType' => 1, 'appliquer' => 1));
+		$select->order('d.idDemande ASC');
+		$stat = $sql->prepareStatementForSqlObject($select);
+		$result = $stat->execute();
+	
+		return $result;
+	}
+	
+	/**
+	 * Recuperer la liste des examens Morphologiques Effectués et Envoyés par le laborantion (radiologue)
+	 */
+	public function getDemandeExamensMorphologiquesEffectues($id){
+		$adapter = $this->tableGateway->getAdapter();
+		$sql = new Sql($adapter);
+		$select = $sql->select();
+		$select->columns(array('*'));
+		$select->from(array('d'=>'demande'));
+		$select->join( array(
+				'e' => 'examens'
+		), 'd.idExamen = e.idExamen' , array ( '*' ) );
+		$select->join( array(
+				'r' => 'resultats_examens2'
+		), 'd.idDemande = r.idDemande' , array ( '*' ) );
+		$select->where(array('d.idCons' => $id, 'idType' => 2, 'appliquer' => 1));
 		$select->order('d.idDemande ASC');
 		$stat = $sql->prepareStatementForSqlObject($select);
 		$result = $stat->execute();

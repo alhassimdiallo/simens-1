@@ -1743,7 +1743,13 @@ class HospitalisationController extends AbstractActionController {
 	
 		if($demande->appliquer == 1){
 			$resultat = $this->getResultatExamenTable()->getResultatExamen($idDemande);
-			$html .= "<div id='titre_info_resultat_examen'>R&eacute;sultat de l'examen  <span style='position: absolute; right: 20px; font-size: 14px; font-weight: bold;'>". $this->dateHelper->convertDateTime($resultat->date_modification)." </span></div>
+			$date = 'pas de date';
+			if($this->dateHelper->convertDateTime($resultat->date_modification) == '00/00/0000 - 00:00:00'){
+				$date = $this->dateHelper->convertDateTime($resultat->date_enregistrement);
+			} else {
+				$date = $this->dateHelper->convertDateTime($resultat->date_modification);
+			}
+			$html .= "<div id='titre_info_resultat_examen'>R&eacute;sultat de l'examen  <span style='position: absolute; right: 20px; font-size: 14px; font-weight: bold;'>". $date ." </span></div>
 			          <div id='barre_resultat' ></div>";
 				
 			$html .="<table style='width: 100%; margin-top: 10px;'>";
@@ -2009,7 +2015,7 @@ class HospitalisationController extends AbstractActionController {
 			$html .= "<table style='margin-top:10px; margin-left: 195px; width: 80%;'>";
 			$html .= "<tr style='width: 80%;'>";
 			$html .= "<td style='width: 25%; height: 50px; vertical-align: top;'><a style='text-decoration:underline; font-size:12px;'>Consultation:</a><br><p style='font-weight:bold; font-size:17px;'>" . $id_cons . "</p></td>";
-			$html .= "<td style='width: 25%; height: 50px; vertical-align: top;'><a style='text-decoration:underline; font-size:12px;'>Date de la demande:</a><br><p style=' font-weight:bold; font-size:17px;'>" .$this->dateHelper->convertDateTime($donnees['dateDemande']). "</p></td>";
+			$html .= "<td style='width: 25%; height: 50px; vertical-align: top;'><a style='text-decoration:underline; font-size:12px;'>Date de la demande:</a><br><p style=' font-weight:bold; font-size:17px;'>" .$this->dateHelper->convertDateTime($donnees['Datedemande']). "</p></td>";
 			$html .= "<td style='width: 30%; height: 50px; vertical-align: top;'><a style='text-decoration:underline; font-size:12px;'>M&eacute;decin demandeur:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $donnees['PrenomMedecin'] ." ".$donnees['NomMedecin'] . "</p></td>";
 			$html .= "</tr>";
 			$html .= "</table>";

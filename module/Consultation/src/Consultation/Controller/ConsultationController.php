@@ -830,6 +830,10 @@ class ConsultationController extends AbstractActionController {
 		  $data['scanner'] = $examen_morphologique['scanner'];
 		  $data['irm'] = $examen_morphologique['irm'];
 		  
+		  ////RESULTATS DES EXAMENS MORPHOLOGIQUES DEJA EFFECTUES ET ENVOYER PAR LE BIOLOGISTE
+		  $listeDemandesMorphologiquesEffectuer = $demandeExamen->getDemandeExamensMorphologiquesEffectues($id);
+		  //var_dump($listeDemandesMorphologiquesEffectuer->count()); exit();
+
 		  //DIAGNOSTICS
 		  //DIAGNOSTICS
 		  //DIAGNOSTICS
@@ -982,6 +986,7 @@ class ConsultationController extends AbstractActionController {
 		  		'donneesAntecedentsFamiliaux'  => $donneesAntecedentsFamiliaux,
 		  		'resultRV' => $resultRV,
 		  		'listeDemandesBioEff' => $listeDemandesBiologiquesEffectuer->count(),
+		  		'listeDemandesMorphoEff' => $listeDemandesMorphologiquesEffectuer->count(),
 		  );
 	
 	}
@@ -1928,6 +1933,7 @@ class ConsultationController extends AbstractActionController {
 					        </script>";
 						}
 		
+						//$html .="<script> $(".$Responsable."); </script>";
 
 		$this->getResponse()->getHeaders ()->addHeaderLine ( 'Content-Type', 'application/html' );
 		return $this->getResponse ()->setContent(Json::encode ( $html ));

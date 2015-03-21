@@ -534,7 +534,7 @@ class DemandeTable {
 	
 		$db = $this->tableGateway->getAdapter();
 	
-		$aColumns = array('Nom','Prenom','Datenaissance','Sexe', 'dateDemande', 'medecinDemandeur' , 'id');
+		$aColumns = array('Nom','Prenom','Datenaissance','Sexe', 'Datedemande', 'medecinDemandeur' , 'id');
 	
 		/* Indexed column (used for fast and accurate table cardinality) */
 		$sIndexColumn = "id";
@@ -654,8 +654,8 @@ class DemandeTable {
 							$row[] = $aRow[ 'PrenomMedecin' ]." ".$aRow[ 'NomMedecin' ];
 						}
 	
-						else if ($aColumns[$i] == 'dateDemande') {
-							$row[] = $Control->convertDateTime($aRow[ 'dateDemande' ]);
+						else if ($aColumns[$i] == 'Datedemande') {
+							$row[] = $Control->convertDateTime($aRow[ 'Datedemande' ]);
 						}
 	
 						else {
@@ -681,7 +681,7 @@ class DemandeTable {
 	
 		$db = $this->tableGateway->getAdapter();
 	
-		$aColumns = array('Nom','Prenom','Datenaissance','Sexe', 'dateDemande', 'medecinDemandeur' , 'id');
+		$aColumns = array('Nom','Prenom','Datenaissance','Sexe', 'Datedemande', 'medecinDemandeur' , 'id');
 	
 		/* Indexed column (used for fast and accurate table cardinality) */
 		$sIndexColumn = "id";
@@ -809,8 +809,8 @@ class DemandeTable {
 							$row[] = $aRow[ 'PrenomMedecin' ]." ".$aRow[ 'NomMedecin' ];
 						}
 	
-						else if ($aColumns[$i] == 'dateDemande') {
-							$row[] = $Control->convertDateTime($aRow[ 'dateDemande' ]);
+						else if ($aColumns[$i] == 'Datedemande') {
+							$row[] = $Control->convertDateTime($aRow[ 'Datedemande' ]);
 						}
 	
 						else {

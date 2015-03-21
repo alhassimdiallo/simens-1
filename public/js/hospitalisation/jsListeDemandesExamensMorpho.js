@@ -111,7 +111,6 @@
 
     	//Identification de la liste concernée
     	var id = $('#temoinListeConcerneePourVisualisation').val();
-    	//alert(id); 
     	
     	var chemin = tabUrl[0]+'public/hospitalisation/liste-examens-demander-morpho';
         $.ajax({
