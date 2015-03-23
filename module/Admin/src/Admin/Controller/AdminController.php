@@ -135,35 +135,43 @@ class AdminController extends AbstractActionController
     	
     	$user = $this->getUtilisateurTable()->getUtilisateursWithUsername($username);
     	
+    	if(!$user){
+    		return $this->redirect()->toRoute('admin', array('action' => 'login'));
+    	}
+    	
     	if($user->role == "superAdmin")
     	{
     		return array(
     				'user' => $user,
     		);
     	}
-    	elseif($user->role == "medecin")
+    	else if($user->role == "medecin")
     	{
     		return $this->redirect()->toRoute('consultation', array('action' => 'consultation-medecin'));
     	}
-    	elseif($user->role == "surveillant")
+    	else if($user->role == "surveillant")
     	{
     		return $this->redirect()->toRoute('consultation', array('action' => 'recherche'));
     	}
-    	elseif($user->role == "infirmier")
+    	else if($user->role == "infirmier")
     	{
     		return $this->redirect()->toRoute('hospitalisation', array('action' => 'liste'));
     	}
-    	elseif($user->role == "facturation")
+    	else if($user->role == "facturation")
     	{
     		return $this->redirect()->toRoute('facturation');
     	}
-    	elseif($user->role == "laborantin")
+    	else if($user->role == "laborantin")
     	{
     		return $this->redirect()->toRoute('hospitalisation', array('action' => 'liste-demandes-examens'));
     	}
-    	elseif($user->role == "radiologie")
+    	else if($user->role == "radiologie")
     	{
     		return $this->redirect()->toRoute('hospitalisation', array('action' => 'liste-demandes-examens-morpho'));
+    	}
+    	else if($user->role == "anesthesie")
+    	{
+    		return $this->redirect()->toRoute('hospitalisation', array('action' => 'liste-demandes-vpa'));
     	}
     	
     	

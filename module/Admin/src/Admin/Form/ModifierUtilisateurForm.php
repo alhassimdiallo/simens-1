@@ -161,12 +161,13 @@ class ModifierUtilisateurForm extends Form
 						'label' => 'Role',
 						'value_options' => array(
 								'admin' => 'Admin',
-								'medecin' => 'Medecin',
+								'medecin' => iconv ( 'ISO-8859-1', 'UTF-8','Médecin') ,
 								'surveillant' => 'Surveillant',
 								'laborantin' => 'Laborantin',
 								'infirmier' => 'Infirmier',
 								'facturation' => 'Facturation',
 								'radiologie' => 'Radiologie',
+								'anesthesie' => iconv ( 'ISO-8859-1', 'UTF-8','Anesthésie') ,
 								),
 				),
 				'attributes' => array(

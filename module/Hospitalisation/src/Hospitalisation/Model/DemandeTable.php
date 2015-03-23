@@ -5,6 +5,8 @@ namespace Hospitalisation\Model;
 use Zend\Db\TableGateway\TableGateway;
 use Facturation\View\Helper\DateHelper;
 use Zend\Db\Sql\Sql;
+use Zend\Db\Sql\Predicate\NotIn;
+use Zend\Db\Sql\Predicate\In;
 
 class DemandeTable {
 	protected $tableGateway;
@@ -226,7 +228,7 @@ class DemandeTable {
 	
 		$db = $this->tableGateway->getAdapter();
 	
-		$aColumns = array('Nom','Prenom','Datenaissance','Sexe', 'dateDemande', 'medecinDemandeur' , 'id');
+		$aColumns = array('Nom','Prenom','Datenaissance','Sexe', 'Datedemande', 'medecinDemandeur' , 'id');
 	
 		/* Indexed column (used for fast and accurate table cardinality) */
 		$sIndexColumn = "id";
@@ -354,8 +356,8 @@ class DemandeTable {
 						$row[] = $aRow[ 'PrenomMedecin' ]." ".$aRow[ 'NomMedecin' ];
 					}
 						
-					else if ($aColumns[$i] == 'dateDemande') {
-						$row[] = $Control->convertDateTime($aRow[ 'dateDemande' ]);
+					else if ($aColumns[$i] == 'Datedemande') {
+						$row[] = $Control->convertDateTime($aRow[ 'Datedemande' ]);
 					}
 	
 					else {
@@ -380,7 +382,7 @@ class DemandeTable {
 	
 		$db = $this->tableGateway->getAdapter();
 	
-		$aColumns = array('Nom','Prenom','Datenaissance','Sexe', 'dateDemande', 'medecinDemandeur' , 'id');
+		$aColumns = array('Nom','Prenom','Datenaissance','Sexe', 'Datedemande', 'medecinDemandeur' , 'id');
 	
 		/* Indexed column (used for fast and accurate table cardinality) */
 		$sIndexColumn = "id";
@@ -506,8 +508,8 @@ class DemandeTable {
 							$row[] = $aRow[ 'PrenomMedecin' ]." ".$aRow[ 'NomMedecin' ];
 						}
 	
-						else if ($aColumns[$i] == 'dateDemande') {
-							$row[] = $Control->convertDateTime($aRow[ 'dateDemande' ]);
+						else if ($aColumns[$i] == 'Datedemande') {
+							$row[] = $Control->convertDateTime($aRow[ 'Datedemande' ]);
 						}
 	
 						else {
@@ -834,4 +836,333 @@ class DemandeTable {
 		$this->tableGateway->update(array('appliquer' => 1), array('idDemande' => $idDemande));
 	}
 	
+	
+	/**
+	 * ANESTHESIE ,  ANESTHESIE , ANESTHESIE , ANESTHESIE , ANESTHESIE
+	 * Recuperation de la liste des patients qui font l'objet d'une demande de VPA
+	 */
+	public function getListeDemandesVpa()
+	{
+	
+		$db = $this->tableGateway->getAdapter();
+	
+		$aColumns = array('Nom','Prenom','Datenaissance','Sexe', 'Datedemande', 'medecinDemandeur' , 'id');
+	
+		/* Indexed column (used for fast and accurate table cardinality) */
+		$sIndexColumn = "id";
+	
+		/*
+		 * Paging
+		*/
+		$sLimit = array();
+		if ( isset( $_GET['iDisplayStart'] ) && $_GET['iDisplayLength'] != '-1' )
+		{
+			$sLimit[0] = $_GET['iDisplayLength'];
+			$sLimit[1] = $_GET['iDisplayStart'];
+		}
+	
+		/*
+		 * Ordering
+		*/
+		if ( isset( $_GET['iSortCol_0'] ) )
+		{
+			$sOrder = array();
+			$j = 0;
+			for ( $i=0 ; $i<intval( $_GET['iSortingCols'] ) ; $i++ )
+			{
+				if ( $_GET[ 'bSortable_'.intval($_GET['iSortCol_'.$i]) ] == "true" )
+				{
+					$sOrder[$j++] = $aColumns[ intval( $_GET['iSortCol_'.$i] ) ]."
+								 	".$_GET['sSortDir_'.$i];
+				}
+			}
+		}
+		
+		/*
+		 * Liste des resultats
+		 */
+		$sql1 = new Sql ( $db );
+		$subselect = $sql1->select ();
+		$subselect->from ( array (
+				'r' => 'resultat_vpa'
+		) );
+		$subselect->columns ( array (
+				'idVpa'
+		) );
+		
+		/*
+		 * SQL queries
+		*/
+		$sql = new Sql($db);
+		$sQuery = $sql->select()
+		->from(array('pat' => 'patient'))->columns(array('Nom'=>'nom','Prenom'=>'prenom','Datenaissance'=>'date_naissance','Sexe'=>'sexe','Adresse'=>'adresse','id'=>'id_personne'))
+		->join(array('cons' => 'consultation'), 'cons.pat_id_personne = pat.id_personne', array('Datedemande'=>'date', 'Idcons'=>'id_cons'))
+		->join(array('med' => 'medecin') , 'med.id_personne = cons.id_personne' , array('NomMedecin' =>'nom', 'PrenomMedecin' => 'prenom'))
+		->join(array('d' => 'demande_visite_preanesthesique'), 'd.ID_CONS = cons.id_cons' , array('*'))
+		->where(array (	new NotIn ( 'd.idVpa', $subselect )))
+		->order('d.idVpa ASC');
+	
+		/* Data set length after filtering */
+		$stat = $sql->prepareStatementForSqlObject($sQuery);
+		$rResultFt = $stat->execute();
+		$iFilteredTotal = count($rResultFt);
+	
+		$rResult = $rResultFt;
+	
+		$output = array(
+				//"sEcho" => intval($_GET['sEcho']),
+				//"iTotalRecords" => $iTotal,
+				"iTotalDisplayRecords" => $iFilteredTotal,
+				"aaData" => array()
+		);
+	
+		/*
+		 * $Control pour convertir la date en fran�ais
+		*/
+		$Control = new DateHelper();
+	
+		/*
+		 * ADRESSE URL RELATIF
+		*/
+		$baseUrl = $_SERVER['REQUEST_URI'];
+		$tabURI  = explode('public', $baseUrl);
+	
+		/*
+		 * Preparer la liste
+		*/
+	
+		/* EXAMENS BIOLOGIQUES
+		 * EXAMENS BIOLOGIQUES
+		* EXAMENS BIOLOGIQUES
+		*
+		* Liste examens satisfaits
+		*/
+	
+		$rResult2 = $stat->execute();
+		foreach ( $rResult2 as $aRow )
+		{
+				$row = array();
+				for ( $i=0 ; $i<count($aColumns) ; $i++ )
+				{
+					if ( $aColumns[$i] != ' ' )
+					{
+						/* General output */
+						if ($aColumns[$i] == 'Nom'){
+							$row[] = "<khass id='nomMaj'>".$aRow[ $aColumns[$i]]."</khass>";
+						}
+	
+						else if ($aColumns[$i] == 'Datenaissance') {
+							$row[] = $Control->convertDate($aRow[ $aColumns[$i] ]);
+						}
+	
+						else if ($aColumns[$i] == 'Adresse') {
+							$row[] = $this->adresseText($aRow[ $aColumns[$i] ]);
+						}
+	
+						else if ($aColumns[$i] == 'id') {
+	
+							$html  ="<infoBulleVue><a style='padding-left: 20px;' href='javascript:details(". $aRow[ $aColumns[$i] ] .",". $aRow[ 'idVpa' ] .")'>";
+							$html .="<img src='".$tabURI[0]."public/images_icons/details.png' title='détails'></a><infoBulleVue>";
+	
+	
+							$html .="<input id='".$aRow[ 'idVpa' ]."'  type='hidden' value='".$aRow[ 'Idcons' ]."'>";
+	
+							$row[] = $html;
+						}
+	
+						else if ($aColumns[$i] == 'medecinDemandeur') {
+							$row[] = $aRow[ 'PrenomMedecin' ]." ".$aRow[ 'NomMedecin' ];
+						}
+	
+						else if ($aColumns[$i] == 'Datedemande') {
+							$row[] = $Control->convertDateTime($aRow[ 'Datedemande' ]);
+						}
+	
+						else {
+							$row[] = $aRow[ $aColumns[$i] ];
+						}
+	
+					}
+				}
+	
+				$output['aaData'][] = $row;
+		}
+		return $output;
+	}
+	
+	/**
+	 * @param l'id de la consultation : $id_cons
+	 */
+	public function getDemandeVpaWidthIdcons($id_cons)
+	{
+		$db = $this->tableGateway->getAdapter();
+	
+		$sql = new Sql($db);
+		$sQuery = $sql->select()
+		->from(array('pat' => 'patient'))->columns(array('Nom'=>'nom','Prenom'=>'prenom','Datenaissance'=>'date_naissance','Sexe'=>'sexe','Adresse'=>'adresse','id'=>'id_personne'))
+		->join(array('cons' => 'consultation'), 'cons.pat_id_personne = pat.id_personne', array('Datedemande'=>'date', 'Idcons'=>'id_cons'))
+		->join(array('med' => 'medecin') , 'med.id_personne = cons.id_personne' , array('NomMedecin' =>'nom', 'PrenomMedecin' => 'prenom'))
+		->join(array('d' => 'demande_visite_preanesthesique'), 'd.ID_CONS = cons.id_cons' , array('*'))
+		->where(array('d.ID_CONS' => $id_cons))
+		->order('d.idVpa ASC');
+	
+		$stat = $sql->prepareStatementForSqlObject($sQuery);
+		$Result = $stat->execute();
+	
+		return $Result;
+	}
+	
+	/**
+	 * ANESTHESIE ,  ANESTHESIE , ANESTHESIE , ANESTHESIE , ANESTHESIE
+	 * Recuperation de la liste des patients pour qui les resultats sont deja envoyes
+	 */
+	public function getListeRechercheVpa()
+	{
+	
+		$db = $this->tableGateway->getAdapter();
+	
+		$aColumns = array('Nom','Prenom','Datenaissance','Sexe', 'Datedemande', 'medecinDemandeur' , 'id');
+	
+		/* Indexed column (used for fast and accurate table cardinality) */
+		$sIndexColumn = "id";
+	
+		/*
+		 * Paging
+		*/
+		$sLimit = array();
+		if ( isset( $_GET['iDisplayStart'] ) && $_GET['iDisplayLength'] != '-1' )
+		{
+			$sLimit[0] = $_GET['iDisplayLength'];
+			$sLimit[1] = $_GET['iDisplayStart'];
+		}
+	
+		/*
+		 * Ordering
+		*/
+		if ( isset( $_GET['iSortCol_0'] ) )
+		{
+			$sOrder = array();
+			$j = 0;
+			for ( $i=0 ; $i<intval( $_GET['iSortingCols'] ) ; $i++ )
+			{
+				if ( $_GET[ 'bSortable_'.intval($_GET['iSortCol_'.$i]) ] == "true" )
+				{
+					$sOrder[$j++] = $aColumns[ intval( $_GET['iSortCol_'.$i] ) ]."
+								 	".$_GET['sSortDir_'.$i];
+				}
+			}
+		}
+	
+		/*
+		 * Liste des resultats
+		*/
+		$sql1 = new Sql ( $db );
+		$subselect = $sql1->select ();
+		$subselect->from ( array (
+				'r' => 'resultat_vpa'
+		) );
+		$subselect->columns ( array (
+				'idVpa'
+		) );
+	
+		/*
+		 * SQL queries
+		*/
+		$sql = new Sql($db);
+		$sQuery = $sql->select()
+		->from(array('pat' => 'patient'))->columns(array('Nom'=>'nom','Prenom'=>'prenom','Datenaissance'=>'date_naissance','Sexe'=>'sexe','Adresse'=>'adresse','id'=>'id_personne'))
+		->join(array('cons' => 'consultation'), 'cons.pat_id_personne = pat.id_personne', array('Datedemande'=>'date', 'Idcons'=>'id_cons'))
+		->join(array('med' => 'medecin') , 'med.id_personne = cons.id_personne' , array('NomMedecin' =>'nom', 'PrenomMedecin' => 'prenom'))
+		->join(array('d' => 'demande_visite_preanesthesique'), 'd.ID_CONS = cons.id_cons' , array('*'))
+		->where(array (	new In ( 'd.idVpa', $subselect )))
+		->order('d.idVpa ASC');
+	
+		/* Data set length after filtering */
+		$stat = $sql->prepareStatementForSqlObject($sQuery);
+		$rResultFt = $stat->execute();
+		$iFilteredTotal = count($rResultFt);
+	
+		$rResult = $rResultFt;
+	
+		$output = array(
+				//"sEcho" => intval($_GET['sEcho']),
+				//"iTotalRecords" => $iTotal,
+				"iTotalDisplayRecords" => $iFilteredTotal,
+				"aaData" => array()
+		);
+	
+		/*
+		 * $Control pour convertir la date en fran�ais
+		*/
+		$Control = new DateHelper();
+	
+		/*
+		 * ADRESSE URL RELATIF
+		*/
+		$baseUrl = $_SERVER['REQUEST_URI'];
+		$tabURI  = explode('public', $baseUrl);
+	
+		/*
+		 * Preparer la liste
+		*/
+	
+		/* EXAMENS BIOLOGIQUES
+		 * EXAMENS BIOLOGIQUES
+		* EXAMENS BIOLOGIQUES
+		*
+		* Liste examens satisfaits
+		*/
+	
+		$rResult2 = $stat->execute();
+		foreach ( $rResult2 as $aRow )
+		{
+			$row = array();
+			for ( $i=0 ; $i<count($aColumns) ; $i++ )
+			{
+				if ( $aColumns[$i] != ' ' )
+				{
+					/* General output */
+					if ($aColumns[$i] == 'Nom'){
+						$row[] = "<khass id='nomMaj'>".$aRow[ $aColumns[$i]]."</khass>";
+					}
+	
+					else if ($aColumns[$i] == 'Datenaissance') {
+						$row[] = $Control->convertDate($aRow[ $aColumns[$i] ]);
+					}
+	
+					else if ($aColumns[$i] == 'Adresse') {
+						$row[] = $this->adresseText($aRow[ $aColumns[$i] ]);
+					}
+	
+					else if ($aColumns[$i] == 'id') {
+	
+						$html  ="<infoBulleVue><a style='padding-right: 15px;' href='javascript:vuedetails(". $aRow[ $aColumns[$i] ] .",". $aRow[ 'idVpa' ] .")'>";
+						$html .="<img src='".$tabURI[0]."public/images_icons/voir.png' title='détails'></a>";
+						$html .="<a><img src='".$tabURI[0]."public/images_icons/tick_16.png' title='Envoyé'></a><infoBulleVue>";
+	
+	
+						$html .="<input id='".$aRow[ 'idVpa' ]."'  type='hidden' value='".$aRow[ 'Idcons' ]."'>";
+	
+						$row[] = $html;
+					}
+	
+					else if ($aColumns[$i] == 'medecinDemandeur') {
+						$row[] = $aRow[ 'PrenomMedecin' ]." ".$aRow[ 'NomMedecin' ];
+					}
+	
+					else if ($aColumns[$i] == 'Datedemande') {
+						$row[] = $Control->convertDateTime($aRow[ 'Datedemande' ]);
+					}
+	
+					else {
+						$row[] = $aRow[ $aColumns[$i] ];
+					}
+	
+				}
+			}
+	
+			$output['aaData'][] = $row;
+		}
+		return $output;
+	}
 }

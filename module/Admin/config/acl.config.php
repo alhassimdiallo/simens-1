@@ -9,6 +9,7 @@ return array(
         		'admin' => 'guest',
         		'facturation' => 'guest',
         		'radiologie' => 'guest',
+        		'anesthesie' => 'guest',
         		
         		'surveillant' => 'guest',
         		'medecin'     => 'surveillant',
@@ -222,6 +223,16 @@ return array(
     								'liste-examens-effectues-morpho' => 'radiologie',
     								'liste-recherche-examens-effectues-morpho-ajax' => 'radiologie',
     								'ajouter-examen' => 'radiologie',
+    								
+    								
+    								
+    								'liste-demandes-vpa' =>      'anesthesie',
+    								'liste-demandes-vpa-ajax' => 'anesthesie',
+    								'details-demande-visite' =>  'anesthesie',
+    								'save-result-vpa' => 'anesthesie',
+    								'liste-recherche-vpa' => 'anesthesie',
+    								'liste-recherche-vpa-ajax' => 'anesthesie',
+    								'details-recherche-visite' => 'anesthesie'
      						),
     						
     				),

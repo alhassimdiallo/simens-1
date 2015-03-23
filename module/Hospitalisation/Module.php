@@ -32,6 +32,8 @@ use Hospitalisation\Model\ResultatExamenTable;
 use Hospitalisation\Model\ResultatExamen;
 use Hospitalisation\Model\Soinhospitalisation3Table;
 use Hospitalisation\Model\Soinhospitalisation3;
+use Hospitalisation\Model\ResultatVisitePreanesthesiqueTable;
+use Hospitalisation\Model\ResultatVisitePreanesthesique;
 
 class Module implements AutoloaderProviderInterface, ConfigProviderInterface
 {
@@ -208,6 +210,17 @@ class Module implements AutoloaderProviderInterface, ConfigProviderInterface
 							$resultSetPrototype = new ResultSet ();
 							$resultSetPrototype->setArrayObjectPrototype ( new Soinhospitalisation3() );
 							return new TableGateway ( 'soins_hospitalisation_3', $dbAdapter, null, $resultSetPrototype );
+						},
+						'Hospitalisation\Model\ResultatVisitePreanesthesiqueTable' => function ($sm) {
+							$tableGateway = $sm->get ( 'ResultatVisitePreanesthesiqueTableGateway' );
+							$table = new ResultatVisitePreanesthesiqueTable( $tableGateway );
+							return $table;
+						},
+						'ResultatVisitePreanesthesiqueTableGateway' => function ($sm) {
+							$dbAdapter = $sm->get ( 'Zend\Db\Adapter\Adapter' );
+							$resultSetPrototype = new ResultSet ();
+							$resultSetPrototype->setArrayObjectPrototype ( new ResultatVisitePreanesthesique() );
+							return new TableGateway ( 'resultat_vpa', $dbAdapter, null, $resultSetPrototype );
 						},
 						
 						)
