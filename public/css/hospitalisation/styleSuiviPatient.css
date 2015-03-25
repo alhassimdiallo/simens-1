@@ -834,3 +834,18 @@ width:  85%;   /*la largeur du champ input*/
     background: linear-gradient( #eee, #aaa);
 }
 /***************************************************************************************************************************************************/
+#titre_info_admis{
+	font-style: italic;
+    font-family: Times  New Roman;
+    font-size: 18px;
+    color: green;
+    margin-top: 10px;
+}
+#barre_admis
+{
+  /*background-color: #a8a8a8;*/
+  padding-bottom:20px; /*Pour s�parer le contenu de la bordure du bas du bloc*/
+  magin-bottom:15px; /*Pour s�parer la bordure du prochain �l�ment*/
+  border-bottom: 3px solid #cccccc;/*Pour faire un trait gris horizontal*/
+  margin-top: -15px;
+}

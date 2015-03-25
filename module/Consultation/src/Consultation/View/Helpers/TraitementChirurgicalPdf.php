@@ -263,7 +263,7 @@ class TraitementChirurgicalPdf
 						$this->_leftMargin,
 						$this->_yPosition);
 				$this->_page->setFont($this->_policeContenu, 14);
-				$this->_page->drawText($this->_DonneesDemande['type_anesthesie_demande'],
+				$this->_page->drawText("",
 						$this->_leftMargin+120,
 						$this->_yPosition);
 			}
@@ -273,7 +273,7 @@ class TraitementChirurgicalPdf
 						$this->_leftMargin,
 						$this->_yPosition);
 				$this->_page->setFont($this->_policeContenu, 14);
-				$this->_page->drawText($this->_DonneesDemande['numero_vpa'],
+				$this->_page->drawText("",
 						$this->_leftMargin+60,
 						$this->_yPosition);
 			}
@@ -312,13 +312,13 @@ class TraitementChirurgicalPdf
 		}
 		
 		$this->_page->setFont($this->_policeContenu, 14);
-		$this->_page->drawText($this->_DonneesMedecin['prenomMedecin'],
-				$this->_leftMargin+430,
+		$this->_page->drawText($this->_DonneesMedecin['prenomMedecin'] .' '. $this->_DonneesMedecin['nomMedecin'],
+				$this->_leftMargin+370,
 				$this->_yPosition+90);
-		$this->_page->setFont($this->_policeContenu, 14);
-		$this->_page->drawText($this->_DonneesMedecin['nomMedecin'],
-				$this->_leftMargin+490,
-				$this->_yPosition+90);
+// 		$this->_page->setFont($this->_policeContenu, 14);
+// 		$this->_page->drawText($this->_DonneesMedecin['nomMedecin'],
+// 				$this->_leftMargin+490,
+// 				$this->_yPosition+90);
 	} 
 	
 	public function getPiedPage(){

@@ -243,6 +243,14 @@ class AdminController extends AbstractActionController
     //************************************************************************************
     public function modifierPasswordAction()
     {
+    	$uAuth = $this->getServiceLocator()->get('Admin\Controller\Plugin\UserAuthentication'); //@todo - We must use PluginLoader $this->userAuthentication()!!
+    	$username = $uAuth->getAuthService()->getIdentity();
+    	$user = $this->getUtilisateurTable()->getUtilisateursWithUsername($username);
+    	 
+    	if(!$user){
+    		return $this->redirect()->toRoute('admin', array('action' => 'login'));
+    	}
+    	
     	$this->layout ()->setTemplate ( 'layout/consultation' );
     	$controller = $this->params()->fromRoute('id', 0);
     
@@ -270,6 +278,8 @@ class AdminController extends AbstractActionController
   				return $this->redirect()->toRoute('hospitalisation' , array('action' => 'liste-demandes-examens'));
   			} else if($controller == 6){
   				return $this->redirect()->toRoute('hospitalisation' , array('action' => 'liste-demandes-examens-morpho'));
+  			} else if($controller == 7){
+  				return $this->redirect()->toRoute('hospitalisation' , array('action' => 'liste-demandes-vpa'));
   			}
   			
   		}

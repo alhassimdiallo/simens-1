@@ -695,7 +695,13 @@ class HospitalisationController extends AbstractActionController {
 		$html .= "</tr>";
 		
 		if($soinHosp->appliquer == 1) {
-			$html .="<table style='width: 95%; padding-top: 30px;'>";
+			$html .="<tr style='width: 95%;'>
+					   <td colspan='2' style='width: 95%;'>
+					     <div id='titre_info_admis'>Informations sur l'application du soin</div><div id='barre_admis'></div>
+					   </td>
+					 </tr>";
+			
+			$html .="<table style='width: 95%; margin-top: 10px;'>";
 			$html .="<tr style='width: 95%;'>";
 			$html .="<td style='width: 50%; vertical-align:top;'><a style='text-decoration:underline; font-size:12px;'>Date d'application:</a><br><p style='font-weight:bold; font-size:17px;'> ".$this->dateHelper->convertDate($soinHosp->date_application)." </p></td>";
 			$html .="<td style='width: 50%; vertical-align:top;'><a style='text-decoration:underline; font-size:13px;'>Note:</a><br><p id='circonstance_deces' style='background:#f8faf8; font-weight:bold; font-size:17px; padding-left: 5px;'> ".$soinHosp->note_application." </p></td>";
@@ -1260,8 +1266,10 @@ class HospitalisationController extends AbstractActionController {
 	public function applicationSoinAction() {
 		$id_sh = $this->params()->fromPost('id_sh', 0);
 		$note = $this->params()->fromPost('note', 0);
+		$user = $this->layout()->user;
+		$id_personne = $user->id_personne; //L'infirmier qui a appliqué le soin au patient
 		
-		$this->getSoinHospitalisation3Table()->appliquerSoin($id_sh, $note);
+		$this->getSoinHospitalisation3Table()->appliquerSoin($id_sh, $note, $id_personne);
 		
 		$this->getResponse ()->getHeaders ()->addHeaderLine ( 'Content-Type', 'application/html; charset=utf-8' );
 		return $this->getResponse ()->setContent ( Json::encode (  ) );
@@ -2196,7 +2204,7 @@ class HospitalisationController extends AbstractActionController {
 		$formTextArea = new FormTextarea();
 		$formRadio = new FormRadio();
 		$formHidden = new FormHidden();
-
+		
 		$html .= "<div id='titre_info_deces'>Entrez les r&eacute;sultats </div>
 		          <div id='barre'></div>";
 		$html .="<form  method='post' action='".$chemin."/hospitalisation/save-result-vpa'>";
@@ -2230,6 +2238,8 @@ class HospitalisationController extends AbstractActionController {
 		
 		$html .="</div>";
 		
+		$typeAnesthesie = $this->getDemandeTable()->listeDesTypeAnesthesie();
+		
 		$html .="<script> 
 				  scriptTerminer(); 
 				  $('#DeCoche').toggle(false);
@@ -2242,7 +2252,22 @@ class HospitalisationController extends AbstractActionController {
 				      if(!boutons[1].checked){ $('#Coche').toggle(false); $('#DeCoche').toggle(true);}
 			      });
 				  $('#form_patient_vpa input').attr('autocomplete', 'off');
-				</script>";
+				  $('#form_patient_vpa input').css({'font-size':'18px', 'color':'#065d10'});
+				  
+				  var myArrayTypeAnesthesie = [''];
+				  var j = 0; 		
+				 </script>";
+		      
+		      foreach ($typeAnesthesie as $liste){
+		      	$html .="<script> myArrayTypeAnesthesie[j++]  = '" .$liste['libelle']. "'</script>";
+		      }
+		$html .="<script> 
+				  $(function(){
+                     $( '#type_intervention' ).autocomplete({
+	                 source: myArrayTypeAnesthesie
+	                 });
+				  });
+                 </script>";
 		
 		$this->getResponse ()->getHeaders ()->addHeaderLine ( 'Content-Type', 'application/html; charset=utf-8' );
 		return $this->getResponse ()->setContent ( Json::encode ( $html ) );
@@ -2328,7 +2353,7 @@ class HospitalisationController extends AbstractActionController {
 			$html .= "<table style='margin-top:10px; margin-left: 195px; width: 80%;'>";
 			$html .= "<tr style='width: 80%;'>";
 			$html .= "<td style='width: 25%; padding-top: 10px; padding-right:10px;'><a style='text-decoration:underline; font-size:13px;'>Diagnostic:</a><br><p id='circonstance_deces' style='background:#f8faf8; font-weight:bold; font-size:17px; padding-left: 5px;'> ". $donnees['DIAGNOSTIC'] ." </p></td>";
-			$html .= "<td style='width: 25%; padding-top: 10px; padding-right:10px;'><a style='text-decoration:underline; font-size:13px;'>observation:</a><br><p id='circonstance_deces' style='background:#f8faf8; font-weight:bold; font-size:17px; padding-left: 5px;'> ". $donnees['OBSERVATION'] ." </p></td>";
+			$html .= "<td style='width: 25%; padding-top: 10px; padding-right:10px;'><a style='text-decoration:underline; font-size:13px;'>Observation:</a><br><p id='circonstance_deces' style='background:#f8faf8; font-weight:bold; font-size:17px; padding-left: 5px;'> ". $donnees['OBSERVATION'] ." </p></td>";
 			$html .= "<td style='width: 25%; padding-top: 10px; padding-right:10px;'><a style='text-decoration:underline; font-size:13px;'>Intervention pr&eacute;vue:</a><br><p id='circonstance_deces' style='background:#f8faf8; font-weight:bold; font-size:17px; padding-left: 5px;'> ". $donnees['INTERVENTION_PREVUE'] ." </p></td>";
 			$html .= "</tr>";
 			$html .= "</table>";
@@ -2336,15 +2361,24 @@ class HospitalisationController extends AbstractActionController {
 		$html .= "<div id='titre_info_deces'>Informations sur les r&eacute;sultats de la VPA </div>
 		          <div id='barre'></div>";
 		
+		$resultatVpa = $this->getResultatVpa()->getResultatVpa($idVpa);
+		
 		$html .= "<table style='margin-top:10px; margin-left: 195px; width: 80%;'>";
 		
 		$html .= "<tr style='width: 80%; font-family: time new romans'>";
-		$html .= "<td style='width: 50%; height: 50px; vertical-align: top;'><a style='font-size:16px;'>Num&eacute;ro VPA: </a> <span style='font-weight:bold; font-size:19px; color: green;'>" . $id_cons . "</span></td>";
-		$html .= "<td rowspan='2' style='width: 50%; height: 50px; vertical-align: top;'><span style='width:1%; background: gray; height: 10px;'></span> <a style='font-size:12px;'>M&eacute;decin demandeur: </a><br><p style=' font-weight:bold; font-size:17px;'>" . $donnees['PrenomMedecin'] ." ".$donnees['NomMedecin'] . "</p></td>";
+		$html .= "<td style='width: 55%; height: 50px; '><span style='font-size:15px; font-family: Felix Titling;'>Num&eacute;ro VPA: </span> <span style='font-weight:bold; font-size:20px; color: #065d10;'>" .$resultatVpa->numeroVpa. "</span></td>";
+		$html .= "<td rowspan='2' style='width: 2%; vertical-align: top;'> <div style='width: 4px; height: 110px; background: #ccc;'> </div> </td>";
+		
+		if($resultatVpa->aptitude == 1){
+			$html .= "<td rowspan='2' style='width: 43%; height: 50px; '><span style='font-size:17px; font-family: Felix Titling;'>APTITUDE:  </span> <span style='font-weight:bold; font-size:25px; color: #065d10;'>  Oui <img src='../images_icons/coche.PNG' /></span></td>";
+		}else {
+			$html .= "<td rowspan='2' style='width: 43%; height: 50px; '><span style='font-size:17px; font-family: Felix Titling;'>APTITUDE:  </span> <span style='font-weight:bold; font-size:25px; color: #e91a1a;'>  Non <img src='../images_icons/decoche.PNG' /></span></td>";
+		}
+		
 		$html .= "</tr>";
 		
-		$html .= "<tr style='width: 80%; font-family: time new romans'>";
-		$html .= "<td style='width: 50%; height: 50px; vertical-align: top;'><a style='font-size:16px;'>Type d'intervention: </a> <span style=' font-weight:bold; font-size:19px; color: green;'>" .$this->dateHelper->convertDateTime($donnees['Datedemande']). "</span></td>";
+		$html .= "<tr style='width: 80%; font-family: time new romans; vertical-align: top;'>";
+		$html .= "<td style='width: 50%; height: 50px; '><span style='font-size:15px; font-family: Felix Titling;'>Type d'intervention: </span> <span style=' font-weight:bold; font-size:20px; color: #065d10;'>" . $resultatVpa->typeIntervention. "</span></td>";
 		$html .= "</tr>";
 		
 		$html .= "</table>";

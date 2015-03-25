@@ -569,7 +569,7 @@ echo $this->form()->openTag($form); ?>
                                    
            <div id="tabss-1"> 
          
-                      <!--****** ================== ANTECEDENTS TERRAIN PARTICULIER ================== ****** -->
+           <!--****** ================== ANTECEDENTS TERRAIN PARTICULIER ================== ****** -->
            <!--****** ================== ANTECEDENTS TERRAIN PARTICULIER ================== ****** -->
            <!--****** ================== ANTECEDENTS TERRAIN PARTICULIER ================== ****** -->
            <table id="MenuTerrainParticulier" style="width:100%;">
@@ -1821,7 +1821,7 @@ echo $this->form()->openTag($form); ?>
                   <div id="tabs" >
                      <ul>
                         <li><a href="#tabs-1">Demande de visite pr&eacute;-anesth&eacute;sique</a></li>
-                        <li><a href="#tabs-2">R&eacute;sultats</a></li>
+                        <li id='ResultatTabs'><a href="#tabs-2">R&eacute;sultats</a></li>
                      </ul>
  
                   <div id="tabs-1"> 
@@ -1843,9 +1843,9 @@ echo $this->form()->openTag($form); ?>
                                             <th style="width: 33%;"> <?php echo $this->formRow($form->get('intervention_prevue'));?> </th>
                                         </tr>
                                         <tr class="form-chirurgical" style="width: 100%;">
-                                            <th style="width: 33%;"> <?php /* echo $this->formRow($form->get('numero_vpa')); */ ?> </th>
-                                            <th style="width: 33%;"> <?php /* echo $this->formRow($form->get('type_anesthesie_demande')); */ ?> </th>
-                                            <th style="width: 33%; padding-right:30px;">
+                                            <th style="width: 33%;"> </th>
+                                            <th style="width: 33%;"> </th>
+                                            <th id='bouton_valider_modifier_vpa' style="width: 33%; padding-right:30px;">
                                                 <div id="bouton_valider_chirurgical" style='margin-top:30px; float:right; '> 
                                                      <button id='bouton_chirurgical_valider'>Valider</button>  
                                                 </div >
@@ -1859,13 +1859,13 @@ echo $this->form()->openTag($form); ?>
 
                   </div>
                                   
-                                  <div id="tabs-2">
+                  <div id="tabs-2">
                                   
                                         <table style="margin-bottom: 0px; " class="resultatVisistePreanesthesique">
                                           <tr  style="width: 100%;">
                                             <td style="width: 33%;"> 
                                               <div style="float:left;"><label style="width: 180px; height:30px; text-align:right; "> Num&eacute;ro VPA : </label></div> 
-                                              <div style="float:left;"><label style="max-width: 250px; height:30px; text-align:left; font-size: 19px; font-weight:bold; color: green;"> 17897-718-71 </label></div>
+                                              <div style="float:left;"><label style="max-width: 250px; height:30px; text-align:left; font-size: 19px; font-weight:bold; color: green;"> <?php echo $this->resultatVpa->numeroVpa; ?> </label></div>
                                             </td>
                                           </tr>
                                          
@@ -1873,23 +1873,45 @@ echo $this->form()->openTag($form); ?>
                                           <tr style="width: 100%;">
                                             <td style="width: 33%;">
                                               <div style="float:left;"><label style="width: 180px; height:30px; text-align:right; "> Type d'intervention : </label></div> 
-                                              <div style="float:left;"><label style="max-width: 250px; height:30px; text-align:left; font-size: 19px; font-weight:bold; color: green;"> Anesth&eacute;sie p&eacute;ridurale </label></div>
+                                              <div style="float:left;"><label style="max-width: 250px; height:30px; text-align:left; font-size: 19px; font-weight:bold; color: green;"> <?php echo $this->resultatVpa->typeIntervention; ?> </label></div>
                                             </td>
                                           </tr>
                                           
                                           <tr style="width: 100%;">
                                             <td style="width: 33%;">
                                               <div style="float:left;"><label style="width: 180px; height:30px; text-align:right; "> APTITUDE : </label></div> 
-                                              <div style="float:left;"><label style="max-width: 250px; height:30px; text-align:left; font-size: 24px; font-weight:bold; color: red;"> <i> NON </i> </label></div>
+                                              <?php if ($this->resultatVpa->aptitude == 1){ ?>
+                                              <div style="float:left;"><label style="max-width: 250px; height:30px; text-align:left; font-size: 26px; font-weight:bold; color: green;"> <i> Oui </i> </label><img src='../images_icons/coche.PNG' /></div>
+                                              <?php } else { ?>
+                                              <div style="float:left;"><label style="max-width: 250px; height:30px; text-align:left; font-size: 26px; font-weight:bold; color: red;"> <i> Non </i> </label><img src='../images_icons/decoche.PNG' /></div>
+                                              <?php } ?>
                                             </td>
                                           </tr>
                                         </table>
-                                       
-                                  </div>
-                                  
+                                  </div>                
                    </div>
-                   </div>
+                   <script>
+                   $(function(){$('#ResultatTabs').toggle(false);});
+                   </script>
+                   
+                   <?php if( $this->resultatVpa ){?>
+                     <script> 
+                       $(function(){
+                           $('#ResultatTabs').toggle(true);
+                       }); 
+                       setTimeout(function(){
+                    	   $('#diagnostic_traitement_chirurgical').attr('disabled', true).css({'background':'#f8f8f8'});
+                    	   $('#observation').attr('disabled', true).css({'background':'#f8f8f8'});
+                    	   $('#intervention_prevue').attr('disabled', true).css({'background':'#f8f8f8'});
 
+                    	   $('#chirurgical1').attr('disabled', true);
+                    	   $('#annuler_traitement_chirurgical').attr('disabled', true);
+                    	   $('#bouton_valider_modifier_vpa').toggle(false);
+                       }, 2000);
+                     </script>
+                   <?php } ?>
+                   
+                   </div>
 
                         <!-- ************** Traitement Instrumental **************** -->
                            <!-- **3** -->

@@ -1106,13 +1106,6 @@ class DemandeTable {
 		 * Preparer la liste
 		*/
 	
-		/* EXAMENS BIOLOGIQUES
-		 * EXAMENS BIOLOGIQUES
-		* EXAMENS BIOLOGIQUES
-		*
-		* Liste examens satisfaits
-		*/
-	
 		$rResult2 = $stat->execute();
 		foreach ( $rResult2 as $aRow )
 		{
@@ -1164,5 +1157,19 @@ class DemandeTable {
 			$output['aaData'][] = $row;
 		}
 		return $output;
+	}
+	
+	/**
+	 * Recuperation de la liste des types d'anesthésie
+	 */
+	public function listeDesTypeAnesthesie(){
+		$adapter = $this->tableGateway->getAdapter();
+		$sql = new Sql ( $adapter );
+		$select = $sql->select('type_anesthesie');
+		$select->columns(array('id','libelle'));
+		$stat = $sql->prepareStatementForSqlObject($select);
+		$result = $stat->execute();
+	
+		return $result;
 	}
 }

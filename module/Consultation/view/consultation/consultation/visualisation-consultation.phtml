@@ -149,7 +149,7 @@ function getservices(cle)
               height:32px;
               background: url(<?php echo $this->basePath()."/images_icons/pdf.PNG"?>) no-repeat right top;
 
-         } .annulertransfert, .annulerrendezvous{
+         } .annulertransfert, .annulerrendezvous, .annulerhospitalisation{
               position:relative;
               width:32px;
               height:32px;
@@ -164,7 +164,7 @@ function getservices(cle)
              display: inline;float:right;border:transparent; margin-bottom: 5px; title:'Imprimer';
          }
 
-         .transf input, .rendezvous input, .ordonnance input, .annulertransfert input, .annulerrendezvous input{
+         .transf input, .rendezvous input, .ordonnance input, .annulertransfert input, .annulerrendezvous input, .annulerhospitalisation input{
               position:absolute;
               right:0;
               top:0;
@@ -594,29 +594,29 @@ echo $this->form()->openTag($form); ?>
                 <tr style="width:100%;">
                      <td style="width:25%;">
                         <div>    
-                            <img class="image1_AP" style='cursor: pointer;' src='<?php echo $this->basepath().'/images_icons/image1_AP.png'?>' style=''/>
+                            <img class="image1_AP" style='cursor: pointer; width: 100%;' src='<?php echo $this->basepath().'/images_icons/image1_AP.png'?>' style=''/>
                         </div>
                      </td>
                      <td style="width:25%;">
                         <div>    
-                            <img class="image2_AP" style='cursor: pointer;' src='<?php echo $this->basepath().'/images_icons/image2_AP.png'?>' style=''/>
+                            <img class="image2_AP" style='cursor: pointer; width: 100%;' src='<?php echo $this->basepath().'/images_icons/image2_AP.png'?>' style=''/>
                         </div>
                      </td>
                      <td style="width:25%;">
                         <div>    
-                            <img class="image3_AP" style='cursor: pointer;' src='<?php echo $this->basepath().'/images_icons/image3_AP.png'?>' style=''/>
+                            <img class="image3_AP" style='cursor: pointer; width: 100%;' src='<?php echo $this->basepath().'/images_icons/image3_AP.png'?>' style=''/>
                         </div>
                      </td>
                      <td style="width:25%;">
                         <div>    
-                            <img class="image4_AP" style='cursor: pointer;' src='<?php echo $this->basepath().'/images_icons/image4_AP.png'?>' style=''/>
+                            <img class="image4_AP" style='cursor: pointer; width: 100%;' src='<?php echo $this->basepath().'/images_icons/image4_AP.png'?>' style=''/>
                         </div>
                      </td>
                  </tr>
            </table>
            <script> 
              $(".image4_AP").toggle(false);
-             if("<?php echo $this->lesdetails->civilite;?>" != "M" ){ $(".image4_AP").toggle(true); }
+             if("<?php echo $this->lesdetails->sexe;?>" != "Masculin" ){ $(".image4_AP").toggle(true); }
            </script>
            
            <table id="HabitudesDeVie" style="width:100%;">
@@ -1673,7 +1673,7 @@ echo $this->form()->openTag($form); ?>
                    echo  $this->headScript()->appendFile($this->basePath().'/js/consultation/ajouterMedicaments.js');
                   ?>    
                                    
-                 <div id="listeMedicaments" style="width: 100%; height:260px;">
+                 <div id="listeMedicaments" style="float:left; width: 100%;">
 				                  
 				    <table class="table table-bordered" style="width: 100%; margin-bottom: 0px; margin-left: 0px;">
                       <thead style="width: 100%;">
@@ -1687,7 +1687,7 @@ echo $this->form()->openTag($form); ?>
 		              </thead>
 			        </table>
 			                         
-					<div id="Medicament_0">
+					<div id="Medicament_0" style="width: 100%;">
 					    <!-- A ne pas enlever -->
 					</div>
 					
@@ -1831,13 +1831,13 @@ echo $this->form()->openTag($form); ?>
 
                   </div>
                                   
-                                  <div id="tabs-2">
+                  <div id="tabs-2">
                                   
                                         <table style="margin-bottom: 0px; " class="resultatVisistePreanesthesique">
                                           <tr  style="width: 100%;">
                                             <td style="width: 33%;"> 
                                               <div style="float:left;"><label style="width: 180px; height:30px; text-align:right; "> Num&eacute;ro VPA : </label></div> 
-                                              <div style="float:left;"><label style="max-width: 250px; height:30px; text-align:left; font-size: 19px; font-weight:bold; color: green;"> 17897-718-71 </label></div>
+                                              <div style="float:left;"><label style="max-width: 250px; height:30px; text-align:left; font-size: 19px; font-weight:bold; color: green;"> <?php echo $this->resultatVpa->numeroVpa; ?> </label></div>
                                             </td>
                                           </tr>
                                          
@@ -1845,21 +1845,32 @@ echo $this->form()->openTag($form); ?>
                                           <tr style="width: 100%;">
                                             <td style="width: 33%;">
                                               <div style="float:left;"><label style="width: 180px; height:30px; text-align:right; "> Type d'intervention : </label></div> 
-                                              <div style="float:left;"><label style="max-width: 250px; height:30px; text-align:left; font-size: 19px; font-weight:bold; color: green;"> Anesth&eacute;sie p&eacute;ridurale </label></div>
+                                              <div style="float:left;"><label style="max-width: 250px; height:30px; text-align:left; font-size: 19px; font-weight:bold; color: green;"> <?php echo $this->resultatVpa->typeIntervention; ?> </label></div>
                                             </td>
                                           </tr>
                                           
                                           <tr style="width: 100%;">
                                             <td style="width: 33%;">
                                               <div style="float:left;"><label style="width: 180px; height:30px; text-align:right; "> APTITUDE : </label></div> 
-                                              <div style="float:left;"><label style="max-width: 250px; height:30px; text-align:left; font-size: 24px; font-weight:bold; color: red;"> <i> NON </i> </label></div>
+                                              <?php if ($this->resultatVpa->aptitude == 1){ ?>
+                                              <div style="float:left;"><label style="max-width: 250px; height:30px; text-align:left; font-size: 26px; font-weight:bold; color: green;"> <i> Oui </i> </label><img src='../images_icons/coche.PNG' /></div>
+                                              <?php } else { ?>
+                                              <div style="float:left;"><label style="max-width: 250px; height:30px; text-align:left; font-size: 26px; font-weight:bold; color: red;"> <i> Non </i> </label><img src='../images_icons/decoche.PNG' /></div>
+                                              <?php } ?>
                                             </td>
                                           </tr>
                                         </table>
-                                       
-                                  </div>
-                                  
+                                  </div>           
                    </div>
+                   
+                   <script>
+                   $(function(){$('#ResultatTabs').toggle(false);});
+                   </script>
+                   
+                   <?php if( $this->resultatVpa ){?>
+                     <script> $(function(){$('#ResultatTabs').toggle(true);}); </script>
+                   <?php } ?>
+                   
                    </div>
 
 
@@ -1975,24 +1986,27 @@ echo $this->form()->openTag($form); ?>
                                <div style=" padding-bottom:0px; margin-bottom: 5px; border-bottom: 2px solid green; margin-left: 0px;"></div>
                                        <!-- LE PDF POUR IMPRESSION-->
                                        <div class="rendezvous">
-                                          <hass><input type="submit" alt="Constantes" name="hospitalisation" id="hospitalisation"></hass>
+                                          <hass><input type="submit" alt="Constantes" title="Imprimer" name="hospitalisation" id="hospitalisation"></hass>
+                                       </div>
+                                       <div class="annulerhospitalisation">
+                                           <hass><input type="submit" name="annulerhospitalisation" id="annulerhospitalisation"></hass>
                                        </div>
                                 <div style=" padding-bottom:40px; margin-bottom: 10px; border-bottom: 1px dashed green; margin-left: 0px; margin-right: 0px;"></div>
 
                                 <p style='color: white; opacity: 0.5; '>
-                                  <img id="" src='<?php echo $this->basePath().'/images_icons/hospitalisation.jpg'?>'  alt="consult-motif" style='float:right; margin-right:10px; padding-top:10px; width:33%; height:180px;'/>
+                                  <img id="" src='<?php echo $this->basePath().'/images_icons/hospitalisation.jpg'?>'  alt="consult-motif" style='float:right; margin-right:10px; padding-top:10px; width:25%; height:180px;'/>
                                 </p>
 
-                                    <table id="hospitalisation" style="width: 60%;">
-                                        <tr class="form-hospitalisation">
-                                            <th> <?php echo $this->formRow($form->get('motif_hospitalisation'));?> </th>
-
+                                    <table id="hospitalisation" style="width: 73%;">
+                                        <tr>
+                                            <th class="form-hospitalisation" style="width: 60%;"> <?php echo $this->formRow($form->get('motif_hospitalisation'));?> </th>
+                                            <th class="form-hospitalisation_date_fin_prevue_hospi" style="width: 40%"> <?php echo $this->formRow($form->get('date_fin_hospitalisation_prevue'));?> </th>
                                         </tr>
                                     </table>
 
                                     <table style="width: 100%; margin-top: 20px;">
                                     <tr>
-                                            <th style="width:40%;"></th>
+                                            <th style="width:55%;"></th>
                                             <th style="width:10%;">
                                                 <!-- On cr�e le bouton Valider (permettant la validation des donn�es -->
                                                 <div id="bouton_valider_hospi">
@@ -2003,8 +2017,8 @@ echo $this->form()->openTag($form); ?>
                                                      <button id='bouton_hospi_modifier'>Modifier</button>
                                                 </div>
                                             </th>
-                                            <th style="width:50%;"></th>
-                                        </tr>
+                                            <th style="width:35%;"></th>
+                                    </tr>
                                     </table>
                                 </div>
 

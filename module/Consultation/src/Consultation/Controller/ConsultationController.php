@@ -70,7 +70,8 @@ class ConsultationController extends AbstractActionController {
 	protected $litTable;
 	protected $salleTable;
 	protected $batimentTable;
-	protected $soinhospitalisation3Table;
+	protected $soinhospitalisation4Table;
+	protected $resultatVpaTable;
 	
 	
 	public function getPatientTable() {
@@ -259,12 +260,20 @@ class ConsultationController extends AbstractActionController {
 		return $this->batimentTable;
 	}
 	
-	public function getSoinHospitalisation3Table() {
-		if (! $this->soinhospitalisation3Table) {
+	public function getSoinHospitalisation4Table() {
+		if (! $this->soinhospitalisation4Table) {
 			$sm = $this->getServiceLocator ();
-			$this->soinhospitalisation3Table = $sm->get ( 'Consultation\Model\Soinhospitalisation3Table' );
+			$this->soinhospitalisation4Table = $sm->get ( 'Consultation\Model\Soinhospitalisation4Table' );
 		}
-		return $this->soinhospitalisation3Table;
+		return $this->soinhospitalisation4Table;
+	}
+	
+	public function getResultatVpa() {
+		if (! $this->resultatVpaTable) {
+			$sm = $this->getServiceLocator ();
+			$this->resultatVpaTable = $sm->get ( 'Consultation\Model\ResultatVisitePreanesthesiqueTable' );
+		}
+		return $this->resultatVpaTable;
 	}
 	/**
 	 * =========================================================================
@@ -797,9 +806,10 @@ class ConsultationController extends AbstractActionController {
 		  $listeDemandesBiologiques = $demandeExamen->getDemandeExamensBiologiques($id);
 		  
 		  ////RESULTATS DES EXAMENS BIOLOGIQUES DEJA EFFECTUES ET ENVOYER PAR LE BIOLOGISTE
+		  $listeDemandesBiologiquesEffectuerEnvoyer = $demandeExamen->getDemandeExamensBiologiquesEffectuesEnvoyer($id);
 		  $listeDemandesBiologiquesEffectuer = $demandeExamen->getDemandeExamensBiologiquesEffectues($id);
 
-		  foreach ($listeDemandesBiologiquesEffectuer as $listeExamenBioEffectues){
+		  foreach ($listeDemandesBiologiquesEffectuerEnvoyer as $listeExamenBioEffectues){
 		  	if($listeExamenBioEffectues['idExamen'] == 1){
 		  		$data['groupe_sanguin'] =  $listeExamenBioEffectues['noteResultat'];
 		  	}
@@ -832,7 +842,6 @@ class ConsultationController extends AbstractActionController {
 		  
 		  ////RESULTATS DES EXAMENS MORPHOLOGIQUES DEJA EFFECTUES ET ENVOYER PAR LE BIOLOGISTE
 		  $listeDemandesMorphologiquesEffectuer = $demandeExamen->getDemandeExamensMorphologiquesEffectues($id);
-		  //var_dump($listeDemandesMorphologiquesEffectuer->count()); exit();
 
 		  //DIAGNOSTICS
 		  //DIAGNOSTICS
@@ -881,12 +890,14 @@ class ConsultationController extends AbstractActionController {
 		  //POUR LA DEMANDE PRE-ANESTHESIQUE
 		  $DemandeVPA = $this->getDemandeVisitePreanesthesiqueTable();
 		  $donneesDemandeVPA = $DemandeVPA->getDemandeVisitePreanesthesique($id);
+		  
+		  $resultatVpa = null;
 		  if($donneesDemandeVPA) {
 		  	$data['diagnostic_traitement_chirurgical'] = $donneesDemandeVPA['DIAGNOSTIC'];
 		  	$data['observation'] = $donneesDemandeVPA['OBSERVATION'];
 		  	$data['intervention_prevue'] = $donneesDemandeVPA['INTERVENTION_PREVUE'];
-		  	$data['numero_vpa'] = $donneesDemandeVPA['NUMERO_VPA'];
-		  	$data['type_anesthesie_demande'] = 2;//$donneesDemandeVPA['TYPE_ANESTHESIE_DEMANDE'];
+		  	
+		  	$resultatVpa = $this->getResultatVpa()->getResultatVpa($donneesDemandeVPA['idVpa']);
 		  }
 		  
 		  //POUR LE TRANSFERT
@@ -987,6 +998,7 @@ class ConsultationController extends AbstractActionController {
 		  		'resultRV' => $resultRV,
 		  		'listeDemandesBioEff' => $listeDemandesBiologiquesEffectuer->count(),
 		  		'listeDemandesMorphoEff' => $listeDemandesMorphologiquesEffectuer->count(),
+		  		'resultatVpa' => $resultatVpa,
 		  );
 	
 	}
@@ -1176,11 +1188,11 @@ class ConsultationController extends AbstractActionController {
 		$infoDemande = array(
 				'diagnostic' => $this->params()->fromPost("diagnostic_traitement_chirurgical"),
 				'intervention_prevue' => $this->params()->fromPost("intervention_prevue"),
-				'type_anesthesie' => $this->params()->fromPost("type_anesthesie_demande"),
-				'numero_vpa' => $this->params()->fromPost("numero_vpa"),
 				'observation' => $this->params()->fromPost("observation"),
 				'ID_CONS'=>$id_cons
 		);
+		//var_dump($infoDemande); exit();
+		
 		$DemandeVPA = $this->getDemandeVisitePreanesthesiqueTable();
 		$DemandeVPA->updateDemandeVisitePreanesthesique($infoDemande);
 		
@@ -1230,9 +1242,10 @@ class ConsultationController extends AbstractActionController {
 				'date_demande_hospi' => $dateAujourdhui,
 				'date_fin_prevue_hospi' => $this->controlDate->convertDateInAnglais($this->params()->fromPost('date_fin_hospitalisation_prevue')),
 				'id_cons' => $id_cons,
-				'date_fin_test' => $this->params()->fromPost('date_fin_hospitalisation_prevue'),
 		);
+		
 		$this->getDemandeHospitalisationTable()->saveDemandehospitalisation($infoDemandeHospitalisation);
+		//var_dump($infoDemandeHospitalisation); exit();
 		//POUR LA PAGE complement-consultation
 		//POUR LA PAGE complement-consultation
 		//POUR LA PAGE complement-consultation
@@ -1349,9 +1362,9 @@ class ConsultationController extends AbstractActionController {
 		  $listeDemandesBiologiques = $demandeExamen->getDemandeExamensBiologiques($id);
 		  
 		  ////RESULTATS DES EXAMENS BIOLOGIQUES DEJA EFFECTUES ET ENVOYER PAR LE BIOLOGISTE
-		  $listeDemandesBiologiquesEffectuer = $demandeExamen->getDemandeExamensBiologiquesEffectues($id);
+		  $listeDemandesBiologiquesEffectuerEnvoyer = $demandeExamen->getDemandeExamensBiologiquesEffectuesEnvoyer($id);
 		  
-		  foreach ($listeDemandesBiologiquesEffectuer as $listeExamenBioEffectues){
+		  foreach ($listeDemandesBiologiquesEffectuerEnvoyer as $listeExamenBioEffectues){
 		  	if($listeExamenBioEffectues['idExamen'] == 1){
 		  		$data['groupe_sanguin'] =  $listeExamenBioEffectues['noteResultat'];
 		  	}
@@ -1429,12 +1442,13 @@ class ConsultationController extends AbstractActionController {
 		  //POUR LA DEMANDE PRE-ANESTHESIQUE
 		  $DemandeVPA = $this->getDemandeVisitePreanesthesiqueTable();
 		  $donneesDemandeVPA = $DemandeVPA->getDemandeVisitePreanesthesique($id);
+		  $resultatVpa = null;
 		  if($donneesDemandeVPA) {
 		  	$data['diagnostic_traitement_chirurgical'] = $donneesDemandeVPA['DIAGNOSTIC'];
 		  	$data['observation'] = $donneesDemandeVPA['OBSERVATION'];
 		  	$data['intervention_prevue'] = $donneesDemandeVPA['INTERVENTION_PREVUE'];
-		  	$data['numero_vpa'] = $donneesDemandeVPA['NUMERO_VPA'];
-		  	$data['type_anesthesie_demande'] = 2;//$donneesDemandeVPA['TYPE_ANESTHESIE_DEMANDE'];
+		  	
+		  	$resultatVpa = $this->getResultatVpa()->getResultatVpa($donneesDemandeVPA['idVpa']);
 		  }
 		  
 		  //POUR LE TRANSFERT
@@ -1524,6 +1538,7 @@ class ConsultationController extends AbstractActionController {
 		  		'listetypeQuantiteMedicament'  => $listetypeQuantiteMedicament,
 		  		'donneesAntecedentsPersonnels' => $donneesAntecedentsPersonnels,
 		  		'donneesAntecedentsFamiliaux'  => $donneesAntecedentsFamiliaux,
+		  		'resultatVpa' => $resultatVpa,
 		  );
 	
 	}
@@ -1612,9 +1627,9 @@ class ConsultationController extends AbstractActionController {
 			//Récupération des données
 			$donneesDemande['diagnostic'] = $this->params ()->fromPost ( 'diagnostic_traitement_chirurgical' );
 			$donneesDemande['intervention_prevue'] = $this->params ()->fromPost (  'intervention_prevue' );
-			$donneesDemande['type_anesthesie_demande'] = $this->params()->fromPost('type_anesthesie_demande');
-			$donneesDemande['numero_vpa'] = $this->params()->fromPost('numero_vpa');
 			$donneesDemande['observation'] = $this->params()->fromPost('observation');
+			
+			//var_dump($donneesDemande); exit();
 			
 			//CREATION DU DOCUMENT PDF
 			//Créer le document
@@ -2077,6 +2092,9 @@ class ConsultationController extends AbstractActionController {
 
     public function enCoursAction() {
 		$this->layout()->setTemplate('layout/consultation');
+		
+		//$soinHosp = $this->getSoinHospitalisation4Table()->getSoinhospitalisationWithId_shs(2);
+		//var_dump($soinHosp); exit();
 
 		$LeService = $this->layout ()->service;
 		$LigneDuService = $this->getServiceTable ()->getServiceParNom ( $LeService );
@@ -2107,8 +2125,8 @@ class ConsultationController extends AbstractActionController {
 
 			$data = $this->getRequest()->getPost();
 			
-		    $id_sh = $this->getSoinHospitalisation3Table()->saveSoinhospitalisation($data, $id_medecin);
-		    $this->getSoinHospitalisation3Table()->saveHeure($data,$id_sh);
+		    $id_sh = $this->getSoinHospitalisation4Table()->saveSoinhospitalisation($data, $id_medecin);
+		    $this->getSoinHospitalisation4Table()->saveHeure($data,$id_sh);
 			//$test = 'En cours de dÃ©veloppement';
 			$this->getResponse ()->getHeaders ()->addHeaderLine ( 'Content-Type', 'application/html; charset=utf-8' );
 		    return $this->getResponse ()->setContent ( Json::encode () );
@@ -2593,7 +2611,7 @@ class ConsultationController extends AbstractActionController {
 	
 	public function raffraichirListeSoinsPrescrit($id_hosp){
 	
-		$liste_soins = $this->getSoinHospitalisation3Table()->getAllSoinhospitalisation($id_hosp);
+		$liste_soins = $this->getSoinHospitalisation4Table()->getAllSoinhospitalisation($id_hosp);
 		$html = "";
 		$this->getDateHelper();
 			
@@ -2837,7 +2855,7 @@ class ConsultationController extends AbstractActionController {
 	
 	public function supprimerSoinAction() {
 		$id_sh = $this->params()->fromPost('id_sh', 0);
-		$this->getSoinHospitalisation3Table()->supprimerHospitalisation($id_sh);
+		$this->getSoinHospitalisation4Table()->supprimerHospitalisation($id_sh);
 	
 		$this->getResponse ()->getHeaders ()->addHeaderLine ( 'Content-Type', 'application/html; charset=utf-8' );
 		return $this->getResponse ()->setContent ( Json::encode () );
@@ -2848,8 +2866,8 @@ class ConsultationController extends AbstractActionController {
 		$id_sh = $this->params()->fromPost('id_sh', 0);
 		
 		$this->getDateHelper();
-		$soin = $this->getSoinHospitalisation3Table()->getSoinhospitalisationWithId_sh($id_sh);
-		$heure = $this->getSoinHospitalisation3Table()->getHeures($id_sh);
+		$soin = $this->getSoinHospitalisation4Table()->getSoinhospitalisationWithId_sh($id_sh);
+		$heure = $this->getSoinHospitalisation4Table()->getHeures($id_sh);
 		
 		$lesHeures = "";
 		if($heure){
@@ -2934,8 +2952,8 @@ class ConsultationController extends AbstractActionController {
 
 		$this->getDateHelper();
 		$id_sh = $this->params()->fromPost('id_sh', 0);
-		$soinHosp = $this->getSoinHospitalisation3Table()->getSoinhospitalisationWithId_sh($id_sh);
-		$heure = $this->getSoinHospitalisation3Table()->getHeures($id_sh);
+		$soinHosp = $this->getSoinHospitalisation4Table()->getSoinhospitalisationWithId_sh($id_sh);
+		$heure = $this->getSoinHospitalisation4Table()->getHeures($id_sh);
 		
 		$lesHeures = "";
 		if($heure){
@@ -2976,20 +2994,31 @@ class ConsultationController extends AbstractActionController {
 		$html .="<td style='width: 0%;'> </td>";
 		$html .= "</tr>";
 		
-		if($soinHosp->appliquer == 1) {
-			
-			$html .="<table style='width: 95%; padding-top: 30px;'>";
-			$html .="<tr style='width: 95%;'> 
-					   <td colspan='2' style='width: 95%;'> 
-					     <div id='titre_info_admis'>Informations sur l'application du soin</div><div id='barre_admis'></div> 
-					   </td> 
+		if($soinHosp){
+			if($soinHosp->appliquer == 1) {
+				$infosInfirmier = $this->getSoinHospitalisation4Table()->getInfosInfirmiers($soinHosp->id_personne_infirmier); 
+				$PrenomInfirmier = " Prenom  ";
+				$NomInfirmier = " Nom ";
+				if($infosInfirmier){
+					$PrenomInfirmier = $infosInfirmier['prenom'];
+					$NomInfirmier = $infosInfirmier['nom'];
+				}
+				$html .="<table style='width: 95%; padding-top: 30px;'>";
+				$html .="<tr style='width: 95%;'>
+					   <td colspan='2' style='width: 95%;'>
+					     <div id='titre_info_admis'>Informations sur l'application du soin</div><div id='barre_admis'></div>
+					   </td>
 					 </tr>";
-			$html .="<tr style='width: 95%; height: 140px;'>";
-			$html .="<td style='width: 50%; '><a style='text-decoration:underline; font-size:12px;'>Date d'application:</a><br><p style='font-weight:bold; font-size:17px;'> ".$this->controlDate->convertDate($soinHosp->date_application)." </p></td>";
-			$html .="<td style='width: 50%; '><a style='text-decoration:underline; font-size:13px;'>Note:</a><br><p id='circonstance_deces' style='background:#f8faf8; font-weight:bold; font-size:17px; padding-left: 5px;'> ".$soinHosp->note_application." </p></td>";
-			$html .= "</tr>";
+					
+				$html .="<tr style='width: 95%; height: 140px;'>";
+				$html .="<td style='width: 50%; vertical-align: top;  padding-top: 10px;'>
+					 <a style='text-decoration:underline; font-size:12px;'>Pr&eacute;nom & nom Infirmier:</a><br><p style='font-weight:bold; font-size:17px;'> ".$PrenomInfirmier.' '.$NomInfirmier." </p>
+					 <a style='text-decoration:underline; font-size:12px;'>Date d'application:</a><br><p style='font-weight:bold; font-size:17px;'> ".$this->controlDate->convertDate($soinHosp->date_application)." </p>
+				     </td>";
+				$html .="<td style='width: 50%; '><a style='text-decoration:underline; font-size:13px;'>Note:</a><br><p id='circonstance_deces' style='background:#f8faf8; font-weight:bold; font-size:17px; padding-left: 5px;'> ".$soinHosp->note_application." </p></td>";
+				$html .= "</tr>";
+			}
 		}
-		
 		$html .="</table>";
 		
 		$this->getResponse ()->getHeaders ()->addHeaderLine ( 'Content-Type', 'application/html; charset=utf-8' );

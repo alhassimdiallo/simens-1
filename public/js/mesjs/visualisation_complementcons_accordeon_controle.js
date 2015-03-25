@@ -240,8 +240,12 @@ setTimeout(function(){
 //********************* HOSPITALISATION *****************************
     $(".rendezvous input").attr("disabled", true).css({'background':'#f8f8f8'});
 	var motif_hospitalisation = $("#motif_hospitalisation");
+	var date_fin_hospitalisation_prevue = $("#date_fin_hospitalisation_prevue");
 	
 	motif_hospitalisation.attr( 'disabled', true).css({'background':'#f8f8f8'});
+	date_fin_hospitalisation_prevue.attr( 'disabled', true).css({'background':'#f8f8f8'});
+	
+	$('.annulerhospitalisation input').attr('disabled', true);
 	$("#bouton_hospi_modifier").toggle(false);
 	$("#bouton_hospi_valider").toggle(false);
 	

@@ -6,7 +6,7 @@ use Zend\Db\TableGateway\TableGateway;
 use Facturation\View\Helper\DateHelper;
 use Zend\Db\Sql\Sql;
 
-class Soinhospitalisation3Table {
+class Soinhospitalisation4Table {
 	protected $tableGateway;
 	protected $conversionDate;
 	
@@ -149,6 +149,21 @@ class Soinhospitalisation3Table {
 		if($this->getSoinhospitalisationWithId_sh($id_sh)){
 			$this->tableGateway->update(array('note_application' => $note, 'date_application'=> $date_application , 'appliquer'=>1), array('id_sh' => $id_sh));
 		}
+	}
+	
+	
+	public function getInfosInfirmiers($id_personne)
+	{
+		$adapter = $this->tableGateway->getAdapter();
+		$sql = new Sql($adapter);
+		$select = $sql->select();
+		$select->from('personnel2');
+		$select->where(array('id_personne' => $id_personne));
+	
+		$stat = $sql->prepareStatementForSqlObject($select);
+		$result = $stat->execute()->current();
+			
+		return $result;
 	}
 	
 }

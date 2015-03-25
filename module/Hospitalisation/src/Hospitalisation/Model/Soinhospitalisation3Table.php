@@ -132,13 +132,13 @@ class Soinhospitalisation3Table {
 		}
 	}
 	
-	public function appliquerSoin($id_sh, $note) {
+	public function appliquerSoin($id_sh, $note, $id_personne) {
 		$this->getDateHelper();
 		$today = new \DateTime ();
 		$date_application = $today->format ( 'Y-m-d H:i:s' );
 		
 		if($this->getSoinhospitalisationWithId_sh($id_sh)){
-			$this->tableGateway->update(array('note_application' => $note, 'date_application'=> $date_application , 'appliquer'=>1), array('id_sh' => $id_sh));
+			$this->tableGateway->update(array('note_application'=>$note, 'date_application'=>$date_application , 'appliquer'=>1, 'id_personne_infirmier'=>$id_personne ), array('id_sh' => $id_sh));
 		}
 	}
 	

@@ -159,7 +159,7 @@
     }
     
     function vuesoinApp(id_sh){
-    	vueSoinAppliquer(735, 480);
+    	vueSoinAppliquer(800, 540);
     	var chemin = tabUrl[0]+'public/hospitalisation/vue-soin-appliquer';
     	$.ajax({
     		type: 'POST',

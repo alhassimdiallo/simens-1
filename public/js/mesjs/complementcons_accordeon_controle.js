@@ -403,10 +403,12 @@ $(function(){
  		});
     }
 	
-	$("#annuler2").click(function() {
-       event.preventDefault(); 
+	$("#annuler2").click(function() { 
+       //event.preventDefault(); 
        confirmation(); 
        $("#confirmation2").dialog('open');
+       
+       return false;
     }); 
 	
 	
@@ -560,7 +562,8 @@ $(function(){
 	        	 $("#pressionarterielle").css("border-color", "");
 	        	 $("#erreur_pressionarterielle").fadeOut();
 	         }
-	         return valid;
+	         
+	         return false;
 	 	}); 
 
 //-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*--*-*-*-*--*-*-*-*-*-**--*-**-*--**-*-*-*-*-*-*-*-*-*-*-*-*-*--**-*-*-*-*-	
@@ -592,8 +595,8 @@ $(function(){
 	/***LORS DU CLICK SUR 'Terminer' ****/
 	$("#terminer2, #terminer3").click(function() {
 		if (valid == false){return false;}
-		
-		event.preventDefault(); 
+		//return true;
+		//event.preventDefault(); 
 	    var donnees = new Array();
 	    donnees['id_cons']    = $("#id_cons").val();
 	    donnees['terminer'] = 'save';

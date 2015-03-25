@@ -48,8 +48,10 @@ use Consultation\Model\SalleTable;
 use Consultation\Model\Salle;
 use Consultation\Model\BatimentTable;
 use Consultation\Model\Batiment;
-use Consultation\Model\Soinhospitalisation3Table;
-use Consultation\Model\Soinhospitalisation3;
+use Consultation\Model\ResultatVisitePreanesthesiqueTable;
+use Consultation\Model\ResultatVisitePreanesthesique;
+use Consultation\Model\Soinhospitalisation4;
+use Consultation\Model\Soinhospitalisation4Table;
 
 class Module implements AutoloaderProviderInterface {
 	
@@ -257,15 +259,15 @@ class Module implements AutoloaderProviderInterface {
 							$resultSetPrototype->setArrayObjectPrototype ( new Soinhospitalisation() );
 							return new TableGateway ( 'soins_hospitalisation_2', $dbAdapter, null, $resultSetPrototype );
 						},
-						'Consultation\Model\Soinhospitalisation3Table' => function ($sm) {
-							$tableGateway = $sm->get ( 'Soinhospitalisation3TableGateway' );
-							$table = new Soinhospitalisation3Table( $tableGateway );
+						'Consultation\Model\Soinhospitalisation4Table' => function ($sm) {
+							$tableGateway = $sm->get ( 'Soinhospitalisation4TableGateway' );
+							$table = new Soinhospitalisation4Table( $tableGateway );
 							return $table;
 						},
-						'Soinhospitalisation3TableGateway' => function ($sm) {
+						'Soinhospitalisation4TableGateway' => function ($sm) {
 							$dbAdapter = $sm->get ( 'Zend\Db\Adapter\Adapter' );
 							$resultSetPrototype = new ResultSet ();
-							$resultSetPrototype->setArrayObjectPrototype ( new Soinhospitalisation3() );
+							$resultSetPrototype->setArrayObjectPrototype ( new Soinhospitalisation4() );
 							return new TableGateway ( 'soins_hospitalisation_3', $dbAdapter, null, $resultSetPrototype );
 						},
 						'Consultation\Model\SoinsTable' => function ($sm) {
@@ -333,6 +335,17 @@ class Module implements AutoloaderProviderInterface {
 							$resultSetPrototype = new ResultSet ();
 							$resultSetPrototype->setArrayObjectPrototype ( new Batiment () );
 							return new TableGateway ( 'batiment', $dbAdapter, null, $resultSetPrototype );
+						},
+						'Consultation\Model\ResultatVisitePreanesthesiqueTable' => function ($sm) {
+							$tableGateway = $sm->get ( 'ResultatVisitePreanesthesiqueTableGateway' );
+							$table = new ResultatVisitePreanesthesiqueTable( $tableGateway );
+							return $table;
+						},
+						'ResultatVisitePreanesthesiqueTableGateway' => function ($sm) {
+							$dbAdapter = $sm->get ( 'Zend\Db\Adapter\Adapter' );
+							$resultSetPrototype = new ResultSet ();
+							$resultSetPrototype->setArrayObjectPrototype ( new ResultatVisitePreanesthesique() );
+							return new TableGateway ( 'resultat_vpa', $dbAdapter, null, $resultSetPrototype );
 						},
 				)
 		);

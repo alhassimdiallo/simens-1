@@ -7,7 +7,7 @@ namespace Consultation\Model;
  * @author hassim
  *
  */
-class Soinhospitalisation3 {
+class Soinhospitalisation4 {
 	
 	public $id_sh;
 	public $id_hosp;
@@ -25,6 +25,7 @@ class Soinhospitalisation3 {
 	public $note_application;
 	public $date_modification;
 	public $id_personne;
+	public $id_personne_infirmier;
 	
 	public function exchangeArray($data) {
 		$this->id_sh = (! empty ( $data ['id_sh'] )) ? $data ['id_sh'] : null;
@@ -43,6 +44,7 @@ class Soinhospitalisation3 {
 		$this->note_application = (! empty ( $data ['note_application'] )) ? $data ['note_application'] : null;
 		$this->date_modification = (! empty ( $data ['date_modification'] )) ? $data ['date_modification'] : null;
 		$this->id_personne = (! empty ( $data ['id_personne'] )) ? $data ['id_personne'] : null;
+		$this->id_personne_infirmier = (! empty ( $data ['id_personne_infirmier'] )) ? $data ['id_personne_infirmier'] : null;
 	}
 	
 	public function getArrayCopy() {

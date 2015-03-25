@@ -127,11 +127,12 @@ jQuery(document).ready(function($){
 
     $('#modifierPassword').click(function(){
         var role = "<?php echo $user->role;?>";
-        //alert(role); exit();
+
         var id = 0;
         if(role == 'infirmier'){id = 4;}
         if(role == 'laborantin'){id = 5;}
         if(role == 'radiologie'){id = 6;}
+        if(role == 'anesthesie'){id = 7;}
         
     	vart=tabUrl[0]+'public/admin/modifier-password/'+id;
         $(location).attr("href",vart);
