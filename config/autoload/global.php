@@ -15,7 +15,7 @@ use Zend\Authentication\Adapter\DbTable as DbTableAuthAdapter;
 return array (
 		'db' => array (
 				'driver' => 'Pdo',
-				'dsn' => 'mysql:dbname=simens2;host=localhost',
+				'dsn' => 'mysql:dbname=simens;host=localhost',
 				'driver_options' => array (
 						PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''
 				)

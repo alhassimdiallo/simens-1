@@ -478,7 +478,7 @@
           }
         
         function vuesoin(id_sh){
-        	vueSoinAppliquer(700, 420);
+        	vueSoinAppliquer(750, 650);
             var chemin = tabUrl[0]+'public/consultation/vue-soin-appliquer';
             $.ajax({
                 type: 'POST',
@@ -498,7 +498,7 @@
         
         
         function vuesoinApp(id_sh){
-        	vueSoinAppliquer(700, 585);
+        	vueSoinAppliquer(750, 640);
             var chemin = tabUrl[0]+'public/consultation/vue-soin-appliquer';
             $.ajax({
                 type: 'POST',

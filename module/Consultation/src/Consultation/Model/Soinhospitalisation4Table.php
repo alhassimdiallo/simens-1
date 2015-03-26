@@ -166,4 +166,55 @@ class Soinhospitalisation4Table {
 		return $result;
 	}
 	
+	
+	/*Heure suivante*/
+	/*Heure suivante*/
+	public function getHeureSuivante($id_sh)
+	{
+		$adapter = $this->tableGateway->getAdapter();
+		$sql = new Sql($adapter);
+		$select = $sql->select();
+		$select->from('heures_soins');
+		$select->where(array('id_sh'=>$id_sh, 'applique'=>0));
+		$select->order('heure ASC');
+	
+		$stat = $sql->prepareStatementForSqlObject($select);
+		$result = $stat->execute()->current();
+			
+		return $result;
+	}
+	
+	/*Toutes les heures*/
+	/*Toutes les heures*/
+	public function getToutesHeures($id_sh)
+	{
+		$adapter = $this->tableGateway->getAdapter();
+		$sql = new Sql($adapter);
+		$select = $sql->select();
+		$select->from('heures_soins');
+		$select->where(array('id_sh'=>$id_sh));
+		$select->order('id_heure ASC');
+	
+		$stat = $sql->prepareStatementForSqlObject($select);
+		$result = $stat->execute();
+			
+		return $result;
+	}
+	
+	/**
+	 * Recuperer au moin une heure ou le soin est appliquer 
+	 **/
+	public function getHeureAppliquer($id_sh)
+	{
+		$adapter = $this->tableGateway->getAdapter();
+		$sql = new Sql($adapter);
+		$select = $sql->select();
+		$select->from('heures_soins');
+		$select->where(array('id_sh'=>$id_sh, 'applique'=>1));
+	
+		$stat = $sql->prepareStatementForSqlObject($select);
+		$result = $stat->execute()->count();
+			
+		return $result;
+	}
 }

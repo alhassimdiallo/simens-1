@@ -663,52 +663,95 @@ class HospitalisationController extends AbstractActionController {
 		$soinHosp = $this->getSoinHospitalisation3Table()->getSoinhospitalisationWithId_sh($id_sh);
 		$heure = $this->getSoinHospitalisation3Table()->getHeures($id_sh);
 		
+		$heureSuivante = $this->getSoinHospitalisation3Table()->getHeureSuivante($id_sh);
+		
 		$lesHeures = "";
 		if($heure){
 			for ($i = 0; $i<count($heure); $i++){
 				if($i == count($heure)-1) {
-					$lesHeures.= $heure[$i];
+					if($heureSuivante['heure'] == $heure[$i]){
+						$lesHeures.= '<span id="clignoterHeure" style="font-weight: bold; color: red;">'.$heure[$i].'</span>';
+					}else{
+						$lesHeures.= $heure[$i];
+					}
 				} else {
-					$lesHeures.= $heure[$i].'  -  ';
+					if($heureSuivante['heure'] == $heure[$i]){
+						$lesHeures.= '<span id="clignoterHeure" style="font-weight: bold; color: red;">'.$heure[$i].'</span>  -  ';
+					}else{
+						$lesHeures.= $heure[$i].'  -  ';
+					}
 				}
 			}
 		}
 		
 		$html  ="<table style='width: 99%;'>";
 		$html .="<tr style='width: 99%;'>";
-		$html .="<td style='width: 30%; vertical-align:top;'><a style='text-decoration:underline; font-size:12px;'>M&eacute;dicament:</a><br><p style='font-weight:bold; font-size:17px;'> ".$soinHosp->medicament." </p></td>";
-		$html .="<td style='width: 22%; vertical-align:top;'><a style='text-decoration:underline; font-size:12px;'>Voie d'administration:</a><br><p style='font-weight:bold; font-size:17px;'> ".$soinHosp->voie_administration." </p></td>";
-		$html .="<td style='width: 25%; vertical-align:top;'><a style='text-decoration:underline; font-size:12px;'>Date prescription:</a><br><p style='font-weight:bold; font-size:17px;'> ".$this->dateHelper->convertDateTime($soinHosp->date_enregistrement)." </p></td>";
-		$html .="<td style='width: 20%; vertical-align:top;'><a style='text-decoration:underline; font-size:12px;'>Date recommand&eacute;e:</a><br><p style='font-weight:bold; font-size:17px;'> ".$this->dateHelper->convertDate($soinHosp->date_application_recommandee)." </p></td>";
+		$html .="<td style='width: 33%; vertical-align:top;'><span id='labelHeureLABEL' style='font-weight:bold; font-size:15px; padding-left: 5px; color: #065d10; font-family: Times  New Roman;'>M&eacute;dicament</span><br><p id='zoneChampInfo' style='background:#f8faf8; font-size:17px; padding-left: 5px;'> ".$soinHosp->medicament." </p></td>";
+		$html .="<td style='width: 33%; vertical-align:top;'><span id='labelHeureLABEL' style='font-weight:bold; font-size:15px; padding-left: 5px; color: #065d10; font-family: Times  New Roman;'>Voie d'administration</span><br><p id='zoneChampInfo' style='background:#f8faf8; font-size:17px; padding-left: 5px;'> ".$soinHosp->voie_administration." </p></td>";
+		$html .="<td style='width: 33%; vertical-align:top;'><span id='labelHeureLABEL' style='font-weight:bold; font-size:15px; padding-left: 5px; color: #065d10; font-family: Times  New Roman;'>Date prescription</span><br><p id='zoneChampInfo' style='background:#f8faf8; font-size:17px; padding-left: 5px;'> ".$this->dateHelper->convertDateTime($soinHosp->date_enregistrement)." </p></td>";
 		$html .="</tr>";
 		
 		$html .="<tr style='width: 99%;'>";
-		$html .="<td colspan='3' style='width: 80%; vertical-align:top;'><a style='text-decoration:underline; font-size:12px;'>Heures recommand&eacute;es:</a><br><p style='font-weight:bold; font-size:17px;'> ".$lesHeures." </p></td>";
+		$html .="<td style='vertical-align:top;'><span id='labelHeureLABEL' style='font-weight:bold; font-size:15px; padding-left: 5px; color: #065d10; font-family: Times  New Roman;'>Date recommand&eacute;e</span><br><p id='zoneChampInfo' style='background:#f8faf8; font-size:17px; padding-left: 5px;'> ".$this->dateHelper->convertDate($soinHosp->date_application_recommandee)." </p></td>";
+		$html .="<td colspan='2' style='width: 80%; vertical-align:top;'>
+				 <span id='labelHeureLABEL' style='font-weight:bold; font-size:15px; padding-left: 5px; color: #065d10; font-family: Times  New Roman;'>Heures recommand&eacute;es:</span><br><p id='zoneChampInfo' style='background:#f8faf8; font-size:17px; padding-left: 5px;'> ".$lesHeures." </p>
+				 </td>";
 		
 		$html .="</table>";
 		
-		$html .="<table style='width: 95%;'>";
+		$html .="<table style='width: 99%;'>";
 		$html .="<tr style='width: 95%;'>";
-		$html .="<td style='width: 50%; padding-top: 10px; padding-right:25px;'><a style='text-decoration:underline; font-size:13px;'>Motif:</a><br><p id='circonstance_deces' style='background:#f8faf8; font-weight:bold; font-size:17px; padding-left: 10px;'> ".$soinHosp->motif." </p></td>";
-		$html .="<td style='width: 50%; padding-top: 10px;'><a style='text-decoration:underline; font-size:13px;'>Note:</a><br><p id='circonstance_deces' style='background:#f8faf8; font-weight:bold; font-size:17px; padding-left: 5px;'> ".$soinHosp->note." </p></td>";
+		$html .="<td style='width: 50%; padding-top: 10px; padding-right:25px;'><span id='labelHeureLABEL' style='font-weight:bold; font-size:16px; padding-left: 5px; color: #065d10; font-family: Times  New Roman;'>Motif</span><br><p id='circonstance_deces' style='background:#f8faf8; font-size:17px; padding-left: 10px;'> ".$soinHosp->motif." </p></td>";
+		$html .="<td style='width: 50%; padding-top: 10px;'><span id='labelHeureLABEL' style='font-weight:bold; font-size:16px; padding-left: 5px; color: #065d10; font-family: Times  New Roman;'>Note</span><br><p id='circonstance_deces' style='background:#f8faf8; font-size:17px; padding-left: 5px;'> ".$soinHosp->note." </p></td>";
 		$html .="<td style='width: 0%;'> </td>";
 		$html .= "</tr>";
 		
-		if($soinHosp->appliquer == 1) {
-			$html .="<tr style='width: 95%;'>
-					   <td colspan='2' style='width: 95%;'>
+		if($soinHosp){
+			
+			if($soinHosp->appliquer == 1) {
+				$listeHeure = $this->getSoinHospitalisation3Table()->getToutesHeures($id_sh);
+			
+				$html .="<tr style='width: 99%;'>
+					   <td colspan='2' style='width: 99%;'>
+					     <div id='titre_info_admis'>Informations sur l'application du soin</div><div id='barre_admis'></div>
+					   </td>
+					 </tr>";
+					
+				$html .="<table style='width: 99%; margin-top: 10px;'>";
+					
+				if($listeHeure){
+					foreach ($listeHeure as $listeH) {
+						$html .="<tr style='width: 99%;'>";
+						$html .="<td style='width: 100%; vertical-align:top;'><span id='labelHeureLABEL' style='font-weight:bold; font-size:19px; padding-left: 5px; color: #065d10; font-family: Times  New Roman;'>".$listeH['heure']."</span><br><p id='zoneTexte' style='background:#f8faf8; font-size:17px; padding-left: 5px;'> ".$listeH['note']." </p></td>";
+						$html .= "</tr>";
+					}
+				}
+			}
+			
+			if($soinHosp->appliquer == 0) {
+				$listeHeure = $this->getSoinHospitalisation3Table()->getToutesHeures($id_sh);
+			
+				$html .="<tr style='width: 99%;'>
+					   <td colspan='2' style='width: 99%;'>
 					     <div id='titre_info_admis'>Informations sur l'application du soin</div><div id='barre_admis'></div>
 					   </td>
 					 </tr>";
 			
-			$html .="<table style='width: 95%; margin-top: 10px;'>";
-			$html .="<tr style='width: 95%;'>";
-			$html .="<td style='width: 50%; vertical-align:top;'><a style='text-decoration:underline; font-size:12px;'>Date d'application:</a><br><p style='font-weight:bold; font-size:17px;'> ".$this->dateHelper->convertDate($soinHosp->date_application)." </p></td>";
-			$html .="<td style='width: 50%; vertical-align:top;'><a style='text-decoration:underline; font-size:13px;'>Note:</a><br><p id='circonstance_deces' style='background:#f8faf8; font-weight:bold; font-size:17px; padding-left: 5px;'> ".$soinHosp->note_application." </p></td>";
-			$html .= "</tr>";
+				$html .="<table style='width: 99%; margin-top: 10px;'>";
+			
+				if($listeHeure){
+					foreach ($listeHeure as $listeH) {
+						if($listeH['applique'] == 1){
+							$html .="<tr style='width: 99%;'>";
+							$html .="<td style='width: 100%; vertical-align:top;'><span id='labelHeureLABEL' style='font-weight:bold; font-size:19px; padding-left: 5px; color: #065d10; font-family: Times  New Roman;'>".$listeH['heure']."</span><br><p id='zoneTexte' style='background:#f8faf8; font-size:17px; padding-left: 5px;'> ".$listeH['note']." </p></td>";
+							$html .= "</tr>";
+						}
+					}
+				}
+			}
+			
+			$html .="</table>";
 		}
-		
-		$html .="</table>";
 		
 		$this->getResponse ()->getHeaders ()->addHeaderLine ( 'Content-Type', 'application/html; charset=utf-8' );
 		return $this->getResponse ()->setContent ( Json::encode ($html) );
@@ -992,8 +1035,8 @@ class HospitalisationController extends AbstractActionController {
 				  <tr style='height:40px; width:100%; cursor:pointer; '>
 					<th style='width: 24%;'>M<minus>&eacute;dicament</minus></th>
 					<th style='width: 21%;'>V<minus>oie d'administration</minus></th>
-					<th style='width: 21%;'>D<minus>ate prescription</minus></th>
-					<th style='width: 18%;'>D<minus>ate recommand&eacute;e </minus></th>
+					<th style='width: 21%;'>D<minus>ate recommand&eacute;e </minus></th>
+					<th style='width: 18%;'>H<minus>eure suivante </minus></th>
 				    <th style='width: 10%;'>O<minus>ptions</minus></th>
 				    <th style='width: 6%;'>E<minus>tat</minus></th>
 				  </tr>
@@ -1003,40 +1046,56 @@ class HospitalisationController extends AbstractActionController {
 	
 		sort($liste_soins);
 		foreach ($liste_soins as $cle => $Liste){
+			//Récupération de l'heure suivante pour l'application du soin
+			$heureSuivante = $this->getSoinHospitalisation3Table()->getHeureSuivante($Liste['id_sh']);
+			
+			$idHeure = null;
+			$heureSuiv = null;
+			if($heureSuivante){
+				$idHeure = $heureSuivante['id_heure'];
+				$heureSuiv = "<span style='color: red; font-weight: bold; font-size: 20px;'>".$heureSuivante['heure']."</span>";
+				
+				$heureSuivPopup = $heureSuivante['heure'];
+			}
+			
 			$html .="<tr style='width: 100%;' id='".$Liste['id_sh']."'>";
 			$html .="<td style='width: 24%;'><div id='inform' style='float:left; font-weight:bold; font-size:17px;'>".$Liste['medicament']."</div></td>";
 			$html .="<td style='width: 21%;'><div id='inform' style='float:left; font-weight:bold; font-size:17px;'>".$Liste['voie_administration']."</div></td>";
-			$html .="<td style='width: 21%;'><div id='inform' style='float:left; font-weight:bold; font-size:17px;'>".$this->dateHelper->convertDateTime($Liste['date_enregistrement'])."</div></td>";
-			$html .="<td style='width: 18%;'><div id='inform' style='float:left; font-weight:bold; font-size:17px;'>".$this->dateHelper->convertDate($Liste['date_application_recommandee'])."</div></td>";
+			$html .="<td style='width: 21%;'><div id='inform' style='float:left; font-weight:bold; font-size:17px;'>".$this->dateHelper->convertDate($Liste['date_application_recommandee'])."</div></td>";
+			if($heureSuiv == null){
+				$html .="<td style='width: 18%;'><div id='inform' style='float:left; font-weight:bold; font-size:17px;'>Termin&eacute; 	<!-- img src='../images_icons/tick_16.png'/--></div></td>";
+			}else{
+				$html .="<td style='width: 18%;'><div id='inform' style='float:left; font-weight:bold; font-size:17px;'>".$heureSuiv."</div></td>";
+			}
 	
 			if($Liste['appliquer'] == 0) {
 				$html .="<td style='width: 10%;'> <a href='javascript:vuesoin(".$Liste['id_sh'].") '>
-					       <img class='visualiser".$Liste['id_sh']."' style='display: inline;' src='/simens/public/images_icons/voird.png' alt='Constantes' title='d&eacute;tails' />
+					       <img class='visualiser".$Liste['id_sh']."' style='display: inline;' src='../images_icons/voird.png' alt='Constantes' title='d&eacute;tails' />
 					  </a>&nbsp";
 	
-				$html .="<a href='javascript:appliquerSoin(".$Liste['id_sh'].",".$Liste['id_hosp'].")'>
-					    	<img class='modifier".$Liste['id_sh']."'  src='/simens/public/img/dark/blu-ray.png' alt='Constantes' title='appliquer le soin'/>
+				$html .="<a href='javascript:appliquerSoin(".$Liste['id_sh'].",".$Liste['id_hosp'].",".$idHeure.")'>
+					    	<img class='modifier".$Liste['id_sh']."'  src='../img/dark/blu-ray.png' alt='Constantes' title='appliquer le soin'/>
 					     </a>&nbsp;
 	
 				         </td>";
 					
 				$html .="<td style='width: 6%;'>
-					       <img class='etat_oui".$Liste['id_sh']."' style='margin-left: 20%;' src='/simens/public/images_icons/non.png' alt='Constantes' title='soin non encore appliqu&eacute;' />
+					       <img class='etat_oui".$Liste['id_sh']."' style='margin-left: 20%;' src='../images_icons/non.png' title='soin non encore appliqu&eacute;' />
 					     &nbsp;
 				         </td>";
 			}else {
 				$html .="<td style='width: 10%;'> <a href='javascript:vuesoinApp(".$Liste['id_sh'].") '>
-					       <img class='visualiser".$Liste['id_sh']."' style='display: inline;' src='/simens/public/images_icons/voird.png' alt='Constantes' title='d&eacute;tails' />
+					       <img class='visualiser".$Liste['id_sh']."' style='display: inline;' src='../images_icons/voird.png' title='d&eacute;tails' />
 					  </a>&nbsp";
 	
 				$html .="<a>
-					    	<img class='modifier".$Liste['id_sh']."' style='color: white; opacity: 0.15;' src='/simens/public/img/dark/blu-ray.png' alt='Constantes' title=''/>
+					    	<img class='modifier".$Liste['id_sh']."' style='color: white; opacity: 0.15;' src='../img/dark/blu-ray.png' title=''/>
 					     </a>&nbsp;
 	
 				         </td>";
 					
 				$html .="<td style='width: 6%;'>
-					       <img class='etat_non".$Liste['id_sh']."' style='margin-left: 20%;' src='/simens/public/images_icons/oui.png' alt='Constantes' title='soin d&eacute;j&agrave; appliqu&eacute;' />
+					       <img class='etat_non".$Liste['id_sh']."' style='margin-left: 20%;' src='../images_icons/oui.png' title='soin d&eacute;j&agrave; appliqu&eacute;' />
 					     &nbsp;
 				         </td>";
 			}
@@ -1119,10 +1178,31 @@ class HospitalisationController extends AbstractActionController {
 				  #listeSoin tbody tr:hover{
 				    background: #fefefe;
 				  }
+				  
 				 </style>";
-		$html .="<script> listepatient (); listeDesSoins(); </script>";
+		
+		$html .="<script> 
+				  listepatient(); listeDesSoins(); 
+				 </script>";
 	
 		return $html;
+	}
+	
+	public function heureSuivanteAction() {
+		$id_hosp = $this->params()->fromPost('id_hosp',0);
+		$id_sh = $this->params()->fromPost('id_sh',0);
+		$id_heure = $this->params()->fromPost('id_heure',0);
+		
+		$heureSuivante = $this->getSoinHospitalisation3Table()->getHeureSuivante($id_sh);
+			
+		$heureSuivPopup = null;
+		if($heureSuivante){
+			$heureSuivPopup = $heureSuivante['heure'];
+		}
+		
+		$html = $heureSuivPopup;
+		$this->getResponse ()->getHeaders ()->addHeaderLine ( 'Content-Type', 'application/html; charset=utf-8' );
+		return $this->getResponse ()->setContent ( Json::encode ( $html ) );
 	}
 	
 	public function administrerSoinPatientAction() {
@@ -1264,12 +1344,20 @@ class HospitalisationController extends AbstractActionController {
 	
 	
 	public function applicationSoinAction() {
+		$id_heure = $this->params()->fromPost('id_heure', 0);
 		$id_sh = $this->params()->fromPost('id_sh', 0);
 		$note = $this->params()->fromPost('note', 0);
+		
 		$user = $this->layout()->user;
 		$id_personne = $user->id_personne; //L'infirmier qui a appliqué le soin au patient
 		
-		$this->getSoinHospitalisation3Table()->appliquerSoin($id_sh, $note, $id_personne);
+		$this->getSoinHospitalisation3Table()->saveHeureSoinAppliquer($id_heure, $id_sh, $note, $id_personne);
+		
+		$heureSuivante = $this->getSoinHospitalisation3Table()->getHeureSuivante($id_sh);
+		if(!$heureSuivante){ //S'il n y avait aucune heure suivante On met Appliquer a 1 (dans la table soinHospitalisation3)
+			$this->getSoinHospitalisation3Table()->appliquerSoin($id_sh, $note, $id_personne);			
+		}
+
 		
 		$this->getResponse ()->getHeaders ()->addHeaderLine ( 'Content-Type', 'application/html; charset=utf-8' );
 		return $this->getResponse ()->setContent ( Json::encode (  ) );

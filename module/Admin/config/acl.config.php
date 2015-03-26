@@ -198,6 +198,8 @@ return array(
     								'modifier-soin' => 'infirmier',
     								'detail-info-liberation-patient' => 'infirmier',
     								'liberer-patient' => 'infirmier',
+    								'heure-suivante' => 'infirmier',
+    								
     								
     								'liste-demandes-examens' => 'laborantin',
     								'liste-demandes-examens-ajax' => 'laborantin',

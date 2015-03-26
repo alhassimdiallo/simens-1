@@ -141,7 +141,7 @@
     }
     
     function vuesoin(id_sh){
-    	vueSoinAppliquer(735, 370);
+    	vueSoinAppliquer(750, 650);
     	var chemin = tabUrl[0]+'public/hospitalisation/vue-soin-appliquer';
     	$.ajax({
     		type: 'POST',
@@ -159,7 +159,7 @@
     }
     
     function vuesoinApp(id_sh){
-    	vueSoinAppliquer(800, 540);
+    	vueSoinAppliquer(750, 640);
     	var chemin = tabUrl[0]+'public/hospitalisation/vue-soin-appliquer';
     	$.ajax({
     		type: 'POST',
@@ -339,7 +339,7 @@
     /************************************************************************************************************************/
     /************************************************************************************************************************/
     /************************************************************************************************************************/
-    function ApplicationSoin(id_sh, id_hosp){
+    function ApplicationSoin(id_sh, id_hosp, id_heure){
     	$( "#application_soin" ).dialog({
     		resizable: false,
     		height:275,
@@ -354,7 +354,7 @@
     		    	$.ajax({
     		    		type: 'POST',
     		    		url: chemin ,
-    		    		data:({'id_sh':id_sh, 'note':note}),
+    		    		data:({'id_sh':id_sh, 'note':note, 'id_heure':id_heure}),
     		    		success: function() {    
 
     		    			var chemin = tabUrl[0]+'public/hospitalisation/raffraichir-liste';
@@ -390,7 +390,23 @@
     	});
     }
    
-    function appliquerSoin(id_sh, id_hosp) {
-    	ApplicationSoin(id_sh, id_hosp);
-		$("#application_soin").dialog('open'); 
+    function appliquerSoin(id_sh, id_hosp, id_heure) {
+    	ApplicationSoin(id_sh, id_hosp, id_heure);
+		
+		var chemin = tabUrl[0]+'public/hospitalisation/heure-suivante';
+    	$.ajax({
+    		type: 'POST',
+    		url: chemin ,
+    		data:({'id_hosp':id_hosp , 'id_sh':id_sh, 'id_heure':id_heure}),
+    		success: function(data) {    
+    			var result = jQuery.parseJSON(data);
+    			//$("#info_liste").fadeOut(function(){$("#info_liste").html(result).fadeIn("fast"); });
+    			//$('#note').val('');
+    			$('#HeureActu').html(result);
+    			$("#application_soin").dialog('open');
+    		},
+            
+    		error:function(e){console.log(e);alert("Une erreur interne est survenue!");},
+    		dataType: "html"
+    	});
     }

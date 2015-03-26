@@ -571,7 +571,7 @@ $(function(){
 	//Method envoi POST pour updatecomplementconsultation
 	//Method envoi POST pour updatecomplementconsultation
 	function updateexecuterRequetePost(donnees) {
-		// Le formulaire � monFormulaire � existe d�j� dans la page
+		// Le formulaire monFormulaire existe deja dans la page
 	    var formulaire = document.createElement("form");
 	 
 	    formulaire.setAttribute("action","/simens/public/consultation/update-complement-consultation"); 
@@ -585,10 +585,16 @@ $(function(){
 	        formulaire.appendChild(champ);
 	    }
         
-	    // Envoi de la requ�te
+	    // Envoi de la requete
 	    formulaire.submit();
 	    // Suppression du formulaire
 	    document.body.removeChild(formulaire);
+	    
+	    //formulaire.submit(function() {
+	    	//vart=tabUrl[0]+'public/consultation/en-cours';
+		    //$(location).attr("href",vart);
+	    	//return true;
+	    //});
 	}
 	
     /***LORS DU CLICK SUR 'Terminer' ****/

@@ -766,7 +766,14 @@ $(window).load(function () {
 </style>
 
 <script type="text/javascript">
-   
+
+function FaireClignoterImage (){
+    $("#clignoterHeure").fadeOut(900).fadeIn(800);
+}
+$(function(){
+setInterval('FaireClignoterImage()',2200);
+});
+    
 $(function(){
 $('#responde input, #respond input').attr('autocomplete','off');
 //*********************************************************************

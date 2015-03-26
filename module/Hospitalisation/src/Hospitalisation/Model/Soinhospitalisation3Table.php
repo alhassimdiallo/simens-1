@@ -70,20 +70,72 @@ class Soinhospitalisation3Table {
 	
 	public function getHeures($id_sh)
 	{
-			$adapter = $this->tableGateway->getAdapter();
-			$sql = new Sql($adapter);
-			$select = $sql->select();
-			$select->from('heures_soins');
-			$select->where(array('id_sh'=>$id_sh));
-				
-			$stat = $sql->prepareStatementForSqlObject($select);
-			$result = $stat->execute();
+		$adapter = $this->tableGateway->getAdapter();
+		$sql = new Sql($adapter);
+		$select = $sql->select();
+		$select->from('heures_soins');
+		$select->where(array('id_sh'=>$id_sh));
+		
+		$stat = $sql->prepareStatementForSqlObject($select);
+		$result = $stat->execute();
 			
-			$tab = array();
-			foreach ($result as $resultat){
-				$tab[] = $resultat['heure'];
-			}
-			return $tab;
+		$tab = array();
+		foreach ($result as $resultat){
+			$tab[] = $resultat['heure'];
+		}
+		return $tab;
+	}
+	
+	/*Heure suivante*/
+	/*Heure suivante*/
+	public function getHeureSuivante($id_sh)
+	{
+		$adapter = $this->tableGateway->getAdapter();
+		$sql = new Sql($adapter);
+		$select = $sql->select();
+		$select->from('heures_soins');
+		$select->where(array('id_sh'=>$id_sh, 'applique'=>0));
+		$select->order('heure ASC');
+	
+		$stat = $sql->prepareStatementForSqlObject($select);
+		$result = $stat->execute()->current();
+			
+		return $result;
+	}
+	
+	/*Toutes les heures*/
+	/*Toutes les heures*/
+	public function getToutesHeures($id_sh)
+	{
+		$adapter = $this->tableGateway->getAdapter();
+		$sql = new Sql($adapter);
+		$select = $sql->select();
+		$select->from('heures_soins');
+		$select->where(array('id_sh'=>$id_sh));
+		$select->order('id_heure ASC');
+	
+		$stat = $sql->prepareStatementForSqlObject($select);
+		$result = $stat->execute();
+			
+		return $result;
+	}
+	
+	/*Enregistrer l'enregistrement du soin a cette heure*/
+	/*Enregistrer l'enregistrement du soin a cette heure*/
+	public function saveHeureSoinAppliquer($id_heure, $id_sh, $note, $id_personne)
+	{
+		$today = new \DateTime ();
+		$date_enreg = $today->format ( 'Y-m-d H:i:s' );
+		
+		$adapter = $this->tableGateway->getAdapter();
+		$sql = new Sql($adapter);
+		$select = $sql->update();
+		$select->table('heures_soins');
+		$select->set(array('note'=> $note, 'date_application'=>$date_enreg, 'id_personne_infirmier'=>$id_personne, 'applique'=> 1));
+		$select->where(array('id_heure'=>$id_heure, 'id_sh'=>$id_sh));
+		
+		$stat = $sql->prepareStatementForSqlObject($select);
+		$stat->execute();
 	}
 	
 	public function saveSoinhospitalisation($SoinHospitalisation, $id_medecin)
@@ -132,13 +184,13 @@ class Soinhospitalisation3Table {
 		}
 	}
 	
-	public function appliquerSoin($id_sh, $note, $id_personne) {
+	public function appliquerSoin($id_sh) {
 		$this->getDateHelper();
 		$today = new \DateTime ();
 		$date_application = $today->format ( 'Y-m-d H:i:s' );
 		
 		if($this->getSoinhospitalisationWithId_sh($id_sh)){
-			$this->tableGateway->update(array('note_application'=>$note, 'date_application'=>$date_application , 'appliquer'=>1, 'id_personne_infirmier'=>$id_personne ), array('id_sh' => $id_sh));
+			$this->tableGateway->update(array('appliquer'=>1), array('id_sh' => $id_sh));
 		}
 	}
 	
