@@ -8,8 +8,32 @@ echo $this->headLink()->appendStylesheet($this->basePath().'/css/facturation/Dat
 
 <?php $Control = new DateHelper();?>
 
+<script type="text/javascript">
+var base_url = window.location.toString();
+var tabUrl = base_url.split("public");
+
+$('#plus_deces').toggle(true);
+$("#deces").replaceWith("<li id='deces' style='background:#4a5765;'><a href=''><span style='margin-left:0px; color: #ffffff; font-weight:bold; font-size:18px; font-family:Times New Roman;'> <img style='display: inline;' src='"+tabUrl[0]+"public/images_icons/moins-vert.PNG' alt='Liste' /> D&eacute;c&egrave;s </span></a></li>");
+dep_deces1();
+$('#declarer_style').css({'font-weight':'bold','color':'white','font-size':'22px'});
+
+
+$(window).load(function () {
+	$('#wait').toggle(false);
+	$('#contenu').fadeIn().css({'visibility':'visible'});
+});
+</script>
+
+<style>
+#contenu{ visibility: hidden };
+</style>
+
      <div id="titre" style='font-family: police2; text-decoration:none; color: green; font-size: 18px; font-weight: bold; padding-left: 30px;'><iS style='font-size: 25px;'>&curren;</iS> RECHERCHER LE PATIENT</div>
+     
+     <div id="wait" style="color: gray; font-size: 20px; text-align: center; margin-top: 80px;" > <span> Chargement ... </span> </div>
+     
      <div id="contenu" >
+        <div style="margin-right: 45px; float:right; font-size: 15px; color: gray; margin-top:5px;"><a style="text-decoration: none; cursor:pointer;" href="javascript:ajouterMaman()" ><img src='../images_icons/aj.gif' title="ajouter" /><i style="font-family: Times New Roman; font-size: 15px; color: green;"> ajouter un patient</i></a></div>
 		<table style='width:95%; margin-left: 10px; align:center' class="table table-bordered tab_list_mini" id="patient">
 			<thead >
 			    <tr >
@@ -26,29 +50,7 @@ echo $this->headLink()->appendStylesheet($this->basePath().'/css/facturation/Dat
 
 			<tbody id="donnees" class="liste_patient">
 
-	            <?php /* foreach($this->donnees as $donnees):?>
-
-				<tr id="<?php echo $this->escapeHtml($donnees['Id']);?>">
-
-				    <td><?php echo $this->escapeHtml($donnees['Id']);?></td>
-				    <td style='text-transform : uppercase;'><?php echo $this->escapeHtml($donnees['Nom']);?></td>
-				    <td><?php echo $this->escapeHtml($donnees['Prenom']);?></td>
-					<td><?php echo $Control->convertDate($this->escapeHtml($donnees['Datenaissance']));?></td>
-					<td><?php echo $this->escapeHtml($donnees['Adresse']);?></td>
-					<td>
-					    <?php $id = $this->escapeHtml($donnees['Id']);?>
-					    <a href="javascript:visualiser('<?php echo $id ?>')" style="display: inline;" >
-					    	<img  src='<?php echo $this->basePath().'/images_icons/vue.PNG'?>' alt='Constantes' title="Visualiser" />
-					    </a> &nbsp;&nbsp;
-
-					    <a href="javascript:declarer('<?php echo $id ?>')">
-					       <img style="display: inline;" src='<?php echo $this->basePath().'/images_icons/transfert_droite.PNG'?>' alt='Constantes' title="suivant" />
-					    </a>
-
-					</td>
-				</tr>
-
-				<?php endforeach; */?>
+	            <?php /*Ici --- Liste Ajax*/ ?>
 
 			</tbody>
 
@@ -71,7 +73,7 @@ echo $this->headLink()->appendStylesheet($this->basePath().'/css/facturation/Dat
 <!-- PARTIE ENREGISTREMENT DU DECES -->
 
     <div id="declarer_deces">
-          <a href="" id="precedent" style="font-family: police2; width:50px; margin-left:30px;">
+          <a href="" id="precedent" style="text-decoration: none; font-family: police2; width:50px; margin-left:30px;">
 	        <img style="display: inline; " src='<?php echo $this->basePath().'/images_icons/transfert_gauche.PNG'?>' alt='Constantes' title="Rechercher" />
 		    Pr&eacute;c&eacute;dent
 		  </a>
@@ -150,12 +152,9 @@ echo $this->headLink()->appendStylesheet($this->basePath().'/css/facturation/Dat
 
 <script>
 animation();
-
-var base_url = window.location.toString();
-var tabUrl = base_url.split("public");
-//POUR LE MENU GAUCHE dans -elementgauche.phtml
-$('#plus_deces').toggle(true);
-$("#deces").replaceWith("<li id='deces' style='background:#4a5765;'><a href=''><span style='margin-left:0px; color: #ffffff; font-weight:bold; font-size:18px; font-family:Times New Roman;'> <img style='display: inline;' src='"+tabUrl[0]+"public/images_icons/moins-vert.PNG' alt='Liste' /> D&eacute;c&egrave;s </span></a></li>");
-dep_deces1();
-$('#declarer_style').css({'font-weight':'bold','color':'white','font-size':'22px'});
+function ajouterMaman(){
+	vart=tabUrl[0]+'public/facturation/ajouter';
+    $(location).attr("href",vart);
+    return false;
+}
 </script>

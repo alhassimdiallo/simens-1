@@ -162,7 +162,7 @@
             	     
             	    	 /********************ON PREPARE LA TOUCHE 'P�c�dent' *******************/
             	    	 $('#precedent').click(function(){
-            	    		$('#precedent').remove();
+            	    		$('#precedent').html('<span style="color: white;"> rien <span>');
             	 	    	$("#titre2").replaceWith("<div id='titre' style='font-family: police2; color: green; font-size: 18px; font-weight: bold; padding-left: 20px;'><iS style='font-size: 25px;'>&curren;</iS> LISTE DES NAISSANCES </div>");	
             	 	    
             	 	         $('#modifier_donnees_deces').animate({

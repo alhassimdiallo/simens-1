@@ -35,6 +35,9 @@ return array(
     								'utilisateurs' => 'superAdmin',
     								'liste-utilisateurs-ajax' => 'superAdmin',
     								'modifier-utilisateur' => 'superAdmin',
+    								'liste-agent-personnel-ajax' => 'superAdmin',
+    								'visualisation' => 'superAdmin',
+    								'nouvel-utilisateur' => 'superAdmin',
     						),
     						
     						
@@ -85,6 +88,7 @@ return array(
     								'liste-patients-admis' => 'facturation',
     								'vue-patient-admis' => 'facturation',
     								'supprimer-admission' => 'facturation',
+    								'enregistrer-deces' => 'facturation',
     								
     						),
     						
@@ -127,6 +131,7 @@ return array(
     								'vue-soin-appliquer' => 'medecin',
     								'liberer-patient' => 'medecin',
     								'liste-soins-prescrits' => 'medecin',
+    								'recherche-visualisation-consultation' => 'medecin',
     								
     								'supprimer-image-morpho' => 'radiologie', //PARTIE EXAMEN MORPHO
     								'images-examens-morphologiques' => 'radiologie', //PARTIE EXAMEN MORPHO

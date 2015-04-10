@@ -6,10 +6,8 @@ function initialisation(){
 	( {
 					//"bJQueryUI": true,
 					"sPaginationType": "full_numbers",
-					"aaSorting": "", //pour trier la liste affichée
+					"aaSorting": [], //pour trier la liste affichée
 					"oLanguage": { 
-						//"sProcessing":   "Traitement en cours...",
-						//"sLengthMenu":   "Afficher _MENU_ &eacute;l&eacute;ments",
 						"sZeroRecords":  "Aucun &eacute;l&eacute;ment &agrave; afficher",
 						"sInfo": "_START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
 						"sInfoEmpty": "0 &eacute;l&eacute;ment &agrave; afficher",
@@ -25,10 +23,10 @@ function initialisation(){
 							"sLast":     ">|"
 							}
 					   },
-					   "iDisplayLength": 10,
+					   "iDisplayLength": 7,
 						"bProcessing": false,
 						"bSearch": false,
-						"aLengthMenu": [5,10,15],
+						"aLengthMenu": [7,10,15],
 
 	} );
     tampon = oTable;

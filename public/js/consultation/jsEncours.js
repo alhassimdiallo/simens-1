@@ -220,8 +220,9 @@
     /************************************************************************************************************************/
     /************************************************************************************************************************/
     /************************************************************************************************************************/
-    function administrerSoin(id_personne){
-    	var id_hosp = $("#"+id_personne+"hp").val();
+    function administrerSoin(id_demande_hospi){
+    	var id_hosp = $("#"+id_demande_hospi+"hp").val(); 
+    	var id_personne = $("#"+id_demande_hospi+"idPers").val();
     	var chemin = tabUrl[0]+'public/consultation/info-patient-hospi';
         $.ajax({
             type: 'POST',
@@ -233,7 +234,7 @@
             	var result = jQuery.parseJSON(data);
             	$("#vue_patient_hospi").html(result);
             	$("#division,#salle,#lit").val("");
-            	$("#code_demande").val($("#"+id_personne+"dh").val());
+            	$("#code_demande").val($("#"+id_demande_hospi+"dh").val());
             	listeSoinsPrescrits(id_hosp);
             	$("#contenu").fadeOut(function(){
             		$("#hospitaliser").css({'visibility':'visible'});

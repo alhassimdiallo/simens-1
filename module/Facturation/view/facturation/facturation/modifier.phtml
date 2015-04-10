@@ -27,10 +27,10 @@ controle_saisie();
              <?php echo $this->formhidden($this->form->get('id_personne'));?>
 
              <div style='width: 80%; height: 150px; float:left;'>
-             <table id="form_patient" style="float: left;">
+               <table id="form_patient" style="float: left;">
 
                   <tr class="comment-form-patient">
-                     <td style="width: 270px;"> <?php echo $this->formRow($this->form->get('civilite'));?></td>
+                     <td style="width: 270px;"> <?php echo $this->formRow($this->form->get('sexe'));?></td>
                      <td style="width: 270px;"> <?php echo $this->formRow($this->form->get('lieu_naissance'));?></td>
                      <td style="width: 275px;"> <?php echo $this->formRow($this->form->get('email'));?></td>
 
@@ -50,12 +50,11 @@ controle_saisie();
 
                   <tr class="comment-form-patient">
                      <td > <?php echo $this->formRow($this->form->get('date_naissance'));?></td>
-                     <td >  <?php echo $this->formRow($this->form->get('adresse'));?></td>
-                     <td> <?php echo $this->formRow($this->form->get('sexe'));?></td>
+                     <td > <?php echo $this->formRow($this->form->get('adresse'));?></td>
+                     <td > <?php //echo $this->formRow($this->form->get('sexe'));?></td>
                   </tr>
 
-            </table>
-            
+               </table>
             </div>
 		
 	     <div style='width: 3%; height: 150px; float:left;'>

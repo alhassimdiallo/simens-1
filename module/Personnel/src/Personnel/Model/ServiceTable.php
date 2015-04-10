@@ -24,8 +24,9 @@ class ServiceTable{
 		$adapter = $this->tableGateway->getAdapter();
 		$sql = new Sql($adapter);
 		$select = $sql->select();
-		$select->from(array('type_pers'=>'service'));
-		$select->columns(array('NOM', 'NOM'));
+		$select->from(array('s'=>'service'));
+		$select->columns(array('NOM'));
+		$select->where(array('DOMAINE' => 'MEDECINE'));
 		$select->order('ID_SERVICE ASC');
 		$stat = $sql->prepareStatementForSqlObject($select);
 		$result = $stat->execute();

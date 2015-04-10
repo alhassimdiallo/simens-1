@@ -10,7 +10,7 @@ echo $this->headScript()->appendFile($this->basepath().'/js/admin/jsListeUtilisa
 	LISTE DES UTILISATEURS
 </div>
 <div id="contenu"> 
-        <div style="margin-right: 20px; float:right; font-size: 15px; color: gray; margin-top:5px;"><a style="text-decoration: none; cursor:pointer;" href="javascript:ajouterUtilisateur()" ><img src='../images_icons/doctor_16.png' title="ajouter" /><i style="font-family: Times New Roman; font-size: 15px; color: green;"> nouvel utilisateur</i></a></div>
+        <div style="margin-right: 20px; float:right; font-size: 15px; color: gray; margin-top:5px;"><a style="text-decoration: none; cursor:pointer;" href="javascript:ajouterUtilisateur()" ><img src='../images_icons/right_16.png' title="suivant" /><i style="font-family: Times New Roman; font-size: 15px; color: green;"> nouvel utilisateur</i></a></div>
             <table id="utilisateurs" class="table table-bordered tab_list_mini" >
 				<thead>
 					<tr style="height: 50px; width:100%; ">
@@ -58,6 +58,8 @@ echo $this->headScript()->appendFile($this->basepath().'/js/admin/jsListeUtilisa
 
 <div id="FormUtilisateur">
 
+    <div id="previous" style="margin-left: 30px; float:left; font-size: 15px; color: gray; margin-top:-10px;"><a style="text-decoration: none; cursor:pointer;" href="javascript:listePrecedent()" ><img src='../images_icons/left_16.png' title="precedent" /><i style="font-family: Times New Roman; font-size: 15px; color: green;">Pr&eacute;c&eacute;dent</i></a></div>
+    
     <?php
     $form = $this->formUtilisateur;
     $form->setAttribute ( 'action', $this->url ( 'admin', array ('action' => 'utilisateurs') ));
@@ -66,13 +68,27 @@ echo $this->headScript()->appendFile($this->basepath().'/js/admin/jsListeUtilisa
     ?>
     <?php echo $this->formhidden($form->get('id')); ?>
     <?php echo $this->formhidden($form->get('RoleSelect')); ?>
+    <?php echo $this->formRow($form->get('prenomUtilisateur'));?>
+    <?php echo $this->formRow($form->get('nomUtilisateur'));?>
+    <?php echo $this->formRow($form->get('idService'));?>
+    <?php echo $this->formRow($form->get('idPersonne'));?>
 
-    <table id="form_patient" style="margin-left: 195px; width: 80%;">  
+    <table id="form_patient" style="margin-left: 30px; width: 95%;">  
       
-      <tr  style="width: 80%;">
-         <td class="comment-form-patient" style="width: 33%;"> <?php echo $this->formRow($form->get('username'));?></td> 
-         <td class="comment-form-patient" style="width: 33%;"> <?php echo $this->formRow($form->get('password'));?></td> 
-         <td style="width: 33%; padding-left: 20px; vertical-align: top;" rowspan="3"> 
+      <tr  style="width: 100%; ">
+        
+         <td style="width: 10%; padding-left: 20px; vertical-align: top;" rowspan="5"> 
+           <div style='left: 70px; height: 180px; padding-right: 40px;'>
+	         <div id='photo' style='float:left; margin-left:4px; margin-top:10px; margin-right:0px;'> </div>
+	       </div>
+         </td> 
+         
+         <td style='width: 31%; padding-top: 10px; padding-right:10px;'><span id='labelHeureLABEL' style='font-weight:bold; font-size:16px; padding-left: 5px; color: #065d10; font-family: Times  New Roman;'>Pr&eacute;nom</span><br><p id='zoneChampInfo1' class='prenom' style='background:#f8faf8; font-size:17px; padding-left: 10px;'> Nom d'utilisateur </p>
+         </td>
+         <td style='width: 31%; padding-top: 10px; padding-right:10px;'><span id='labelHeureLABEL' style='font-weight:bold; font-size:16px; padding-left: 5px; color: #065d10; font-family: Times  New Roman;'>Nom</span><br><p id='zoneChampInfo1' class='nom' style='background:#f8faf8; font-size:17px; padding-left: 10px;'> Nom d'utilisateur </p>
+         </td>
+         
+         <td style="width: 28%; padding-left: 20px; vertical-align: top;" rowspan="5"> 
              <div style="width: 75%;">
                <a href="javascript:viderChamp()" style="display: inline; padding-right: 5px;" >
 				   <img  src='<?php echo $this->basePath().'/images_icons/9.png'?>' title="Vider les champs" />
@@ -82,32 +98,45 @@ echo $this->headScript()->appendFile($this->basepath().'/js/admin/jsListeUtilisa
 			   </a>
 			   <div style="width:100%; background: #cccccc; height:2px; margin-top: 5px; margin-bottom: 15px;"></div>
 			 </div>
-             <div class="comment-form-patient" ><label> Role </label></div> 
-             <div style="border-top-right-radius: 15px; width: 75%; height: 100%; background: #f5f5f5; padding-left: 10px;"> 
+             <div class="comment-form-patient" ><label style='top: 5px;'> Role </label></div> 
+             <div id="LesChoixRadio" style="border-top-right-radius: 15px; width: 85%; height: 100%; background: #f5f5f5; padding-left: 10px;"> 
                   <?php echo $this->formradio($form->get('role'));?>
              </div>
          </td> 
       </tr>
       
-      <tr class="comment-form-patient"  style="width: 80%;">
-         <td style="width: 33%;"> <?php echo $this->formRow($form->get('nomUtilisateur'));?></td> 
-         <td style="width: 33%;"> <?php echo $this->formRow($form->get('prenomUtilisateur'));?></td> 
+      <tr class="comment-form-patient"  style="width: 100%; ">
+         <td style='width: 31%; padding-top: 10px; padding-right:10px; vertical-align:top; '><span id='labelHeureLABEL' style='font-weight:bold; font-size:16px; padding-left: 5px; color: #065d10; font-family: Times  New Roman;'>Date de naissance </span><br><p id='zoneChampInfo1' class='date_naissance' style='background:#f8faf8; font-size:17px; padding-left: 10px;'> Nom d'utilisateur </p>
+         </td>
+         
+         <td style='width: 31%; padding-top: 10px; padding-right:10px; vertical-align:top;'><span id='labelHeureLABEL' style='font-weight:bold; font-size:16px; padding-left: 5px; color: #065d10; font-family: Times  New Roman;'>Adresse</span><br><p id='zoneChampInfo1' class='adresse' style='background:#f8faf8; font-size:17px; padding-left: 10px;'> Nom d'utilisateur </p>
+         </td>
+          
       </tr>
       
-       <tr class="comment-form-patient" style="width: 80%;">
-         <td style="width: 33%;"> <?php echo $this->formRow($form->get('service'));?></td> 
-         <td style="width: 33%;"> <?php echo $this->formRow($form->get('fonction'));?></td> 
+      <tr class="comment-form-patient"  style="width: 100%; ">
+         <td style="width: 31%;"> <?php  echo $this->formRow($form->get('username'));?>
+         </td> 
+         
+         <td style="width: 31%;"> <?php echo $this->formRow($form->get('password'));?>
+         </td>
+          
+      </tr>
+      
+      <tr class="comment-form-patient" style="width: 100%;">
+         <td style='width: 31%; padding-top: 10px; padding-right:10px;'><span id='labelHeureLABEL' style='font-weight:bold; font-size:16px; padding-left: 5px; color: #065d10; font-family: Times  New Roman;'>Service</span><br><p id='zoneChampInfo1' class='service' style='background:#f8faf8; font-size:17px; padding-left: 10px;'> Nom d'utilisateur </p>
+         </td>
+         <td style="width: 31%;"> <?php echo $this->formRow($form->get('fonction'));?></td> 
       </tr>
       
       
    
-      <tr class="comment-form-patient" style="width: 80%; height: 70px; vertical-align: bottom;">
-         <td style="width: 33%;"></td>
-         <td style="width: 33%; padding-left: 30px;"> 
+      <tr class="comment-form-patient" style="width: 100%; height: 70px; vertical-align: bottom;">
+         <td style="width: 31%;"></td>
+         <td style="width: 31%; padding-left: 30px;"> 
             <?php echo $this->formSubmit($form->get('enregistrer')); ?>
             <?php echo $this->formSubmit($form->get('annuler')); ?>
          </td> 
-         <td style="width: 33%;"></td>
       </tr>
       
     </table>
@@ -116,9 +145,54 @@ echo $this->headScript()->appendFile($this->basepath().'/js/admin/jsListeUtilisa
     
     <div id="scriptFormUtilisation">
     </div>
+    
+    <div id="scriptFormUtilisationPopulate">
+    </div>
 </div>
+
+<!-- LISTE DE TOUS LE PERSONNEL POUR L'AJOUT D'UN NOUVEL UTILISATEUR -->
+<!-- LISTE DE TOUS LE PERSONNEL POUR L'AJOUT D'UN NOUVEL UTILISATEUR -->
+<!-- LISTE DE TOUS LE PERSONNEL POUR L'AJOUT D'UN NOUVEL UTILISATEUR -->
+
+<div id="listeRecherche" >
+        <div style="margin-right: 50px; float:right; font-size: 15px; color: gray; margin-top:5px;"><a style="text-decoration: none; cursor:pointer;" href="javascript:listeUtilisateurs()" ><img src='../images_icons/left_16.png' title="precedent" /><i style="font-family: Times New Roman; font-size: 15px; color: green;"> Liste des utilisateurs</i></a></div>
+		<table style='width:95%; margin-left: 10px; align:center' class="table table-bordered tab_list_mini" id="personnel">
+			<thead id="enTeteRecherche">
+			   <tr style='width: 100%; '>
+				    <th id="_idpatient" style='width: 10%;'> <div style='width: 90px;'> <input style='width: 100%;' type="text" value=" ID_Patient" class="search_init" /> </div> </th>
+					<th id="_nom" style='width: 15%;'> <div style='width: 150px;'> <input style='width: 100%;' type="text" value=" Nom" class="search_init" /> </div></th>
+					<th id="_prenom" style='width: 17%;'><input style='width: 190px;' type="text" value=" Pr&eacute;nom" class="search_init" /></th>
+					<th id="_date" style='width: 13%;'><input style='width: 110px;' type="text" value=" Date naissance" class="search_init" /></th>
+					<th id="_adresse" style='width: 40%;'><input style='width: 210px;' type="text" value=" Service" class="search_init" /></th>
+					<th id="_effectuer" style='width: 5%;'><input style='width: 60px;' type="hidden" value="" class="" />Options</th>
+				</tr>
+			</thead>
+
+			<tbody id="donnees" class="liste_patient">
+
+
+			</tbody>
+
+		</table>
+</div>
+
+
+
+<!-- Visualisation de l'agent -->
+<div id="visualisation" title="Informations" style="display:none;">
+      <div id="info" style="font-size: 16px;">
+
+      </div>
+</div>
+
+
 
 <script type="text/javascript">
 $("#vue_patient").toggle(false);
 $("#FormUtilisateur").toggle(false);
+$("#listeRecherche").toggle(false);
+
+$(function(){
+	initialisationListePersonnel();
+});
 </script>

@@ -198,8 +198,9 @@ class UtilisateursTable
 				'role' => $donnees->role,
 				'nom' => $donnees->nomUtilisateur,
 				'prenom' => $donnees->prenomUtilisateur,
-				'id_service' => $donnees->service,
+				'id_service' => $donnees->idService,
 				'fonction' => $donnees->fonction,
+				'id_personne' => $donnees->idPersonne,
 		);
 		
 		$id = (int)$donnees->id;
@@ -239,5 +240,176 @@ class UtilisateursTable
 		}
 	
 		return $value;
+	}
+	
+	//Réduire la chaine addresse
+	function adresseText($Text){
+		$chaine = $Text;
+		if(strlen($Text)>36){
+			$chaine = substr($Text, 0, 36);
+			$nb = strrpos($chaine, ' ');
+			$chaine = substr($chaine, 0, $nb);
+			$chaine .=' ...';
+		}
+		return $chaine;
+	}
+	
+	/**
+	 * LISTE DE TOUTES LES AGENTS DU PERSONNEL
+	 * @param unknown $id
+	 * @return string
+	 */
+	public function getListeAgentPersonnelAjax(){
+	
+		$db = $this->tableGateway->getAdapter();
+	
+		$aColumns = array('Idpatient','Nom','Prenom','Datenaissance', 'NomService', 'id');
+	
+		/* Indexed column (used for fast and accurate table cardinality) */
+		$sIndexColumn = "id";
+	
+		/*
+		 * Paging
+		*/
+		$sLimit = array();
+		if ( isset( $_GET['iDisplayStart'] ) && $_GET['iDisplayLength'] != '-1' )
+		{
+			$sLimit[0] = $_GET['iDisplayLength'];
+			$sLimit[1] = $_GET['iDisplayStart'];
+		}
+	
+		/*
+		 * Ordering
+		*/
+		if ( isset( $_GET['iSortCol_0'] ) )
+		{
+			$sOrder = array();
+			$j = 0;
+			for ( $i=0 ; $i<intval( $_GET['iSortingCols'] ) ; $i++ )
+			{
+				if ( $_GET[ 'bSortable_'.intval($_GET['iSortCol_'.$i]) ] == "true" )
+				{
+					$sOrder[$j++] = $aColumns[ intval( $_GET['iSortCol_'.$i] ) ]."
+								 	".$_GET['sSortDir_'.$i];
+				}
+			}
+		}
+	
+		/*
+		 * SQL queries
+		*/
+	
+		$sql = new Sql($db);
+		$sQuery = $sql->select()
+		->from(array('pat' => 'personnel2'))->columns(array('Nom'=>'nom','Prenom'=>'prenom','Datenaissance'=>'date_naissance','Sexe'=>'sexe','Adresse'=>'adresse','Nationalite'=>'nationalite','Taille'=>'taille','id'=>'id_personne','Idpatient'=>'id_personne'))
+		->join(array('sp' => 'servicepersonnel') ,'sp.id_personne = pat.id_personne' , array('*') )
+		->join(array('s' => 'service') ,'s.ID_SERVICE = sp.id_service' , array('NomService' => 'NOM') )
+		->order('pat.id_personne ASC');
+		/* Data set length after filtering */
+		$stat = $sql->prepareStatementForSqlObject($sQuery);
+		$rResultFt = $stat->execute();
+		$iFilteredTotal = count($rResultFt);
+	
+		$rResult = $rResultFt;
+	
+		$output = array(
+				//"sEcho" => intval($_GET['sEcho']),
+				//"iTotalRecords" => $iTotal,
+				"iTotalDisplayRecords" => $iFilteredTotal,
+				"aaData" => array()
+		);
+	
+		/*
+		 * $Control pour convertir la date en fran�ais
+		*/
+		$Control = new DateHelper();
+	
+		/*
+		 * ADRESSE URL RELATIF
+		*/
+		$baseUrl = $_SERVER['REQUEST_URI'];
+		$tabURI  = explode('public', $baseUrl);
+	
+		/*
+		 * Pr�parer la liste
+		*/
+		foreach ( $rResult as $aRow )
+		{
+			$row = array();
+			for ( $i=0 ; $i<count($aColumns) ; $i++ )
+			{
+				if ( $aColumns[$i] != ' ' )
+				{
+					/* General output */
+					if ($aColumns[$i] == 'Nom'){
+						$row[] = "<khass id='nomMaj'>".$aRow[ $aColumns[$i]]."</khass>";
+					}
+	
+					else if ($aColumns[$i] == 'Datenaissance') {
+						$row[] = $Control->convertDate($aRow[ $aColumns[$i] ]);
+					}
+	
+					else if ($aColumns[$i] == 'Adresse') {
+						$row[] = $this->adresseText($aRow[ $aColumns[$i] ]);
+					}
+	
+					else if ($aColumns[$i] == 'id') {
+						$html ="<infoBulleVue> <a href='javascript:visualiser(".$aRow[ $aColumns[$i] ].")' >";
+						$html .="<img style='margin-left: 5%; margin-right: 20%;' src='".$tabURI[0]."public/images_icons/vue.png' title='d&eacute;tails'></a> </infoBulleVue>";
+	
+						$html .= "<infoBulleVue> <a href='javascript:nouvelUtilisateur(".$aRow[ $aColumns[$i] ].")' >";
+						$html .="<img style='display: inline; margin-right: 5%;' src='".$tabURI[0]."public/images_icons/transfert_droite.png' title='suivant'></a> </infoBulleVue>";
+	
+						$row[] = $html;
+					}
+	
+					else {
+						$row[] = $aRow[ $aColumns[$i] ];
+					}
+	
+				}
+			}
+			$output['aaData'][] = $row;
+		}
+		return $output;
+	}
+	
+	public function getAgentPersonnel($id)
+	{
+		$db = $this->tableGateway->getAdapter();
+		$sql = new Sql($db);
+		$sQuery = $sql->select()
+		->from(array('pers' => 'personnel2'))->columns(array('*'))
+		->where(array('id_personne' => $id));
+		
+		$stat = $sql->prepareStatementForSqlObject($sQuery);
+		$Resultat = $stat->execute()->current();
+		
+		return $Resultat;
+	}
+	
+	public function getPhoto($id) {
+		$donneesAgent =  $this->getAgentPersonnel ( $id );
+	
+		$nom = null;
+		if($donneesAgent){$nom = $donneesAgent['photo'];}
+		if ($nom) {
+			return $nom . '.jpg';
+		} else {
+			return 'identite.jpg';
+		}
+	}
+	
+	public function getServiceAgent($id)
+	{
+		$db = $this->tableGateway->getAdapter();
+		$sql = new Sql($db);
+		$sQuery = $sql->select()
+		->from(array('pat' => 'personnel2'))->columns(array('*'))
+		->join(array('sp' => 'servicepersonnel') ,'sp.id_personne = pat.id_personne' , array('*') )
+		->join(array('s' => 'service') ,'s.ID_SERVICE = sp.id_service' , array('NomService' => 'NOM' ,'IdService' => 'ID_SERVICE') )
+		->where(array('pat.id_personne' => $id));
+		$stat = $sql->prepareStatementForSqlObject($sQuery);
+		return  $stat->execute()->current();
 	}
 }

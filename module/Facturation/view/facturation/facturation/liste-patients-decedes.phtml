@@ -10,8 +10,27 @@ $Control = new DateHelper();?>
 <!-- MES JS -->
 <?php echo $this->headScript()->appendFile($this->basePath().'/js/facturation/jsListepatientDecedes.js');?>
 
+<script type="text/javascript">
+$('#plus_deces').toggle(true);
+$("#deces").replaceWith("<li id='deces' style='background:#4a5765;'><a href=''><span style='margin-left:0px; color: #ffffff; font-weight:bold; font-size:18px; font-family:Times New Roman;'> <img style='display: inline;' src='"+tabUrl[0]+"public/images_icons/moins-vert.PNG' alt='Liste' /> D&eacute;c&egrave;s </span></a></li>");
+dep_deces1();
+$('#liste_deces_style').css({'font-weight':'bold','color':'white','font-size':'22px'});
+
+
+$(window).load(function () {
+	$('#wait').toggle(false);
+	$('#contenu').fadeIn().css({'visibility':'visible'});
+});
+</script>
+
+<style>
+  #contenu{ visibility: hidden };
+</style>
+
 <div id="titre" style='font-family: police2; text-decoration:none; color: green; font-size: 18px; font-weight: bold; padding-left: 20px;'><iS style='font-size: 25px;'>&curren;</iS> LISTE DES PATIENTS D&Eacute;C&Eacute;D&Eacute;S</div>
- <div id="contenu" >
+
+<div id="wait" style="color: gray; font-size: 20px; text-align: center; margin-top: 80px;" > <span> Chargement ... </span> </div>
+<div id="contenu" >
 
 		<table class="table table-bordered tab_list_mini" id="patientdeces">
 			<thead>
@@ -43,18 +62,20 @@ $Control = new DateHelper();?>
 					<td><?php echo $this->escapeHtml($donnees['Nationalite']);?></td>
 					<td>
 					    <?php $id = $this->escapeHtml($donnees['Id']);?>
-					    <a href="javascript:affichervue('<?php echo $id ?>') ">
-					       <img style="display: inline;" src='<?php echo $this->basePath().'/images_icons/vue.PNG'?>' alt='Constantes' title="d&eacute;tails" />
+					    <a style='margin-right: 5%; margin-left: 5%;' href="javascript:affichervue('<?php echo $id ?>') ">
+					       <img style="display: inline;" src='<?php echo $this->basePath().'/images_icons/voir2.png'?>' alt='Constantes' title="d&eacute;tails" />
 					    </a>&nbsp;
 
 					    <a href="javascript:modifierdeces('<?php echo $this->escapeHtml($donnees['Id_deces']); ?>')">
-					    	<img style="display: inline;" src='<?php echo $this->basePath().'/images_icons/modifier.PNG'?>' alt='Constantes' title=" Modifier" />
+					    	<img style="display: inline;" src='<?php echo $this->basePath().'/images_icons/pencil_16.png'?>' alt='Constantes' title=" Modifier" />
 					    </a>&nbsp;
 
 
+					   <?php /*
 					   <a href="javascript:envoyer('<?php echo $id ?>')" style="display: inline;" >
 					    	<img  style="display: inline;" src='<?php echo $this->basePath().'/images_icons/sup.PNG'?>' alt='Constantes' title="Supprimer" />
 					    </a>
+					   */ ?>
 					</td>
 				</tr>
 
@@ -108,12 +129,5 @@ $(function(){
 });
 $("#vue_patient").toggle(false);
 $("#modifier_donnees_deces").toggle(false);
-
-
-//POUR LE MENU GAUCHE dans -elementgauche.phtml
-$('#plus_deces').toggle(true);
-$("#deces").replaceWith("<li id='deces' style='background:#4a5765;'><a href=''><span style='margin-left:0px; color: #ffffff; font-weight:bold; font-size:18px; font-family:Times New Roman;'> <img style='display: inline;' src='"+tabUrl[0]+"public/images_icons/moins-vert.PNG' alt='Liste' /> D&eacute;c&egrave;s </span></a></li>");
-dep_deces1();
-$('#liste_deces_style').css({'font-weight':'bold','color':'white','font-size':'22px'});
 
 </script>

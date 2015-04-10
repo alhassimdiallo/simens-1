@@ -177,7 +177,7 @@ table tbody tr:hover
 #listeDataTable{
 	margin-top: 0px;
 	margin-bottom: 0px;
-	margin-left: -10px;
+	margin-left: 0px;
 }
 
 .dataTables_paginate *
@@ -514,7 +514,7 @@ p{
 #form_patient .comment-form-patient label, #form_patient .comment-form-email label, #form_patient .comment-form-url label, #form_patient .comment-form-comment label 
 
 {/* le label*/
-line-height: 1.5em;
+line-height: 1.4em;
 
 background-color: #eeeeee;
 
@@ -556,7 +556,7 @@ padding-left: 10px;
 
 position: relative;
 
-top: 5px;
+top: 10px;
 
 z-index: 1;
 
@@ -783,9 +783,13 @@ padding-left: 10px; /* padding du text dans le champ*/
 
 text-indent: 0px; /* alignement du text dans le champ input*/
 
-width: 85%; /* la largeur du champ input*/
+width: 90%; /* la largeur du champ input*/
+
+top: 6px;
 
 font-size: 17px;
+
+color: green;
 
 }
 
@@ -847,3 +851,87 @@ width:  93%;   /*la largeur du champ input*/
     background: linear-gradient( #eee, #aaa);
 }
 /***************************************************************************************************************************************************/
+
+
+
+#listeRecherche {
+    background: #fff; max-height: 1000px;
+    border: 2px solid #ccc ;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-top: 2px solid #cccccc;
+    padding-left: 25px;
+    box-shadow: 0pt 5pt 12px rgba(0, 0, 0, 0.5);
+}
+
+#labelHeureLABEL, .comment-form-patient label
+{
+line-height: 1.4em;
+
+background-color: #eeeeee;
+
+background-image: none;
+
+background-repeat: repeat;
+
+background-attachment: scroll;
+
+background-position: 0% 0%;
+
+background-clip: border-box;
+
+background-origin: padding-box;
+
+border-top-right-radius: 15px;
+
+background-size: auto auto;
+
+box-shadow: 1px 2px 2px rgba(204, 204, 204, 0.8);
+
+color: #555555;
+
+display: inline-block;
+
+font-size: 13px;
+
+min-width: 60px;
+
+padding-top: 4px;
+
+padding-right: 5px;
+
+padding-bottom: 0px;
+
+padding-left: 10px;
+
+position: relative;
+
+top: 0px;
+
+z-index: 1;
+
+}
+
+
+#zoneChampInfo{
+    height: 40px;
+	border: 2px solid #cccccc ;
+    border-bottom-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+#zoneChampInfo1{
+	padding-top: 5px;
+    min-height: 25px;
+	border: 2px solid #cccccc ;
+    border-bottom-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+#zoneChampInfoVue{
+	width: 95%;
+    min-height: 25px;
+	font-size: 17px;
+	border: 1px solid #cccccc ;
+    border-bottom-left-radius: 10px;
+}

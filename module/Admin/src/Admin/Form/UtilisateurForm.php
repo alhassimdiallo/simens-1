@@ -84,9 +84,9 @@ class UtilisateurForm extends Form
 		
 		$this->add(array(
 				'name' => 'nomUtilisateur',
-				'type' => 'Text',
+				'type' => 'Hidden',
 				'options' => array (
-						'label' => 'Nom'
+						//'label' => 'Nom'
 				),
 				'attributes' => array(
 						'id' => 'nomUtilisateur',
@@ -96,12 +96,30 @@ class UtilisateurForm extends Form
 		
 		$this->add(array(
 				'name' => 'prenomUtilisateur',
-				'type' => 'Text',
+				'type' => 'Hidden',
 				'options' => array (
-						'label' => 'Prenom'
+						//'label' => 'Prenom'
 				),
 				'attributes' => array(
 						'id' => 'prenomUtilisateur',
+						'required' => true,
+				),
+		));
+		
+		$this->add(array(
+				'name' => 'idService',
+				'type' => 'Hidden',
+				'attributes' => array(
+						'id' => 'idService',
+						'required' => true,
+				),
+		));
+		
+		$this->add(array(
+				'name' => 'idPersonne',
+				'type' => 'Hidden',
+				'attributes' => array(
+						'id' => 'idPersonne',
 						'required' => true,
 				),
 		));

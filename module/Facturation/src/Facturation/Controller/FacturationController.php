@@ -127,7 +127,7 @@ class FacturationController extends AbstractActionController {
 		$formAdmission = new AdmissionForm ();
 		// r�cup�ration de la liste des hopitaux
 		//$service = $this->getServiceTable ()->fetchService ();
-		$service = $this->getTarifConsultationTable()->fetchService();
+		$service = $this->getTarifConsultationTable()->listeService();
 		
 		$listeService = $this->getServiceTable ()->listeService ();
 		$afficheTous = array ("" => 'Tous');
@@ -157,26 +157,29 @@ class FacturationController extends AbstractActionController {
 
 			$html  = "<div style='width:100%;'>";
 			
-			$html .= "<div style='width: 18%; height: 180px; float:left;'>";
+			$html .= "<div style='width: 18%; height: 220px; float:left;'>";
 			$html .= "<div id='photo' style='float:left; margin-left:40px; margin-top:10px; margin-right:30px;'> <img style='width:105px; height:105px;' src='".$this->baseUrl()."public/img/photos_patients/" . $photo . "' ></div>";
 			$html .= "</div>";
 			
-			$html .= "<div style='width: 65%; height: 180px; float:left;'>";
+			$html .= "<div style='width: 65%; height: 220px; float:left;'>";
 			$html .= "<table style='margin-top:10px; float:left; width: 100%;'>";
 			$html .= "<tr style='width: 100%;'>";
-			$html .= "<td style='width: 20%; height: 50px;'><a style='text-decoration:underline; font-size:12px;'>Nom:</a><br><p style='font-weight:bold; font-size:17px;'>" . $unPatient->nom . "</p></td>";
-			$html .= "<td style='width: 30%; height: 50px;'><a style='text-decoration:underline; font-size:12px;'>Lieu de naissance:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $unPatient->lieu_naissance . "</p></td>";
-			$html .= "<td style='width: 20%; height: 50px;'><a style='text-decoration:underline; font-size:12px;'>Nationalit&eacute; d'origine:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $unPatient->nationalite_origine . "</p></td>";
+			$html .="<td style='width: 25%; vertical-align:top; margin-right:10px;'><span id='labelHeureLABELVue' style='font-weight:bold; font-size:15px; padding-left: 5px; color: #065d10; font-family: Times  New Roman;'>Nom</span><br><p id='zoneChampInfoVue' style='background:#f8faf8; padding-left: 5px;'> ". $unPatient->nom ." </p></td>";
+			$html .="<td style='width: 25%; vertical-align:top; margin-right:10px;'><span id='labelHeureLABELVue' style='font-weight:bold; font-size:15px; padding-left: 5px; color: #065d10; font-family: Times  New Roman;'>Lieu de naissance</span><br><p id='zoneChampInfoVue' style='background:#f8faf8; padding-left: 5px;'> ". $unPatient->lieu_naissance ." </p></td>";
+			$html .="<td style='width: 25%; vertical-align:top; margin-right:10px;'><span id='labelHeureLABELVue' style='font-weight:bold; font-size:15px; padding-left: 5px; color: #065d10; font-family: Times  New Roman;'>Nationalit&eacute; d'origine</span><br><p id='zoneChampInfoVue' style='background:#f8faf8; padding-left: 5px;'> ". $unPatient->nationalite_origine ." </p></td>";
+				
 			$html .= "<td style='width: 30%; height: 50px;'></td>";
 			$html .= "</tr><tr style='width: 100%;'>";
-			$html .= "<td style='width: 20%; height: 50px;'><a style='text-decoration:underline; font-size:12px;'>Pr&eacute;nom:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $unPatient->prenom . "</p></td>";
-			$html .= "<td style='width: 30%; height: 50px;'><a style='text-decoration:underline; font-size:12px;'>T&eacute;l&eacute;phone:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $unPatient->telephone . "</p></td>";
-			$html .= "<td style='width: 20%; height: 50px;'><a style='text-decoration:underline; font-size:12px;'>Nationalit&eacute; actuelle:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $unPatient->nationalite_actuelle . "</p></td>";
-			$html .= "<td style='width: 30%; height: 50px;'><a style='text-decoration:underline; font-size:12px;'>Email:</a><br><p style='font-weight:bold; font-size:17px;'>" . $unPatient->email . "</p></td>";
+			$html .="<td style='width: 25%; vertical-align:top; margin-right:10px;'><span id='labelHeureLABELVue' style='font-weight:bold; font-size:15px; padding-left: 5px; color: #065d10; font-family: Times  New Roman;'>Pr&eacute;nom</span><br><p id='zoneChampInfoVue' style='background:#f8faf8; padding-left: 5px;'> ". $unPatient->prenom ." </p></td>";
+			$html .="<td style='width: 25%; vertical-align:top; margin-right:10px;'><span id='labelHeureLABELVue' style='font-weight:bold; font-size:15px; padding-left: 5px; color: #065d10; font-family: Times  New Roman;'>T&eacute;l&eacute;phone</span><br><p id='zoneChampInfoVue' style='background:#f8faf8; padding-left: 5px;'> ". $unPatient->telephone ." </p></td>";
+			$html .="<td style='width: 25%; vertical-align:top; margin-right:10px;'><span id='labelHeureLABELVue' style='font-weight:bold; font-size:15px; padding-left: 5px; color: #065d10; font-family: Times  New Roman;'>Nationalit&eacute; actuelle</span><br><p id='zoneChampInfoVue' style='background:#f8faf8; padding-left: 5px;'> ". $unPatient->nationalite_actuelle ." </p></td>";
+			$html .="<td style='width: 25%; vertical-align:top; margin-right:10px;'><span id='labelHeureLABELVue' style='font-weight:bold; font-size:15px; padding-left: 5px; color: #065d10; font-family: Times  New Roman;'>Email</span><br><p id='zoneChampInfoVue' style='background:#f8faf8; padding-left: 5px;'> ". $unPatient->email ." </p></td>";
+				
 			$html .= "</tr><tr style='width: 100%;'>";
-			$html .= "<td style='width: 20%; height: 50px; vertical-align: top;'><a style='text-decoration:underline; font-size:12px;'>Date de naissance:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $date . "</p></td>";
-			$html .= "<td style='width: 30%; height: 50px; vertical-align: top;'><a style='text-decoration:underline; font-size:12px;'>Adresse:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $unPatient->adresse . "</p></td>";
-			$html .= "<td style='width: 20%; height: 50px; vertical-align: top;'><a style='text-decoration:underline; font-size:12px;'>Profession:</a><br><p style=' font-weight:bold; font-size:17px;'>" .  $unPatient->profession . "</p></td>";
+			$html .="<td style='width: 25%; vertical-align:top; margin-right:10px;'><span id='labelHeureLABELVue' style='font-weight:bold; font-size:15px; padding-left: 5px; color: #065d10; font-family: Times  New Roman;'>Date de naissance</span><br><p id='zoneChampInfoVue' style='background:#f8faf8; padding-left: 5px;'> ". $date ." </p></td>";
+			$html .="<td style='width: 25%; vertical-align:top; margin-right:10px;'><span id='labelHeureLABELVue' style='font-weight:bold; font-size:15px; padding-left: 5px; color: #065d10; font-family: Times  New Roman;'>Adresse</span><br><p id='zoneChampInfoVue' style='background:#f8faf8; padding-left: 5px;'> ". $unPatient->adresse ." </p></td>";
+			$html .="<td style='width: 25%; vertical-align:top; margin-right:10px;'><span id='labelHeureLABELVue' style='font-weight:bold; font-size:15px; padding-left: 5px; color: #065d10; font-family: Times  New Roman;'>Profession</span><br><p id='zoneChampInfoVue' style='background:#f8faf8; padding-left: 5px;'> ". $unPatient->profession ." </p></td>";
+				
 			$html .= "<td style='width: 30%; height: 50px;'>";
 			if($RendezVOUS){
 				$html .= "<span> <i style='color:green;'>
@@ -190,13 +193,14 @@ class FacturationController extends AbstractActionController {
 			$html .= "</table>";
 			$html .="</div>";
 			
-			$html .= "<div style='width: 17%; height: 180px; float:left;'>";
+			$html .= "<div style='width: 17%; height: 220px; float:left;'>";
 			$html .= "<div id='' style='color: white; opacity: 0.09; float:left; margin-right:20px; margin-left:25px; margin-top:5px;'> <img style='width:105px; height:105px;' src='".$this->baseUrl()."public/img/photos_patients/" . $photo . "'></div>";
 			$html .= "</div>";
 			
 			$html .= "</div>";
 			
-			$html .= "<script>$('#numero').val('" . $numero . "');
+			$html .= "<script>
+					         $('#numero').val('" . $numero . "');
 					         $('#numero').css({'background':'#eee','border-bottom-width':'0px','border-top-width':'0px','border-left-width':'0px','border-right-width':'0px','font-weight':'bold','color':'#065d10','font-family': 'Times  New Roman','font-size':'17px'});
 					         $('#numero').attr('readonly',true);
 
@@ -747,11 +751,10 @@ class FacturationController extends AbstractActionController {
 
 			$id_service = ( int ) $this->params ()->fromPost ( 'id', 0 ); // id du service
 
-			$tarifs = $this->getTarifConsultationTable ();
-			$tarif = $tarifs->getActe ( $id_service );
+			$tarif = $this->getTarifConsultationTable ()->TarifDuService ( $id_service );
 
-			if ($tarif->pasf_tn) {
-				$montant = $tarif->pasf_tn . ' frs';
+			if ($tarif) {
+				$montant = $tarif['TARIF'] . ' frs';
 			} else {
 				$montant = '';
 			}
@@ -1223,7 +1226,7 @@ class FacturationController extends AbstractActionController {
 					'id_deces' => $id,
 					'date_deces'   =>$this->convertDate($enregDeces->date_deces),
 					'heure_deces'  =>$enregDeces->heure_deces,
-					'age_deces'    =>$enregDeces->age_deces,
+					'age_deces'    =>$enregDeces->age_deces.' ans',
 					'lieu_deces'   =>$enregDeces->lieu_deces,
 					'circonstances_deces' =>$enregDeces->circonstances_deces,
 					'note'  =>$enregDeces->note_importante,
@@ -1232,8 +1235,8 @@ class FacturationController extends AbstractActionController {
 			$form->populateValues($donnees);
 
 
-			$html ="<a href='' id='precedent' style='font-family: police2; width:50px; margin-left:30px;'>
-	                 <img style='display: inline;' src='".$chemin."/images_icons/left_16.PNG' alt='Constantes' title='Retour' />
+			$html ="<a id='precedent' style='cursor: pointer; text-decoration: none; font-family: police2; width:50px; margin-left:30px;'>
+					 <img style='display: inline;' src='".$chemin."/images_icons/left_16.png' />
 		             Retour
 		           </a>";
 
@@ -1291,6 +1294,14 @@ class FacturationController extends AbstractActionController {
 		               </tr>
 		            </table>";
             $html .="</div>";
+            
+            //Rendre non modifiable la date du deces
+            //Rendre non modifiable la date du deces
+            $html .="<script> 
+            		   $('#age_deces').css({'background':'#eee','border-bottom-width':'0px','border-top-width':'0px','border-left-width':'0px','border-right-width':'0px','font-weight':'bold','color':'#065d10','font-family': 'Times  New Roman','font-size':'17px'});
+					   $('#age_deces').attr('readonly',true);
+            		 </script>";
+            
             
             $html .="<div style='float:left; width:5%;'>";
 			$html .="<div id='barre_vertical'></div>
@@ -1386,26 +1397,51 @@ class FacturationController extends AbstractActionController {
 
 		$html  = "<div style='width:100%;'>";
 			
-		$html .= "<div style='width: 18%; height: 180px; float:left;'>";
+		$html .= "<div style='width: 18%; height: 240px; float:left;'>";
 		$html .= "<div id='photo' style='float:left; margin-left:40px; margin-top:10px; margin-right:30px;'> <img style='width:105px; height:105px;' src='".$this->baseUrl()."public/img/photos_patients/" . $photo . "' ></div>";
 		$html .= "</div>";
 			
-		$html .= "<div style='width: 65%; height: 180px; float:left;'>";
-		$html .= "<table style='margin-top:10px; float:left'>";
-		$html .= "<tr>";
-		$html .= "<td><a style='text-decoration:underline; font-size:12px;'>Nom:</a><br><p style='width:150px; font-weight:bold; font-size:17px;'>" . $unPatient->nom . "</p></td>";
-		$html .= "<td><a style='text-decoration:underline; font-size:12px;'>Lieu de naissance:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $unPatient->lieu_naissance . "</p></td>";
-		$html .= "<td><a style='text-decoration:underline; font-size:12px;'>Nationalit&eacute; d'origine:</a><br><p style='width:150px; font-weight:bold; font-size:17px;'>" . $unPatient->nationalite_origine . "</p></td>";
-		$html .= "</tr><tr>";
-		$html .= "<td><a style='text-decoration:underline; font-size:12px;'>Pr&eacute;nom:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $unPatient->prenom . "</p></td>";
-		$html .= "<td><a style='text-decoration:underline; font-size:12px;'>T&eacute;l&eacute;phone:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $unPatient->telephone . "</p></td>";
-		$html .= "<td><a style='text-decoration:underline; font-size:12px;'>Nationalit&eacute; actuelle:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $unPatient->nationalite_actuelle . "</p></td>";
-		$html .= "<td><a style='text-decoration:underline; font-size:12px;'>Email:</a><br><p style='width:200px; font-weight:bold; font-size:17px;'>" . $unPatient->email . "</p></td>";
-		$html .= "</tr><tr>";
-		$html .= "<td style='width: 30%;vertical-align: top;'><a style='text-decoration:underline; font-size:12px;'>Date de naissance:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $this->convertDate($unPatient->date_naissance) . "</p></td>";
-		$html .= "<td style='width: 20%;vertical-align: top;'><a style='text-decoration:underline; font-size:12px;'>Adresse:</a><br><p style='width:210px; font-weight:bold; font-size:17px;'>" . $unPatient->adresse . "</p></td>";
-		$html .= "<td style='width: 20%;vertical-align: top;'><a style='text-decoration:underline; font-size:12px;'>Profession:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $unPatient->profession . "</p></td>";
+// 		$html .= "<div style='width: 65%; height: 180px; float:left;'>";
+// 		$html .= "<table style='margin-top:10px; float:left'>";
+// 		$html .= "<tr>";
+// 		//$html .= "<td><a style='text-decoration:underline; font-size:12px;'>Nom:</a><br><p style='width:150px; font-weight:bold; font-size:17px;'>" . $unPatient->nom . "</p></td>";
+// 		$html .="<td style='width: 25%; vertical-align:top; margin-right:10px;'><span id='labelHeureLABELVue' style='font-weight:bold; font-size:15px; padding-left: 5px; color: #065d10; font-family: Times  New Roman;'>Nom</span><br><p id='zoneChampInfoVue' style='background:#f8faf8; padding-left: 5px;'> ". $unPatient->nom ." </p></td>";
+// 		$html .= "<td><a style='text-decoration:underline; font-size:12px;'>Lieu de naissance:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $unPatient->lieu_naissance . "</p></td>";
+// 		$html .= "<td><a style='text-decoration:underline; font-size:12px;'>Nationalit&eacute; d'origine:</a><br><p style='width:150px; font-weight:bold; font-size:17px;'>" . $unPatient->nationalite_origine . "</p></td>";
+// 		$html .= "</tr><tr>";
+// 		$html .= "<td><a style='text-decoration:underline; font-size:12px;'>Pr&eacute;nom:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $unPatient->prenom . "</p></td>";
+// 		$html .= "<td><a style='text-decoration:underline; font-size:12px;'>T&eacute;l&eacute;phone:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $unPatient->telephone . "</p></td>";
+// 		$html .= "<td><a style='text-decoration:underline; font-size:12px;'>Nationalit&eacute; actuelle:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $unPatient->nationalite_actuelle . "</p></td>";
+// 		$html .= "<td><a style='text-decoration:underline; font-size:12px;'>Email:</a><br><p style='width:200px; font-weight:bold; font-size:17px;'>" . $unPatient->email . "</p></td>";
+// 		$html .= "</tr><tr>";
+// 		$html .= "<td style='width: 30%;vertical-align: top;'><a style='text-decoration:underline; font-size:12px;'>Date de naissance:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $this->convertDate($unPatient->date_naissance) . "</p></td>";
+// 		$html .= "<td style='width: 20%;vertical-align: top;'><a style='text-decoration:underline; font-size:12px;'>Adresse:</a><br><p style='width:210px; font-weight:bold; font-size:17px;'>" . $unPatient->adresse . "</p></td>";
+// 		$html .= "<td style='width: 20%;vertical-align: top;'><a style='text-decoration:underline; font-size:12px;'>Profession:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $unPatient->profession . "</p></td>";
+// 		$html .= "<td style='width: 30%; height: 50px;'>";
+
+		
+		$html .= "<div style='width: 65%; height: 240px; float:left;'>";
+		$html .= "<table style='margin-top:10px; float:left; width: 100%;'>";
+		$html .= "<tr style='width: 100%;'>";
+		$html .="<td style='width: 25%; vertical-align:top; margin-right:10px;'><span id='labelHeureLABELVue' style='font-weight:bold; font-size:16px; padding-left: 5px; color: #065d10; font-family: Times  New Roman;'>Nom</span><br><p id='zoneChampInfoVue' style='background:#f8faf8; padding-left: 5px; padding-top: 5px;'> ". $unPatient->nom ." </p></td>";
+		$html .="<td style='width: 25%; vertical-align:top; margin-right:10px;'><span id='labelHeureLABELVue' style='font-weight:bold; font-size:16px; padding-left: 5px; color: #065d10; font-family: Times  New Roman;'>Lieu de naissance</span><br><p id='zoneChampInfoVue' style='background:#f8faf8; padding-left: 5px; padding-top: 5px;'> ". $unPatient->lieu_naissance ." </p></td>";
+		$html .="<td style='width: 25%; vertical-align:top; margin-right:10px;'><span id='labelHeureLABELVue' style='font-weight:bold; font-size:16px; padding-left: 5px; color: #065d10; font-family: Times  New Roman;'>Nationalit&eacute; d'origine</span><br><p id='zoneChampInfoVue' style='background:#f8faf8; padding-left: 5px; padding-top: 5px;'> ". $unPatient->nationalite_origine ." </p></td>";
+		
+		$html .= "<td style='width: 30%; height: 50px;'></td>";
+		$html .= "</tr><tr style='width: 100%;'>";
+		$html .="<td style='width: 25%; vertical-align:top; margin-right:10px;'><span id='labelHeureLABELVue' style='font-weight:bold; font-size:16px; padding-left: 5px; color: #065d10; font-family: Times  New Roman;'>Pr&eacute;nom</span><br><p id='zoneChampInfoVue' style='background:#f8faf8; padding-left: 5px; padding-top: 5px;'> ". $unPatient->prenom ." </p></td>";
+		$html .="<td style='width: 25%; vertical-align:top; margin-right:10px;'><span id='labelHeureLABELVue' style='font-weight:bold; font-size:16px; padding-left: 5px; color: #065d10; font-family: Times  New Roman;'>T&eacute;l&eacute;phone</span><br><p id='zoneChampInfoVue' style='background:#f8faf8; padding-left: 5px; padding-top: 5px;'> ". $unPatient->telephone ." </p></td>";
+		$html .="<td style='width: 25%; vertical-align:top; margin-right:10px;'><span id='labelHeureLABELVue' style='font-weight:bold; font-size:16px; padding-left: 5px; color: #065d10; font-family: Times  New Roman;'>Nationalit&eacute; actuelle</span><br><p id='zoneChampInfoVue' style='background:#f8faf8; padding-left: 5px; padding-top: 5px;'> ". $unPatient->nationalite_actuelle ." </p></td>";
+		$html .="<td style='width: 25%; vertical-align:top; margin-right:10px;'><span id='labelHeureLABELVue' style='font-weight:bold; font-size:16px; padding-left: 5px; color: #065d10; font-family: Times  New Roman;'>Email</span><br><p id='zoneChampInfoVue' style='background:#f8faf8; padding-left: 5px; padding-top: 5px;'> ". $unPatient->email ." </p></td>";
+		
+		$html .= "</tr><tr style='width: 100%;'>";
+		$html .="<td style='width: 25%; vertical-align:top; margin-right:10px;'><span id='labelHeureLABELVue' style='font-weight:bold; font-size:16px; padding-left: 5px; color: #065d10; font-family: Times  New Roman;'>Date de naissance</span><br><p id='zoneChampInfoVue' style='background:#f8faf8; padding-left: 5px; padding-top: 5px;'> ". $this->convertDate($unPatient->date_naissance) ." </p></td>";
+		$html .="<td style='width: 25%; vertical-align:top; margin-right:10px;'><span id='labelHeureLABELVue' style='font-weight:bold; font-size:16px; padding-left: 5px; color: #065d10; font-family: Times  New Roman;'>Adresse</span><br><p id='zoneChampInfoVue' style='background:#f8faf8; padding-left: 5px; padding-top: 5px;'> ". $unPatient->adresse ." </p></td>";
+		$html .="<td style='width: 25%; vertical-align:top; margin-right:10px;'><span id='labelHeureLABELVue' style='font-weight:bold; font-size:16px; padding-left: 5px; color: #065d10; font-family: Times  New Roman;'>Profession</span><br><p id='zoneChampInfoVue' style='background:#f8faf8; padding-left: 5px; padding-top: 5px;'> ". $unPatient->profession ." </p></td>";
 		$html .= "<td style='width: 30%; height: 50px;'>";
+		
+		
+		
 		if($RendezVOUS){
 			$html .= "<span> <i style='color:green;'>
 					        <span id='image-neon' style='color:red; font-weight:bold;'>Rendez-vous! </span> <br>
@@ -1418,7 +1454,7 @@ class FacturationController extends AbstractActionController {
 		$html .= "</table>";
 		$html .="</div>";
 			
-		$html .= "<div style='width: 17%; height: 180px; float:left;'>";
+		$html .= "<div style='width: 17%; height: 240px; float:left;'>";
 		$html .= "<div id='' style='color: white; opacity: 0.09; float:left; margin-right:20px; margin-left:25px; margin-top:5px;'> <img style='width:105px; height:105px;' src='".$this->baseUrl()."public/img/photos_patients/" . $photo . "'></div>";
 		$html .= "</div>";
 			
@@ -1427,19 +1463,22 @@ class FacturationController extends AbstractActionController {
 		$html .="<div id='titre_info_admis'>Informations sur la facturation</div>";
 		$html .="<div id='barre_separateur'></div>";
 
-		$html .="<table style='margin-top:10px; margin-left:195px;'>";
-		$html .="<tr>";
-		$html .="<td style='width:240px; '><a style='float:left; margin-right: 10px; text-decoration:underline; font-size:13px;'>Date consultation:</a><div id='inform' style='width:100px; float:left; font-weight:bold; font-size:17px;'>".$this->convertDate($InfoAdmis->date_cons)."</div></td>";
-		$html .="<td style='width:220px; '><a style='float:left; margin-right: 10px; text-decoration:underline; font-size:13px;'>Num&eacute;ro facture:</a><div id='inform' style='width:60px; float:left; font-weight:bold; font-size:17px;'>".$InfoAdmis->numero."</div></td>";
-		$html .="<td style='width:440px; '><a style='float:left; margin-right: 10px; text-decoration:underline; font-size:13px;'>Service:</a><div id='inform' style='width:300px; float:left; font-weight:bold; font-size:17px;'>".$InfoService->nom."</div></td>";
+		$html .="<table style='margin-top:10px; margin-left:195px; width: 80%;'>";
+
+		$html .="<tr style='width: 80%;'>";
+		$html .="<td style='width: 25%; vertical-align:top; margin-right:10px;'><span id='labelHeureLABEL' style='font-weight:bold; font-size:15px; padding-left: 5px; color: #065d10; font-family: Times  New Roman;'>Date consultation</span><br><p id='zoneChampInfo1' style='background:#f8faf8; padding-left: 5px; padding-top: 5px;'> ". $this->convertDate($InfoAdmis->date_cons) ." </p></td>";
+		$html .="<td style='width: 25%; vertical-align:top; margin-right:10px;'><span id='labelHeureLABEL' style='font-weight:bold; font-size:15px; padding-left: 5px; color: #065d10; font-family: Times  New Roman;'>Num&eacute;ro facture</span><br><p id='zoneChampInfo1' style='background:#f8faf8; padding-left: 5px; padding-top: 5px;'> ". $InfoAdmis->numero ." </p></td>";
+		$html .="<td style='width: 25%; vertical-align:top; margin-right:10px;'><span id='labelHeureLABEL' style='font-weight:bold; font-size:15px; padding-left: 5px; color: #065d10; font-family: Times  New Roman;'>Service</span><br><p id='zoneChampInfo1' style='background:#f8faf8; padding-left: 5px; padding-top: 5px;'> ". $InfoService->nom ." </p></td>";
+		$html .="<td style='width: 25%; vertical-align:top; margin-right:10px;'><span id='labelHeureLABEL' style='font-weight:bold; font-size:15px; padding-left: 5px; color: #065d10; font-family: Times  New Roman;'>Montant</span><br><p id='zoneChampInfo1' style='background:#f8faf8; padding-left: 5px; padding-top: 5px;'> ". $InfoAdmis->montant." francs </p></td>";
 		$html .="</tr>";
-		$html .="<tr><td style='width:200px; padding-top: 10px;'><a style='float:left; margin-right: 10px; text-decoration:underline; font-size:13px;'> Montant:</a><div id='inform' style='width:100px; float:left; font-weight:bold; font-size:17px;'>".$InfoAdmis->montant." francs</div></td></tr>";
 
 		$html .="</table>";
-		$html .="<table style='margin-top:10px; margin-left:195px;'>";
-		$html .="<tr>";
-		$html .="<td style='padding-top: 10px;'><a style='text-decoration:underline; font-size:13px;'>Note:</a><br><p id='circonstance_deces' style='background:#f8faf8; font-weight:bold; font-size:17px;'>".$InfoAdmis->note."</p></td>";
-		$html .="<td class='block' id='thoughtbot' style='display: inline-block;  vertical-align: bottom; padding-left:350px; padding-bottom: 15px;'><button type='submit' id='terminer'>Terminer</button></td>";
+		$html .="<table style='margin-top:10px; margin-left:195px; width: 80%;'>";
+		$html .="<tr style='width: 80%;'>";
+		
+		$html .="<td style='padding-top: 10px; width: 35%; height: 100px; vertical-align:top; margin-right:10px;'><span id='labelHeureLABEL' style='font-weight:bold; font-size:15px; padding-left: 5px; color: #065d10; font-family: Times  New Roman;'>Note</span><br><p id='zoneChampInfo' style='background:#f8faf8; padding-left: 5px;'> ". $InfoAdmis->note." </p></td>";
+		$html .="<td class='block' id='thoughtbot' style='width: 35%; display: inline-block;  vertical-align: bottom; padding-left:350px; padding-bottom: 15px; padding-right: 150px;'><button type='submit' id='terminer'>Terminer</button></td>";
+
 		$html .="</tr>";
 		$html .="</table>";
 

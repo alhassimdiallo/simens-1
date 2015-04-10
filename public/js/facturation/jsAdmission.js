@@ -37,7 +37,22 @@ function visualiser(id){
          dataType: "html"
      });
 }
-
+$(function(){
+setTimeout(function() {
+	infoBulle();
+}, 1000);
+});
+function infoBulle(){
+	/***
+	 * INFO BULLE FE LA LISTE
+	 */
+	 var tooltips = $( 'table tbody tr td infoBulleVue' ).tooltip({show: {effect: 'slideDown', delay: 250}});
+	     tooltips.tooltip( 'close' );
+	  $('table tbody tr td infoBulleVue').mouseenter(function(){
+	    var tooltips = $( 'table tbody tr td infoBulleVue' ).tooltip({show: {effect: 'slideDown', delay: 250}});
+	    tooltips.tooltip( 'open' );
+	  });
+}
 
 function initialisation(){
 	

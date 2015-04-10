@@ -1545,6 +1545,263 @@ class ConsultationController extends AbstractActionController {
 	
 	}
 	
+	public function rechercheVisualisationConsultationAction(){
+
+		$LeService = $this->layout ()->service;
+		$LigneDuService = $this->getServiceTable ()->getServiceParNom ( $LeService );
+		$IdDuService = $LigneDuService ['ID_SERVICE'];
+		
+		$this->layout ()->setTemplate ( 'layout/consultation' );
+		$this->getDateHelper();
+		$id_pat = $this->params()->fromQuery ( 'id_patient', 0 );
+		$id = $this->params()->fromQuery ( 'id_cons' );
+		$form = new ConsultationForm();
+			
+		$list = $this->getPatientTable ();
+		$liste = $list->getPatient ( $id_pat );
+		// Recuperer la photo du patient
+		$image = $list->getPhoto ( $id_pat );
+			
+		//POUR LES CONSTANTES
+		//POUR LES CONSTANTES
+		//POUR LES CONSTANTES
+		$cons = $this->getConsultationTable ();
+		$consult = $cons->getConsult ( $id );
+		
+		$data = array (
+				'id_cons' => $consult->id_cons,
+				'id_medecin' => $consult->id_personne,
+				'id_patient' => $consult->pat_id_personne,
+				'date_cons' => $consult->date,
+				'poids' => $consult->poids,
+				'taille' => $consult->taille,
+				'temperature' => $consult->temperature,
+				'pressionarterielle' => $consult->pression_arterielle,
+				'pouls' => $consult->pouls,
+				'frequence_respiratoire' => $consult->frequence_respiratoire,
+				'glycemie_capillaire' => $consult->glycemie_capillaire,
+		);
+		
+		//POUR LES MOTIFS D'ADMISSION
+		//POUR LES MOTIFS D'ADMISSION
+		//POUR LES MOTIFS D'ADMISSION
+		// instancier le motif d'admission et recup�rer l'enregistrement
+		$motif = $this->getMotifAdmissionTable ();
+		$motif_admission = $motif->getMotifAdmission ( $id );
+		$nbMotif = $motif->nbMotifs ( $id );
+		//POUR LES MOTIFS D'ADMISSION
+		$k = 1;
+		foreach ( $motif_admission as $Motifs ) {
+			$data ['motif_admission' . $k] = $Motifs ['Libelle_motif'];
+			$k ++;
+		}
+		//POUR LES EXAMEN PHYSIQUES
+		//POUR LES EXAMEN PHYSIQUES
+		//POUR LES EXAMEN PHYSIQUES
+		//instancier les donn�es de l'examen physique
+		$examen = $this->getDonneesExamensPhysiquesTable();
+		$examen_physique = $examen->getExamensPhysiques($id);
+		//POUR LES EXAMEN PHYSIQUES
+		$kPhysique = 1;
+		foreach ($examen_physique as $Examen) {
+			$data['examen_donnee'.$kPhysique] = $Examen['libelle_examen'];
+			$kPhysique++;
+		}
+		
+		// POUR LES ANTECEDENTS OU TERRAIN PARTICULIER
+		// POUR LES ANTECEDENTS OU TERRAIN PARTICULIER
+		// POUR LES ANTECEDENTS OU TERRAIN PARTICULIER
+		$listeConsultation = $cons->getConsultationPatient($id_pat);
+		
+		//POUR LES EXAMENS COMPLEMENTAIRES
+		//POUR LES EXAMENS COMPLEMENTAIRES
+		//POUR LES EXAMENS COMPLEMENTAIRES
+		// DEMANDES DES EXAMENS COMPLEMENTAIRES
+		$demandeExamen = $this->demandeExamensTable();
+		$listeDemandesMorphologiques = $demandeExamen->getDemandeExamensMorphologiques($id);
+		$listeDemandesBiologiques = $demandeExamen->getDemandeExamensBiologiques($id);
+		
+		////RESULTATS DES EXAMENS BIOLOGIQUES DEJA EFFECTUES ET ENVOYER PAR LE BIOLOGISTE
+		$listeDemandesBiologiquesEffectuerEnvoyer = $demandeExamen->getDemandeExamensBiologiquesEffectuesEnvoyer($id);
+		
+		foreach ($listeDemandesBiologiquesEffectuerEnvoyer as $listeExamenBioEffectues){
+			if($listeExamenBioEffectues['idExamen'] == 1){
+				$data['groupe_sanguin'] =  $listeExamenBioEffectues['noteResultat'];
+			}
+			if($listeExamenBioEffectues['idExamen'] == 2){
+				$data['hemogramme_sanguin'] =  $listeExamenBioEffectues['noteResultat'];
+			}
+			if($listeExamenBioEffectues['idExamen'] == 3){
+				$data['bilan_hepatique'] =  $listeExamenBioEffectues['noteResultat'];
+			}
+			if($listeExamenBioEffectues['idExamen'] == 4){
+				$data['bilan_renal'] =  $listeExamenBioEffectues['noteResultat'];
+			}
+			if($listeExamenBioEffectues['idExamen'] == 5){
+				$data['bilan_hemolyse'] =  $listeExamenBioEffectues['noteResultat'];
+			}
+			if($listeExamenBioEffectues['idExamen'] == 6){
+				$data['bilan_inflammatoire'] =  $listeExamenBioEffectues['noteResultat'];
+			}
+		}
+		
+		// RESULTATS DES EXAMENS COMPLEMENTAIRES
+		$resultatExamenMorphologique = $this->getNotesExamensMorphologiquesTable();
+		$examen_morphologique = $resultatExamenMorphologique->getNotesExamensMorphologiques($id);
+		
+		$data['radio'] = $examen_morphologique['radio'];
+		$data['ecographie'] = $examen_morphologique['ecographie'];
+		$data['fibrocospie'] = $examen_morphologique['fibroscopie'];
+		$data['scanner'] = $examen_morphologique['scanner'];
+		$data['irm'] = $examen_morphologique['irm'];
+		
+		//DIAGNOSTICS
+		//DIAGNOSTICS
+		//DIAGNOSTICS
+		//instancier les donn�es des diagnostics
+		$diagnostics = $this->getDiagnosticsTable();
+		$infoDiagnostics = $diagnostics->getDiagnostics($id);
+		// POUR LES DIAGNOSTICS
+		$k = 1;
+		foreach ($infoDiagnostics as $diagnos){
+			$data['diagnostic'.$k] = $diagnos['libelle_diagnostics'];
+			$k++;
+		}
+		
+		//TRAITEMENT (Ordonnance) *********************************************************
+		//TRAITEMENT (Ordonnance) *********************************************************
+		//TRAITEMENT (Ordonnance) *********************************************************
+		
+		//POUR LES MEDICAMENTS
+		//POUR LES MEDICAMENTS
+		//POUR LES MEDICAMENTS
+		// INSTANCIATION DES MEDICAMENTS de l'ordonnance
+		$consommable = $this->getConsommableTable();
+		$listeMedicament = $consommable->listeDeTousLesMedicaments();
+		$listeForme = $consommable->formesMedicaments();
+		$listetypeQuantiteMedicament = $consommable->typeQuantiteMedicaments();
+		
+		// INSTANTIATION DE L'ORDONNANCE
+		$ordonnance = $this->getOrdonnanceTable();
+		$infoOrdonnance = $ordonnance->getOrdonnance($id); //on recupere l'id de l'ordonnance
+		
+		if($infoOrdonnance) {
+			$idOrdonnance = $infoOrdonnance->id_document;
+			$duree_traitement = $infoOrdonnance->duree_traitement;
+		
+			//LISTE DES MEDICAMENTS PRESCRITS
+			$listeMedicamentsPrescrits = $ordonnance->getMedicamentsParIdOrdonnance($idOrdonnance);
+			$nbMedPrescrit = $listeMedicamentsPrescrits->count();
+		}else{
+			$nbMedPrescrit = null;
+			$listeMedicamentsPrescrits =null;
+			$duree_traitement = null;
+		}
+		//POUR LA DEMANDE PRE-ANESTHESIQUE
+		//POUR LA DEMANDE PRE-ANESTHESIQUE
+		//POUR LA DEMANDE PRE-ANESTHESIQUE
+		$DemandeVPA = $this->getDemandeVisitePreanesthesiqueTable();
+		$donneesDemandeVPA = $DemandeVPA->getDemandeVisitePreanesthesique($id);
+		$resultatVpa = null;
+		if($donneesDemandeVPA) {
+			$data['diagnostic_traitement_chirurgical'] = $donneesDemandeVPA['DIAGNOSTIC'];
+			$data['observation'] = $donneesDemandeVPA['OBSERVATION'];
+			$data['intervention_prevue'] = $donneesDemandeVPA['INTERVENTION_PREVUE'];
+			 
+			$resultatVpa = $this->getResultatVpa()->getResultatVpa($donneesDemandeVPA['idVpa']);
+		}
+		
+		//POUR LE TRANSFERT
+		//POUR LE TRANSFERT
+		//POUR LE TRANSFERT
+		// INSTANCIATION DU TRANSFERT
+		$transferer = $this->getTransfererPatientServiceTable ();
+		// RECUPERATION DE LA LISTE DES HOPITAUX
+		$hopital = $transferer->fetchHopital ();
+		//LISTE DES HOPITAUX
+		$form->get ( 'hopital_accueil' )->setValueOptions ( $hopital );
+		// RECUPERATION DU SERVICE OU EST TRANSFERE LE PATIENT
+		$transfertPatientService = $transferer->getServicePatientTransfert($id);
+		
+		if( $transfertPatientService ){
+			$idService = $transfertPatientService['ID_SERVICE'];
+			// RECUPERATION DE L'HOPITAL DU SERVICE
+			$transfertPatientHopital = $transferer->getHopitalPatientTransfert($idService);
+			$idHopital = $transfertPatientHopital['ID_HOPITAL'];
+			// RECUPERATION DE LA LISTE DES SERVICES DE L'HOPITAL OU SE TROUVE LE SERVICE OU IL EST TRANSFERE
+			$serviceHopital = $transferer->fetchServiceWithHopital($idHopital);
+		
+			// LISTE DES SERVICES DE L'HOPITAL
+			$form->get ( 'service_accueil' )->setValueOptions ($serviceHopital);
+		
+			// SELECTION DE L'HOPITAL ET DU SERVICE SUR LES LISTES
+			$data['hopital_accueil'] = $idHopital;
+			$data['service_accueil'] = $idService;
+			$data['motif_transfert'] = $transfertPatientService['motif_transfert'];
+			$hopitalSelect = 1;
+		}else {
+			$hopitalSelect = 0;
+			// RECUPERATION DE L'HOPITAL DU SERVICE
+			$transfertPatientHopital = $transferer->getHopitalPatientTransfert($IdDuService);
+			$idHopital = $transfertPatientHopital['ID_HOPITAL'];
+			$data['hopital_accueil'] = $idHopital;
+			// RECUPERATION DE LA LISTE DES SERVICES DE L'HOPITAL OU SE TROUVE LE SERVICE OU LE MEDECIN TRAVAILLE
+			$serviceHopital = $transferer->fetchServiceWithHopitalNotServiceActual($idHopital, $IdDuService);
+			// LISTE DES SERVICES DE L'HOPITAL
+			$form->get ( 'service_accueil' )->setValueOptions ($serviceHopital);
+		}
+		//POUR LE RENDEZ VOUS
+		//POUR LE RENDEZ VOUS
+		//POUR LE RENDEZ VOUS
+		// RECUPERE LE RENDEZ VOUS
+		$rendezVous = $this->getRvPatientConsTable();
+		$leRendezVous = $rendezVous->getRendezVous($id);
+		
+		if($leRendezVous) {
+			$data['heure_rv'] = $leRendezVous->heure;
+			$data['date_rv']  = $this->controlDate->convertDate($leRendezVous->date);
+			$data['motif_rv'] = $leRendezVous->note;
+		}
+		// Pour recuper les bandelettes
+		$bandelettes = $this->getConsultationTable ()->getBandelette($id);
+		
+		//RECUPERATION DES ANTECEDENTS
+		//RECUPERATION DES ANTECEDENTS
+		//RECUPERATION DES ANTECEDENTS
+		$donneesAntecedentsPersonnels = $this->getAntecedantPersonnelTable()->getTableauAntecedentsPersonnels($id_pat);
+		$donneesAntecedentsFamiliaux = $this->getAntecedantsFamiliauxTable()->getTableauAntecedentsFamiliaux($id_pat);
+		//FIN ANTECEDENTS --- FIN ANTECEDENTS --- FIN ANTECEDENTS
+		//FIN ANTECEDENTS --- FIN ANTECEDENTS --- FIN ANTECEDENTS
+		
+		$form->populateValues ( array_merge($data,$bandelettes,$donneesAntecedentsPersonnels,$donneesAntecedentsFamiliaux) );
+		return array(
+				'id_cons' => $id,
+				'lesdetails' => $liste,
+				'form' => $form,
+				'nbMotifs' => $nbMotif,
+				'image' => $image,
+				'heure_cons' => $consult->heurecons,
+				'liste' => $listeConsultation,
+				'liste_med' => $listeMedicament,
+				'nb_med_prescrit' => $nbMedPrescrit,
+				'liste_med_prescrit' => $listeMedicamentsPrescrits,
+				'duree_traitement' => $duree_traitement,
+				'verifieRV' => $leRendezVous,
+				'listeDemandesMorphologiques' => $listeDemandesMorphologiques,
+				'listeDemandesBiologiques' => $listeDemandesBiologiques,
+				'hopitalSelect' =>$hopitalSelect,
+				'nbDiagnostics'=> $infoDiagnostics->count(),
+				'nbDonneesExamenPhysique' => $kPhysique,
+				'dateonly' => $consult->dateonly,
+				'temoin' => $bandelettes['temoin'],
+				'listeForme' => $listeForme,
+				'listetypeQuantiteMedicament'  => $listetypeQuantiteMedicament,
+				'donneesAntecedentsPersonnels' => $donneesAntecedentsPersonnels,
+				'donneesAntecedentsFamiliaux'  => $donneesAntecedentsFamiliaux,
+				'resultatVpa' => $resultatVpa,
+		);
+		
+	}
 	
 	public function impressionPdfAction(){
 		
@@ -2168,28 +2425,50 @@ class ConsultationController extends AbstractActionController {
 		$html .= "<div id='photo' style='float:left; margin-left:40px; margin-top:10px; margin-right:30px;'> <img style='width:105px; height:105px;' src='".$this->getPath()."/img/photos_patients/" . $photo . "' ></div>";
 		$html .= "</div>";
 			
-		$html .= "<div style='width: 65%; height: 180px; float:left;'>";
+		$html .= "<div style='width: 65%; height: 200px; float:left;'>";
 		$html .= "<table style='margin-top:10px; float:left; width: 100%;'>";
 		$html .= "<tr style='width: 100%;'>";
-		$html .= "<td style='width: 20%; height: 50px;'><a style='text-decoration:underline; font-size:12px;'>Nom:</a><br><p style='font-weight:bold; font-size:17px;'>" . $unPatient->nom . "</p></td>";
-		$html .= "<td style='width: 30%; height: 50px;'><a style='text-decoration:underline; font-size:12px;'>Lieu de naissance:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $unPatient->lieu_naissance . "</p></td>";
-		$html .= "<td style='width: 20%; height: 50px;'><a style='text-decoration:underline; font-size:12px;'>Nationalit&eacute; actuelle:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $unPatient->nationalite_actuelle . "</p></td>";
+		
+		//$html .= "<td style='width: 20%; height: 50px;'><a style='text-decoration:underline; font-size:12px;'>Nom:</a><br><p style='font-weight:bold; font-size:17px;'>" . $unPatient->nom . "</p></td>";
+		$html .="<td style='width: 25%; vertical-align:top; margin-right:10px;'><span id='labelHeureLABELVue' style='font-weight:bold; font-size:15px; padding-left: 5px; color: #065d10; font-family: Times  New Roman;'>Nom</span><br><p id='zoneChampInfoVue' style='background:#f8faf8; padding-left: 5px;'> ". $unPatient->nom ." </p></td>";
+		
+		//$html .= "<td style='width: 30%; height: 50px;'><a style='text-decoration:underline; font-size:12px;'>Lieu de naissance:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $unPatient->lieu_naissance . "</p></td>";
+		$html .="<td style='width: 25%; vertical-align:top; margin-right:10px;'><span id='labelHeureLABELVue' style='font-weight:bold; font-size:15px; padding-left: 5px; color: #065d10; font-family: Times  New Roman;'>Lieu de naissance</span><br><p id='zoneChampInfoVue' style='background:#f8faf8; padding-left: 5px;'> ". $unPatient->lieu_naissance ." </p></td>";
+		
+		//$html .= "<td style='width: 20%; height: 50px;'><a style='text-decoration:underline; font-size:12px;'>Nationalit&eacute; actuelle:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $unPatient->nationalite_actuelle . "</p></td>";
+		$html .="<td style='width: 25%; vertical-align:top; margin-right:10px;'><span id='labelHeureLABELVue' style='font-weight:bold; font-size:15px; padding-left: 5px; color: #065d10; font-family: Times  New Roman;'>Nationalit&eacute; actuelle</span><br><p id='zoneChampInfoVue' style='background:#f8faf8; padding-left: 5px;'> ". $unPatient->nationalite_actuelle ." </p></td>";
+		
 		$html .= "<td style='width: 30%; height: 50px;'></td>";
+		
 		$html .= "</tr><tr style='width: 100%;'>";
-		$html .= "<td style='width: 20%; height: 50px;'><a style='text-decoration:underline; font-size:12px;'>Pr&eacute;nom:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $unPatient->prenom . "</p></td>";
-		$html .= "<td style='width: 30%; height: 50px;'><a style='text-decoration:underline; font-size:12px;'>T&eacute;l&eacute;phone:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $unPatient->telephone . "</p></td>";
-		$html .= "<td style='width: 20%; height: 50px;'><a style='text-decoration:underline; font-size:12px;'>Nationalit&eacute; d'origine:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $unPatient->nationalite_origine. "</p></td>";
-		$html .= "<td style='width: 30%; height: 50px;'><a style='text-decoration:underline; font-size:12px;'>Email:</a><br><p style='font-weight:bold; font-size:17px;'>" . $unPatient->email . "</p></td>";
+		//$html .= "<td style='width: 20%; height: 50px;'><a style='text-decoration:underline; font-size:12px;'>Pr&eacute;nom:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $unPatient->prenom . "</p></td>";
+		$html .="<td style='width: 25%; vertical-align:top; margin-right:10px;'><span id='labelHeureLABELVue' style='font-weight:bold; font-size:15px; padding-left: 5px; color: #065d10; font-family: Times  New Roman;'>Pr&eacute;nom</span><br><p id='zoneChampInfoVue' style='background:#f8faf8; padding-left: 5px;'> ". $unPatient->prenom ." </p></td>";
+		
+		//$html .= "<td style='width: 30%; height: 50px;'><a style='text-decoration:underline; font-size:12px;'>T&eacute;l&eacute;phone:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $unPatient->telephone . "</p></td>";
+		$html .="<td style='width: 25%; vertical-align:top; margin-right:10px;'><span id='labelHeureLABELVue' style='font-weight:bold; font-size:15px; padding-left: 5px; color: #065d10; font-family: Times  New Roman;'>T&eacute;l&eacute;phone</span><br><p id='zoneChampInfoVue' style='background:#f8faf8; padding-left: 5px;'> ". $unPatient->telephone ." </p></td>";
+		
+		//$html .= "<td style='width: 20%; height: 50px;'><a style='text-decoration:underline; font-size:12px;'>Nationalit&eacute; d'origine:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $unPatient->nationalite_origine. "</p></td>";
+		$html .="<td style='width: 25%; vertical-align:top; margin-right:10px;'><span id='labelHeureLABELVue' style='font-weight:bold; font-size:15px; padding-left: 5px; color: #065d10; font-family: Times  New Roman;'>Nationalit&eacute; d'origine</span><br><p id='zoneChampInfoVue' style='background:#f8faf8; padding-left: 5px;'> ". $unPatient->nationalite_origine ." </p></td>";
+		
+		//$html .= "<td style='width: 30%; height: 50px;'><a style='text-decoration:underline; font-size:12px;'>Email:</a><br><p style='font-weight:bold; font-size:17px;'>" . $unPatient->email . "</p></td>";
+		$html .="<td style='width: 25%; vertical-align:top; margin-right:10px;'><span id='labelHeureLABELVue' style='font-weight:bold; font-size:15px; padding-left: 5px; color: #065d10; font-family: Times  New Roman;'>Email</span><br><p id='zoneChampInfoVue' style='background:#f8faf8; padding-left: 5px;'> ". $unPatient->email ." </p></td>";
+		
 		$html .= "</tr><tr style='width: 100%;'>";
-		$html .= "<td style='width: 20%; height: 50px; vertical-align: top;'><a style='text-decoration:underline; font-size:12px;'>Date de naissance:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $date . "</p></td>";
-		$html .= "<td style='width: 30%; height: 50px; vertical-align: top;'><a style='text-decoration:underline; font-size:12px;'>Adresse:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $unPatient->adresse . "</p></td>";
-		$html .= "<td style='width: 20%; height: 50px; vertical-align: top;'><a style='text-decoration:underline; font-size:12px;'>Profession:</a><br><p style=' font-weight:bold; font-size:17px;'>" .  $unPatient->profession . "</p></td>";
+		//$html .= "<td style='width: 20%; height: 50px; vertical-align: top;'><a style='text-decoration:underline; font-size:12px;'>Date de naissance:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $date . "</p></td>";
+		$html .="<td style='width: 25%; vertical-align:top; margin-right:10px;'><span id='labelHeureLABELVue' style='font-weight:bold; font-size:15px; padding-left: 5px; color: #065d10; font-family: Times  New Roman;'>Date de naissance</span><br><p id='zoneChampInfoVue' style='background:#f8faf8; padding-left: 5px;'> ". $date ." </p></td>";
+		
+		//$html .= "<td style='width: 30%; height: 50px; vertical-align: top;'><a style='text-decoration:underline; font-size:12px;'>Adresse:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $unPatient->adresse . "</p></td>";
+		$html .="<td style='width: 25%; vertical-align:top; margin-right:10px;'><span id='labelHeureLABELVue' style='font-weight:bold; font-size:15px; padding-left: 5px; color: #065d10; font-family: Times  New Roman;'>Adresse</span><br><p id='zoneChampInfoVue' style='background:#f8faf8; padding-left: 5px;'> ". $unPatient->adresse ." </p></td>";
+		
+		//$html .= "<td style='width: 20%; height: 50px; vertical-align: top;'><a style='text-decoration:underline; font-size:12px;'>Profession:</a><br><p style=' font-weight:bold; font-size:17px;'>" .  $unPatient->profession . "</p></td>";
+		$html .="<td style='width: 25%; vertical-align:top; margin-right:10px;'><span id='labelHeureLABELVue' style='font-weight:bold; font-size:15px; padding-left: 5px; color: #065d10; font-family: Times  New Roman;'>Profession</span><br><p id='zoneChampInfoVue' style='background:#f8faf8; padding-left: 5px;'> ". $unPatient->profession ." </p></td>";
+		
 		$html .= "<td style='width: 30%; height: 50px;'></td>";
 		$html .= "</tr>";
 		$html .= "</table>";
 		$html .="</div>";
 			
-		$html .= "<div style='width: 17%; height: 180px; float:left;'>";
+		$html .= "<div style='width: 17%; height: 200px; float:left;'>";
 		$html .= "<div id='' style='color: white; opacity: 0.09; float:left; margin-right:20px; margin-left:25px; margin-top:5px;'> <img style='width:105px; height:105px;' src='".$this->getPath()."/img/photos_patients/" . $photo . "'></div>";
 		$html .= "</div>";
 			
@@ -2199,18 +2478,31 @@ class ConsultationController extends AbstractActionController {
 		          <div id='barre'></div>";
 		
 		$html .= "<table style='margin-top:10px; margin-left: 195px; width: 80%;'>";
-		$html .= "<tr style='width: 80%;'>";
-		$html .= "<td style='width: 25%; height: 50px; vertical-align: top;'><a style='text-decoration:underline; font-size:12px;'>Consultation:</a><br><p style='font-weight:bold; font-size:17px;'>" . $id_cons . "</p></td>";
-		$html .= "<td style='width: 25%; height: 50px; vertical-align: top;'><a style='text-decoration:underline; font-size:12px;'>Date de la demande:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $this->controlDate->convertDateTime($demande['date_demande_hospi']) . "</p></td>";
-		$html .= "<td style='width: 20%; height: 50px; vertical-align: top;'><a style='text-decoration:underline; font-size:12px;'>Date fin pr&eacute;vue:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $this->controlDate->convertDate($demande['date_fin_prevue_hospi']) . "</p></td>";
-		$html .= "<td style='width: 30%; height: 50px; vertical-align: top;'><a style='text-decoration:underline; font-size:12px;'>M&eacute;decin demandeur:</a><br><p style=' font-weight:bold; font-size:17px;'>" .$demande['PrenomMedecin'].' '.$demande['NomMedecin']. "</p></td>";
+		$html .= "<tr style='width: 95%;'>";
+		//$html .= "<td style='width: 25%; height: 50px; vertical-align: top;'><a style='text-decoration:underline; font-size:12px;'>Consultation:</a><br><p style='font-weight:bold; font-size:17px;'>" . $id_cons . "</p></td>";
+		$html .="<td style='width: 25%; padding-top: 10px; padding-right:10px;'><span id='labelHeureLABEL' style='font-weight:bold; font-size:16px; padding-left: 5px; color: #065d10; font-family: Times  New Roman;'>Consultation</span><br><p id='zoneChampInfo1' style='background:#f8faf8; font-size:17px; padding-left: 10px;'> ".$id_cons." </p></td>";
+		
+		//$html .= "<td style='width: 25%; height: 50px; vertical-align: top;'><a style='text-decoration:underline; font-size:12px;'>Date de la demande:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $this->controlDate->convertDateTime($demande['date_demande_hospi']) . "</p></td>";
+		$html .="<td style='width: 25%; padding-top: 10px; padding-right:10px;'><span id='labelHeureLABEL' style='font-weight:bold; font-size:16px; padding-left: 5px; color: #065d10; font-family: Times  New Roman;'>Date de la demande</span><br><p id='zoneChampInfo1' style='background:#f8faf8; font-size:17px; padding-left: 10px;'> ".$this->controlDate->convertDateTime($demande['date_demande_hospi'])." </p></td>";
+		
+		//$html .= "<td style='width: 20%; height: 50px; vertical-align: top;'><a style='text-decoration:underline; font-size:12px;'>Date fin pr&eacute;vue:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $this->controlDate->convertDate($demande['date_fin_prevue_hospi']) . "</p></td>";
+		$html .="<td style='width: 20%; padding-top: 10px; padding-right:10px;'><span id='labelHeureLABEL' style='font-weight:bold; font-size:16px; padding-left: 5px; color: #065d10; font-family: Times  New Roman;'>Date fin pr&eacute;vue</span><br><p id='zoneChampInfo1' style='background:#f8faf8; font-size:17px; padding-left: 10px;'> ".$this->controlDate->convertDate($demande['date_fin_prevue_hospi'])." </p></td>";
+		
+		//$html .= "<td style='width: 30%; height: 50px; vertical-align: top;'><a style='text-decoration:underline; font-size:12px;'>M&eacute;decin demandeur:</a><br><p style=' font-weight:bold; font-size:17px;'>" .$demande['PrenomMedecin'].' '.$demande['NomMedecin']. "</p></td>";
+		$html .="<td style='width: 30%; padding-top: 10px; padding-right:10px;'><span id='labelHeureLABEL' style='font-weight:bold; font-size:16px; padding-left: 5px; color: #065d10; font-family: Times  New Roman;'>M&eacute;decin demandeur</span><br><p id='zoneChampInfo1' style='background:#f8faf8; font-size:17px; padding-left: 10px;'> ".$demande['PrenomMedecin'].' '.$demande['NomMedecin']." </p></td>";
+		
 		$html .= "</tr>";
 		$html .= "</table>";
 		
 		$html .="<table style='margin-top:0px; margin-left:195px; width: 70%;'>";
 		$html .="<tr style='width: 70%'>";
-		$html .="<td style='padding-top: 10px; padding-bottom: 0px; padding-right: 30px; width: 20%; '><a style='text-decoration:underline; font-size:13px;'>Motif de la demande:</a><br><p id='circonstance_deces' style='background:#f8faf8; font-weight:bold; font-size:17px;'>". $demande['motif_demande_hospi'] ."</p></td>";
-		$html .="<td style='padding-top: 10px; padding-bottom: 0px; padding-right: 30px; width: 20%; '><a style='text-decoration:underline; font-size:13px;'>Note:</a><br><p id='circonstance_deces' style='background:#f8faf8; font-weight:bold; font-size:17px;'> </p></td>";
+		
+		//$html .="<td style='padding-top: 10px; padding-bottom: 0px; padding-right: 30px; width: 20%; '><a style='text-decoration:underline; font-size:13px;'>Motif de la demande:</a><br><p id='circonstance_deces' style='background:#f8faf8; font-weight:bold; font-size:17px;'>". $demande['motif_demande_hospi'] ."</p></td>";
+		$html .="<td style='width: 20%; padding-top: 10px; padding-right:25px;'><span id='labelHeureLABEL' style='font-weight:bold; font-size:16px; padding-left: 5px; color: #065d10; font-family: Times  New Roman;'>Motif de la demande</span><br><p id='circonstance_deces' style='background:#f8faf8; font-size:17px; padding-left: 10px;'> ".$demande['motif_demande_hospi']." </p></td>";
+		
+		//$html .="<td style='padding-top: 10px; padding-bottom: 0px; padding-right: 30px; width: 20%; '><a style='text-decoration:underline; font-size:13px;'>Note:</a><br><p id='circonstance_deces' style='background:#f8faf8; font-weight:bold; font-size:17px;'> </p></td>";
+		$html .="<td style='width: 20%; padding-top: 10px; padding-right:25px;'><span id='labelHeureLABEL' style='font-weight:bold; font-size:16px; padding-left: 5px; color: #065d10; font-family: Times  New Roman;'>Note</span><br><p id='circonstance_deces' style='background:#f8faf8; font-size:17px; padding-left: 10px;'>  </p></td>";
+		
 		$html .="</tr>";
 		$html .="</table>";
 		
@@ -2229,10 +2521,19 @@ class ConsultationController extends AbstractActionController {
 		          <div id='barre'></div>";
 			$html .= "<table style='margin-top:10px; margin-left: 195px; width: 80%;'>";
 			$html .= "<tr style='width: 80%;'>";
-			$html .= "<td style='width: 25%; height: 50px; vertical-align: top;'><a style='text-decoration:underline; font-size:12px;'>Date d&eacute;but:</a><br><p style='font-weight:bold; font-size:17px;'>" . $this->controlDate->convertDateTime($hospitalisation->date_debut) . "</p></td>";
-			$html .= "<td style='width: 25%; height: 50px; vertical-align: top;'><a style='text-decoration:underline; font-size:12px;'>Batiment:</a><br><p style=' font-weight:bold; font-size:17px;'>".$batiment->intitule."</p></td>";
-			$html .= "<td style='width: 20%; height: 50px; vertical-align: top;'><a style='text-decoration:underline; font-size:12px;'>Salle:</a><br><p style=' font-weight:bold; font-size:17px;'>".$salle->numero_salle."</p></td>";
-			$html .= "<td style='width: 30%; height: 50px; vertical-align: top;'><a style='text-decoration:underline; font-size:12px;'>Lit:</a><br><p style=' font-weight:bold; font-size:17px;'>".$lit->intitule."</p></td>";
+			
+			//$html .= "<td style='width: 25%; height: 50px; vertical-align: top;'><a style='text-decoration:underline; font-size:12px;'>Date d&eacute;but:</a><br><p style='font-weight:bold; font-size:17px;'>" . $this->controlDate->convertDateTime($hospitalisation->date_debut) . "</p></td>";
+			$html .="<td style='width: 25%; vertical-align:top; padding-right:10px;'><span id='labelHeureLABEL' style='font-weight:bold; font-size:15px; padding-left: 5px; color: #065d10; font-family: Times  New Roman;'>Date d&eacute;but</span><br><p id='zoneChampInfo1' style='background:#f8faf8; font-size:17px; padding-left: 5px;'> ". $this->controlDate->convertDateTime($hospitalisation->date_debut) ." </p></td>";
+				
+			//$html .= "<td style='width: 25%; height: 50px; vertical-align: top;'><a style='text-decoration:underline; font-size:12px;'>Batiment:</a><br><p style=' font-weight:bold; font-size:17px;'>".$batiment->intitule."</p></td>";
+			$html .="<td style='width: 25%; vertical-align:top; padding-right:10px;'><span id='labelHeureLABEL' style='font-weight:bold; font-size:15px; padding-left: 5px; color: #065d10; font-family: Times  New Roman;'>Batiment</span><br><p id='zoneChampInfo1' style='background:#f8faf8; font-size:17px; padding-left: 5px;'> ".$batiment->intitule." </p></td>";
+			
+			//$html .= "<td style='width: 20%; height: 50px; vertical-align: top;'><a style='text-decoration:underline; font-size:12px;'>Salle:</a><br><p style=' font-weight:bold; font-size:17px;'>".$salle->numero_salle."</p></td>";
+			$html .="<td style='width: 25%; vertical-align:top; padding-right:10px;'><span id='labelHeureLABEL' style='font-weight:bold; font-size:15px; padding-left: 5px; color: #065d10; font-family: Times  New Roman;'>Salle</span><br><p id='zoneChampInfo1' style='background:#f8faf8; font-size:17px; padding-left: 5px;'> ".$salle->numero_salle." </p></td>";
+				
+			//$html .= "<td style='width: 30%; height: 50px; vertical-align: top;'><a style='text-decoration:underline; font-size:12px;'>Lit:</a><br><p style=' font-weight:bold; font-size:17px;'>".$lit->intitule."</p></td>";
+			$html .="<td style='width: 25%; vertical-align:top; padding-right:10px;'><span id='labelHeureLABEL' style='font-weight:bold; font-size:15px; padding-left: 5px; color: #065d10; font-family: Times  New Roman;'>Lit</span><br><p id='zoneChampInfo1' style='background:#f8faf8; font-size:17px; padding-left: 5px;'> ".$lit->intitule." </p></td>";
+				
 			$html .= "</tr>";
 			$html .= "</table>";
 		}

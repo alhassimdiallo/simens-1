@@ -129,7 +129,7 @@ class PatientTable {
 	function adresseText($Text){
 		$chaine = $Text;
 		if(strlen($Text)>36){
-			$chaine = substr($Text, 0, 36);
+			$chaine = substr($Text, 0, 30);
 			$nb = strrpos($chaine, ' ');
 			$chaine = substr($chaine, 0, $nb);
 			$chaine .=' ...';
@@ -229,13 +229,13 @@ class PatientTable {
 
 					else if ($aColumns[$i] == 'id') {
 						$html ="<infoBulleVue> <a href='".$tabURI[0]."public/facturation/info-patient/id_patient/".$aRow[ $aColumns[$i] ]."'>";
-						$html .="<img style='display: inline; margin-right: 15%;' src='".$tabURI[0]."public/images_icons/vue.PNG' title='d&eacute;tails'></a></infoBulleVue>";
+						$html .="<img style='display: inline; margin-right: 15%;' src='".$tabURI[0]."public/images_icons/voir2.png' title='d&eacute;tails'></a></infoBulleVue>";
 
 						$html .= "<infoBulleVue> <a href='".$tabURI[0]."public/facturation/modifier/id_patient/".$aRow[ $aColumns[$i] ]."'>";
-						$html .="<img style='display: inline; margin-right: 15%;' src='".$tabURI[0]."public/images_icons/modifier.PNG' title='Modifier'></a></infoBulleVue>";
+						$html .="<img style='display: inline; margin-right: 15%;' src='".$tabURI[0]."public/images_icons/pencil_16.png' title='Modifier'></a></infoBulleVue>";
 
-						$html .= "<infoBulleVue> <a id='".$aRow[ $aColumns[$i] ]."' href='javascript:envoyer(".$aRow[ $aColumns[$i] ].")'>";
-						$html .="<img style='display: inline;' src='".$tabURI[0]."public/images_icons/trash_16.PNG' title='Supprimer'></a></infoBulleVue>";
+						//$html .= "<infoBulleVue> <a id='".$aRow[ $aColumns[$i] ]."' href='javascript:envoyer(".$aRow[ $aColumns[$i] ].")'>";
+						//$html .="<img style='display: inline;' src='".$tabURI[0]."public/images_icons/trash_16.PNG' title='Supprimer'></a></infoBulleVue>";
 
 						$row[] = $html;
 					}
@@ -454,13 +454,13 @@ class PatientTable {
 	
 					else if ($aColumns[$i] == 'id') {
 						$html ="<infoBulleVue> <a href='javascript:affichervue(".$aRow[ $aColumns[$i] ].")' >";
-						$html .="<img style='display: inline; margin-right: 15%;' src='".$tabURI[0]."public/images_icons/vue.PNG' title='d&eacute;tails'></a> </infoBulleVue>";
+						$html .="<img style='display: inline; margin-right: 10%; margin-left: 5%;' src='".$tabURI[0]."public/images_icons/voir2.png' title='d&eacute;tails'></a> </infoBulleVue>";
 	
 						$html .= "<infoBulleVue> <a href='javascript:modifier(".$aRow[ $aColumns[$i] ].")' >";
-						$html .="<img style='display: inline; margin-right: 15%;' src='".$tabURI[0]."public/images_icons/modifier.PNG' title='Modifier'></a> </infoBulleVue>";
+						$html .="<img style='display: inline; margin-right: 9%;' src='".$tabURI[0]."public/images_icons/pencil_16.png' title='Modifier'></a> </infoBulleVue>";
 	
-						$html .= "<infoBulleVue> <a id='".$aRow[ $aColumns[$i] ]."' href='javascript:envoyer(".$aRow[ $aColumns[$i] ].")'>";
-						$html .="<img style='display: inline;' src='".$tabURI[0]."public/images_icons/trash_16.PNG' title='Supprimer'></a> </infoBulleVue>";
+						//$html .= "<infoBulleVue> <a id='".$aRow[ $aColumns[$i] ]."' href='javascript:envoyer(".$aRow[ $aColumns[$i] ].")'>";
+						//$html .="<img style='display: inline;' src='".$tabURI[0]."public/images_icons/trash_16.png' title='Supprimer'></a> </infoBulleVue>";
 	
 						$row[] = $html;
 					}
@@ -479,7 +479,8 @@ class PatientTable {
 	public function getPhoto($id) {
 		$donneesPatient =  $this->getPatient ( $id );
 
-		$nom = $donneesPatient->photo;
+		$nom = null;
+		if($donneesPatient){$nom = $donneesPatient->photo;}
 		if ($nom) {
 			return $nom . '.jpg';
 		} else {
@@ -660,7 +661,7 @@ class PatientTable {
 	
 					else if ($aColumns[$i] == 'id') {
 						$html ="<infoBulleVue> <a href='javascript:visualiser(".$aRow[ $aColumns[$i] ].")' >";
-						$html .="<img style='margin-left: 5%; margin-right: 20%;' src='".$tabURI[0]."public/images_icons/vue.png' title='d&eacute;tails'></a> </infoBulleVue>";
+						$html .="<img style='margin-left: 5%; margin-right: 15%;' src='".$tabURI[0]."public/images_icons/voir2.png' title='d&eacute;tails'></a> </infoBulleVue>";
 	
 						$html .= "<infoBulleVue> <a href='javascript:declarer(".$aRow[ $aColumns[$i] ].")' >";
 						$html .="<img style='display: inline; margin-right: 5%;' src='".$tabURI[0]."public/images_icons/transfert_droite.png' title='suivant'></a> </infoBulleVue>";
@@ -820,6 +821,8 @@ class PatientTable {
 		$where = new Where();
 		$where->equalTo('s.NOM', $service);
 		$where->notEqualTo('DATEONLY', $date);
+		$select->order('c.DATE DESC');
+		$select->group('c.PAT_ID_PERSONNE');
 		$select->where($where);
 		$stmt = $sql->prepareStatementForSqlObject($select);
 		$result = $stmt->execute();
@@ -889,6 +892,9 @@ class PatientTable {
 		$where->equalTo('s.NOM', $service);
 		$where->notEqualTo('DATEONLY', $date);
 		$select->where($where);
+		$select->order('c.DATE DESC');
+		$select->group('c.PAT_ID_PERSONNE');
+		
 		$stmt = $sql->prepareStatementForSqlObject($select);
 		$result = $stmt->execute();
 		return $result;
@@ -1007,7 +1013,7 @@ class PatientTable {
 	
 					else if ($aColumns[$i] == 'id') {
 						$html ="<infoBulleVue> <a href='javascript:visualiser(".$aRow[ $aColumns[$i] ].")' >";
-						$html .="<img style='margin-left: 5%; margin-right: 20%;' src='".$tabURI[0]."public/images_icons/vue.png' title='d&eacute;tails'></a> </infoBulleVue>";
+						$html .="<img style='margin-left: 5%; margin-right: 15%;' src='".$tabURI[0]."public/images_icons/voir2.png' title='d&eacute;tails'></a> </infoBulleVue>";
 	
 						$html .= "<infoBulleVue> <a href='javascript:ajouternaiss(".$aRow[ $aColumns[$i] ].")' >";
 						$html .="<img style='display: inline; margin-right: 5%;' src='".$tabURI[0]."public/images_icons/transfert_droite.png' title='suivant'></a> </infoBulleVue>";
@@ -1138,7 +1144,7 @@ class PatientTable {
 	
 					else if ($aColumns[$i] == 'id') {
 						$html ="<infoBulleVue> <a href='javascript:visualiser(".$aRow[ $aColumns[$i] ].")' >";
-						$html .="<img style='margin-left: 5%; margin-right: 20%;' src='".$tabURI[0]."public/images_icons/vue.png' title='d&eacute;tails'></a> </infoBulleVue>";
+						$html .="<img style='margin-left: 5%; margin-right: 15%;' src='".$tabURI[0]."public/images_icons/voir2.png' title='d&eacute;tails'></a> </infoBulleVue>";
 	
 						$html .= "<infoBulleVue> <a href='javascript:declarer(".$aRow[ $aColumns[$i] ].")' >";
 						$html .="<img style='display: inline; margin-right: 5%;' src='".$tabURI[0]."public/images_icons/transfert_droite.png' title='suivant'></a> </infoBulleVue>";
@@ -1256,7 +1262,7 @@ class PatientTable {
 	
 					else if ($aColumns[$i] == 'id') {
 						$html ="<infoBulleVue> <a href='javascript:affichervue(".$aRow[ $aColumns[$i] ].")' >";
-						$html .="<img style='margin-right: 15%;' src='".$tabURI[0]."public/images_icons/vue.PNG' title='d&eacute;tails'></a> </infoBulleVue>";
+						$html .="<img style='margin-right: 15%;' src='".$tabURI[0]."public/images_icons/voir2.PNG' title='d&eacute;tails'></a> </infoBulleVue>";
 	
 						$html .= "<infoBulleVue> <a href='javascript:modifierdeces(".$aRow[ $aColumns[$i] ].")' >";
 						$html .="<img style='display: inline; margin-right: 15%;' src='".$tabURI[0]."public/images_icons/modifier.PNG' title='Modifier'></a> </infoBulleVue>";

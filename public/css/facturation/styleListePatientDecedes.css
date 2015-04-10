@@ -222,7 +222,7 @@ tr:hover
 }
 
 #vue_patient{
-	min-height:365px;
+	min-height:380px;
     background: #fff;
     border: 2px solid #ccc;
     border-top: 2px solid #cccccc;
@@ -376,7 +376,7 @@ p{
 }
 
 #modifier_donnees_deces {
-	height: 510px;
+	height: 520px;
     background: #fff;
     border: 2px solid #ccc;
     border-top: 2px solid #cccccc;

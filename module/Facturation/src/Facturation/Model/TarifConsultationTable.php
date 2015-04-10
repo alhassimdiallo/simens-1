@@ -21,6 +21,7 @@ class TarifConsultationTable {
 		}
 		return $row;
 	}
+	
 	public function fetchService()
 	{
 		$adapter = $this->tableGateway->getAdapter ();
@@ -35,4 +36,32 @@ class TarifConsultationTable {
 		return $options;
 	}
 
+	public function listeService(){
+		$adapter = $this->tableGateway->getAdapter();
+		$sql = new Sql($adapter);
+		$select = $sql->select();
+		$select->from(array('s'=>'service'));
+		$select->columns(array('ID_SERVICE','NOM'));
+		$select->where(array('DOMAINE' => 'MEDECINE'));
+		$select->order('ID_SERVICE ASC');
+		$stat = $sql->prepareStatementForSqlObject($select);
+		$result = $stat->execute();
+		foreach ($result as $data) {
+			$options[$data['ID_SERVICE']] = $data['NOM'];
+		}
+		return $options;
+	}
+	
+	
+	public function TarifDuService($id_service){
+		$adapter = $this->tableGateway->getAdapter();
+		$sql = new Sql($adapter);
+		$select = $sql->select();
+		$select->from(array('s'=>'service'));
+		$select->columns(array('*'));
+		$select->where(array('ID_SERVICE' => $id_service));
+		$stat = $sql->prepareStatementForSqlObject($select);
+		$result = $stat->execute()->current();
+		return $result;
+	}
 }

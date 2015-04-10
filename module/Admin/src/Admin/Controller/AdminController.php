@@ -187,20 +187,40 @@ class AdminController extends AbstractActionController
     public function modifierUtilisateurAction() 
     {
     	$id = $this->params()->fromPost('id');
-    
+    	$chemin = $this->getServiceLocator()->get('Request')->getBasePath();
+    	
     	$utilisateur = $this->getUtilisateurTable()->getUtilisateurs($id);
-    	$html  = "";
-    	$html .="<script> 
+    	$unAgent = $this->getUtilisateurTable()->getAgentPersonnel($utilisateur->id_personne);
+    	$photo = $this->getUtilisateurTable()->getPhoto($utilisateur->id_personne);
+    	
+    	$date = $this->convertDate ( $unAgent['date_naissance'] );
+    	
+    	$serviceAgent = $this->getUtilisateurTable()->getServiceAgent($utilisateur->id_personne);
+    	
+    	$html ="<script> 
     			  $('#id').val('".$utilisateur->id."');
     			  $('#username').val('".$utilisateur->username."');
     			  $('#nomUtilisateur').val('".$utilisateur->nom."');
     			  $('#prenomUtilisateur').val('".$utilisateur->prenom."');
-    			  $('#service').val('".$utilisateur->id_service."');
+    			  $('#idService').val('".$utilisateur->id_service."');
     			  $('#fonction').val('".$utilisateur->fonction."');
-    			  $('input[type=radio][name=role][value=".$utilisateur->role."]').attr('checked', true);
+    			  $('#idPersonne').val('".$utilisateur->id_personne."'); 
+    			  $('#LesChoixRadio input[name=role]').attr('checked', false);
+    			  $('#LesChoixRadio input[name=role][value=".$utilisateur->role."] ').attr('checked', true);
     			 
-    			  $('#RoleSelect').val('".$utilisateur->role."');  
-    			 </script>"; 
+    			  //alert('".$id."');
+    			  		
+    			  $('.nom').text('".$utilisateur->nom."');
+    			  $('.prenom').text('".$utilisateur->prenom."');
+    			  $('.date_naissance').html('".$date."');		
+    			  $('.adresse').html('".$unAgent['adresse']."');
+    			  $('.service').html('".$serviceAgent['NomService']."');
+    			  $('#photo').html('<img style=\'width:105px; height:105px;\' src=\'".$chemin."/img/photos_personnel/" . $photo . "  \' >');
+    			  		
+    			  //$('#RoleSelect').val('".$utilisateur->role."');  
+    			  		
+    			</script>"; 
+    	
     	
     	$this->getResponse ()->getHeaders ()->addHeaderLine ( 'Content-Type', 'application/html; charset=utf-8' );
     	return $this->getResponse ()->setContent ( Json::encode ($html) );
@@ -227,6 +247,7 @@ class AdminController extends AbstractActionController
     	if ($request->isPost()){
     	
     		$donnees = $request->getPost ();
+    		//var_dump($donnees); exit();
     		$this->getUtilisateurTable()->saveDonnees($donnees);
     	    
     		return $this->redirect()->toRoute('admin' , array('action' => 'utilisateurs'));
@@ -320,4 +341,87 @@ class AdminController extends AbstractActionController
     	$this->getResponse ()->getHeaders ()->addHeaderLine ( 'Content-Type', 'application/html; charset=utf-8' );
     	return $this->getResponse ()->setContent ( Json::encode ($resultComparer) );
     }
+    
+    //Liste des AGENTS DU PERSONNEL
+    public function listeAgentPersonnelAjaxAction() {
+    	$output = $this->getUtilisateurTable()->getListeAgentPersonnelAjax();
+    	return $this->getResponse ()->setContent ( Json::encode ( $output, array (
+    			'enableJsonExprFinder' => true
+    	) ) );
+    }
+    
+    public function convertDate($date) {
+    	$nouv_date = substr ( $date, 8, 2 ) . '/' . substr ( $date, 5, 2 ) . '/' . substr ( $date, 0, 4 );
+    	return $nouv_date;
+    }
+    
+    public function visualisationAction() {
+    	
+    	$chemin = $this->getServiceLocator()->get('Request')->getBasePath();
+    		
+    	$id = ( int ) $this->params ()->fromPost ( 'id', 0 );
+    	
+    	$unAgent = $this->getUtilisateurTable()->getAgentPersonnel($id);
+    	$photo = $this->getUtilisateurTable()->getPhoto($id);
+    	
+    	$date = $this->convertDate ( $unAgent['date_naissance'] );
+    	
+    	$html = "<div id='photo' style='float:left; margin-right:20px;' > <img  style='width:105px; height:105px;' src='".$chemin."/img/photos_personnel/" . $photo . "'></div>";
+    	
+    	$html .= "<table id='PopupVisualisation'>";
+    	
+    	$html .= "<tr>";
+    	$html .= "<td><a style='text-decoration:underline; font-size:12px;'>Nom:</a><br><p style='width:280px; font-weight:bold; font-size:17px;'>" . $unAgent['nom'] . "</p></td>";
+    	$html .= "</tr><tr>";
+    	$html .= "<td><a style='text-decoration:underline; font-size:12px;'>Pr&eacute;nom:</a><br><p style='width:280px; font-weight:bold; font-size:17px;'>" . $unAgent['prenom'] . "</p></td>";
+    	$html .= "</tr><tr>";
+    	$html .= "<td><a style='text-decoration:underline; font-size:12px;'>Date de naissance:</a><br><p style='width:280px; font-weight:bold; font-size:17px;'>" . $date . "</p></td>";
+    	$html .= "</tr>";
+    	$html .= "<tr>";
+    	$html .= "<td><a style='text-decoration:underline; font-size:12px;'>Adresse:</a><br><p style='width:280px; font-weight:bold; font-size:17px;'>" . $unAgent['adresse'] . "</p></td>";
+    	$html .= "</tr><tr>";
+    	$html .= "<td><a style='text-decoration:underline; font-size:12px;'>T&eacute;l&eacute;phone:</a><br><p style='width:280px; font-weight:bold; font-size:17px;'>" . $unAgent['telephone'] . "</p></td>";
+    	$html .= "</tr>";
+    	
+    	$html .= "</table>";
+    	
+    	$html .= "<script> $('#PopupVisualisation tr').css({'background':'white'}); </script>";
+    	
+    	$this->getResponse ()->setMetadata ( 'Content-Type', 'application/html' );
+    	return $this->getResponse ()->setContent ( Json::encode ( $html ) );
+    }
+    
+    public function nouvelUtilisateurAction() {
+
+    	$chemin = $this->getServiceLocator()->get('Request')->getBasePath();
+    	
+    	$id = ( int ) $this->params ()->fromPost ( 'id', 0 );
+    	 
+    	$unAgent = $this->getUtilisateurTable()->getAgentPersonnel($id);
+    	$photo = $this->getUtilisateurTable()->getPhoto($id);
+    	
+    	$date = $this->convertDate ( $unAgent['date_naissance'] );
+    	 
+    	$serviceAgent = $this->getUtilisateurTable()->getServiceAgent($id);
+    	
+    	$html = "<script> 
+    			   $('.nom').text('".$unAgent['nom']."');
+    			   $('.prenom').text('".$unAgent['prenom']."');
+    			   $('.date_naissance').text('".$date."');		
+    			   $('.adresse').text('".$unAgent['adresse']."');
+    			   $('.service').text('".$serviceAgent['NomService']."');
+    			   		
+    			   $('#nomUtilisateur').val('".$unAgent['nom']."');
+    			   $('#prenomUtilisateur').val('".$unAgent['prenom']."');
+    			   $('#idService').val('".$serviceAgent['IdService']."');
+    			   $('#idPersonne').val('".$id."');
+    			   		 
+    			   $('#photo').html('<img style=\'width:105px; height:105px;\' src=\'".$chemin."/img/photos_personnel/" . $photo . " \' >');
+    			 </script>";
+    	
+    	$this->getResponse ()->setMetadata ( 'Content-Type', 'application/html' );
+    	return $this->getResponse ()->setContent ( Json::encode ( $html ) );
+    }
+    
+    
 }
