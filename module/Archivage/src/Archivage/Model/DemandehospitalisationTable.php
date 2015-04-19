@@ -1,6 +1,6 @@
 <?php
 
-namespace Hospitalisation\Model;
+namespace Archivage\Model;
 
 use Zend\Db\TableGateway\TableGateway;
 use Facturation\View\Helper\DateHelper;
@@ -13,28 +13,44 @@ class DemandehospitalisationTable {
 		$this->tableGateway = $tableGateway;
 	}
 	
-	public function getConversionDate(){
-		$this->conversionDate = new DateHelper();
-		
-		return $this->conversionDate;
-	}
-	
 	public function getDemandehospitalisation($data)
 	{
 		$rowset = $this->tableGateway->select(array(
-				'id_personne' => (int) $data['id_personne'],
+				'id_cons' => $data['id_cons'],
 		));
 		$row = $rowset->current();
 		if (!$row) {
-			$row = null;
+			return null;
 		}
 		return $row;
 	}
 	
-	public function saveDemandehospitalisation()
+	public function getDemandehospitalisationWithIdDemHospi($idDemHopsi)
 	{
-		$today = new \DateTime ( 'now' );
-		$date = $today->format ( 'Y-m-d' );
+		$rowset = $this->tableGateway->select(array(
+				'id_demande_hospi' => $idDemHopsi,
+		));
+		$row = $rowset->current();
+		if (!$row) {
+			return null;
+		}
+		return $row;
+	}
+	
+	public function saveDemandehospitalisation($infoDemandeHospitalisation)
+	{
+		if(!$this->getDemandehospitalisation($infoDemandeHospitalisation)){
+			if($infoDemandeHospitalisation['motif_demande_hospi'] && $infoDemandeHospitalisation['date_fin_prevue_hospi']){
+				$this->tableGateway->insert($infoDemandeHospitalisation);				
+			}
+
+		}
+	}
+	
+	public function getConversionDate(){
+		$this->conversionDate = new DateHelper();
+		
+		return $this->conversionDate;
 	}
 	
 	public function deleteDemandehospitalisation($id_demande_hospi){
@@ -76,12 +92,9 @@ class DemandehospitalisationTable {
 	 */
 	public function getListeDemandeHospitalisation()
 	{
-
-
-
 		$db = $this->tableGateway->getAdapter();
 		
-		$aColumns = array('Nom','Prenom','Datenaissance','Sexe', 'date_demande_hospi', 'Prenom&NomMedecin' , 'id');
+		$aColumns = array('Nom','Prenom','Datenaissance','Sexe', 'Datedemandehospi', 'Prenom&NomMedecin' , 'id');
 		
 		/* Indexed column (used for fast and accurate table cardinality) */
 		$sIndexColumn = "id";
@@ -122,8 +135,7 @@ class DemandehospitalisationTable {
 		->join(array('cons' => 'consultation'), 'cons.pat_id_personne = pat.id_personne', array('Datedemandehospi'=>'date', 'Idcons'=>'id_cons'))
 		->join(array('dh' => 'demande_hospitalisation2'), 'dh.id_cons = cons.id_cons' , array('*'))
 		->join(array('med' => 'medecin') , 'med.id_personne = cons.id_personne' , array('NomMedecin' =>'nom', 'PrenomMedecin' => 'prenom'))
-		->where(array('dh.valider_demande_hospi' => 0 , 'cons.archivage' => 0))
-		->order('id_demande_hospi asc');
+		->where(array('dh.valider_demande_hospi' => 0 , 'cons.archivage' => 1));
 		
 		/* Data set length after filtering */
 		$stat = $sql->prepareStatementForSqlObject($sQuery);
@@ -175,7 +187,7 @@ class DemandehospitalisationTable {
 		
 					else if ($aColumns[$i] == 'id') {
 						$html  ="<infoBulleVue><a href='javascript:affichervue(".$aRow[ $aColumns[$i] ].")'>";
-						$html .="<img style='display: inline; margin-right: 15%;' src='".$tabURI[0]."public/images_icons/voir.png' title='détails'></a></infoBulleVue>";
+						$html .="<img style='display: inline; margin-right: 15%;' src='".$tabURI[0]."public/images_icons/voir2.png' title='détails'></a></infoBulleVue>";
 		
 						$html  .="<infoBulleVue><a href='javascript:hospitaliser(".$aRow[ $aColumns[$i] ].")'>";
 						$html .="<img style='display: inline; margin-right: 5%;' src='".$tabURI[0]."public/images_icons/details.png' title='Hospitaliser'></a></infoBulleVue>";
@@ -190,8 +202,8 @@ class DemandehospitalisationTable {
 						$row[] = $aRow[ 'PrenomMedecin' ]." ".$aRow[ 'NomMedecin' ];
 					}
 					
-					else if ($aColumns[$i] == 'date_demande_hospi') {
-						$row[] = $Control->convertDateTime($aRow[ 'date_demande_hospi' ]);
+					else if ($aColumns[$i] == 'Datedemandehospi') {
+						$row[] = $Control->convertDateTime($aRow[ 'Datedemandehospi' ]);
 					}
 					
 					else {
@@ -211,7 +223,7 @@ class DemandehospitalisationTable {
 	/**
 	 * Recuperation de la liste des patients en cours d'hospitalisation et deja hospitaliser
 	 */
-	public function getListePatientEncoursHospitalisation()
+	public function getListePatientEncoursHospitalisation($id_medecin)
 	{
 	
 		$db = $this->tableGateway->getAdapter();
@@ -250,7 +262,7 @@ class DemandehospitalisationTable {
 	
 		/*
 		 * SQL queries
-		*/
+		 */
 		$sql = new Sql($db);
 		$sQuery = $sql->select()
 		->from(array('pat' => 'patient'))->columns(array('Nom'=>'nom','Prenom'=>'prenom','Datenaissance'=>'date_naissance','Sexe'=>'sexe','Adresse'=>'adresse','id'=>'id_personne'))
@@ -258,7 +270,7 @@ class DemandehospitalisationTable {
 		->join(array('dh' => 'demande_hospitalisation2'), 'dh.id_cons = cons.id_cons' , array('*'))
 		->join(array('med' => 'medecin') , 'med.id_personne = cons.id_personne' , array('NomMedecin' =>'nom', 'PrenomMedecin' => 'prenom'))
 		->join(array('h' => 'hospitalisation'), 'h.code_demande_hospitalisation = dh.id_demande_hospi' , array('Datedebut'=>'date_debut', 'Idhosp'=>'id_hosp', 'Terminer'=>'terminer'))
-		->where(array('dh.valider_demande_hospi'=>1))
+		->where(array('dh.valider_demande_hospi'=>1 , 'med.id_personne'=> $id_medecin, 'cons.archivage' => 1))
 		->order('h.terminer ASC');
 	
 		/* Data set length after filtering */
@@ -417,7 +429,7 @@ class DemandehospitalisationTable {
 		->join(array('dh' => 'demande_hospitalisation2'), 'dh.id_cons = cons.id_cons' , array('*'))
 		->join(array('med' => 'medecin') , 'med.id_personne = cons.id_personne' , array('NomMedecin' =>'nom', 'PrenomMedecin' => 'prenom'))
 		->join(array('h' => 'hospitalisation'), 'h.code_demande_hospitalisation = dh.id_demande_hospi' , array('Datedebut'=>'date_debut', 'Idhosp'=>'id_hosp', 'Terminer'=>'terminer'))
-		->where(array('dh.valider_demande_hospi'=>1))
+		->where(array('dh.valider_demande_hospi'=>1, 'cons.archivage'=>1))
 		->where(array('h.terminer' => 0));
 	
 		/* Data set length after filtering */
@@ -503,6 +515,19 @@ class DemandehospitalisationTable {
 	
 		return $output;
 	
+	}
+	
+	
+	public function getDemandehospitalisationParIdcons($idcons)
+	{
+		$rowset = $this->tableGateway->select(array(
+				'id_cons' => $idcons,
+		));
+		$row = $rowset->current();
+		if (!$row) {
+			return null;
+		}
+		return $row;
 	}
 	
 }

@@ -7,29 +7,28 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <?php
 
- echo $this->headLink()->prependStylesheet($this->basePath().'/css/bootstrap.min.css');
- //echo $this->headLink()->prependStylesheet($this->basePath().'/css/uniform.css');
- //echo $this->headLink()->prependStylesheet($this->basePath().'/css/select2.css');
- echo $this->headLink()->prependStylesheet($this->basePath().'/css/jquery.contextMenu.css');
- echo $this->headLink()->prependStylesheet($this->basePath().'/css/matrix-style-cons.css');
- echo $this->headLink()->prependStylesheet($this->basePath().'/css/matrix-media.css');
- //echo $this->headLink()->prependStylesheet($this->basePath().'/font-awesome/css/font-awesome.css');
+echo $this->headLink()->prependStylesheet($this->basePath().'/css/bootstrap.min.css');
+echo $this->headLink()->prependStylesheet($this->basePath().'/css/uniform.css');
+echo $this->headLink()->prependStylesheet($this->basePath().'/css/select2.css');
+echo $this->headLink()->prependStylesheet($this->basePath().'/css/jquery.contextMenu.css');
+echo $this->headLink()->prependStylesheet($this->basePath().'/css/matrix-style-archi.css');
+echo $this->headLink()->prependStylesheet($this->basePath().'/css/matrix-media.css');
+echo $this->headLink()->prependStylesheet($this->basePath().'/font-awesome/css/font-awesome.css');
+echo $this->headLink()->prependStylesheet($this->basePath().'/css/tooltipster.css');
+echo $this->headLink()->appendStylesheet($this->basePath().'/css/smoothness/jquery-ui.css');
 
- $this->headScript()->appendFile($this->basePath().'/js/jquery.min.js');
- //$this->headScript()->appendFile($this->basePath().'/js/jquery.ui.custom.js');
- //$this->headScript()->appendFile($this->basePath().'/js/bootstrap.min.js');
- //$this->headScript()->appendFile($this->basePath().'/js/jquery.uniform.js');
- //$this->headScript()->appendFile($this->basePath().'/js/select2.min.js');
- $this->headScript()->appendFile($this->basePath().'/js/jquery.dataTables.min.js');
- $this->headScript()->appendFile($this->basePath().'/js/matrix.js');
- 
- echo $this->headTitle($this->pageTitle);?> 
-        <?php echo $this->headLink()->appendStylesheet($this->basePath().'/css/smoothness/jquery-ui.css');?>
+$this->headScript()->appendFile($this->basePath().'/js/jquery.min.js');
+$this->headScript()->appendFile($this->basePath().'/js/jquery.tooltipster.min.js');
+$this->headScript()->appendFile($this->basePath().'/js/bootstrap.min.js');
+$this->headScript()->appendFile($this->basePath().'/js/jquery.uniform.js');
+$this->headScript()->appendFile($this->basePath().'/js/select2.min.js');
+$this->headScript()->appendFile($this->basePath().'/js/jquery.dataTables.min.js');
+$this->headScript()->appendFile($this->basePath().'/js/jquery-ui.js');
 
-        <?php $this->headScript()->appendFile($this->basePath().'/js/jquery-1.9.1.js');
-		      $this->headScript()->appendFile($this->basePath().'/js/jquery-ui.js');
-		      
-		?>
+$this->headScript()->appendFile($this->basePath().'/js/jquery.maskedinput.js');
+$this->headScript()->appendFile($this->basePath().'/js/controle_saisie/controle_saisie.js');
+
+?>
 
 		<?php echo $this->headScript();?>
 <head>
@@ -73,8 +72,8 @@
 
     <li style="width: 15%; ">
      <div style='width: 30%; padding-top: 10px; float:left;'>
-         <a href="<?php echo $this->url('admin', array('action'=>'logout'));?>">
-           <img src="../img/light/house.png" title="Menu d'accueil" />
+         <a href="<?php echo $this->url('consultation', array('action'=> 'consultation-medecin'));?>">
+           <img src="../img/light/arrow_up_left.png" title="Consultation" />
          </a>
       </div>
      <div style='width: 70%; padding-top: 10px; float:left;'>
@@ -83,19 +82,21 @@
         </a>
       </div>
     </li>
+    
   </ul>
  </div>
 </div>
 	
 	<!--Menu de droite-->
 	<div id="sidebar">
-       <?php echo $this->partial('layout/menugauchecons'); ?>
+       <?php echo $this->partial('layout/menugaucheArch'); ?>
     </div>
 	<div id="content">
 		<div id="content-header">
 			<div style="width: 96%; margin-left: 25px;">
 				<hr>
 				<div class="row-fluid">
+     			   <div style='color: green; text-align: center; font-family: Goudy Old Style; margin-top: -20px; margin-bottom: 15px; '><span style='box-shadow: 0pt 0pt 12px rgba(0, 0, 0, 0.5); font-size: 30px; font-weight: bold; border-radius: 10px; padding-left: 10px; padding-right: 10px; '> Archivage </span></div>
 	               <?php echo $this->content; ?>
                 </div>
 			</div>
@@ -103,7 +104,7 @@
 	</div>
 	<!--Pied de Page debut-->
 	<div class="row-fluid">
-		<div id="footer" class="span12" style="color: white;"><?php echo $this->partial('layout/piedpagecons'); ?> </div>
+		<div id="footer" class="span12" style="color: white;"><?php echo $this->partial('layout/piedpageArch'); ?> </div>
 	</div>
 	<!--Fin de pied de page-->
 </body>
@@ -123,6 +124,10 @@
 body .ui-tooltip {
 	border-width: 2px;
 }
+
+minus{
+	text-transform : lowercase;
+}
 </style>
 
 <script>
@@ -141,13 +146,13 @@ jQuery(document).ready(function($){
     });
 
     $('#modifierPassword').click(function(){
-        var role = "<?php echo $user->role;?>";
-        var id = 0;
-        if(role == 'medecin'){id = 1;}
-        if(role == 'surveillant'){id = 2;}
+//        var role = "<?php //echo $user->role;?>";
+//         var id = 0;
+//         if(role == 'medecin'){id = 1;}
+//         if(role == 'surveillant'){id = 2;}
         
-    	vart=tabUrl[0]+'public/admin/modifier-password/'+id;
-        $(location).attr("href",vart);
+//     	vart=tabUrl[0]+'public/admin/modifier-password/'+id;
+//         $(location).attr("href",vart);
     });
 });
 </script>

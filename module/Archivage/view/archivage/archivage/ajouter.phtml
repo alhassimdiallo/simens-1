@@ -3,7 +3,7 @@
 
 <!-- MES JS -->
 <?php
-echo $this->headScript ()->appendFile ( $this->basePath () . '/js/facturation/jsFacturation.js' );
+echo $this->headScript ()->appendFile ( $this->basePath () . '/js/archivage/jsFacturation.js' );
 echo $this->headLink ()->appendStylesheet ( $this->basePath () . '/css/facturation/DatePicker.css' );
 ?>
 
@@ -11,19 +11,13 @@ echo $this->headLink ()->appendStylesheet ( $this->basePath () . '/css/facturati
 info_bulle();
 controle_saisie();
 
-$(function(){
-	$('#civilite').val('');
-	$('#sexe').val('');
-    });
-
-
 var base_url = window.location.toString();
 var tabUrl = base_url.split("public");
-//POUR LE MENU GAUCHE dans -elementgauche.phtml
-$('#plus_dossier_patient').toggle(true);
-$("#dossier_patient").replaceWith("<li id='dossier_patient' style='background:#4a5765;'><a href=''><span style='margin-left:0px; color: #ffffff; font-weight:bold; font-size:18px; font-family:Times New Roman;'> <img style='display: inline;' src='"+tabUrl[0]+"public/images_icons/moins-vert.PNG' alt='Liste' /> Dossier Patient </span></a></li>");
-dep_dossier_patient1();
-$('#nouveau_style').css({'font-weight':'bold','color':'white','font-size':'22px'});
+
+$('#plus_creationDossierPatientArchive').toggle(true);
+$("#creationDossierPatientArchive").replaceWith("<li id='creationDossierPatientArchive' style='background:#4a5765;'><a href=''><span style='margin-left:0px; color: #ffffff; font-weight:bold; font-size:18px; font-family:Times New Roman;'> <img style='display: inline;' src='"+tabUrl[0]+"public/images_icons/moin-green1.png' alt='Liste' /> Dossier Patient </span></a></li>");
+dep_creationDossierPatientArchive1();
+$('#stylecreationDossierPatientArchive').css({'font-weight':'bold','color':'white','font-size':'22px'});
 </script>
 
 
@@ -42,7 +36,7 @@ $(window).load(function () {
 
 <?php
 $form = $this->form;
-$form->setAttribute ( 'action', $this->url ( 'facturation', array ('action' => 'enregistrement') ) );
+$form->setAttribute ( 'action', $this->url ( 'archivage', array ('action' => 'enregistrement') ) );
 $form->setAttribute ('enctype','multipart/form-data');
 $this->form->prepare ();
 echo $this->form ()->openTag ( $form );
@@ -119,20 +113,6 @@ echo $this->form ()->openTag ( $form );
       </div>
     </div>
     
-	<!-- table style='width: 93%; margin-top: 31%; margin-bottom: 2%;'>
-			<tr>
-				<th style="height: 20px; margin-bottom: 15px; margin-top: 25px; float: right;">
-					<div id="bouton_valider_donnees">
-						<button id='bouton_donnees_valider'>Valider</button>
-					</div> 
-					<div id="bouton_modifier_donnees">
-						<button id='bouton_donnees_modifier'>Modifier</button>
-					</div>
-				</th>
-			</tr>
-
-	</table-->
-	
 	<table style="margin-top: 365px; width: 100%;  height: 12px;">
 	  
 	  <tr style="">
@@ -164,7 +144,6 @@ echo $this->form ()->openTag ( $form );
 	<p style="font-size: 16px;">
 		<span style="float: left; margin: 0 0px 20px 0;"> <img
 			src="<?php echo $this->basePath().'/images_icons/warning_16.png';?>" />
-
 			Etes-vous s&ucirc;r de vouloir supprimer la photo ?
 		</span>
 	</p>
@@ -178,9 +157,10 @@ echo $this->form ()->openTag ( $form );
 
 <script> 
     $('#annuler').click(function(){ 
-		 vart=tabUrl[0]+'public/facturation/liste-patient';
+		 vart=tabUrl[0]+'public/archivage/liste-dossiers-patients';
 	     $(location).attr("href",vart);
 	     return false;
 	});
+
 </script>
 

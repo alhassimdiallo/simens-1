@@ -242,6 +242,72 @@ return array(
     								'details-recherche-visite' => 'anesthesie'
      						),
     						
+    						
+    						/***
+    						 * ArchivageController
+    						 * ArchivageController
+    						 * ArchivageController
+    						 * ArchivageController
+    						 * ArchivageController
+    						 * ArchivageController
+    						 * ArchivageController
+    						 * ArchivageController
+    						 * ArchivageController
+    						 * ArchivageController
+    						 * ArchivageController
+    						*/
+    						
+    						'Archivage\Controller\Archivage' => array(
+    								/* Consultation */
+    								'index' => 'medecin',
+    								'consulter' => 'medecin',
+    								'liste-consultation' => 'medecin',
+    								'hospitaliser' => 'medecin',
+    								'consultation' => 'medecin', 
+    								'update-complement-consultation' => 'medecin', 
+    								'visualisation-consultation' => 'medecin',
+    								'visualiser-consultation' => 'medecin',
+    								
+    								/* Facturation*/
+    								'ajouter' => 'medecin',
+    								'enregistrement' => 'medecin',
+    								'liste-dossiers-patients' => 'medecin',
+    								'liste-patient-ajax' => 'medecin',
+    								'info-dossier-patient' => 'medecin',
+    								'modifier' => 'medecin',
+    								'enregistrement-modification' => 'medecin',
+    								'admission' => 'medecin',
+    								'liste-admission-ajax' => 'medecin',
+    								'popup-visualisation' => 'medecin',
+    								'montant' => 'medecin',
+    								'enregistrer-admission' => 'medecin',
+    								'liste-admission' => 'medecin',
+    								'vue-patient-admis' => 'medecin',
+    								'supprimer-admission'  => 'medecin',
+    								
+    								/* Hospitalisation*/
+    								'liste-patient-ajax' => 'medecin',
+    								'info-patient' => 'medecin',
+    								'info-patient-hospi' => 'medecin',
+    								'liste-patient-encours-ajax' => 'medecin',
+    								'liste-demande-hospitalisation' => 'medecin',
+    								'salles' => 'medecin',
+    								'lits' => 'medecin',
+    								'services' => 'medecin',
+    								'administrer-soin' => 'medecin',
+    								'liste-soins-prescrits' => 'medecin',
+    								'appliquer-soin' => 'medecin',
+    								'liste-patient-suivi-ajax' => 'medecin',
+    								'info-patient-suivi' => 'medecin',
+    								'administrer-soin-patient' => 'medecin',
+    								'vue-soin-appliquer' => 'medecin',
+    								'heure-suivante' => 'medecin',
+    								'application-soin' => 'medecin',
+    								'raffraichir-liste' => 'medecin',
+    								'detail-info-liberation-patient' => 'medecin',
+    								'liste-demande-hospi-ajax' => 'medecin',
+    								
+    						),
     				),
     		),
     		

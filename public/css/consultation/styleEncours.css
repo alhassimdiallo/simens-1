@@ -1774,8 +1774,9 @@ width: 97%;/*225px; /* la largeur du champ input*/
 }
 
 #zoneChampInfo{
-    height: 40px;
-	border: 2px solid #cccccc ;
+    height: 28px;
+	border: 1px solid #cccccc ;
+    padding-top: 7px;
     border-bottom-left-radius: 10px;
     border-top-right-radius: 10px;
 }

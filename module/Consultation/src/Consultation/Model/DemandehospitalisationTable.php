@@ -257,7 +257,7 @@ class DemandehospitalisationTable {
 		$sql = new Sql($db);
 		$sQuery = $sql->select()
 		->from(array('pat' => 'patient'))->columns(array('Nom'=>'nom','Prenom'=>'prenom','Datenaissance'=>'date_naissance','Sexe'=>'sexe','Adresse'=>'adresse','id'=>'id_personne'))
-		->join(array('cons' => 'consultation'), 'cons.pat_id_personne = pat.id_personne', array('Datedemandehospi'=>'date', 'Idcons'=>'id_cons'))
+		->join(array('cons' => 'consultation'), 'cons.pat_id_personne = pat.id_personne', array('Datedemandehospi'=>'date', 'Idcons'=>'id_cons', 'Archivage' => 'archivage'))
 		->join(array('dh' => 'demande_hospitalisation2'), 'dh.id_cons = cons.id_cons' , array('*'))
 		->join(array('med' => 'medecin') , 'med.id_personne = cons.id_personne' , array('NomMedecin' =>'nom', 'PrenomMedecin' => 'prenom'))
 		->join(array('h' => 'hospitalisation'), 'h.code_demande_hospitalisation = dh.id_demande_hospi' , array('Datedebut'=>'date_debut', 'Idhosp'=>'id_hosp', 'Terminer'=>'terminer'))
