@@ -88,11 +88,11 @@
 	    <span style="margin-left:0px; color: #48ce77; font-weight:bold; font-size:20px; font-family:Times New Roman;"> <img id="image" style="display: inline;" src='<?php echo $this->basePath().'/images_icons/plus-green1.png'?>' alt='Liste' /> Radiologie </span></a> </li>
 
 	<li id="plus_radiologieArchive" style="background: #4a5765;" >
-	   <div style="margin-left:30px; height:40px; padding-top:20px;"><a href="<?php echo $this->url('archivage', array('action'=> 'ajouter-resultat-radiologie'));?>"  >
+	   <?php /* ?> <div style="margin-left:30px; height:40px; padding-top:20px;"><a href="<?php echo $this->url('archivage', array('action'=> 'ajouter-resultat-radiologie'));?>"  >
 	       <span id="styleRadiologieArchive" style="margin-left:5px; color: white; font-size:15px; font-family:Times New Roman;"><img style="display: inline;" src='<?php echo $this->basePath().'/images_icons/dossier.PNG'?>' alt='Liste' />  Ajouter r&eacute;sultats </span></a>
-	   </div>
+	   </div> <?php */ ?>
 
-	   <div style="margin-left:30px; height:40px;"><a href="<?php echo $this->url('archivage', array('action'=> 'liste-resultats-radiologie'));?>">
+	   <div style="margin-left:30px; height:40px; padding-top:20px;"><a href="<?php echo $this->url('archivage', array('action'=> 'liste-resultats-radiologie'));?>">
 	       <img style="margin-left:5px; display: inline;" src='<?php echo $this->basePath().'/images_icons/Search_22.PNG'?>' alt='Liste' />
 	       <span id="listeRadiologieArchive" style="font-size:15px; color: white; font-family:Times New Roman;">Liste</span></a>
 	   </div>
@@ -105,7 +105,7 @@
 	    <span style="margin-left:0px; color: #48ce77; font-weight:bold; font-size:20px; font-family:Times New Roman;"> <img id="image" style="display: inline;" src='<?php echo $this->basePath().'/images_icons/plus-green1.png'?>' alt='Liste' /> Biologie </span></a> </li>
 
 	<li id="plus_biologieArchive" style="background: #4a5765;" >
-	   <div style="margin-left:30px; height:40px; padding-top:20px;"><a href="<?php echo $this->url('archivage', array('action'=> 'ajouter-resultat-biologie'));?>"  >
+	   <div style="margin-left:30px; height:40px; padding-top:20px;"><a href="<?php echo $this->url('archivage', array('action'=> 'ajouter-resultat-biologique'));?>"  >
 	       <span id="styleBiologieArchive" style="margin-left:5px; color: white; font-size:15px; font-family:Times New Roman;"><img style="display: inline;" src='<?php echo $this->basePath().'/images_icons/dossier.PNG'?>' alt='Liste' />  Ajouter r&eacute;sultats </span></a>
 	   </div>
 
@@ -122,11 +122,11 @@
 	    <span style="margin-left:0px; color: #48ce77; font-weight:bold; font-size:20px; font-family:Times New Roman;"> <img id="image" style="display: inline;" src='<?php echo $this->basePath().'/images_icons/plus-green1.png'?>' alt='Liste' /> Anesth&eacute;sie </span></a> </li>
 
 	<li id="plus_anesthesieArchive" style="background: #4a5765;" >
-	   <div style="margin-left:30px; height:40px; padding-top:20px;"><a href="<?php echo $this->url('archivage', array('action'=> 'ajouter-resultat-anesthesie'));?>"  >
+	   <div style="margin-left:30px; height:40px; padding-top:20px;"><a href="<?php echo $this->url('archivage', array('action'=> 'ajouter-resultat-vpa'));?>"  >
 	       <span id="styleAnesthesieArchive" style="margin-left:5px; color: white; font-size:15px; font-family:Times New Roman;"><img style="display: inline;" src='<?php echo $this->basePath().'/images_icons/dossier.PNG'?>' alt='Liste' />  Ajouter r&eacute;sultats </span></a>
 	   </div>
 
-	   <div style="margin-left:30px; height:40px;"><a href="<?php echo $this->url('archivage', array('action'=> 'liste-resultats-anesthesie'));?>">
+	   <div style="margin-left:30px; height:40px;"><a href="<?php echo $this->url('archivage', array('action'=> 'liste-resultats-vpa'));?>">
 	       <img style="margin-left:5px; display: inline;" src='<?php echo $this->basePath().'/images_icons/Search_22.PNG'?>' alt='Liste' />
 	       <span id="listeAnesthesieArchive" style="font-size:15px; color: white; font-family:Times New Roman;">Liste</span></a>
 	   </div>
@@ -170,7 +170,7 @@ function dep_creationDossierPatientArchive1(){
 
 function dep_creationDossierPatientArchive2(){
 	$('#creationDossierPatientArchive').click(function(){
-		$("#creationDossierPatientArchive").replaceWith("<li id='creationDossierPatientArchive' style='background:#4a5765;'><a href=''><span style='margin-left:0px; color: #ffffff; font-weight:bold; font-size:20px; font-family:Times New Roman;'> <img style='display: inline;' src='/simens/public/images_icons/moin-green1.png' alt='Liste' /> Dossier Patient </span></a></li>");
+		$("#creationDossierPatientArchive").replaceWith("<li id='creationDossierPatientArchive' style='background:#4a5765;'><a href=''><span style='margin-left:0px; color: #ffffff; font-weight:bold; font-size:20px; font-family:Times New Roman;'> <img style='display: inline;' src='/simens/public/images_icons/moin-green2.png' alt='Liste' /> Dossier Patient </span></a></li>");
 		dep_creationDossierPatientArchive1();
 	    $('#plus_creationDossierPatientArchive').animate({
 	        height : 'toggle'
@@ -181,7 +181,7 @@ function dep_creationDossierPatientArchive2(){
 
 $('#plus_creationDossierPatientArchive').toggle(false);
 $('#creationDossierPatientArchive').click(function(){
-	$("#creationDossierPatientArchive").replaceWith("<li id='creationDossierPatientArchive' style='background:#4a5765;'><a href=''><span style='margin-left:0px; color: #ffffff; font-weight:bold; font-size:20px; font-family:Times New Roman;'> <img style='display: inline;' src='/simens/public/images_icons/moin-green1.png' alt='Liste' /> Dossier Patient </span></a></li>");
+	$("#creationDossierPatientArchive").replaceWith("<li id='creationDossierPatientArchive' style='background:#4a5765;'><a href=''><span style='margin-left:0px; color: #ffffff; font-weight:bold; font-size:20px; font-family:Times New Roman;'> <img style='display: inline;' src='/simens/public/images_icons/moin-green2.png' alt='Liste' /> Dossier Patient </span></a></li>");
 	dep_creationDossierPatientArchive1();
 $('#plus_creationDossierPatientArchive').animate({
 height : 'toggle'
@@ -205,7 +205,7 @@ function dep_facturationArchive1(){
 
 function dep_facturationArchive2(){
 	$('#facturationArchive').click(function(){
-		$("#facturationArchive").replaceWith("<li id='facturationArchive' style='background:#4a5765;'><a href=''><span style='margin-left:0px; color: #ffffff; font-weight:bold; font-size:20px; font-family:Times New Roman;'> <img style='display: inline;' src='/simens/public/images_icons/moin-green1.png' alt='Liste' />   Facturation  </span></a></li>");
+		$("#facturationArchive").replaceWith("<li id='facturationArchive' style='background:#4a5765;'><a href=''><span style='margin-left:0px; color: #ffffff; font-weight:bold; font-size:20px; font-family:Times New Roman;'> <img style='display: inline;' src='/simens/public/images_icons/moin-green2.png' alt='Liste' />   Facturation  </span></a></li>");
 		dep_facturationArchive1();
 	    $('#plus_facturationArchive').animate({
 	        height : 'toggle'
@@ -216,7 +216,7 @@ function dep_facturationArchive2(){
 
 $('#plus_facturationArchive').toggle(false);
 $('#facturationArchive').click(function(){
-	$("#facturationArchive").replaceWith("<li id='facturationArchive' style='background:#4a5765;'><a href=''><span style='margin-left:0px; color: #ffffff; font-weight:bold; font-size:20px; font-family:Times New Roman;'> <img style='display: inline;' src='/simens/public/images_icons/moin-green1.png' alt='Liste' />   Facturation  </span></a></li>");
+	$("#facturationArchive").replaceWith("<li id='facturationArchive' style='background:#4a5765;'><a href=''><span style='margin-left:0px; color: #ffffff; font-weight:bold; font-size:20px; font-family:Times New Roman;'> <img style='display: inline;' src='/simens/public/images_icons/moin-green2.png' alt='Liste' />   Facturation  </span></a></li>");
 	dep_facturationArchive1();
 $('#plus_facturationArchive').animate({
 height : 'toggle'
@@ -240,7 +240,7 @@ function dep_consultationArchive1(){
 
 function dep_consultationArchive2(){
 	$('#consultationArchive').click(function(){
-		$("#consultationArchive").replaceWith("<li id='consultationArchive' style='background:#4a5765;'><a href=''><span style='margin-left:0px; color: #ffffff; font-weight:bold; font-size:20px; font-family:Times New Roman;'> <img style='display: inline;' src='/simens/public/images_icons/moin-green1.png' alt='Liste' /> Consultations </span></a></li>");
+		$("#consultationArchive").replaceWith("<li id='consultationArchive' style='background:#4a5765;'><a href=''><span style='margin-left:0px; color: #ffffff; font-weight:bold; font-size:20px; font-family:Times New Roman;'> <img style='display: inline;' src='/simens/public/images_icons/moin-green2.png' alt='Liste' /> Consultations </span></a></li>");
 		dep_consultationArchive1();
 	    $('#plus_consultationArchive').animate({
 	        height : 'toggle'
@@ -251,7 +251,7 @@ function dep_consultationArchive2(){
 
 $('#plus_consultationArchive').toggle(false);
 $('#consultationArchive').click(function(){
-	$("#consultationArchive").replaceWith("<li id='consultationArchive' style='background:#4a5765;'><a href=''><span style='margin-left:0px; color: #ffffff; font-weight:bold; font-size:20px; font-family:Times New Roman;'> <img style='display: inline;' src='/simens/public/images_icons/moin-green1.png' alt='Liste' /> Consultations </span></a></li>");
+	$("#consultationArchive").replaceWith("<li id='consultationArchive' style='background:#4a5765;'><a href=''><span style='margin-left:0px; color: #ffffff; font-weight:bold; font-size:20px; font-family:Times New Roman;'> <img style='display: inline;' src='/simens/public/images_icons/moin-green2.png' alt='Liste' /> Consultations </span></a></li>");
 	dep_consultationArchive1();
 $('#plus_consultationArchive').animate({
     height : 'toggle'
@@ -274,7 +274,7 @@ function dep_hospitalisationArchive1(){
 
 function dep_hospitalisationArchive2(){
 	$('#hospitalisationArchive').click(function(){
-		$("#hospitalisationArchive").replaceWith("<li id='hospitalisationArchive' style='background:#4a5765;'><a href=''><span style='margin-left:0px; color: #ffffff; font-weight:bold; font-size:20px; font-family:Times New Roman;'> <img style='display: inline;' src='/simens/public/images_icons/moin-green1.png' alt='Liste' /> Hospitalisations </span></a></li>");
+		$("#hospitalisationArchive").replaceWith("<li id='hospitalisationArchive' style='background:#4a5765;'><a href=''><span style='margin-left:0px; color: #ffffff; font-weight:bold; font-size:20px; font-family:Times New Roman;'> <img style='display: inline;' src='/simens/public/images_icons/moin-green2.png' alt='Liste' /> Hospitalisations </span></a></li>");
 		dep_hospitalisationArchive1();
 	    $('#plus_hospitalisationArchive').animate({
 	        height : 'toggle'
@@ -285,7 +285,7 @@ function dep_hospitalisationArchive2(){
 
 $('#plus_hospitalisationArchive').toggle(false);
 $('#hospitalisationArchive').click(function(){
-	$("#hospitalisationArchive").replaceWith("<li id='hospitalisationArchive' style='background:#4a5765;'><a href=''><span style='margin-left:0px; color: #ffffff; font-weight:bold; font-size:20px; font-family:Times New Roman;'> <img style='display: inline;' src='/simens/public/images_icons/moin-green1.png' alt='Liste' /> Hospitalisations </span></a></li>");
+	$("#hospitalisationArchive").replaceWith("<li id='hospitalisationArchive' style='background:#4a5765;'><a href=''><span style='margin-left:0px; color: #ffffff; font-weight:bold; font-size:20px; font-family:Times New Roman;'> <img style='display: inline;' src='/simens/public/images_icons/moin-green2.png' alt='Liste' /> Hospitalisations </span></a></li>");
 	dep_hospitalisationArchive1();
 $('#plus_hospitalisationArchive').animate({
 height : 'toggle'
@@ -309,7 +309,7 @@ function dep_radiologieArchive1(){
 
 function dep_radiologieArchive2(){
 	$('#radiologieArchive').click(function(){
-		$("#radiologieArchive").replaceWith("<li id='radiologieArchive' style='background:#4a5765;'><a href=''><span style='margin-left:0px; color: #ffffff; font-weight:bold; font-size:20px; font-family:Times New Roman;'> <img style='display: inline;' src='/simens/public/images_icons/moin-green1.png' alt='Liste' /> Radiologie </span></a></li>");
+		$("#radiologieArchive").replaceWith("<li id='radiologieArchive' style='background:#4a5765;'><a href=''><span style='margin-left:0px; color: #ffffff; font-weight:bold; font-size:20px; font-family:Times New Roman;'> <img style='display: inline;' src='/simens/public/images_icons/moin-green2.png' alt='Liste' /> Radiologie </span></a></li>");
 		dep_radiologieArchive1();
 	    $('#plus_radiologieArchive').animate({
 	        height : 'toggle'
@@ -320,7 +320,7 @@ function dep_radiologieArchive2(){
 
 $('#plus_radiologieArchive').toggle(false);
 $('#radiologieArchive').click(function(){
-	$("#radiologieArchive").replaceWith("<li id='radiologieArchive' style='background:#4a5765;'><a href=''><span style='margin-left:0px; color: #ffffff; font-weight:bold; font-size:20px; font-family:Times New Roman;'> <img style='display: inline;' src='/simens/public/images_icons/moin-green1.png' alt='Liste' /> Radiologie </span></a></li>");
+	$("#radiologieArchive").replaceWith("<li id='radiologieArchive' style='background:#4a5765;'><a href=''><span style='margin-left:0px; color: #ffffff; font-weight:bold; font-size:20px; font-family:Times New Roman;'> <img style='display: inline;' src='/simens/public/images_icons/moin-green2.png' alt='Liste' /> Radiologie </span></a></li>");
 	dep_radiologieArchive1();
 $('#plus_radiologieArchive').animate({
 height : 'toggle'
@@ -344,7 +344,7 @@ function dep_biologieArchive1(){
 
 function dep_biologieArchive2(){
 	$('#biologieArchive').click(function(){
-		$("#biologieArchive").replaceWith("<li id='biologieArchive' style='background:#4a5765;'><a href=''><span style='margin-left:0px; color: #ffffff; font-weight:bold; font-size:20px; font-family:Times New Roman;'> <img style='display: inline;' src='/simens/public/images_icons/moin-green1.png' alt='Liste' /> Biologie </span></a></li>");
+		$("#biologieArchive").replaceWith("<li id='biologieArchive' style='background:#4a5765;'><a href=''><span style='margin-left:0px; color: #ffffff; font-weight:bold; font-size:20px; font-family:Times New Roman;'> <img style='display: inline;' src='/simens/public/images_icons/moin-green2.png' alt='Liste' /> Biologie </span></a></li>");
 		dep_biologieArchive1();
 	    $('#plus_biologieArchive').animate({
 	        height : 'toggle'
@@ -355,7 +355,7 @@ function dep_biologieArchive2(){
 
 $('#plus_biologieArchive').toggle(false);
 $('#biologieArchive').click(function(){
-	$("#biologieArchive").replaceWith("<li id='biologieArchive' style='background:#4a5765;'><a href=''><span style='margin-left:0px; color: #ffffff; font-weight:bold; font-size:20px; font-family:Times New Roman;'> <img style='display: inline;' src='/simens/public/images_icons/moin-green1.png' alt='Liste' /> Biologie </span></a></li>");
+	$("#biologieArchive").replaceWith("<li id='biologieArchive' style='background:#4a5765;'><a href=''><span style='margin-left:0px; color: #ffffff; font-weight:bold; font-size:20px; font-family:Times New Roman;'> <img style='display: inline;' src='/simens/public/images_icons/moin-green2.png' alt='Liste' /> Biologie </span></a></li>");
 	dep_biologieArchive1();
 $('#plus_biologieArchive').animate({
 height : 'toggle'
@@ -380,7 +380,7 @@ function dep_anesthesieArchive1(){
 
 function dep_anesthesieArchive2(){
 	$('#anesthesieArchive').click(function(){
-		$("#anesthesieArchive").replaceWith("<li id='anesthesieArchive' style='background:#4a5765;'><a href=''><span style='margin-left:0px; color: #ffffff; font-weight:bold; font-size:20px; font-family:Times New Roman;'> <img style='display: inline;' src='/simens/public/images_icons/moin-green1.png' alt='Liste' /> Anesth&eacute;sie </span></a></li>");
+		$("#anesthesieArchive").replaceWith("<li id='anesthesieArchive' style='background:#4a5765;'><a href=''><span style='margin-left:0px; color: #ffffff; font-weight:bold; font-size:20px; font-family:Times New Roman;'> <img style='display: inline;' src='/simens/public/images_icons/moin-green2.png' alt='Liste' /> Anesth&eacute;sie </span></a></li>");
 		dep_anesthesieArchive1();
 	    $('#plus_anesthesieArchive').animate({
 	        height : 'toggle'
@@ -391,7 +391,7 @@ function dep_anesthesieArchive2(){
 
 $('#plus_anesthesieArchive').toggle(false);
 $('#anesthesieArchive').click(function(){
-	$("#anesthesieArchive").replaceWith("<li id='anesthesieArchive' style='background:#4a5765;'><a href=''><span style='margin-left:0px; color: #ffffff; font-weight:bold; font-size:20px; font-family:Times New Roman;'> <img style='display: inline;' src='/simens/public/images_icons/moin-green1.png' alt='Liste' /> Anesth&eacute;sie </span></a></li>");
+	$("#anesthesieArchive").replaceWith("<li id='anesthesieArchive' style='background:#4a5765;'><a href=''><span style='margin-left:0px; color: #ffffff; font-weight:bold; font-size:20px; font-family:Times New Roman;'> <img style='display: inline;' src='/simens/public/images_icons/moin-green2.png' alt='Liste' /> Anesth&eacute;sie </span></a></li>");
 	dep_anesthesieArchive1();
 $('#plus_anesthesieArchive').animate({
 height : 'toggle'

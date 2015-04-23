@@ -133,8 +133,8 @@ return array(
     								'liste-soins-prescrits' => 'medecin',
     								'recherche-visualisation-consultation' => 'medecin',
     								
-    								'supprimer-image-morpho' => 'radiologie', //PARTIE EXAMEN MORPHO
-    								'images-examens-morphologiques' => 'radiologie', //PARTIE EXAMEN MORPHO
+    								'supprimer-image-morpho' => 'guest', //radiologie et archivage
+    								'images-examens-morphologiques' => 'guest', //radiologie et archivage
     								
     								/**PDF**/
     								'impression-Pdf' => 'medecin',
@@ -306,6 +306,36 @@ return array(
     								'raffraichir-liste' => 'medecin',
     								'detail-info-liberation-patient' => 'medecin',
     								'liste-demande-hospi-ajax' => 'medecin',
+    								'liberer-patient' => 'medecin',
+    								
+    								/*Radiologie*/
+    								'liste-resultats-radiologie' => 'medecin',
+    								'liste-recherche-examens-effectues-morpho-ajax' => 'medecin',
+    								'liste-examens-demander-morpho' => 'medecin',
+    								'verifier-si-resultat-existe' => 'medecin',
+    								'vue-examen-appliquer-morpho' => 'medecin',
+    								
+    								/*Biologie*/
+    								'ajouter-resultat-biologique' => 'medecin',
+    								'liste-demandes-examens-ajax' => 'medecin',
+    								'liste-examens-demander' => 'medecin',
+    								'verifier-si-resultat-existe' => 'medecin',
+    								'vue-examen-appliquer' => 'medecin',
+    								'appliquer-examen' => 'medecin',
+    								'raffraichir-liste-examens-bio' => 'medecin',
+    								'modifier-examen' => 'medecin',
+    								'envoyer-examen-bio' => 'medecin',
+    								'liste-resultats-biologie' => 'medecin',
+    								'liste-recherche-examens-effectues-ajax' => 'medecin',
+    								
+    								/*Anesthésie*/
+    								'ajouter-resultat-vpa' => 'medecin',
+    								'liste-demandes-vpa-ajax' => 'medecin',
+    								'details-demande-visite' => 'medecin',
+    								'liste-resultats-vpa' => 'medecin',
+    								'liste-recherche-vpa-ajax' => 'medecin',
+    								'save-result-vpa' => 'medecin',
+    								'details-recherche-visite' => 'medecin',
     								
     						),
     				),

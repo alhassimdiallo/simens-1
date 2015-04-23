@@ -31,6 +31,14 @@ use Archivage\Model\SalleTable;
 use Archivage\Model\Salle;
 use Archivage\Model\Soinhospitalisation3Table;
 use Archivage\Model\Soinhospitalisation3;
+use Archivage\Model\DemandeTable;
+use Archivage\Model\Demande;
+use Archivage\Model\ExamenTable;
+use Archivage\Model\Examen;
+use Archivage\Model\ResultatExamenTable;
+use Archivage\Model\ResultatExamen;
+use Archivage\Model\ResultatVisitePreanesthesiqueTable;
+use Archivage\Model\ResultatVisitePreanesthesique;
 
 class Module implements AutoloaderProviderInterface {
 	
@@ -193,6 +201,50 @@ class Module implements AutoloaderProviderInterface {
 							$resultSetPrototype = new ResultSet ();
 							$resultSetPrototype->setArrayObjectPrototype ( new Soinhospitalisation3() );
 							return new TableGateway ( 'soins_hospitalisation_3', $dbAdapter, null, $resultSetPrototype );
+						},
+						'Archivage\Model\DemandeTable' => function ($sm) {
+							$tableGateway = $sm->get ( 'DemandeTableGateway' );
+							$table = new DemandeTable( $tableGateway );
+							return $table;
+						},
+						'DemandeTableGateway' => function ($sm) {
+							$dbAdapter = $sm->get ( 'Zend\Db\Adapter\Adapter' );
+							$resultSetPrototype = new ResultSet ();
+							$resultSetPrototype->setArrayObjectPrototype ( new Demande() );
+							return new TableGateway ( 'demande', $dbAdapter, null, $resultSetPrototype );
+						},
+						'Archivage\Model\ExamenTable' => function ($sm) {
+							$tableGateway = $sm->get ( 'ExamenTableGateway' );
+							$table = new ExamenTable( $tableGateway );
+							return $table;
+						},
+						'ExamenTableGateway' => function ($sm) {
+							$dbAdapter = $sm->get ( 'Zend\Db\Adapter\Adapter' );
+							$resultSetPrototype = new ResultSet ();
+							$resultSetPrototype->setArrayObjectPrototype ( new Examen() );
+							return new TableGateway ( 'examens', $dbAdapter, null, $resultSetPrototype );
+						},
+						'Archivage\Model\ResultatExamenTable' => function ($sm) {
+							$tableGateway = $sm->get ( 'ResultatExamenTableGateway' );
+							$table = new ResultatExamenTable( $tableGateway );
+							return $table;
+						},
+						'ResultatExamenTableGateway' => function ($sm) {
+							$dbAdapter = $sm->get ( 'Zend\Db\Adapter\Adapter' );
+							$resultSetPrototype = new ResultSet ();
+							$resultSetPrototype->setArrayObjectPrototype ( new ResultatExamen() );
+							return new TableGateway ( 'resultats_examens2', $dbAdapter, null, $resultSetPrototype );
+						},
+						'Archivage\Model\ResultatVisitePreanesthesiqueTable' => function ($sm) {
+							$tableGateway = $sm->get ( 'ResultatVisitePreanesthesiqueTableGateway' );
+							$table = new ResultatVisitePreanesthesiqueTable( $tableGateway );
+							return $table;
+						},
+						'ResultatVisitePreanesthesiqueTableGateway' => function ($sm) {
+							$dbAdapter = $sm->get ( 'Zend\Db\Adapter\Adapter' );
+							$resultSetPrototype = new ResultSet ();
+							$resultSetPrototype->setArrayObjectPrototype ( new ResultatVisitePreanesthesique() );
+							return new TableGateway ( 'resultat_vpa', $dbAdapter, null, $resultSetPrototype );
 						},
 // 						'Consultation\Model\MotifAdmissionTable' => function ($sm) {
 // 							$tableGateway = $sm->get ( 'MotifAdmissionTableGateway' );
@@ -358,17 +410,6 @@ class Module implements AutoloaderProviderInterface {
 // 							$resultSetPrototype = new ResultSet ();
 // 							$resultSetPrototype->setArrayObjectPrototype ( new Soins() );
 // 							return new TableGateway ( 'soins', $dbAdapter, null, $resultSetPrototype );
-// 						},
-// 						'Consultation\Model\ResultatVisitePreanesthesiqueTable' => function ($sm) {
-// 							$tableGateway = $sm->get ( 'ResultatVisitePreanesthesiqueTableGateway' );
-// 							$table = new ResultatVisitePreanesthesiqueTable( $tableGateway );
-// 							return $table;
-// 						},
-// 						'ResultatVisitePreanesthesiqueTableGateway' => function ($sm) {
-// 							$dbAdapter = $sm->get ( 'Zend\Db\Adapter\Adapter' );
-// 							$resultSetPrototype = new ResultSet ();
-// 							$resultSetPrototype->setArrayObjectPrototype ( new ResultatVisitePreanesthesique() );
-// 							return new TableGateway ( 'resultat_vpa', $dbAdapter, null, $resultSetPrototype );
 // 						},
  				)
 		);

@@ -5,6 +5,7 @@ namespace Consultation\Model;
 use Zend\Db\TableGateway\TableGateway;
 use Facturation\View\Helper\DateHelper;
 use Zend\Db\Sql\Sql;
+use Zend\Db\Sql\Predicate\NotIn;
 
 class DemandehospitalisationTable {
 	protected $tableGateway;
@@ -250,9 +251,25 @@ class DemandehospitalisationTable {
 				}
 			}
 		}
-	
+		
 		/*
-		 * SQL queries
+		 * SQL queries 1
+		*/
+		$sql1 = new Sql($db);
+		$sQuery1 = $sql1->select()
+		->from(array('pat' => 'patient'))->columns(array('id'=>'id_personne'))
+		->join(array('cons' => 'consultation'), 'cons.pat_id_personne = pat.id_personne', array())
+		->join(array('dh' => 'demande_hospitalisation2'), 'dh.id_cons = cons.id_cons', array())
+		->join(array('med' => 'medecin') , 'med.id_personne = cons.id_personne', array())
+		->join(array('h' => 'hospitalisation'), 'h.code_demande_hospitalisation = dh.id_demande_hospi', array() )
+		->where(array('dh.valider_demande_hospi'=>1 , 'med.id_personne'=> $id_medecin, 'cons.archivage'=>1, 'h.terminer'=>0))
+		->order('h.terminer ASC');
+		//$stat1 = $sql1->prepareStatementForSqlObject($sQuery1);
+		//$rResultFt1 = $stat1->execute()->current();
+	
+		//var_dump($rResultFt1); exit();
+		/*
+		 * SQL queries 2
 		 */
 		$sql = new Sql($db);
 		$sQuery = $sql->select()
@@ -261,12 +278,13 @@ class DemandehospitalisationTable {
 		->join(array('dh' => 'demande_hospitalisation2'), 'dh.id_cons = cons.id_cons' , array('*'))
 		->join(array('med' => 'medecin') , 'med.id_personne = cons.id_personne' , array('NomMedecin' =>'nom', 'PrenomMedecin' => 'prenom'))
 		->join(array('h' => 'hospitalisation'), 'h.code_demande_hospitalisation = dh.id_demande_hospi' , array('Datedebut'=>'date_debut', 'Idhosp'=>'id_hosp', 'Terminer'=>'terminer'))
-		->where(array('dh.valider_demande_hospi'=>1 , 'med.id_personne'=> $id_medecin))
+		->where(array('dh.valider_demande_hospi'=>1 , 'med.id_personne'=> $id_medecin, new NotIn ( 'pat.id_personne', $sQuery1 )))
 		->order('h.terminer ASC');
 	
 		/* Data set length after filtering */
 		$stat = $sql->prepareStatementForSqlObject($sQuery);
 		$rResultFt = $stat->execute();
+		//var_dump($rResultFt); exit();
 		$iFilteredTotal = count($rResultFt);
 	
 		$rResult = $rResultFt;

@@ -913,7 +913,7 @@ echo $this->form()->openTag($form); ?>
 			   <tbody>	
                  <tr  style="width:100%;">
                     <td style="width:25%;" > <?php echo $Control->convertDateTime($donnees['DATE']);?> </td>
-                    <td style="width:35%;" > <?php echo $donnees['PrenomSurveillant'];?>  <?php echo $donnees['NomSurveillant'];?></td>
+                    <td style="width:35%;" > <?php /* echo $donnees['PrenomSurveillant'];?>  <?php echo $donnees['NomSurveillant']; */?> ------------- </td>
                     <td style="width:35%;" > <?php echo $donnees['PRENOM'];?>  <?php echo $donnees['NOM'];?> </td>
                     <td style="width:5%;" >
             		   <a href="<?php echo $this->url('consultation', array('action'=>'visualisation-consultation'),  array('query'=>array('id_patient'=>$this->escapeHtml($donnees['PAT_ID_PERSONNE']),'id_cons'=>$this->escapeHtml($donnees['ID_CONS']))));?>" target="_blank">

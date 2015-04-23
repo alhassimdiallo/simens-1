@@ -357,7 +357,7 @@ class DemandehospitalisationTable {
 					}
 						
 					else if ($aColumns[$i] == 'Datedebut') {
-						$row[] = $Control->convertDateTime($aRow[ 'Datedebut' ]);
+						$row[] = $Control->convertDateTime($aRow[ 'Datedemandehospi' ]);
 					}
 						
 					else {
@@ -500,7 +500,7 @@ class DemandehospitalisationTable {
 					}
 	
 					else if ($aColumns[$i] == 'Datedebut') {
-						$row[] = $Control->convertDateTime($aRow[ 'Datedebut' ]);
+						$row[] = $Control->convertDateTime($aRow[ 'Datedemandehospi' ]);
 					}
 	
 					else {

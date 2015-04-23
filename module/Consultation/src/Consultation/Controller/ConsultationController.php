@@ -2350,10 +2350,6 @@ class ConsultationController extends AbstractActionController {
 	}
 
     public function enCoursAction() {
-//     	$user = $this->layout()->user;
-//     	$id_medecin = $user->id_personne;
-//     	$output = $this->getDemandeHospitalisationTable()->getListePatientEncoursHospitalisation($id_medecin);
-//     	var_dump($output); exit();
 		$this->layout()->setTemplate('layout/consultation');
 		
 		//$soinHosp = $this->getSoinHospitalisation4Table()->getSoinhospitalisationWithId_shs(2);

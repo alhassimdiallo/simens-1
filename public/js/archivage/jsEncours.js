@@ -188,7 +188,7 @@
     /*************************************************************************************************************************/
     /*************************************************************************************************************************/
     function getsalle(id_batiment){
-      var chemin = tabUrl[0]+'public/hospitalisation/salles';
+      var chemin = tabUrl[0]+'public/archivage/salles';
       $.ajax({
         type: 'POST',
         url: chemin ,
@@ -203,7 +203,7 @@
     }
     
     function getlit(id_salle){ 
-    	var chemin = tabUrl[0]+'public/hospitalisation/lits';
+    	var chemin = tabUrl[0]+'public/archivage/lits';
     	$.ajax({
             type: 'POST',
             url: chemin ,
