@@ -36,8 +36,6 @@ $(function(){
 
 </script>
   
-
-
 <!--************************************************************************************************************-->
 <!--===================================== BLOCAGE DES JOURS NON CONSULTABLE ====================================-->
 <!--===================================== BLOCAGE DES JOURS NON CONSULTABLE ====================================-->
@@ -127,7 +125,8 @@ $(function() {
 	$( "#tabs" ).tabs();
 
 });
-pagination();
+//pagination2();
+//pagination();
 AntecedentScript();
 </script>
 
@@ -169,7 +168,6 @@ AntecedentScript();
               width:32px;
               height:32px;
          }
-
 
 </style>
 
@@ -227,7 +225,6 @@ width: 190px; /* la largeur du champ input*/
 </style>
 
 <script>
-
 $(window).load(function () {
 
 	$('#wait').toggle(false);
@@ -897,6 +894,8 @@ echo $this->form()->openTag($form); ?>
              <!-- LISTE DES CONSULTATIONS DU PATIENT -->
              
              <div id="titreTableauConsultation" style="width: 100%; font-family: Times New Roman;  color: green; font-size: 17px; font-weight: bold; padding-bottom: 5px;" ><iS style='font-size: 25px;'>&curren;</iS> LISTE DES CONSULTATIONS PR&Eacute;C&Eacute;DENTES</div>
+             
+             <div id='ListeCons'>
              <table class="table table-bordered  tab_list_mini" id="ListeConsultationPatient" style="width:100%;">
 			   <thead>
 				  <tr style="height:40px; width:100%;">
@@ -907,8 +906,8 @@ echo $this->form()->openTag($form); ?>
 				  </tr>
 			  </thead>
 			  
+			  <tbody>
 			  <?php foreach($this->liste as $donnees) :?>
-			   <tbody>	
                  <tr  style="width:100%;">
                     <td style="width:25%;" > <?php echo $Control->convertDateTime($donnees['DATE']);?> </td>
                     <td style="width:35%;" > <?php echo $donnees['PrenomSurveillant'];?>  <?php echo $donnees['NomSurveillant'];?></td>
@@ -919,10 +918,10 @@ echo $this->form()->openTag($form); ?>
 					   </a>&nbsp;
 					</td>
                  </tr>
-                 
-               </tbody>	
               <?php endforeach; ?>
+              </tbody>
              </table>
+             </div>
                
              <table id="boutonTerminerConsultation" style="width:100%;">
                <tr style="width:100%;">
@@ -939,14 +938,40 @@ echo $this->form()->openTag($form); ?>
               <!-- LISTE DES HOSPITALISATIONS DU PATIENT -->
               
               <div id="titreTableauHospitalisation" style="width: 100%; font-family: Times New Roman;  color: green; font-size: 17px; font-weight: bold; padding-bottom: 5px;" ><iS style='font-size: 25px;'>&curren;</iS> LISTE DES HOSPITALISATIONS PR&Eacute;C&Eacute;DENTES</div>
-              
-              <div id="ListeHospitalisation" style="padding-top: 40px; padding-bottom: 40px; width:100%; text-align: center;" > <b style="font-family: Felix Titling; font-size: 25px;"> PAS ENCORE FAIT </b> ... <i style="font-family: Times New Roman; font-size: 20; color: red;"> C'est pour bient&ocirc;t!  </i></div>
+              <!-- b style="font-family: Felix Titling; font-size: 25px;"> PAS ENCORE FAIT </b> ... <i style="font-family: Times New Roman; font-size: 20; color: red;"> C'est pour bient&ocirc;t!  </i-->
+             
+              <div id='ListeHospi'>
+              <table class="table table-bordered  tab_list_mini" id="ListeHospitalisation" style="width:100%;">
+			  <thead>
+				  <tr style="height:40px; width:100%;">
+					<th style="width:25%;" >DATE & HEURE</th>
+					<th style="width:35%;" >PR&Eacute;NOM & NOM M&eacute;decin</th>
+					<th style="width:35%;" >DATE & HEURE de Sortie</th>
+					<th style="width:5%;">Vue</th>
+				  </tr>
+			  </thead>
+			  <tbody>	
+			  <?php foreach($this->listeHospitalisation as $donnees) :?>
+                 <tr  style="width:100%;">
+                    <td style="width:25%;" > <?php echo $Control->convertDateTime($donnees['date_debut']);?> </td>
+                    <td style="width:35%;" > <?php echo $donnees['PrenomMedecin'];?>  <?php echo $donnees['NomMedecin'];?></td>
+                    <td style="width:35%;" > <?php echo $Control->convertDateTime($donnees['date_fin']);?>  </td>
+                    <td style="width:5%;" >
+            		   <a href="<?php echo $this->url('consultation', array('action'=>'visualisation-consultation'),  array('query'=>array('id_patient'=>$this->escapeHtml($donnees['id']),'id_cons'=>$this->escapeHtml($donnees['id_cons']))));?>" target="_blank">
+					       <img style="display: inline;"  src='<?php echo $this->basepath().'/images_icons/voird.PNG'?>' alt='Constantes' title="Voir les d&eacute;tails de la consultation" />
+					   </a>&nbsp;
+					</td>
+                 </tr>
+              <?php endforeach; ?>
+              </tbody>	
+              </table>
+              </div>
               
               <table id="boutonTerminerHospitalisation" style="width:100%;">
                <tr style="width:100%;">
                    <td class='block' id='thoughtbot2' style='display: inline-block;  vertical-align: bottom; width:100%; padding-bottom: 5px;'><div style="float:left;" id="TerminerHospitalisation">Terminer</div></td>
                <tr>
-             </table>
+              </table>
               <!-- FIN LISTE DES HOSPITALISATIONS DU PATIENT -->
               <!-- FIN LISTE DES HOSPITALISATIONS DU PATIENT -->
               <!-- FIN LISTE DES HOSPITALISATIONS DU PATIENT -->
@@ -1120,9 +1145,9 @@ echo $this->form()->openTag($form); ?>
                                var myArrayExamenBio = [''];
                                myArrayExamenBio[1] = 'Groupe sanguin';
                                myArrayExamenBio[2] = 'H&eacute;mogramme sanguin';
-                               myArrayExamenBio[3] = 'Bilan h&eacute;mostase';
-                               myArrayExamenBio[4] = 'Bilan h&eacute;pathique';
-                               myArrayExamenBio[5] = 'Bilan r&eacute;nal';
+                               myArrayExamenBio[3] = 'Bilan h&eacute;pathique';
+                               myArrayExamenBio[4] = 'Bilan r&eacute;nal';
+                               myArrayExamenBio[5] = 'Bilan h&eacute;mostase';
                                myArrayExamenBio[6] = 'Bilan inflammatoire';
                                
                                partDefautExamenBio(myArrayExamenBio, 1);
@@ -1991,6 +2016,8 @@ echo $this->form()->openTag($form); ?>
 
 <?php echo $this->form()->closeTag();?>
 </div>
-
+<script>
+jsPagination();
+</script>
 <!-- SCRIPT LOURD -->
-<?php  echo $this->headScript()->appendFile($this->basePath().'/js/jquery.maskedinput.cons.js');?>
+<?php echo $this->headScript()->appendFile($this->basePath().'/js/jquery.maskedinput.cons.js');?>

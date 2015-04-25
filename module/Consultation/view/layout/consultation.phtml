@@ -20,7 +20,7 @@
  //$this->headScript()->appendFile($this->basePath().'/js/bootstrap.min.js');
  //$this->headScript()->appendFile($this->basePath().'/js/jquery.uniform.js');
  //$this->headScript()->appendFile($this->basePath().'/js/select2.min.js');
- $this->headScript()->appendFile($this->basePath().'/js/jquery.dataTables.min.js');
+ 
  $this->headScript()->appendFile($this->basePath().'/js/matrix.js');
  
  echo $this->headTitle($this->pageTitle);?> 
@@ -28,7 +28,7 @@
 
         <?php $this->headScript()->appendFile($this->basePath().'/js/jquery-1.9.1.js');
 		      $this->headScript()->appendFile($this->basePath().'/js/jquery-ui.js');
-		      
+		      $this->headScript()->appendFile($this->basePath().'/js/jquery.dataTables.min.js');
 		?>
 
 		<?php echo $this->headScript();?>
@@ -74,7 +74,7 @@
     <li style="width: 15%; ">
      <div style='width: 30%; padding-top: 10px; float:left;'>
          <a href="<?php echo $this->url('admin', array('action'=>'logout'));?>">
-           <img src="../img/light/house.png" title="Menu d'accueil" />
+           <img src="/simens/public/img/light/house.png" title="Menu d'accueil" />
          </a>
       </div>
      <div style='width: 70%; padding-top: 10px; float:left;'>

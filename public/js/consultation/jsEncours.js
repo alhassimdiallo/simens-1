@@ -1229,3 +1229,20 @@
 
 	      return false;
 	  }
+	  
+	  
+	  function ListeSoinsVisualisationHospi(){
+		  $idHospVH = $('#idHospVH').val(); 
+		  $.ajax({
+			  type: 'POST',
+			  url: tabUrl[0]+"public/consultation/liste-soins-visualisation-hosp",
+			  data: {'id_hosp' : $idHospVH },
+			  success: function(data) {
+				  var result = jQuery.parseJSON(data);
+				  $("#info_liste").html(result);
+			  },
+			  error:function(e){console.log(e);alert("Une erreur interne est survenue!");},
+			  dataType: "html"
+		  });
+		  return false;
+	  }

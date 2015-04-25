@@ -4040,4 +4040,74 @@ text-indent: 0pt;
 
 z-index: 5;
 
-} 
+}
+
+
+/* DataTable */ /* DataTable */ /* DataTable */ /* DataTable */ /* DataTable */ /* DataTable */ /* DataTable */
+
+#ListeHospitalisation tr {
+	background: #fbfbfb;
+}
+  
+#ListeHospitalisation tr:hover {
+	background: #f5f5f5;
+}
+                
+#listeDataTable{
+   visibility: hidden;  
+   margin-bottom: -30px; 
+}
+             
+.dataTables_paginate *
+{
+	background: #e9e8e8;
+	padding-top: 6px;
+	padding-bottom: 6px;
+	padding-left: 6px;
+	padding-right: 6px;
+    color: black;	
+	margin-top: -120px;
+	cursor: pointer;
+   
+}
+
+div .dataTables_paginate
+{
+	margin-bottom: 20px;
+}
+
+.dataTables_paginate .first
+{
+	margin-right: 0px;
+}
+
+.dataTables_paginate .last
+{
+	margin-left: 0px;
+}
+
+.dataTables_paginate .previous
+{
+	margin-right: 2px;
+	border-left: 1px solid #bdb9b9;
+}
+
+.dataTables_paginate .next
+{
+	margin-left: 3px;
+	border-right: 1px solid #bdb9b9;
+}
+
+.dataTables_paginate a:hover
+{
+	text-decoration: none;
+	background-color: #c1c1c1;
+	color: white;
+}
+
+.dataTables_paginate .paginate_active
+{
+	text-decoration: none;
+	background-color: #b5b2b2;
+	color: white;
+}

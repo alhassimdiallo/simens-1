@@ -238,11 +238,11 @@ class Module implements AutoloaderProviderInterface {
 							return new TableGateway ( 'ant_familiaux_personne', $dbAdapter, null, $resultSetPrototype );
 						},
 						'Consultation\Model\DemandehospitalisationTable' => function ($sm) {
-							$tableGateway = $sm->get ( 'DemandehospitalisationTableGateway' );
+							$tableGateway = $sm->get ( 'DemandehospitalisationTableeGateway' );
 							$table = new DemandehospitalisationTable ( $tableGateway );
 							return $table;
 						},
-						'DemandehospitalisationTableGateway' => function ($sm) {
+						'DemandehospitalisationTableeGateway' => function ($sm) {
 							$dbAdapter = $sm->get ( 'Zend\Db\Adapter\Adapter' );
 							$resultSetPrototype = new ResultSet ();
 							$resultSetPrototype->setArrayObjectPrototype ( new Demandehospitalisation () );

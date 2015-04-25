@@ -45,7 +45,7 @@
 	   </div>
 	</li>
 
-	<li> 
+	<li id='archivage'> 
 	   <span style='color: #48ce77;'> ____________________________ </span> 
 	   <div style="margin-left:30px; height:40px;"><a href="<?php echo $this->url('archivage', array('action'=> 'liste-dossiers-patients'));?>">
 	       <img style="margin-left:5px;" src='<?php echo $this->basePath().'/images_icons/Folders2.png'?>'  />
@@ -66,13 +66,13 @@ if($role == 'surveillant'){ ?>
 <script>
 $("#deces").toggle(false);
 $("#dossier_personnel").toggle(false);
+$("#archivage").toggle(false);
 </script>
 <?php
 }
 else if($role == 'medecin'){ ?>
 <script>
 $("#naissance").toggle(false);
-//$("#dossier_personnel").toggle(false);
 </script>
 <?php
      }

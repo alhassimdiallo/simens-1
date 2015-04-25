@@ -590,6 +590,8 @@ class ConsultationController extends AbstractActionController {
 	}
 	// Données du patient à consulter par le medecin et complément à faire par le medecin
 	public function complementConsultationAction() { 
+		$this->layout ()->setTemplate ( 'layout/consultation' );
+		
 		$LeService = $this->layout ()->service;
 		$LigneDuService = $this->getServiceTable ()->getServiceParNom ( $LeService );
 		$IdDuService = $LigneDuService ['ID_SERVICE'];
@@ -598,9 +600,10 @@ class ConsultationController extends AbstractActionController {
 		$user = $this->layout()->user;
 		$id_medecin = $user->id_personne; //Ici c'est l'id du surveillant connect�
 		
-		$this->layout ()->setTemplate ( 'layout/consultation' );
 		$id_pat = $this->params ()->fromQuery ( 'id_patient', 0 );
 		$id = $this->params ()->fromQuery ( 'id_cons' );
+		
+		
 		$consommable = $this->getConsommableTable();
 		$listeMedicament = $consommable->listeDeTousLesMedicaments();
 		$listeForme = $consommable->formesMedicaments();
@@ -628,12 +631,20 @@ class ConsultationController extends AbstractActionController {
 		$cons = $this->getConsultationTable ();
 		$consult = $cons->getConsult ( $id );
 		
-		// POUR LES ANTECEDENTS OU TERRAIN PARTICULIER
-		// POUR LES ANTECEDENTS OU TERRAIN PARTICULIER
-		// POUR LES ANTECEDENTS OU TERRAIN PARTICULIER
+		// POUR LES HISTORIQUES OU TERRAIN PARTICULIER
+		// POUR LES HISTORIQUES OU TERRAIN PARTICULIER
+		// POUR LES HISTORIQUES OU TERRAIN PARTICULIER
+		//*** Liste des consultations
 		$listeConsultation = $cons->getConsultationPatient($id_pat);
 		//var_dump($listeConsultation); exit();
-
+		
+		//*** Liste des Hospitalisations
+		$listeHospitalisation = $this->getDemandeHospitalisationTable()->getDemandeHospitalisationWithIdPatient($id_pat); 
+//  		foreach ($listeHospitalisation as $liste){
+//  			var_dump($listeHospitalisation); exit();
+//  	    }
+		
+		
 		// instancier le motif d'admission et recup�rer l'enregistrement
 		$motif = $this->getMotifAdmissionTable ();
 		$motif_admission = $motif->getMotifAdmission ( $id );
@@ -715,6 +726,7 @@ class ConsultationController extends AbstractActionController {
 				'donneesAntecedentsFamiliaux'  => $donneesAntecedentsFamiliaux,
 				'liste' => $listeConsultation,
 				'resultRV' => $resultRV,
+				'listeHospitalisation' => $listeHospitalisation,
 		);
 	}
 	
@@ -796,6 +808,9 @@ class ConsultationController extends AbstractActionController {
 		  // POUR LES ANTECEDENTS OU TERRAIN PARTICULIER
 		  // POUR LES ANTECEDENTS OU TERRAIN PARTICULIER
 		  $listeConsultation = $cons->getConsultationPatient($id_pat);
+		  
+		  //*** Liste des Hospitalisations
+		  $listeHospitalisation = $this->getDemandeHospitalisationTable()->getDemandeHospitalisationWithIdPatient($id_pat);
 		  
 		  //POUR LES EXAMENS COMPLEMENTAIRES
 		  //POUR LES EXAMENS COMPLEMENTAIRES
@@ -999,6 +1014,7 @@ class ConsultationController extends AbstractActionController {
 		  		'listeDemandesBioEff' => $listeDemandesBiologiquesEffectuer->count(),
 		  		'listeDemandesMorphoEff' => $listeDemandesMorphologiquesEffectuer->count(),
 		  		'resultatVpa' => $resultatVpa,
+		  		'listeHospitalisation' => $listeHospitalisation,
 		  );
 	
 	}
@@ -1287,6 +1303,44 @@ class ConsultationController extends AbstractActionController {
 		
 	}
 	
+	public function visualisationHospitalisationAction(){
+		$this->layout ()->setTemplate ( 'layout/consultation' );
+		$id_demande_hospi = $this->params()->fromQuery ( 'id_demande_hospi' );
+		
+		$demandeHospi = $this->getDemandeHospitalisationTable()->getDemandehospitalisationParIdDemande($id_demande_hospi);
+		$id_cons = null;
+		$id_personne = null;
+		if($demandeHospi){
+			$id_cons = $demandeHospi->id_cons; 
+			$consultation = $this->getConsultationTable()->getConsult($id_cons);
+			$id_personne = $consultation->pat_id_personne;
+		}
+		
+		$unPatient = $this->getPatientTable()->getPatient($id_personne);
+		$photo = $this->getPatientTable()->getPhoto($id_personne);
+		
+		$demande = $this->getDemandeHospitalisationTable()->getDemandeHospitalisationWithIdcons($id_cons);
+		
+		$hospitalisation = $this->getHospitalisationTable()->getHospitalisationWithCodedh($id_demande_hospi);
+		$id_hospitalisation = $this->getHospitalisationlitTable()->getHospitalisationlit($hospitalisation->id_hosp);
+		$lit = $this->getLitTable()->getLit($id_hospitalisation->id_materiel);
+		$salle = $this->getSalleTable()->getSalle($lit->id_salle);
+		$batiment = $this->getBatimentTable()->getBatiment($salle->id_batiment);
+		
+		//var_dump($hospitalisation->id_hosp); exit();
+		
+		return array(
+				'unPatient' => $unPatient,
+				'photo' => $photo,
+				'demande' => $demande,
+				'hospitalisation' => $hospitalisation,
+				'lit' => $lit,
+				'salle' => $salle,
+				'batiment' => $batiment,
+				'id_hosp' => $hospitalisation->id_hosp,
+		);
+	}
+	
 	public function visualisationConsultationAction(){
 
 		$LeService = $this->layout ()->service;
@@ -1297,6 +1351,14 @@ class ConsultationController extends AbstractActionController {
 		 $this->getDateHelper(); 
 		 $id_pat = $this->params()->fromQuery ( 'id_patient', 0 );
 		 $id = $this->params()->fromQuery ( 'id_cons' );
+		 $id_demande_hospi = $this->params()->fromQuery ( 'id_demande_hospi' );
+		 
+		 if($id_demande_hospi){
+		 	return $this->redirect ()->toRoute ( 'consultation', array ('action' => 'visualisation-hospitalisation'),
+		 			 array('query'=>array('id_demande_hospi' => $id_demande_hospi
+		 	) ) );
+		 }
+		 
 		 $form = new ConsultationForm();
 		 
 		 $list = $this->getPatientTable ();
@@ -1613,6 +1675,14 @@ class ConsultationController extends AbstractActionController {
 		// POUR LES ANTECEDENTS OU TERRAIN PARTICULIER
 		$listeConsultation = $cons->getConsultationPatient($id_pat);
 		
+		//*** Liste des Hospitalisations
+		$listeHospitalisation = $this->getDemandeHospitalisationTable()->getDemandeHospitalisationWithIdPatient($id_pat);
+		
+// 		foreach ($listeHospitalisation as $hospi){
+// 			var_dump($listeHospitalisation); exit();
+// 		}
+		
+		
 		//POUR LES EXAMENS COMPLEMENTAIRES
 		//POUR LES EXAMENS COMPLEMENTAIRES
 		//POUR LES EXAMENS COMPLEMENTAIRES
@@ -1799,6 +1869,7 @@ class ConsultationController extends AbstractActionController {
 				'donneesAntecedentsPersonnels' => $donneesAntecedentsPersonnels,
 				'donneesAntecedentsFamiliaux'  => $donneesAntecedentsFamiliaux,
 				'resultatVpa' => $resultatVpa,
+				'listeHospitalisation' => $listeHospitalisation,
 		);
 		
 	}
@@ -3460,6 +3531,14 @@ class ConsultationController extends AbstractActionController {
 		}
 	
 		return $this->redirect()->toRoute('consultation', array('action' =>'en-cours'));
+	}
+	
+	public function listeSoinsVisualisationHospAction(){
+		$id_hosp = $this->params()->fromPost('id_hosp', 0);
+		$html = $this->raffraichirListeSoinsPrescrit($id_hosp);
+		$html .="<style> #info_liste{ margin-left:195px; width: 80%;} </style>";
+		$this->getResponse ()->getHeaders ()->addHeaderLine ( 'Content-Type', 'application/html; charset=utf-8' );
+		return $this->getResponse ()->setContent ( Json::encode ($html) );
 	}
 	
 }

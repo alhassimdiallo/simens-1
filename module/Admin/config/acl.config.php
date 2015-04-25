@@ -114,6 +114,8 @@ return array(
     								'update-complement-consultation' => 'medecin',
     								'maj-complement-consultation' => 'medecin',
     								'visualisation-consultation' => 'medecin',
+    								'visualisation-hospitalisation' => 'medecin',
+    								'liste-soins-visualisation-hosp' => 'medecin',
     								
     								'imagesExamensMorphologiques' => 'medecin',
     								'supprimerImage' => 'medecin', 

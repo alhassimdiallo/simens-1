@@ -197,7 +197,7 @@ class DemandeTable {
 			
 		$stat = $sql->prepareStatementForSqlObject($sQuery);
 		$Result = $stat->execute();
-	
+		
 		foreach ($Result as $ligne) {
 	
 			/*
@@ -212,9 +212,7 @@ class DemandeTable {
 			if($Result2['envoyer'] == 0) {
 				return false;
 			}
-	
 		}
-	
 		return true;
 	}
 	
@@ -426,7 +424,7 @@ class DemandeTable {
 		->join(array('med' => 'medecin') , 'med.id_personne = cons.id_personne' , array('NomMedecin' =>'nom', 'PrenomMedecin' => 'prenom'))
 		
 		->join(array('e' => 'examens'), 'e.idExamen = d.idExamen', array('*'))
-		->where(array('e.idType' => 2, 'cons.archivage' => 1))
+		->where(array('e.idType' => 1, 'cons.archivage' => 1))
 		->order('d.idDemande ASC')
 		->group('d.idCons');
 	

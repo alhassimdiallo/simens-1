@@ -16,6 +16,7 @@ class Demandehospitalisation {
 	public $date_demande_hospi;
 	public $date_fin_prevue_hospi;
 	public $valider_demande_hospi;
+	public $id_cons;
 	
 	protected $inputFilter;
 	
@@ -25,6 +26,7 @@ class Demandehospitalisation {
  			$this->date_demande_hospi = (! empty ( $data ['date_demande_hospi'] )) ? $data ['date_demande_hospi'] : null;
  			$this->date_fin_prevue_hospi = (! empty ( $data ['date_fin_prevue_hospi'] )) ? $data ['date_fin_prevue_hospi'] : null;
  			$this->valider_demande_hospi = (! empty ( $data ['valider_demande_hospi'] )) ? $data ['valider_demande_hospi'] : null;
+ 			$this->id_cons = (! empty ( $data ['id_cons'] )) ? $data ['id_cons'] : null;
 	}
 	
 	public function getArrayCopy() {
