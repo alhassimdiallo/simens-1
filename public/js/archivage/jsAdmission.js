@@ -55,8 +55,6 @@ function infoBulle(){
 }
 
 function initialisation(){
-	
-    
 	var asInitVals = new Array();
 	var  oTable = $('#patientAdmission').dataTable
 	( {
@@ -108,6 +106,21 @@ function initialisation(){
 			this.value = asInitVals[$("thead input").index(this)];
 		}
 	} );
+	
+	//POUR LE FILTRE DES archives
+	$('#afficherArchive').css({'font-weight':'bold', 'font-size': '17px' });
+	oTable.fnFilter( 'archive1' );
+	$('#afficherArchive').click(function(){
+		oTable.fnFilter( 'archive1' );
+		$('#afficherArchive').css({'font-weight':'bold', 'font-size': '17px' });
+		$('#afficherTous').css({'font-weight':'normal', 'font-size': '15px' });
+	});
+
+	$('#afficherTous').click(function(){
+		oTable.fnFilter( '' );
+		$('#afficherArchive').css({'font-weight':'normal', 'font-size': '15px'});
+		$('#afficherTous').css({'font-weight':'bold', 'font-size': '17px' });
+	});
    }
 
 function animation(){

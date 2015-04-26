@@ -35,7 +35,7 @@ $(window).load(function () {
 
 <div id="wait" style="color: gray; font-size: 20px; text-align: center; margin-top: 80px;" > <span> Chargement ... </span> </div>
 <div id="contenu">
-
+<div style="margin-right: 20px; float:right; font-size: 15px; margin-top:5px; font-family: Times New Roman; font-size: 15px; color: green;"> <i style='cursor:pointer;' id='afficherTous'> Tous </i> | <i style='cursor:pointer;' id='afficherArchive'> Archives </i> </div>
 			<table class="table table-bordered tab_list_mini" id="patient">
 				<thead>
 					<tr style="height: 50px; width:100%;">
@@ -132,4 +132,17 @@ var oTable = $('#patient').dataTable
 				"sAjaxSource":  "<?php echo $this->url('archivage', array('action' => 'liste-patient-ajax', 'format' => 'json')); ?>",
 
 } );
+$('#afficherArchive').css({'font-weight':'bold', 'font-size': '17px' });
+oTable.fnFilter( 'archive1' );
+$('#afficherArchive').click(function(){
+	oTable.fnFilter( 'archive1' );
+	$('#afficherArchive').css({'font-weight':'bold', 'font-size': '17px' });
+	$('#afficherTous').css({'font-weight':'normal', 'font-size': '15px' });
+});
+
+$('#afficherTous').click(function(){
+	oTable.fnFilter( '' );
+	$('#afficherArchive').css({'font-weight':'normal', 'font-size': '15px'});
+	$('#afficherTous').css({'font-weight':'bold', 'font-size': '17px' });
+});
 </script>

@@ -530,4 +530,33 @@ class DemandehospitalisationTable {
 		return $row;
 	}
 	
+	public function getDemandeHospitalisationWithIdPatient($id_pat)
+	{
+		$db = $this->tableGateway->getAdapter();
+		$sql = new Sql($db);
+		$sQuery = $sql->select()
+		->from(array('pat' => 'patient'))->columns(array('Nom'=>'nom','Prenom'=>'prenom','Datenaissance'=>'date_naissance','Sexe'=>'sexe','Adresse'=>'adresse','id'=>'id_personne'))
+		->join(array('cons' => 'consultation'), 'cons.pat_id_personne = pat.id_personne', array('DateConsultation'=>'date', 'Idcons'=>'id_cons'))
+		->join(array('dh' => 'demande_hospitalisation2'), 'dh.id_cons = cons.id_cons' , array('*'))
+		->join(array('med' => 'medecin') , 'med.id_personne = cons.id_personne' , array('NomMedecin' =>'nom', 'PrenomMedecin' => 'prenom'))
+		->join(array('h' => 'hospitalisation'), 'h.code_demande_hospitalisation = dh.id_demande_hospi' , array('*'))
+		->where(array('pat.id_personne' => $id_pat));
+	
+		$stat = $sql->prepareStatementForSqlObject($sQuery);
+		$Result = $stat->execute();
+	
+		return $Result;
+	}
+	
+	public function getDemandehospitalisationParIdDemande($id_demande_hospi)
+	{
+		$rowset = $this->tableGateway->select(array(
+				'id_demande_hospi' => $id_demande_hospi,
+		));
+		$row = $rowset->current();
+		if (!$row) {
+			return null;
+		}
+		return $row;
+	}
 }

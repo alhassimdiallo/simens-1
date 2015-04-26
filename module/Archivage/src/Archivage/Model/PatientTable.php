@@ -178,8 +178,8 @@ class PatientTable {
 		*/
 		$sql = new Sql($db);
 		$sQuery = $sql->select()
-		->from(array('pat' => 'patient'))->columns(array('Nom'=>'NOM','Prenom'=>'PRENOM','Datenaissance'=>'DATE_NAISSANCE','Sexe'=>'SEXE','Adresse'=>'ADRESSE','Nationalite'=>'NATIONALITE_ACTUELLE','Taille'=>'TAILLE','id'=>'ID_PERSONNE'))
-		->where(array('pat.ARCHIVAGE' => 1));
+		->from(array('pat' => 'patient'))->columns(array('Nom'=>'NOM','Prenom'=>'PRENOM','Datenaissance'=>'DATE_NAISSANCE','Sexe'=>'SEXE','Adresse'=>'ADRESSE','Nationalite'=>'NATIONALITE_ACTUELLE','Taille'=>'TAILLE','id'=>'ID_PERSONNE', 'archive' =>'ARCHIVAGE'))
+		;//->where(array('pat.ARCHIVAGE' => 1));
 		/* Data set length after filtering */
 		$stat = $sql->prepareStatementForSqlObject($sQuery);
 		$rResultFt = $stat->execute();
@@ -233,8 +233,9 @@ class PatientTable {
 						$html .="<img style='display: inline; margin-right: 15%;' src='".$tabURI[0]."public/images_icons/voir2.png' title='d&eacute;tails'></a></infoBulleVue>";
 
 						$html .= "<infoBulleVue> <a href='".$tabURI[0]."public/archivage/modifier/id_patient/".$aRow[ $aColumns[$i] ]."'>";
-						$html .="<img style='display: inline; margin-right: 15%;' src='".$tabURI[0]."public/images_icons/pencil_16.png' title='Modifier'></a></infoBulleVue>";
+						$html .="<img style='display: inline; margin-right: 1%;' src='".$tabURI[0]."public/images_icons/pencil_16.png' title='Modifier'></a></infoBulleVue>";
 
+						$html .="<a style='float:left; visibility: hidden; font-size: 2px;' > archive".$aRow['archive']."</a>";
 						$row[] = $html;
 					}
 
@@ -596,16 +597,17 @@ class PatientTable {
 				'id_patient'
 		) );
 		$subselect2->where ( array (
-				'cons_archive_applique' => 0
+				'cons_archive_applique' => 0,
+				'archivage' => 1
 		) );
 		
 		$sql = new Sql($db);
 		$sQuery = $sql->select()
-		->from(array('pat' => 'patient'))->columns(array('Nom'=>'NOM','Prenom'=>'PRENOM','Datenaissance'=>'DATE_NAISSANCE','Sexe'=>'SEXE','Adresse'=>'ADRESSE','Nationalite'=>'NATIONALITE_ACTUELLE','Taille'=>'TAILLE','id'=>'ID_PERSONNE','Idpatient'=>'ID_PERSONNE'))
+		->from(array('pat' => 'patient'))->columns(array('Nom'=>'NOM','Prenom'=>'PRENOM','Datenaissance'=>'DATE_NAISSANCE','Sexe'=>'SEXE','Adresse'=>'ADRESSE','Nationalite'=>'NATIONALITE_ACTUELLE','Taille'=>'TAILLE','id'=>'ID_PERSONNE','Idpatient'=>'ID_PERSONNE','archive'=>'ARCHIVAGE'))
 		->where( array (
 				//new NotIn ( 'ID_PERSONNE', $subselect1 ),
 				new NotIn ( 'ID_PERSONNE', $subselect2 ),
-				'pat.ARCHIVAGE' => 1,
+				//'pat.ARCHIVAGE' => 1,
 		) )
 		->order('pat.ID_PERSONNE ASC');
 		
@@ -664,6 +666,7 @@ class PatientTable {
 						$html .= "<infoBulleVue> <a href='javascript:admettre(".$aRow[ $aColumns[$i] ].")' >";
 						$html .="<img style='display: inline; margin-right: 5%;' src='".$tabURI[0]."public/images_icons/transfert_droite.png' title='suivant'></a> </infoBulleVue>";
 	
+						$html .="<a style='float:left; visibility: hidden; font-size: 2px;' > archive".$aRow['archive']."</a>";
 						$row[] = $html;
 					}
 	

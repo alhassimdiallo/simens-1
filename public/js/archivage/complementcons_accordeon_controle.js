@@ -843,61 +843,67 @@ $(function(){
  /**************************************************************************************************************/
  function AntecedentScript(){
 	 $(function(){
-		//CONSULTATION
-		//CONSULTATION
-		$("#titreTableauConsultation").toggle(false);
-		$("#ListeConsultationPatient").toggle(false);
-		$("#boutonTerminerConsultation").toggle(false);
-		$(".pager").toggle(false);
-		
-		//HOSPITALISATION
-		//HOSPITALISATION
-		$("#titreTableauHospitalisation").toggle(false);
-		$("#boutonTerminerHospitalisation").toggle(false);
-		$("#ListeHospitalisation").toggle(false);
-		
-		
-		//CONSULTATION
-		//CONSULTATION
-		$(".image1").click(function(){
+			//CONSULTATION
+			//CONSULTATION
+			$("#titreTableauConsultation").toggle(false);
+			$("#ListeConsultationPatient").toggle(false);
+			$("#ListeCons").toggle(false);
+			$("#boutonTerminerConsultation").toggle(false);
+			$(".pager").toggle(false);
 			
-			 $("#MenuAntecedent").fadeOut(function(){ 
-				 $("#titreTableauConsultation").fadeIn("fast");
-				 $("#ListeConsultationPatient").fadeIn("fast"); 
-			     $("#boutonTerminerConsultation").toggle(true);
-			     $(".pager").toggle(true);
-			 });
-		});
-		
-		$("#TerminerConsultation").click(function(){
-			$("#boutonTerminerConsultation").fadeOut();
-			$(".pager").fadeOut();
-			$("#titreTableauConsultation").fadeOut();
-			$("#ListeConsultationPatient").fadeOut(function(){ 
-			    $("#MenuAntecedent").fadeIn("fast");
+			//HOSPITALISATION
+			//HOSPITALISATION
+			$("#titreTableauHospitalisation").toggle(false);
+			$("#boutonTerminerHospitalisation").toggle(false);
+			$("#ListeHospitalisation").toggle(false);
+			$("#ListeHospi").toggle(false);
+			
+			
+			//CONSULTATION
+			//CONSULTATION
+			$(".image1").click(function(){
+				
+				 $("#MenuAntecedent").fadeOut(function(){ 
+					 $("#titreTableauConsultation").fadeIn("fast");
+					 $("#ListeConsultationPatient").fadeIn("fast"); 
+					 $("#ListeCons").fadeIn("fast");
+				     $("#boutonTerminerConsultation").toggle(true);
+				     $(".pager").toggle(true);
+				 });
 			});
-		});
-		
-		//HOSPITALISATION
-		//HOSPITALISATION
-		$(".image2").click(function(){
-			 $("#MenuAntecedent").fadeOut(function(){ 
-				 $("#titreTableauHospitalisation").fadeIn("fast");
-			     $("#boutonTerminerHospitalisation").toggle(true);
-			     $("#ListeHospitalisation").fadeIn("fast");
-			 });
-		});
-		
-		$("#TerminerHospitalisation").click(function(){
-			$("#boutonTerminerHospitalisation").fadeOut();
-			$("#ListeHospitalisation").fadeOut();
-			$("#titreTableauHospitalisation").fadeOut(function(){ 
-			    $("#MenuAntecedent").fadeIn("fast");
+			
+			$("#TerminerConsultation").click(function(){
+				$("#boutonTerminerConsultation").fadeOut();
+				$(".pager").fadeOut();
+				$("#titreTableauConsultation").fadeOut();
+				$("#ListeCons").fadeOut();
+				$("#ListeConsultationPatient").fadeOut(function(){ 
+				    $("#MenuAntecedent").fadeIn("fast");
+				});
 			});
-		});
-		
-		
-	 });
+			
+			//HOSPITALISATION
+			//HOSPITALISATION
+			$(".image2").click(function(){
+				 $("#MenuAntecedent").fadeOut(function(){ 
+					 $("#titreTableauHospitalisation").fadeIn("fast");
+				     $("#boutonTerminerHospitalisation").toggle(true);
+				     $("#ListeHospitalisation").fadeIn("fast");
+				     $("#ListeHospi").fadeIn("fast");
+				 });
+			});
+			
+			$("#TerminerHospitalisation").click(function(){
+				$("#boutonTerminerHospitalisation").fadeOut();
+				$("#ListeHospitalisation").fadeOut();
+				$("#ListeHospi").fadeOut();
+				$("#titreTableauHospitalisation").fadeOut(function(){ 
+				    $("#MenuAntecedent").fadeIn("fast");
+				});
+			});
+			
+			
+		 });
 
 	 /*************************************************************************************************************/
 	 
@@ -1256,6 +1262,32 @@ $(function(){
 	  });
  }
  
+ 
+ function jsPagination() { 
+	    $('#ListeConsultationPatient, #ListeHospitalisation').dataTable
+		( {
+						"sPaginationType": "full_numbers",
+						"aaSorting": [], //pour trier la liste affichee
+						"oLanguage": {
+							"sZeroRecords":  "Aucun &eacute;l&eacute;ment &agrave; afficher",
+							"sInfo": "_START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+							"sInfoEmpty": "0 &eacute;l&eacute;ment &agrave; afficher",
+							"sInfoFiltered": "",
+							"sInfoPostFix":  "",
+							"sSearch": "",
+							"sUrl": "",
+							"sWidth": "30px",
+							"oPaginate": {
+								"sFirst":    "|<",
+								"sPrevious": "<",
+								"sNext":     ">",
+								"sLast":     ">|"
+								}
+						   },
+						   "iDisplayLength": 3,
+							"aLengthMenu": [1,2,3],
+		} );
+}
 /***************************************************************************************/
  
  /**========================== CONSTANTES CONSTANTES  ================================**/

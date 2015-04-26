@@ -419,6 +419,9 @@ class ArchivageController extends AbstractActionController {
 		// POUR LES ANTECEDENTS OU TERRAIN PARTICULIER
 		// POUR LES ANTECEDENTS OU TERRAIN PARTICULIER
 		$listeConsultation = $this->getConsultationTable ()->getConsultationPatient($id_pat);
+		
+		//*** Liste des Hospitalisations
+		$listeHospitalisation = $this->getDemandeHospitalisationTable()->getDemandeHospitalisationWithIdPatient($id_pat);
 	
 		// instanciation du model transfert
 		$transferer = $this->getTransfererPatientServiceTable ();
@@ -477,6 +480,7 @@ class ArchivageController extends AbstractActionController {
 				'donneesAntecedentsFamiliaux'  => $donneesAntecedentsFamiliaux,
 				'liste' => $listeConsultation,
 				'temoin' => 0,
+				'listeHospitalisation' => $listeHospitalisation,
 		);
 	}
 	
@@ -836,6 +840,10 @@ class ArchivageController extends AbstractActionController {
 		// POUR LES ANTECEDENTS OU TERRAIN PARTICULIER
 		$listeConsultation = $cons->getConsultationPatient($id_pat);
 		
+		//*** Liste des Hospitalisations
+		$listeHospitalisation = $this->getDemandeHospitalisationTable()->getDemandeHospitalisationWithIdPatient($id_pat);
+		
+		
 		//POUR LES EXAMENS COMPLEMENTAIRES
 		//POUR LES EXAMENS COMPLEMENTAIRES
 		//POUR LES EXAMENS COMPLEMENTAIRES
@@ -1038,6 +1046,7 @@ class ArchivageController extends AbstractActionController {
 				'listeDemandesBioEff' => $listeDemandesBiologiquesEffectuer->count(),
 				'listeDemandesMorphoEff' => $listeDemandesMorphologiquesEffectuer->count(),
 				'resultatVpa' => $resultatVpa,
+				'listeHospitalisation' => $listeHospitalisation,
 		);
 		
 	}

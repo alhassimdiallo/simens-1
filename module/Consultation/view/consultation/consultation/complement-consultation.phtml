@@ -957,8 +957,8 @@ echo $this->form()->openTag($form); ?>
                     <td style="width:35%;" > <?php echo $donnees['PrenomMedecin'];?>  <?php echo $donnees['NomMedecin'];?></td>
                     <td style="width:35%;" > <?php echo $Control->convertDateTime($donnees['date_fin']);?>  </td>
                     <td style="width:5%;" >
-            		   <a href="<?php echo $this->url('consultation', array('action'=>'visualisation-consultation'),  array('query'=>array('id_patient'=>$this->escapeHtml($donnees['id']),'id_cons'=>$this->escapeHtml($donnees['id_cons']))));?>" target="_blank">
-					       <img style="display: inline;"  src='<?php echo $this->basepath().'/images_icons/voird.PNG'?>' alt='Constantes' title="Voir les d&eacute;tails de la consultation" />
+            		   <a href="<?php echo $this->url('consultation', array('action'=>'visualisation-consultation'),  array('query'=>array('id_patient'=>$this->escapeHtml($donnees['id']),'id_cons'=>$this->escapeHtml($donnees['id_cons']), 'id_demande_hospi'=>$this->escapeHtml($donnees['id_demande_hospi']))));?>" target="_blank"> 
+					       <img style="display: inline;"  src='<?php echo $this->basepath().'/images_icons/voird.PNG'?>' alt='Constantes' title="Voir les d&eacute;tails sur l'hospitalisation" />
 					   </a>&nbsp;
 					</td>
                  </tr>

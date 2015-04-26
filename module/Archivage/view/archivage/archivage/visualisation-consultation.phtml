@@ -1,7 +1,7 @@
 <script>
 //POUR LE MENU GAUCHE dans -elementgauche.phtml
 $('#plus_consultationArchive').toggle(true);
-$("#consultationArchive").replaceWith("<li id='consultationArchive' style='background:#4a5765;'><a href=''><span style='margin-left:0px; color: #ffffff; font-weight:bold; font-size:20px; font-family:Times New Roman;'> <img style='display: inline;' src='<?php echo $this->basePath().'/images_icons/moin-green1.png'?>' alt='Liste' /> Consultations </span></a></li>");
+$("#consultationArchive").replaceWith("<li id='consultationArchive' style='background:#4a5765;'><a href=''><span style='margin-left:0px; color: #ffffff; font-weight:bold; font-size:20px; font-family:Times New Roman;'> <img style='display: inline;' src='<?php echo $this->basePath().'/images_icons/moin-green2.png'?>' alt='Liste' /> Consultations </span></a></li>");
 dep_consultationArchive1();
 $('#rechercheConsultationArchive').css({'font-weight':'bold','color':'white','font-size':'22px'});
 </script>
@@ -118,7 +118,6 @@ $(function() {
 	$( "#tabsAntecedents" ).tabs();
 	$( "#tabs" ).tabs();
 });
-pagination();
 AntecedentScript();
 
 function getservices(cle)
@@ -922,6 +921,7 @@ echo $this->form()->openTag($form); ?>
              <!-- LISTE DES CONSULTATIONS DU PATIENT -->
              
              <div id="titreTableauConsultation" style="width: 100%; font-family: Times New Roman;  color: green; font-size: 17px; font-weight: bold; padding-bottom: 5px;" ><iS style='font-size: 25px;'>&curren;</iS> LISTE DES CONSULTATIONS PR&Eacute;C&Eacute;DENTES</div>
+             <div id='ListeCons'>
              <table class="table table-bordered  tab_list_mini" id="ListeConsultationPatient" style="width:100%;">
 			   <thead>
 				  <tr style="height:40px; width:100%;">
@@ -932,22 +932,22 @@ echo $this->form()->openTag($form); ?>
 				  </tr>
 			  </thead>
 			  
+			  <tbody>	
 			  <?php foreach($this->liste as $donnees) :?>
-			   <tbody>	
                  <tr  style="width:100%;">
                     <td style="width:25%;" > <?php echo $Control->convertDateTime($donnees['DATE']);?> </td>
-                    <td style="width:35%;" > ------------ </td>
+                    <td style="width:35%;" > <?php echo $donnees['PrenomSurveillant'];?>  <?php echo $donnees['NomSurveillant']; ?> </td>
                     <td style="width:35%;" > <?php echo $donnees['PRENOM'];?>  <?php echo $donnees['NOM'];?> </td>
                     <td style="width:5%;" >
-            		   <a href="<?php echo $this->url('archivage', array('action'=>'visualiser-consultation'),  array('query'=>array('id_patient'=>$this->escapeHtml($donnees['PAT_ID_PERSONNE']),'id_cons'=>$this->escapeHtml($donnees['ID_CONS']))));?>" target="_blank">
-					       <img  src='<?php echo $this->basepath().'/images_icons/voird.png'?>' title="Voir les d&eacute;tails de la consultation" />
+            		   <a href="<?php echo $this->url('consultation', array('action'=>'visualisation-consultation'),  array('query'=>array('id_patient'=>$this->escapeHtml($donnees['PAT_ID_PERSONNE']),'id_cons'=>$this->escapeHtml($donnees['ID_CONS']))));?>" target="_blank">
+					       <img style="display: inline;"  src='<?php echo $this->basepath().'/images_icons/voird.PNG'?>' alt='Constantes' title="Voir les d&eacute;tails de la consultation" />
 					   </a>&nbsp;
 					</td>
                  </tr>
-                 
-               </tbody>	
               <?php endforeach; ?>
+              </tbody>	
              </table>
+             </div>
                
              <table id="boutonTerminerConsultation" style="width:100%;">
                <tr style="width:100%;">
@@ -965,13 +965,38 @@ echo $this->form()->openTag($form); ?>
               
               <div id="titreTableauHospitalisation" style="width: 100%; font-family: Times New Roman;  color: green; font-size: 17px; font-weight: bold; padding-bottom: 5px;" ><iS style='font-size: 25px;'>&curren;</iS> LISTE DES HOSPITALISATIONS PR&Eacute;C&Eacute;DENTES</div>
               
-              <div id="ListeHospitalisation" style="padding-top: 40px; padding-bottom: 40px; width:100%; text-align: center;" > <b style="font-family: Felix Titling; font-size: 25px;"> PAS ENCORE FAIT </b> ... <i style="font-family: Times New Roman; font-size: 20; color: red;"> C'est pour bient&ocirc;t!  </i></div>
+              <div id='ListeHospi'>
+              <table class="table table-bordered  tab_list_mini" id="ListeHospitalisation" style="width:100%;">
+			  <thead>
+				  <tr style="height:40px; width:100%;">
+					<th style="width:25%;" >DATE & HEURE</th>
+					<th style="width:35%;" >PR&Eacute;NOM & NOM M&eacute;decin</th>
+					<th style="width:35%;" >DATE & HEURE de Sortie</th>
+					<th style="width:5%;">Vue</th>
+				  </tr>
+			  </thead>
+			  <tbody>	
+			  <?php foreach($this->listeHospitalisation as $donnees) :?>
+                 <tr  style="width:100%;">
+                    <td style="width:25%;" > <?php echo $Control->convertDateTime($donnees['date_debut']);?> </td>
+                    <td style="width:35%;" > <?php echo $donnees['PrenomMedecin'];?>  <?php echo $donnees['NomMedecin'];?></td>
+                    <td style="width:35%;" > <?php echo $Control->convertDateTime($donnees['date_fin']);?>  </td>
+                    <td style="width:5%;" >
+            		   <a href="<?php echo $this->url('consultation', array('action'=>'visualisation-consultation'),  array('query'=>array('id_patient'=>$this->escapeHtml($donnees['id']),'id_cons'=>$this->escapeHtml($donnees['id_cons']), 'id_demande_hospi'=>$this->escapeHtml($donnees['id_demande_hospi']))));?>" target="_blank"> 
+					       <img style="display: inline;"  src='<?php echo $this->basepath().'/images_icons/voird.PNG'?>' alt='Constantes' title="Voir les d&eacute;tails sur l'hospitalisation" />
+					   </a>&nbsp;
+					</td>
+                 </tr>
+              <?php endforeach; ?>
+              </tbody>	
+              </table>
+              </div>   
               
               <table id="boutonTerminerHospitalisation" style="width:100%;">
                <tr style="width:100%;">
                    <td class='block' id='thoughtbot2' style='display: inline-block;  vertical-align: bottom; width:100%; padding-bottom: 5px;'><div style="float:left;" id="TerminerHospitalisation">Terminer</div></td>
                <tr>
-             </table>
+              </table>
               <!-- FIN LISTE DES HOSPITALISATIONS DU PATIENT -->
               <!-- FIN LISTE DES HOSPITALISATIONS DU PATIENT -->
               <!-- FIN LISTE DES HOSPITALISATIONS DU PATIENT -->
@@ -2140,3 +2165,6 @@ echo $this->form()->openTag($form); ?>
 
 <!-- SCRIPT LOURD -->
 <?php  echo $this->headScript()->appendFile($this->basePath().'/js/jquery.maskedinput.cons.js');?>
+<script>
+jsPagination();
+</script>

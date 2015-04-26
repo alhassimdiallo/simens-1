@@ -108,7 +108,7 @@ $(window).load(function () {
 	  <td style='width: 25%; height: 50px; vertical-align: top;'><a style='text-decoration:underline; font-size:12px;'>Consultation:</a><br><p style='font-weight:bold; font-size:17px;'><?php echo $this->demande['id_cons']; ?></p></td>
 	  <td style='width: 25%; height: 50px; vertical-align: top;'><a style='text-decoration:underline; font-size:12px;'>Date de la demande:</a><br><p style=' font-weight:bold; font-size:17px;'><?php echo $controle->convertDateTime($this->demande['Datedemandehospi']); ?> </p></td>
 	  <td style='width: 20%; height: 50px; vertical-align: top;'><a style='text-decoration:underline; font-size:12px;'>Date fin pr&eacute;vue:</a><br><p style=' font-weight:bold; font-size:17px;'><?php echo $controle->convertDate($this->demande['date_fin_prevue_hospi']); ?> </p></td>
-	  <td style='width: 30%; height: 50px; vertical-align: top;'><a style='text-decoration:underline; font-size:12px;'>M&eacute;decin demandeur:</a><br><p style=' font-weight:bold; font-size:17px;'><?php echo $this->demande['PrenomMedecin']; echo $this->demande['PrenomMedecin']; ?></p></td>
+	  <td style='width: 30%; height: 50px; vertical-align: top;'><a style='text-decoration:underline; font-size:12px;'>M&eacute;decin demandeur:</a><br><p style=' font-weight:bold; font-size:17px;'><?php echo $this->demande['PrenomMedecin'].' '; echo ' '.$this->demande['NomMedecin']; ?></p></td>
 	 </tr>
 	</table>
 	

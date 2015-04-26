@@ -29,6 +29,7 @@ class ConsultationTable {
 		$select->columns( array( '*' ));
 		$select->from( array( 'c' => 'consultation' ));
 		$select->join( array('m' => 'medecin'), 'm.ID_PERSONNE = c.ID_PERSONNE' , array('*'));
+		$select->join( array('surv' => 'personnel2'), 'surv.ID_PERSONNE = c.ID_SURVEILLANT' , array('NomSurveillant' => 'NOM', 'PrenomSurveillant' => 'PRENOM'));
 		$select->join( array('s' => 'service'), 's.ID_SERVICE = c.ID_SERVICE' , array('nomService' => 'NOM', 'domaineService' => 'DOMAINE'));
 		$select->where(array('c.PAT_ID_PERSONNE' => $id_pat));
 		$select->order('DATEONLY DESC');

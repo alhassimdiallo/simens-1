@@ -615,7 +615,6 @@ class ConsultationController extends AbstractActionController {
 		// Recuperer la photo du patient
 		$image = $list->getPhoto ( $id_pat );
 
-		
 		$patient = $this->getPatientTable ();
 		//RECUPERER TOUS LES PATIENTS AYANT UN RV aujourd'hui
 		$tabPatientRV = $patient->getPatientsRV($user->id_service);
@@ -626,7 +625,7 @@ class ConsultationController extends AbstractActionController {
 		
 		
 		$form = new ConsultationForm ();
-
+		
 		// instancier la consultation et r�cup�rer l'enregistrement
 		$cons = $this->getConsultationTable ();
 		$consult = $cons->getConsult ( $id );
@@ -640,10 +639,6 @@ class ConsultationController extends AbstractActionController {
 		
 		//*** Liste des Hospitalisations
 		$listeHospitalisation = $this->getDemandeHospitalisationTable()->getDemandeHospitalisationWithIdPatient($id_pat); 
-//  		foreach ($listeHospitalisation as $liste){
-//  			var_dump($listeHospitalisation); exit();
-//  	    }
-		
 		
 		// instancier le motif d'admission et recup�rer l'enregistrement
 		$motif = $this->getMotifAdmissionTable ();
@@ -1677,11 +1672,6 @@ class ConsultationController extends AbstractActionController {
 		
 		//*** Liste des Hospitalisations
 		$listeHospitalisation = $this->getDemandeHospitalisationTable()->getDemandeHospitalisationWithIdPatient($id_pat);
-		
-// 		foreach ($listeHospitalisation as $hospi){
-// 			var_dump($listeHospitalisation); exit();
-// 		}
-		
 		
 		//POUR LES EXAMENS COMPLEMENTAIRES
 		//POUR LES EXAMENS COMPLEMENTAIRES
@@ -2790,7 +2780,7 @@ class ConsultationController extends AbstractActionController {
 		
 		$hospitalisation = $this->getHospitalisationTable()->getHospitalisationWithCodedh($id_demande_hospi);
 		$html .= "<div id='info_liste'>";
-		$html .= $this->raffraichirListeSoins($hospitalisation->id_hosp);
+		$html .= $this->raffraichirListeSoinsPrescrit($hospitalisation->id_hosp);
 		$html .= "</div>";
 		
 		$html .= "<div id='titre_info_deces'>
@@ -2827,6 +2817,7 @@ class ConsultationController extends AbstractActionController {
 				  animationPliantDepliant3();
 		          animationPliantDepliant4();
 				 </script>";
+		$html .="<style> #info_liste{ margin-left:195px; width: 80%;} </style>";
 		
 		$this->getResponse ()->getHeaders ()->addHeaderLine ( 'Content-Type', 'application/html; charset=utf-8' );
 		return $this->getResponse ()->setContent ( Json::encode ( $html ) );
