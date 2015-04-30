@@ -138,6 +138,11 @@ return array(
     								'supprimer-image-morpho' => 'guest', //radiologie et archivage
     								'images-examens-morphologiques' => 'guest', //radiologie et archivage
     								
+    								
+    								'test-mp3' => 'medecin',
+    								'ajouter-mp3' => 'medecin',
+    								'afficher-mp3' => 'medecin',
+    								
     								/**PDF**/
     								'impression-Pdf' => 'medecin',
     								

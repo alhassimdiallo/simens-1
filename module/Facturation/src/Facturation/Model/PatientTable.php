@@ -1284,4 +1284,30 @@ class PatientTable {
 		return $output;
 	}
 	
+	//GESTION DES FICHIER MP3
+	//GESTION DES FICHIER MP3
+	//GESTION DES FICHIER MP3
+	public function insererMp3($titre , $nom){
+		$db = $this->tableGateway->getAdapter();
+		$sql = new Sql($db);
+		$sQuery = $sql->insert()
+		->into('fichier_mp3')
+		->columns(array('titre', 'nom'))
+		->values(array('titre' => $titre , 'nom' => $nom));
+		
+		$stat = $sql->prepareStatementForSqlObject($sQuery);
+		return $stat->execute();
+	}
+	
+	public function getMp3(){
+		$db = $this->tableGateway->getAdapter();
+		$sql = new Sql($db);
+		$sQuery = $sql->select()
+		->from(array('f' => 'fichier_mp3'))->columns(array('*'))
+		->order('id DESC');
+		
+		$stat = $sql->prepareStatementForSqlObject($sQuery);
+		$result = $stat->execute();
+		return $result;
+	}
 }

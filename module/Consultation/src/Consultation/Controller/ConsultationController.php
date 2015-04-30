@@ -41,6 +41,7 @@ use Zend\Form\View\Helper\FormText;
 use Zend\Form\View\Helper\FormSelect;
 use Consultation\Form\ConsultationHospitalisationForm;
 use Consultation\Model\Soinhospitalisation3;
+use Zend\XmlRpc\Value\Base64;
 
 class ConsultationController extends AbstractActionController {
 	protected $controlDate;
@@ -3532,4 +3533,152 @@ class ConsultationController extends AbstractActionController {
 		return $this->getResponse ()->setContent ( Json::encode ($html) );
 	}
 	
+	/**
+	 * ========================================================
+	 * ========================================================
+	 * ========================================================
+	 */
+	public function lecteurMp3Action($ListeDesSons){
+		$html ='<script>
+				 var tab = []; 
+		        </script>';
+		$i = 0;
+		foreach ($ListeDesSons as $Liste) {
+        $html .='<script>
+        		 tab['.$i++.'] = {
+	                     "title":"'. $Liste['titre'] .'<span> '. $i.' </span>",
+		                 "mp3":"/simens/public/js/plugins/jPlayer-2.9.2/examples/'. $Liste['nom'] .'",
+		         };
+        		 </script>';
+		}
+		
+        $html .='<script> 
+        		$(function(){
+	              new jPlayerPlaylist({
+		          jPlayer: "#jquery_jplayer_2",
+		          cssSelectorAncestor: "#jp_container_2"
+	            }, tab , {
+		        swfPath: "/simens/public/js/plugins/jPlayer-2.9.2/dist/jplayer",
+		        supplied: "mp3",
+		        wmode: "window",
+		        useStateClassSkin: true,
+		        autoBlur: false,
+		        smoothPlayBar: true,
+		        keyEnabled: true,
+		        remainingDuration: true,
+		        toggleDuration: true
+	            });
+                });
+        		scriptAjoutMp3();
+                </script>';
+		$html .='
+				<form id="my_form" method="post" action="/simens/public/consultation/ajouter-mp3" enctype="multipart/form-data">
+                <div id="jquery_jplayer_2" class="jp-jplayer" style="margin-bottom: 30px;"></div>
+                <div id="jp_container_2" class="jp-audio" role="application" aria-label="media player"  style="margin-bottom: 30px;">
+	            <div class="jp-type-playlist">
+		         <div class="jp-gui jp-interface">
+			       <div class="jp-controls">
+				      <button class="jp-previous" role="button" tabindex="0">previous</button>
+				      <button class="jp-play" role="button" tabindex="0">play</button>
+				      <button class="jp-next" role="button" tabindex="0">next</button>
+				      <button class="jp-stop" role="button" tabindex="0">stop</button>
+			       </div>
+			   <div class="jp-progress">
+				<div class="jp-seek-bar">
+					<div class="jp-play-bar"></div>
+				</div>
+			   </div>
+			   <div class="jp-volume-controls">
+				<button class="jp-mute" role="button" tabindex="0">mute</button>
+				<button class="jp-volume-max" role="button" tabindex="0">max volume</button>
+				<div class="jp-volume-bar">
+					<div class="jp-volume-bar-value"></div>
+				</div>
+			   </div>
+			   <div class="jp-time-holder">
+				<div class="jp-current-time" role="timer" aria-label="time">&nbsp;</div>
+				<div class="jp-duration" role="timer" aria-label="duration">&nbsp;</div>
+			   </div>
+			   <div class="jp-toggles">
+				<button class="jp-repeat" role="button" tabindex="0">repeat</button>
+				<button class="jp-shuffle" role="button" tabindex="0">shuffle</button>
+				<div class="jp-ajouter" id="ajouter">
+				  <input type="file" name="fichier" id="fichier">
+				</div>
+			   </div>
+		       </div>
+		       <div class="jp-playlist">
+			      <ul>
+				     <li>&nbsp;</li>
+			      </ul>
+		       </div>
+	           </div>
+               </div>
+               </form>';
+		return $html;
+	}
+	
+	public function afficherMp3Action(){
+		$ListeDesSons = $this->getPatientTable ()->getMp3();
+		
+		$html = $this->lecteurMp3Action($ListeDesSons);
+		
+		$this->getResponse ()->getHeaders ()->addHeaderLine ( 'Content-Type', 'application/html; charset=utf-8' );
+		return $this->getResponse ()->setContent ( Json::encode ($html) );
+	}
+	
+	
+	
+	
+	
+	
+	
+	public function testMp3Action(){
+		$this->layout ()->setTemplate ( 'layout/consultation' );
+		$service = $this->layout ()->service;
+		
+		//$this->getPatientTable ()->insererMp3('titre', 'mp3');
+//  		$listeMp3 = $this->getPatientTable ()->getMp3();
+		
+// 		foreach ($listeMp3 as $liste){
+// 			var_dump($liste['id']); 
+// 		}
+// 		exit();
+		//var_dump($listeMp3); exit();
+		
+		
+		
+		
+		
+		$patients = $this->getPatientTable ();
+		$tab = $patients->listePatientsConsMedecin ( $service );
+		
+		$form = new ConsultationForm ();
+		
+		return new ViewModel ( array (
+				'donnees' => $tab,
+				'form' => $form
+		) );
+	}
+	
+	public function ajouterMp3Action(){
+		
+		$type = $_FILES['fichier']['type'];
+		$nom_file = $_FILES['fichier']['name'];
+		$tmp = $_FILES['fichier']['tmp_name'];
+		
+		$ListeDesSons = null;
+		if($type == 'audio/mp3'){ //unlink pour la suppression
+			$result = move_uploaded_file($tmp, 'C:\wamp\www\simens\public\js\plugins\jPlayer-2.9.2\examples\\'.$nom_file);
+			if($result){
+				$this->getPatientTable ()->insererMp3($nom_file, $nom_file);
+				$ListeDesSons = $this->getPatientTable ()->getMp3();
+			}
+		}
+		
+		$html = $this->lecteurMp3Action($ListeDesSons);
+			
+		$this->getResponse ()->getHeaders ()->addHeaderLine ( 'Content-Type', 'application/html; charset=utf-8' );
+		return $this->getResponse ()->setContent ( Json::encode ($html) );
+	}
 }
