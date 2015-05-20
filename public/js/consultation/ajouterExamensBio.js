@@ -178,13 +178,13 @@ function chargementModificationBio (index , element , note) {
 			if(element == 2) {
 				$('#hemogramme_sanguin').toggle(true); 
 			} else
-				if(element == 3) {
+				if(element == 5) {
 					$('#bilan_hemolyse').toggle(true); 
 				} else
-					if(element == 4) {
+					if(element == 3) {
 						$('#bilan_hepatique').toggle(true); 
 					} else
-						if(element == 5) {
+						if(element == 4) {
 							$('#bilan_renal').toggle(true); 
 						} else
 							if(element == 6) {
@@ -240,9 +240,9 @@ $(function(){
 	        	for(var k = 1; k<=nbListeExamenBio(); k++){
 	        		if(examensBio[k] == 1){ $('#groupe_sanguin').toggle(true); } 
 	        		if(examensBio[k] == 2){ $('#hemogramme_sanguin').toggle(true); } 
-	        		if(examensBio[k] == 3){ $('#bilan_hemolyse').toggle(true); } 
-	        		if(examensBio[k] == 4){ $('#bilan_hepatique').toggle(true); } 
-	        		if(examensBio[k] == 5){ $('#bilan_renal').toggle(true); } 
+	        		if(examensBio[k] == 5){ $('#bilan_hemolyse').toggle(true); } 
+	        		if(examensBio[k] == 3){ $('#bilan_hepatique').toggle(true); } 
+	        		if(examensBio[k] == 4){ $('#bilan_renal').toggle(true); } 
 	        		if(examensBio[k] == 6){ $('#bilan_inflammatoire').toggle(true); } 
 	        	}
 	        	

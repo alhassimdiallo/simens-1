@@ -707,48 +707,6 @@ setTimeout(function(){
  
  /***************************************************************************************/
 
- function pagination(){
-	  $(function(){
- 		//CODE POUR INITIALISER LA LISTE 
- 		$('#ListeConsultationPatient').each(function() {
-             var currentPage = 0;
-             var numPerPage = 3;
-             var $table = $(this);
-               $table.find('tbody tr').hide()
-                 .slice(currentPage * numPerPage, (currentPage + 1) * numPerPage)
-                 .show();
- 		});
- 		//CODE POUR LA PAGINATION
-         $('#ListeConsultationPatient').each(function() {
-             var currentPage = 0;
-             var numPerPage = 3;
-             var $table = $(this);
-             var repaginate = function() {
-               $table.find('tbody tr').hide()
-                 .slice(currentPage * numPerPage, (currentPage + 1) * numPerPage)
-                 .show();
-             };
-             var numRows = $table.find('tbody tr').length;
-             var numPages = Math.ceil(numRows / numPerPage);
-             var $pager = $('<div class="pager"></div>');
-             
-             
-             for (var page = 0; page < numPages; page++) {
-               $('<a class="page-number" id="page_number" style="cursor:pointer; margin-right: 5px; background: #efefef; width:80px; height:80px; padding-left: 10px; padding-right: 10px; padding-top: 2px; padding-bottom: 2px; border: 1px solid gray;"></a>').text(page + 1)
-                 .bind('click', {newPage: page}, function(event) {
-                   currentPage = event.data['newPage'];
-                   repaginate();
-                   $(this).addClass('active').css({'background': '#8e908d', 'color':'white'}).siblings().removeClass('active').css({'background': '#efefef', 'color':'black'});
-                 }).appendTo($pager).addClass('clickable');
-             }
-           
-             
-             $pager.insertAfter($table)
-               .find('a.page-number:first').addClass('active').css({'background': '#8e908d', 'color':'white'});
-           });
-	  });
- }
- 
  function jsPagination() {
 	    $('#ListeConsultationPatient, #ListeHospitalisation').dataTable
 		( {

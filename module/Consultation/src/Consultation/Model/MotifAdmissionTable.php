@@ -12,7 +12,7 @@ class MotifAdmissionTable{
 		$adapter = $this->tableGateway->getAdapter();
 		$sql = new Sql($adapter);
 		$select = $sql->select();
-		$select->from('motif_admissionn');
+		$select->from('motif_admission');
 		$select->columns(array('Id_motif'=>'id_motif', 'Id_cons'=>'id_cons', 'Libelle_motif'=>'libelle_motif'));
 		$select->where(array('id_cons'=>$id));
 		$select->order('id_motif ASC');
@@ -24,7 +24,7 @@ class MotifAdmissionTable{
 		$adapter = $this->tableGateway->getAdapter();
 		$sql = new Sql($adapter);
 		$select = $sql->select();
-		$select->from('motif_admissionn');
+		$select->from('motif_admission');
 		$select->columns(array('id_motif'));
 		$select->where(array('id_cons'=>$id));
 		$stat = $sql->prepareStatementForSqlObject($select);
@@ -34,6 +34,7 @@ class MotifAdmissionTable{
 	public function deleteMotifAdmission($id){
 		$this->tableGateway->delete(array('id_cons'=>$id));
 	}
+	
 	public function addMotifAdmission($values){
 		for($i=1 ; $i<=5; $i++){ 
 			if($values->get ( 'motif_admission'.$i )->getValue ()){ 
@@ -41,7 +42,6 @@ class MotifAdmissionTable{
 						'libelle_motif' => $values->get ( 'motif_admission'.$i )->getValue (),
 						'id_cons' => $values->get ( 'id_cons' )->getValue (),
 				);
-				
 				$this->tableGateway->insert($datamotifadmission);
 			}
 

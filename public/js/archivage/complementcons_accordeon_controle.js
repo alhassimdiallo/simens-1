@@ -566,15 +566,16 @@ $(function(){
 	         return false;
 	 	}); 
 
-//-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*--*-*-*-*--*-*-*-*-*-**--*-**-*--**-*-*-*-*-*-*-*-*-*-*-*-*-*--**-*-*-*-*-	
+    //-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*--*-*-*-*--*-*-*-*-*-**--*-**-*--**-*-*-*-*-*-*-*-*-*-*-*-*-*--**-*-*-*-*-	
+    //-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-*--*-*-*-*--*-*-*-*-*-**--*-**-*--**-*-*-*-*-*-*-*-*-*-*-*-*-*--**-*-*-*-*-	
 	//Method envoi POST pour updatecomplementconsultation
 	//Method envoi POST pour updatecomplementconsultation
 	//Method envoi POST pour updatecomplementconsultation
-	function updateexecuterRequetePost(donnees) {
+	function updateexecuterRequetePostArchive(donnees) { 
 		// Le formulaire monFormulaire existe deja dans la page
 	    var formulaire = document.createElement("form");
 	 
-	    formulaire.setAttribute("action","/simens/public/archivage/update-complement-consultation"); 
+	    formulaire.setAttribute("action","/simenss/public/archivage/update-complement-consultation"); 
 	    formulaire.setAttribute("method","POST"); 
 	    for( donnee in donnees){
 	     // Ajout dynamique de champs dans le formulaire
@@ -593,7 +594,7 @@ $(function(){
 	
     /***LORS DU CLICK SUR 'Terminer' ****/
 	/***LORS DU CLICK SUR 'Terminer' ****/
-	$("#terminer2, #terminer3").click(function() {
+	$("#terminer2, #terminer3").click(function() { 
 		if (valid == false){return false;}
 	    var donnees = new Array();
 	    donnees['id_cons']    = $("#id_cons").val();  
@@ -808,7 +809,7 @@ $(function(){
 		if(!donnees['autresAF']){ donnees['autresAF'] = 0;}
 		donnees['NoteAutresAF'] = $("#NoteAutresAF").val();
 		
-		updateexecuterRequetePost(donnees);
+		updateexecuterRequetePostArchive(donnees);
 	});
 	
 	

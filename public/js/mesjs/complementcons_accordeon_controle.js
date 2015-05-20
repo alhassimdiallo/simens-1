@@ -206,6 +206,54 @@ $(function(){
 		return false;
 	});
 	
+	
+	//COMPTE RENDU OPERATOIRE CHIRURGICAL
+	//COMPTE RENDU OPERATOIRE CHIRURGICAL
+	$("#bouton_compte_rendu_chirurgical_valider").toggle(true);
+	$("#bouton_compte_rendu_chirurgical_modifier").toggle(false);
+	
+	$("#bouton_compte_rendu_chirurgical_valider").click(function(){
+		$("#note_compte_rendu_operatoire").attr( 'readonly', true).css({'background':'#f8f8f8'});
+		
+		$("#bouton_compte_rendu_chirurgical_valider").toggle(false);
+		$("#bouton_compte_rendu_chirurgical_modifier").toggle(true);
+		
+		return false;
+	});
+	
+	$("#bouton_compte_rendu_chirurgical_modifier").click(function(){
+		$("#note_compte_rendu_operatoire").attr( 'readonly', false).css({'background':'#fff'});
+		
+		$("#bouton_compte_rendu_chirurgical_valider").toggle(true);
+		$("#bouton_compte_rendu_chirurgical_modifier").toggle(false);
+		
+		return false;
+	});
+	
+	//COMPTE RENDU OPERATOIRE INSTRUMENTAL
+	//COMPTE RENDU OPERATOIRE INSTRUMENTAL
+	$("#bouton_compte_rendu_instrumental_valider").toggle(true);
+	$("#bouton_compte_rendu_instrumental_modifier").toggle(false);
+	
+	
+	$("#bouton_compte_rendu_instrumental_valider").click(function(){
+		$("#note_compte_rendu_operatoire_instrumental").attr( 'readonly', true).css({'background':'#f8f8f8'});
+		
+		$("#bouton_compte_rendu_instrumental_valider").toggle(false);
+		$("#bouton_compte_rendu_instrumental_modifier").toggle(true);
+		
+		return false;
+	});
+	
+	$("#bouton_compte_rendu_instrumental_modifier").click(function(){
+		$("#note_compte_rendu_operatoire_instrumental").attr( 'readonly', false).css({'background':'#fff'});
+		
+		$("#bouton_compte_rendu_instrumental_valider").toggle(true);
+		$("#bouton_compte_rendu_instrumental_modifier").toggle(false);
+		
+		return false;
+	});
+	
 });
 
 // *************Autres(Transfert/Hospitalisation/ Rendez-Vous )***************
@@ -574,7 +622,7 @@ $(function(){
 		// Le formulaire monFormulaire existe deja dans la page
 	    var formulaire = document.createElement("form");
 	 
-	    formulaire.setAttribute("action","/simens/public/consultation/update-complement-consultation"); 
+	    formulaire.setAttribute("action","/simenss/public/consultation/update-complement-consultation"); 
 	    formulaire.setAttribute("method","POST"); 
 	    for( donnee in donnees){
 	     // Ajout dynamique de champs dans le formulaire
@@ -589,12 +637,6 @@ $(function(){
 	    formulaire.submit();
 	    // Suppression du formulaire
 	    document.body.removeChild(formulaire);
-	    
-	    //formulaire.submit(function() {
-	    	//vart=tabUrl[0]+'public/consultation/en-cours';
-		    //$(location).attr("href",vart);
-	    	//return true;
-	    //});
 	}
 	
     /***LORS DU CLICK SUR 'Terminer' ****/
@@ -659,6 +701,16 @@ $(function(){
 	    donnees['type_anesthesie_demande'] = $("#type_anesthesie_demande").val();
 	    donnees['numero_vpa'] = $("#numero_vpa").val();
 	    donnees['observation'] = $("#observation").val();
+	    donnees['note_compte_rendu_operatoire'] = $("#note_compte_rendu_operatoire").val();
+
+	    //*********** TRAITEMENTS INSTRUMENTAL ************
+		//*********** TRAITEMENTS INSTRUMENTAL ************
+	    donnees['endoscopieInterventionnelle'] = $("#endoscopieInterventionnelle").val();
+	    donnees['radiologieInterventionnelle'] = $("#radiologieInterventionnelle").val();
+	    donnees['cardiologieInterventionnelle'] = $("#cardiologieInterventionnelle").val();
+	    donnees['autresIntervention'] = $("#autresIntervention").val();
+	    donnees['note_compte_rendu_operatoire_instrumental'] = $("#note_compte_rendu_operatoire_instrumental").val();
+
 	    
 	    // **********-- Rendez Vous --*******
         // **********-- Rendez Vous --*******

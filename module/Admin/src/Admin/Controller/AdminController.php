@@ -139,37 +139,37 @@ class AdminController extends AbstractActionController
     		return $this->redirect()->toRoute('admin', array('action' => 'login'));
     	}
     	
-    	if($user->role == "superAdmin")
+    	if($user['role'] == "superAdmin")
     	{
     		return array(
     				'user' => $user,
     		);
     	}
-    	else if($user->role == "medecin")
+    	else if($user['role'] == "medecin")
     	{
     		return $this->redirect()->toRoute('consultation', array('action' => 'consultation-medecin'));
     	}
-    	else if($user->role == "surveillant")
+    	else if($user['role'] == "surveillant")
     	{
     		return $this->redirect()->toRoute('consultation', array('action' => 'recherche'));
     	}
-    	else if($user->role == "infirmier")
+    	else if($user['role'] == "infirmier")
     	{
     		return $this->redirect()->toRoute('hospitalisation', array('action' => 'liste'));
     	}
-    	else if($user->role == "facturation")
+    	else if($user['role'] == "facturation")
     	{
     		return $this->redirect()->toRoute('facturation');
     	}
-    	else if($user->role == "laborantin")
+    	else if($user['role'] == "laborantin")
     	{
     		return $this->redirect()->toRoute('hospitalisation', array('action' => 'liste-demandes-examens'));
     	}
-    	else if($user->role == "radiologie")
+    	else if($user['role'] == "radiologie")
     	{
     		return $this->redirect()->toRoute('hospitalisation', array('action' => 'liste-demandes-examens-morpho'));
     	}
-    	else if($user->role == "anesthesie")
+    	else if($user['role'] == "anesthesie")
     	{
     		return $this->redirect()->toRoute('hospitalisation', array('action' => 'liste-demandes-vpa'));
     	}
@@ -193,27 +193,25 @@ class AdminController extends AbstractActionController
     	$unAgent = $this->getUtilisateurTable()->getAgentPersonnel($utilisateur->id_personne);
     	$photo = $this->getUtilisateurTable()->getPhoto($utilisateur->id_personne);
     	
-    	$date = $this->convertDate ( $unAgent['date_naissance'] );
+    	$date = $this->convertDate ( $unAgent['DATE_NAISSANCE'] );
     	
     	$serviceAgent = $this->getUtilisateurTable()->getServiceAgent($utilisateur->id_personne);
     	
     	$html ="<script> 
     			  $('#id').val('".$utilisateur->id."');
     			  $('#username').val('".$utilisateur->username."');
-    			  $('#nomUtilisateur').val('".$utilisateur->nom."');
-    			  $('#prenomUtilisateur').val('".$utilisateur->prenom."');
-    			  $('#idService').val('".$utilisateur->id_service."');
+    			  $('#nomUtilisateur').val('".$unAgent['NOM']."');
+    			  $('#prenomUtilisateur').val('".$unAgent['PRENOM']."');
+    			  $('#idService').val('".$serviceAgent['IdService']."');
     			  $('#fonction').val('".$utilisateur->fonction."');
     			  $('#idPersonne').val('".$utilisateur->id_personne."'); 
     			  $('#LesChoixRadio input[name=role]').attr('checked', false);
     			  $('#LesChoixRadio input[name=role][value=".$utilisateur->role."] ').attr('checked', true);
     			 
-    			  //alert('".$id."');
-    			  		
-    			  $('.nom').text('".$utilisateur->nom."');
-    			  $('.prenom').text('".$utilisateur->prenom."');
+    			  $('.nom').text('".$unAgent['NOM']."');
+    			  $('.prenom').text('".$unAgent['PRENOM']."');
     			  $('.date_naissance').html('".$date."');		
-    			  $('.adresse').html('".$unAgent['adresse']."');
+    			  $('.adresse').html('".$unAgent['ADRESSE']."');
     			  $('.service').html('".$serviceAgent['NomService']."');
     			  $('#photo').html('<img style=\'width:105px; height:105px;\' src=\'".$chemin."/img/photos_personnel/" . $photo . "  \' >');
     			  		
@@ -308,15 +306,14 @@ class AdminController extends AbstractActionController
   		$uAuth = $this->getServiceLocator()->get('Admin\Controller\Plugin\UserAuthentication'); //@todo - We must use PluginLoader $this->userAuthentication()!!
   		$username = $uAuth->getAuthService()->getIdentity();
   		$user = $this->getUtilisateurTable()->getUtilisateursWithUsername($username);
-  		$utilisateur = $this->getUtilisateurTable()->getUtilisateurs($user->id);
   		
   		$data = array(
-  				'id' => $utilisateur->id,
-  				'nomUtilisateur' => $utilisateur->nom,
-  				'prenomUtilisateur' => $utilisateur->prenom,
-  				'username' => $utilisateur->username,
-  				'fonction' => $utilisateur->fonction,
-  				'service' => $utilisateur->id_service,
+  				'id' => $user['id'],
+  				'nomUtilisateur' => $user['Nom'],
+  				'prenomUtilisateur' => $user['Prenom'],
+  				'username' => $user['username'],
+  				'fonction' => $user['fonction'],
+  				'service' => $user['IdService'],
   		);
   		
   		$formUtilisateur->populateValues($data);
@@ -364,23 +361,23 @@ class AdminController extends AbstractActionController
     	$unAgent = $this->getUtilisateurTable()->getAgentPersonnel($id);
     	$photo = $this->getUtilisateurTable()->getPhoto($id);
     	
-    	$date = $this->convertDate ( $unAgent['date_naissance'] );
+    	$date = $this->convertDate ( $unAgent['DATE_NAISSANCE'] );
     	
     	$html = "<div id='photo' style='float:left; margin-right:20px;' > <img  style='width:105px; height:105px;' src='".$chemin."/img/photos_personnel/" . $photo . "'></div>";
     	
     	$html .= "<table id='PopupVisualisation'>";
     	
     	$html .= "<tr>";
-    	$html .= "<td><a style='text-decoration:underline; font-size:12px;'>Nom:</a><br><p style='width:280px; font-weight:bold; font-size:17px;'>" . $unAgent['nom'] . "</p></td>";
+    	$html .= "<td><a style='text-decoration:underline; font-size:12px;'>Nom:</a><br><p style='width:280px; font-weight:bold; font-size:17px;'>" . $unAgent['NOM'] . "</p></td>";
     	$html .= "</tr><tr>";
-    	$html .= "<td><a style='text-decoration:underline; font-size:12px;'>Pr&eacute;nom:</a><br><p style='width:280px; font-weight:bold; font-size:17px;'>" . $unAgent['prenom'] . "</p></td>";
+    	$html .= "<td><a style='text-decoration:underline; font-size:12px;'>Pr&eacute;nom:</a><br><p style='width:280px; font-weight:bold; font-size:17px;'>" . $unAgent['PRENOM'] . "</p></td>";
     	$html .= "</tr><tr>";
     	$html .= "<td><a style='text-decoration:underline; font-size:12px;'>Date de naissance:</a><br><p style='width:280px; font-weight:bold; font-size:17px;'>" . $date . "</p></td>";
     	$html .= "</tr>";
     	$html .= "<tr>";
-    	$html .= "<td><a style='text-decoration:underline; font-size:12px;'>Adresse:</a><br><p style='width:280px; font-weight:bold; font-size:17px;'>" . $unAgent['adresse'] . "</p></td>";
+    	$html .= "<td><a style='text-decoration:underline; font-size:12px;'>Adresse:</a><br><p style='width:280px; font-weight:bold; font-size:17px;'>" . $unAgent['ADRESSE'] . "</p></td>";
     	$html .= "</tr><tr>";
-    	$html .= "<td><a style='text-decoration:underline; font-size:12px;'>T&eacute;l&eacute;phone:</a><br><p style='width:280px; font-weight:bold; font-size:17px;'>" . $unAgent['telephone'] . "</p></td>";
+    	$html .= "<td><a style='text-decoration:underline; font-size:12px;'>T&eacute;l&eacute;phone:</a><br><p style='width:280px; font-weight:bold; font-size:17px;'>" . $unAgent['TELEPHONE'] . "</p></td>";
     	$html .= "</tr>";
     	
     	$html .= "</table>";
@@ -400,19 +397,19 @@ class AdminController extends AbstractActionController
     	$unAgent = $this->getUtilisateurTable()->getAgentPersonnel($id);
     	$photo = $this->getUtilisateurTable()->getPhoto($id);
     	
-    	$date = $this->convertDate ( $unAgent['date_naissance'] );
+    	$date = $this->convertDate ( $unAgent['DATE_NAISSANCE'] );
     	 
     	$serviceAgent = $this->getUtilisateurTable()->getServiceAgent($id);
     	
     	$html = "<script> 
-    			   $('.nom').text('".$unAgent['nom']."');
-    			   $('.prenom').text('".$unAgent['prenom']."');
+    			   $('.nom').text('".$unAgent['NOM']."');
+    			   $('.prenom').text('".$unAgent['PRENOM']."');
     			   $('.date_naissance').text('".$date."');		
-    			   $('.adresse').text('".$unAgent['adresse']."');
+    			   $('.adresse').text('".$unAgent['ADRESSE']."');
     			   $('.service').text('".$serviceAgent['NomService']."');
     			   		
-    			   $('#nomUtilisateur').val('".$unAgent['nom']."');
-    			   $('#prenomUtilisateur').val('".$unAgent['prenom']."');
+    			   $('#nomUtilisateur').val('".$unAgent['NOM']."');
+    			   $('#prenomUtilisateur').val('".$unAgent['PRENOM']."');
     			   $('#idService').val('".$serviceAgent['IdService']."');
     			   $('#idPersonne').val('".$id."');
     			   		 

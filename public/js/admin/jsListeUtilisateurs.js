@@ -69,11 +69,6 @@
    	} );
 
     $("#annuler").click(function(){
-    	//$("#titre").replaceWith("<div id='titre' style='font-family: police2; color: green; font-size: 20px; font-weight: bold; padding-left:20px;'><iS style='font-size: 25px;'>&curren;</iS> LISTE DES UTILISATEURS </div>");
-	    //$("#FormUtilisateur").fadeOut(function(){
-	    	//$("#contenu").fadeIn("fast"); 
-	    //});
-	    //return false;
     	vart=tabUrl[0]+'public/admin/utilisateurs';
 	    $(location).attr("href",vart);
 	    return false;

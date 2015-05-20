@@ -38,11 +38,11 @@ body {
 <div id="loginbox" style="width: 100%;">
     <div style='width: 100%; margin-top: 60px;'>
 	  <div style="width: 70%; float:left; text-align: left; margin-left: 10px;  font-size: 20px; color: white;">
-		<?php echo "Bienvenue: M. ".$this->user->prenom."  ".$this->user->nom;?>
+		<?php echo "Bienvenue: M. ".$this->user['Prenom']."  ".$this->user['Nom'];?>
 	  </div>
 	  <div style="width: 27%; float:left; text-align: right; font-size: 15px; color: white; margin-right: 10px;">
 		<a href="<?php echo $this->url('admin', array('action'=>'logout'));?>">
-			<span style="color: white; ">D&eacute;connexion</span>
+			<span style="color: white; "><i> D&eacute;connexion </i></span>
 		</a>
 	  </div>
 	</div>
@@ -52,10 +52,6 @@ body {
 			href="<?php echo $this->url('consultation', array('action'=>'recherche'));?>">
 			<span class="module" > Module Consultation </span>
 		</a>
-<!-- 		<a --
-			href="<?php //echo $this->url('consultation', array('action'=>'consultation-medecin'));?>">
-<!-- 			<span class="module" > Module Consultation </span> -->
-<!-- 		</a> -->
 		<a
 			href="<?php echo $this->url('hospitalisation', array('action'=>'index'));?>">
 			<span class="module" > Module Hospitalisation </span>

@@ -37,11 +37,11 @@
 <?php
 //RECUPERER LES INFOS SUR LE BIOLOGISTE
 
-$user = $this->layout()->user;
-$nom = $user ->nom;
-$prenom = $user->prenom;
-$service = $this->layout()->service;
-if($user->role == 'superAdmin') { $service = "INFORMATIQUE";}
+$user = $this->layout()->user; 
+$nom = $user['Nom'];
+$prenom = $user['Prenom'];
+$service = $user['NomService'];
+if($user['role'] == 'superAdmin') { $service = "INFORMATIQUE";}
 ?>
 
 <body id = "bodbod">
@@ -126,7 +126,7 @@ jQuery(document).ready(function($){
     });
 
     $('#modifierPassword').click(function(){
-        var role = "<?php echo $user->role;?>";
+        var role = "<?php echo $user['role'];?>";
 
         var id = 0;
         if(role == 'infirmier'){id = 4;}

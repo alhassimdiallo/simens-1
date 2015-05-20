@@ -308,12 +308,8 @@ class TransfertPdf
 		}
 		
 		$this->_page->setFont($this->_policeContenu, 14);
-		$this->_page->drawText($this->_DonneesMedecin['prenomMedecin'],
-				$this->_leftMargin+430,
-				$this->_yPosition+90);
-		$this->_page->setFont($this->_policeContenu, 14);
-		$this->_page->drawText($this->_DonneesMedecin['nomMedecin'],
-				$this->_leftMargin+490,
+		$this->_page->drawText($this->_DonneesMedecin['prenomMedecin'].' '.$this->_DonneesMedecin['nomMedecin'] ,
+				$this->_leftMargin+370,
 				$this->_yPosition+90);
 	} 
 	

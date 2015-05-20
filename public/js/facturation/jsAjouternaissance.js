@@ -29,7 +29,6 @@ function visualiser(id){
          data:'id='+cle,
          success: function(data) {    
          	    var result = jQuery.parseJSON(data);  
-         	     //$("#foot").fadeOut(function(){$(this).html(result).fadeIn("fast"); }); 
          	     $("#info").html(result);
          	     
          	     $("#confirmation").dialog('open'); //Appel du POPUP
@@ -140,7 +139,7 @@ $('#precedent').click(function(){
 function ajouternaiss(id){
 	
 	$("#terminer").replaceWith("<button id='terminer' style='height:35px;'>Terminer</button>");
-	$('#date_naissance').datepicker(
+	$('#DATE_NAISSANCE').datepicker(
 			$.datepicker.regional['fr'] = {
 					closeText: 'Fermer',
 					changeYear: true,
@@ -201,78 +200,50 @@ function ajouternaiss(id){
         return false;
     });
     
-    //Insertion des donn�es dans la base de donn�es
-//    $('#terminer').click(function(){
-//    	$("#terminer").css({"border-color":"#ccc", "background":"-webkit-linear-gradient( #555, #CCC)", "box-shadow":"1px 1px 10px black inset,0 1px 0 rgba( 255, 255, 255, 0.4)"});
-//    	var taille = $("#taille").val();
-//    	var poids  = $("#poids").val();
-//    	var groupe_sanguin = $("#groupe_sanguin").val();
-//    	var heure_naissance = $("#heure_naissance").val();
-//    	var date_naissance = $("#date_naissance").val();
-//    	var nom = $("#nom").val();
-//    	var prenom = $("#prenom").val();
-//    	var lieu_naissance = $("#lieu_naissance").val();
-//    	var sexe = $("#sexe").val(); if(!sexe){sexe="";}
-//    
-//    	$.ajax({
-//            type: 'POST',
-//            url: tabUrl[0]+'public/facturation/enregistrer-bebe' ,  
-//            data: {'id':cle , 'nom':nom , 'prenom':prenom , 'date_naissance':date_naissance , 'lieu_naissance':lieu_naissance , 'heure_naissance':heure_naissance , 'poids':poids , 'groupe_sanguin':groupe_sanguin , 'taille':taille , 'sexe':sexe},
-//    	    success: function(data) {    
-//    	    	//var result = jQuery.parseJSON(data); 
-//    	    	vart=tabUrl[0]+'public/facturation/liste-naissance';
-//    	    	$(location).attr("href",vart);
-//            },
-//            error:function(e){console.log(e);alert("Une erreur interne est survenue!");},
-//            dataType: "html"
-//    	});
-//    });
-    //Fin insertion des donn�es
-    
     //Ajouter l'id pour savoir de quelle maman il s'agit
-    $("#id_personne").val(id);
+    $("#ID_PERSONNE").val(id);
     
     //MENU GAUCHE
   	//MENU GAUCHE
   	$("#vider").click(function(){
-  		$('#nom').val('');
-  		$('#prenom').val('');
-  		$('#date_naissance').val('');
-  		$('#heure_naissance').val('');
-  		$('#lieu_naissance').val('');
-  		$('#poids').val('');
-  		$('#sexe').val('');
-  		$('#taille').val('');
-  		$('#groupe_sanguin').val('');
+  		$('#NOM').val('');
+  		$('#PRENOM').val('');
+  		$('#DATE_NAISSANCE').val('');
+  		$('#HEURE_NAISSANCE').val('');
+  		$('#LIEU_NAISSANCE').val('');
+  		$('#POIDS').val('');
+  		$('#SEXE').val('');
+  		$('#TAILLE').val('');
+  		$('#GROUPE_SANGUIN').val('');
   		return false;
   	});
   	
   	function activer(){
   	  $("#div_modifier_donnees").click(function(){	
-  		$("#nom").attr('disabled',false);
-	    $("#prenom").attr('disabled', false);
-	    $("#date_naissance").attr('disabled', false);
-  	    $("#heure_naissance").attr('disabled', false);
-  	    $("#poids").attr('disabled', false);
-  	    $("#sexe").attr('disabled', false);
-  	    $("#taille").attr('disabled', false);
-  	    $("#groupe_sanguin").attr('disabled', false);
-  	    $("#lieu_naissance").attr('disabled', false);
+  		$("#NOM").attr('disabled',false);
+	    $("#PRENOM").attr('disabled', false);
+	    $("#DATE_NAISSANCE").attr('disabled', false);
+  	    $("#HEURE_NAISSANCE").attr('disabled', false);
+  	    $("#POIDS").attr('disabled', false);
+  	    $("#SEXE").attr('disabled', false);
+  	    $("#TAILLE").attr('disabled', false);
+  	    $("#GROUPE_SANGUIN").attr('disabled', false);
+  	    $("#LIEU_NAISSANCE").attr('disabled', false);
   	    desactiver();
   	  });
   	}
   	
   	function desactiver(){
   	  $("#div_modifier_donnees").click(function(){
-  		$("#nom").attr('disabled',true);
-	    $("#prenom").attr('disabled', true);
-	    $("#date_naissance").attr('disabled', true);
-	    $("#heure_naissance").attr('disabled', true);
-	    $("#poids").attr('disabled', true);
-	    $("#sexe").attr('disabled', true);
-	    $("#taille").attr('disabled', true);
-	    $("#groupe_sanguin").attr('disabled', true);
-	    $("#lieu_naissance").attr('disabled', true);
+  		$("#NOM").attr('disabled',true);
+	    $("#PRENOM").attr('disabled', true);
+	    $("#DATE_NAISSANCE").attr('disabled', true);
+	    $("#HEURE_NAISSANCE").attr('disabled', true);
+	    $("#POIDS").attr('disabled', true);
+	    $("#SEXE").attr('disabled', true);
+	    $("#TAILLE").attr('disabled', true);
+	    $("#GROUPE_SANGUIN").attr('disabled', true);
+	    $("#LIEU_NAISSANCE").attr('disabled', true);
 	    activer();
   	  });
   	}

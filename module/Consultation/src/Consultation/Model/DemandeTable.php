@@ -77,7 +77,7 @@ class DemandeTable{
 				'e' => 'examens'
 		), 'd.idExamen = e.idExamen' , array ( '*' ) );
 		$select->join( array(
-				'r' => 'resultats_examens2'
+				'r' => 'resultats_examens'
 		), 'd.idDemande = r.idDemande' , array ( '*' ) );
 		$select->where(array('d.idCons' => $id, 'idType' => 1, 'appliquer' => 1, 'envoyer' => 1));
 		$select->order('d.idDemande ASC');
@@ -100,7 +100,7 @@ class DemandeTable{
 				'e' => 'examens'
 		), 'd.idExamen = e.idExamen' , array ( '*' ) );
 		$select->join( array(
-				'r' => 'resultats_examens2'
+				'r' => 'resultats_examens'
 		), 'd.idDemande = r.idDemande' , array ( '*' ) );
 		$select->where(array('d.idCons' => $id, 'idType' => 1, 'appliquer' => 1));
 		$select->order('d.idDemande ASC');
@@ -123,7 +123,7 @@ class DemandeTable{
 				'e' => 'examens'
 		), 'd.idExamen = e.idExamen' , array ( '*' ) );
 		$select->join( array(
-				'r' => 'resultats_examens2'
+				'r' => 'resultats_examens'
 		), 'd.idDemande = r.idDemande' , array ( '*' ) );
 		$select->where(array('d.idCons' => $id, 'idType' => 2, 'appliquer' => 1));
 		$select->order('d.idDemande ASC');
@@ -163,8 +163,8 @@ class DemandeTable{
 			$sql = new Sql($db);
 			$sQuery = $sql->select()
 			->from(array('d'=>'demande'))->columns(array('*'))
-			->join(array('result' => 'resultats_examens2'), 'result.idDemande = d.idDemande', array('*'))
-			->join(array('resul_Img' => 'resultats_image2'), 'resul_Img.idResultat = result.idResultat' , array('NomImage' => 'nomImage'))
+			->join(array('result' => 'resultats_examens'), 'result.idDemande = d.idDemande', array('*'))
+			->join(array('resul_Img' => 'resultats_image'), 'resul_Img.idResultat = result.idResultat' , array('NomImage' => 'nomImage'))
 			->where(array('d.idCons' => $id_cons, 'result.envoyer' => 1))
 			->order('resul_Img.idImage DESC');
 			
@@ -186,8 +186,8 @@ class DemandeTable{
 			$sql = new Sql($db);
 			$sQuery = $sql->select()
 			->from(array('d'=>'demande'))->columns(array('*'))
-			->join(array('result' => 'resultats_examens2'), 'result.idDemande = d.idDemande', array('*'))
-			->join(array('resul_Img' => 'resultats_image2'), 'resul_Img.idResultat = result.idResultat' , array('NomImage' => 'nomImage'))
+			->join(array('result' => 'resultats_examens'), 'result.idDemande = d.idDemande', array('*'))
+			->join(array('resul_Img' => 'resultats_image'), 'resul_Img.idResultat = result.idResultat' , array('NomImage' => 'nomImage'))
 			->where(array('d.idCons' => $id_cons))
 			->order('resul_Img.idImage DESC');
 				
@@ -208,7 +208,7 @@ class DemandeTable{
 				//INSERTION DU RESULTAT DE LA DEMANDE
 				$db = $this->tableGateway->getAdapter();
 				$sql = new Sql($db);
-				$sQuery = $sql->update('resultats_examens2')
+				$sQuery = $sql->update('resultats_examens')
 				->set(array('date_modifcation' => $dateEnregistrement))
 				->where(array('idResultat' =>$resultat['idResultat']));
 				$stat = $sql->prepareStatementForSqlObject($sQuery);
@@ -218,7 +218,7 @@ class DemandeTable{
 				$db = $this->tableGateway->getAdapter();
 				$sql = new Sql($db);
 				$sQuery = $sql->insert()
-				->into('resultats_image2')
+				->into('resultats_image')
 				->columns(array('nomImage', 'dateEnregistrement', 'idResultat'))
 				->values(array('nomImage' => $nomImage, 'dateEnregistrement'=>$dateEnregistrement, 'idResultat' =>$resultat['idResultat']));
 				$stat = $sql->prepareStatementForSqlObject($sQuery);
@@ -232,7 +232,7 @@ class DemandeTable{
 				$db = $this->tableGateway->getAdapter();
 				$sql = new Sql($db);
 				$sQuery = $sql->insert()
-				->into('resultats_examens2')
+				->into('resultats_examens')
 				->columns(array('idDemande', 'date_enregistrement', 'id_personne'))
 				->values(array('idDemande' => $demande['idDemande'], 'id_personne' => $id_personne,  'date_enregistrement' => $dateEnregistrement));
 				$stat = $sql->prepareStatementForSqlObject($sQuery);
@@ -244,7 +244,7 @@ class DemandeTable{
 					$db = $this->tableGateway->getAdapter();
 					$sql = new Sql($db);
 					$sQuery = $sql->insert()
-					->into('resultats_image2')
+					->into('resultats_image')
 					->columns(array('nomImage', 'dateEnregistrement', 'idResultat'))
 					->values(array('nomImage' => $nomImage, 'dateEnregistrement'=>$dateEnregistrement, 'idResultat' =>$resultat['idResultat']));
 					$stat = $sql->prepareStatementForSqlObject($sQuery);
@@ -285,7 +285,7 @@ class DemandeTable{
 		$sql = new Sql($adapter);
 		$select = $sql->select();
 		$select->columns(array('*'));
-		$select->from(array('re'=>'resultats_examens2'));
+		$select->from(array('re'=>'resultats_examens'));
 		$select->where(array('re.idDemande' => $idDemande));
 		$stat = $sql->prepareStatementForSqlObject($select);
 		$result = $stat->execute()->current();
@@ -301,7 +301,7 @@ class DemandeTable{
 				$db = $this->tableGateway->getAdapter();
 				$sql = new Sql($db);
 				$sQuery = $sql->insert()
-				->into('resultats_image2')
+				->into('resultats_image')
 				->columns(array('nomImage', 'dateEnregistrement', 'idResultat'))
 				->values(array('nomImage' => $nomImage, 'dateEnregistrement'=>$dateEnregistrement, 'idResultat' =>$resultat['idResultat']));
 				$stat = $sql->prepareStatementForSqlObject($sQuery);
@@ -315,7 +315,7 @@ class DemandeTable{
 				$db = $this->tableGateway->getAdapter();
 				$sql = new Sql($db);
 				$sQuery = $sql->insert()
-				->into('resultats_examens2')
+				->into('resultats_examens')
 				->columns(array('idDemande', 'id_personne', 'envoyer'))
 				->values(array('idDemande' => $demande['idDemande'], 'id_personne' => $id_personne, 'envoyer' =>1));
 				$stat = $sql->prepareStatementForSqlObject($sQuery);
@@ -327,7 +327,7 @@ class DemandeTable{
 			    	$db = $this->tableGateway->getAdapter();
 			    	$sql = new Sql($db);
 			    	$sQuery = $sql->insert()
-			    	->into('resultats_image2')
+			    	->into('resultats_image')
 			    	->columns(array('nomImage', 'dateEnregistrement', 'idResultat'))
 			    	->values(array('nomImage' => $nomImage, 'dateEnregistrement'=>$dateEnregistrement, 'idResultat' =>$resultat['idResultat']));
 			    	$stat = $sql->prepareStatementForSqlObject($sQuery);
@@ -351,8 +351,8 @@ class DemandeTable{
 			$sql = new Sql($db);
 			$sQuery = $sql->select()
 			->from(array('d'=>'demande'))->columns(array('*'))
-			->join(array('result' => 'resultats_examens2'), 'result.idDemande = d.idDemande', array('*'))
-			->join(array('resul_Img' => 'resultats_image2'), 'resul_Img.idResultat = result.idResultat' , array('IdImage' => 'idImage', 'NomImage' => 'nomImage'))
+			->join(array('result' => 'resultats_examens'), 'result.idDemande = d.idDemande', array('*'))
+			->join(array('resul_Img' => 'resultats_image'), 'resul_Img.idResultat = result.idResultat' , array('IdImage' => 'idImage', 'NomImage' => 'nomImage'))
 			->where(array('d.idCons' => $id_cons, 'd.idExamen'=>$typeExamen, 'result.envoyer' => 1))
 			->order('resul_Img.idImage DESC');
 				
@@ -379,8 +379,8 @@ class DemandeTable{
 			$sql = new Sql($db);
 			$sQuery = $sql->select()
 			->from(array('d'=>'demande'))->columns(array('*'))
-			->join(array('result' => 'resultats_examens2'), 'result.idDemande = d.idDemande', array('*'))
-			->join(array('resul_Img' => 'resultats_image2'), 'resul_Img.idResultat = result.idResultat' , array('IdImage' => 'idImage', 'NomImage' => 'nomImage'))
+			->join(array('result' => 'resultats_examens'), 'result.idDemande = d.idDemande', array('*'))
+			->join(array('resul_Img' => 'resultats_image'), 'resul_Img.idResultat = result.idResultat' , array('IdImage' => 'idImage', 'NomImage' => 'nomImage'))
 			->where(array('d.idCons' => $id_cons, 'd.idExamen'=>$typeExamen))
 			->order('resul_Img.idImage DESC');
 	
@@ -407,7 +407,7 @@ class DemandeTable{
 		$idImage = (int) $idImage;
 		$db = $this->tableGateway->getAdapter();
 		$sql = new Sql($db);
-		$sQuery = $sql->delete('resultats_image2')
+		$sQuery = $sql->delete('resultats_image')
 		->where(array('idImage' => $idImage));
 		$stat = $sql->prepareStatementForSqlObject($sQuery);
 		$Result = $stat->execute();
@@ -422,7 +422,7 @@ class DemandeTable{
 		$idResultat = (int) $idResultat;
 		$db = $this->tableGateway->getAdapter();
 		$sql = new Sql($db);
-		$sQuery = $sql->delete('resultats_image2')
+		$sQuery = $sql->delete('resultats_image')
 		->where(array('idResultat' => $idResultat));
 		$stat = $sql->prepareStatementForSqlObject($sQuery);
 		$Result = $stat->execute();
@@ -437,7 +437,7 @@ class DemandeTable{
 		$idResultat = (int) $idResultat;
 		$db = $this->tableGateway->getAdapter();
 		$sql = new Sql($db);
-		$sQuery = $sql->delete('resultats_examens2')
+		$sQuery = $sql->delete('resultats_examens')
 		->where(array('idResultat' => $idResultat));
 		$stat = $sql->prepareStatementForSqlObject($sQuery);
 		$Result = $stat->execute();

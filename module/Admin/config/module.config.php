@@ -60,7 +60,6 @@ return array(
 										'tableName' => 'utilisateurs',
 										'identityColumn' => 'username',
 										'credentialColumn' => 'password',
-										//'credentialTreatment' => 'MD5(CONCAT(?, "secretKey"))'
 								)
 						),
 				),

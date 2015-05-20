@@ -28,9 +28,9 @@
 	       <span id="declarer_style" style="margin-left:5px; color: white; font-size:15px; font-family:Times New Roman;"><img style="display: inline;" src='<?php echo $this->basePath().'/images_icons/dossier.PNG'?>' alt='Liste' /> En cours ...</span></a>
 	   </div>
 
-	   <div style="margin-left:30px; height:40px;"><a href="<?php echo $this->url('consultation', array('action'=> 'test-mp3'));?>"> <!-- espace-recherche-med -->
+	   <div style="margin-left:30px; height:40px;"><a href="<?php echo $this->url('consultation', array('action'=> 'espace-recherche-med'));?>"> <!-- test-mp3 ---- espace-recherche-med -->
 	       <img style="margin-left:5px; display: inline;" src='<?php echo $this->basePath().'/images_icons/Search_22.PNG'?>' alt='Liste' />
-	       <span id="liste_recherche_style" style="font-size:15px; color: white; font-family:Times New Roman;">'Rech..' / Test </span></a>
+	       <span id="liste_recherche_style" style="font-size:15px; color: white; font-family:Times New Roman;"> Recherche </span></a>
 	   </div>
 	</li>
 	
@@ -60,7 +60,7 @@
 <?php
 //CHOISIR LE MENU A AFFICHER SELON QUE C'EST LE MEDECIN OU SUR LE SURVEILLANT
 $user = $this->layout()->user;
-$role = $user->role;
+$role = $user['role'];
 
 if($role == 'surveillant'){ ?>
 <script>

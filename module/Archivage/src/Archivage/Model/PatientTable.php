@@ -32,17 +32,46 @@ class PatientTable {
 		return $row;
 	}
 	
-	public function verifierRV($id_personne, $dateAujourdhui){
+	public function getInfoPatient($id_personne) {
 		$db = $this->tableGateway->getAdapter();
 		$sql = new Sql($db);
 		$sQuery = $sql->select()
-		->from(array('r' => 'rv_patient_cons'))
+		->from(array('pat' => 'patient'))
 		->columns( array( '*' ))
-		->where(array('ID_PERSONNE' => $id_personne, 'date' => $dateAujourdhui));
-		
+		->join(array('pers' => 'personne'), 'pers.id_personne = pat.id_personne' , array('*'))
+		->where(array('pat.ID_PERSONNE' => $id_personne));
+	
 		$stat = $sql->prepareStatementForSqlObject($sQuery);
 		$resultat = $stat->execute()->current();
-		
+	
+		return $resultat;
+	}
+	
+	public function getPhoto($id) {
+		$donneesPatient =  $this->getInfoPatient( $id );
+	
+		$nom = null;
+		if($donneesPatient){$nom = $donneesPatient['PHOTO'];}
+		if ($nom) {
+			return $nom . '.jpg';
+		} else {
+			return 'identite.jpg';
+		}
+	}
+	
+    public function verifierRV($id_personne, $dateAujourdhui){
+		$db = $this->tableGateway->getAdapter();
+		$sql = new Sql($db);
+		$sQuery = $sql->select()
+		->from(array('rec' => 'rendezvous_consultation'))
+		->columns( array( '*' ))
+		->join(array('cons' => 'consultation'), 'rec.ID_CONS = cons.ID_CONS' , array())
+		->join(array('s' => 'service'), 's.ID_SERVICE = cons.ID_SERVICE' , array('*'))
+		->where(array('cons.ID_PATIENT' => $id_personne, 'rec.DATE' => $dateAujourdhui));
+	
+		$stat = $sql->prepareStatementForSqlObject($sQuery);
+		$resultat = $stat->execute()->current();
+	
 		return $resultat;
 	}
 	
@@ -94,16 +123,35 @@ class PatientTable {
 		}
 	}
 	
-	public function addPatient($donnees){
-		$this->tableGateway->insert ( $donnees ); 
+	public function addPatient($donnees , $date_enregistrement , $id_employe){
+		$db = $this->tableGateway->getAdapter();
+		$sql = new Sql($db);
+		$sQuery = $sql->insert()
+		->into('personne')
+		->values( $donnees );
+	
+		$stat = $sql->prepareStatementForSqlObject($sQuery);
+		$id_personne = $stat->execute()->getGeneratedValue();
+	
+		$this->tableGateway->insert ( array('ID_PERSONNE' => $id_personne , 'DATE_ENREGISTREMENT' => $date_enregistrement , 'ID_EMPLOYE' => $id_employe, 'ARCHIVAGE' => 1) );
+	}
+	
+	public  function updatePatient($donnees, $id_patient, $date_enregistrement, $id_employe){
+		$this->tableGateway->update( array('DATE_MODIFICATION' => $date_enregistrement, 'ID_EMPLOYE' => $id_employe), array('ID_PERSONNE' => $id_patient) );
+	
+		$db = $this->tableGateway->getAdapter();
+		$sql = new Sql($db);
+		$sQuery = $sql->update()
+		->table('personne')
+		->set( $donnees )
+		->where(array('ID_PERSONNE' => $id_patient ));
+	
+		$stat = $sql->prepareStatementForSqlObject($sQuery);
+		$resultat = $stat->execute();
 	}
 	
 	public function addPatientNe($donnees){
  		return($this->tableGateway->getLastInsertValue($this->tableGateway->insert ( $donnees )));
-	}
-	
-	public  function updatePatient($donnees, $id_personne){
-		$this->tableGateway->update( $donnees, array('ID_PERSONNE' => $id_personne) );
 	}
 	
 	public function deletePatient($id) {
@@ -178,8 +226,9 @@ class PatientTable {
 		*/
 		$sql = new Sql($db);
 		$sQuery = $sql->select()
-		->from(array('pat' => 'patient'))->columns(array('Nom'=>'NOM','Prenom'=>'PRENOM','Datenaissance'=>'DATE_NAISSANCE','Sexe'=>'SEXE','Adresse'=>'ADRESSE','Nationalite'=>'NATIONALITE_ACTUELLE','Taille'=>'TAILLE','id'=>'ID_PERSONNE', 'archive' =>'ARCHIVAGE'))
-		;//->where(array('pat.ARCHIVAGE' => 1));
+	    ->from(array('pat' => 'patient'))->columns(array('archive' =>'ARCHIVAGE'))
+		->join(array('p' => 'personne'), 'pat.id_personne = p.id_personne' , array('Nom'=>'NOM','Prenom'=>'PRENOM','Datenaissance'=>'DATE_NAISSANCE','Sexe'=>'SEXE','Adresse'=>'ADRESSE','Nationalite'=>'NATIONALITE_ACTUELLE','Taille'=>'TAILLE','id'=>'ID_PERSONNE'))
+		->order('pat.id_personne DESC');
 		/* Data set length after filtering */
 		$stat = $sql->prepareStatementForSqlObject($sQuery);
 		$rResultFt = $stat->execute();
@@ -248,37 +297,6 @@ class PatientTable {
 			$output['aaData'][] = $row;
 		}
 		return $output;
-	}
-	
-	public function getPatientsRV($id_service){
-		$today = new \DateTime();
-		$date = $today->format('Y-m-d');
-		
-		$adapter = $this->tableGateway->getAdapter();
-		$sql = new Sql( $adapter );
-		$select = $sql->select();
-		$select->from( array(
-				'rv' =>  'rv_patient_cons'
-		));
-		$select->where( array(
-				'date' => $date,
-				'ID_SERVICE' => $id_service,
-		) );
-		
-		$statement = $sql->prepareStatementForSqlObject( $select );
-		$resultat = $statement->execute();
-		
-		$tab = array(); //Tableau des heures des personnes
-		foreach ($resultat as $result) {
-			$tab[$result['ID_PERSONNE']] = $result['heure'];
-		}
-		
-// 		if(array_key_exists(13, $tab)){
-// 			var_dump($tab[3]); exit();
-// 		}
-// 		var_dump($tab); exit();
-
-		return $tab;
 	}
 	
 	public function tousPatientsAdmis($service) {
@@ -475,17 +493,6 @@ class PatientTable {
 		return $output;
 	}
 	
-	public function getPhoto($id) {
-		$donneesPatient =  $this->getPatient ( $id );
-
-		$nom = null;
-		if($donneesPatient){$nom = $donneesPatient->photo;}
-		if ($nom) {
-			return $nom . '.jpg';
-		} else {
-			return 'identite.jpg';
-		}
-	}
 	// LISTE DES PATIENTS SAUF LES PATIENTS DECEDES
 	public function laListePatients() {
 		$date = new \DateTime ("now");
@@ -584,7 +591,7 @@ class PatientTable {
 				'd' => 'deces'
 		) );
 		$subselect1->columns (array (
-				'id_personne'
+				'id_patient'
 		) );
 	
 		$date = new \DateTime ("now");
@@ -592,7 +599,7 @@ class PatientTable {
 		
 		$sql3 = new Sql ($db);
 		$subselect2 = $sql3->select ();
-		$subselect2->from ('facturation');
+		$subselect2->from ('admission');
 		$subselect2->columns ( array (
 				'id_patient'
 		) );
@@ -603,11 +610,11 @@ class PatientTable {
 		
 		$sql = new Sql($db);
 		$sQuery = $sql->select()
-		->from(array('pat' => 'patient'))->columns(array('Nom'=>'NOM','Prenom'=>'PRENOM','Datenaissance'=>'DATE_NAISSANCE','Sexe'=>'SEXE','Adresse'=>'ADRESSE','Nationalite'=>'NATIONALITE_ACTUELLE','Taille'=>'TAILLE','id'=>'ID_PERSONNE','Idpatient'=>'ID_PERSONNE','archive'=>'ARCHIVAGE'))
+		->from(array('pat' => 'patient'))->columns(array('archive'=>'ARCHIVAGE'))
+		->join(array('pers' => 'personne'), 'pat.ID_PERSONNE = pers.ID_PERSONNE', array('Nom'=>'NOM','Prenom'=>'PRENOM','Datenaissance'=>'DATE_NAISSANCE','Sexe'=>'SEXE','Adresse'=>'ADRESSE','Nationalite'=>'NATIONALITE_ACTUELLE','Taille'=>'TAILLE','id'=>'ID_PERSONNE','Idpatient'=>'ID_PERSONNE'))
 		->where( array (
-				//new NotIn ( 'ID_PERSONNE', $subselect1 ),
-				new NotIn ( 'ID_PERSONNE', $subselect2 ),
-				//'pat.ARCHIVAGE' => 1,
+				//new NotIn ( 'pat.ID_PERSONNE', $subselect1 ), ON PEUT VOULIR ARCHIVER LES PATIENTS DECEDES
+				new NotIn ( 'pat.ID_PERSONNE', $subselect2 ),
 		) )
 		->order('pat.ID_PERSONNE ASC');
 		
@@ -735,22 +742,6 @@ class PatientTable {
 		$result = $stmt->execute();
 		return $result->count();
 	}
-	public function listePays()
-	{
-		$adapter = $this->tableGateway->getAdapter ();
-		$sql = new Sql ( $adapter );
-		$select = $sql->select ();
-		$select->from(array('nation'=>'nationalite'));
-		$select->columns(array ('PAYS', 'PAYS'));
-		$select->order('PAYS ASC');
-		$stmt = $sql->prepareStatementForSqlObject($select);
-		$result = $stmt->execute();
-		foreach ($result as $data) {
-			$options[$data['PAYS']] = $data['PAYS'];
-		}
-		return $options;
-	}
-	
 	public function listeDeTousLesPays()
 	{
 		$adapter = $this->tableGateway->getAdapter ();
@@ -840,23 +831,52 @@ class PatientTable {
 		$select->from ( array (
 				'p' => 'patient'
 		) );
-		$select->columns(array (
+		$select->columns(array () );
+		$select->join(array('pers'=>'personne'), 'pers.ID_PERSONNE = p.ID_PERSONNE', array(
 				'Nom' => 'NOM',
 				'Prenom' => 'PRENOM',
 				'Datenaissance' => 'DATE_NAISSANCE',
 				'Sexe' => 'SEXE',
 				'Adresse' => 'ADRESSE',
 				'Nationalite' => 'NATIONALITE_ACTUELLE',
-				'Taille' => 'TAILLE',
 				'Id' => 'ID_PERSONNE'
-		) );
-		$select->join(array('f' => 'facturation'), 'p.ID_PERSONNE = f.id_patient', array('Id_facturation' => 'id_facturation'));
-		$select->where(array('f.cons_archive_applique' => 0, 'f.archivage' => 1));
-		$select->order('id_facturation ASC');
+		));
+		$select->join(array('a' => 'admission'), 'pers.ID_PERSONNE = a.id_patient', array('Id_admission' => 'id_admission'));
+		$select->where(array('a.cons_archive_applique' => 0, 'a.archivage' => 1, 'a.id_service' => $idDuService));
+		$select->order('id_admission ASC');
 		
 		$stmt = $sql->prepareStatementForSqlObject($select);
 		$result = $stmt->execute();
 		return $result;
+		
+		
+		
+		
+// 		$today = new \DateTime();
+// 		$date = $today->format('Y-m-d');
+// 		$adapter = $this->tableGateway->getAdapter ();
+// 		$sql = new Sql ( $adapter );
+// 		$select = $sql->select ();
+// 		$select->from ( array (
+// 				'p' => 'patient'
+// 		) );
+// 		$select->columns(array (
+// 				'Nom' => 'NOM',
+// 				'Prenom' => 'PRENOM',
+// 				'Datenaissance' => 'DATE_NAISSANCE',
+// 				'Sexe' => 'SEXE',
+// 				'Adresse' => 'ADRESSE',
+// 				'Nationalite' => 'NATIONALITE_ACTUELLE',
+// 				'Taille' => 'TAILLE',
+// 				'Id' => 'ID_PERSONNE'
+// 		) );
+// 		$select->join(array('f' => 'facturation'), 'p.ID_PERSONNE = f.id_patient', array('Id_facturation' => 'id_facturation'));
+// 		$select->where(array('f.cons_archive_applique' => 0, 'f.archivage' => 1));
+// 		$select->order('id_facturation ASC');
+		
+// 		$stmt = $sql->prepareStatementForSqlObject($select);
+// 		$result = $stmt->execute();
+// 		return $result;
 	}
 	//liste des patients consultés par le medecin pour l'espace recherche
 	public function listePatientsConsMedecin($service){
@@ -1277,14 +1297,14 @@ class PatientTable {
 		return $output;
 	}
 	
-	public function facturationPatient($id_fact_patient){
+	public function admissionPatient($id_admission_patient){
 		
 		$db = $this->tableGateway->getAdapter();
 		$sql = new Sql($db);
 		$sQuery = $sql->select()
-		->from(array('f' => 'facturation'))
+		->from(array('f' => 'admission'))
 		->columns( array( '*' ))
-		->where(array('id_facturation' => $id_fact_patient));
+		->where(array('id_admission' => $id_admission_patient));
 	
 		$stat = $sql->prepareStatementForSqlObject($sQuery);
 		$resultat = $stat->execute()->current();

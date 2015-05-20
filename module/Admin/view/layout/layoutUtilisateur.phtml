@@ -32,8 +32,8 @@
 
 //RECUPERER LES INFOS SUR LE MEDECIN OU SUR LE SURVEILLANT
   $user = $this->layout()->user;
-  $nom = $user->nom;
-  $prenom = $user->prenom;;
+  $nom = $user['Nom'];
+  $prenom = $user['Prenom'];
   $service = 'Informatique';
 ?>
     
@@ -60,7 +60,7 @@
     </li>
 
     <li style="width: 15%;"><a title="" style="" href="<?php echo $this->url('admin', array('action'=>'logout'));?>">
-      <i><img src="../img/light/bended_arrow_right.png"/></i> <span style="color: white; font-size: 12px;">D&eacute;connexion</span></a>
+      <i><img src="../img/light/bended_arrow_right.png"/> <span style="color: white; font-size: 12px; ">D&eacute;connexion</span></i></a>
     </li>
   </ul>
  </div>

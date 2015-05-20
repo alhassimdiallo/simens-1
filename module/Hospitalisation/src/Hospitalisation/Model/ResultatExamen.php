@@ -15,6 +15,7 @@ class ResultatExamen {
 	public $noteResultat;
 	public $conclusion;
 	public $envoyer;
+	public $id_personne;
 	public $date_enregistrement;
 	public $date_modification;
 	
@@ -25,6 +26,7 @@ class ResultatExamen {
  			$this->noteResultat = (! empty ( $data ['noteResultat'] )) ? $data ['noteResultat'] : null;
  			$this->conclusion = (! empty ( $data ['conclusion'] )) ? $data ['conclusion'] : null;
  			$this->envoyer = (! empty ( $data ['envoyer'] )) ? $data ['envoyer'] : null;
+ 			$this->id_personne = (! empty ( $data ['id_personne'] )) ? $data ['id_personne'] : null;
  			$this->date_enregistrement = (! empty ( $data ['date_enregistrement'] )) ? $data ['date_enregistrement'] : null;
  			$this->date_modification = (! empty ( $data ['date_modifcation'] )) ? $data ['date_modifcation'] : null;
 	}

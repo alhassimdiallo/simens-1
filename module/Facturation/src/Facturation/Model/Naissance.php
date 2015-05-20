@@ -2,25 +2,29 @@
 namespace Facturation\Model;
 
 class Naissance {
-	public $id_bebe;
-	public $id_maman;
-	public $heure_naissance;
-	public $poids;
-	public $taille;
-	public $groupe_sanguin;
-	public $date_enregistrement;
-	public $date_naissance;
-	public $note;
+	public $ID_BEBE;
+	public $ID_MAMAN;
+	public $HEURE_NAISSANCE;
+	public $POIDS;
+	public $TAILLE;
+	public $GROUPE_SANGUIN;
+	public $DATE_ENREGISTREMENT;
+	public $DATE_MODIFICATION;
+	public $DATE_NAISSANCE;
+	public $NOTE;
+	public $ID_EMPLOYE;
 
 	public function exchangeArray($data) {
-		$this->id_bebe = (! empty ( $data ['id_bebe'] )) ? $data ['id_bebe'] : null;
-		$this->id_maman = (! empty ( $data ['id_maman'] )) ? $data ['id_maman'] : null;
-		$this->heure_naissance = (! empty ( $data ['heure_naissance'] )) ? $data ['heure_naissance'] : null;
-		$this->poids = (! empty ( $data ['poids'] )) ? $data ['poids'] : null;
-		$this->taille = (! empty ( $data ['taille'] )) ? $data ['taille'] : null;
-		$this->groupe_sanguin = (! empty ( $data ['groupe_sanguin'] )) ? $data ['groupe_sanguin'] : null;
-		$this->date_enregistrement = (! empty ( $data ['date_enregistrement'] )) ? $data ['date_enregistrement'] : null;
-		$this->date_naissance = (! empty ( $data ['date_naissance'] )) ? $data ['date_naissance'] : null;
-		$this->note = (! empty ( $data ['note'] )) ? $data ['note'] : null;
+		$this->ID_BEBE = (! empty ( $data ['ID_BEBE'] )) ? $data ['ID_BEBE'] : null;
+		$this->ID_MAMAN = (! empty ( $data ['ID_MAMAN'] )) ? $data ['ID_MAMAN'] : null;
+		$this->HEURE_NAISSANCE = (! empty ( $data ['HEURE_NAISSANCE'] )) ? $data ['HEURE_NAISSANCE'] : null;
+		$this->POIDS = (! empty ( $data ['POIDS'] )) ? $data ['POIDS'] : null;
+		$this->TAILLE = (! empty ( $data ['TAILLE'] )) ? $data ['TAILLE'] : null;
+		$this->GROUPE_SANGUIN = (! empty ( $data ['GROUPE_SANGUIN'] )) ? $data ['GROUPE_SANGUIN'] : null;
+		$this->DATE_ENREGISTREMENT = (! empty ( $data ['DATE_ENREGISTREMENT'] )) ? $data ['DATE_ENREGISTREMENT'] : null;
+		$this->DATE_MODIFICATION = (! empty ( $data ['DATE_MODIFICATION'] )) ? $data ['DATE_MODIFICATION'] : null;
+		$this->DATE_NAISSANCE = (! empty ( $data ['DATE_NAISSANCE'] )) ? $data ['DATE_NAISSANCE'] : null;
+		$this->NOTE = (! empty ( $data ['NOTE'] )) ? $data ['NOTE'] : null;
+		$this->ID_EMPLOYE = (! empty ( $data ['ID_EMPLOYE'] )) ? $data ['ID_EMPLOYE'] : null;
 	}
 }

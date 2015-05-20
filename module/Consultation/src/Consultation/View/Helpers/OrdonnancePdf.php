@@ -160,14 +160,14 @@ class OrdonnancePdf
 		$cpt = 0;
 		
 		//-----------------------------------------------
-		$value = get_object_vars($this->_DonneesPatient);
+		$value = $this->_DonneesPatient;
 			//-----------------------------------------------
 			$this->_page->setFont($this->_newTimeGras, 9);
 			$this->_page->drawText('NOM :',
 					$this->_leftMargin+175,
 					$this->_yPosition);
 			$this->_page->setFont($this->_newTime, 9);
-			$this->_page->drawText($value['nom'],
+			$this->_page->drawText(iconv ('UTF-8' ,'ISO-8859-1' , $value['NOM']),
 					$this->_leftMargin+210,
 					$this->_yPosition);
 			//-----------------------------------------------
@@ -178,7 +178,7 @@ class OrdonnancePdf
 					$this->_leftMargin+156,
 					$this->_yPosition);
 			$this->_page->setFont($this->_newTime, 9);
-			$this->_page->drawText($value['prenom'],
+			$this->_page->drawText(iconv ('UTF-8' ,'ISO-8859-1' , $value['PRENOM']),
 					$this->_leftMargin+210,
 					$this->_yPosition);
 // 			//-----------------------------------------------
@@ -192,7 +192,7 @@ class OrdonnancePdf
 			
 			$today = new \DateTime(); 
 			$date_actu = $today->format('Y-m-d');
-			$dateNaissance = $Control->convertDate($value['date_naissance']);
+			$dateNaissance = $Control->convertDate($value['DATE_NAISSANCE']);
 			$this->nbAnnees($date_actu,$dateNaissance);
 			
 			$this->_page->drawText($dateNaissance."  (".$this->nbAnnees($dateNaissance,$date_actu)." ans)",
@@ -207,7 +207,7 @@ class OrdonnancePdf
 					$this->_leftMargin+155,
 					$this->_yPosition);
 			$this->_page->setFont($this->_newTime, 9);
-			$this->_page->drawText($value['adresse'],
+			$this->_page->drawText(iconv ('UTF-8' ,'ISO-8859-1' , $value['ADRESSE']),
 					$this->_leftMargin+210,
 					$this->_yPosition);
 			//-----------------------------------------------

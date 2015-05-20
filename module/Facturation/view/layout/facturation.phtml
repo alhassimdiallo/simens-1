@@ -37,10 +37,10 @@
 //RECUPERER LES INFOS SUR LE MEDECIN
 
 $user = $this->layout()->user;
-$nom = $user ->nom;
-$prenom = $user->prenom;
+$nom = $user['Nom'];
+$prenom = $user['Prenom'];
 $service = $this->layout()->service;
-if($user->role == 'superAdmin') { $service = "INFORMATIQUE";}
+if($user['role'] == 'superAdmin') { $service = "INFORMATIQUE";}
 ?>
 
 <body id = "bodbod">
@@ -67,7 +67,7 @@ if($user->role == 'superAdmin') { $service = "INFORMATIQUE";}
     </li>
 
     <li style="width: 15%;"><a title="" style="" href="<?php echo $this->url('admin', array('action'=>'logout'));?>">
-      <i><img src="<?php echo $this->basePath().'/img/light/bended_arrow_right.png';?>"/></i> <span style="color: white; font-size: 12px;">D&eacute;connexion</span></a>
+      <i><img src="<?php echo $this->basePath().'/img/light/bended_arrow_right.png';?>"/> <span style="color: white; font-size: 12px;">D&eacute;connexion</span></i></a>
     </li>
   </ul>
  </div>
@@ -154,7 +154,7 @@ $(document).ready(function() {
 
 
 	   $('#modifierPassword').click(function(){
-	        var role = "<?php echo $user->role;?>";
+	        var role = "<?php echo $user['role'];?>";
 	        var id = 0;
 	        if(role == 'facturation'){id = 3;}
 	        

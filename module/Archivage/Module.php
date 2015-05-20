@@ -9,8 +9,6 @@ use Archivage\Model\PatientTable;
 use Archivage\Model\Patient;
 use Archivage\Model\TarifConsultationTable;
 use Archivage\Model\TarifConsultation;
-use Archivage\Model\FacturationTable;
-use Archivage\Model\Facturation;
 use Archivage\Model\ConsultationTable;
 use Archivage\Model\Consultation;
 use Archivage\Model\ServiceTable;
@@ -39,6 +37,8 @@ use Archivage\Model\ResultatExamenTable;
 use Archivage\Model\ResultatExamen;
 use Archivage\Model\ResultatVisitePreanesthesiqueTable;
 use Archivage\Model\ResultatVisitePreanesthesique;
+use Archivage\Model\AdmissionTable;
+use Archivage\Model\Admission;
 
 class Module implements AutoloaderProviderInterface {
 	
@@ -81,23 +81,23 @@ class Module implements AutoloaderProviderInterface {
 							$resultSetPrototype->setArrayObjectPrototype (new TarifConsultation());
 							return new TableGateway ( 'tarif_consultation', $dbAdapter, null, $resultSetPrototype );
 						},
-						'Archivage\Model\FacturationTable' => function ($sm) {
-							$tableGateway = $sm->get( 'FacturationTableGateway' );
-							$table = new FacturationTable( $tableGateway );
+						'Archivage\Model\AdmissionTable' => function ($sm) {
+							$tableGateway = $sm->get( 'AdmissionArchTableGateway' );
+							$table = new AdmissionTable( $tableGateway );
 							return $table;
 						},
-						'FacturationTableGateway' => function ($sm) {
+						'AdmissionArchTableGateway' => function ($sm) {
 							$dbAdapter = $sm->get ( 'Zend\Db\Adapter\Adapter' );
 							$resultSetPrototype = new ResultSet ();
-							$resultSetPrototype->setArrayObjectPrototype ( new Facturation() );
-							return new TableGateway ( 'facturation', $dbAdapter, null, $resultSetPrototype );
+							$resultSetPrototype->setArrayObjectPrototype ( new Admission() );
+							return new TableGateway ( 'admission', $dbAdapter, null, $resultSetPrototype );
 						},
 						'Archivage\Model\ConsultationTable' => function ($sm) {
-							$tableGateway = $sm->get ( 'ConsultationTableGateway' );
+							$tableGateway = $sm->get ( 'ConsultationArchiveTableGateway' );
 							$table = new ConsultationTable ( $tableGateway );
 							return $table;
 						},
-						'ConsultationTableGateway' => function ($sm) {
+						'ConsultationArchiveTableGateway' => function ($sm) {
 							$dbAdapter = $sm->get ( 'Zend\Db\Adapter\Adapter' );
 							$resultSetPrototype = new ResultSet();
 							$resultSetPrototype->setArrayObjectPrototype ( new Consultation());

@@ -292,16 +292,7 @@ class PatientTable {
 		$result = $statement->execute ();
 		return $result;
 	}
-	public function getPhoto($id_personne) {
-		$donneesPatient =  $this->getPatient ( $id_personne );
-
-		$nom = $donneesPatient->photo;
-		if ($nom) {
-			return $nom . '.jpg';
-		} else {
-			return 'identite.jpg';
-		}
-	}
+	
 	// LISTE DES PATIENTS SAUF LES PATIENTS DECEDES
 	public function laListePatients() {
 		$date = new \DateTime ("now");
@@ -542,5 +533,32 @@ class PatientTable {
 		$result = $stmt->execute();
 		return $result;
 
+	}
+	
+	public function getInfoPatient($id_personne) {
+		$db = $this->tableGateway->getAdapter();
+		$sql = new Sql($db);
+		$sQuery = $sql->select()
+		->from(array('pat' => 'patient'))
+		->columns( array( '*' ))
+		->join(array('pers' => 'personne'), 'pers.id_personne = pat.id_personne' , array('*'))
+		->where(array('pat.ID_PERSONNE' => $id_personne));
+	
+		$stat = $sql->prepareStatementForSqlObject($sQuery);
+		$resultat = $stat->execute()->current();
+	
+		return $resultat;
+	}
+	
+	public function getPhoto($id) {
+		$donneesPatient =  $this->getInfoPatient( $id );
+	
+		$nom = null;
+		if($donneesPatient){$nom = $donneesPatient['PHOTO'];}
+		if ($nom) {
+			return $nom . '.jpg';
+		} else {
+			return 'identite.jpg';
+		}
 	}
 }

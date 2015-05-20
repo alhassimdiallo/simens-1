@@ -89,27 +89,27 @@ $(window).load(function () {
                <div style="float:left; margin-left:40px; margin-top:25px; margin-right:35px; width:11%; height:105px;">
 		       <img style="display: inline; " src='<?php echo $this->basePath().'/images_icons/bebe.jpg'?>' alt='Photo bebe' />
 		       </div>
-		       <?php echo $this->formhidden($form->get('id_personne'))?>
+		       <?php echo $this->formhidden($form->get('ID_PERSONNE'))?>
 		       <div style='width: 75%; float:left;'>
 		       <table id="form_patient" style='width: 100%;'>
 		             <tr>
-		                 <td class="comment-form-patient"><?php echo $this->formRow($form->get('nom'))?></td>
-		                 <td class="comment-form-patient"><?php echo $this->formRow($form->get('date_naissance'))?></td>
-		                 <td class="comment-form-patient"><?php echo $this->formRow($form->get('poids'))?></td>
+		                 <td style="width: 33%;" class="comment-form-patient"><?php echo $this->formRow($form->get('NOM'))?></td>
+		                 <td style="width: 33%;" class="comment-form-patient"><?php echo $this->formRow($form->get('DATE_NAISSANCE'))?></td>
+		                 <td style="width: 33%;" class="comment-form-patient"><?php echo $this->formRow($form->get('POIDS'))?></td>
 
 		             </tr>
 
 		             <tr>
-		                 <td class="comment-form-patient"><?php echo $this->formRow($form->get('prenom'))?></td>
-		                 <td class="comment-form-patient"><?php echo $this->formRow($form->get('heure_naissance'))?></td>
-		                 <td class="comment-form-patient"><?php echo $this->formRow($form->get('taille'))?></td>
+		                 <td class="comment-form-patient"><?php echo $this->formRow($form->get('PRENOM'))?></td>
+		                 <td class="comment-form-patient"><?php echo $this->formRow($form->get('HEURE_NAISSANCE'))?></td>
+		                 <td class="comment-form-patient"><?php echo $this->formRow($form->get('TAILLE'))?></td>
 
 		             </tr>
 
 		             <tr>
-		                 <td class="comment-form-patient"><?php echo $this->formRow($form->get('sexe'))?></td>
-		                 <td class="comment-form-patient"><?php echo $this->formRow($form->get('lieu_naissance'))?></td>
-		                 <td class="comment-form-patient"><?php echo $this->formRow($form->get('groupe_sanguin'))?></td>
+		                 <td class="comment-form-patient"><?php echo $this->formRow($form->get('SEXE'))?></td>
+		                 <td class="comment-form-patient"><?php echo $this->formRow($form->get('LIEU_NAISSANCE'))?></td>
+		                 <td class="comment-form-patient"><?php echo $this->formRow($form->get('GROUPE_SANGUIN'))?></td>
 
 		             </tr>
 		       </table>
@@ -156,7 +156,7 @@ $(window).load(function () {
 
 <script>
 animation();
-$('#sexe').val("");
+$('#SEXE').val("");
 controle_saisie();
 
 function ajouterMaman(){

@@ -1792,6 +1792,8 @@ display: block;
 height: 120px; /*la hauteur du champ input*/
 
 width: 90%;/*395px; /* la largeur du champ input*/
+	
+padding-left: 5px;
 
 }
 
@@ -4111,3 +4113,33 @@ div .dataTables_paginate
 	background-color: #b5b2b2;
 	color: white;
 }
+
+/*CODE POUR LE STYLE DU LECTEUR AUDIO (MP3)*/
+#contenu{ visibility: hidden }
+.jp-playlist span{ 
+ 	float:right;
+	width:16px;
+    height:16px;
+	background:url("/simenss/public/js/plugins/jPlayer-2.9.2/dist/skin/blue.monday/image/supp.png") no-repeat; margin-left:5px
+} 
+
+.jp-ajouter{
+    position:relative;
+    width:19px;
+    height:19px;
+    background:url("/simenss/public/js/plugins/jPlayer-2.9.2/dist/skin/blue.monday/image/jplayer.blue.monday.jpg") -120px -271px no-repeat; 
+    margin-left:5px;
+    margin-bottom: 5px;
+    right:-35px;
+    top:0;
+}
+.jp-ajouter input{
+	width:19px; height: 49px;
+    position:absolute;
+    opacity:0;
+    -moz-opacity:0;
+    filter:alpha(opacity=0);
+    right:0px; 
+    top:-30px; cursor:pointer;
+}
+

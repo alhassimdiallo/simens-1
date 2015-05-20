@@ -8,19 +8,11 @@
 <?php
 
  echo $this->headLink()->prependStylesheet($this->basePath().'/css/bootstrap.min.css');
- //echo $this->headLink()->prependStylesheet($this->basePath().'/css/uniform.css');
- //echo $this->headLink()->prependStylesheet($this->basePath().'/css/select2.css');
  echo $this->headLink()->prependStylesheet($this->basePath().'/css/jquery.contextMenu.css');
  echo $this->headLink()->prependStylesheet($this->basePath().'/css/matrix-style-cons.css');
  echo $this->headLink()->prependStylesheet($this->basePath().'/css/matrix-media.css');
- //echo $this->headLink()->prependStylesheet($this->basePath().'/font-awesome/css/font-awesome.css');
 
  $this->headScript()->appendFile($this->basePath().'/js/jquery.min.js');
- //$this->headScript()->appendFile($this->basePath().'/js/jquery.ui.custom.js');
- //$this->headScript()->appendFile($this->basePath().'/js/bootstrap.min.js');
- //$this->headScript()->appendFile($this->basePath().'/js/jquery.uniform.js');
- //$this->headScript()->appendFile($this->basePath().'/js/select2.min.js');
- 
  $this->headScript()->appendFile($this->basePath().'/js/matrix.js');
  
  echo $this->headTitle($this->pageTitle);?> 
@@ -40,10 +32,10 @@
 
 //RECUPERER LES INFOS SUR LE MEDECIN OU SUR LE SURVEILLANT
   $user = $this->layout()->user;
-  $nom = $user->nom;
-  $prenom = $user->prenom;
+  $nom = $user['Nom'];
+  $prenom = $user['Prenom'];
   $service = $this->layout()->service;
-  if($user->role == 'superAdmin') { $service = "INFORMATIQUE";} 
+  if($user['role'] == 'superAdmin') { $service = "INFORMATIQUE";}
 ?>
 
 
@@ -141,7 +133,7 @@ jQuery(document).ready(function($){
     });
 
     $('#modifierPassword').click(function(){
-        var role = "<?php echo $user->role;?>";
+        var role = "<?php echo $user['role'];?>";
         var id = 0;
         if(role == 'medecin'){id = 1;}
         if(role == 'surveillant'){id = 2;}

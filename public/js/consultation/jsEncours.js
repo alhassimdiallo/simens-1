@@ -712,7 +712,7 @@
      	                    	'heure_recommandee':heure_recommandee_m, 'motif':motif_m, 'note':note_m, 
      	                    }),
      	                    success: function() {  
-     	                    	listeSoinsPrescrits(id_hosp);
+     	                    	listeSoinsPrescritsModifierRaf(id_hosp);
      	                    },
      	                    error:function(e){console.log(e);alert("Une erreur interne est survenue!");},
      	                    dataType: "html",
@@ -726,6 +726,23 @@
                 	}
 
                	}
+                
+                function listeSoinsPrescritsModifierRaf(id_hosp){
+                	var chemin = tabUrl[0]+'public/consultation/liste-soins-prescrits';
+                    $.ajax({
+                        type: 'POST',
+                        url: chemin ,
+                        data:{'id_hosp': id_hosp},
+                        success: function(data) {
+                        	var result = jQuery.parseJSON(data);
+                        	$("#liste_soins").html(result); 
+                        	$("#Liste_soins_deja_prescrit").fadeOut(500).fadeIn(800);
+                        	     
+                        },
+                        error:function(e){console.log(e);alert("Une erreur interne est survenue!");},
+                        dataType: "html"
+                    });
+                }
 
                 /************************************************************************************************************************/
                 /************************************************************************************************************************/

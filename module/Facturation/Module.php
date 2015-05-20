@@ -6,7 +6,6 @@ use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
 use Zend\ModuleManager\Feature\ConfigProviderInterface;
 use Zend\ModuleManager\Feature\ServiceProviderInterface;
 use Zend\ModuleManager\Feature\ViewHelperProviderInterface;
-use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
 use Zend\Db\ResultSet\ResultSet;
 use Zend\Db\TableGateway\TableGateway;
@@ -14,29 +13,17 @@ use Facturation\Model\Patient;
 use Facturation\Model\PatientTable;
 use Facturation\Model\Deces;
 use Facturation\Model\DecesTable;
-use Facturation\Form\AdmissionForm;
-use Facturation\Model\FacturationTable;
 use Facturation\Model\Facturation;
 use Facturation\Model\Naissance;
 use Facturation\Model\NaissanceTable;
 use Facturation\Model\TarifConsultationTable;
 use Facturation\Model\TarifConsultation;
+use Facturation\Model\Admission;
+use Facturation\Model\AdmissionTable;
+use Facturation\Model\ServiceTable;
+use Facturation\Model\Service;
 
 class Module implements AutoloaderProviderInterface, ConfigProviderInterface, ServiceProviderInterface, ViewHelperProviderInterface {
-// 	public function onBootstrap(MvcEvent $e) {
-// 		// Register a "render" event, at high priority (so it executes prior
-// 		// to the view attempting to render)
-// 		$app = $e->getApplication();
-// 		$app->getEventManager()->attach('render', array($this, 'registerJsonStrategy'), 100);
-
-// 		$serviceManager = $e->getApplication ()->getServiceManager ();
-// 		$viewModel = $e->getApplication ()->getMvcEvent ()->getViewModel ();
-
-// 		$myServiceUser = $serviceManager->get ( 'Admin\Model\UtilisateurTable' );
-// 		$myServiceAuth = $serviceManager->get ( 'AuthService' );
-// 		$login = $myServiceAuth->getIdentity ();
-// 		$viewModel->user = $myServiceUser->fetchUtilisateur ( $login );
-// 	}
 
 	public function registerJsonStrategy(MvcEvent $e)
 	{
@@ -51,9 +38,6 @@ class Module implements AutoloaderProviderInterface, ConfigProviderInterface, Se
 
 	public function getAutoloaderConfig() {
 		return array (
-				// 'Zend\Loader\ClassMapAutoloader' => array(
-				// __DIR__ . '/autoload_classmap.php',
-				// ),
 				'Zend\Loader\StandardAutoloader' => array (
 						'namespaces' => array (
 								__NAMESPACE__ => __DIR__ . '/src/' . __NAMESPACE__
@@ -68,11 +52,11 @@ class Module implements AutoloaderProviderInterface, ConfigProviderInterface, Se
 		return array (
 				'factories' => array (
 						'Facturation\Model\PatientTable' => function ($sm) {
-							$tableGateway = $sm->get ( 'PatientTableGateway' );
+							$tableGateway = $sm->get ( 'PatientTable1Gateway' );
 							$table = new PatientTable ( $tableGateway );
 							return $table;
 						},
-						'PatientTableGateway' => function ($sm) {
+						'PatientTable1Gateway' => function ($sm) {
 							$dbAdapter = $sm->get ( 'Zend\Db\Adapter\Adapter' );
 							$resultSetPrototype = new ResultSet ();
 							$resultSetPrototype->setArrayObjectPrototype ( new Patient () );
@@ -89,27 +73,27 @@ class Module implements AutoloaderProviderInterface, ConfigProviderInterface, Se
 							$resultSetPrototype->setArrayObjectPrototype ( new Deces () );
 							return new TableGateway ( 'deces', $dbAdapter, null, $resultSetPrototype );
 						},
-						'Facturation\Model\FacturationTable' => function ($sm) {
-							$tableGateway = $sm->get( 'FacturationTableGateway' );
-							$table = new FacturationTable( $tableGateway );
+						'Facturation\Model\AdmissionTable' => function ($sm) {
+							$tableGateway = $sm->get( 'AdmissionTableGateway' );
+							$table = new AdmissionTable( $tableGateway );
 							return $table;
 						},
-						'FacturationTableGateway' => function ($sm) {
+						'AdmissionTableGateway' => function ($sm) {
 							$dbAdapter = $sm->get ( 'Zend\Db\Adapter\Adapter' );
 							$resultSetPrototype = new ResultSet ();
-							$resultSetPrototype->setArrayObjectPrototype ( new Facturation() );
-							return new TableGateway ( 'facturation', $dbAdapter, null, $resultSetPrototype );
+							$resultSetPrototype->setArrayObjectPrototype ( new Admission() );
+							return new TableGateway ( 'admission', $dbAdapter, null, $resultSetPrototype );
 						},
 						'Facturation\Model\NaissanceTable' => function ($sm) {
-							$tableGateway = $sm->get( 'NaissanceTableGateway' );
+							$tableGateway = $sm->get( 'NaissanceTable1Gateway' );
 							$table = new NaissanceTable( $tableGateway );
 							return $table;
 						},
-						'NaissanceTableGateway' => function ($sm) {
+						'NaissanceTable1Gateway' => function ($sm) {
 							$dbAdapter = $sm->get ( 'Zend\Db\Adapter\Adapter' );
 							$resultSetPrototype = new ResultSet ();
 							$resultSetPrototype->setArrayObjectPrototype ( new Naissance() );
-							return new TableGateway ( 'naissances', $dbAdapter, null, $resultSetPrototype );
+							return new TableGateway ( 'naissance', $dbAdapter, null, $resultSetPrototype );
 						},
 						'Facturation\Model\TarifConsultationTable' => function ($sm) {
 							$tableGateway = $sm->get( 'TarifConsultationTableGateway' );
@@ -121,6 +105,17 @@ class Module implements AutoloaderProviderInterface, ConfigProviderInterface, Se
 							$resultSetPrototype = new ResultSet ();
 							$resultSetPrototype->setArrayObjectPrototype (new TarifConsultation());
 							return new TableGateway ( 'tarif_consultation', $dbAdapter, null, $resultSetPrototype );
+						},
+						'Facturation\Model\ServiceTable' => function ($sm) {
+							$tableGateway = $sm->get('ServiceTableFactGateway');
+							$table = new ServiceTable($tableGateway);
+							return $table;
+						},
+						'ServiceTableFactGateway' => function($sm) {
+							$dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+							$resultSetPrototype = new ResultSet();
+							$resultSetPrototype->setArrayObjectPrototype(new Service());
+							return new TableGateway('service', $dbAdapter, null, $resultSetPrototype);
 						},
 
 				)

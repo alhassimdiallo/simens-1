@@ -174,7 +174,6 @@ function declarer(id){
     $.ajax({
         type: 'POST',
         url: chemin ,
-       /* data: $(this).serialize(),*/  
         data:'id='+cle,
         success: function(data) {    
         	    var result = jQuery.parseJSON(data);  

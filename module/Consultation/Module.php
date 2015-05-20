@@ -27,7 +27,6 @@ use Consultation\Model\DemandeTable;
 use Consultation\Model\Demande;
 use Consultation\Model\OrdonConsommable;
 use Consultation\Model\OrdonConsommableTable;
-use Zend\Mvc\MvcEvent;
 use Consultation\Model\AntecedentPersonnelTable;
 use Consultation\Model\AntecedentPersonnel;
 use Consultation\Model\AntecedentsFamiliauxTable;
@@ -50,35 +49,11 @@ use Consultation\Model\BatimentTable;
 use Consultation\Model\Batiment;
 use Consultation\Model\ResultatVisitePreanesthesiqueTable;
 use Consultation\Model\ResultatVisitePreanesthesique;
-use Consultation\Model\Soinhospitalisation4;
-use Consultation\Model\Soinhospitalisation4Table;
 
 class Module implements AutoloaderProviderInterface {
 	
-// 	public function onBootstrap(MvcEvent $e) {
-// 		$serviceManager = $e->getApplication ()->getServiceManager ();
-// 		$viewModel = $e->getApplication ()->getMvcEvent ()->getViewModel ();
-
-// 		$uAuth = $serviceManager->get( 'Admin\Controller\Plugin\UserAuthentication' ); //@todo - We must use PluginLoader $this->userAuthentication()!!
-// 		$username = $uAuth->getAuthService()->getIdentity();
-		
-// 		$uTable = $serviceManager->get( 'Admin\Model\UtilisateursTable' );
-// 		$user = $uTable->getUtilisateursWithUsername($username);
-		
-// 		if($user) {
-// 			$uService = $serviceManager->get( 'Personnel\Model\ServiceTable');
-// 			$service = $uService->getServiceparId($user->id_service);
-			
-// 			$viewModel->user = $user;
-// 			$viewModel->service = $service['NOM'];
-// 		}
-// 	}
-	
 	public function getAutoloaderConfig() {
 		return array (
-				// 'Zend\Loader\ClassMapAutoloader' => array(
-				// __DIR__ . '/autoload_classmap.php',
-				// ),
 				'Zend\Loader\StandardAutoloader' => array (
 						'namespaces' => array (
 								__NAMESPACE__ => __DIR__ . '/src/' . __NAMESPACE__
@@ -95,11 +70,11 @@ class Module implements AutoloaderProviderInterface {
 		return array (
 				'factories' => array (
 						'Consultation\Model\ConsultationTable' => function ($sm) {
-							$tableGateway = $sm->get ( 'ConsultationTableGateway' );
+							$tableGateway = $sm->get ( 'ConsultationTableConsGateway' );
 							$table = new ConsultationTable ( $tableGateway );
 							return $table;
 						},
-						'ConsultationTableGateway' => function ($sm) {
+						'ConsultationTableConsGateway' => function ($sm) {
 							$dbAdapter = $sm->get ( 'Zend\Db\Adapter\Adapter' );
 							$resultSetPrototype = new ResultSet();
 							$resultSetPrototype->setArrayObjectPrototype ( new Consultation());
@@ -114,7 +89,7 @@ class Module implements AutoloaderProviderInterface {
 							$dbAdapter = $sm->get ( 'Zend\Db\Adapter\Adapter' );
 							$resultSetPrototype = new ResultSet();
 							$resultSetPrototype->setArrayObjectPrototype ( new MotifAdmission());
-							return new TableGateway ( 'motif_admissionn', $dbAdapter, null, $resultSetPrototype );
+							return new TableGateway ( 'motif_admission', $dbAdapter, null, $resultSetPrototype );
 						},
 						'Consultation\Model\RvPatientConsTable' => function ($sm) {
 							$tableGateway = $sm->get ( 'RvPatientConsTableGateway' );
@@ -125,7 +100,7 @@ class Module implements AutoloaderProviderInterface {
 							$dbAdapter = $sm->get ( 'Zend\Db\Adapter\Adapter' );
 							$resultSetPrototype = new ResultSet();
 							$resultSetPrototype->setArrayObjectPrototype ( new RvPatientCons());
-							return new TableGateway ( 'rv_patient_cons', $dbAdapter, null, $resultSetPrototype );
+							return new TableGateway ( 'rendezvous_consultation', $dbAdapter, null, $resultSetPrototype );
 						},
 						'Consultation\Model\TransfererPatientServiceTable' => function ($sm) {
 							$tableGateway = $sm->get ( 'TransfererPatientServiceTableGateway' );
@@ -147,7 +122,7 @@ class Module implements AutoloaderProviderInterface {
 							$dbAdapter = $sm->get ( 'Zend\Db\Adapter\Adapter' );
 							$resultSetPrototype = new ResultSet();
 							$resultSetPrototype->setArrayObjectPrototype ( new DonneesExamensPhysiques());
-							return new TableGateway ( 'Donnees_examen_physiquee', $dbAdapter, null, $resultSetPrototype );
+							return new TableGateway ( 'Donnees_examen_physique', $dbAdapter, null, $resultSetPrototype );
 						},
 						'Consultation\Model\DiagnosticsTable' => function ($sm) {
 							$tableGateway = $sm->get ( 'DiagnosticsTableGateway' );
@@ -158,7 +133,7 @@ class Module implements AutoloaderProviderInterface {
 							$dbAdapter = $sm->get ( 'Zend\Db\Adapter\Adapter' );
 							$resultSetPrototype = new ResultSet();
 							$resultSetPrototype->setArrayObjectPrototype ( new Diagnostics());
-							return new TableGateway ( 'diagnostics', $dbAdapter, null, $resultSetPrototype );
+							return new TableGateway ( 'diagnostic', $dbAdapter, null, $resultSetPrototype );
 						},
 						'Consultation\Model\OrdonnanceTable' => function ($sm) {
 							$tableGateway = $sm->get ( 'OrdonnanceTableGateway' );
@@ -216,26 +191,26 @@ class Module implements AutoloaderProviderInterface {
 							return new TableGateway ( 'ordon_consommable', $dbAdapter, null, $resultSetPrototype );
 						},
 						'Consultation\Model\AntecedentPersonnelTable' => function ($sm) {
-							$tableGateway = $sm->get ( 'AntecedentPersonnelTableGateway' );
+							$tableGateway = $sm->get ( 'AntecedentPersonnelPatientTableGateway' );
 							$table = new AntecedentPersonnelTable($tableGateway);
 							return $table;
 						},
-						'AntecedentPersonnelTableGateway' => function ($sm) {
+						'AntecedentPersonnelPatientTableGateway' => function ($sm) {
 							$dbAdapter = $sm->get ( 'Zend\Db\Adapter\Adapter' );
 							$resultSetPrototype = new ResultSet();
 							$resultSetPrototype->setArrayObjectPrototype ( new AntecedentPersonnel());
-							return new TableGateway ( 'ant_personnels_personne', $dbAdapter, null, $resultSetPrototype );
+							return new TableGateway ( 'ant_personnels_patient', $dbAdapter, null, $resultSetPrototype );
 						},
 						'Consultation\Model\AntecedentsFamiliauxTable' => function ($sm) {
-							$tableGateway = $sm->get ( 'AntecedentsFamiliauxTableGateway' );
+							$tableGateway = $sm->get ( 'AntecedentsFamiliauxPatientTableGateway' );
 							$table = new AntecedentsFamiliauxTable($tableGateway);
 							return $table;
 						},
-						'AntecedentsFamiliauxTableGateway' => function ($sm) {
+						'AntecedentsFamiliauxPatientTableGateway' => function ($sm) {
 							$dbAdapter = $sm->get ( 'Zend\Db\Adapter\Adapter' );
 							$resultSetPrototype = new ResultSet();
 							$resultSetPrototype->setArrayObjectPrototype ( new AntecedentsFamiliaux());
-							return new TableGateway ( 'ant_familiaux_personne', $dbAdapter, null, $resultSetPrototype );
+							return new TableGateway ( 'ant_familiaux_patient', $dbAdapter, null, $resultSetPrototype );
 						},
 						'Consultation\Model\DemandehospitalisationTable' => function ($sm) {
 							$tableGateway = $sm->get ( 'DemandehospitalisationTableeGateway' );
@@ -246,29 +221,18 @@ class Module implements AutoloaderProviderInterface {
 							$dbAdapter = $sm->get ( 'Zend\Db\Adapter\Adapter' );
 							$resultSetPrototype = new ResultSet ();
 							$resultSetPrototype->setArrayObjectPrototype ( new Demandehospitalisation () );
-							return new TableGateway ( 'demande_hospitalisation2', $dbAdapter, null, $resultSetPrototype );
+							return new TableGateway ( 'demande_hospitalisation', $dbAdapter, null, $resultSetPrototype );
 						},
 						'Consultation\Model\SoinhospitalisationTable' => function ($sm) {
-							$tableGateway = $sm->get ( 'SoinhospitalisationTableGateway' );
+							$tableGateway = $sm->get ( 'SoinhospitalisationConsTableGateway' );
 							$table = new SoinhospitalisationTable( $tableGateway );
 							return $table;
 						},
-						'SoinhospitalisationTableGateway' => function ($sm) {
+						'SoinhospitalisationConsTableGateway' => function ($sm) {
 							$dbAdapter = $sm->get ( 'Zend\Db\Adapter\Adapter' );
 							$resultSetPrototype = new ResultSet ();
 							$resultSetPrototype->setArrayObjectPrototype ( new Soinhospitalisation() );
-							return new TableGateway ( 'soins_hospitalisation_2', $dbAdapter, null, $resultSetPrototype );
-						},
-						'Consultation\Model\Soinhospitalisation4Table' => function ($sm) {
-							$tableGateway = $sm->get ( 'Soinhospitalisation4TableGateway' );
-							$table = new Soinhospitalisation4Table( $tableGateway );
-							return $table;
-						},
-						'Soinhospitalisation4TableGateway' => function ($sm) {
-							$dbAdapter = $sm->get ( 'Zend\Db\Adapter\Adapter' );
-							$resultSetPrototype = new ResultSet ();
-							$resultSetPrototype->setArrayObjectPrototype ( new Soinhospitalisation4() );
-							return new TableGateway ( 'soins_hospitalisation_3', $dbAdapter, null, $resultSetPrototype );
+							return new TableGateway ( 'soins_hospitalisation', $dbAdapter, null, $resultSetPrototype );
 						},
 						'Consultation\Model\SoinsTable' => function ($sm) {
 							$tableGateway = $sm->get ( 'SoinsTableGateway' );

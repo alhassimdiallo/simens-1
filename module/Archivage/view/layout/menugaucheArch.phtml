@@ -1,3 +1,21 @@
+<?php
+//CHOISIR LE MENU A AFFICHER SELON QUE C'EST LE MEDECIN OU SUR LE SURVEILLANT
+$user = $this->layout()->user;
+$role = $user['role'];
+
+if($role == 'medecin'){ ?>
+<script>
+$("#creationDossierPatientArchive").toggle(true);
+$("#facturationArchive").toggle(true);
+$("#consultationArchive").toggle(true);
+$("#hospitalisationArchive").toggle(true);
+$("#radiologieArchive").toggle(true);
+$("#biologieArchive").toggle(true);
+$("#anesthesieArchive").toggle(true);
+</script>
+<?php
+}
+?>
 
 <ul>
 	
@@ -133,25 +151,6 @@
 	</li>
 
 </ul>
-
-<?php
-//CHOISIR LE MENU A AFFICHER SELON QUE C'EST LE MEDECIN OU SUR LE SURVEILLANT
-$user = $this->layout()->user;
-$role = $user->role;
-
-if($role == 'medecin'){ ?>
-<script>
-$("#creationDossierPatientArchive").toggle(true);
-$("#facturationArchive").toggle(true);
-$("#consultationArchive").toggle(true);
-$("#hospitalisationArchive").toggle(true);
-$("#radiologieArchive").toggle(true);
-$("#biologieArchive").toggle(true);
-$("#anesthesieArchive").toggle(true);
-</script>
-<?php
-}
-?>
 
 <script>
 

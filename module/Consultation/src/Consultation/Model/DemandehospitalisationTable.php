@@ -32,7 +32,6 @@ class DemandehospitalisationTable {
 			if($infoDemandeHospitalisation['motif_demande_hospi'] && $infoDemandeHospitalisation['date_fin_prevue_hospi']){
 				$this->tableGateway->insert($infoDemandeHospitalisation);				
 			}
-
 		}
 	}
 	
@@ -52,10 +51,11 @@ class DemandehospitalisationTable {
 		$db = $this->tableGateway->getAdapter();
 		$sql = new Sql($db);
 		$sQuery = $sql->select()
-		->from(array('pat' => 'patient'))->columns(array('Nom'=>'nom','Prenom'=>'prenom','Datenaissance'=>'date_naissance','Sexe'=>'sexe','Adresse'=>'adresse','id'=>'id_personne'))
-		->join(array('cons' => 'consultation'), 'cons.pat_id_personne = pat.id_personne', array('Datedemandehospi'=>'date', 'Idcons'=>'id_cons'))
-		->join(array('dh' => 'demande_hospitalisation2'), 'dh.id_cons = cons.id_cons' , array('*'))
-		->join(array('med' => 'medecin') , 'med.id_personne = cons.id_personne' , array('NomMedecin' =>'nom', 'PrenomMedecin' => 'prenom'))
+		->from(array('pat' => 'patient'))->columns(array())
+		->join(array('pers' => 'personne'), 'pers.ID_PERSONNE = pat.ID_PERSONNE', array('Nom'=>'nom','Prenom'=>'prenom','Datenaissance'=>'date_naissance','Sexe'=>'sexe','Adresse'=>'adresse','id'=>'id_personne'))
+		->join(array('cons' => 'consultation'), 'cons.ID_PATIENT= pat.ID_PERSONNE', array('Datedemandehospi'=>'date', 'Idcons'=>'id_cons'))
+		->join(array('dh' => 'demande_hospitalisation'), 'dh.id_cons = cons.id_cons' , array('*'))
+		->join(array('med' => 'personne') , 'med.ID_PERSONNE = cons.id_medecin' , array('NomMedecin' =>'nom', 'PrenomMedecin' => 'prenom'))
 		->where(array('cons.id_cons' => $id_cons));
 		
 		$stat = $sql->prepareStatementForSqlObject($sQuery);
@@ -215,7 +215,7 @@ class DemandehospitalisationTable {
 	/**
 	 * Recuperation de la liste des patients en cours d'hospitalisation et deja hospitaliser
 	 */
-	public function getListePatientEncoursHospitalisation($id_medecin)
+	public function getListePatientEncoursHospitalisation($id_service)
 	{
 	
 		$db = $this->tableGateway->getAdapter();
@@ -257,12 +257,13 @@ class DemandehospitalisationTable {
 		*/
 		$sql1 = new Sql($db);
 		$sQuery1 = $sql1->select()
-		->from(array('pat' => 'patient'))->columns(array('id'=>'id_personne'))
-		->join(array('cons' => 'consultation'), 'cons.pat_id_personne = pat.id_personne', array())
-		->join(array('dh' => 'demande_hospitalisation2'), 'dh.id_cons = cons.id_cons', array())
-		->join(array('med' => 'medecin') , 'med.id_personne = cons.id_personne', array())
+		->from(array('pat' => 'patient'))->columns(array('id'=>'ID_PERSONNE'))
+		->join(array('pers' => 'personne'), 'pers.ID_PERSONNE = pat.ID_PERSONNE', array())
+		->join(array('cons' => 'consultation'), 'cons.ID_PATIENT = pat.ID_PERSONNE', array())
+		->join(array('dh' => 'demande_hospitalisation'), 'dh.id_cons = cons.ID_CONS' , array())
+		->join(array('s' => 'service'), 's.ID_SERVICE = cons.ID_SERVICE', array())
 		->join(array('h' => 'hospitalisation'), 'h.code_demande_hospitalisation = dh.id_demande_hospi', array() )
-		->where(array('dh.valider_demande_hospi'=>1 , 'med.id_personne'=> $id_medecin, 'cons.archivage'=>1, 'h.terminer'=>0))
+		->where(array('dh.valider_demande_hospi'=>1 , 's.ID_SERVICE'=> $id_service, 'cons.ARCHIVAGE'=>1, 'h.terminer'=>0))
 		->order('h.terminer ASC');
 		//$stat1 = $sql1->prepareStatementForSqlObject($sQuery1);
 		//$rResultFt1 = $stat1->execute()->current();
@@ -273,12 +274,13 @@ class DemandehospitalisationTable {
 		 */
 		$sql = new Sql($db);
 		$sQuery = $sql->select()
-		->from(array('pat' => 'patient'))->columns(array('Nom'=>'nom','Prenom'=>'prenom','Datenaissance'=>'date_naissance','Sexe'=>'sexe','Adresse'=>'adresse','id'=>'id_personne'))
-		->join(array('cons' => 'consultation'), 'cons.pat_id_personne = pat.id_personne', array('Datedemandehospi'=>'date', 'Idcons'=>'id_cons', 'Archivage' => 'archivage'))
-		->join(array('dh' => 'demande_hospitalisation2'), 'dh.id_cons = cons.id_cons' , array('*'))
-		->join(array('med' => 'medecin') , 'med.id_personne = cons.id_personne' , array('NomMedecin' =>'nom', 'PrenomMedecin' => 'prenom'))
+		->from(array('pat' => 'patient'))->columns(array())
+		->join(array('pers' => 'personne'), 'pers.ID_PERSONNE = pat.ID_PERSONNE', array('Nom'=>'NOM','Prenom'=>'PRENOM','Datenaissance'=>'DATE_NAISSANCE','Sexe'=>'SEXE','Adresse'=>'ADRESSE','id'=>'ID_PERSONNE'))
+		->join(array('cons' => 'consultation'), 'cons.ID_PATIENT = pat.ID_PERSONNE', array('Datedemandehospi'=>'DATE', 'Idcons'=>'ID_CONS', 'Archivage' => 'ARCHIVAGE'))
+		->join(array('dh' => 'demande_hospitalisation'), 'dh.id_cons = cons.ID_CONS' , array('*'))
+		->join(array('s' => 'service'), 's.ID_SERVICE = cons.ID_SERVICE', array())
 		->join(array('h' => 'hospitalisation'), 'h.code_demande_hospitalisation = dh.id_demande_hospi' , array('Datedebut'=>'date_debut', 'Idhosp'=>'id_hosp', 'Terminer'=>'terminer'))
-		->where(array('dh.valider_demande_hospi'=>1 , 'med.id_personne'=> $id_medecin, new NotIn ( 'pat.id_personne', $sQuery1 )))
+		->where(array('dh.valider_demande_hospi'=>1 , 's.ID_SERVICE'=> $id_service, new NotIn ( 'pat.ID_PERSONNE', $sQuery1 )))
 		->order('h.terminer ASC');
 	
 		/* Data set length after filtering */
@@ -539,17 +541,18 @@ class DemandehospitalisationTable {
 		return $row;
 	}
 	
-	public function getDemandeHospitalisationWithIdPatient($id_pat){
-	
+	public function getDemandeHospitalisationWithIdPatient($id_pat)
+	{
 		$db = $this->tableGateway->getAdapter();
 		$sql = new Sql($db);
 		$sQuery = $sql->select()
-		->from(array('pat' => 'patient'))->columns(array('Nom'=>'nom','Prenom'=>'prenom','Datenaissance'=>'date_naissance','Sexe'=>'sexe','Adresse'=>'adresse','id'=>'id_personne'))
-		->join(array('cons' => 'consultation'), 'cons.pat_id_personne = pat.id_personne', array('DateConsultation'=>'date', 'Idcons'=>'id_cons'))
-		->join(array('dh' => 'demande_hospitalisation2'), 'dh.id_cons = cons.id_cons' , array('*'))
-		->join(array('med' => 'medecin') , 'med.id_personne = cons.id_personne' , array('NomMedecin' =>'nom', 'PrenomMedecin' => 'prenom'))
+		->from(array('pat' => 'patient'))->columns(array())
+		->join(array('pers' => 'personne'), 'pers.ID_PERSONNE = pat.ID_PERSONNE', array('Nom'=>'NOM','Prenom'=>'PRENOM','Datenaissance'=>'DATE_NAISSANCE','Sexe'=>'SEXE','Adresse'=>'ADRESSE','id'=>'ID_PERSONNE'))
+		->join(array('cons' => 'consultation'), 'cons.ID_PATIENT = pat.ID_PERSONNE', array('DateConsultation'=>'DATE', 'Idcons'=>'ID_CONS'))
+		->join(array('dh' => 'demande_hospitalisation'), 'dh.id_cons = cons.ID_CONS' , array('*'))
+		->join(array('med' => 'personne') , 'med.ID_PERSONNE = cons.ID_MEDECIN' , array('NomMedecin' =>'NOM', 'PrenomMedecin' => 'PRENOM'))
 		->join(array('h' => 'hospitalisation'), 'h.code_demande_hospitalisation = dh.id_demande_hospi' , array('*'))
-		->where(array('pat.id_personne' => $id_pat));
+		->where(array('h.terminer' => 1, 'pat.ID_PERSONNE' => $id_pat));
 	
 		$stat = $sql->prepareStatementForSqlObject($sQuery);
 		$Result = $stat->execute();

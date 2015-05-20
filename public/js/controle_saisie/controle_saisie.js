@@ -22,12 +22,12 @@ function controle_saisie(){
 
 	    if(!$(this).val().match(/^[a-zA-Z]*$/))
 	    	supprimer_dernier_caractere(this);
-	    	upperText('nom');
+	    	upperText('NOM');
 	});
 	
 	//Necessite l'utilisation du fichier 'jquery.maskedinput.js'
 	jQuery(function($){
-		   $("#telephone").mask("(999) 99-999-99-99");
+		   $("#TELEPHONE").mask("(999) 99-999-99-99");
 	});
 	
 	jQuery(function($){

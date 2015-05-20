@@ -21,11 +21,8 @@
 	                url: chemin ,
 	                data: $(this).serialize(),  
 	                data:'id='+cle,
-	                success: function(data) {
-	                	     var result = jQuery.parseJSON(data);  
+	                success: function() {
 	                	     $("#"+cle).fadeOut(function(){$("#"+cle).empty();});
-	                	     $("#compteur").html(result);
-	                	     
 	                },
 	                error:function(e){console.log(e);alert("Une erreur interne est survenue!");},
 	                dataType: "html"
@@ -54,7 +51,7 @@
             type: 'POST',
             url: chemin ,
             data: $(this).serialize(),  
-            data:{'id':id, 'idFacturation':idFacturation},
+            data:{'id':id, 'idAdmission':idFacturation},
             success: function(data) {
        	    
             	     $("#titre").replaceWith("<div id='titre2' style='font-family: police2; color: green; font-size: 18px; font-weight: bold; padding-left: 20px;'><iS style='font-size: 25px;'>&curren;</iS> INFORMATIONS SUR LE PATIENT </div>");

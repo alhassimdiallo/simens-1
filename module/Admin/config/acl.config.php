@@ -142,6 +142,8 @@ return array(
     								'test-mp3' => 'medecin',
     								'ajouter-mp3' => 'medecin',
     								'afficher-mp3' => 'medecin',
+    								'supprimer-mp3' => 'medecin',
+    								'inserer-bd-mp3' => 'medecin',
     								
     								/**PDF**/
     								'impression-Pdf' => 'medecin',

@@ -24,34 +24,34 @@ controle_saisie();
                   <input type='file' name="fichier" /> <!-- RECUPERER L'IMAGE -->
                   <input type='hidden' id="fichier_tmp" name="fichier_tmp" /> <!-- FICHIER TAMPON POUR RECUPERER L'IMAGE DANS LE CONTROLLER -->
              </div>
-             <?php echo $this->formhidden($this->form->get('id_personne'));?>
+             <?php echo $this->formhidden($this->form->get('ID_PERSONNE'));?>
 
              <div style='width: 80%; height: 150px; float:left;'>
                <table id="form_patient" style="float: left;">
 
                   <tr class="comment-form-patient">
-                     <td style="width: 270px;"> <?php echo $this->formRow($this->form->get('sexe'));?></td>
-                     <td style="width: 270px;"> <?php echo $this->formRow($this->form->get('lieu_naissance'));?></td>
-                     <td style="width: 275px;"> <?php echo $this->formRow($this->form->get('email'));?></td>
+                     <td style="width: 33%;"> <?php echo $this->formRow($this->form->get('SEXE'));?></td>
+                     <td style="width: 33%;"> <?php echo $this->formRow($this->form->get('LIEU_NAISSANCE'));?></td>
+                     <td style="width: 33%;"> <?php echo $this->formRow($this->form->get('EMAIL'));?></td>
 
                   </tr>
 
                   <tr class="comment-form-patient">
-                     <td > <?php echo $this->formRow($this->form->get('nom'));?></td>
-                     <td > <?php echo $this->formRow($this->form->get('telephone'));?></td>
-                     <td > <?php echo $this->formRow($this->form->get('nationalite_origine'));?></td>
+                     <td > <?php echo $this->formRow($this->form->get('NOM'));?></td>
+                     <td > <?php echo $this->formRow($this->form->get('TELEPHONE'));?></td>
+                     <td > <?php echo $this->formRow($this->form->get('NATIONALITE_ORIGINE'));?></td>
                   </tr>
 
                   <tr class="comment-form-patient">
-                     <td > <?php echo $this->formRow($this->form->get('prenom'));?></td>
-                     <td > <?php echo $this->formRow($this->form->get('profession'));?></td>
-                     <td > <?php echo $this->formRow($this->form->get('nationalite_actuelle'));?></td>
+                     <td > <?php echo $this->formRow($this->form->get('PRENOM'));?></td>
+                     <td > <?php echo $this->formRow($this->form->get('PROFESSION'));?></td>
+                     <td > <?php echo $this->formRow($this->form->get('NATIONALITE_ACTUELLE'));?></td>
                   </tr>
 
                   <tr class="comment-form-patient">
-                     <td > <?php echo $this->formRow($this->form->get('date_naissance'));?></td>
-                     <td > <?php echo $this->formRow($this->form->get('adresse'));?></td>
-                     <td > <?php //echo $this->formRow($this->form->get('sexe'));?></td>
+                     <td > <?php echo $this->formRow($this->form->get('DATE_NAISSANCE'));?></td>
+                     <td > <?php echo $this->formRow($this->form->get('ADRESSE'));?></td>
+                     <td >  </td>
                   </tr>
 
                </table>

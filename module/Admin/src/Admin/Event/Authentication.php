@@ -83,7 +83,7 @@ class Authentication extends AbstractActionController
             $username = $userAuth->getIdentity();
             $user = $this->getUtilisateurTable()->getUtilisateursWithUsername($username);
             //$role  = 'member'; //@todo - Get role from user!
-            $role  = $user->role ;
+            $role  = $user['role'] ;
         }
 
         $routeMatch = $event->getRouteMatch();

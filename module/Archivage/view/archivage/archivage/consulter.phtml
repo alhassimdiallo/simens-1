@@ -65,7 +65,7 @@ $('#styleConsultation').css({'font-weight':'bold','color':'white','font-size':'2
 					<td><?php echo $this->escapeHtml($donnees['Nationalite']);?></td>
 					<td>
 
-					    <a href="<?php echo $this->url('archivage', array('action'=>'consultation'),  array('query'=>array('id_fact_patient'=>$this->escapeHtml($donnees['Id_facturation']))));?>">
+					    <a href="<?php echo $this->url('archivage', array('action'=>'consultation'),  array('query'=>array('id_admission_patient'=>$this->escapeHtml($donnees['Id_admission']))));?>">
 					       <img src='<?php echo $this->basePath().'/images_icons/doctor_16.png'?>' title=" Consultation" />
 					    </a>&nbsp;
 
@@ -171,10 +171,10 @@ $('#styleConsultation').css({'font-weight':'bold','color':'white','font-size':'2
 				}
 			} );
 
-			setTimeout(function() {
-				vart='<?php echo $this->basePath().'/archivage/consulter';?>';
-			    $(location).attr("href",vart);
-			}, 20000);
+// 			setTimeout(function() {
+//				vart='<?php //echo $this->basePath().'/archivage/consulter';?>';
+// 			    $(location).attr("href",vart);
+// 			}, 20000);
 			
 
 </script>

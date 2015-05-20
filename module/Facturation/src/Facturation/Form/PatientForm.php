@@ -9,13 +9,13 @@ class PatientForm extends Form {
 		parent::__construct ();
 
 		$this->add ( array (
-				'name' => 'id_personne',
+				'name' => 'ID_PERSONNE',
 				'type' => 'Hidden',
 				'attributes' => array (
 				)
 		) );
 		$this->add ( array (
-				'name' => 'civilite',
+				'name' => 'CIVILITE',
 				'type' => 'Zend\Form\Element\Select',
 				'options' => array (
 						'label' => 'Civilite',
@@ -26,91 +26,90 @@ class PatientForm extends Form {
 						)
 				),
 				'attributes' => array (
-						'id' => 'civilite',
+						'id' => 'CIVILITE',
 						'value' => 'M',
 				)
 		) );
 		$this->add ( array (
-				'name' => 'nom',
+				'name' => 'NOM',
 				'type' => 'Text',
 				'options' => array (
 						'label' => 'Nom'
 				),
 				'attributes' => array (
 						'class' => 'only_Char',
-						'id' => 'nom',
+						'id' => 'NOM',
 						'required' => true,
 				)
 		) );
 		$this->add ( array (
-				'name' => 'prenom',
+				'name' => 'PRENOM',
 				'type' => 'Text',
 				'options' => array (
 						'label' => iconv ( 'ISO-8859-1', 'UTF-8', 'Prénom' )
 				),
 				'attributes' => array (
-						'id' => 'prenom',
-						'class' => 'only_Char',
+						'id' => 'PRENOM',
+						//'class' => 'only_Char',
 						'required' => true,
 				)
 		) );
 
 
 		$this->add ( array (
-				'name' => 'sexe',
+				'name' => 'SEXE',
 				'type' => 'Zend\Form\Element\Select',
 				'options' => array (
 						'label' => 'Sexe',
 						'value_options' => array (
+								'' => '',
 								'Masculin' => 'Masculin',
 								iconv ( 'ISO-8859-1', 'UTF-8','Féminin') => iconv ( 'ISO-8859-1', 'UTF-8','Féminin')
 						)
 				),
 				'attributes' => array (
-						'id' => 'sexe',
+						'id' => 'SEXE',
 						'required' => true,
 				)
 				) );
 
 
 		$this->add ( array (
-				'name' => 'date_naissance',
+				'name' => 'DATE_NAISSANCE',
 				'type' => 'Text',
 				'options' => array (
 						'label' => 'Date de naissance'
 				),
 				'attributes' => array (
-						'id' => 'date_naissance',
-						//'required' => true,
+						'id' => 'DATE_NAISSANCE',
 				)
 				) );
 
 
 		$this->add ( array (
-				'name' => 'lieu_naissance',
+				'name' => 'LIEU_NAISSANCE',
 				'type' => 'Text',
 				'options' => array (
 						'label' => 'Lieu de naissance'
 				),
 				'attributes' => array (
-						'id' => 'lieu_naissance',
-						//'required' => true,
+						'id' => 'LIEU_NAISSANCE',
 				)
 				) );
 
 
 		$this->add ( array (
-				'name' => 'nationalite_origine',
+				'name' => 'NATIONALITE_ORIGINE',
 				'type' => 'Zend\Form\Element\Select',
 				'options' => array (
 						'label' => iconv ( 'ISO-8859-1', 'UTF-8','Nationalité origine'),
 				),
 				'attributes' => array (
-						'id' => 'nationalite_origine',
+						'id' => 'NATIONALITE_ORIGINE',
 				)
 				) );
 		$this->add ( array (
-				'name' => 'nationalite_actuelle',
+				'name' => 'NATIONALITE_ACTUELLE',
 				'type' => 'Zend\Form\Element\Select',
 				'options' => array (
 						'label' => iconv ( 'ISO-8859-1', 'UTF-8','Nationalité actuelle'),
@@ -119,49 +118,49 @@ class PatientForm extends Form {
 						)
 				),
 				'attributes' => array (
-						'id' => 'nationalite_actuelle'
+						'id' => 'NATIONALITE_ACTUELLE'
 				)
 
 				) );
 		$this->add ( array (
-				'name' => 'adresse',
+				'name' => 'ADRESSE',
 				'type' => 'Text',
 				'options' => array (
 						'label' => 'Adresse'
 				),
 				'attributes' => array (
-						'id' => 'adresse'
+						'id' => 'ADRESSE'
 				)
 		) );
 		$this->add ( array (
-				'name' => 'telephone',
+				'name' => 'TELEPHONE',
 				'type' => 'Text',
 				'options' => array (
 						'label' => iconv ( 'ISO-8859-1', 'UTF-8', 'Téléphone' )
 				),
 				'attributes' => array (
-						'id' => 'telephone'
+						'id' => 'TELEPHONE'
 				)
 		) );
 		$this->add ( array (
 				'type' => 'Zend\Form\Element\Email',
-				'name' => 'email',
+				'name' => 'EMAIL',
 				'options' => array (
 						'label' => 'Email'
 				),
 				'attributes' => array (
 						'placeholder' => 'votre@domain.com',
-						'id' => 'email'
+						'id' => 'EMAIL'
 				)
 		) );
 		$this->add ( array (
-				'name' => 'profession',
+				'name' => 'PROFESSION',
 				'type' => 'Text',
 				'options' => array (
 						'label' => 'Profession'
 				),
 				'attributes' => array (
-						'id' => 'profession'
+						'id' => 'PROFESSION'
 				)
 		) );
 		$this->add ( array (

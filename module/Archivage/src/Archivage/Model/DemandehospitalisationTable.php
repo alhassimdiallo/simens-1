@@ -535,13 +535,14 @@ class DemandehospitalisationTable {
 		$db = $this->tableGateway->getAdapter();
 		$sql = new Sql($db);
 		$sQuery = $sql->select()
-		->from(array('pat' => 'patient'))->columns(array('Nom'=>'nom','Prenom'=>'prenom','Datenaissance'=>'date_naissance','Sexe'=>'sexe','Adresse'=>'adresse','id'=>'id_personne'))
-		->join(array('cons' => 'consultation'), 'cons.pat_id_personne = pat.id_personne', array('DateConsultation'=>'date', 'Idcons'=>'id_cons'))
-		->join(array('dh' => 'demande_hospitalisation2'), 'dh.id_cons = cons.id_cons' , array('*'))
-		->join(array('med' => 'medecin') , 'med.id_personne = cons.id_personne' , array('NomMedecin' =>'nom', 'PrenomMedecin' => 'prenom'))
+		->from(array('pat' => 'patient'))->columns(array())
+		->join(array('pers' => 'personne'), 'pers.ID_PERSONNE = pat.ID_PERSONNE', array('Nom'=>'NOM','Prenom'=>'PRENOM','Datenaissance'=>'DATE_NAISSANCE','Sexe'=>'SEXE','Adresse'=>'ADRESSE','id'=>'ID_PERSONNE'))
+		->join(array('cons' => 'consultation'), 'cons.ID_PATIENT = pat.ID_PERSONNE', array('DateConsultation'=>'DATE', 'Idcons'=>'ID_CONS'))
+		->join(array('dh' => 'demande_hospitalisation'), 'dh.id_cons = cons.ID_CONS' , array('*'))
+		->join(array('med' => 'personne') , 'med.ID_PERSONNE = cons.ID_MEDECIN' , array('NomMedecin' =>'NOM', 'PrenomMedecin' => 'PRENOM'))
 		->join(array('h' => 'hospitalisation'), 'h.code_demande_hospitalisation = dh.id_demande_hospi' , array('*'))
-		->where(array('pat.id_personne' => $id_pat));
-	
+		->where(array('h.terminer' => 1, 'pat.ID_PERSONNE' => $id_pat));
+		
 		$stat = $sql->prepareStatementForSqlObject($sQuery);
 		$Result = $stat->execute();
 	

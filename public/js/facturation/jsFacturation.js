@@ -86,18 +86,17 @@ $(function() {
     //VALIDATION OU MODIFICATION DU FORMULAIRE ETAT CIVIL DU PATIENT
     //VALIDATION OU MODIFICATION DU FORMULAIRE ETAT CIVIL DU PATIENT
     
-            var civilite = $("#civilite");
-            var      nom = $("#nom");
-            var   prenom = $("#prenom");
-            var     sexe = $("#sexe");
-            var date_naissance = $("#date_naissance");
-            var lieu_naissance = $("#lieu_naissance");
-            var nationalite_origine = $("#nationalite_origine");
-            var nationalite_actuelle = $("#nationalite_actuelle");
-            var     adresse = $("#adresse");
-            var   telephone = $("#telephone");
-            var       email = $("#email");
-            var  profession = $("#profession");
+            var      nom = $("#NOM");
+            var   prenom = $("#PRENOM");
+            var     sexe = $("#SEXE");
+            var date_naissance = $("#DATE_NAISSANCE");
+            var lieu_naissance = $("#LIEU_NAISSANCE");
+            var nationalite_origine = $("#NATIONALITE_ORIGINE");
+            var nationalite_actuelle = $("#NATIONALITE_ACTUELLE");
+            var     adresse = $("#ADRESSE");
+            var   telephone = $("#TELEPHONE");
+            var       email = $("#EMAIL");
+            var  profession = $("#PROFESSION");
     	
     //$( "button" ).button(); // APPLICATION DU STYLE POUR LES BOUTONS
     
@@ -106,7 +105,6 @@ $(function() {
   	$( "#bouton_donnees_modifier" ).toggle(false);
   	
   	$( "#bouton_donnees_valider" ).click(function(){
-  		       civilite.attr( 'readonly', true );     
   		            nom.attr( 'readonly', true );    
   		         prenom.attr( 'readonly', true );  
   		           sexe.attr( 'readonly', true );
@@ -125,7 +123,6 @@ $(function() {
   	});
   	
   	$( "#bouton_donnees_modifier" ).click(function(){
-  		      civilite.attr( 'readonly', false );     
                    nom.attr( 'readonly', false );    
                 prenom.attr( 'readonly', false );  
                   sexe.attr( 'readonly', false );
@@ -146,18 +143,17 @@ $(function() {
   	//MENU GAUCHE
   	//MENU GAUCHE
   	$("#vider").click(function(){
-  		$('#civilite').val('');
-  		$('#lieu_naissance').val('');
-  		$('#email').val('');
-  		$('#nom').val('');
-  		$('#telephone').val('');
-  		$('#nationalite_origine').val('');
-  		$('#prenom').val('');
-  		$('#nationalite_actuelle').val('');
-  		$('#date_naissance').val('');
-  		$('#adresse').val('');
-  		$('#sexe').val('');
-  		$('#profession').val('');
+  		$('#LIEU_NAISSANCE').val('');
+  		$('#EMAIL').val('');
+  		$('#NOM').val('');
+  		$('#TELEPHONE').val('');
+  		$('#NATIONALITE_ORIGINE').val('');
+  		$('#PRENOM').val('');
+  		$('#NATIONALITE_ACTUELLE').val('');
+  		$('#DATE_NAISSANCE').val('');
+  		$('#ADRESSE').val('');
+  		$('#SEXE').val('');
+  		$('#PROFESSION').val('');
   		return false;
   	});
   	
@@ -195,7 +191,7 @@ $(function() {
   //FIN VALIDATION OU MODIFICATION DU FORMULAIRE ETAT CIVIL DU PATIENT
   //FIN VALIDATION OU MODIFICATION DU FORMULAIRE ETAT CIVIL DU PATIENT
   		
-  		$('#date_naissance').datepicker(
+  		$('#DATE_NAISSANCE').datepicker(
     			$.datepicker.regional['fr'] = {
     					closeText: 'Fermer',
     					changeYear: true,

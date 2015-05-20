@@ -7,89 +7,89 @@ use Zend\Form\Form;
 class AjoutNaissanceForm extends Form {
 	public function __construct($name = null) {
 		parent::__construct ();
-		//$local = new \Locale();
 		$this->add ( array (
-				'name' => 'id_personne',
+				'name' => 'ID_PERSONNE',
 				'type' => 'Hidden',
 				'attributes' =>  array (
-						'id' => 'id_personne',
+						'id' => 'ID_PERSONNE',
 				) 
 				));
 
 		$this->add ( array (
-				'name' => 'nom',
+				'name' => 'NOM',
 				'type' => 'Text',
 				'options' => array (
 						'label' => 'Nom'
 				),
 				'attributes' => array (
 						'class' => 'only_Char',
-						'id' => 'nom',
+						'id' => 'NOM',
 						'required' => true,
 				)
 		) );
 		$this->add ( array (
-				'name' => 'prenom',
+				'name' => 'PRENOM',
 				'type' => 'Text',
 				'options' => array (
-						'label' => iconv ( 'ISO-8859-1', 'UTF-8','Prénomm')
+						'label' => iconv ( 'ISO-8859-1', 'UTF-8','Prénom')
 				),
 				'attributes' => array (
-						'id' => 'prenom',
+						'id' => 'PRENOM',
 						'class' => 'only_Char',
 						'required' => true,
 				)
 		) );
 		$this->add ( array (
-				'name' => 'sexe',
+				'name' => 'SEXE',
 				'type' => 'Zend\Form\Element\Select',
 				'options' => array (
 						'label' => 'Sexe',
 						'value_options' => array (
-							'Masculin'=>'Masculin',
-							iconv ( 'ISO-8859-1', 'UTF-8','Féminin')=> iconv ( 'ISO-8859-1', 'UTF-8','Féminin')
+								'' => '',
+								'Masculin'=>'Masculin',
+								iconv ( 'ISO-8859-1', 'UTF-8','Féminin')=> iconv ( 'ISO-8859-1', 'UTF-8','Féminin')
 						) 
 				),
 				'attributes' => array (
 						'required' => true,
-						'id' => 'sexe'
+						'id' => 'SEXE'
 				)
 		) );
 		$this->add ( array (
-				'name' => 'date_naissance',
+				'name' => 'DATE_NAISSANCE',
 				'type' => 'Text',
 				'options' => array (
 						'label' => 'Date de naissance'
 				),
 				'attributes' => array (
 						'required' => true,
-						'id' => 'date_naissance'
+						'id' => 'DATE_NAISSANCE'
 				)
 		) );
 		$this->add ( array (
-				'name' => 'heure_naissance',
+				'name' => 'HEURE_NAISSANCE',
 				'type' => 'Text',
 				'options' => array (
 						'label' => 'Heure de naissance'
 				),
 				'attributes' => array (
 						'required' => true,
-						'id' => 'heure_naissance'
+						'id' => 'HEURE_NAISSANCE'
 				)
 		) );
 		$this->add ( array (
-				'name' => 'lieu_naissance',
+				'name' => 'LIEU_NAISSANCE',
 				'type' => 'Text',
 				'options' => array (
 						'label' => 'Lieu de naissance'
 				),
 				'attributes' => array (
 						'required' => true,
-						'id' => 'lieu_naissance'
+						'id' => 'LIEU_NAISSANCE'
 				)
 		) );
 		$this->add ( array (
-				'name' => 'nationalite_origine',
+				'name' => 'NATIONALITE_ORIGINE',
 				'type' => 'Zend\Form\Element\Select',
 				'options' => array (
 						'label' => iconv ( 'ISO-8859-1', 'UTF-8','Nationalité origine'),
@@ -99,10 +99,11 @@ class AjoutNaissanceForm extends Form {
 				),
 				'attributes' => array (
 						'required' => true,
+						'id' => 'NATIONALITE_ORIGINE'
 				)
 		) );
 		$this->add ( array (
-				'name' => 'nationalite_actuelle',
+				'name' => 'NATIONALITE_ACTUELLE',
 				'type' => 'Zend\Form\Element\Select',
 				'options' => array (
 						'label' => iconv ( 'ISO-8859-1', 'UTF-8','Nationalité actuelle'),
@@ -112,43 +113,47 @@ class AjoutNaissanceForm extends Form {
 				),
 				'attributes' => array (
 						'required' => true,
+						'id' => 'NATIONALITE_ACTUELLE'
 				)
 		) );
 		$this->add ( array (
-				'name' => 'adresse',
+				'name' => 'ADRESSE',
 				'type' => 'Text',
 				'options' => array (
 						'label' => 'Adresse'
+				),
+				'attributes' => array (
+						'id' => 'ADRESSE'
 				)
 		) );
 		$this->add ( array (
-				'name' => 'taille',
+				'name' => 'TAILLE',
 				'type' => 'Text',
 				'options' => array (
 						'label' => 'Taille (cm)'
 				),
 				'attributes'=> array (
-						'id' => 'taille'
+						'id' => 'TAILLE'
 				)
 		) );
 		$this->add(array(
+				'name' => 'POIDS',
 				'type' => 'Text',
-				'name' => 'poids',
 				'options' => array(
 						'label' => 'Poids (kg)'
 				),
 				'attributes'=> array (
-						'id' => 'poids'
+						'id' => 'POIDS'
 				)
 		));
 		$this->add ( array (
-				'name' => 'groupe_sanguin',
+				'name' => 'GROUPE_SANGUIN',
 				'type' => 'Text',
 				'options' => array (
 						'label' => 'Groupe sanguin'
 				),
 				'attributes'=> array (
-						'id' => 'groupe_sanguin'
+						'id' => 'GROUPE_SANGUIN'
 				)
 		) );
 		$this->add(array(

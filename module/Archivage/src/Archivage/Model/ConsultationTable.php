@@ -27,11 +27,12 @@ class ConsultationTable {
 		$sql = new Sql ( $adapter );
 		$select = $sql->select ();
 		$select->columns( array( '*' ));
+		
 		$select->from( array( 'c' => 'consultation' ));
-		$select->join( array('m' => 'medecin'), 'm.ID_PERSONNE = c.ID_PERSONNE' , array('*'));
-		$select->join( array('surv' => 'personnel2'), 'surv.ID_PERSONNE = c.ID_SURVEILLANT' , array('NomSurveillant' => 'NOM', 'PrenomSurveillant' => 'PRENOM'));
+		$select->join( array('e1' => 'employe'), 'e1.id_personne = c.ID_MEDECIN' , array());
+		$select->join( array('p1' => 'personne'), 'e1.id_personne = p1.ID_PERSONNE' , array('*'));
 		$select->join( array('s' => 'service'), 's.ID_SERVICE = c.ID_SERVICE' , array('nomService' => 'NOM', 'domaineService' => 'DOMAINE'));
-		$select->where(array('c.PAT_ID_PERSONNE' => $id_pat));
+		$select->where(array('c.ID_PATIENT' => $id_pat));
 		$select->order('DATEONLY DESC');
 		
 		$stat = $sql->prepareStatementForSqlObject ( $select );
@@ -81,8 +82,8 @@ class ConsultationTable {
 			
 			$dataconsultation = array(
 					'ID_CONS'=> $values->get ( "id_cons" )->getValue (), 
-					'ID_PERSONNE'=> $id_medecin,
-					'PAT_ID_PERSONNE'=> $values->get ( "id_patient" )->getValue (), 
+					'ID_MEDECIN'=> $id_medecin,
+					'ID_PATIENT'=> $values->get ( "id_patient" )->getValue (), 
 					'DATE'=> $values->get ( "date_cons" )->getValue (), 
 					'POIDS' => $values->get ( "poids" )->getValue (), 
 					'TAILLE' => $values->get ( "taille" )->getValue (), 
@@ -92,14 +93,12 @@ class ConsultationTable {
 					'FREQUENCE_RESPIRATOIRE' => $values->get ( "frequence_respiratoire" )->getValue (), 
 					'GLYCEMIE_CAPILLAIRE' => $values->get ( "glycemie_capillaire" )->getValue (), 
 					'DATEONLY' => $values->get ( "date_cons" )->getValue (),
-					//'HEURECONS' => $values->get ( "heure_cons" )->getValue (),
 					'CONSPRISE' => 1,
 					'ID_SERVICE' => $IdDuService
 			);
 			
 			$this->tableGateway->insert($dataconsultation);
 
-			//var_dump($dataconsultation); exit();
 			$this->tableGateway->getAdapter()->getDriver()->getConnection()->commit();
 		} catch (\Exception $e) {
 			$this->tableGateway->getAdapter()->getDriver()->getConnection()->rollback();

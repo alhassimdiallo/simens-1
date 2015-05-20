@@ -748,6 +748,27 @@ class ConsultationForm extends Form {
 						'id' => 'observation'
 				)
 		) );
+		$this->add ( array (
+				'name' => 'note_compte_rendu_operatoire',
+				'type' => 'Textarea',
+				'options' => array (
+						'label' => iconv ( 'ISO-8859-1', 'UTF-8', 'Note :' )
+				),
+				'attributes' => array (
+						'id' => 'note_compte_rendu_operatoire'
+				)
+		) );
+		
+		$this->add ( array (
+				'name' => 'note_compte_rendu_operatoire_instrumental',
+				'type' => 'Textarea',
+				'options' => array (
+						'label' => iconv ( 'ISO-8859-1', 'UTF-8', 'Note :' )
+				),
+				'attributes' => array (
+						'id' => 'note_compte_rendu_operatoire_instrumental'
+				)
+		) );
 		/**
 		 * ************* Autres (Transfert / hospitalisation / Rendez-vous! ************
 		 */

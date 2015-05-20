@@ -12,6 +12,7 @@ class AntecedentPersonnel {
 	public $duree;
 	public $regularite;
 	public $dysmenorrhee;
+	public $id_employe; 
 	
 	public function exchangeArray($data) {
 		$this->id_personne = (! empty ( $data ['ID_PERSONNE'] )) ? $data ['ID_PERSONNE'] : null;
@@ -23,5 +24,7 @@ class AntecedentPersonnel {
 		$this->duree = (! empty ( $data ['DUREE'] )) ? $data ['DUREE'] : null;
 		$this->regularite = (! empty ( $data ['REGULARITE'] )) ? $data ['REGULARITE'] : null;
 		$this->dysmenorrhee = (! empty ( $data ['DYSMENORRHEE'] )) ? $data ['DYSMENORRHEE'] : null;
+		$this->id_employe = (! empty ( $data ['ID_EMPLOYE'] )) ? $data ['ID_EMPLOYE'] : null;
+		
 	}
 }

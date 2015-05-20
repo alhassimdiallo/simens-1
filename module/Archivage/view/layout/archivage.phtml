@@ -38,11 +38,11 @@ $this->headScript()->appendFile($this->basePath().'/js/controle_saisie/controle_
 <?php
 
 //RECUPERER LES INFOS SUR LE MEDECIN OU SUR LE SURVEILLANT
-  $user = $this->layout()->user;
-  $nom = $user->nom;
-  $prenom = $user->prenom;
+  $user = $this->layout()->user; 
+  $nom = $user['Nom'];
+  $prenom = $user['Prenom'];
   $service = $this->layout()->service;
-  if($user->role == 'superAdmin') { $service = "INFORMATIQUE";} 
+  if($user['role'] == 'superAdmin') { $service = "INFORMATIQUE";} 
 ?>
 
 
@@ -73,7 +73,7 @@ $this->headScript()->appendFile($this->basePath().'/js/controle_saisie/controle_
     <li style="width: 15%; ">
      <div style='width: 30%; padding-top: 10px; float:left;'>
          <a href="<?php echo $this->url('consultation', array('action'=> 'consultation-medecin'));?>">
-           <img src="../img/light/arrow_up_left.png" title="Consultation" />
+           <img src="<?php echo $this->basePath().'/img/light/arrow_up_left.png';?>" title="Consultation" />
          </a>
       </div>
      <div style='width: 70%; padding-top: 10px; float:left;'>
@@ -146,13 +146,13 @@ jQuery(document).ready(function($){
     });
 
     $('#modifierPassword').click(function(){
-//        var role = "<?php //echo $user->role;?>";
-//         var id = 0;
-//         if(role == 'medecin'){id = 1;}
-//         if(role == 'surveillant'){id = 2;}
+        var role = "<?php echo $user['role'];?>";
+        var id = 0;
+        if(role == 'medecin'){id = 1;}
+        if(role == 'surveillant'){id = 2;}
         
-//     	vart=tabUrl[0]+'public/admin/modifier-password/'+id;
-//         $(location).attr("href",vart);
+    	vart=tabUrl[0]+'public/admin/modifier-password/'+id;
+        $(location).attr("href",vart);
     });
 });
 </script>

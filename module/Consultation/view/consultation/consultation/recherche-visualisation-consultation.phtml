@@ -118,6 +118,7 @@ $(function() {
 	//POUR LES TAB 
 	$( "#tabsAntecedents" ).tabs();
 	$( "#tabs" ).tabs();
+	$( "#tabsInstrumental" ).tabs();
 });
 AntecedentScript();
 
@@ -278,56 +279,56 @@ echo $this->form()->openTag($form); ?>
          <table id="etat_civil">
              <tr>
 			   	<td style='width:160px; font-family: police1;font-size: 12px;'>
-			   		<div id="aa"><a style="text-decoration: underline;">Pr&eacute;nom</a><br><p style='font-weight: bold;font-size: 17px;'><?php echo $this->lesdetails->prenom;?></p></div>
+			   		<div id="aa"><a style="text-decoration: underline;">Pr&eacute;nom</a><br><p style='font-weight: bold;font-size: 17px;'><?php echo $this->lesdetails['PRENOM'];?></p></div>
 			   	</td>
 
 			   	<td style='width:160px; font-family: police1;font-size: 12px;'>
-			   		<div id="aa"><a style="text-decoration: underline;">Lieu de naissance</a><br><p style='font-weight: bold;font-size: 17px;'><?php echo $this->lesdetails->lieu_naissance;?></p></div>
+			   		<div id="aa"><a style="text-decoration: underline;">Lieu de naissance</a><br><p style='font-weight: bold;font-size: 17px;'><?php echo $this->lesdetails['LIEU_NAISSANCE'];?></p></div>
 			   	</td>
 
 			    <td style='width:160px; font-family: police1;font-size: 12px;'>
-			   		<div id="aa"><a style="text-decoration: underline;">T&eacute;l&eacute;phone</a><br><p style='font-weight: bold;font-size: 17px;'><?php echo $this->lesdetails->telephone;?></p></div>
+			   		<div id="aa"><a style="text-decoration: underline;">T&eacute;l&eacute;phone</a><br><p style='font-weight: bold;font-size: 17px;'><?php echo $this->lesdetails['TELEPHONE'];?></p></div>
 			   	</td>
 
 			 </tr>
 
 			 <tr>
 			    <td style=' font-family: police1;font-size: 12px;'>
-			   		<div id="aa"><a style="text-decoration: underline;">Nom</a><br><p style='font-weight: bold;font-size: 19px;'><?php echo $this->lesdetails->nom;?></p></div>
+			   		<div id="aa"><a style="text-decoration: underline;">Nom</a><br><p style='font-weight: bold;font-size: 19px;'><?php echo $this->lesdetails['NOM'];?></p></div>
 			   	</td>
 
 			   	<td style=' font-family: police1;font-size: 12px;'>
-			   		<div id="aa"><a style="text-decoration: underline;">Nationalit&eacute; origine</a><br><p style='font-weight: bold;font-size: 19px;'><?php echo $this->lesdetails->nationalite_origine;?></p></div>
+			   		<div id="aa"><a style="text-decoration: underline;">Nationalit&eacute; origine</a><br><p style='font-weight: bold;font-size: 19px;'><?php echo $this->lesdetails['NATIONALITE_ORIGINE'];?></p></div>
 			   	</td>
 
 			   	<td style=' font-family: police1;font-size: 12px;'>
-			   		<div id="aa"><a style="text-decoration: underline;">Email</a><br><p style='font-weight: bold;font-size: 19px;'><?php echo $this->lesdetails->email;?></p></div>
+			   		<div id="aa"><a style="text-decoration: underline;">Email</a><br><p style='font-weight: bold;font-size: 19px;'><?php echo $this->lesdetails['EMAIL'];?></p></div>
 			   	</td>
 
 			 </tr>
 
 			 <tr>
 			    <td style=' font-family: police1;font-size: 12px;'>
-			   		<div id="aa"><a style="text-decoration: underline;">Sexe</a><br><p style='font-weight: bold;font-size: 19px;'><?php echo $this->lesdetails->sexe;?></p></div>
+			   		<div id="aa"><a style="text-decoration: underline;">Sexe</a><br><p style='font-weight: bold;font-size: 19px;'><?php echo $this->lesdetails['SEXE'];?></p></div>
 			   	</td>
 
 			    <td style=' font-family: police1;font-size: 12px;'>
-			   		<div id="aa"><a style="text-decoration: underline;">Nationalit&eacute; actuelle</a><br><p style='font-weight: bold;font-size: 19px;'><?php echo $this->lesdetails->nationalite_actuelle;?></p></div>
+			   		<div id="aa"><a style="text-decoration: underline;">Nationalit&eacute; actuelle</a><br><p style='font-weight: bold;font-size: 19px;'><?php echo $this->lesdetails['NATIONALITE_ACTUELLE'];?></p></div>
 			   	</td>
 
 			   	<td style=' font-family: police1;font-size: 12px;'>
-			   		<div id="aa"><a style="text-decoration: underline;">Profession</a><br><p style='font-weight: bold;font-size: 19px;'><?php echo $this->lesdetails->profession;?></p></div>
+			   		<div id="aa"><a style="text-decoration: underline;">Profession</a><br><p style='font-weight: bold;font-size: 19px;'><?php echo $this->lesdetails['PROFESSION'];?></p></div>
 			   	</td>
 
 			 </tr>
 
 			  <tr>
 			   	<td style=' font-family: police1;font-size: 12px;'>
-			   		<div id="aa"><a style="text-decoration: underline;">Date de naissance</a><br><p style='font-weight: bold;font-size: 19px;'><?php echo $Control->convertDate($this->lesdetails->date_naissance);?></p></div>
+			   		<div id="aa"><a style="text-decoration: underline;">Date de naissance</a><br><p style='font-weight: bold;font-size: 19px;'><?php echo $Control->convertDate($this->lesdetails['DATE_NAISSANCE']);?></p></div>
 			   	</td>
 
 			    <td style='display:"block"; width: 195px; font-family: police1;font-size: 12px;'>
-			   		<div id="aa"><a style="text-decoration: underline;">Adresse</a><br><p style='font-weight: bold;font-size: 19px;'><?php echo $this->lesdetails->adresse;?></p></div>
+			   		<div id="aa"><a style="text-decoration: underline;">Adresse</a><br><p style='font-weight: bold;font-size: 19px;'><?php echo $this->lesdetails['ADRESSE'];?></p></div>
 
 			   	</td>
 			   	<td>  
@@ -618,7 +619,7 @@ echo $this->form()->openTag($form); ?>
            </table>
            <script> 
              $(".image4_AP").toggle(false);
-             if("<?php echo $this->lesdetails->sexe;?>" != "Masculin" ){ $(".image4_AP").toggle(true); }
+             if("<?php echo $this->lesdetails['SEXE']?>" != "Masculin" ){ $(".image4_AP").toggle(true); }
            </script>
            
            <table id="HabitudesDeVie" style="width:100%;">
@@ -823,7 +824,7 @@ echo $this->form()->openTag($form); ?>
            </table>
            <script>
              var temoinAlcoolique = <?php echo $this->donneesAntecedentsPersonnels['AlcooliqueHV'];?>;
-             var temoinFumeurHV   = <?php echo $this->donneesAntecedentsPersonnels['FumeurHV'];?>; var nbPaquetFumeurHV = <?php echo (int)$this->donneesAntecedentsPersonnels['nbPaquetFumeurHV'];?>;
+             var temoinFumeurHV   = <?php echo $this->donneesAntecedentsPersonnels['FumeurHV'];?>; var nbPaquetFumeurHV = <?php echo (float)$this->donneesAntecedentsPersonnels['nbPaquetFumeurHV'];?>;
              var temoinDroguerHV  = <?php echo $this->donneesAntecedentsPersonnels['DroguerHV'];?>;
 
              var temoinDiabeteAM = <?php echo $this->donneesAntecedentsPersonnels['DiabeteAM'];?>;
@@ -938,7 +939,7 @@ echo $this->form()->openTag($form); ?>
                     <td style="width:35%;" > <?php echo $donnees['PrenomSurveillant'];?>  <?php echo $donnees['NomSurveillant'];?></td>
                     <td style="width:35%;" > <?php echo $donnees['PRENOM'];?>  <?php echo $donnees['NOM'];?> </td>
                     <td style="width:5%;" >
-            		   <a href="<?php echo $this->url('consultation', array('action'=>'visualisation-consultation'),  array('query'=>array('id_patient'=>$this->escapeHtml($donnees['PAT_ID_PERSONNE']),'id_cons'=>$this->escapeHtml($donnees['ID_CONS']))));?>" target="_blank">
+            		   <a href="<?php echo $this->url('consultation', array('action'=>'visualisation-consultation'),  array('query'=>array('id_patient'=>$this->escapeHtml($donnees['ID_PATIENT']),'id_cons'=>$this->escapeHtml($donnees['ID_CONS']))));?>" target="_blank">
 					       <img style="display: inline;"  src='<?php echo $this->basepath().'/images_icons/voird.PNG'?>' alt='Constantes' title="Voir les d&eacute;tails de la consultation" />
 					   </a>&nbsp;
 					</td>
@@ -966,12 +967,12 @@ echo $this->form()->openTag($form); ?>
               <div id='ListeHospi'>
               <table class="table table-bordered  tab_list_mini" id="ListeHospitalisation" style="width:100%;">
 			  <thead>
-				  <tr style="height:40px; width:100%;">
-					<th style="width:25%;" >DATE & HEURE</th>
+				 <tr  style="height:40px; width:100%;">
+				   	<th style="width:25%;" >DATE & HEURE</th>
 					<th style="width:35%;" >PR&Eacute;NOM & NOM M&eacute;decin</th>
 					<th style="width:35%;" >DATE & HEURE de Sortie</th>
 					<th style="width:5%;">Vue</th>
-				  </tr>
+				 </tr>
 			  </thead>
 			  <tbody>	
 			  <?php foreach($this->listeHospitalisation as $donnees) :?>
@@ -1820,6 +1821,7 @@ echo $this->form()->openTag($form); ?>
                      <ul>
                         <li><a href="#tabs-1">Demande de visite pr&eacute;-anesth&eacute;sique</a></li>
                         <li id='ResultatTabs'><a href="#tabs-2">R&eacute;sultats</a></li>
+                        <li id='CompteRenduTabs'><a href="#tabs-3">Compte rendu op&eacute;ratoire</a></li>
                      </ul>
  
                   <div id="tabs-1"> 
@@ -1870,7 +1872,7 @@ echo $this->form()->openTag($form); ?>
                                            
                                           <tr style="width: 100%;">
                                             <td style="width: 33%;">
-                                              <div style="float:left;"><label style="width: 180px; height:30px; text-align:right; "> Type d'intervention : </label></div> 
+                                              <div style="float:left;"><label style="width: 180px; height:30px; text-align:right; "> Type d'anesth&eacute;sie : </label></div> 
                                               <div style="float:left;"><label style="max-width: 250px; height:30px; text-align:left; font-size: 19px; font-weight:bold; color: green;"> <?php echo $this->resultatVpa->typeIntervention; ?> </label></div>
                                             </td>
                                           </tr>
@@ -1886,26 +1888,60 @@ echo $this->form()->openTag($form); ?>
                                             </td>
                                           </tr>
                                         </table>
-                                  </div>           
+                     </div>           
+                     
+                     <?php
+                      echo $this->headLink()->appendStylesheet($this->basePath().'/js/plugins/jPlayer-2.9.2/dist/skin/blue.monday/css/jplayer.blue.monday.min.css');
+                      echo $this->headScript()->appendFile($this->basePath().'/js/plugins/jPlayer-2.9.2/dist/jplayer/jquery.jplayer.min.js');
+                      echo $this->headScript()->appendFile($this->basePath().'/js/plugins/jPlayer-2.9.2/dist/add-on/jplayer.playlist.min.js');
+                    ?>
+                      
+                    <div id="tabs-3" style="min-height: 100px;"> 
+                       <table id="transfert" style="width: 100%; ">   
+                        <tr style="width:100%;">
+                          <td style="width: 55%; vertical-align:top;"> 
+                              <div id="AfficherLecteur" style='margin-right: 40px;'>
+                                 <!-- ****** EMPLACEMENT DU LECTEUR AUDIO (MP3)********* --> 
+                              </div>
+                          </td>
+                          <td class="form-transfert" style="width: 45%; vertical-align:top;"> <?php echo $this->formRow($form->get('note_compte_rendu_operatoire'));?> </td>
+                          
+                        </tr>
+                       </table>
+                    </div>
+                    
                    </div>
                    
                    <script>
-                   $(function(){$('#ResultatTabs').toggle(false);});
+                   $(function(){$('#ResultatTabs').toggle(false);}); 
                    </script>
                    
                    <?php if( $this->resultatVpa ){?>
                      <script> $(function(){$('#ResultatTabs').toggle(true);}); </script>
                    <?php } ?>
                    
+                   <script type="text/javascript">
+                   <?php echo $this->headScript()->appendFile($this->basePath().'/js/consultation/jsAjouterSuppimerMp3.js');?>
+                   </script>
+                   
                    </div>
-
-
                         <!-- ************** Traitement Instrumental **************** -->
                            <!-- **3** -->
                             <div style='font-family: police2;font-size: 17px; font-weight: bold;'> Instrumental</div>
-                                 <div >
+                                 
+                                 <div style="max-height: 370px;">
 
-                                  <div style=" padding-bottom:0px; margin-bottom: 5px; border-bottom: 2px solid green; margin-left: 0px;"></div>
+                                 <div id="tabsInstrumental">
+                                 
+                                    <ul>
+                                       <li><a href="#tabsInstrumental-1">Traitement</a></li>
+                                       <li id='CompteRenduInstrumentalTabs'><a href="#tabsInstrumental-2">Compte rendu op&eacute;ratoire</a></li>
+                                    </ul>
+ 
+                                    <div id="tabsInstrumental-1"> 
+                                       <!-- ******* -->
+                                       <!-- ******* -->
+                                       <div style=" padding-bottom:0px; margin-bottom: 5px; border-bottom: 2px solid green; margin-left: 0px;"></div>
                                        <!-- LE PDF POUR IMPRESSION-->
                                        <div class="rendezvous">
                                            <hass><input type="submit" alt="Constantes" title="Imprimer" name="traitement_instrumental" id="instrumental1"></hass>
@@ -1914,41 +1950,56 @@ echo $this->form()->openTag($form); ?>
                                        <div class="annulertransfert">
                                            <hass><input type="submit" alt="Constantes" title="Annuler" name="annuler_traitement_instrumental" id="annuler_traitement_instrumental"></hass>
                                        </div>
-                                   <div style=" padding-bottom:40px; margin-bottom: 10px; border-bottom: 1px dashed green; margin-left: 0px; margin-right: 0px;"></div>
+                                       <div style=" padding-bottom:40px; margin-bottom: 10px; border-bottom: 1px dashed green; margin-left: 0px; margin-right: 0px;"></div>
 
-                                   <table id="Traitementinstrumental" style="width: 100%;">
-                                        <tr class="form-instrumental" style="width: 90%;">
+                                       <table id="Traitementinstrumental" style="width: 100%;">
+                                         <tr class="form-instrumental" style="width: 90%;">
                                             <th style="width: 95%;"> <?php echo $this->formRow($form->get('endoscopieInterventionnelle'));?> </th>
-                                        </tr>
-                                        <tr class="form-instrumental" style="width: 90%;">
+                                         </tr>
+                                         <tr class="form-instrumental" style="width: 90%;">
                                             <th style="width: 95%;"> <?php echo $this->formRow($form->get('radiologieInterventionnelle'));?> </th>
-                                        </tr>
-                                        <tr class="form-instrumental" style="width: 90%;">
+                                         </tr>
+                                         <tr class="form-instrumental" style="width: 90%;">
                                             <th style="width: 95%;"> <?php echo $this->formRow($form->get('cardiologieInterventionnelle'));?> </th>
-                                        </tr>
-                                        <tr class="form-instrumental" style="width: 90%;">
+                                         </tr>
+                                         <tr class="form-instrumental" style="width: 90%;">
                                             <th style="width: 95%;"> <?php echo $this->formRow($form->get('autresIntervention'));?> </th>
-                                        </tr>
-                                        <tr style="width: 90%;">
-                                            <th style="width: 100%; padding-right:30px;">
-                                                <div style='margin-top:10px; float:right; '> 
-                                                     <button id='bouton_instrumental_valider'>Valider</button>  
-                                                </div >
-                                                <div style='margin-top:10px; float:right; '> 
-                                                     <button id='bouton_instrumental_modifier'>Modifier</button>  
-                                                </div>
-                                            </th>
-                                           
-                                        </tr>
-                                    </table>
+                                         </tr>
+                                        
+                                       </table>
+                                       <!-- ******* -->
+                                       <!-- ******* -->
+                                    </div>
 
+                                    <div id="tabsInstrumental-2"> 
+                                      <!-- ******* -->
+                                      <!-- ******* -->
+                                      <input type='hidden' id='temoinAudio'>
+                                      <table id="transfert" style="width: 100%; ">   
+                                        <tr style="width:100%;">
+                                          <td style="width: 55%; vertical-align:top;"> 
+                                            <div id="AfficherLecteurInstrumental" style='margin-right: 40px;'>
+                                                <!-- ****** EMPLACEMENT DU LECTEUR AUDIO (MP3)********* --> 
+                                            </div>
+                                          </td>
+                                          <td class="form-transfert" style="width: 45%; vertical-align:top;"> <?php echo $this->formRow($form->get('note_compte_rendu_operatoire_instrumental'));?> </td>
+                                        </tr>
+                                      </table>
+                                      <!-- ******* -->
+                                      <!-- ******* -->
+                                    </div>
+                                    
+                                    
+                                    
                                  </div>
+                                  
                             
-
+                              </div>
              </div>
 
         </div>
 
+                 
      <!-- *************Autres(Transfert/Hospitalisation/ Rendez-Vous )***************-->
      <!-- *************Autres(Transfert/Hospitalisation/ Rendez-Vous )***************-->
      <!-- *************Autres(Transfert/Hospitalisation/ Rendez-Vous )***************-->

@@ -47,14 +47,14 @@
     
     /**********************************************************************************/
     
-    function affichervue(id, idFacturation){
+    function affichervue(idPatient, idAdmission){
 
         var chemin = tabUrl[0]+'public/facturation/vue-patient-admis';
         $.ajax({
             type: 'POST',
             url: chemin ,
             data: $(this).serialize(),  
-            data:{'id':id, 'idFacturation':idFacturation},
+            data:{'idPatient':idPatient, 'idAdmission':idAdmission},
             success: function(data) {
        	    
             	     $("#titre").replaceWith("<div id='titre2' style='font-family: police2; color: green; font-size: 18px; font-weight: bold; padding-left: 20px;'><iS style='font-size: 25px;'>&curren;</iS> INFORMATIONS SUR LE PATIENT </div>");
@@ -65,7 +65,7 @@
             error:function(e){console.log(e);alert("Une erreur interne est survenue!");},
             dataType: "html"
         });
-	    //return false;
+	    return false;
     }
     
     function listepatient(){

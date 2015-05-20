@@ -1,7 +1,6 @@
 <?php 
 use Facturation\View\Helper\DateHelper;
 echo $this->headLink()->appendStylesheet($this->basepath().'/css/consultation/styleEncours.css');
-//echo  $this->headScript()->appendFile($this->basePath().'/js/jquery.dataTables.min.js');
 echo $this->headScript()->appendFile($this->basepath().'/js/consultation/jsEncours.js');
 
 $controle = new DateHelper();
@@ -70,19 +69,19 @@ $(window).load(function () {
   <div style='width: 65%; height: 180px; float:left;'>
   <table style='margin-top:10px; float:left; width: 100%;'>
     <tr style='width: 100%;'>
-	<td style='width: 20%; height: 50px;'><a style='text-decoration:underline; font-size:12px;'>Nom:</a><br><p style='font-weight:bold; font-size:17px;'> <?php echo $this->unPatient->nom ?> </p></td>
-	<td style='width: 30%; height: 50px;'><a style='text-decoration:underline; font-size:12px;'>Lieu de naissance:</a><br><p style=' font-weight:bold; font-size:17px;'> <?php echo $this->unPatient->lieu_naissance; ?></p></td>
-    <td style='width: 20%; height: 50px;'><a style='text-decoration:underline; font-size:12px;'>Nationalit&eacute; actuelle:</a><br><p style=' font-weight:bold; font-size:17px;'> <?php echo $this->unPatient->nationalite_actuelle; ?></p></td>
+	<td style='width: 20%; height: 50px;'><a style='text-decoration:underline; font-size:12px;'>Nom:</a><br><p style='font-weight:bold; font-size:17px;'> <?php echo $this->unPatient['NOM'] ?> </p></td>
+	<td style='width: 30%; height: 50px;'><a style='text-decoration:underline; font-size:12px;'>Lieu de naissance:</a><br><p style=' font-weight:bold; font-size:17px;'> <?php echo $this->unPatient['LIEU_NAISSANCE']; ?></p></td>
+    <td style='width: 20%; height: 50px;'><a style='text-decoration:underline; font-size:12px;'>Nationalit&eacute; actuelle:</a><br><p style=' font-weight:bold; font-size:17px;'> <?php echo $this->unPatient['NATIONALITE_ACTUELLE']; ?></p></td>
 	<td style='width: 30%; height: 50px;'></td>
 	</tr><tr style='width: 100%;'>
-	<td style='width: 20%; height: 50px;'><a style='text-decoration:underline; font-size:12px;'>Pr&eacute;nom:</a><br><p style=' font-weight:bold; font-size:17px;'> <?php echo $this->unPatient->prenom; ?> </p></td>
-	<td style='width: 30%; height: 50px;'><a style='text-decoration:underline; font-size:12px;'>T&eacute;l&eacute;phone:</a><br><p style=' font-weight:bold; font-size:17px;'> <?php echo $this->unPatient->telephone; ?> </p></td>
-	<td style='width: 20%; height: 50px;'><a style='text-decoration:underline; font-size:12px;'>Nationalit&eacute; d'origine:</a><br><p style=' font-weight:bold; font-size:17px;'> <?php echo $this->unPatient->nationalite_origine; ?></p></td>
-	<td style='width: 30%; height: 50px;'><a style='text-decoration:underline; font-size:12px;'>Email:</a><br><p style='font-weight:bold; font-size:17px;'> <?php echo $this->unPatient->email; ?> </p></td>
+	<td style='width: 20%; height: 50px;'><a style='text-decoration:underline; font-size:12px;'>Pr&eacute;nom:</a><br><p style=' font-weight:bold; font-size:17px;'> <?php echo $this->unPatient['PRENOM']; ?> </p></td>
+	<td style='width: 30%; height: 50px;'><a style='text-decoration:underline; font-size:12px;'>T&eacute;l&eacute;phone:</a><br><p style=' font-weight:bold; font-size:17px;'> <?php echo $this->unPatient['TELEPHONE']; ?> </p></td>
+	<td style='width: 20%; height: 50px;'><a style='text-decoration:underline; font-size:12px;'>Nationalit&eacute; d'origine:</a><br><p style=' font-weight:bold; font-size:17px;'> <?php echo $this->unPatient['NATIONALITE_ORIGINE']; ?></p></td>
+	<td style='width: 30%; height: 50px;'><a style='text-decoration:underline; font-size:12px;'>Email:</a><br><p style='font-weight:bold; font-size:17px;'> <?php echo $this->unPatient['EMAIL']; ?> </p></td>
 	</tr><tr style='width: 100%;'>
-	<td style='width: 20%; height: 50px; vertical-align: top;'><a style='text-decoration:underline; font-size:12px;'>Date de naissance:</a><br><p style=' font-weight:bold; font-size:17px;'> <?php echo $controle->convertDate($this->unPatient->date_naissance); ?> </p></td>
-	<td style='width: 30%; height: 50px; vertical-align: top;'><a style='text-decoration:underline; font-size:12px;'>Adresse:</a><br><p style=' font-weight:bold; font-size:17px;'> <?php echo $this->unPatient->adresse; ?></p></td>
-	<td style='width: 20%; height: 50px; vertical-align: top;'><a style='text-decoration:underline; font-size:12px;'>Profession:</a><br><p style=' font-weight:bold; font-size:17px;'> <?php echo $this->unPatient->profession; ?></p></td>
+	<td style='width: 20%; height: 50px; vertical-align: top;'><a style='text-decoration:underline; font-size:12px;'>Date de naissance:</a><br><p style=' font-weight:bold; font-size:17px;'> <?php echo $controle->convertDate($this->unPatient['DATE_NAISSANCE']); ?> </p></td>
+	<td style='width: 30%; height: 50px; vertical-align: top;'><a style='text-decoration:underline; font-size:12px;'>Adresse:</a><br><p style=' font-weight:bold; font-size:17px;'> <?php echo $this->unPatient['ADRESSE']; ?></p></td>
+	<td style='width: 20%; height: 50px; vertical-align: top;'><a style='text-decoration:underline; font-size:12px;'>Profession:</a><br><p style=' font-weight:bold; font-size:17px;'> <?php echo $this->unPatient['PROFESSION']; ?></p></td>
 	<td style='width: 30%; height: 50px;'></td>
 	</tr>
   </table>

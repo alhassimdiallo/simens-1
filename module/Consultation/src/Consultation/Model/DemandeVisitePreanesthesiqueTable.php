@@ -55,6 +55,9 @@ class DemandeVisitePreanesthesiqueTable{
 			$resultatVpa = $this->getResultatVpa($demandeVpa->idVpa);
 		}
 		
+		$today = new \DateTime ();
+		$dateAujourdhui = $today->format ( 'Y-m-d H:i:s' );
+		
 		if(!$resultatVpa){
 			$this->tableGateway->delete(array('ID_CONS'=>$infoDemande['ID_CONS']));
 			
@@ -64,8 +67,9 @@ class DemandeVisitePreanesthesiqueTable{
 						'DIAGNOSTIC'  => $infoDemande['diagnostic'],
 						'OBSERVATION' => $infoDemande['observation'],
 						'INTERVENTION_PREVUE' => $infoDemande['intervention_prevue'],
+						'DATE_ENREGISTREMENT' => $dateAujourdhui
 				);
-				$this->tableGateway->insert($infoDemande);
+				$this->tableGateway->insert($donneesVPA);
 			}
 		}
 	}

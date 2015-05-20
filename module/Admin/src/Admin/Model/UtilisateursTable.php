@@ -25,6 +25,22 @@ class UtilisateursTable
 		return $row;
 	}
 	
+	
+	public function getInfoUserPersonneService($id_personne){
+		$db = $this->tableGateway->getAdapter();
+		$sql = new Sql($db);
+		$sQuery = $sql->select()
+		->from(array('u' => 'utilisateurs')) -> columns(array('*') )
+		->join(array('e' => 'employe'), 'e.id_personne = u.id_personne' , array('*'))
+		->join(array('p' => 'personne') ,'p.id_personne = e.id_personne' , array('Nom'=>'NOM','Prenom'=>'PRENOM','Datenaissance'=>'DATE_NAISSANCE','Sexe'=>'SEXE','Adresse'=>'ADRESSE','Nationalite'=>'NATIONALITE_ACTUELLE' ) )
+		->join(array('se' => 'service_employe') ,'se.id_employe = p.id_personne' , array() )
+		->join(array('s' => 'service') ,'s.ID_SERVICE = se.id_service' , array('NomService' => 'NOM', 'IdService' => 'ID_SERVICE') )
+		->where(array('u.id_personne'=>$id_personne));
+		
+		$stat = $sql->prepareStatementForSqlObject($sQuery);
+		$Result = $stat->execute()->current();
+		return $Result;
+	}
 	public function getUtilisateursWithUsername($username)
 	{
 		$rowset = $this->tableGateway->select(array('username' => "$username"));
@@ -32,40 +48,15 @@ class UtilisateursTable
 		if (!$row) {
 			return null;
 		}
-		return $row;
+		$infoAgent = $this->getInfoUserPersonneService($row->id_personne);
+		return $infoAgent;
 	}
 	
-	/**
-	 * A utiliser et a modifier pour la gestion du cas 'un utilisateur plusieur role'
-	 */
-// 	public function getRole($idUtilisateur)
-// 	{
-// 		$db = $this->tableGateway->getAdapter();
-		
-// 		$sql = new Sql($db);
-// 		$sQuery = $sql->select()
-// 		->from(array('user' => 'utilisateurs'))->columns(array('*'))
-// 		->join(array('r' => 'role'), 'user.id = r.', array('Datedemande'=>'date', 'Idcons'=>'id_cons'))
-// 		->join(array('d' => 'demande'), 'd.idCons = cons.id_cons' , array('*'))
-// 		->join(array('med' => 'medecin') , 'med.id_personne = cons.id_personne' , array('NomMedecin' =>'nom', 'PrenomMedecin' => 'prenom'))
-// 		->where(array('user.id' => $idUtilisateur))
-// 		->group('d.idCons');
-		
-// 		$stat = $sql->prepareStatementForSqlObject($sQuery);
-// 		$Result = $stat->execute()->current();
-		
-// 		return $Result;
-// 	}
-
 	/**
 	 * Recuperer la liste des utilisateurs
 	 */
 	public function getListeUtilisateurs()
 	{
-
-
-
-
 		$db = $this->tableGateway->getAdapter();
 		
 		$aColumns = array('Username','Nom','Prenom','NomService','Fonction','Role', 'Id');
@@ -105,8 +96,13 @@ class UtilisateursTable
 		*/
 		$sql = new Sql($db);
 		$sQuery = $sql->select()
-		->from(array('u' => 'utilisateurs'))->columns(array('Nom'=>'nom','Prenom'=>'prenom','Username'=>'username','Role'=>'role','Fonction'=>'fonction','Id'=>'id'))
-		->join(array('s' => 'service'), 's.ID_SERVICE = u.id_service', array('NomService'=>'NOM'));
+		->from(array('u' => 'utilisateurs'))->columns(array('Username'=>'username','Role'=>'role','Fonction'=>'fonction','Id'=>'id'))
+		->join(array('e' => 'employe') ,'e.id_personne = u.id_personne' , array('*') )
+		->join(array('p' => 'personne') ,'p.id_personne = e.id_personne' , array('Nom'=>'NOM','Prenom'=>'PRENOM','Datenaissance'=>'DATE_NAISSANCE','Sexe'=>'SEXE','Adresse'=>'ADRESSE','Nationalite'=>'NATIONALITE_ACTUELLE') )
+		->join(array('se' => 'service_employe') ,'se.id_employe = p.id_personne' , array('*') )
+		->join(array('s' => 'service') ,'s.ID_SERVICE = se.id_service' , array('NomService' => 'NOM') )
+		->order('p.id_personne ASC');
+		
 		
 		/* Data set length after filtering */
 		$stat = $sql->prepareStatementForSqlObject($sQuery);
@@ -196,15 +192,12 @@ class UtilisateursTable
 				'username' => $donnees->username,
 				'password' => $this->_encryptPassword($donnees->password),
 				'role' => $donnees->role,
-				'nom' => $donnees->nomUtilisateur,
-				'prenom' => $donnees->prenomUtilisateur,
-				'id_service' => $donnees->idService,
 				'fonction' => $donnees->fonction,
 				'id_personne' => $donnees->idPersonne,
 		);
 		
 		$id = (int)$donnees->id;
-		
+		//var_dump($id); exit();
 		if($id == 0) {
 			$data['date_enregistrement'] = $formatDate;
 			$this->tableGateway->insert($data);
@@ -222,8 +215,6 @@ class UtilisateursTable
 		$data = array(
 				'username' => $donnees->username,
 				'password' => $this->_encryptPassword($donnees->nouveaupassword),
-				'nom' => $donnees->nomUtilisateur,
-				'prenom' => $donnees->prenomUtilisateur,
 				'date_de_modification' => $formatDate,
 		);
 	
@@ -301,10 +292,12 @@ class UtilisateursTable
 	
 		$sql = new Sql($db);
 		$sQuery = $sql->select()
-		->from(array('pat' => 'personnel2'))->columns(array('Nom'=>'nom','Prenom'=>'prenom','Datenaissance'=>'date_naissance','Sexe'=>'sexe','Adresse'=>'adresse','Nationalite'=>'nationalite','Taille'=>'taille','id'=>'id_personne','Idpatient'=>'id_personne'))
-		->join(array('sp' => 'servicepersonnel') ,'sp.id_personne = pat.id_personne' , array('*') )
-		->join(array('s' => 'service') ,'s.ID_SERVICE = sp.id_service' , array('NomService' => 'NOM') )
-		->order('pat.id_personne ASC');
+		->from(array('e' => 'employe'))->columns(array('*'))
+		->join(array('p' => 'personne') ,'p.id_personne = e.id_personne' , array('Nom'=>'NOM','Prenom'=>'PRENOM','Datenaissance'=>'DATE_NAISSANCE','Sexe'=>'SEXE','Adresse'=>'ADRESSE','Nationalite'=>'NATIONALITE_ACTUELLE' , 'id'=>'id_personne','Idpatient'=>'id_personne' ) )
+		->join(array('se' => 'service_employe') ,'se.id_employe = p.id_personne' , array() )
+		->join(array('s' => 'service') ,'s.ID_SERVICE = se.id_service' , array('NomService' => 'NOM') )
+		->order('p.id_personne ASC');
+
 		/* Data set length after filtering */
 		$stat = $sql->prepareStatementForSqlObject($sQuery);
 		$rResultFt = $stat->execute();
@@ -379,7 +372,7 @@ class UtilisateursTable
 		$db = $this->tableGateway->getAdapter();
 		$sql = new Sql($db);
 		$sQuery = $sql->select()
-		->from(array('pers' => 'personnel2'))->columns(array('*'))
+		->from(array('pers' => 'personne'))->columns(array('*'))
 		->where(array('id_personne' => $id));
 		
 		$stat = $sql->prepareStatementForSqlObject($sQuery);
@@ -392,7 +385,7 @@ class UtilisateursTable
 		$donneesAgent =  $this->getAgentPersonnel ( $id );
 	
 		$nom = null;
-		if($donneesAgent){$nom = $donneesAgent['photo'];}
+		if($donneesAgent){$nom = $donneesAgent['PHOTO'];}
 		if ($nom) {
 			return $nom . '.jpg';
 		} else {
@@ -405,10 +398,10 @@ class UtilisateursTable
 		$db = $this->tableGateway->getAdapter();
 		$sql = new Sql($db);
 		$sQuery = $sql->select()
-		->from(array('pat' => 'personnel2'))->columns(array('*'))
-		->join(array('sp' => 'servicepersonnel') ,'sp.id_personne = pat.id_personne' , array('*') )
-		->join(array('s' => 'service') ,'s.ID_SERVICE = sp.id_service' , array('NomService' => 'NOM' ,'IdService' => 'ID_SERVICE') )
-		->where(array('pat.id_personne' => $id));
+		->from(array('e' => 'employe'))->columns(array('*'))
+		->join(array('se' => 'service_employe') ,'se.id_employe = e.id_personne' , array() )
+		->join(array('s' => 'service') ,'s.ID_SERVICE = se.id_service' , array('NomService' => 'NOM' ,'IdService' => 'ID_SERVICE') )
+		->where(array('e.id_personne' => $id));
 		$stat = $sql->prepareStatementForSqlObject($sQuery);
 		return  $stat->execute()->current();
 	}

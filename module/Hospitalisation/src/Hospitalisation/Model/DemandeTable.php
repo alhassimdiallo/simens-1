@@ -102,10 +102,11 @@ class DemandeTable {
 		
 		$sql = new Sql($db);
 		$sQuery = $sql->select()
-		->from(array('pat' => 'patient'))->columns(array('Nom'=>'nom','Prenom'=>'prenom','Datenaissance'=>'date_naissance','Sexe'=>'sexe','Adresse'=>'adresse','id'=>'id_personne'))
-		->join(array('cons' => 'consultation'), 'cons.pat_id_personne = pat.id_personne', array('Datedemande'=>'date', 'Idcons'=>'id_cons'))
-		->join(array('d' => 'demande'), 'd.idCons = cons.id_cons' , array('*'))
-		->join(array('med' => 'medecin') , 'med.id_personne = cons.id_personne' , array('NomMedecin' =>'nom', 'PrenomMedecin' => 'prenom'))
+		->from(array('pat' => 'patient'))->columns(array('*'))
+		->join(array('pers' => 'personne'), 'pers.ID_PERSONNE = pat.ID_PERSONNE', array('Nom'=>'NOM','Prenom'=>'PRENOM','Datenaissance'=>'DATE_NAISSANCE','Sexe'=>'SEXE','Adresse'=>'ADRESSE','id'=>'ID_PERSONNE'))
+		->join(array('cons' => 'consultation'), 'cons.ID_PATIENT = pat.ID_PERSONNE', array('Datedemande'=>'DATE', 'Idcons'=>'ID_CONS'))
+		->join(array('d' => 'demande'), 'd.idCons = cons.ID_CONS' , array('*'))
+		->join(array('med' => 'personne') , 'med.ID_PERSONNE = cons.ID_MEDECIN' , array('NomMedecin' =>'NOM', 'PrenomMedecin' => 'PRENOM'))
 		->where(array('d.idCons' => $id_cons))
 		->group('d.idCons');
 		
@@ -169,7 +170,7 @@ class DemandeTable {
 			 */
 			$sql2 = new Sql($db);
 			$sQuery2 = $sql2->select();
-			$sQuery2->from(array('re' => 'resultats_examens2'))->columns(array('*'))
+			$sQuery2->from(array('re' => 'resultats_examens'))->columns(array('*'))
 			->where(array('re.idDemande' => $ligne['idDemande']));
 			$stat2 = $sql2->prepareStatementForSqlObject($sQuery2);
 			$Result2 = $stat2->execute()->current();
@@ -205,7 +206,7 @@ class DemandeTable {
 			*/
 			$sql2 = new Sql($db);
 			$sQuery2 = $sql2->select();
-			$sQuery2->from(array('re' => 'resultats_examens2'))->columns(array('*'))
+			$sQuery2->from(array('re' => 'resultats_examens'))->columns(array('*'))
 			->where(array('re.idDemande' => $ligne['idDemande']));
 			$stat2 = $sql2->prepareStatementForSqlObject($sQuery2);
 			$Result2 = $stat2->execute()->current();
@@ -265,10 +266,11 @@ class DemandeTable {
 		*/
 		$sql = new Sql($db);
 		$sQuery = $sql->select()
-		->from(array('pat' => 'patient'))->columns(array('Nom'=>'nom','Prenom'=>'prenom','Datenaissance'=>'date_naissance','Sexe'=>'sexe','Adresse'=>'adresse','id'=>'id_personne'))
-		->join(array('cons' => 'consultation'), 'cons.pat_id_personne = pat.id_personne', array('Datedemande'=>'date', 'Idcons'=>'id_cons'))
-		->join(array('d' => 'demande'), 'd.idCons = cons.id_cons' , array('*'))
-		->join(array('med' => 'medecin') , 'med.id_personne = cons.id_personne' , array('NomMedecin' =>'nom', 'PrenomMedecin' => 'prenom'))
+		->from(array('pat' => 'patient'))->columns(array('*'))
+		->join(array('pers' => 'personne'), 'pers.ID_PERSONNE = pat.ID_PERSONNE', array('Nom'=>'NOM','Prenom'=>'PRENOM','Datenaissance'=>'DATE_NAISSANCE','Sexe'=>'SEXE','Adresse'=>'ADRESSE','id'=>'ID_PERSONNE'))
+		->join(array('cons' => 'consultation'), 'cons.ID_PATIENT = pat.ID_PERSONNE', array('Datedemande'=>'DATE', 'Idcons'=>'ID_CONS'))
+		->join(array('d' => 'demande'), 'd.idCons = cons.ID_CONS' , array('*'))
+		->join(array('med' => 'personne') , 'med.ID_PERSONNE = cons.ID_MEDECIN' , array('NomMedecin' =>'NOM', 'PrenomMedecin' => 'PRENOM'))
 		->order('d.idDemande DESC')
 		->group('d.idCons');
 	
@@ -336,7 +338,7 @@ class DemandeTable {
 					else if ($aColumns[$i] == 'id') {
 	
 						$html  ="<infoBulleVue><a href='javascript:listeExamensBio(". $aRow[ $aColumns[$i] ] .",". $aRow[ 'idDemande' ] .")'>";
-						$html .="<img src='".$tabURI[0]."public/images_icons/voir.png' title='détails'></a><infoBulleVue>";
+						$html .="<img src='".$tabURI[0]."public/images_icons/voir2.png' title='détails'></a><infoBulleVue>";
 	
 						if($this->VerifierDemandeExamenBioSatisfaite($aRow[ 'Idcons' ]) == true ) {
 							$html .="<infoBulleVue><a>";
@@ -419,11 +421,11 @@ class DemandeTable {
 		*/
 		$sql = new Sql($db);
 		$sQuery = $sql->select()
-		->from(array('pat' => 'patient'))->columns(array('Nom'=>'nom','Prenom'=>'prenom','Datenaissance'=>'date_naissance','Sexe'=>'sexe','Adresse'=>'adresse','id'=>'id_personne'))
-		->join(array('cons' => 'consultation'), 'cons.pat_id_personne = pat.id_personne', array('Datedemande'=>'date', 'Idcons'=>'id_cons'))
-		->join(array('d' => 'demande'), 'd.idCons = cons.id_cons' , array('*'))
-		->join(array('med' => 'medecin') , 'med.id_personne = cons.id_personne' , array('NomMedecin' =>'nom', 'PrenomMedecin' => 'prenom'))
-		
+		->from(array('pat' => 'patient'))->columns(array('*'))
+		->join(array('pers' => 'personne'), 'pers.ID_PERSONNE = pat.ID_PERSONNE', array('Nom'=>'NOM','Prenom'=>'PRENOM','Datenaissance'=>'DATE_NAISSANCE','Sexe'=>'SEXE','Adresse'=>'ADRESSE','id'=>'ID_PERSONNE'))
+		->join(array('cons' => 'consultation'), 'cons.ID_PATIENT = pat.ID_PERSONNE', array('Datedemande'=>'DATE', 'Idcons'=>'ID_CONS'))
+		->join(array('d' => 'demande'), 'd.idCons = cons.ID_CONS' , array('*'))
+		->join(array('med' => 'personne') , 'med.ID_PERSONNE = cons.ID_MEDECIN' , array('NomMedecin' =>'NOM', 'PrenomMedecin' => 'PRENOM'))
 		->join(array('e' => 'examens'), 'e.idExamen = d.idExamen', array('*'))
 		->where(array('e.idType' => 2))
 		->order('d.idDemande ASC')
@@ -488,7 +490,7 @@ class DemandeTable {
 						else if ($aColumns[$i] == 'id') {
 	
 							$html  ="<infoBulleVue><a href='javascript:listeExamensBio(". $aRow[ $aColumns[$i] ] .",". $aRow[ 'idDemande' ] .")'>";
-							$html .="<img src='".$tabURI[0]."public/images_icons/voir.png' title='détails'></a><infoBulleVue>";
+							$html .="<img src='".$tabURI[0]."public/images_icons/voir2.png' title='détails'></a><infoBulleVue>";
 	
 							if($this->VerifierDemandeExamenBioSatisfaite($aRow[ 'Idcons' ]) == true ) {
 								$html .="<infoBulleVue><a>";
@@ -573,11 +575,12 @@ class DemandeTable {
 		*/
 		$sql = new Sql($db);
 		$sQuery = $sql->select()
-		->from(array('pat' => 'patient'))->columns(array('Nom'=>'nom','Prenom'=>'prenom','Datenaissance'=>'date_naissance','Sexe'=>'sexe','Adresse'=>'adresse','id'=>'id_personne'))
-		->join(array('cons' => 'consultation'), 'cons.pat_id_personne = pat.id_personne', array('Datedemande'=>'date', 'Idcons'=>'id_cons'))
-		->join(array('d' => 'demande'), 'd.idCons = cons.id_cons' , array('*'))
-		->join(array('med' => 'medecin') , 'med.id_personne = cons.id_personne' , array('NomMedecin' =>'nom', 'PrenomMedecin' => 'prenom'))
-		
+		->from(array('pat' => 'patient'))->columns(array('*'))
+		->join(array('pers' => 'personne'), 'pers.ID_PERSONNE = pat.ID_PERSONNE', array('Nom'=>'NOM','Prenom'=>'PRENOM','Datenaissance'=>'DATE_NAISSANCE','Sexe'=>'SEXE','Adresse'=>'ADRESSE','id'=>'ID_PERSONNE'))
+		->join(array('cons' => 'consultation'), 'cons.ID_PATIENT = pat.ID_PERSONNE', array('Datedemande'=>'DATE', 'Idcons'=>'ID_CONS'))
+		->join(array('d' => 'demande'), 'd.idCons = cons.ID_CONS' , array('*'))
+		->join(array('med' => 'personne') , 'med.ID_PERSONNE = cons.ID_MEDECIN' , array('NomMedecin' =>'NOM', 'PrenomMedecin' => 'PRENOM'))
+
 		->join(array('e' => 'examens'), 'e.idExamen = d.idExamen', array('*'))
 		->where(array('e.idType' => 2))
 		->order('d.idDemande ASC')
@@ -636,7 +639,7 @@ class DemandeTable {
 						else if ($aColumns[$i] == 'id') {
 	
 							$html  ="<infoBulleVue><a href='javascript:listeExamensMorpho(". $aRow[ $aColumns[$i] ] .",". $aRow[ 'idDemande' ] .")'>";
-							$html .="<img src='".$tabURI[0]."public/images_icons/voir.png' title='détails'></a><infoBulleVue>";
+							$html .="<img src='".$tabURI[0]."public/images_icons/voir2.png' title='détails'></a><infoBulleVue>";
 	
 							if($this->VerifierDemandeExamenMorphoSatisfaite($aRow[ 'Idcons' ]) == true ) {
 								$html .="<infoBulleVue><a>";
@@ -895,10 +898,11 @@ class DemandeTable {
 		*/
 		$sql = new Sql($db);
 		$sQuery = $sql->select()
-		->from(array('pat' => 'patient'))->columns(array('Nom'=>'nom','Prenom'=>'prenom','Datenaissance'=>'date_naissance','Sexe'=>'sexe','Adresse'=>'adresse','id'=>'id_personne'))
-		->join(array('cons' => 'consultation'), 'cons.pat_id_personne = pat.id_personne', array('Datedemande'=>'date', 'Idcons'=>'id_cons'))
-		->join(array('med' => 'medecin') , 'med.id_personne = cons.id_personne' , array('NomMedecin' =>'nom', 'PrenomMedecin' => 'prenom'))
-		->join(array('d' => 'demande_visite_preanesthesique'), 'd.ID_CONS = cons.id_cons' , array('*'))
+		->from(array('pat' => 'patient'))->columns(array('*'))
+		->join(array('pers' => 'personne'), 'pers.ID_PERSONNE = pat.ID_PERSONNE', array('Nom'=>'NOM','Prenom'=>'PRENOM','Datenaissance'=>'DATE_NAISSANCE','Sexe'=>'SEXE','Adresse'=>'ADRESSE','id'=>'ID_PERSONNE'))
+		->join(array('cons' => 'consultation'), 'cons.ID_PATIENT = pat.ID_PERSONNE', array('Datedemande'=>'DATE', 'Idcons'=>'ID_CONS'))
+		->join(array('med' => 'personne') , 'med.ID_PERSONNE = cons.ID_MEDECIN' , array('NomMedecin' =>'NOM', 'PrenomMedecin' => 'PRENOM'))
+		->join(array('d' => 'demande_visite_preanesthesique'), 'd.ID_CONS = cons.ID_CONS' , array('*'))
 		->where(array (	new NotIn ( 'd.idVpa', $subselect )))
 		->order('d.idVpa ASC');
 	
@@ -996,13 +1000,14 @@ class DemandeTable {
 	public function getDemandeVpaWidthIdcons($id_cons)
 	{
 		$db = $this->tableGateway->getAdapter();
-	
+		
 		$sql = new Sql($db);
 		$sQuery = $sql->select()
-		->from(array('pat' => 'patient'))->columns(array('Nom'=>'nom','Prenom'=>'prenom','Datenaissance'=>'date_naissance','Sexe'=>'sexe','Adresse'=>'adresse','id'=>'id_personne'))
-		->join(array('cons' => 'consultation'), 'cons.pat_id_personne = pat.id_personne', array('Datedemande'=>'date', 'Idcons'=>'id_cons'))
-		->join(array('med' => 'medecin') , 'med.id_personne = cons.id_personne' , array('NomMedecin' =>'nom', 'PrenomMedecin' => 'prenom'))
-		->join(array('d' => 'demande_visite_preanesthesique'), 'd.ID_CONS = cons.id_cons' , array('*'))
+		->from(array('pat' => 'patient'))->columns(array('*'))
+		->join(array('pers' => 'personne'), 'pers.ID_PERSONNE = pat.ID_PERSONNE', array('Nom'=>'NOM','Prenom'=>'PRENOM','Datenaissance'=>'DATE_NAISSANCE','Sexe'=>'SEXE','Adresse'=>'ADRESSE','id'=>'ID_PERSONNE'))
+		->join(array('cons' => 'consultation'), 'cons.ID_PATIENT = pat.ID_PERSONNE', array('Datedemande'=>'DATE', 'Idcons'=>'ID_CONS'))
+		->join(array('med' => 'personne') , 'med.ID_PERSONNE = cons.ID_MEDECIN' , array('NomMedecin' =>'NOM', 'PrenomMedecin' => 'PRENOM'))
+		->join(array('d' => 'demande_visite_preanesthesique'), 'd.ID_CONS = cons.ID_CONS' , array('*'))
 		->where(array('d.ID_CONS' => $id_cons))
 		->order('d.idVpa ASC');
 	
@@ -1070,9 +1075,10 @@ class DemandeTable {
 		*/
 		$sql = new Sql($db);
 		$sQuery = $sql->select()
-		->from(array('pat' => 'patient'))->columns(array('Nom'=>'nom','Prenom'=>'prenom','Datenaissance'=>'date_naissance','Sexe'=>'sexe','Adresse'=>'adresse','id'=>'id_personne'))
-		->join(array('cons' => 'consultation'), 'cons.pat_id_personne = pat.id_personne', array('Datedemande'=>'date', 'Idcons'=>'id_cons'))
-		->join(array('med' => 'medecin') , 'med.id_personne = cons.id_personne' , array('NomMedecin' =>'nom', 'PrenomMedecin' => 'prenom'))
+		->from(array('pat' => 'patient'))->columns(array('*'))
+		->join(array('pers' => 'personne'), 'pers.ID_PERSONNE = pat.ID_PERSONNE', array('Nom'=>'NOM','Prenom'=>'PRENOM','Datenaissance'=>'DATE_NAISSANCE','Sexe'=>'SEXE','Adresse'=>'ADRESSE','id'=>'ID_PERSONNE'))
+		->join(array('cons' => 'consultation'), 'cons.ID_PATIENT = pat.ID_PERSONNE', array('Datedemande'=>'DATE', 'Idcons'=>'ID_CONS'))
+		->join(array('med' => 'personne') , 'med.ID_PERSONNE = cons.ID_MEDECIN' , array('NomMedecin' =>'NOM', 'PrenomMedecin' => 'PRENOM'))
 		->join(array('d' => 'demande_visite_preanesthesique'), 'd.ID_CONS = cons.id_cons' , array('*'))
 		->where(array (	new In ( 'd.idVpa', $subselect )))
 		->order('d.idVpa ASC');
@@ -1130,7 +1136,7 @@ class DemandeTable {
 					else if ($aColumns[$i] == 'id') {
 	
 						$html  ="<infoBulleVue><a style='padding-right: 15px;' href='javascript:vuedetails(". $aRow[ $aColumns[$i] ] .",". $aRow[ 'idVpa' ] .")'>";
-						$html .="<img src='".$tabURI[0]."public/images_icons/voir.png' title='détails'></a>";
+						$html .="<img src='".$tabURI[0]."public/images_icons/voir2.png' title='détails'></a>";
 						$html .="<a><img src='".$tabURI[0]."public/images_icons/tick_16.png' title='Envoyé'></a><infoBulleVue>";
 	
 	

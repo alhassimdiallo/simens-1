@@ -12,6 +12,7 @@ class DecesTable {
 	public function __construct(TableGateway $tableGateway) {
 		$this->tableGateway = $tableGateway;
 	}
+	
 	public function nbPatientDecedes() {
 		$adapter = $this->tableGateway->getAdapter ();
 		$sql = new Sql ( $adapter );
@@ -23,13 +24,15 @@ class DecesTable {
 		$nb = $stmt->execute ()->count ();
 		return $nb;
 	}
+	
 	public function getPatientsDecedes() {
 		$adapter = $this->tableGateway->getAdapter ();
 		$sql = new Sql ( $adapter );
 		$reqSelect = $sql->select ();
 		$reqSelect->from ( array (
 				'p' => 'patient'
-		) )->columns ( array (
+		) )->columns ( array () )
+		->join (array('pers' => 'personne') , 'pers.ID_PERSONNE = p.ID_PERSONNE' , array(
 				'Nom' => 'NOM',
 				'Prenom' => 'PRENOM',
 				'Datenaissance' => 'DATE_NAISSANCE',
@@ -38,9 +41,10 @@ class DecesTable {
 				'Nationalite' => 'NATIONALITE_ACTUELLE',
 				'Taille' => 'TAILLE',
 				'Id' => 'ID_PERSONNE'
-		) )->join ( array (
+		))
+		->join ( array (
 				'd' => 'deces'
-		), 'p.ID_PERSONNE = d.id_personne', array (
+		), 'p.ID_PERSONNE = d.id_patient', array (
 				'Id_deces' => 'id',
 				'Heure_deces' => 'heure_deces',
 				'Age_deces' => 'age_deces',
@@ -54,26 +58,19 @@ class DecesTable {
 		$result = $statement->execute ();
 		return $result;
 	}
-	public function addDeces($data, $date_enregistrement){
-		$donnees = array(
-				'id_personne' => $data['id_patient'],
-				'date_deces' => $data['date_deces'],
-				'heure_deces' => $data['heure_deces'],
-				'age_deces' => $data['age_deces'],
-				'lieu_deces' => $data['lieu_deces'],
-				'circonstances_deces' =>$data['circonstances_deces'],
-				'date_enregistrement' => $date_enregistrement,
-				'note_importante' => $data['note_importante'],
-		);
+	
+	public function addDeces($donnees){
 		$this->tableGateway->insert($donnees);
 	}
+	
 	public function deletePatient($id){
 		$this->tableGateway->delete(array('id_personne'=>$id));
 	}
+	
 	public function getPatientDecede($id){
 		$id = ( int ) $id;
 		$rowset = $this->tableGateway->select ( array (
-				'id_personne' => $id
+				'id_patient' => $id
 		) );
 		$row =  $rowset->current ();
 		if (! $row) {
@@ -81,18 +78,12 @@ class DecesTable {
 		}
 		return $row;
 	}
-	public function updateDeces($data)
+	
+	public function updateDeces($donnees, $id_deces)
 	{
-		$donnees = array(
-				'date_deces' => $data['date_deces'],
-				'heure_deces' => $data['heure_deces'],
-				'age_deces' => $data['age_deces'],
-				'lieu_deces' => $data['lieu_deces'],
-				'circonstances_deces' =>$data['circonstances_deces'],
-				'note_importante' => $data['note_importante'],
-		);
-		$this->tableGateway->update($donnees, array('id' => $data['id']));
+		$this->tableGateway->update($donnees, array('id' => $id_deces));
 	}
+	
 	public function getLePatientDecede($id){
 		$id = ( int ) $id;
 		$rowset = $this->tableGateway->select ( array (
