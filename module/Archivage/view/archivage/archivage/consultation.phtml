@@ -902,10 +902,10 @@ echo $this->form()->openTag($form); ?>
 			  <?php foreach($this->liste as $donnees) :?>
                  <tr  style="width:100%;">
                     <td style="width:25%;" > <?php echo $Control->convertDateTime($donnees['DATE']);?> </td>
-                    <td style="width:35%;" > <?php echo $donnees['PrenomSurveillant'];?>  <?php echo $donnees['NomSurveillant']; ?> </td>
+                    <td style="width:35%;" > ------ </td>
                     <td style="width:35%;" > <?php echo $donnees['PRENOM'];?>  <?php echo $donnees['NOM'];?> </td>
                     <td style="width:5%;" >
-            		   <a href="<?php echo $this->url('consultation', array('action'=>'visualisation-consultation'),  array('query'=>array('id_patient'=>$this->escapeHtml($donnees['PAT_ID_PERSONNE']),'id_cons'=>$this->escapeHtml($donnees['ID_CONS']))));?>" target="_blank">
+            		   <a href="<?php echo $this->url('consultation', array('action'=>'visualisation-consultation'),  array('query'=>array('id_patient'=>$this->escapeHtml($donnees['ID_PATIENT']),'id_cons'=>$this->escapeHtml($donnees['ID_CONS']))));?>" target="_blank">
 					       <img style="display: inline;"  src='<?php echo $this->basepath().'/images_icons/voird.PNG'?>' alt='Constantes' title="Voir les d&eacute;tails de la consultation" />
 					   </a>&nbsp;
 					</td>

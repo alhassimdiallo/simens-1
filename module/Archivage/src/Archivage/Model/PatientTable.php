@@ -848,70 +848,39 @@ class PatientTable {
 		$stmt = $sql->prepareStatementForSqlObject($select);
 		$result = $stmt->execute();
 		return $result;
-		
-		
-		
-		
-// 		$today = new \DateTime();
-// 		$date = $today->format('Y-m-d');
-// 		$adapter = $this->tableGateway->getAdapter ();
-// 		$sql = new Sql ( $adapter );
-// 		$select = $sql->select ();
-// 		$select->from ( array (
-// 				'p' => 'patient'
-// 		) );
-// 		$select->columns(array (
-// 				'Nom' => 'NOM',
-// 				'Prenom' => 'PRENOM',
-// 				'Datenaissance' => 'DATE_NAISSANCE',
-// 				'Sexe' => 'SEXE',
-// 				'Adresse' => 'ADRESSE',
-// 				'Nationalite' => 'NATIONALITE_ACTUELLE',
-// 				'Taille' => 'TAILLE',
-// 				'Id' => 'ID_PERSONNE'
-// 		) );
-// 		$select->join(array('f' => 'facturation'), 'p.ID_PERSONNE = f.id_patient', array('Id_facturation' => 'id_facturation'));
-// 		$select->where(array('f.cons_archive_applique' => 0, 'f.archivage' => 1));
-// 		$select->order('id_facturation ASC');
-		
-// 		$stmt = $sql->prepareStatementForSqlObject($select);
-// 		$result = $stmt->execute();
-// 		return $result;
 	}
+
 	//liste des patients consultés par le medecin pour l'espace recherche
-	public function listePatientsConsMedecin($service){
+	public function listePatientsConsulterDansLeService($IdDUService){
 		$today = new \DateTime();
-		$date = $today->format('Y-m-d');
 		$adapter = $this->tableGateway->getAdapter ();
 		$sql = new Sql ( $adapter );
 		$select = $sql->select ();
 		$select->from ( array (
 				'p' => 'patient'
 		) );
-		$select->columns(array (
+		$select->columns(array () );
+		$select->join(array('pers' => 'personne'), 'pers.ID_PERSONNE = p.ID_PERSONNE', array(
 				'Nom' => 'NOM',
 				'Prenom' => 'PRENOM',
 				'Datenaissance' => 'DATE_NAISSANCE',
 				'Sexe' => 'SEXE',
 				'Adresse' => 'ADRESSE',
 				'Nationalite' => 'NATIONALITE_ACTUELLE',
-				'Taille' => 'TAILLE',
 				'Id' => 'ID_PERSONNE'
-		) );
-		$select->join(array('c' => 'consultation'), 'p.ID_PERSONNE = c.PAT_ID_PERSONNE', array('Id_cons' => 'ID_CONS', 'Dateonly' => 'DATEONLY', 'Consprise' => 'CONSPRISE', 'date' => 'DATE'));
+		));
+		$select->join(array('c' => 'consultation'), 'p.ID_PERSONNE = c.ID_PATIENT', array('Id_cons' => 'ID_CONS', 'Dateonly' => 'DATEONLY', 'Consprise' => 'CONSPRISE', 'date' => 'DATE'));
 		$select->join(array('s' => 'service'), 'c.ID_SERVICE = s.ID_SERVICE', array('Nomservice' => 'NOM'));
 		$where = new Where();
-		$where->equalTo('s.NOM', $service);
+		$where->equalTo('s.ID_SERVICE', $IdDUService);
 		$where->equalTo('c.ARCHIVAGE ', 1);
-		//$where->notEqualTo('DATEONLY', $date);
 		$select->where($where);
 		$select->order('c.DATE DESC');
-		$select->group('c.PAT_ID_PERSONNE');
+		$select->group('c.ID_PATIENT');
 		
 		$stmt = $sql->prepareStatementForSqlObject($select);
 		$result = $stmt->execute();
 		return $result;
-
 	}
 	
 	
@@ -1311,4 +1280,54 @@ class PatientTable {
 	
 		return $resultat;
 	}
+	
+	
+	/**
+	 * Recuperation de la liste des medicaments
+	 */
+	public function listeDeTousLesMedicaments(){
+		$adapter = $this->tableGateway->getAdapter();
+		$sql = new Sql ( $adapter );
+		$select = $sql->select('consommable');
+		$select->columns(array('ID_MATERIEL','INTITULE'));
+		$stat = $sql->prepareStatementForSqlObject($select);
+		$result = $stat->execute();
+	
+		return $result;
+	}
+	
+	/**
+	 * RECUPERER LA FORME DES MEDICAMENTS
+	 */
+	
+	public function formesMedicaments(){
+		$adapter = $this->tableGateway->getAdapter ();
+		$sql = new Sql ( $adapter );
+		$select = $sql->select ();
+		$select->columns( array('*'));
+		$select->from( array( 'forme' => 'forme_medicament' ));
+	
+		$stat = $sql->prepareStatementForSqlObject ( $select );
+		$result = $stat->execute ();
+	
+		return $result;
+	}
+	
+	/**
+	 * RECUPERER LES TYPES DE QUANTITE DES MEDICAMENTS
+	 */
+	
+	public function typeQuantiteMedicaments(){
+		$adapter = $this->tableGateway->getAdapter ();
+		$sql = new Sql ( $adapter );
+		$select = $sql->select ();
+		$select->columns( array('*'));
+		$select->from( array( 'typeQuantite' => 'quantite_medicament' ));
+	
+		$stat = $sql->prepareStatementForSqlObject ( $select );
+		$result = $stat->execute ();
+	
+		return $result;
+	}
+	
 }

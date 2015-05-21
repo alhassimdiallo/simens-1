@@ -654,6 +654,16 @@ $(function(){
 	    donnees['type_anesthesie_demande'] = $("#type_anesthesie_demande").val();
 	    donnees['numero_vpa'] = $("#numero_vpa").val();
 	    donnees['observation'] = $("#observation").val();
+	    //donnees['note_compte_rendu_operatoire'] = $("#note_compte_rendu_operatoire").val();
+
+	    //*********** TRAITEMENTS INSTRUMENTAL ************
+		//*********** TRAITEMENTS INSTRUMENTAL ************
+	    donnees['endoscopieInterventionnelle'] = $("#endoscopieInterventionnelle").val();
+	    donnees['radiologieInterventionnelle'] = $("#radiologieInterventionnelle").val();
+	    donnees['cardiologieInterventionnelle'] = $("#cardiologieInterventionnelle").val();
+	    donnees['autresIntervention'] = $("#autresIntervention").val();
+	    donnees['note_compte_rendu_operatoire_instrumental'] = $("#note_compte_rendu_operatoire_instrumental").val();
+	    
 	    
 	    // **********-- Rendez Vous --*******
         // **********-- Rendez Vous --*******

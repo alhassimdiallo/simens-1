@@ -76,7 +76,7 @@ class AntecedentsFamiliauxTable {
 	/**
 	 * Ajouter et mettre à jour les antécédents familiaux des patients
 	 */
-	public function addAntecedentsFamiliaux($donneesDesAntecedents, $id_personne){
+	public function addAntecedentsFamiliaux($donneesDesAntecedents, $id_personne, $id_medecin){
 		$this->tableGateway->getAdapter()->getDriver()->getConnection()->beginTransaction();
 		$Control = new DateHelper();
 		
@@ -90,6 +90,7 @@ class AntecedentsFamiliauxTable {
 						'ID_PERSONNE' => $id_personne,
 						'ID_ANTECEDENT' => 1,
 						'NOTE' => $donneesDesAntecedents['NoteDiabeteAF'], 
+						'ID_EMPLOYE' => $id_medecin,
 				);
 				
 				$this->tableGateway->insert($donneesAntecedents);
@@ -100,6 +101,7 @@ class AntecedentsFamiliauxTable {
 						'ID_PERSONNE' => $id_personne,
 						'ID_ANTECEDENT' => 2,
 						'NOTE' => $donneesDesAntecedents['NoteDrepanocytoseAF'],
+						'ID_EMPLOYE' => $id_medecin,
 				);
 			
 				$this->tableGateway->insert($donneesAntecedents);
@@ -110,6 +112,7 @@ class AntecedentsFamiliauxTable {
 						'ID_PERSONNE' => $id_personne,
 						'ID_ANTECEDENT' => 3,
 						'NOTE' => $donneesDesAntecedents['NoteHtaAF'],
+						'ID_EMPLOYE' => $id_medecin,
 				);
 					
 				$this->tableGateway->insert($donneesAntecedents);

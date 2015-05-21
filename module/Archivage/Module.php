@@ -115,15 +115,15 @@ class Module implements AutoloaderProviderInterface {
 							return new TableGateway('service', $dbAdapter, null, $resultSetPrototype);
 						},
 						'Archivage\Model\DemandehospitalisationTable' => function ($sm) {
-							$tableGateway = $sm->get ( 'DemandehospitalisationTableGateway' );
+							$tableGateway = $sm->get ( 'DemandehospitalisationArchiveTableGateway' );
 							$table = new DemandehospitalisationTable ( $tableGateway );
 							return $table;
 						},
-						'DemandehospitalisationTableGateway' => function ($sm) {
+						'DemandehospitalisationArchiveTableGateway' => function ($sm) {
 							$dbAdapter = $sm->get ( 'Zend\Db\Adapter\Adapter' );
 							$resultSetPrototype = new ResultSet ();
 							$resultSetPrototype->setArrayObjectPrototype ( new Demandehospitalisation () );
-							return new TableGateway ( 'demande_hospitalisation2', $dbAdapter, null, $resultSetPrototype );
+							return new TableGateway ( 'demande_hospitalisation', $dbAdapter, null, $resultSetPrototype );
 						},
 						'Archivage\Model\BatimentTable' => function ($sm) {
 							$tableGateway = $sm->get ( 'BatimentTableGateway' );

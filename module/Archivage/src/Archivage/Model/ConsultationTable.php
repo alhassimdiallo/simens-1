@@ -4,6 +4,7 @@ namespace Archivage\Model;
 use Zend\Db\TableGateway\TableGateway;
 use Zend\Db\Sql\Select;
 use Zend\Db\Sql\Sql;
+use Zend\Db\Sql\Where;
 
 class ConsultationTable {
 
@@ -22,7 +23,7 @@ class ConsultationTable {
  		}
 		return $row;
 	}
-	public function getConsultationPatient($id_pat){
+	public function getConsultationPatient($id_pat, $id_cons){
 		$adapter = $this->tableGateway->getAdapter ();
 		$sql = new Sql ( $adapter );
 		$select = $sql->select ();
@@ -32,7 +33,12 @@ class ConsultationTable {
 		$select->join( array('e1' => 'employe'), 'e1.id_personne = c.ID_MEDECIN' , array());
 		$select->join( array('p1' => 'personne'), 'e1.id_personne = p1.ID_PERSONNE' , array('*'));
 		$select->join( array('s' => 'service'), 's.ID_SERVICE = c.ID_SERVICE' , array('nomService' => 'NOM', 'domaineService' => 'DOMAINE'));
-		$select->where(array('c.ID_PATIENT' => $id_pat));
+
+		//On affiche toutes les consultations sauf celle ouverte
+		$where = new Where();
+		$where->equalTo('c.ID_PATIENT', $id_pat);
+		$where->notEqualTo('c.ID_CONS', $id_cons);
+		$select->where($where);
 		$select->order('DATEONLY DESC');
 		
 		$stat = $sql->prepareStatementForSqlObject ( $select );
@@ -55,21 +61,20 @@ class ConsultationTable {
 		$this->tableGateway->update( $donnees, array('ID_CONS'=> $values->get ( "id_cons" )->getValue ()) );
 	}
 	
-	public function validerConsultation($values){
+	public function validerConsultation($id_cons){
 		$donnees = array(
-				'CONSPRISE' => $values['valide'],
-				'ID_PERSONNE' => $values['id_personne'],
+				'CONSPRISE' => 1,
 				'ARCHIVAGE' => 1,
 		);
-		$this->tableGateway->update($donnees, array('ID_CONS'=> $values['id_cons']));
+		$this->tableGateway->update($donnees, array('ID_CONS'=> $id_cons));
 	}
 	
-	public function validerFacturation($id_facturation){
+	public function validerAdmission($id_admission){
 		$db = $this->tableGateway->getAdapter();
 		$sql = new Sql($db);
-		$sQuery = $sql->update('facturation')
+		$sQuery = $sql->update('admission')
 		->set(array('cons_archive_applique' => 1))
-		->where(array('id_facturation' => $id_facturation));
+		->where(array('id_admission' => $id_admission));
 		$stat = $sql->prepareStatementForSqlObject($sQuery);
 		$stat->execute();
 	}
@@ -152,7 +157,7 @@ class ConsultationTable {
 			$db = $this->tableGateway->getAdapter();
 			$sql = new Sql($db);
 			$sQuery = $sql->insert()
-			->into('bandelette2')
+			->into('bandelette')
 			->columns(array('ID_TYPE_BANDELETTE', 'ID_CONS', 'CROIX_BANDELETTE'))
 			->values($values[$i]);
 			$stat = $sql->prepareStatementForSqlObject($sQuery);
@@ -165,7 +170,7 @@ class ConsultationTable {
 		$db = $this->tableGateway->getAdapter();
 		$sql = new Sql($db);
 		$sQuery = $sql->select()
-		->from('bandelette2')
+		->from('bandelette')
 		->columns(array('*'))
 		->where(array('id_cons' => $id_cons));
 		$stat = $sql->prepareStatementForSqlObject($sQuery);
@@ -198,9 +203,44 @@ class ConsultationTable {
 		$db = $this->tableGateway->getAdapter();
 		$sql = new Sql($db);
 		$sQuery = $sql->delete()
-		->from('bandelette2')
+		->from('bandelette')
 		->where(array('id_cons' => $id_cons));
 		$stat = $sql->prepareStatementForSqlObject($sQuery);
 		$result = $stat->execute();
 	}
+	
+	public function addTraitementsInstrumentaux($traitement_instrumental){
+	
+		$db = $this->tableGateway->getAdapter();
+		$sql = new Sql($db);
+		$sQuery = $sql->delete()
+		->from('traitement_instrumental')
+		->where(array('id_cons' => $traitement_instrumental['id_cons']));
+		$stat = $sql->prepareStatementForSqlObject($sQuery);
+		$result = $stat->execute();
+			
+		if($traitement_instrumental['endoscopie_interventionnelle'] || $traitement_instrumental['radiologie_interventionnelle'] ||
+		$traitement_instrumental['cardiologie_interventionnelle'] || $traitement_instrumental['autres_interventions']){
+			$db = $this->tableGateway->getAdapter();
+			$sql = new Sql($db);
+			$sQuery = $sql->insert()
+			->into('traitement_instrumental')
+			->columns(array('id_cons', 'endoscopie_interventionnelle', 'radiologie_interventionnelle', 'cardiologie_interventionnelle', 'autres_interventions'))
+			->values($traitement_instrumental);
+			$stat = $sql->prepareStatementForSqlObject($sQuery);
+			$stat->execute();
+		}
+	}
+	
+	public function getTraitementsInstrumentaux($id_cons){
+		$db = $this->tableGateway->getAdapter();
+		$sql = new Sql($db);
+		$sQuery = $sql->select()
+		->from('traitement_instrumental')
+		->where(array('id_cons' => $id_cons));
+		$stat = $sql->prepareStatementForSqlObject($sQuery);
+		$result = $stat->execute()->current();
+		return $result;
+	}
+	
 }

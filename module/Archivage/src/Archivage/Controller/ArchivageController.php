@@ -492,13 +492,12 @@ class ArchivageController extends AbstractActionController {
 		$form->setData ( $formData );
 	
 		// instancier Consultation
-		//$this->getConsultationTable ()->addConsultation ( $form, $IdDuService, $id_medecin );
+		$this->getConsultationTable ()->addConsultation ( $form, $IdDuService, $id_medecin );
 		
 		// mettre a jour les motifs d'admission
 		$this->getMotifAdmissionTable ()->deleteMotifAdmission ( $id_cons );
 		$this->getMotifAdmissionTable ()->addMotifAdmission ( $form );
 	
-		var_dump($id_admission); exit();
 		//Recuperer les donnees sur les bandelettes urinaires
 		//Recuperer les donnees sur les bandelettes urinaires
 		$bandelettes = array(
@@ -583,11 +582,10 @@ class ArchivageController extends AbstractActionController {
 		'NoteHtaAF' => $this->params()->fromPost('NoteHtaAF'),
 		);
 		 
-		$id_personne = $this->getAntecedantPersonnelTable()->getIdPersonneParIdCons($id_cons);
-		$this->getAntecedantPersonnelTable()->addAntecedentsPersonnels($donneesDesAntecedents, $id_personne);
-		$this->getAntecedantsFamiliauxTable()->addAntecedentsFamiliaux($donneesDesAntecedents, $id_personne);
+		$id_patient = $form->get ( "id_patient" )->getValue ();
+		$this->getAntecedantPersonnelTable()->addAntecedentsPersonnels($donneesDesAntecedents, $id_patient, $id_medecin);
+		$this->getAntecedantsFamiliauxTable()->addAntecedentsFamiliaux($donneesDesAntecedents, $id_patient, $id_medecin);
 		 
-		//var_dump($id_personne); exit();
 		//POUR LES RESULTATS DES EXAMENS MORPHOLOGIQUES
 		//POUR LES RESULTATS DES EXAMENS MORPHOLOGIQUES
 		//POUR LES RESULTATS DES EXAMENS MORPHOLOGIQUES
@@ -601,8 +599,7 @@ class ArchivageController extends AbstractActionController {
 				'10' => $this->params()->fromPost('fibroscopie_'),
 		);
 	
-		$examensMorphologiques = $this->getNotesExamensMorphologiquesTable();
-		$examensMorphologiques->updateNotesExamensMorphologiques($info_examen_morphologique);
+		$this->getNotesExamensMorphologiquesTable()->updateNotesExamensMorphologiques($info_examen_morphologique);
 	
 		//POUR LES DIAGNOSTICS
 		//POUR LES DIAGNOSTICS
@@ -616,8 +613,7 @@ class ArchivageController extends AbstractActionController {
 				'diagnostic4' => $this->params()->fromPost('diagnostic4'),
 		);
 	
-		$diagnostics = $this->getDiagnosticsTable();
-		$diagnostics->updateDiagnostics($info_diagnostics);
+		$this->getDiagnosticsTable()->updateDiagnostics($info_diagnostics);
 	
 		//POUR LES TRAITEMENTS
 		//POUR LES TRAITEMENTS
@@ -627,28 +623,25 @@ class ArchivageController extends AbstractActionController {
 		$dureeTraitement = $this->params()->fromPost('duree_traitement_ord');
 		$donnees = array('id_cons' => $id_cons, 'duree_traitement' => $dureeTraitement);
 	
-		$Consommable = $this->getOrdonConsommableTable();
 		$tab = array();
 		$j = 1;
 		for($i = 1 ; $i < 10 ; $i++ ){
 			if($this->params()->fromPost("medicament_0".$i)){
-				$tab[$j++] = $Consommable->getMedicamentByName($this->params()->fromPost("medicament_0".$i))['ID_MATERIEL'];
+				$tab[$j++] = $this->getOrdonConsommableTable()->getMedicamentByName($this->params()->fromPost("medicament_0".$i))['ID_MATERIEL'];
 				$tab[$j++] = $this->params()->fromPost("forme_".$i);
 				$tab[$j++] = $this->params()->fromPost("nb_medicament_".$i);
 				$tab[$j++] = $this->params()->fromPost("quantite_".$i);
 			}
 		}
 	
-	
 		/*Mettre a jour la duree du traitement de l'ordonnance*/
-		$Ordonnance = $this->getOrdonnanceTable();
-		$idOrdonnance = $Ordonnance->updateOrdonnance($tab, $donnees);
+		$idOrdonnance = $this->getOrdonnanceTable()->updateOrdonnance($tab, $donnees);
 	
 		/*Mettre a jour les medicaments*/
-		$resultat = $Consommable->updateOrdonConsommable($tab, $idOrdonnance);
+		$resultat = $this->getOrdonConsommableTable()->updateOrdonConsommable($tab, $idOrdonnance);
 	
 		/*si aucun médicament n'est ajouté ($resultat = false) on supprime l'ordonnance*/
-		if($resultat == false){ $Ordonnance->deleteOrdonnance($idOrdonnance);}
+		if($resultat == false){ $this->getOrdonnanceTable()->deleteOrdonnance($idOrdonnance);}
 	
 		/**** CHIRURGICAUX ****/
 		/**** CHIRURGICAUX ****/
@@ -660,380 +653,379 @@ class ArchivageController extends AbstractActionController {
 				'ID_CONS'=>$id_cons
 		);
 	
-		$DemandeVPA = $this->getDemandeVisitePreanesthesiqueTable();
-		$DemandeVPA->updateDemandeVisitePreanesthesique($infoDemande);
+		$this->getDemandeVisitePreanesthesiqueTable()->updateDemandeVisitePreanesthesique($infoDemande);
 	
+		/**** INSTRUMENTAL ****/
+		/**** INSTRUMENTAL ****/
+		/**** INSTRUMENTAL ****/
+		$traitement_instrumental = array(
+				'id_cons' => $id_cons,
+				'endoscopie_interventionnelle' => $this->params()->fromPost('endoscopieInterventionnelle'),
+				'radiologie_interventionnelle' => $this->params()->fromPost('radiologieInterventionnelle'),
+				'cardiologie_interventionnelle' => $this->params()->fromPost('cardiologieInterventionnelle'),
+				'autres_interventions' => $this->params()->fromPost('autresIntervention'),
+		);
+		$this->getConsultationTable()->addTraitementsInstrumentaux($traitement_instrumental);
+		
+		//POUR LES COMPTES RENDU DES TRAITEMENTS
+		//POUR LES COMPTES RENDU DES TRAITEMENTS
+		  //$note_compte_rendu1 = $this->params()->fromPost('note_compte_rendu_operatoire');
+		  //$note_compte_rendu2 = $this->params()->fromPost('note_compte_rendu_operatoire_instrumental');
+		
+		  //$this->getConsultationTable()->addCompteRenduOperatoire($note_compte_rendu1, 1, $id_cons);
+		  //$this->getConsultationTable()->addCompteRenduOperatoire($note_compte_rendu2, 2, $id_cons);
+		
 		//POUR LES RENDEZ VOUS
 		//POUR LES RENDEZ VOUS
 		//POUR LES RENDEZ VOUS
 		$id_patient = $this->params()->fromPost('id_patient');
 		$date_RV_Recu = $this->params()->fromPost('date_rv');
 		if($date_RV_Recu){
-			$date_RV = $this->controlDate->convertDateInAnglais($date_RV_Recu);}
-			else{
-				$date_RV = $date_RV_Recu;
-			}
-			$infos_rv = array(
-					'ID_PERSONNE' => $id_patient,
-					'ID_SERVICE'  => $IdDuService,
-					'ID_CONS'     => $id_cons,
-					'date'     => $date_RV,
-					'NOTE'  => $this->params()->fromPost('motif_rv'),
-					'heure'    => $this->params()->fromPost('heure_rv')
-			);
-			$rendezvous = $this->getRvPatientConsTable();
-			$rendezvous->updateRendezVous($infos_rv);
+			$date_RV = $this->controlDate->convertDateInAnglais($date_RV_Recu);
+		}
+		else{
+			$date_RV = $date_RV_Recu;
+		}
+		$infos_rv = array(
+				'ID_CONS' => $id_cons,
+				'NOTE'    => $this->params()->fromPost('motif_rv'),
+				'HEURE'   => $this->params()->fromPost('heure_rv'),
+				'DATE'    => $date_RV,
+		);
+		$this->getRvPatientConsTable()->updateRendezVous($infos_rv);
 	
-			//POUR LES TRANSFERT
-			//POUR LES TRANSFERT
-			//POUR LES TRANSFERT
-			$info_transfert = array(
-					'ID_SERVICE'      => $this->params()->fromPost('id_service'),
-					'ID_PERSONNE'     => $id_patient,
-					'MED_ID_PERSONNE' => $this->params()->fromPost('med_id_personne'),
-					'DATE'            => $this->params()->fromPost('date'),
-					'motif_transfert' => $this->params()->fromPost('motif_transfert'),
-					'ID_CONS' => $id_cons
-			);
-			$transfert = $this->getTransfererPatientServiceTable();
-			$transfert->updateTransfertPatientService($info_transfert);
-	
-			//POUR LES HOSPITALISATION
-			//POUR LES HOSPITALISATION
-			//POUR LES HOSPITALISATION
-			$today = new \DateTime ();
-			$dateAujourdhui = $today->format ( 'Y-m-d H:i:s' );
-			$this->getDateHelper();
-			$infoDemandeHospitalisation = array(
-					'motif_demande_hospi' => $this->params()->fromPost('motif_hospitalisation'),
-					'date_demande_hospi' => $dateAujourdhui,
-					'date_fin_prevue_hospi' => $this->controlDate->convertDateInAnglais($this->params()->fromPost('date_fin_hospitalisation_prevue')),
-					'id_cons' => $id_cons,
-			);
-	
-			$this->getDemandeHospitalisationTable()->saveDemandehospitalisation($infoDemandeHospitalisation);
-			//var_dump($infoDemandeHospitalisation); exit();
-			//POUR LA PAGE complement-consultation
-			//POUR LA PAGE complement-consultation
-			//POUR LA PAGE complement-consultation
-			if ($this->params ()->fromPost ( 'terminer' ) == 'save') {
-	
-				//VALIDER EN METTANT '1' DANS CONSPRISE Signifiant que le medecin a consulter le patient
-				//Ajouter l'id du medecin ayant consulter le patient
-				$valide = array (
-						'valide' => 1,
-						'id_cons' => $id_cons,
-						'id_personne' => $this->params()->fromPost('med_id_personne')
-				);
-				$this->getConsultationTable ()->validerConsultation ( $valide );
-				$this->getConsultationTable ()->validerFacturation ( $id_admission );
-				
-			}
-	
-			return $this->redirect ()->toRoute ( 'archivage', array (
-					'action' => 'liste-consultation'
-			) );
+		//POUR LES TRANSFERT
+		//POUR LES TRANSFERT
+		//POUR LES TRANSFERT
+		$info_transfert = array(
+				'ID_SERVICE'      => $this->params()->fromPost('id_service'),
+				'ID_MEDECIN' => $this->params()->fromPost('med_id_personne'),
+				'MOTIF_TRANSFERT' => $this->params()->fromPost('motif_transfert'),
+				'ID_CONS' => $id_cons
+		);
+		
+		$this->getTransfererPatientServiceTable()->updateTransfertPatientService($info_transfert);
+		
+		//POUR LES HOSPITALISATION
+		//POUR LES HOSPITALISATION
+		//POUR LES HOSPITALISATION
+		$this->getDateHelper();
+		$today = new \DateTime ();
+		$dateAujourdhui = $today->format ( 'Y-m-d H:i:s' );
+		$infoDemandeHospitalisation = array(
+				'motif_demande_hospi' => $this->params()->fromPost('motif_hospitalisation'),
+				'date_demande_hospi' => $dateAujourdhui,
+				'date_fin_prevue_hospi' => $this->controlDate->convertDateInAnglais($this->params()->fromPost('date_fin_hospitalisation_prevue')),
+				'id_cons' => $id_cons,
+		);
+		
+		$this->getDemandeHospitalisationTable()->saveDemandehospitalisation($infoDemandeHospitalisation);
+		
+		//VALIDER EN METTANT '1' DANS CONSPRISE Signifiant que le medecin a consulter le patient
+		$this->getConsultationTable ()->validerConsultation ( $id_cons );
+		$this->getConsultationTable ()->validerAdmission ( $id_admission );
+		
+		return $this->redirect ()->toRoute ( 'archivage', array (
+				'action' => 'liste-consultation'
+		) );
 	}
 	
 	public function listeConsultationAction() {
 		$this->layout ()->setTemplate ( 'layout/archivage' );
-		$service = $this->layout ()->service;
+		$user = $this->layout()->user;
+		$IdService = $user['IdService'];
 	
-		$tab =  $this->getPatientTable ()->listePatientsConsMedecin ( $service );
+		$tab =  $this->getPatientTable ()->listePatientsConsulterDansLeService ( $IdService );
 		return new ViewModel ( array (
 				'donnees' => $tab
 		) );
 	}
 	
-	public function visualisationConsultationAction() {
+ 	public function visualisationConsultationAction() {
 
-		$LeService = $this->layout ()->service;
-		$LigneDuService = $this->getServiceTable ()->getServiceParNom ( $LeService );
-		$IdDuService = $LigneDuService ['ID_SERVICE'];
-		
-		$this->layout ()->setTemplate ( 'layout/archivage' );
-		$this->getDateHelper();
-		$id_pat = $this->params()->fromQuery ( 'id_patient', 0 );
-		$id = $this->params()->fromQuery ( 'id_cons' );
-		$form = new ConsultationForm();
-			
-		$list = $this->getPatientTable ();
-		$liste = $list->getPatient ( $id_pat );
-		// Recuperer la photo du patient
-		$image = $list->getPhoto ( $id_pat );
-			
-		//GESTION DES ALERTES
-		//GESTION DES ALERTES
-		//GESTION DES ALERTES
-		$patient = $this->getPatientTable ();
-		//RECUPERER TOUS LES PATIENTS AYANT UN RV aujourd'hui
-		$tabPatientRV = $patient->getPatientsRV($IdDuService);
-		$resultRV = null;
-		if(array_key_exists($id_pat, $tabPatientRV)){
-			$resultRV = $tabPatientRV[ $id_pat ];
-		}
-			
-		//POUR LES CONSTANTES
-		//POUR LES CONSTANTES
-		//POUR LES CONSTANTES
-		$cons = $this->getConsultationTable ();
-		$consult = $cons->getConsult ( $id );
-		
-		$data = array (
-				'id_cons' => $consult->id_cons,
-				'id_medecin' => $consult->id_personne,
-				'id_patient' => $consult->pat_id_personne,
-				'date_cons' => $consult->date,
-				'poids' => $consult->poids,
-				'taille' => $consult->taille,
-				'temperature' => $consult->temperature,
-				'pressionarterielle' => $consult->pression_arterielle,
-				'pouls' => $consult->pouls,
-				'frequence_respiratoire' => $consult->frequence_respiratoire,
-				'glycemie_capillaire' => $consult->glycemie_capillaire,
-		);
-		
-		//POUR LES MOTIFS D'ADMISSION
-		//POUR LES MOTIFS D'ADMISSION
-		//POUR LES MOTIFS D'ADMISSION
-		// instancier le motif d'admission et recupï¿½rer l'enregistrement
-		$motif = $this->getMotifAdmissionTable ();
-		$motif_admission = $motif->getMotifAdmission ( $id );
-		$nbMotif = $motif->nbMotifs ( $id );
-		//POUR LES MOTIFS D'ADMISSION
-		$k = 1;
-		foreach ( $motif_admission as $Motifs ) {
-			$data ['motif_admission' . $k] = $Motifs ['Libelle_motif'];
-			$k ++;
-		}
-		//POUR LES EXAMEN PHYSIQUES
-		//POUR LES EXAMEN PHYSIQUES
-		//POUR LES EXAMEN PHYSIQUES
-		//instancier les donnï¿½es de l'examen physique
-		$examen = $this->getDonneesExamensPhysiquesTable();
-		$examen_physique = $examen->getExamensPhysiques($id);
-		//POUR LES EXAMEN PHYSIQUES
-		$kPhysique = 1;
-		foreach ($examen_physique as $Examen) {
-			$data['examen_donnee'.$kPhysique] = $Examen['libelle_examen'];
-			$kPhysique++;
-		}
-		
-		// POUR LES ANTECEDENTS OU TERRAIN PARTICULIER
-		// POUR LES ANTECEDENTS OU TERRAIN PARTICULIER
-		// POUR LES ANTECEDENTS OU TERRAIN PARTICULIER
-		$listeConsultation = $cons->getConsultationPatient($id_pat);
-		
-		//*** Liste des Hospitalisations
-		$listeHospitalisation = $this->getDemandeHospitalisationTable()->getDemandeHospitalisationWithIdPatient($id_pat);
-		
-		
-		//POUR LES EXAMENS COMPLEMENTAIRES
-		//POUR LES EXAMENS COMPLEMENTAIRES
-		//POUR LES EXAMENS COMPLEMENTAIRES
-		// DEMANDES DES EXAMENS COMPLEMENTAIRES
-		$demandeExamen = $this->demandeExamensTable();
-		$listeDemandesMorphologiques = $demandeExamen->getDemandeExamensMorphologiques($id);
-		$listeDemandesBiologiques = $demandeExamen->getDemandeExamensBiologiques($id);
-		
-		////RESULTATS DES EXAMENS BIOLOGIQUES DEJA EFFECTUES ET ENVOYER PAR LE BIOLOGISTE
-		$listeDemandesBiologiquesEffectuerEnvoyer = $demandeExamen->getDemandeExamensBiologiquesEffectuesEnvoyer($id);
-		$listeDemandesBiologiquesEffectuer = $demandeExamen->getDemandeExamensBiologiquesEffectues($id);
-		
-		foreach ($listeDemandesBiologiquesEffectuerEnvoyer as $listeExamenBioEffectues){
-			if($listeExamenBioEffectues['idExamen'] == 1){
-				$data['groupe_sanguin'] =  $listeExamenBioEffectues['noteResultat'];
-			}
-			if($listeExamenBioEffectues['idExamen'] == 2){
-				$data['hemogramme_sanguin'] =  $listeExamenBioEffectues['noteResultat'];
-			}
-			if($listeExamenBioEffectues['idExamen'] == 3){
-				$data['bilan_hepatique'] =  $listeExamenBioEffectues['noteResultat'];
-			}
-			if($listeExamenBioEffectues['idExamen'] == 4){
-				$data['bilan_renal'] =  $listeExamenBioEffectues['noteResultat'];
-			}
-			if($listeExamenBioEffectues['idExamen'] == 5){
-				$data['bilan_hemolyse'] =  $listeExamenBioEffectues['noteResultat'];
-			}
-			if($listeExamenBioEffectues['idExamen'] == 6){
-				$data['bilan_inflammatoire'] =  $listeExamenBioEffectues['noteResultat'];
-			}
-		}
-		
-		////RESULTATS DES EXAMENS MORPHOLOGIQUE
-		$resultatExamenMorphologique = $this->getNotesExamensMorphologiquesTable();
-		$examen_morphologique = $resultatExamenMorphologique->getNotesExamensMorphologiques($id);
-		
-		$data['radio'] = $examen_morphologique['radio'];
-		$data['ecographie'] = $examen_morphologique['ecographie'];
-		$data['fibrocospie'] = $examen_morphologique['fibroscopie'];
-		$data['scanner'] = $examen_morphologique['scanner'];
-		$data['irm'] = $examen_morphologique['irm'];
-		
-		////RESULTATS DES EXAMENS MORPHOLOGIQUES DEJA EFFECTUES ET ENVOYER PAR LE BIOLOGISTE
-		$listeDemandesMorphologiquesEffectuer = $demandeExamen->getDemandeExamensMorphologiquesEffectues($id);
-		
-		//DIAGNOSTICS
-		//DIAGNOSTICS
-		//DIAGNOSTICS
-		//instancier les donnï¿½es des diagnostics
-		$diagnostics = $this->getDiagnosticsTable();
-		$infoDiagnostics = $diagnostics->getDiagnostics($id);
-		// POUR LES DIAGNOSTICS
-		$k = 1;
-		foreach ($infoDiagnostics as $diagnos){
-			$data['diagnostic'.$k] = $diagnos['libelle_diagnostics'];
-			$k++;
-		}
-		
-		//TRAITEMENT (Ordonnance) *********************************************************
-		//TRAITEMENT (Ordonnance) *********************************************************
-		//TRAITEMENT (Ordonnance) *********************************************************
-		
-		//POUR LES MEDICAMENTS
-		//POUR LES MEDICAMENTS
-		//POUR LES MEDICAMENTS
-		// INSTANCIATION DES MEDICAMENTS de l'ordonnance
-		$consommable = $this->getConsommableTable();
-		$listeMedicament = $consommable->listeDeTousLesMedicaments();
-		$listeForme = $consommable->formesMedicaments();
-		$listetypeQuantiteMedicament = $consommable->typeQuantiteMedicaments();
-		
-		// INSTANTIATION DE L'ORDONNANCE
-		$ordonnance = $this->getOrdonnanceTable();
-		$infoOrdonnance = $ordonnance->getOrdonnance($id); //on recupere l'id de l'ordonnance
-		
-		if($infoOrdonnance) {
-			$idOrdonnance = $infoOrdonnance->id_document;
-			$duree_traitement = $infoOrdonnance->duree_traitement;
-		
-			//LISTE DES MEDICAMENTS PRESCRITS
-			$listeMedicamentsPrescrits = $ordonnance->getMedicamentsParIdOrdonnance($idOrdonnance);
-			$nbMedPrescrit = $listeMedicamentsPrescrits->count();
-		}else{
-			$nbMedPrescrit = null;
-			$listeMedicamentsPrescrits =null;
-			$duree_traitement = null;
-		}
-		//POUR LA DEMANDE PRE-ANESTHESIQUE
-		//POUR LA DEMANDE PRE-ANESTHESIQUE
-		//POUR LA DEMANDE PRE-ANESTHESIQUE
-		$DemandeVPA = $this->getDemandeVisitePreanesthesiqueTable();
-		$donneesDemandeVPA = $DemandeVPA->getDemandeVisitePreanesthesique($id);
-		
-		$resultatVpa = null;
-		if($donneesDemandeVPA) {
-			$data['diagnostic_traitement_chirurgical'] = $donneesDemandeVPA['DIAGNOSTIC'];
-			$data['observation'] = $donneesDemandeVPA['OBSERVATION'];
-			$data['intervention_prevue'] = $donneesDemandeVPA['INTERVENTION_PREVUE'];
-			 
-			$resultatVpa = $this->getResultatVpa()->getResultatVpa($donneesDemandeVPA['idVpa']);
-		}
-		
-		//POUR LE TRANSFERT
-		//POUR LE TRANSFERT
-		//POUR LE TRANSFERT
-		// INSTANCIATION DU TRANSFERT
-		$transferer = $this->getTransfererPatientServiceTable ();
-		// RECUPERATION DE LA LISTE DES HOPITAUX
-		$hopital = $transferer->fetchHopital ();
-		//LISTE DES HOPITAUX
-		$form->get ( 'hopital_accueil' )->setValueOptions ( $hopital );
-		// RECUPERATION DU SERVICE OU EST TRANSFERE LE PATIENT
-		$transfertPatientService = $transferer->getServicePatientTransfert($id);
-		
-		if( $transfertPatientService ){
-			$idService = $transfertPatientService['ID_SERVICE'];
-			// RECUPERATION DE L'HOPITAL DU SERVICE
-			$transfertPatientHopital = $transferer->getHopitalPatientTransfert($idService);
-			$idHopital = $transfertPatientHopital['ID_HOPITAL'];
-			// RECUPERATION DE LA LISTE DES SERVICES DE L'HOPITAL OU SE TROUVE LE SERVICE OU IL EST TRANSFERE
-			$serviceHopital = $transferer->fetchServiceWithHopital($idHopital);
-		
-			// LISTE DES SERVICES DE L'HOPITAL
-			$form->get ( 'service_accueil' )->setValueOptions ($serviceHopital);
-		
-			// SELECTION DE L'HOPITAL ET DU SERVICE SUR LES LISTES
-			$data['hopital_accueil'] = $idHopital;
-			$data['service_accueil'] = $idService;
-			$data['motif_transfert'] = $transfertPatientService['motif_transfert'];
-			$hopitalSelect = 1;
-		}else {
-			$hopitalSelect = 0;
-			// RECUPERATION DE L'HOPITAL DU SERVICE
-			$transfertPatientHopital = $transferer->getHopitalPatientTransfert($IdDuService);
-			$idHopital = $transfertPatientHopital['ID_HOPITAL'];
-			$data['hopital_accueil'] = $idHopital;
-			// RECUPERATION DE LA LISTE DES SERVICES DE L'HOPITAL OU SE TROUVE LE SERVICE OU LE MEDECIN TRAVAILLE
-			$serviceHopital = $transferer->fetchServiceWithHopitalNotServiceActual($idHopital, $IdDuService);
-			// LISTE DES SERVICES DE L'HOPITAL
-			$form->get ( 'service_accueil' )->setValueOptions ($serviceHopital);
-		}
-		//POUR LE RENDEZ VOUS
-		//POUR LE RENDEZ VOUS
-		//POUR LE RENDEZ VOUS
-		// RECUPERE LE RENDEZ VOUS
-		$rendezVous = $this->getRvPatientConsTable();
-		$leRendezVous = $rendezVous->getRendezVous($id);
-		
-		if($leRendezVous) {
-			$data['heure_rv'] = $leRendezVous->heure;
-			$data['date_rv']  = $this->controlDate->convertDate($leRendezVous->date);
-			$data['motif_rv'] = $leRendezVous->note;
-		}
-		// Pour recuper les bandelettes
-		$bandelettes = $this->getConsultationTable ()->getBandelette($id);
-		
-		//RECUPERATION DES ANTECEDENTS
-		//RECUPERATION DES ANTECEDENTS
-		//RECUPERATION DES ANTECEDENTS
-		$donneesAntecedentsPersonnels = $this->getAntecedantPersonnelTable()->getTableauAntecedentsPersonnels($id_pat);
-		$donneesAntecedentsFamiliaux = $this->getAntecedantsFamiliauxTable()->getTableauAntecedentsFamiliaux($id_pat);
-		//FIN ANTECEDENTS --- FIN ANTECEDENTS --- FIN ANTECEDENTS
-		//FIN ANTECEDENTS --- FIN ANTECEDENTS --- FIN ANTECEDENTS
-		
-		//POUR LES DEMANDES D'HOSPITALISATION
-		//POUR LES DEMANDES D'HOSPITALISATION
-		//POUR LES DEMANDES D'HOSPITALISATION
-		$donneesHospi = $this->getDemandeHospitalisationTable()->getDemandehospitalisationParIdcons($id);
-		if($donneesHospi){
-			$data['motif_hospitalisation'] = $donneesHospi->motif_demande_hospi;
-			$data['date_fin_hospitalisation_prevue'] = $this->controlDate->convertDate($donneesHospi->date_fin_prevue_hospi);
-		}
-		$form->populateValues ( array_merge($data,$bandelettes,$donneesAntecedentsPersonnels,$donneesAntecedentsFamiliaux) );
-		return array(
-				'id_cons' => $id,
-				'lesdetails' => $liste,
-				'form' => $form,
-				'nbMotifs' => $nbMotif,
-				'image' => $image,
-				'heure_cons' => $consult->heurecons,
-				'liste' => $listeConsultation,
-				'liste_med' => $listeMedicament,
-				'nb_med_prescrit' => $nbMedPrescrit,
-				'liste_med_prescrit' => $listeMedicamentsPrescrits,
-				'duree_traitement' => $duree_traitement,
-				'verifieRV' => $leRendezVous,
-				'listeDemandesMorphologiques' => $listeDemandesMorphologiques,
-				'listeDemandesBiologiques' => $listeDemandesBiologiques,
-				'hopitalSelect' =>$hopitalSelect,
-				'nbDiagnostics'=> $infoDiagnostics->count(),
-				'nbDonneesExamenPhysique' => $kPhysique,
-				'dateonly' => $consult->dateonly,
-				'temoin' => $bandelettes['temoin'],
-				'listeForme' => $listeForme,
-				'listetypeQuantiteMedicament'  => $listetypeQuantiteMedicament,
-				'donneesAntecedentsPersonnels' => $donneesAntecedentsPersonnels,
-				'donneesAntecedentsFamiliaux'  => $donneesAntecedentsFamiliaux,
-				'resultRV' => $resultRV,
-				'listeDemandesBioEff' => $listeDemandesBiologiquesEffectuer->count(),
-				'listeDemandesMorphoEff' => $listeDemandesMorphologiquesEffectuer->count(),
-				'resultatVpa' => $resultatVpa,
-				'listeHospitalisation' => $listeHospitalisation,
-		);
-		
-	}
+ 		$this->layout ()->setTemplate ( 'layout/archivage' );
+ 			
+ 		$user = $this->layout()->user;
+ 		$IdDuService = $user['IdService'];
+ 		$id_medecin = $user['id_personne'];
+ 		
+ 		$this->getDateHelper();
+ 		$id_pat = $this->params()->fromQuery ( 'id_patient', 0 );
+ 		$id = $this->params()->fromQuery ( 'id_cons' );
+ 		$id_demande_hospi = $this->params()->fromQuery ( 'id_demande_hospi' );
+ 			
+ 		if($id_demande_hospi){
+ 			return $this->redirect ()->toRoute ( 'consultation', array ('action' => 'visualisation-hospitalisation'),
+ 					array('query'=>array('id_demande_hospi' => $id_demande_hospi
+ 					) ) );
+ 		}
+ 		
+ 		$form = new ConsultationForm();
+ 			
+ 		$liste = $this->getPatientTable()->getInfoPatient ( $id_pat );
+ 		$image = $this->getPatientTable()->getPhoto ( $id_pat );
+ 		
+ 		//POUR LES CONSTANTES
+ 		//POUR LES CONSTANTES
+ 		//POUR LES CONSTANTES
+ 		$consult = $this->getConsultationTable ()->getConsult ( $id );
+ 			
+ 		$data = array (
+ 				'id_cons' => $consult->id_cons,
+ 				'id_medecin' => $consult->id_medecin,
+ 				'id_patient' => $consult->id_patient,
+ 				'date_cons' => $consult->date,
+ 				'poids' => $consult->poids,
+ 				'taille' => $consult->taille,
+ 				'temperature' => $consult->temperature,
+ 				'pressionarterielle' => $consult->pression_arterielle,
+ 				'pouls' => $consult->pouls,
+ 				'frequence_respiratoire' => $consult->frequence_respiratoire,
+ 				'glycemie_capillaire' => $consult->glycemie_capillaire,
+ 		);
+ 			
+ 		//POUR LES MOTIFS D'ADMISSION
+ 		//POUR LES MOTIFS D'ADMISSION
+ 		//POUR LES MOTIFS D'ADMISSION
+ 		// instancier le motif d'admission et recupï¿½rer l'enregistrement
+ 		$motif_admission = $this->getMotifAdmissionTable ()->getMotifAdmission ( $id );
+ 		$nbMotif = $this->getMotifAdmissionTable ()->nbMotifs ( $id );
+ 			
+ 		//POUR LES MOTIFS D'ADMISSION
+ 		$k = 1;
+ 		foreach ( $motif_admission as $Motifs ) {
+ 			$data ['motif_admission' . $k] = $Motifs ['Libelle_motif'];
+ 			$k ++;
+ 		}
+ 			
+ 		//POUR LES EXAMEN PHYSIQUES
+ 		//POUR LES EXAMEN PHYSIQUES
+ 		//POUR LES EXAMEN PHYSIQUES
+ 		$examen_physique = $this->getDonneesExamensPhysiquesTable()->getExamensPhysiques($id);
+ 			
+ 		//POUR LES EXAMEN PHYSIQUES
+ 		$kPhysique = 1;
+ 		foreach ($examen_physique as $Examen) {
+ 			$data['examen_donnee'.$kPhysique] = $Examen['libelle_examen'];
+ 			$kPhysique++;
+ 		}
+ 			
+ 		// POUR LES ANTECEDENTS OU TERRAIN PARTICULIER
+ 		// POUR LES ANTECEDENTS OU TERRAIN PARTICULIER
+ 		// POUR LES ANTECEDENTS OU TERRAIN PARTICULIER
+ 		$listeConsultation = $this->getConsultationTable ()->getConsultationPatient($id_pat, $id);
+ 			
+ 		//*** Liste des Hospitalisations
+ 		$listeHospitalisation = $this->getDemandeHospitalisationTable()->getDemandeHospitalisationWithIdPatient($id_pat);
+ 			
+ 		//POUR LES EXAMENS COMPLEMENTAIRES
+ 		//POUR LES EXAMENS COMPLEMENTAIRES
+ 		//POUR LES EXAMENS COMPLEMENTAIRES
+ 		// DEMANDES DES EXAMENS COMPLEMENTAIRES
+ 		$listeDemandesMorphologiques = $this->demandeExamensTable()->getDemandeExamensMorphologiques($id);
+ 		$listeDemandesBiologiques = $this->demandeExamensTable()->getDemandeExamensBiologiques($id);
+ 			
+ 		////RESULTATS DES EXAMENS BIOLOGIQUES DEJA EFFECTUES ET ENVOYER PAR LE BIOLOGISTE
+ 		$listeDemandesBiologiquesEffectuerEnvoyer = $this->demandeExamensTable()->getDemandeExamensBiologiquesEffectuesEnvoyer($id);
+ 		$listeDemandesBiologiquesEffectuer = $this->demandeExamensTable()->getDemandeExamensBiologiquesEffectues($id);
+ 			
+ 		foreach ($listeDemandesBiologiquesEffectuerEnvoyer as $listeExamenBioEffectues){
+ 			if($listeExamenBioEffectues['idExamen'] == 1){
+ 				$data['groupe_sanguin'] =  $listeExamenBioEffectues['noteResultat'];
+ 			}
+ 			if($listeExamenBioEffectues['idExamen'] == 2){
+ 				$data['hemogramme_sanguin'] =  $listeExamenBioEffectues['noteResultat'];
+ 			}
+ 			if($listeExamenBioEffectues['idExamen'] == 3){
+ 				$data['bilan_hepatique'] =  $listeExamenBioEffectues['noteResultat'];
+ 			}
+ 			if($listeExamenBioEffectues['idExamen'] == 4){
+ 				$data['bilan_renal'] =  $listeExamenBioEffectues['noteResultat'];
+ 			}
+ 			if($listeExamenBioEffectues['idExamen'] == 5){
+ 				$data['bilan_hemolyse'] =  $listeExamenBioEffectues['noteResultat'];
+ 			}
+ 			if($listeExamenBioEffectues['idExamen'] == 6){
+ 				$data['bilan_inflammatoire'] =  $listeExamenBioEffectues['noteResultat'];
+ 			}
+ 		}
+ 			
+ 		////RESULTATS DES EXAMENS MORPHOLOGIQUE
+ 		$examen_morphologique = $this->getNotesExamensMorphologiquesTable()->getNotesExamensMorphologiques($id);
+ 			
+ 		$data['radio'] = $examen_morphologique['radio'];
+ 		$data['ecographie'] = $examen_morphologique['ecographie'];
+ 		$data['fibrocospie'] = $examen_morphologique['fibroscopie'];
+ 		$data['scanner'] = $examen_morphologique['scanner'];
+ 		$data['irm'] = $examen_morphologique['irm'];
+ 			
+ 		////RESULTATS DES EXAMENS MORPHOLOGIQUES DEJA EFFECTUES ET ENVOYER PAR LE BIOLOGISTE
+ 		$listeDemandesMorphologiquesEffectuer = $this->demandeExamensTable()->getDemandeExamensMorphologiquesEffectues($id);
+ 			
+ 		//DIAGNOSTICS
+ 		//DIAGNOSTICS
+ 		//DIAGNOSTICS
+ 		$infoDiagnostics = $this->getDiagnosticsTable()->getDiagnostics($id);
+ 		// POUR LES DIAGNOSTICS
+ 		$k = 1;
+ 		foreach ($infoDiagnostics as $diagnos){
+ 			$data['diagnostic'.$k] = $diagnos['libelle_diagnostics'];
+ 			$k++;
+ 		}
+ 			
+ 		//TRAITEMENT (Ordonnance) *********************************************************
+ 		//TRAITEMENT (Ordonnance) *********************************************************
+ 		//TRAITEMENT (Ordonnance) *********************************************************
+ 			
+ 		//POUR LES MEDICAMENTS
+ 		//POUR LES MEDICAMENTS
+ 		//POUR LES MEDICAMENTS
+ 		// INSTANCIATION DES MEDICAMENTS de l'ordonnance
+ 		$listeMedicament = $this->getPatientTable()->listeDeTousLesMedicaments();
+ 		$listeForme = $this->getPatientTable()->formesMedicaments();
+ 		$listetypeQuantiteMedicament = $this->getPatientTable()->typeQuantiteMedicaments();
+ 			
+ 		// INSTANTIATION DE L'ORDONNANCE
+ 		$infoOrdonnance = $this->getOrdonnanceTable()->getOrdonnance($id);
+ 			
+ 		if($infoOrdonnance) {
+ 			$idOrdonnance = $infoOrdonnance->id_document;
+ 			$duree_traitement = $infoOrdonnance->duree_traitement;
+ 			//LISTE DES MEDICAMENTS PRESCRITS
+ 			$listeMedicamentsPrescrits = $this->getOrdonnanceTable()->getMedicamentsParIdOrdonnance($idOrdonnance);
+ 			$nbMedPrescrit = $listeMedicamentsPrescrits->count();
+ 		}else{
+ 			$nbMedPrescrit = null;
+ 			$listeMedicamentsPrescrits =null;
+ 			$duree_traitement = null;
+ 		}
+ 			
+ 		//POUR LA DEMANDE PRE-ANESTHESIQUE
+ 		//POUR LA DEMANDE PRE-ANESTHESIQUE
+ 		//POUR LA DEMANDE PRE-ANESTHESIQUE
+ 		$donneesDemandeVPA = $this->getDemandeVisitePreanesthesiqueTable()->getDemandeVisitePreanesthesique($id);
+ 			
+ 		$resultatVpa = null;
+ 		if($donneesDemandeVPA) {
+ 			$data['diagnostic_traitement_chirurgical'] = $donneesDemandeVPA['DIAGNOSTIC'];
+ 			$data['observation'] = $donneesDemandeVPA['OBSERVATION'];
+ 			$data['intervention_prevue'] = $donneesDemandeVPA['INTERVENTION_PREVUE'];
+ 		
+ 			$resultatVpa = $this->getResultatVpa()->getResultatVpa($donneesDemandeVPA['idVpa']);
+ 		}
+ 			
+ 		/**** INSTRUMENTAL ****/
+ 		/**** INSTRUMENTAL ****/
+ 		/**** INSTRUMENTAL ****/
+ 		$traitement_instrumental = $this->getConsultationTable()->getTraitementsInstrumentaux($id);
+ 		$data['endoscopieInterventionnelle'] = $traitement_instrumental['endoscopie_interventionnelle'];
+ 		$data['radiologieInterventionnelle'] = $traitement_instrumental['radiologie_interventionnelle'];
+ 		$data['cardiologieInterventionnelle'] = $traitement_instrumental['cardiologie_interventionnelle'];
+ 		$data['autresIntervention'] = $traitement_instrumental['autres_interventions'];
+ 		
+ 		//POUR LE TRANSFERT
+ 		//POUR LE TRANSFERT
+ 		//POUR LE TRANSFERT
+ 		// INSTANCIATION DU TRANSFERT
+ 		// RECUPERATION DE LA LISTE DES HOPITAUX
+ 		$hopital = $this->getTransfererPatientServiceTable ()->fetchHopital ();
+ 			
+ 		//LISTE DES HOPITAUX
+ 		$form->get ( 'hopital_accueil' )->setValueOptions ( $hopital );
+ 		// RECUPERATION DU SERVICE OU EST TRANSFERE LE PATIENT
+ 		$transfertPatientService = $this->getTransfererPatientServiceTable ()->getServicePatientTransfert($id);
+ 			
+ 		if( $transfertPatientService ){
+ 			$idService = $transfertPatientService['ID_SERVICE'];
+ 			// RECUPERATION DE L'HOPITAL DU SERVICE
+ 			$transfertPatientHopital = $this->getTransfererPatientServiceTable ()->getHopitalPatientTransfert($idService);
+ 			$idHopital = $transfertPatientHopital['ID_HOPITAL'];
+ 			// RECUPERATION DE LA LISTE DES SERVICES DE L'HOPITAL OU SE TROUVE LE SERVICE OU IL EST TRANSFERE
+ 			$serviceHopital = $this->getTransfererPatientServiceTable ()->fetchServiceWithHopital($idHopital);
+ 		
+ 			// LISTE DES SERVICES DE L'HOPITAL
+ 			$form->get ( 'service_accueil' )->setValueOptions ($serviceHopital);
+ 		
+ 			// SELECTION DE L'HOPITAL ET DU SERVICE SUR LES LISTES
+ 			$data['hopital_accueil'] = $idHopital;
+ 			$data['service_accueil'] = $idService;
+ 			$data['motif_transfert'] = $transfertPatientService['MOTIF_TRANSFERT'];
+ 			$hopitalSelect = 1;
+ 		}else {
+ 			$hopitalSelect = 0;
+ 			// RECUPERATION DE L'HOPITAL DU SERVICE
+ 			$transfertPatientHopital = $this->getTransfererPatientServiceTable ()->getHopitalPatientTransfert($IdDuService);
+ 			$idHopital = $transfertPatientHopital['ID_HOPITAL'];
+ 			$data['hopital_accueil'] = $idHopital;
+ 			// RECUPERATION DE LA LISTE DES SERVICES DE L'HOPITAL OU SE TROUVE LE SERVICE OU LE MEDECIN TRAVAILLE
+ 			$serviceHopital = $this->getTransfererPatientServiceTable ()->fetchServiceWithHopitalNotServiceActual($idHopital, $IdDuService);
+ 			// LISTE DES SERVICES DE L'HOPITAL
+ 			$form->get ( 'service_accueil' )->setValueOptions ($serviceHopital);
+ 		}
+ 			
+ 		//POUR LE RENDEZ VOUS
+ 		//POUR LE RENDEZ VOUS
+ 		//POUR LE RENDEZ VOUS
+ 		// RECUPERE LE RENDEZ VOUS
+ 		$leRendezVous = $this->getRvPatientConsTable()->getRendezVous($id);
+ 		
+ 		if($leRendezVous) {
+ 			$data['heure_rv'] = $leRendezVous->heure;
+ 			$data['date_rv']  = $this->controlDate->convertDate($leRendezVous->date);
+ 			$data['motif_rv'] = $leRendezVous->note;
+ 		}
+ 		// Pour recuper les bandelettes
+ 		$bandelettes = $this->getConsultationTable ()->getBandelette($id);
+ 			
+ 		//RECUPERATION DES ANTECEDENTS
+ 		//RECUPERATION DES ANTECEDENTS
+ 		//RECUPERATION DES ANTECEDENTS
+ 		$donneesAntecedentsPersonnels = $this->getAntecedantPersonnelTable()->getTableauAntecedentsPersonnels($id_pat);
+ 		$donneesAntecedentsFamiliaux = $this->getAntecedantsFamiliauxTable()->getTableauAntecedentsFamiliaux($id_pat);
+ 		//FIN ANTECEDENTS --- FIN ANTECEDENTS --- FIN ANTECEDENTS
+ 		//FIN ANTECEDENTS --- FIN ANTECEDENTS --- FIN ANTECEDENTS
+ 			
+ 		//POUR LES DEMANDES D'HOSPITALISATION
+ 		//POUR LES DEMANDES D'HOSPITALISATION
+ 		//POUR LES DEMANDES D'HOSPITALISATION
+ 		$donneesHospi = $this->getDemandeHospitalisationTable()->getDemandehospitalisationParIdcons($id);
+ 		if($donneesHospi){
+ 			$data['motif_hospitalisation'] = $donneesHospi->motif_demande_hospi;
+ 			$data['date_fin_hospitalisation_prevue'] = $this->controlDate->convertDate($donneesHospi->date_fin_prevue_hospi);
+ 		}
+
+ 		$form->populateValues ( array_merge($data,$bandelettes,$donneesAntecedentsPersonnels,$donneesAntecedentsFamiliaux) );
+ 		return array(
+ 				'id_cons' => $id,
+ 				'lesdetails' => $liste,
+ 				'form' => $form,
+ 				'nbMotifs' => $nbMotif,
+ 				'image' => $image,
+ 				'heure_cons' => $consult->heurecons,
+ 				'liste' => $listeConsultation,
+ 				'liste_med' => $listeMedicament,
+ 				'nb_med_prescrit' => $nbMedPrescrit,
+ 				'liste_med_prescrit' => $listeMedicamentsPrescrits,
+ 				'duree_traitement' => $duree_traitement,
+ 				'verifieRV' => $leRendezVous,
+ 				'listeDemandesMorphologiques' => $listeDemandesMorphologiques,
+ 				'listeDemandesBiologiques' => $listeDemandesBiologiques,
+ 				'hopitalSelect' =>$hopitalSelect,
+ 				'nbDiagnostics'=> $infoDiagnostics->count(),
+ 				'nbDonneesExamenPhysique' => $kPhysique,
+ 				'dateonly' => $consult->dateonly,
+ 				'temoin' => $bandelettes['temoin'],
+ 				'listeForme' => $listeForme,
+ 				'listetypeQuantiteMedicament'  => $listetypeQuantiteMedicament,
+ 				'donneesAntecedentsPersonnels' => $donneesAntecedentsPersonnels,
+ 				'donneesAntecedentsFamiliaux'  => $donneesAntecedentsFamiliaux,
+ 				'listeDemandesBioEff' => $listeDemandesBiologiquesEffectuer->count(),
+ 				'listeDemandesMorphoEff' => $listeDemandesMorphologiquesEffectuer->count(),
+ 				'resultatVpa' => $resultatVpa,
+ 				'listeHospitalisation' => $listeHospitalisation,
+ 		);
+
+ 	}
 	
 	
 	public function visualiserConsultationAction(){
@@ -2196,9 +2188,9 @@ class ArchivageController extends AbstractActionController {
 	
 	public function listePatientEncoursAjaxAction() {
 		$user = $this->layout()->user;
-		$id_medecin = $user->id_personne;
-	
-		$output = $this->getDemandeHospitalisationTable()->getListePatientEncoursHospitalisation($id_medecin);
+		$IdDuService = $user['IdService'];
+		
+		$output = $this->getDemandeHospitalisationTable()->getListePatientEncoursHospitalisation($IdDuService);
 		return $this->getResponse ()->setContent ( Json::encode ( $output, array (
 				'enableJsonExprFinder' => true
 		) ) );
@@ -2245,85 +2237,70 @@ class ArchivageController extends AbstractActionController {
 		$encours = $this->params()->fromPost('encours',0);
 		$terminer = $this->params()->fromPost('terminer',0);
 		$id_demande_hospi = $this->params()->fromPost('id_demande_hospi',0);
-	
-		$unPatient = $this->getPatientTable()->getPatient($id_personne);
+		
+		$unPatient = $this->getPatientTable()->getInfoPatient($id_personne);
 		$photo = $this->getPatientTable()->getPhoto($id_personne);
-	
+		
 		$demande = $this->getDemandeHospitalisationTable()->getDemandeHospitalisationWithIdcons($id_cons);
-	
-		$date = $this->controlDate->convertDate( $unPatient->date_naissance );
-	
+		
+		$date = $this->controlDate->convertDate( $unPatient['DATE_NAISSANCE'] );
+		
 		$html  = "<div style='width:100%;'>";
 			
 		$html .= "<div style='width: 18%; height: 180px; float:left;'>";
 		$html .= "<div id='photo' style='float:left; margin-left:40px; margin-top:10px; margin-right:30px;'> <img style='width:105px; height:105px;' src='".$this->getPath()."/img/photos_patients/" . $photo . "' ></div>";
 		$html .= "</div>";
 			
-		$html .= "<div style='width: 65%; height: 180px; float:left;'>";
+		$html .= "<div style='width: 65%; height: 200px; float:left;'>";
 		$html .= "<table style='margin-top:10px; float:left; width: 100%;'>";
 		$html .= "<tr style='width: 100%;'>";
-	
-		$html .= "<td style='width: 20%; height: 50px;'><a style='text-decoration:underline; font-size:12px;'>Nom:</a><br><p style='font-weight:bold; font-size:17px;'>" . $unPatient->nom . "</p></td>";
-	
-		$html .= "<td style='width: 30%; height: 50px;'><a style='text-decoration:underline; font-size:12px;'>Lieu de naissance:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $unPatient->lieu_naissance . "</p></td>";
-	
-		$html .= "<td style='width: 20%; height: 50px;'><a style='text-decoration:underline; font-size:12px;'>Nationalit&eacute; actuelle:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $unPatient->nationalite_actuelle . "</p></td>";
-	
+		
+		$html .= "<td style='width: 20%; height: 50px;'><a style='text-decoration:underline; font-size:12px;'>Nom:</a><br><p style='font-weight:bold; font-size:17px;'>" . $unPatient['NOM'] . "</p></td>";
+		$html .= "<td style='width: 30%; height: 50px;'><a style='text-decoration:underline; font-size:12px;'>Lieu de naissance:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $unPatient['LIEU_NAISSANCE'] . "</p></td>";
+		$html .= "<td style='width: 20%; height: 50px;'><a style='text-decoration:underline; font-size:12px;'>Nationalit&eacute; actuelle:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $unPatient['NATIONALITE_ACTUELLE'] . "</p></td>";
 		$html .= "<td style='width: 30%; height: 50px;'></td>";
-	
+		
 		$html .= "</tr><tr style='width: 100%;'>";
-		$html .= "<td style='width: 20%; height: 50px;'><a style='text-decoration:underline; font-size:12px;'>Pr&eacute;nom:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $unPatient->prenom . "</p></td>";
-	
-		$html .= "<td style='width: 30%; height: 50px;'><a style='text-decoration:underline; font-size:12px;'>T&eacute;l&eacute;phone:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $unPatient->telephone . "</p></td>";
-	
-		$html .= "<td style='width: 20%; height: 50px;'><a style='text-decoration:underline; font-size:12px;'>Nationalit&eacute; d'origine:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $unPatient->nationalite_origine. "</p></td>";
-	
-		$html .= "<td style='width: 30%; height: 50px;'><a style='text-decoration:underline; font-size:12px;'>Email:</a><br><p style='font-weight:bold; font-size:17px;'>" . $unPatient->email . "</p></td>";
-	
+		$html .= "<td style='width: 20%; height: 50px;'><a style='text-decoration:underline; font-size:12px;'>Pr&eacute;nom:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $unPatient['PRENOM'] . "</p></td>";
+		$html .= "<td style='width: 30%; height: 50px;'><a style='text-decoration:underline; font-size:12px;'>T&eacute;l&eacute;phone:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $unPatient['TELEPHONE'] . "</p></td>";
+		$html .= "<td style='width: 20%; height: 50px;'><a style='text-decoration:underline; font-size:12px;'>Nationalit&eacute; d'origine:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $unPatient['NATIONALITE_ORIGINE']. "</p></td>";
+		$html .= "<td style='width: 30%; height: 50px;'><a style='text-decoration:underline; font-size:12px;'>Email:</a><br><p style='font-weight:bold; font-size:17px;'>" . $unPatient['EMAIL'] . "</p></td>";
+		
 		$html .= "</tr><tr style='width: 100%;'>";
 		$html .= "<td style='width: 20%; height: 50px; vertical-align: top;'><a style='text-decoration:underline; font-size:12px;'>Date de naissance:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $date . "</p></td>";
-	
-		$html .= "<td style='width: 30%; height: 50px; vertical-align: top;'><a style='text-decoration:underline; font-size:12px;'>Adresse:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $unPatient->adresse . "</p></td>";
-	
-		$html .= "<td style='width: 20%; height: 50px; vertical-align: top;'><a style='text-decoration:underline; font-size:12px;'>Profession:</a><br><p style=' font-weight:bold; font-size:17px;'>" .  $unPatient->profession . "</p></td>";
-	
+		$html .= "<td style='width: 30%; height: 50px; vertical-align: top;'><a style='text-decoration:underline; font-size:12px;'>Adresse:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $unPatient['ADRESSE'] . "</p></td>";
+		$html .= "<td style='width: 20%; height: 50px; vertical-align: top;'><a style='text-decoration:underline; font-size:12px;'>Profession:</a><br><p style=' font-weight:bold; font-size:17px;'>" .  $unPatient['PROFESSION'] . "</p></td>";
+		
 		$html .= "<td style='width: 30%; height: 50px;'></td>";
 		$html .= "</tr>";
 		$html .= "</table>";
 		$html .="</div>";
 			
-		$html .= "<div style='width: 17%; height: 180px; float:left;'>";
+		$html .= "<div style='width: 17%; height: 200px; float:left;'>";
 		$html .= "<div id='' style='color: white; opacity: 0.09; float:left; margin-right:20px; margin-left:25px; margin-top:5px;'> <img style='width:105px; height:105px;' src='".$this->getPath()."/img/photos_patients/" . $photo . "'></div>";
 		$html .= "</div>";
 			
 		$html .= "</div>";
-	
+		
 		$html .= "<div id='titre_info_deces'>D&eacute;tails des infos sur la demande </div>
 		          <div id='barre'></div>";
-	
+		
 		$html .= "<table style='margin-top:10px; margin-left: 195px; width: 80%;'>";
 		$html .= "<tr style='width: 95%;'>";
 		$html .= "<td style='width: 25%; height: 50px; vertical-align: top;'><a style='text-decoration:underline; font-size:12px;'>Consultation:</a><br><p style='font-weight:bold; font-size:17px;'>" . $id_cons . "</p></td>";
-	
-		$html .= "<td style='width: 25%; height: 50px; vertical-align: top;'><a style='text-decoration:underline; font-size:12px;'>Date de la demande:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $this->controlDate->convertDateTime($demande['Datedemandehospi']) . "</p></td>";
-	
+		$html .= "<td style='width: 25%; height: 50px; vertical-align: top;'><a style='text-decoration:underline; font-size:12px;'>Date de la demande:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $this->controlDate->convertDateTime($demande['date_demande_hospi']) . "</p></td>";
 		$html .= "<td style='width: 20%; height: 50px; vertical-align: top;'><a style='text-decoration:underline; font-size:12px;'>Date fin pr&eacute;vue:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $this->controlDate->convertDate($demande['date_fin_prevue_hospi']) . "</p></td>";
-	
 		$html .= "<td style='width: 30%; height: 50px; vertical-align: top;'><a style='text-decoration:underline; font-size:12px;'>M&eacute;decin demandeur:</a><br><p style=' font-weight:bold; font-size:17px;'>" .$demande['PrenomMedecin'].' '.$demande['NomMedecin']. "</p></td>";
-	
 		$html .= "</tr>";
 		$html .= "</table>";
-	
+		
 		$html .="<table style='margin-top:0px; margin-left:195px; width: 70%;'>";
 		$html .="<tr style='width: 70%'>";
-	
 		$html .="<td style='padding-top: 10px; padding-bottom: 0px; padding-right: 30px; width: 20%; '><a style='text-decoration:underline; font-size:13px;'>Motif de la demande:</a><br><p id='circonstance_deces' style='background:#f8faf8; font-weight:bold; font-size:17px;'>". $demande['motif_demande_hospi'] ."</p></td>";
-	
 		$html .="<td style='padding-top: 10px; padding-bottom: 0px; padding-right: 30px; width: 20%; '><a style='text-decoration:underline; font-size:13px;'>Note:</a><br><p id='circonstance_deces' style='background:#f8faf8; font-weight:bold; font-size:17px;'> </p></td>";
-	
 		$html .="</tr>";
 		$html .="</table>";
-	
+		
 		/***
 		 * UTILISER UNIQUEMENT DANS LA VUE DE LA LISTE DES PATIENTS EN COURS D'HOSPITALISATION
 		*/
@@ -2334,28 +2311,21 @@ class ArchivageController extends AbstractActionController {
 			$lit = $this->getLitTable()->getLit($lit_hospitalisation->id_materiel);
 			$salle = $this->getSalleTable()->getSalle($lit->id_salle);
 			$batiment = $this->getBatimentTable()->getBatiment($salle->id_batiment);
-	
+				
 			$html .= "<div id='titre_info_deces'>Infos sur l'hospitalisation </div>
 		          <div id='barre'></div>";
 			$html .= "<table style='margin-top:10px; margin-left: 195px; width: 80%;'>";
 			$html .= "<tr style='width: 80%;'>";
-				
+			
 			$html .= "<td style='width: 25%; height: 50px; vertical-align: top;'><a style='text-decoration:underline; font-size:12px;'>Date d&eacute;but:</a><br><p style='font-weight:bold; font-size:17px;'>" . $this->controlDate->convertDateTime($hospitalisation->date_debut) . "</p></td>";
-			//$html .="<td style='width: 25%; vertical-align:top; padding-right:10px;'><span id='labelHeureLABEL' style='font-weight:bold; font-size:15px; padding-left: 5px; color: #065d10; font-family: Times  New Roman;'>Date d&eacute;but</span><br><p id='zoneChampInfo1' style='background:#f8faf8; font-size:17px; padding-left: 5px;'> ". $this->controlDate->convertDateTime($hospitalisation->date_debut) ." </p></td>";
-	
 			$html .= "<td style='width: 25%; height: 50px; vertical-align: top;'><a style='text-decoration:underline; font-size:12px;'>Batiment:</a><br><p style=' font-weight:bold; font-size:17px;'>".$batiment->intitule."</p></td>";
-			//$html .="<td style='width: 25%; vertical-align:top; padding-right:10px;'><span id='labelHeureLABEL' style='font-weight:bold; font-size:15px; padding-left: 5px; color: #065d10; font-family: Times  New Roman;'>Batiment</span><br><p id='zoneChampInfo1' style='background:#f8faf8; font-size:17px; padding-left: 5px;'> ".$batiment->intitule." </p></td>";
-				
 			$html .= "<td style='width: 20%; height: 50px; vertical-align: top;'><a style='text-decoration:underline; font-size:12px;'>Salle:</a><br><p style=' font-weight:bold; font-size:17px;'>".$salle->numero_salle."</p></td>";
-			//$html .="<td style='width: 25%; vertical-align:top; padding-right:10px;'><span id='labelHeureLABEL' style='font-weight:bold; font-size:15px; padding-left: 5px; color: #065d10; font-family: Times  New Roman;'>Salle</span><br><p id='zoneChampInfo1' style='background:#f8faf8; font-size:17px; padding-left: 5px;'> ".$salle->numero_salle." </p></td>";
-	
 			$html .= "<td style='width: 30%; height: 50px; vertical-align: top;'><a style='text-decoration:underline; font-size:12px;'>Lit:</a><br><p style=' font-weight:bold; font-size:17px;'>".$lit->intitule."</p></td>";
-			//$html .="<td style='width: 25%; vertical-align:top; padding-right:10px;'><span id='labelHeureLABEL' style='font-weight:bold; font-size:15px; padding-left: 5px; color: #065d10; font-family: Times  New Roman;'>Lit</span><br><p id='zoneChampInfo1' style='background:#f8faf8; font-size:17px; padding-left: 5px;'> ".$lit->intitule." </p></td>";
-	
+				
 			$html .= "</tr>";
 			$html .= "</table>";
 		}
-	
+		
 		if($terminer == 0) {
 			$html .="<div style='width: 100%; height: 100px;'>
 	    		     <div style='margin-left:40px; color: white; opacity: 1; width:95px; height:40px; padding-right:15px; float:left;'>
@@ -2369,20 +2339,20 @@ class ArchivageController extends AbstractActionController {
 		*/
 		else if($terminer == 111) {
 			$html .="<div style='width: 100%; height: 270px;'>";
-	
+				
 			$html .= "<div id='titre_info_deces'>Info lib&eacute;ration du patient </div>
 		              <div id='barre'></div>";
-	
+				
 			$chemin = $this->getServiceLocator()->get('Request')->getBasePath();
 			$formLiberation = new LibererPatientForm();
 			$data = array('id_demande_hospi' => $id_demande_hospi);
 			$formLiberation->populateValues($data);
-	
+				
 			$formRow = new FormRow();
 			$formTextArea = new FormTextarea();
 			$formHidden = new FormHidden();
-	
-			$html .="<form  method='post' action='".$chemin."/archivage/liberer-patient'>";
+				
+			$html .="<form  method='post' action='".$chemin."/consultation/liberer-patient'>";
 			$html .=$formHidden($formLiberation->get('id_demande_hospi'));
 			$html .="<div style='width: 80%; margin-left: 195px;'>";
 			$html .="<table id='form_patient' style='width: 100%; '>
@@ -2393,11 +2363,11 @@ class ArchivageController extends AbstractActionController {
 					 </tr>
 					 </table>";
 			$html .="</div>";
-	
+				
 			$html .="<div style=' margin-left:40px; color: white; opacity: 1; width:95px; height:40px; padding-right:15px; float:left;'>
                         <img  src='".$this->path."/images_icons/fleur1.jpg' />
                      </div>";
-	
+				
 			$html .="<div style='width: 10%; padding-left: 30%; float:left;'>";
 			$html .="<div class='block' id='thoughtbot' style=' float:left; width: 30%; vertical-align: bottom;  margin-bottom: 40px; padding-top: 35px; font-size: 18px; font-weight: bold;'><button type='submit' id='liberer'>Lib&eacute;rer</button></div>
                      </div>";
@@ -2405,7 +2375,7 @@ class ArchivageController extends AbstractActionController {
                      </div>";
 			$html .="</div>";
 			$html .="</form>";
-	
+		
 			$html .="<script>
 					  function vider_liberation(){
 	                   $('#resumer_medical').val('');
@@ -2416,11 +2386,11 @@ class ArchivageController extends AbstractActionController {
 					";
 		}
 		$html .="</div>";
-	
+		
 		$html .="<script>
 				  listepatient();
 				 </script>";
-	
+		
 		$this->getResponse ()->getHeaders ()->addHeaderLine ( 'Content-Type', 'application/html; charset=utf-8' );
 		return $this->getResponse ()->setContent ( Json::encode ( $html ) );
 	}
@@ -2454,10 +2424,10 @@ class ArchivageController extends AbstractActionController {
 		$id_personne = $this->params()->fromPost('id_personne',0);
 		$administrerSoin = $this->params()->fromPost('administrerSoin',0);
 	
-		$unPatient = $this->getPatientTable()->getPatient($id_personne);
+		$unPatient = $this->getPatientTable()->getInfoPatient($id_personne);
 		$photo = $this->getPatientTable()->getPhoto($id_personne);
 	
-		$date = $this->controlDate->convertDate( $unPatient->date_naissance );
+		$date = $this->controlDate->convertDate( $unPatient['DATE_NAISSANCE'] );
 	
 		$html  = "<div style='width:100%;'>";
 			
@@ -2468,19 +2438,19 @@ class ArchivageController extends AbstractActionController {
 		$html .= "<div style='width: 65%; height: 180px; float:left;'>";
 		$html .= "<table style='margin-top:10px; float:left; width: 100%;'>";
 		$html .= "<tr style='width: 100%;'>";
-		$html .= "<td style='width: 20%; height: 50px;'><a style='text-decoration:underline; font-size:12px;'>Nom:</a><br><p style='font-weight:bold; font-size:17px;'>" . $unPatient->nom . "</p></td>";
-		$html .= "<td style='width: 30%; height: 50px;'><a style='text-decoration:underline; font-size:12px;'>Lieu de naissance:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $unPatient->lieu_naissance . "</p></td>";
-		$html .= "<td style='width: 20%; height: 50px;'><a style='text-decoration:underline; font-size:12px;'>Nationalit&eacute; actuelle:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $unPatient->nationalite_actuelle . "</p></td>";
+		$html .= "<td style='width: 20%; height: 50px;'><a style='text-decoration:underline; font-size:12px;'>Nom:</a><br><p style='font-weight:bold; font-size:17px;'>" . $unPatient['NOM'] . "</p></td>";
+		$html .= "<td style='width: 30%; height: 50px;'><a style='text-decoration:underline; font-size:12px;'>Lieu de naissance:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $unPatient['LIEU_NAISSANCE'] . "</p></td>";
+		$html .= "<td style='width: 20%; height: 50px;'><a style='text-decoration:underline; font-size:12px;'>Nationalit&eacute; actuelle:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $unPatient['NATIONALITE_ACTUELLE'] . "</p></td>";
 		$html .= "<td style='width: 30%; height: 50px;'></td>";
 		$html .= "</tr><tr style='width: 100%;'>";
-		$html .= "<td style='width: 20%; height: 50px;'><a style='text-decoration:underline; font-size:12px;'>Pr&eacute;nom:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $unPatient->prenom . "</p></td>";
-		$html .= "<td style='width: 30%; height: 50px;'><a style='text-decoration:underline; font-size:12px;'>T&eacute;l&eacute;phone:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $unPatient->telephone . "</p></td>";
-		$html .= "<td style='width: 20%; height: 50px;'><a style='text-decoration:underline; font-size:12px;'>Nationalit&eacute; d'origine:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $unPatient->nationalite_origine. "</p></td>";
-		$html .= "<td style='width: 30%; height: 50px;'><a style='text-decoration:underline; font-size:12px;'>Email:</a><br><p style='font-weight:bold; font-size:17px;'>" . $unPatient->email . "</p></td>";
+		$html .= "<td style='width: 20%; height: 50px;'><a style='text-decoration:underline; font-size:12px;'>Pr&eacute;nom:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $unPatient['PRENOM'] . "</p></td>";
+		$html .= "<td style='width: 30%; height: 50px;'><a style='text-decoration:underline; font-size:12px;'>T&eacute;l&eacute;phone:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $unPatient['TELEPHONE'] . "</p></td>";
+		$html .= "<td style='width: 20%; height: 50px;'><a style='text-decoration:underline; font-size:12px;'>Nationalit&eacute; d'origine:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $unPatient['NATIONALITE_ORIGINE']. "</p></td>";
+		$html .= "<td style='width: 30%; height: 50px;'><a style='text-decoration:underline; font-size:12px;'>Email:</a><br><p style='font-weight:bold; font-size:17px;'>" . $unPatient['EMAIL'] . "</p></td>";
 		$html .= "</tr><tr style='width: 100%;'>";
 		$html .= "<td style='width: 20%; height: 50px; vertical-align: top;'><a style='text-decoration:underline; font-size:12px;'>Date de naissance:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $date . "</p></td>";
-		$html .= "<td style='width: 30%; height: 50px; vertical-align: top;'><a style='text-decoration:underline; font-size:12px;'>Adresse:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $unPatient->adresse . "</p></td>";
-		$html .= "<td style='width: 20%; height: 50px; vertical-align: top;'><a style='text-decoration:underline; font-size:12px;'>Profession:</a><br><p style=' font-weight:bold; font-size:17px;'>" .  $unPatient->profession . "</p></td>";
+		$html .= "<td style='width: 30%; height: 50px; vertical-align: top;'><a style='text-decoration:underline; font-size:12px;'>Adresse:</a><br><p style=' font-weight:bold; font-size:17px;'>" . $unPatient['ADRESSE'] . "</p></td>";
+		$html .= "<td style='width: 20%; height: 50px; vertical-align: top;'><a style='text-decoration:underline; font-size:12px;'>Profession:</a><br><p style=' font-weight:bold; font-size:17px;'>" .  $unPatient['PROFESSION'] . "</p></td>";
 		$html .= "<td style='width: 30%; height: 50px;'></td>";
 		$html .= "</tr>";
 		$html .= "</table>";
@@ -2503,30 +2473,25 @@ class ArchivageController extends AbstractActionController {
 	
 		$this->getResponse ()->getHeaders ()->addHeaderLine ( 'Content-Type', 'application/html; charset=utf-8' );
 		return $this->getResponse ()->setContent ( Json::encode ( $html ) );
-	
 	}
 	
 	public function administrerSoinAction() {
 		$this->layout()->setTemplate('layout/archivage');
 	
-		$LeService = $this->layout ()->service;
-		$LigneDuService = $this->getServiceTable ()->getServiceParNom ( $LeService );
-		$IdDuService = $LigneDuService ['ID_SERVICE'];
-	
 		$user = $this->layout()->user;
-		$id_medecin = $user->id_personne;
-	
+		$IdDuService = $user['IdService'];
+ 		$id_medecin = $user['id_personne'];
+		
 		$formSoin = new SoinForm();
 	
-		$transferer = $this->getTransfererPatientServiceTable (); //var_dump($transferer); exit();
-		$hopital = $transferer->fetchHopital ();
+		$hopital = $this->getTransfererPatientServiceTable ()->fetchHopital ();
 		
 		$formSoin->get ( 'hopital_accueil' )->setValueOptions ( $hopital );
 		//RECUPERATION DE L'HOPITAL DU SERVICE
-		$transfertPatientHopital = $transferer->getHopitalPatientTransfert($IdDuService);
+		$transfertPatientHopital = $this->getTransfererPatientServiceTable ()->getHopitalPatientTransfert($IdDuService);
 		$idHopital = $transfertPatientHopital['ID_HOPITAL'];
 		//RECUPERATION DE LA LISTE DES SERVICES DE L'HOPITAL OU SE TROUVE LE SERVICE OU LE MEDECIN TRAVAILLE
-		$serviceHopital = $transferer->fetchServiceWithHopitalNotServiceActual($idHopital, $IdDuService);
+		$serviceHopital = $this->getTransfererPatientServiceTable ()->fetchServiceWithHopitalNotServiceActual($idHopital, $IdDuService);
 		//LISTE DES SERVICES DE L'HOPITAL
 		$formSoin->get ( 'service_accueil' )->setValueOptions ($serviceHopital);
 	

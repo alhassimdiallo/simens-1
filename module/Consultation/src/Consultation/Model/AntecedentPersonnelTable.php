@@ -130,7 +130,7 @@ class AntecedentPersonnelTable {
 	/**
 	 * Ajouter et mettre à jour les antécédents personnels des patients
 	 */
-	public function addAntecedentsPersonnels($donneesDesAntecedents, $id_personne){
+	public function addAntecedentsPersonnels($donneesDesAntecedents, $id_personne, $id_medecin){
 		$this->tableGateway->getAdapter()->getDriver()->getConnection()->beginTransaction();
 		$Control = new DateHelper();
 		
@@ -144,6 +144,7 @@ class AntecedentPersonnelTable {
 						'ID_ANTECEDENT' => 4,
 						'DATE_DEBUT' => $Control->convertDateInAnglais($donneesDesAntecedents['DateDebutAlcooliqueHV']), 
 						'DATE_ARRET' => $Control->convertDateInAnglais($donneesDesAntecedents['DateFinAlcooliqueHV']),
+						'ID_EMPLOYE' => $id_medecin,
 				);
 				
 				$this->tableGateway->insert($donneesAntecedents);
@@ -155,6 +156,7 @@ class AntecedentPersonnelTable {
 						'DATE_DEBUT' => $Control->convertDateInAnglais($donneesDesAntecedents['DateDebutFumeurHV']),
 						'DATE_ARRET' => $Control->convertDateInAnglais($donneesDesAntecedents['DateFinFumeurHV']),
 						'NOMBRE_PAQUET_JOUR' => $donneesDesAntecedents['nbPaquetFumeurHV'],
+						'ID_EMPLOYE' => $id_medecin,
 				);
 			
 				$this->tableGateway->insert($donneesAntecedents);
@@ -165,6 +167,7 @@ class AntecedentPersonnelTable {
 						'ID_ANTECEDENT' => 6,
 						'DATE_DEBUT' => $Control->convertDateInAnglais($donneesDesAntecedents['DateDebutDroguerHV']),
 						'DATE_ARRET' => $Control->convertDateInAnglais($donneesDesAntecedents['DateFinDroguerHV']),
+						'ID_EMPLOYE' => $id_medecin,
 				);
 					
 				$this->tableGateway->insert($donneesAntecedents);
@@ -176,6 +179,7 @@ class AntecedentPersonnelTable {
 				$donneesAntecedents = array(
 						'ID_PERSONNE' => $id_personne,
 						'ID_ANTECEDENT' => 1,
+						'ID_EMPLOYE' => $id_medecin,
 				);
 					
 				$this->tableGateway->insert($donneesAntecedents);
@@ -184,6 +188,7 @@ class AntecedentPersonnelTable {
 				$donneesAntecedents = array(
 						'ID_PERSONNE' => $id_personne,
 						'ID_ANTECEDENT' => 2,
+						'ID_EMPLOYE' => $id_medecin,
 				);
 					
 				$this->tableGateway->insert($donneesAntecedents);
@@ -192,6 +197,7 @@ class AntecedentPersonnelTable {
 				$donneesAntecedents = array(
 						'ID_PERSONNE' => $id_personne,
 						'ID_ANTECEDENT' => 3,
+						'ID_EMPLOYE' => $id_medecin,
 				);
 					
 				$this->tableGateway->insert($donneesAntecedents);
@@ -200,6 +206,7 @@ class AntecedentPersonnelTable {
 				$donneesAntecedents = array(
 						'ID_PERSONNE' => $id_personne,
 						'ID_ANTECEDENT' => 7,
+						'ID_EMPLOYE' => $id_medecin,
 				);
 					
 				$this->tableGateway->insert($donneesAntecedents);
@@ -208,6 +215,7 @@ class AntecedentPersonnelTable {
 				$donneesAntecedents = array(
 						'ID_PERSONNE' => $id_personne,
 						'ID_ANTECEDENT' => 8,
+						'ID_EMPLOYE' => $id_medecin,
 				);
 					
 				$this->tableGateway->insert($donneesAntecedents);
@@ -219,7 +227,8 @@ class AntecedentPersonnelTable {
 				$donneesAntecedents = array(
 						'ID_PERSONNE' => $id_personne,
 						'ID_ANTECEDENT' => 9,
-						'NOTE' => $donneesDesAntecedents['NoteMenarcheGO']
+						'NOTE' => $donneesDesAntecedents['NoteMenarcheGO'],
+						'ID_EMPLOYE' => $id_medecin,
 				);
 					
 				$this->tableGateway->insert($donneesAntecedents);
@@ -228,7 +237,8 @@ class AntecedentPersonnelTable {
 				$donneesAntecedents = array(
 						'ID_PERSONNE' => $id_personne,
 						'ID_ANTECEDENT' => 10,
-						'NOTE' => $donneesDesAntecedents['NoteGestiteGO']
+						'NOTE' => $donneesDesAntecedents['NoteGestiteGO'],
+						'ID_EMPLOYE' => $id_medecin,
 				);
 					
 				$this->tableGateway->insert($donneesAntecedents);
@@ -237,7 +247,8 @@ class AntecedentPersonnelTable {
 				$donneesAntecedents = array(
 						'ID_PERSONNE' => $id_personne,
 						'ID_ANTECEDENT' => 11,
-						'NOTE' => $donneesDesAntecedents['NotePariteGO']
+						'NOTE' => $donneesDesAntecedents['NotePariteGO'],
+						'ID_EMPLOYE' => $id_medecin,
 				);
 					
 				$this->tableGateway->insert($donneesAntecedents);
@@ -249,6 +260,7 @@ class AntecedentPersonnelTable {
 						'DUREE' => $donneesDesAntecedents['DureeCycleGO'],
 						'REGULARITE' => $donneesDesAntecedents['RegulariteCycleGO'],
 						'DYSMENORRHEE' => $donneesDesAntecedents['DysmenorrheeCycleGO'],
+						'ID_EMPLOYE' => $id_medecin,
 				);
 					
 				$this->tableGateway->insert($donneesAntecedents);

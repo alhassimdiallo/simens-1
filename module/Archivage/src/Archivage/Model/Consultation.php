@@ -5,73 +5,48 @@ use Zend\InputFilter\Factory as InputFactory;
 use Zend\InputFilter\InputFilter;
 use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\InputFilter\InputFilterInterface;
-
 class Consultation implements InputFilterAwareInterface{
 	public $id_cons;
-	public $id_personne;
+	public $id_medecin;
 	public $id_surveillant;
-	public $pat_id_personne;
-	public $motif_admission;
+	public $id_patient;
 	public $date;
 	public $poids;
 	public $taille;
 	public $temperature;
-	public $tension;
+	public $pression_arterielle;
 	public $pouls;
 	public $frequence_respiratoire;
 	public $glycemie_capillaire;
-	public $bu;
-	public $observation;
 	public $consprise;
 	public $dateonly;
 	public $heurecons;
 	public $id_service;
-	public $pression_arterielle;
-	
+	public $archivage;
+
+
 	protected $inputFilter;
 
 	public function exchangeArray($data) {
 		$this->id_cons = (! empty ( $data ['ID_CONS'] )) ? $data ['ID_CONS'] : null;
-		$this->id_personne = (! empty ( $data ['ID_PERSONNE'] )) ? $data ['ID_PERSONNE'] : null;
+		$this->id_medecin = (! empty ( $data ['ID_MEDECIN'] )) ? $data ['ID_MEDECIN'] : null;
 		$this->id_surveillant = (! empty ( $data ['ID_SURVEILLANT'] )) ? $data ['ID_SURVEILLANT'] : null;
-		$this->pat_id_personne = (! empty ( $data ['PAT_ID_PERSONNE'] )) ? $data ['PAT_ID_PERSONNE'] : null;
-		$this->motif_admission = (! empty ( $data ['MOTIF_ADMISSION'] )) ? $data ['MOTIF_ADMISSION'] : null;
+		$this->id_patient = (! empty ( $data ['ID_PATIENT'] )) ? $data ['ID_PATIENT'] : null;
 		$this->date = (! empty ( $data ['DATE'] )) ? $data ['DATE'] : null;
 		$this->poids = (! empty ( $data ['POIDS'] )) ? $data ['POIDS'] : null;
 		$this->taille = (! empty ( $data ['TAILLE'] )) ? $data ['TAILLE'] : null;
 		$this->temperature = (! empty ( $data ['TEMPERATURE'] )) ? $data ['TEMPERATURE'] : null;
-		$this->tension = (! empty ( $data ['TENSION'] )) ? $data ['TENSION'] : null;
+		$this->pression_arterielle = (! empty ( $data ['PRESSION_ARTERIELLE'] )) ? $data ['PRESSION_ARTERIELLE'] : null;
 		$this->pouls = (! empty ( $data ['POULS'] )) ? $data ['POULS'] : null;
 		$this->frequence_respiratoire = (! empty ( $data ['FREQUENCE_RESPIRATOIRE'] )) ? $data ['FREQUENCE_RESPIRATOIRE'] : null;
 		$this->glycemie_capillaire = (! empty ( $data ['GLYCEMIE_CAPILLAIRE'] )) ? $data ['GLYCEMIE_CAPILLAIRE'] : null;
-		$this->bu = (! empty ( $data ['BU'] )) ? $data ['BU'] : null;
-		$this->observation = (! empty ( $data ['OBSERVATION'] )) ? $data ['OBSERVATION'] : null;
 		$this->consprise = (! empty ( $data ['CONSPRISE'] )) ? $data ['CONSPRISE'] : null;
 		$this->dateonly = (! empty ( $data ['DATEONLY'] )) ? $data ['DATEONLY'] : null;
 		$this->heurecons = (! empty ( $data ['HEURECONS'] )) ? $data ['HEURECONS'] : null;
 		$this->id_service = (! empty ( $data ['ID_SERVICE'] )) ? $data ['ID_SERVICE'] : null;
-		$this->pression_arterielle = (! empty ( $data ['PRESSION_ARTERIELLE'] )) ? $data ['PRESSION_ARTERIELLE'] : null;
+		$this->archivage = (! empty ( $data ['ARCHIVAGE'] )) ? $data ['ARCHIVAGE'] : null;
 	}
-// 	public function exchangeArray($data) {
-// 		$this->id_cons = (! empty ( $data ['id_cons'] )) ? $data ['id_cons'] : null;
-// 		$this->id_personne = (! empty ( $data ['id_personne'] )) ? $data ['id_personne'] : null;
-// 		$this->pat_id_personne = (! empty ( $data ['pat_id_personne'] )) ? $data ['pat_id_personne'] : null;
-// 		$this->motif_admission = (! empty ( $data ['motif_admission'] )) ? $data ['motif_admission'] : null;
-// 		$this->date = (! empty ( $data ['date'] )) ? $data ['date'] : null;
-// 		$this->poids = (! empty ( $data ['poids'] )) ? $data ['poids'] : null;
-// 		$this->taille = (! empty ( $data ['TAILLE'] )) ? $data ['TAILLE'] : null;
-// 		$this->temperature = (! empty ( $data ['temperature'] )) ? $data ['temperature'] : null;
-// 		$this->tension = (! empty ( $data ['tension'] )) ? $data ['tension'] : null;
-// 		$this->pouls = (! empty ( $data ['POULS'] )) ? $data ['POULS'] : null;
-// 		$this->frequence_respiratoire = (! empty ( $data ['frequence_respiratoire'] )) ? $data ['frequence_respiratoire'] : null;
-// 		$this->glycemie_capillaire = (! empty ( $data ['glycemie_capillaire'] )) ? $data ['glycemie_capillaire'] : null;
-// 		$this->bu = (! empty ( $data ['bu'] )) ? $data ['bu'] : null;
-// 		$this->observation = (! empty ( $data ['observation'] )) ? $data ['observation'] : null;
-// 		$this->consprise = (! empty ( $data ['consprise'] )) ? $data ['consprise'] : null;
-// 		$this->dateonly = (! empty ( $data ['dateonly'] )) ? $data ['dateonly'] : null;
-// 		$this->heurecons = (! empty ( $data ['HEURECONS'] )) ? $data ['HEURECONS'] : null;
-// 		$this->id_service = (! empty ( $data ['id_service'] )) ? $data ['id_service'] : null;
-// 	}
+
 	public function getArrayCopy() {
 		return get_object_vars ( $this );
 	}
@@ -110,7 +85,7 @@ class Consultation implements InputFilterAwareInterface{
 									'name' => 'StringTrim'
 							)
 					)
-			 ) );
+			) );
 			$inputFilter->add (array (
 					'name' => 'motif_admission1',
 					'filters' => array (
@@ -617,29 +592,7 @@ class Consultation implements InputFilterAwareInterface{
 							)
 					)
 			) );
-			// 			$inputFilter->add (array (
-			// 					'name' => 'prenom',
-			// 					'required' => true,
-			// 					'filters' => array (
-			// 							array (
-			// 									'name' => 'StripTags'
-			// 							),
-			// 							array (
-			// 									'name' => 'StringTrim'
-			// 							)
-			// 					),
-			// 					'validators' => array (
-			// 							array (
-			// 									'name' => 'StringLength',
-			// 									'options' => array (
-			// 											'encoding' => 'UTF-8',
-			// 											'min' => 1,
-			// 											'max' => 100
-			// 									)
-			// 							)
-			// 					)
-			// 			 ) );
-
+				
 			$this->inputFilter = $inputFilter;
 		}
 

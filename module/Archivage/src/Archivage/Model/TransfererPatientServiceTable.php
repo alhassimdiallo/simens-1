@@ -101,9 +101,12 @@ class TransfererPatientServiceTable{
 	/**
 	 * Modification des donnees du transfert
 	 */
-	public function updateTransfertPatientService($info_transfert){
+    public function updateTransfertPatientService($info_transfert){
 		$this->tableGateway->delete(array('ID_CONS'=> $info_transfert['ID_CONS']));
-		if($info_transfert['DATE'] && $info_transfert['MED_ID_PERSONNE'] && $info_transfert['ID_SERVICE']){
+		$today = new \DateTime ();
+		$dateAujourdhui = $today->format ( 'Y-m-d H:i:s' );
+		$info_transfert['DATE'] = $dateAujourdhui;
+		if($info_transfert['MOTIF_TRANSFERT'] && $info_transfert['ID_MEDECIN'] && $info_transfert['ID_SERVICE']){
 			$this->tableGateway->insert($info_transfert);
 		}
 	}
