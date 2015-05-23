@@ -1,4 +1,4 @@
-
+#admettrePatient { visibility: hidden; }
 /* PIED DE PAGE*/
 #nom_ input[type="text"]
 { /*le input ou le textarea*/
@@ -472,9 +472,9 @@ z-index: 1;
 
 #form_patient option{ 
    min-width:100px;
-   color:#00f;
-   background-color:#eee;
-   font-size: 13pt;
+   color: #065d10;
+   background-color:#fff;
+   font-size: 10pt;
    overflow: auto;
 
 }

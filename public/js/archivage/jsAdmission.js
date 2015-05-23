@@ -128,8 +128,6 @@ function animation(){
 //ANIMATION
 //ANIMATION
 
-$('#admettrePatient').toggle(false);
-
 $('#precedent').click(function(){
 	$("#titre2").replaceWith("<div id='titre' style='font-family: police2; color: green; font-size: 18px; font-weight: bold; padding-left: 35px;'><iS style='font-size: 25px;'>&curren;</iS> RECHERCHER LE PATIENT </div>");	
     
@@ -147,6 +145,7 @@ $('#precedent').click(function(){
 });
 }
 
+var entre = 0;
 function admettre(id){
 	
 	$("#termineradmission").replaceWith("<button id='termineradmission' style='height:35px;'>Terminer</button>");
@@ -162,6 +161,8 @@ function admettre(id){
         success: function(data) {    
         	    var result = jQuery.parseJSON(data);  
         	     $("#info_patient").html(result);
+        	     if(entre == 0) { $('#admettrePatient').css({'visibility':'visible'}).toggle(false); entre=1; }
+        	     
         	     //PASSER A SUIVANT
         	     $('#admettrePatient').animate({
         	         height : 'toggle'
@@ -184,6 +185,8 @@ function admettre(id){
     });
     
     $("#id_patient").val(id);
+    
+    return false;
 }
 
 

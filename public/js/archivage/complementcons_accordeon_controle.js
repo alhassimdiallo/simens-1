@@ -1,4 +1,6 @@
-
+  var base_url = window.location.toString();
+  var tabUrl = base_url.split("public");
+    
   $(function(){
 	$( "#accordionsssss").accordion();
   });
@@ -379,11 +381,9 @@ $(function(){
 //Boite de dialogue de confirmation d'annulation
 //Boite de dialogue de confirmation d'annulation
 
-/***BOITE DE DIALOG POUR LA CONFIRMATION DE SUPPRESSION**/
-/***BOITE DE DIALOG POUR LA CONFIRMATION DE SUPPRESSION**/
-
-	var theHREF = "/simens/public/consultation/consultation-medecin";
-	function confirmation(){
+	var theHREF = tabUrl[0]+"public/archivage/liste-consultation";
+	var theHREF2 = tabUrl[0]+"public/archivage/consulter";
+	function confirmation(HREF){
 		
  		$( "#confirmation2" ).dialog({
  		    resizable: false,
@@ -394,7 +394,7 @@ $(function(){
  		    buttons: {
  		        "Oui": function() {
  		            $( this ).dialog( "close" );
- 		            window.location.href = theHREF;   
+ 		            window.location.href = HREF;   
  		        },
  		        "Non": function() {
  		            $( this ).dialog( "close" );
@@ -404,13 +404,18 @@ $(function(){
     }
 	
 	$("#annuler2").click(function() { 
-       //event.preventDefault(); 
-       confirmation(); 
+       confirmation(theHREF); 
        $("#confirmation2").dialog('open');
        
        return false;
     }); 
 	
+	$("#annulerConsultation").click(function() {
+		confirmation(theHREF2); 
+	    $("#confirmation2").dialog('open');
+	       
+	    return false;
+	});
 	
 	
 	var temoinTaille = 0;
@@ -575,7 +580,7 @@ $(function(){
 		// Le formulaire monFormulaire existe deja dans la page
 	    var formulaire = document.createElement("form");
 	 
-	    formulaire.setAttribute("action","/simenss/public/archivage/update-complement-consultation"); 
+	    formulaire.setAttribute("action",tabUrl[0]+"public/archivage/update-complement-consultation"); 
 	    formulaire.setAttribute("method","POST"); 
 	    for( donnee in donnees){
 	     // Ajout dynamique de champs dans le formulaire

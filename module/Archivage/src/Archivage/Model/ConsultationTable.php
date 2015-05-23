@@ -23,12 +23,11 @@ class ConsultationTable {
  		}
 		return $row;
 	}
-	public function getConsultationPatient($id_pat, $id_cons){
+	public function getConsultationPatient($id_pat){
 		$adapter = $this->tableGateway->getAdapter ();
 		$sql = new Sql ( $adapter );
 		$select = $sql->select ();
 		$select->columns( array( '*' ));
-		
 		$select->from( array( 'c' => 'consultation' ));
 		$select->join( array('e1' => 'employe'), 'e1.id_personne = c.ID_MEDECIN' , array());
 		$select->join( array('p1' => 'personne'), 'e1.id_personne = p1.ID_PERSONNE' , array('*'));
@@ -37,13 +36,35 @@ class ConsultationTable {
 		//On affiche toutes les consultations sauf celle ouverte
 		$where = new Where();
 		$where->equalTo('c.ID_PATIENT', $id_pat);
-		$where->notEqualTo('c.ID_CONS', $id_cons);
 		$select->where($where);
 		$select->order('DATEONLY DESC');
 		
 		$stat = $sql->prepareStatementForSqlObject ( $select );
 		$result = $stat->execute ();
 		
+		return $result;
+	}
+	
+	public function getConsultationPatientSaufActu($id_pat, $id_cons){
+		$adapter = $this->tableGateway->getAdapter ();
+		$sql = new Sql ( $adapter );
+		$select = $sql->select ();
+		$select->columns( array( '*' ));
+		$select->from( array( 'c' => 'consultation' ));
+		$select->join( array('e1' => 'employe'), 'e1.id_personne = c.ID_MEDECIN' , array());
+		$select->join( array('p1' => 'personne'), 'e1.id_personne = p1.ID_PERSONNE' , array('*'));
+		$select->join( array('s' => 'service'), 's.ID_SERVICE = c.ID_SERVICE' , array('nomService' => 'NOM', 'domaineService' => 'DOMAINE'));
+	
+		//On affiche toutes les consultations sauf celle ouverte
+		$where = new Where();
+		$where->equalTo('c.ID_PATIENT', $id_pat);
+		$where->notEqualTo('c.ID_CONS', $id_cons);
+		$select->where($where);
+		$select->order('DATEONLY DESC');
+	
+		$stat = $sql->prepareStatementForSqlObject ( $select );
+		$result = $stat->execute ();
+	
 		return $result;
 	}
 	

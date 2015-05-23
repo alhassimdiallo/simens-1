@@ -8,7 +8,8 @@
 <?php $form = $this->form; ?>
 
 <style>
-#contenu{ visibility: hidden }
+#contenu{ visibility: hidden; }
+#vue_patient{ visibility: hidden; }
 </style>
 
 <script>
@@ -72,10 +73,6 @@ $(window).load(function () {
 </div>
 
 <div id="vue_patient">
-
-</div>
-
-<div id="vue_detail_hospi_patient">
 
 </div>
 
@@ -147,8 +144,4 @@ $(window).load(function () {
 $(function(){
 	initialisationListeRehercheExamensEffectues();
 });
-
-$("#vue_detail_hospi_patient").toggle(false);
-$("#vue_patient").toggle(false);
-$("#hospitaliser").toggle(false);
 </script>

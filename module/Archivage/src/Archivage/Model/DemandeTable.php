@@ -102,10 +102,11 @@ class DemandeTable {
 		
 		$sql = new Sql($db);
 		$sQuery = $sql->select()
-		->from(array('pat' => 'patient'))->columns(array('Nom'=>'nom','Prenom'=>'prenom','Datenaissance'=>'date_naissance','Sexe'=>'sexe','Adresse'=>'adresse','id'=>'id_personne'))
-		->join(array('cons' => 'consultation'), 'cons.pat_id_personne = pat.id_personne', array('Datedemande'=>'date', 'Idcons'=>'id_cons'))
-		->join(array('d' => 'demande'), 'd.idCons = cons.id_cons' , array('*'))
-		->join(array('med' => 'medecin') , 'med.id_personne = cons.id_personne' , array('NomMedecin' =>'nom', 'PrenomMedecin' => 'prenom'))
+		->from(array('pat' => 'patient'))->columns(array())
+		->join(array('pers' => 'personne'), 'pers.ID_PERSONNE = pat.ID_PERSONNE', array('Nom'=>'NOM','Prenom'=>'PRENOM','Datenaissance'=>'DATE_NAISSANCE','Sexe'=>'SEXE','Adresse'=>'ADRESSE','id'=>'ID_PERSONNE'))
+		->join(array('cons' => 'consultation'), 'cons.ID_PATIENT = pat.ID_PERSONNE', array('Datedemande'=>'DATE', 'Idcons'=>'ID_CONS', 'Archivage' => 'ARCHIVAGE'))
+		->join(array('d' => 'demande'), 'd.idCons = cons.ID_CONS' , array('*'))
+		->join(array('med' => 'personne'), 'med.ID_PERSONNE = cons.ID_MEDECIN', array('NomMedecin' =>'NOM', 'PrenomMedecin' => 'PRENOM'))
 		->where(array('d.idCons' => $id_cons))
 		->group('d.idCons');
 		
@@ -169,7 +170,7 @@ class DemandeTable {
 			 */
 			$sql2 = new Sql($db);
 			$sQuery2 = $sql2->select();
-			$sQuery2->from(array('re' => 'resultats_examens2'))->columns(array('*'))
+			$sQuery2->from(array('re' => 'resultats_examens'))->columns(array('*'))
 			->where(array('re.idDemande' => $ligne['idDemande']));
 			$stat2 = $sql2->prepareStatementForSqlObject($sQuery2);
 			$Result2 = $stat2->execute()->current();
@@ -205,7 +206,7 @@ class DemandeTable {
 			*/
 			$sql2 = new Sql($db);
 			$sQuery2 = $sql2->select();
-			$sQuery2->from(array('re' => 'resultats_examens2'))->columns(array('*'))
+			$sQuery2->from(array('re' => 'resultats_examens'))->columns(array('*'))
 			->where(array('re.idDemande' => $ligne['idDemande']));
 			$stat2 = $sql2->prepareStatementForSqlObject($sQuery2);
 			$Result2 = $stat2->execute()->current();
@@ -263,11 +264,12 @@ class DemandeTable {
 		*/
 		$sql = new Sql($db);
 		$sQuery = $sql->select()
-		->from(array('pat' => 'patient'))->columns(array('Nom'=>'nom','Prenom'=>'prenom','Datenaissance'=>'date_naissance','Sexe'=>'sexe','Adresse'=>'adresse','id'=>'id_personne'))
-		->join(array('cons' => 'consultation'), 'cons.pat_id_personne = pat.id_personne', array('Datedemande'=>'date', 'Idcons'=>'id_cons'))
-		->join(array('d' => 'demande'), 'd.idCons = cons.id_cons' , array('*'))
-		->join(array('med' => 'medecin') , 'med.id_personne = cons.id_personne' , array('NomMedecin' =>'nom', 'PrenomMedecin' => 'prenom'))
-		->where(array('cons.id_service'=> $idService, 'cons.archivage'=> 1))
+		->from(array('pat' => 'patient'))->columns(array())
+		->join(array('pers' => 'personne'), 'pers.ID_PERSONNE = pat.ID_PERSONNE', array('Nom'=>'NOM','Prenom'=>'PRENOM','Datenaissance'=>'DATE_NAISSANCE','Sexe'=>'SEXE','Adresse'=>'ADRESSE','id'=>'ID_PERSONNE'))
+		->join(array('cons' => 'consultation'), 'cons.ID_PATIENT = pat.ID_PERSONNE', array('Datedemande'=>'DATE', 'Idcons'=>'ID_CONS', 'Archivage' => 'ARCHIVAGE'))
+		->join(array('d' => 'demande'), 'd.idCons = cons.ID_CONS' , array('*'))
+		->join(array('med' => 'personne'), 'med.ID_PERSONNE = cons.ID_MEDECIN', array('NomMedecin' =>'NOM', 'PrenomMedecin' => 'PRENOM'))
+		->where(array('cons.ID_SERVICE'=> $idService, 'cons.ARCHIVAGE'=> 1))
 		->order('d.idDemande DESC')
 		->group('d.idCons');
 	
@@ -418,13 +420,14 @@ class DemandeTable {
 		*/
 		$sql = new Sql($db);
 		$sQuery = $sql->select()
-		->from(array('pat' => 'patient'))->columns(array('Nom'=>'nom','Prenom'=>'prenom','Datenaissance'=>'date_naissance','Sexe'=>'sexe','Adresse'=>'adresse','id'=>'id_personne'))
-		->join(array('cons' => 'consultation'), 'cons.pat_id_personne = pat.id_personne', array('Datedemande'=>'date', 'Idcons'=>'id_cons'))
-		->join(array('d' => 'demande'), 'd.idCons = cons.id_cons' , array('*'))
-		->join(array('med' => 'medecin') , 'med.id_personne = cons.id_personne' , array('NomMedecin' =>'nom', 'PrenomMedecin' => 'prenom'))
+		->from(array('pat' => 'patient'))->columns(array())
+		->join(array('pers' => 'personne'), 'pers.ID_PERSONNE = pat.ID_PERSONNE', array('Nom'=>'NOM','Prenom'=>'PRENOM','Datenaissance'=>'DATE_NAISSANCE','Sexe'=>'SEXE','Adresse'=>'ADRESSE','id'=>'ID_PERSONNE'))
+		->join(array('cons' => 'consultation'), 'cons.ID_PATIENT = pat.ID_PERSONNE', array('Datedemande'=>'DATE', 'Idcons'=>'ID_CONS', 'Archivage' => 'ARCHIVAGE'))
+		->join(array('d' => 'demande'), 'd.idCons = cons.ID_CONS' , array('*'))
+		->join(array('med' => 'personne'), 'med.ID_PERSONNE = cons.ID_MEDECIN', array('NomMedecin' =>'NOM', 'PrenomMedecin' => 'PRENOM'))
 		
 		->join(array('e' => 'examens'), 'e.idExamen = d.idExamen', array('*'))
-		->where(array('e.idType' => 1, 'cons.archivage' => 1))
+		->where(array('e.idType' => 1, 'cons.ARCHIVAGE' => 1))
 		->order('d.idDemande ASC')
 		->group('d.idCons');
 	
@@ -719,14 +722,15 @@ class DemandeTable {
 		*/
 		$sql = new Sql($db);
 		$sQuery = $sql->select()
-		->from(array('pat' => 'patient'))->columns(array('Nom'=>'nom','Prenom'=>'prenom','Datenaissance'=>'date_naissance','Sexe'=>'sexe','Adresse'=>'adresse','id'=>'id_personne'))
-		->join(array('cons' => 'consultation'), 'cons.pat_id_personne = pat.id_personne', array('Datedemande'=>'date', 'Idcons'=>'id_cons'))
-		->join(array('d' => 'demande'), 'd.idCons = cons.id_cons' , array('*'))
-		->join(array('med' => 'medecin') , 'med.id_personne = cons.id_personne' , array('NomMedecin' =>'nom', 'PrenomMedecin' => 'prenom'))
-		->where(array('cons.archivage' => 1))
+		->from(array('pat' => 'patient'))->columns(array())
+		->join(array('pers' => 'personne'), 'pers.ID_PERSONNE = pat.ID_PERSONNE', array('Nom'=>'NOM','Prenom'=>'PRENOM','Datenaissance'=>'DATE_NAISSANCE','Sexe'=>'SEXE','Adresse'=>'ADRESSE','id'=>'ID_PERSONNE'))
+		->join(array('cons' => 'consultation'), 'cons.ID_PATIENT = pat.ID_PERSONNE', array('Datedemande'=>'DATE', 'Idcons'=>'ID_CONS', 'Archivage' => 'ARCHIVAGE'))
+		->join(array('d' => 'demande'), 'd.idCons = cons.ID_CONS' , array('*'))
+		->join(array('med' => 'personne'), 'med.ID_PERSONNE = cons.ID_MEDECIN', array('NomMedecin' =>'NOM', 'PrenomMedecin' => 'PRENOM'))
+		->where(array('cons.ARCHIVAGE' => 1))
 		->order('d.idDemande DESC')
 		->group('d.idCons');
-	
+		
 		/* Data set length after filtering */
 		$stat = $sql->prepareStatementForSqlObject($sQuery);
 		$rResultFt = $stat->execute();
@@ -895,11 +899,12 @@ class DemandeTable {
 		*/
 		$sql = new Sql($db);
 		$sQuery = $sql->select()
-		->from(array('pat' => 'patient'))->columns(array('Nom'=>'nom','Prenom'=>'prenom','Datenaissance'=>'date_naissance','Sexe'=>'sexe','Adresse'=>'adresse','id'=>'id_personne'))
-		->join(array('cons' => 'consultation'), 'cons.pat_id_personne = pat.id_personne', array('Datedemande'=>'date', 'Idcons'=>'id_cons'))
-		->join(array('med' => 'medecin') , 'med.id_personne = cons.id_personne' , array('NomMedecin' =>'nom', 'PrenomMedecin' => 'prenom'))
-		->join(array('d' => 'demande_visite_preanesthesique'), 'd.ID_CONS = cons.id_cons' , array('*'))
-		->where(array (	new NotIn ( 'd.idVpa', $subselect ) , 'cons.archivage' => 1))
+		->from(array('pat' => 'patient'))->columns(array())
+		->join(array('pers' => 'personne'), 'pers.ID_PERSONNE = pat.ID_PERSONNE', array('Nom'=>'NOM','Prenom'=>'PRENOM','Datenaissance'=>'DATE_NAISSANCE','Sexe'=>'SEXE','Adresse'=>'ADRESSE','id'=>'ID_PERSONNE'))
+		->join(array('cons' => 'consultation'), 'cons.ID_PATIENT = pat.ID_PERSONNE', array('Datedemande'=>'DATE', 'Idcons'=>'ID_CONS', 'Archivage' => 'ARCHIVAGE'))
+		->join(array('med' => 'personne'), 'med.ID_PERSONNE = cons.ID_MEDECIN', array('NomMedecin' =>'NOM', 'PrenomMedecin' => 'PRENOM'))
+		->join(array('d' => 'demande_visite_preanesthesique'), 'd.ID_CONS = cons.ID_CONS' , array('*'))
+		->where(array (	new NotIn ( 'd.idVpa', $subselect ) , 'cons.ARCHIVAGE' => 1))
 		->order('d.idVpa ASC');
 	
 		/* Data set length after filtering */
@@ -999,10 +1004,11 @@ class DemandeTable {
 	
 		$sql = new Sql($db);
 		$sQuery = $sql->select()
-		->from(array('pat' => 'patient'))->columns(array('Nom'=>'nom','Prenom'=>'prenom','Datenaissance'=>'date_naissance','Sexe'=>'sexe','Adresse'=>'adresse','id'=>'id_personne'))
-		->join(array('cons' => 'consultation'), 'cons.pat_id_personne = pat.id_personne', array('Datedemande'=>'date', 'Idcons'=>'id_cons'))
-		->join(array('med' => 'medecin') , 'med.id_personne = cons.id_personne' , array('NomMedecin' =>'nom', 'PrenomMedecin' => 'prenom'))
-		->join(array('d' => 'demande_visite_preanesthesique'), 'd.ID_CONS = cons.id_cons' , array('*'))
+		->from(array('pat' => 'patient'))->columns(array())
+		->join(array('pers' => 'personne'), 'pers.ID_PERSONNE = pat.ID_PERSONNE', array('Nom'=>'NOM','Prenom'=>'PRENOM','Datenaissance'=>'DATE_NAISSANCE','Sexe'=>'SEXE','Adresse'=>'ADRESSE','id'=>'ID_PERSONNE'))
+		->join(array('cons' => 'consultation'), 'cons.ID_PATIENT = pat.ID_PERSONNE', array('Datedemande'=>'DATE', 'Idcons'=>'ID_CONS', 'Archivage' => 'ARCHIVAGE'))
+		->join(array('med' => 'personne'), 'med.ID_PERSONNE = cons.ID_MEDECIN', array('NomMedecin' =>'NOM', 'PrenomMedecin' => 'PRENOM'))
+		->join(array('d' => 'demande_visite_preanesthesique'), 'd.ID_CONS = cons.ID_CONS' , array('*'))
 		->where(array('d.ID_CONS' => $id_cons))
 		->order('d.idVpa ASC');
 	
@@ -1070,11 +1076,12 @@ class DemandeTable {
 		*/
 		$sql = new Sql($db);
 		$sQuery = $sql->select()
-		->from(array('pat' => 'patient'))->columns(array('Nom'=>'nom','Prenom'=>'prenom','Datenaissance'=>'date_naissance','Sexe'=>'sexe','Adresse'=>'adresse','id'=>'id_personne'))
-		->join(array('cons' => 'consultation'), 'cons.pat_id_personne = pat.id_personne', array('Datedemande'=>'date', 'Idcons'=>'id_cons'))
-		->join(array('med' => 'medecin') , 'med.id_personne = cons.id_personne' , array('NomMedecin' =>'nom', 'PrenomMedecin' => 'prenom'))
-		->join(array('d' => 'demande_visite_preanesthesique'), 'd.ID_CONS = cons.id_cons' , array('*'))
-		->where(array (	new In ( 'd.idVpa', $subselect ), 'cons.archivage' => 1))
+		->from(array('pat' => 'patient'))->columns(array())
+		->join(array('pers' => 'personne'), 'pers.ID_PERSONNE = pat.ID_PERSONNE', array('Nom'=>'NOM','Prenom'=>'PRENOM','Datenaissance'=>'DATE_NAISSANCE','Sexe'=>'SEXE','Adresse'=>'ADRESSE','id'=>'ID_PERSONNE'))
+		->join(array('cons' => 'consultation'), 'cons.ID_PATIENT = pat.ID_PERSONNE', array('Datedemande'=>'DATE', 'Idcons'=>'ID_CONS', 'Archivage' => 'ARCHIVAGE'))
+		->join(array('med' => 'personne'), 'med.ID_PERSONNE = cons.ID_MEDECIN', array('NomMedecin' =>'NOM', 'PrenomMedecin' => 'PRENOM'))
+		->join(array('d' => 'demande_visite_preanesthesique'), 'd.ID_CONS = cons.ID_CONS' , array('*'))
+		->where(array (	new In ( 'd.idVpa', $subselect ), 'cons.ARCHIVAGE' => 1))
 		->order('d.idVpa ASC');
 	
 		/* Data set length after filtering */

@@ -216,10 +216,6 @@
 	    	    $('div .dataTables_paginate').css({ 'margin-right' : '0'});
 	    		$('#listeDataTable').css({'margin-left' : '-10'});
 	    		
-	    		//setTimeout(function(){
-		    	  //vart=tabUrl[0]+'public/hospitalisation/liste-demandes-examens';
-				  //$(location).attr("href",vart);
-	    		//}, 1500);
 	    	});
 	    });
     	
@@ -642,7 +638,7 @@
            	         
             	$("#titre").replaceWith("<div id='titre2' style='font-family: police2; color: green; font-size: 20px; font-weight: bold; padding-left:20px;'><iS style='font-size: 25px;'>&curren;</iS> AJOUTER LES R&Eacute;SULTATS DES EXAMENS </div>");
             	var result = jQuery.parseJSON(data);
-            	$("#contenu").fadeOut(function(){$("#vue_patient").html(result).fadeIn("fast"); }); 
+            	$("#contenu").fadeOut(function(){$("#vue_patient").html(result).fadeIn("fast").css({'visibility':'visible'}); }); 
             	     
             },
             error:function(e){console.log(e);alert("Une erreur interne est survenue!");},

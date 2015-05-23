@@ -25,7 +25,8 @@ $Control = new DateHelper();?>
 	margin-left: -10px;
 }
 
-#contenu{ visibility: hidden }
+#contenu{ visibility: hidden; }
+#vue_patient{ visibility: hidden; }
 </style>
 
 <script>
@@ -53,7 +54,7 @@ $(window).load(function () {
 			<thead>
 				<tr style="height:50px; width:100%;">
 					<th id="nom" align="center">Nom</th>
-					<th id="prenom" align="center">Prenom</th>
+					<th id="prenom" align="center">Pr&eacute;nom</th>
 					<th id="date" align="center" name="date">D. naissance</th>
 					<th id="sexe" align="center" name="sexe">Sexe</th>
 					<th id="adresse" align="center" name="adresse">Adresse</th>
@@ -138,5 +139,4 @@ $(window).load(function () {
 $(function(){
 	initialisation();
 });
-$("#vue_patient").toggle(false);
 </script>

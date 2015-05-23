@@ -95,7 +95,6 @@ class Module implements AutoloaderProviderInterface
 		$uTable = $serviceManager->get( 'Admin\Model\UtilisateursTable' );
 		$user = $uTable->getUtilisateursWithUsername($username);
 	
-		//var_dump($user); exit();
 		if($user) {
 			$viewModel->user = $user;
 			$viewModel->service = $user['NomService'];

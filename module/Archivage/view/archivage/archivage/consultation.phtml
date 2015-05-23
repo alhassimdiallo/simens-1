@@ -788,7 +788,7 @@ echo $this->form()->openTag($form); ?>
            </table>
            <script>
              var temoinAlcoolique = <?php echo $this->donneesAntecedentsPersonnels['AlcooliqueHV'];?>;
-             var temoinFumeurHV   = <?php echo $this->donneesAntecedentsPersonnels['FumeurHV'];?>; var nbPaquetFumeurHV = <?php echo (int)$this->donneesAntecedentsPersonnels['nbPaquetFumeurHV'];?>;
+             var temoinFumeurHV   = <?php echo $this->donneesAntecedentsPersonnels['FumeurHV'];?>; var nbPaquetFumeurHV = <?php echo (float)$this->donneesAntecedentsPersonnels['nbPaquetFumeurHV'];?>;
              var temoinDroguerHV  = <?php echo $this->donneesAntecedentsPersonnels['DroguerHV'];?>;
 
              var temoinDiabeteAM = <?php echo $this->donneesAntecedentsPersonnels['DiabeteAM'];?>;
@@ -1988,7 +1988,7 @@ echo $this->form()->openTag($form); ?>
                              <div> <button name="terminer2" id="terminer2" style=" margin-left:400px; margin-top: 20px; font-family: police2;font-size: 18px; font-weight: bold;"> Terminer </button> </div>
                          </td>
                          <td style="background-color:#eeeeee;">
-                             <div> <button id="annuler2" style=" margin-right:340px; margin-top: 20px; font-family: police2;font-size: 18px; font-weight: bold;"> Annuler </button> </div>
+                             <div> <button id="annulerConsultation" style=" margin-right:340px; margin-top: 20px; font-family: police2;font-size: 18px; font-weight: bold;"> Annuler </button> </div>
                          </td>
                        </tr>
                      </table>

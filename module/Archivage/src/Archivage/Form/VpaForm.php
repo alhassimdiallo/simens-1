@@ -40,7 +40,7 @@ class VpaForm extends Form {
 				'name' => 'type_intervention',
 				'type' => 'Text',
 				'options' => array (
-						'label' => 'Type intervention',
+						'label' => iconv ( 'ISO-8859-1', 'UTF-8','Type d\'anesthésie') ,
 				),
 				'attributes' => array (
 						'id' => 'type_intervention',

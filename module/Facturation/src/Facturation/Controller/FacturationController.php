@@ -357,7 +357,7 @@ class FacturationController extends AbstractActionController {
 	
 				$donnees['PHOTO'] = $nomfile;
 				//ENREGISTREMENT DE LA PHOTO
-				imagejpeg ( $img, 'C:\wamp\www\simenss\public\img\photos_patients\\' . $nomfile . '.jpg' );
+				imagejpeg ( $img, 'C:\wamp\www\simens\public\img\photos_patients\\' . $nomfile . '.jpg' );
 				//ENREGISTREMENT DES DONNEES
 				$Patient->addPatient ( $donnees , $date_enregistrement , $id_employe );
 					
@@ -448,9 +448,9 @@ class FacturationController extends AbstractActionController {
 				$ancienneImage = $lePatient['PHOTO'];
 				
 				if($ancienneImage) {
-					unlink ( 'C:\wamp\www\simenss\public\img\photos_patients\\' . $ancienneImage . '.jpg' );
+					unlink ( 'C:\wamp\www\simens\public\img\photos_patients\\' . $ancienneImage . '.jpg' );
 				}
-				imagejpeg ( $img, 'C:\wamp\www\simenss\public\img\photos_patients\\' . $nomfile . '.jpg' );
+				imagejpeg ( $img, 'C:\wamp\www\simens\public\img\photos_patients\\' . $nomfile . '.jpg' );
 				
 				$donnees['PHOTO'] = $nomfile;
 				$Patient->updatePatient ( $donnees , $id_patient, $date_modification, $id_employe);

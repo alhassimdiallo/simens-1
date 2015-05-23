@@ -113,7 +113,7 @@
            	         
             	$("#titre").replaceWith("<div id='titre2' style='font-family: police2; color: green; font-size: 20px; font-weight: bold; padding-left:20px;'><iS style='font-size: 25px;'>&curren;</iS> AJOUTER LES R&Eacute;SULTATS </div>");
             	var result = jQuery.parseJSON(data);
-            	$("#contenu").fadeOut(function(){$("#vue_patient").html(result).fadeIn("fast"); }); 
+            	$("#contenu").fadeOut(function(){$("#vue_patient").html(result).fadeIn("fast").css({'visibility':'visible'}); }); 
             	     
             },
             error:function(e){console.log(e);alert("Une erreur interne est survenue!");},
@@ -234,7 +234,7 @@
            	         
             	$("#titre").replaceWith("<div id='titre2' style='font-family: police2; color: green; font-size: 20px; font-weight: bold; padding-left:20px;'><iS style='font-size: 25px;'>&curren;</iS> D&Eacute;TAILS DES R&Eacute;SULTATS </div>");
             	var result = jQuery.parseJSON(data);
-            	$("#contenu").fadeOut(function(){$("#vue_patient").html(result).fadeIn("fast"); }); 
+            	$("#contenu").fadeOut(function(){$("#vue_patient").html(result).fadeIn("fast").css({'visibility':'visible'}); }); 
             	     
             },
             error:function(e){console.log(e);alert("Une erreur interne est survenue!");},

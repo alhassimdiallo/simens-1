@@ -2131,7 +2131,7 @@ class ConsultationController extends AbstractActionController {
 						$resultatAjout = $this->demandeExamensTable()->ajouterImageMorpho($id_cons, $idExamen, $nomImage, $date_enregistrement, $id_personne);
 					}
 					if($resultatAjout){
-						imagejpeg ( $img, 'C:\wamp\www\simenss\public\images\images\\' . $nomImage . '.jpg' );
+						imagejpeg ( $img, 'C:\wamp\www\simens\public\images\images\\' . $nomImage . '.jpg' );
 					}
 				}
 				
@@ -2143,7 +2143,7 @@ class ConsultationController extends AbstractActionController {
 						$resultatAjout = $this->demandeExamensTable()->ajouterImage($id_cons, $idExamen, $nomImage, $date_enregistrement, $id_personne);
 					}
 					if($resultatAjout){
-						imagejpeg ( $img, 'C:\wamp\www\simenss\public\images\images\\' . $nomImage . '.jpg' );
+						imagejpeg ( $img, 'C:\wamp\www\simens\public\images\images\\' . $nomImage . '.jpg' );
 					}
 				}
 				
@@ -3364,7 +3364,7 @@ class ConsultationController extends AbstractActionController {
         $html .='<script>
         		 tab['.$i++.'] = {
 	                     "title":"'. $Liste['titre'] .'<span class=\"supprimerSon'.$i.'\" >  </span>",
-		                 "mp3":"/simenss/public/js/plugins/jPlayer-2.9.2/examples/'. $Liste['nom'] .'",
+		                 "mp3":"/simens/public/js/plugins/jPlayer-2.9.2/examples/'. $Liste['nom'] .'",
 		         };
 		                 		
 		         setTimeout(function() {
@@ -3382,7 +3382,7 @@ class ConsultationController extends AbstractActionController {
 		          jPlayer: "#jquery_jplayer_2",
 		          cssSelectorAncestor: "#jp_container_2"
 	            }, tab , {
-		        swfPath: "/simenss/public/js/plugins/jPlayer-2.9.2/dist/jplayer",
+		        swfPath: "/simens/public/js/plugins/jPlayer-2.9.2/dist/jplayer",
 		        supplied: "mp3",
 		        wmode: "window",
 		        useStateClassSkin: true,
@@ -3397,7 +3397,7 @@ class ConsultationController extends AbstractActionController {
                 </script>';
        
 		$html .='
-				<form id="my_form" method="post" action="/simenss/public/consultation/ajouter-mp3" enctype="multipart/form-data">
+				<form id="my_form" method="post" action="/simens/public/consultation/ajouter-mp3" enctype="multipart/form-data">
                 <div id="jquery_jplayer_2" class="jp-jplayer" style="margin-bottom: 30px;"></div>
                 <div id="jp_container_2" class="jp-audio" role="application" aria-label="media player"  style="margin-bottom: 30px;">
 	            <div class="jp-type-playlist">
@@ -3452,7 +3452,7 @@ class ConsultationController extends AbstractActionController {
 			$html .='<script>
         		 tab['.$i++.'] = {
 	                     "title":"'. $Liste['titre'] .'<span class=\"supprimerSonIns'.$i.'\" >  </span>",
-		                 "mp3":"/simenss/public/js/plugins/jPlayer-2.9.2/examples/'. $Liste['nom'] .'",
+		                 "mp3":"/simens/public/js/plugins/jPlayer-2.9.2/examples/'. $Liste['nom'] .'",
 		         };
 		         
 		         setTimeout(function() {
@@ -3470,7 +3470,7 @@ class ConsultationController extends AbstractActionController {
 		          jPlayer: "#jquery_jplayer",
 		          cssSelectorAncestor: "#jp_container"
 	            }, tab , {
-		        swfPath: "/simenss/public/js/plugins/jPlayer-2.9.2/dist/jplayer",
+		        swfPath: "/simens/public/js/plugins/jPlayer-2.9.2/dist/jplayer",
 		        supplied: "mp3",
 		        wmode: "window",
 		        useStateClassSkin: true,
@@ -3485,7 +3485,7 @@ class ConsultationController extends AbstractActionController {
                 </script>';
 		 
 		$html .='
-				<form id="my_form2" method="post" action="/simenss/public/consultation/ajouter-mp3" enctype="multipart/form-data">
+				<form id="my_form2" method="post" action="/simens/public/consultation/ajouter-mp3" enctype="multipart/form-data">
                 <div id="jquery_jplayer" class="jp-jplayer" style="margin-bottom: 30px;"></div>
                 <div id="jp_container" class="jp-audio" role="application" aria-label="media player"  style="margin-bottom: 30px;">
 	            <div class="jp-type-playlist">
@@ -3575,7 +3575,7 @@ class ConsultationController extends AbstractActionController {
 		$tmp = $_FILES['fichier']['tmp_name'];
 		
 		if($type == 'audio/mp3'){ 
-			$result = move_uploaded_file($tmp, 'C:\wamp\www\simenss\public\js\plugins\jPlayer-2.9.2\examples\\'.$nom_file);
+			$result = move_uploaded_file($tmp, 'C:\wamp\www\simens\public\js\plugins\jPlayer-2.9.2\examples\\'.$nom_file);
 		}
 		
 		$this->getResponse ()->getHeaders ()->addHeaderLine ( 'Content-Type', 'application/html; charset=utf-8' );

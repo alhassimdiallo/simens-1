@@ -25,9 +25,22 @@ $('#plus_consultationArchive').toggle(true);
 $("#consultationArchive").replaceWith("<li id='consultationArchive' style='background:#4a5765;'><a href=''><span style='margin-left:0px; color: #ffffff; font-weight:bold; font-size:20px; font-family:Times New Roman;'> <img src='<?php echo $this->basePath().'/images_icons/moin-green2.png';?>' alt='Liste' /> Consultations </span></a></li>");
 dep_consultationArchive1();
 $('#styleConsultation').css({'font-weight':'bold','color':'white','font-size':'20px'});
+
+
+$(window).load(function () {
+	$('#wait').toggle(false);
+	$('#contenu').fadeIn().css({'visibility':'visible'});
+});
 </script>
 
+<style>
+#contenu { visibility: hidden; };
+</style>
+
 <div id="titre" style='font-family: police2; color: green; font-size: 20px; font-weight: bold; padding-left:20px;'><i style='font-size: 25px;'>&curren; </i> LISTE DES CONSULTATIONS</div>
+
+<div id="wait" style="color: gray; font-size: 20px; text-align: center; margin-top: 80px;" > <span> Chargement ... </span> </div>
+
 <div id="contenu" >
 
 		<table class="table table-bordered  tab_list_mini" id="patient">
@@ -101,10 +114,10 @@ $('#styleConsultation').css({'font-weight':'bold','color':'white','font-size':'2
 
 </div>
 
-<ul id="ctxMenu" class="contextMenuJQ" style="margin-left: -240px; margin-top: -100px;" >
+<!-- ul id="ctxMenu" class="contextMenuJQ" style="margin-left: -240px; margin-top: -100px;" >
 	<li class=""><a id="simens_modif" href="#simens_modif">Modifier</a></li>
 	<li class=""><a id="simens_affiche" href="#simens_affiche">Afficher les details</a></li>
-</ul>
+</ul-->
 <script type="text/javascript">
 			var asInitVals = new Array();
 			var oTable = $('#patient').dataTable
@@ -171,13 +184,4 @@ $('#styleConsultation').css({'font-weight':'bold','color':'white','font-size':'2
 				}
 			} );
 
-// 			setTimeout(function() {
-//				vart='<?php //echo $this->basePath().'/archivage/consulter';?>';
-// 			    $(location).attr("href",vart);
-// 			}, 20000);
-			
-
 </script>
-
-<?php //echo $this->headScript()->appendFile($this->basePath().'/js/jquery-1.9.1.js');?>
-<?php //echo $this->headScript()->appendFile($this->basePath().'/js/jquery-ui.js');?>

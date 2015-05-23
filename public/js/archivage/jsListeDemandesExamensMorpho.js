@@ -316,25 +316,13 @@
     function listepatient(){
 	    
     	$("#terminer").click(function(){
-//    	$("#titre2").replaceWith("<div id='titre' style='font-family: police2; color: green; font-size: 20px; font-weight: bold; padding-left:20px;'><iS style='font-size: 25px;'>&curren;</iS> LISTE DES PATIENTS </div>");
-//	    	$("#vue_patient").fadeOut(function(){
-//	    		$("#contenu").fadeIn("fast"); 
-
-//	    	    $('div .dataTables_paginate').css({ 'margin-right' : '0'});
-//	    		$('#listeDataTable').css({'margin-left' : '-10'});
-
-    		    //setTimeout(function(){
-		    	  //vart=tabUrl[0]+'public/hospitalisation/liste-examens-effectues-morpho';
-				  //$(location).attr("href",vart);
-	    		//}, 1500);
-//	    	});
 		
 		  var id = $('#temoinListeConcerneePourVisualisation').val();
 		  if(id == 2){
-			  vart=tabUrl[0]+'public/hospitalisation/liste-examens-effectues-morpho';
+			  vart=tabUrl[0]+'public/archivage/liste-resultats-radiologie';
 			  $(location).attr("href",vart);
 		  } else {
-			  vart=tabUrl[0]+'public/hospitalisation/liste-demandes-examens-morpho';
+			  vart=tabUrl[0]+'public/archivage/liste-demandes-examens-morpho';
 			  $(location).attr("href",vart);
 		  }
 		  
