@@ -47,4 +47,23 @@ class MotifAdmissionTable{
 
 		}
 	}
+	
+	public function addMotifAdmissionPourExamenJour($values, $codeExamen){
+		$tabMotif = array(
+				1 => $values->motif_admission1,
+				2 => $values->motif_admission2,
+				3 => $values->motif_admission3,
+				4 => $values->motif_admission4,
+				5 => $values->motif_admission5,
+		);
+		for($i=1 ; $i<=5; $i++){
+			if($tabMotif[$i]){
+				$datamotifadmission	 = array(
+						'libelle_motif' => $tabMotif[$i],
+						'id_cons' => $codeExamen,
+				);
+				$this->tableGateway->insert($datamotifadmission);
+			}
+		}
+	}
 }

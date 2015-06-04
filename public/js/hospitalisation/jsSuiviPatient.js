@@ -179,7 +179,7 @@
     /*************************************************************************************************************************/
     /*************************************************************************************************************************/
     function listeDesSoins() {
-    	$('#listeSoin').dataTable
+    	var  oTable = $('#listeSoin').dataTable
      	( {
      					"sPaginationType": "full_numbers",
      					"aLengthMenu": [3,5,7],
@@ -195,9 +195,32 @@
      							"sLast":     ">|"
      							}
      					   },
-     					  "bDestroy": true,
      	});
     	
+    	//POUR LE FILTRE DES SOINS
+    	$('#afficherEncours').css({'font-weight':'bold', 'font-size': '17px' });
+    	oTable.fnFilter( 'soin_encours' );
+    	
+    	$('#afficherEncours').click(function(){
+    		oTable.fnFilter( 'soin_encours' );
+    		$('#afficherEncours').css({'font-weight':'bold', 'font-size': '17px' });
+    		$('#afficherTerminer').css({'font-weight':'normal', 'font-size': '15px' });
+    		$('#afficherAvenir').css({'font-weight':'normal', 'font-size': '15px'});
+    	});
+
+    	$('#afficherTerminer').click(function(){
+    		oTable.fnFilter( 'soin_terminer' );
+    		$('#afficherTerminer').css({'font-weight':'bold', 'font-size': '17px' });
+    		$('#afficherEncours').css({'font-weight':'normal', 'font-size': '15px'});
+    		$('#afficherAvenir').css({'font-weight':'normal', 'font-size': '15px'});
+    	});
+    	
+    	$('#afficherAvenir').click(function(){
+    		oTable.fnFilter( 'soin_avenir' );
+    		$('#afficherAvenir').css({'font-weight':'bold', 'font-size': '17px' });
+    		$('#afficherEncours').css({'font-weight':'normal', 'font-size': '15px'});
+    		$('#afficherTerminer').css({'font-weight':'normal', 'font-size': '15px'});
+    	});
     }
     
     function listepatient(){
@@ -221,6 +244,7 @@
     /************************************************************************************************************************/
     /************************************************************************************************************************/
     /************************************************************************************************************************/
+    var intervalID;
     function administrerSoin(id_demande_hospi){ 
     	var id_cons = $("#"+id_demande_hospi).val();
     	var id_personne = $("#"+id_demande_hospi+"idPers").val();
@@ -232,8 +256,57 @@
     		success: function(data) {
     			$("#titre").replaceWith("<div id='titre2' style='font-family: police2; color: green; font-size: 20px; font-weight: bold; padding-left:20px;'><iS style='font-size: 25px;'>&curren;</iS> APPLICATION DES SOINS </div>");
     			var result = jQuery.parseJSON(data);
-    			$("#contenu").fadeOut(function(){$("#vue_detail_hospi_patient").html(result).fadeIn("fast"); }); 
+    			$("#contenu").fadeOut(function(){
+    				$("#vue_detail_hospi_patient").html(result).fadeIn("fast"); 
+    				
+//    				var player = document.querySelector('#audioPlayer');
+//    				player.play();
+//    				$('#listeSoin thead').click(function(){ player.play(); });
+    			}); 
     		},
+    		error:function(e){console.log(e);alert("Une erreur interne est survenue!");},
+    		dataType: "html"
+    	});
+    	
+    	//Raffraichissement de la liste
+    	//Raffraichissement de la liste
+    	//Raffraichissement de la liste
+    	
+    	intervalID = setInterval('RaffraichirListe()',16000);
+    }
+    
+    function RaffraichirListe (){
+    	raffraichirListeSoinPourAlerteSonor($('#id_hosp').val());
+	}
+    
+    function raffraichirListeSoinPourAlerteSonor(id_hosp){
+    	var chemin = tabUrl[0]+'public/hospitalisation/raffraichir-liste';
+    	$.ajax({
+    		type: 'POST',
+    		url: chemin ,
+    		data:({'id_hosp':id_hosp}),
+    		success: function(data) {    
+    			var result = jQuery.parseJSON(data);
+    			$("#info_liste").html(result);
+    		},
+            
+    		error:function(e){console.log(e);alert("Une erreur interne est survenue!");},
+    		dataType: "html"
+    	});
+    }
+    
+    
+    function raffraichirListeSoin(id_hosp){
+    	var chemin = tabUrl[0]+'public/hospitalisation/raffraichir-liste';
+    	$.ajax({
+    		type: 'POST',
+    		url: chemin ,
+    		data:({'id_hosp':id_hosp}),
+    		success: function(data) {    
+    			var result = jQuery.parseJSON(data);
+    			$("#info_liste").fadeOut(function(){$("#info_liste").html(result).fadeIn("fast"); });
+    		},
+            
     		error:function(e){console.log(e);alert("Une erreur interne est survenue!");},
     		dataType: "html"
     	});
@@ -378,6 +451,74 @@
     		    		dataType: "html"
     		    	});
     				
+    		    	$( this ).dialog( "close" );         
+    		    	intervalID = setInterval('RaffraichirListe()',16000);
+    				return false;
+    			},
+    			
+    			"Annuler": function() {
+    				$( this ).dialog( "close" );    
+    				intervalID = setInterval('RaffraichirListe()',16000);
+    				return false;
+    			}
+    		}
+    	});
+    }
+   
+    function appliquerSoin(id_sh, id_hosp, id_heure) {
+    	
+    	clearInterval(intervalID);
+    	//Pour l audio player
+    	player.pause();
+    	player.currentTime = 0;
+    	
+    	$('#note').val("");
+    	ApplicationSoin(id_sh, id_hosp, id_heure);
+		
+		var chemin = tabUrl[0]+'public/hospitalisation/heure-suivante';
+    	$.ajax({
+    		type: 'POST',
+    		url: chemin ,
+    		data:({'id_hosp':id_hosp , 'id_sh':id_sh, 'id_heure':id_heure}),
+    		success: function(data) {    
+    			var result = jQuery.parseJSON(data);
+    			$('#HeureActu').html(result);
+    			$("#application_soin").dialog('open');
+    		},
+            
+    		error:function(e){console.log(e);alert("Une erreur interne est survenue!");},
+    		dataType: "html"
+    	});
+    }
+    
+    
+    //SCRIPT POUR L'APPLICATION DES SOINS DU JOURS DEPASSES
+    //SCRIPT POUR L'APPLICATION DES SOINS DU JOURS DEPASSES
+    //SCRIPT POUR L'APPLICATION DES SOINS DU JOURS DEPASSES
+    function ApplicationSoinPasse(id_sh, id_hosp, id_heure){
+    	$( "#application_soin" ).dialog({
+    		resizable: false,
+    		height:275,
+    		width:300,
+    		autoOpen: false,
+    		modal: true,
+    		buttons: {
+    			"Terminer": function() {
+    				
+    				var note = $('#note').val();
+    				var chemin = tabUrl[0]+'public/hospitalisation/application-soin';
+    		    	$.ajax({
+    		    		type: 'POST',
+    		    		url: chemin ,
+    		    		data:({'id_sh':id_sh, 'note':note, 'id_heure':id_heure}),
+    		    		success: function() {
+    		    			vuesoin(id_sh);
+    		    		},
+    		            
+    		    		error:function(e){console.log(e);alert("Une erreur interne est survenue!");},
+    		    		dataType: "html"
+    		    	});
+    				
     		    	$( this ).dialog( "close" );             	     
     				return false;
     			},
@@ -389,19 +530,17 @@
     		}
     	});
     }
-   
-    function appliquerSoin(id_sh, id_hosp, id_heure) {
-    	ApplicationSoin(id_sh, id_hosp, id_heure);
+    
+    function appliquerSoinPopup(id_sh, id_hosp, id_heure) {
+    	ApplicationSoinPasse(id_sh, id_hosp, id_heure);
 		
-		var chemin = tabUrl[0]+'public/hospitalisation/heure-suivante';
+		var chemin = tabUrl[0]+'public/hospitalisation/heure-passee';
     	$.ajax({
     		type: 'POST',
     		url: chemin ,
     		data:({'id_hosp':id_hosp , 'id_sh':id_sh, 'id_heure':id_heure}),
     		success: function(data) {    
     			var result = jQuery.parseJSON(data);
-    			//$("#info_liste").fadeOut(function(){$("#info_liste").html(result).fadeIn("fast"); });
-    			//$('#note').val('');
     			$('#HeureActu').html(result);
     			$("#application_soin").dialog('open');
     		},
@@ -410,3 +549,9 @@
     		dataType: "html"
     	});
     }
+    
+    function appliquerSoinPasse(id_sh, id_hosp, id_heure) {
+    	$('#note').val("");
+    	appliquerSoinPopup(id_sh, id_hosp, id_heure);
+    }
+    

@@ -103,23 +103,6 @@ class SoinhospitalisationTable {
 		return $result;
 	}
 	
-	/*Toutes les heures*/
-	/*Toutes les heures*/
-	public function getToutesHeures($id_sh)
-	{
-		$adapter = $this->tableGateway->getAdapter();
-		$sql = new Sql($adapter);
-		$select = $sql->select();
-		$select->from('heures_soins');
-		$select->where(array('id_sh'=>$id_sh));
-		$select->order('id_heure ASC');
-	
-		$stat = $sql->prepareStatementForSqlObject($select);
-		$result = $stat->execute();
-			
-		return $result;
-	}
-	
 	/*Enregistrer l'enregistrement du soin a cette heure*/
 	/*Enregistrer l'enregistrement du soin a cette heure*/
 	public function saveHeureSoinAppliquer($id_heure, $id_sh, $note, $id_personne)
@@ -194,4 +177,263 @@ class SoinhospitalisationTable {
 		}
 	}
 	
+	//GESTION DES HEURE POUR LES SOINS SUIVANT PLUSIEURS JOURS
+	//GESTION DES HEURE POUR LES SOINS SUIVANT PLUSIEURS JOURS
+	//GESTION DES HEURE POUR LES SOINS SUIVANT PLUSIEURS JOURS
+	/*Heure suivante*/
+	/*Heure suivante*/
+	public function getHeureSuivantePourAujourdhui($id_sh)
+	{
+		$today = new \DateTime();
+		$date = $today->format ( 'Y-m-d' );
+		$heure = $today->format ( 'H:i:s' );
+	
+		$adapter = $this->tableGateway->getAdapter();
+		$sql = new Sql($adapter);
+		$select = $sql->select();
+		$select->from('heures_soins');
+		$select->where(array('id_sh' => $id_sh, 'applique' => 0, 'date' => $date, 'heure > ?' => $heure));
+		$select->order('heure ASC');
+	
+		$stat = $sql->prepareStatementForSqlObject($select);
+		$result = $stat->execute()->current();
+			
+		return $result;
+	}
+	
+	public function getHeuresPourAujourdhui($id_sh)
+	{
+		$today = new \DateTime();
+		$date = $today->format ( 'Y-m-d' );
+	
+		$adapter = $this->tableGateway->getAdapter();
+		$sql = new Sql($adapter);
+		$select = $sql->select();
+		$select->from('heures_soins');
+		$select->where(array('id_sh'=>$id_sh, 'date'=>$date));
+		$select->order('id_heure ASC');
+	
+		$stat = $sql->prepareStatementForSqlObject($select);
+		$result = $stat->execute();
+			
+		$tab = array();
+		foreach ($result as $resultat){
+			$tab[] = $resultat['heure'];
+		}
+		return $tab;
+	}
+	
+	public function getToutesHeuresPourAujourdhui($id_sh)
+	{
+		$today = new \DateTime();
+		$date = $today->format ( 'Y-m-d' );
+	
+		$adapter = $this->tableGateway->getAdapter();
+		$sql = new Sql($adapter);
+		$select = $sql->select();
+		$select->from('heures_soins');
+		$select->where(array('id_sh' => $id_sh, 'date' => $date));
+		$select->order('id_heure ASC');
+	
+		$stat = $sql->prepareStatementForSqlObject($select);
+		$result = $stat->execute();
+			
+		return $result;
+	}
+	
+	public function getHeureAppliqueePourAujourdhui($id_sh, $heure)
+	{
+		$today = new \DateTime();
+		$date = $today->format ( 'Y-m-d' );
+	
+		$adapter = $this->tableGateway->getAdapter();
+		$sql = new Sql($adapter);
+		$select = $sql->select();
+		$select->from('heures_soins');
+		$select->where(array('id_sh' => $id_sh, 'date' => $date, 'heure' => $heure));
+	
+		$stat = $sql->prepareStatementForSqlObject($select);
+		$result = $stat->execute()->current();
+			
+		return $result;
+	}
+	
+	public function getInfosInfirmiers($id_personne)
+	{
+		$adapter = $this->tableGateway->getAdapter();
+		$sql = new Sql($adapter);
+		$select = $sql->select();
+		$select->from(array('e' => 'employe'));
+		$select->join(array('pers'=>'personne'), 'pers.ID_PERSONNE = e.id_personne', array('*'));
+		$select->where(array('e.id_personne' => $id_personne));
+	
+		$stat = $sql->prepareStatementForSqlObject($select);
+		$result = $stat->execute()->current();
+			
+		return $result;
+	}
+	
+	public function getToutesDateDuSoin($id_sh)
+	{
+		$adapter = $this->tableGateway->getAdapter();
+		$sql = new Sql($adapter);
+		$select = $sql->select();
+		$select->from('heures_soins')->columns(array('date'));
+		$select->where(array('id_sh' => $id_sh));
+		$select->order('date ASC');
+		$select->group('date');
+	
+		$stat = $sql->prepareStatementForSqlObject($select);
+		$result = $stat->execute();
+			
+		return $result;
+	}
+	
+	/*Toutes les heures*/
+	/*Toutes les heures*/
+	public function getToutesHeures($id_sh, $date)
+	{
+		$adapter = $this->tableGateway->getAdapter();
+		$sql = new Sql($adapter);
+		$select = $sql->select();
+		$select->from('heures_soins');
+		$select->where(array('id_sh'=>$id_sh, 'date'=>$date));
+		$select->order('id_heure ASC');
+	
+		$stat = $sql->prepareStatementForSqlObject($select);
+		$result = $stat->execute();
+			
+		return $result;
+	}
+	
+	
+	public function getToutesDateDuSoinTableau($id_sh)
+	{
+		$adapter = $this->tableGateway->getAdapter();
+		$sql = new Sql($adapter);
+		$select = $sql->select();
+		$select->from('heures_soins')->columns(array('date'));
+		$select->where(array('id_sh' => $id_sh));
+		$select->order('id_heure ASC');
+		$select->group('date');
+	
+		$stat = $sql->prepareStatementForSqlObject($select);
+		$result = $stat->execute();
+			
+		$tab = array();
+		foreach ($result as $res){
+			$tab[] = $res['date'];
+		}
+		return $tab;
+	}
+	
+	
+	//RECUPERER LES INFOS POUR UNE DATE DONNEES
+	//RECUPERER LES INFOS POUR UNE DATE DONNEES
+	public function getHeuresPourUneDate($id_sh, $date)
+	{
+		$adapter = $this->tableGateway->getAdapter();
+		$sql = new Sql($adapter);
+		$select = $sql->select();
+		$select->from('heures_soins');
+		$select->where(array('id_sh'=>$id_sh, 'date'=>$date));
+		$select->order('id_heure ASC');
+	
+		$stat = $sql->prepareStatementForSqlObject($select);
+		$result = $stat->execute();
+			
+		$tab = array();
+		foreach ($result as $resultat){
+			$tab[] = $resultat['heure'];
+		}
+		return $tab;
+	}
+	
+	
+	public function getHeureSuivantePourUneDate($id_sh, $date)
+	{
+		$today = new \DateTime();
+		$heure = $today->format ( 'H:i:s' );
+	
+		$adapter = $this->tableGateway->getAdapter();
+		$sql = new Sql($adapter);
+		$select = $sql->select();
+		$select->from('heures_soins');
+		$select->where(array('id_sh' => $id_sh, 'applique' => 0, 'date' => $date, 'heure > ?' => $heure));
+		$select->order('heure ASC');
+	
+		$stat = $sql->prepareStatementForSqlObject($select);
+		$result = $stat->execute()->current();
+			
+		return $result;
+	}
+	
+	public function getHeureAppliqueePourUneDate($id_sh, $heure, $date)
+	{
+		$adapter = $this->tableGateway->getAdapter();
+		$sql = new Sql($adapter);
+		$select = $sql->select();
+		$select->from('heures_soins');
+		$select->where(array('id_sh' => $id_sh, 'date' => $date, 'heure' => $heure));
+	
+		$stat = $sql->prepareStatementForSqlObject($select);
+		$result = $stat->execute()->current();
+			
+		return $result;
+	}
+	
+	/**
+	 * Toutes les dates inférieures a la date donnee
+	 */
+	public function getToutesDateDuSoinPourUneDate($id_sh, $date)
+	{
+		$adapter = $this->tableGateway->getAdapter();
+		$sql = new Sql($adapter);
+		$select = $sql->select();
+		$select->from('heures_soins')->columns(array('date'));
+		$select->where(array('id_sh' => $id_sh, 'date <= ?' => $date));
+		$select->order('date ASC');
+		$select->group('date');
+	
+		$stat = $sql->prepareStatementForSqlObject($select);
+		$result = $stat->execute();
+			
+		return $result;
+	}
+	
+	/*Heure suivante*/
+	/*Heure suivante*/
+	public function getHeure($id_heure, $id_sh)
+	{
+		$adapter = $this->tableGateway->getAdapter();
+		$sql = new Sql($adapter);
+		$select = $sql->select();
+		$select->from('heures_soins');
+		$select->where(array('id_sh' => $id_sh, 'id_heure' => $id_heure, 'applique' => 0, ));
+	
+		$stat = $sql->prepareStatementForSqlObject($select);
+		$result = $stat->execute()->current();
+			
+		return $result;
+	}
+	
+	
+	/**
+	 * La date superieure a la date donnee
+	 */
+	public function getDateApresDateDonnee($id_sh, $date)
+	{
+		$adapter = $this->tableGateway->getAdapter();
+		$sql = new Sql($adapter);
+		$select = $sql->select();
+		$select->from('heures_soins')->columns(array('*'));
+		$select->where(array('id_sh' => $id_sh, 'date > ?' => $date));
+		$select->order('date ASC');
+		$select->group('date');
+	
+		$stat = $sql->prepareStatementForSqlObject($select);
+		$result = $stat->execute()->current();
+			
+		return $result;
+	}
 }

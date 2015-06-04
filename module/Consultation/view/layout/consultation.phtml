@@ -42,7 +42,7 @@
 <body id="bodbod">
 	<!--Header-part-->
 	
-	<div id="logoSimens" style=" height: 70px;">
+	<div id="logoSimens" style=" height: 70px; width: 220px;">
 			<div style="font-size: 28px; color: red; padding-top: 20px; padding-left: 35px;">+<div style="font-size: 27px; color: #48ce77; font-family: Bookman Old Style; float:left; ">SIMENS</div></div>
 	</div>
 	
@@ -56,7 +56,7 @@
       <b class="caret" ></b> <span style="font-size: 15px; color: white; font-family: Times  New Roman;"><?php echo $service;?></span></a>
     </li>
 
-    <li  class="dropdown" style=" width: 55%;"><a title="" class="dropdown-toggle">
+    <li  class="dropdown" style=" width: 53%;"><a title="" class="dropdown-toggle">
       
       <i><img id="modifierPassword" style="cursor:pointer; position:relative; top:-2px;" title="" src="<?php echo $this->basePath().'/img/light/admin_user_2.png';?>"/>
       </i><span style="color: white; font-size: 13px;"><i>Bienvenue: </i> M.</span>
@@ -80,9 +80,10 @@
 </div>
 	
 	<!--Menu de droite-->
-	<div id="sidebar">
+	<div id="sidebar" style="min-width: 300px;">
        <?php echo $this->partial('layout/menugauchecons'); ?>
     </div>
+    
 	<div id="content">
 		<div id="content-header">
 			<div style="width: 96%; margin-left: 25px;">
@@ -115,6 +116,17 @@
 body .ui-tooltip {
 	border-width: 2px;
 }
+
+
+ #bodbod { 
+ 	min-width: 1345px;
+ 	overflow-x:scroll;  
+ } 
+
+ #user-nav { 
+ 	min-width: 1100px;
+ 	 
+ } 
 </style>
 
 <script>

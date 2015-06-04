@@ -23,6 +23,14 @@ class AppliquerSoinForm extends Form {
 						'id' => 'id_hosp',
 				)
 		) );
+		
+		$this->add ( array (
+				'name' => 'heure_suivante',
+				'type' => 'Hidden',
+				'attributes' => array (
+						'id' => 'heure_suivante',
+				)
+		) );
 
 		$this->add ( array (
 				'name' => 'note',

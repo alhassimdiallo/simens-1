@@ -131,6 +131,16 @@ class ConsultationTable {
 		}
 	}
 	
+	public function addConsultationEffective($id_cons){
+		$db = $this->tableGateway->getAdapter();
+		$sql = new Sql($db);
+		$sQuery = $sql->insert()
+		->into('consultation_effective')
+		->values(array('ID_CONS' => $id_cons));
+		$requete = $sql->prepareStatementForSqlObject($sQuery);
+		$requete->execute();
+	}
+	
 	public function getInfoPatientMedecin($idcons){
 		$adapter = $this->tableGateway->getAdapter ();
 		$sql = new Sql ( $adapter );

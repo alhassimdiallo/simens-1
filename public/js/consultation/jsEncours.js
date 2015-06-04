@@ -91,9 +91,9 @@
    	} );
 
     $("#terminersoin").click(function(){
-    	var tooltips = $( "#id_soins, #duree, #date_recommandee, #heure_recommandee" ).tooltip();
+    	var tooltips = $("#medicament, #voie_administration, #frequence, #dosage, #date_application, #heure_recommandee_, #duree").tooltip();
     	tooltips.tooltip( "close" );
-    	$("#id_soins, #duree, #date_recommandee, #heure_recommandee").attr({'title':''});
+    	$("#medicament, #voie_administration, #frequence, #dosage, #date_application, #heure_recommandee_, #duree").attr({'title':''});
     	
     	$("#titre2").replaceWith("<div id='titre' style='font-family: police2; color: green; font-size: 20px; font-weight: bold; padding-left:20px;'><iS style='font-size: 25px;'>&curren;</iS> LISTE DES PATIENTS </div>");
     	
@@ -103,13 +103,23 @@
 	    	
     	$('#listeDataTable').css({'margin-left' : '-10'});
     	
- 		$("#id_soins, #duree, #date_recommandee, #heure_recommandee").css("border-color","");
- 		$("#id_soins, #duree, #date_recommandee, #heure_recommandee").val('');
+ 		$("#medicament, #voie_administration, #frequence, #dosage, #date_application, #heure_recommandee_, #duree").css("border-color","");
+ 		$("#medicament, #voie_administration, #frequence, #dosage, #date_application, #heure_recommandee_, #duree").val('');
+ 		
+ 		LaDuree = 0;
+    	//POUR LA SUPPRESSION DES ELEMENTS SELECTIONNES SUR LA LISTE
+    	for(var j = 0; j < 24; j++){
+    		$('.SlectBox')[0].sumo.unSelectItem(j);
+    	}
+    	//POUR LA SUPPRESSION DES ICONES COCHES SUR LA LISTE
+    	$(function(){
+            $('select.SlectBox')[0].sumo.unload();
+            $('.SlectBox').SumoSelect({ csvDispCount: 6 });
+           });
 	    return false;
 	});
     
     listepatient();
-  
     }
     
     /************************************************************************************************************************/
@@ -162,12 +172,14 @@
 				firstDay: 1,
 				isRTL: false,
 				showMonthAfterYear: false,
-				yearRange: '1990:2015',
+				minDate : '0',
+				yearRange: '1990:2020',
 				showAnim : 'bounce',
 				changeMonth: true,
 				changeYear: true,
 				yearSuffix: ''
 		});
+	   
 	    
 	    $("#terminerLiberer").click(function(){
 	    	$("#titre2").replaceWith("<div id='titre' style='font-family: police2; color: green; font-size: 20px; font-weight: bold; padding-left:20px;'><iS style='font-size: 25px;'>&curren;</iS> LISTE DES PATIENTS </div>");
@@ -222,6 +234,8 @@
     /************************************************************************************************************************/
     function administrerSoin(id_demande_hospi){
     	var id_hosp = $("#"+id_demande_hospi+"hp").val(); 
+    	AppelListeExamensDuJoursHospi(id_hosp);
+    	
     	var id_personne = $("#"+id_demande_hospi+"idPers").val();
     	var chemin = tabUrl[0]+'public/consultation/info-patient-hospi';
         $.ajax({
@@ -245,7 +259,8 @@
         });
         $('#id_soins').val('');
         $('#id_hosp').val(id_hosp);
-	    $('#date_recommandee, #heure_recommandee, #id_soins, #duree, #note, #motif').css({'font-weight':'bold','color':'#065d10','font-family': 'Times  New Roman','font-size':'16px'});
+        $('#id_personne').val(id_personne);
+	    //$('#date_recommandee, #heure_recommandee, #id_soins, #duree, #note, #motif').css({'font-weight':'bold','color':'#065d10','font-family': 'Times  New Roman','font-size':'16px'});
 	    controle_saisie();
     }
     
@@ -284,7 +299,7 @@
     }
     
     function listeDesSoins() {
-    	$('#listeSoin').dataTable
+    	var  oTable = $('#listeSoin').dataTable
      	( {
      					"sPaginationType": "full_numbers",
      					"aLengthMenu": [3,5,7],
@@ -302,14 +317,39 @@
      							"sLast":     ">|"
      							}
      					   },
-     					  "bDestroy": true,
      	});
+
+    	//POUR LE FILTRE DES SOINS
+    	$('#afficherEncours').css({'font-weight':'bold', 'font-size': '17px' });
+    	oTable.fnFilter( 'soin_encours' );
+    	
+    	$('#afficherEncours').click(function(){
+    		oTable.fnFilter( 'soin_encours' );
+    		$('#afficherEncours').css({'font-weight':'bold', 'font-size': '17px' });
+    		$('#afficherTerminer').css({'font-weight':'normal', 'font-size': '15px' });
+    		$('#afficherAvenir').css({'font-weight':'normal', 'font-size': '15px'});
+    	});
+
+    	$('#afficherTerminer').click(function(){
+    		oTable.fnFilter( 'soin_terminer' );
+    		$('#afficherTerminer').css({'font-weight':'bold', 'font-size': '17px' });
+    		$('#afficherEncours').css({'font-weight':'normal', 'font-size': '15px'});
+    		$('#afficherAvenir').css({'font-weight':'normal', 'font-size': '15px'});
+    	});
+    	
+    	$('#afficherAvenir').click(function(){
+    		oTable.fnFilter( 'soin_avenir' );
+    		$('#afficherAvenir').css({'font-weight':'bold', 'font-size': '17px' });
+    		$('#afficherEncours').css({'font-weight':'normal', 'font-size': '15px'});
+    		$('#afficherTerminer').css({'font-weight':'normal', 'font-size': '15px'});
+    	});
     	
     }
     
     function vider_tout() {
-    	$('#medicament, #voie_administration, #frequence, #dosage, #date_application, #motif_, #note_').val('');
+    	$('#medicament, #voie_administration, #frequence, #dosage, #date_application, #motif_, #note_, #duree').val('');
 
+    	LaDuree = 0;
     	//POUR LA SUPPRESSION DES ELEMENTS SELECTIONNES SUR LA LISTE
     	for(var j = 0; j < 24; j++){
     		$('.SlectBox')[0].sumo.unSelectItem(j);
@@ -344,23 +384,24 @@
 	            	var frequence = $('#frequence').val();
 	            	var dosage = $('#dosage').val();
 	            	var date_application = $('#date_application').val();
+	            	var duree = $('#duree').val();
 	            	var heure_recommandee = $('#heure_recommandee_').val();
 	            	var motif = $('#motif_').val();
 	            	var note = $('#note_').val();
-	            	
+
 	            	$.ajax({
 	                    type: 'POST',
 	                    url: chemin ,
 	                    data:{'id_sh':id_sh, 'id_hosp':id_hosp, 
 	                    	  'medicament':medicament, 'voie_administration':voie_administration, 
 	                    	  'frequence':frequence, 'dosage':dosage, 'date_application':date_application,
-	                    	  'heure_recommandee':heure_recommandee, 'motif': motif, 'note':note
+	                    	  'heure_recommandee':heure_recommandee, 'motif': motif, 'note':note, 'duree':duree
 	                    	  },
 	                    success: function() {
 	                    	 listeSoinsPrescrits(id_hosp);
 	                    	 vider_tout();
 	                    },
-	                    error:function(e){console.log(e);alert("Une erreur interne est survenue!");},
+	                    error:function(e){ console.log(e);alert("Une erreur interne est survenue!"); },
 	                    dataType: "html"
 	                });
 	            	
@@ -376,9 +417,9 @@
      * Lors d'un hover
      */
     function hover() {
-    	$('#medicament, #voie_administration, #frequence, #dosage, #date_application, #heure_recommandee_').hover(function(){
-    		$("#medicament, #voie_administration, #frequence, #dosage, #date_application, #heure_recommandee_").attr({'title':''});
-    		var tooltips = $( "#medicament, #voie_administration, #frequence, #dosage, #date_application, #heure_recommandee_" ).tooltip();
+    	$('#medicament, #voie_administration, #frequence, #dosage, #date_application, #heure_recommandee_, #duree').hover(function(){
+    		$("#medicament, #voie_administration, #frequence, #dosage, #date_application, #heure_recommandee_, #duree").attr({'title':''});
+    		var tooltips = $( "#medicament, #voie_administration, #frequence, #dosage, #date_application, #heure_recommandee_, #duree" ).tooltip();
     		tooltips.tooltip( "hide" );
     	});
     }
@@ -387,14 +428,14 @@
      * Lors d'un click
      */
     function click() {
-    	$('#titre_info_admis, #medicament, #voie_administration, #frequence, #dosage, #date_application, #heure_recommandee_').click(function(){
-			var tooltips = $( "#medicament, #voie_administration, #frequence, #dosage, #date_application, #heure_recommandee_" ).tooltip();
+    	$('#titre_info_admis, #medicament, #voie_administration, #frequence, #dosage, #date_application, #heure_recommandee_, #duree, #fleche_plus, #fleche_moins').click(function(){
+			var tooltips = $( "#medicament, #voie_administration, #frequence, #dosage, #date_application, #heure_recommandee_, #duree" ).tooltip();
 			tooltips.tooltip( "close" );
-			$("#medicament, #voie_administration, #frequence, #dosage, #date_application, #heure_recommandee_").attr({'title':''});
+			$("#medicament, #voie_administration, #frequence, #dosage, #date_application, #heure_recommandee_, #duree").attr({'title':''});
 	    });
     	
-    	$('#date_application').mouseover(function(){
-    		var tooltips = $( "#date_application" ).tooltip();
+    	$('#date_application, #duree, #fleche_plus').mouseover(function(){
+    		var tooltips = $( "#date_application, #duree" ).tooltip();
 			tooltips.tooltip( "hide" );
     	});
     }
@@ -443,13 +484,21 @@
     			
         		$("#dosage").css("border-color","");
         		
-    	}else if(!$('#heure_recommandee_').val()){
+    	}else if(!$('#duree').val()){
+    		$("#duree").css("border-color","#FF0000");
+    		$('#duree').attr({'title': 'Ce champ est requis'});
+    			var tooltips = $( "#duree" ).tooltip();
+    			tooltips.tooltip( "open" );
+    			
+        		$("#date_application").css("border-color","");
+    	}
+    	else if(!$('#heure_recommandee_').val()){
     		$("#heure_recommandee_").css("border-color","#FF0000");
     		$('#heure_recommandee_').attr({'title': 'Ce champ est requis'});
     			//var tooltips = $( "#heure_recommandee_" ).tooltip();
     			//tooltips.tooltip( "open" );
     			
-        		$("#date_application").css("border-color","");
+        		$("#duree").css("border-color","");
         		
     	}else {
     			confirmation();
@@ -982,220 +1031,6 @@
     
     
     
-    $(function(){
-    /****** CONTROLE APRES VALIDATION ********/ 
-	 /****** CONTROLE APRES VALIDATION ********/ 
-
-	 	 var valid = true;  // VARIABLE GLOBALE utilis�e dans 'VALIDER LES DONNEES DU TABLEAU DES CONSTANTES'
-
-	 	     $("#terminer,#bouton_constantes_valider").click(function(){
-
-	 	     	valid = true;
-	 	         if( $("#taille").val() == ""){
-	 	             $("#taille").css("border-color","#FF0000");
-	 	             $("#erreur_taille").fadeIn().text("Max: 250cm").css({"color":"#ff5b5b","padding":" 0 10px 0 10px","margin-top":"-18px","font-size":"13px","font-style":"italic"});
-	 	             valid = false;
-	 	         }
-	 	         else{
-	 	         	$("#taille").css("border-color","");
-	 	         	$("#erreur_taille").fadeOut();
-	 	         }
-
-	 	         if( $("#poids").val() == ""){
-	 	         	 $("#poids").css("border-color","#FF0000");
-	 	             $("#erreur_poids").fadeIn().text("Max: 300kg").css({"color":"#ff5b5b","padding":" 0 10px 0 10px","margin-top":"-18px","font-size":"13px","font-style":"italic"});
-	 	             valid = false;
-	 	         }
-	 	         else{
-	 	         	$("#poids").css("border-color", "");
-	 	             $("#erreur_poids").fadeOut();
-	 	         }
-	 	         if( $('#temperature').val() == ""){
-	 	         	$("#temperature").css("border-color","#FF0000");
-	 	             $("#erreur_temperature").fadeIn().text("Min: 34°C, Max: 45°C").css({"color":"#ff5b5b","padding":" 0 10px 0 10px","margin-top":"-18px","font-size":"13px","font-style":"italic"});
-	 	             valid = false;
-	 	         }
-	 	         else{
-	 	         	$("#temperature").css("border-color", "");
-	 	             $("#erreur_temperature").fadeOut();
-	 	         }
-	 	         
-	 	         if( $("#pouls").val() == ""){
-	 	         	 $("#pouls").css("border-color","#FF0000");
-	 	             $("#erreur_pouls").fadeIn().text("Max: 150 battements").css({"color":"#ff5b5b","padding":" 0 10px 0 10px","margin-top":"-18px","font-size":"13px","font-style":"italic"});
-	 	             valid = false;
-	 	         }
-	 	         else{
-	 	         	 $("#pouls").css("border-color", "");
-	 	             $("#erreur_pouls").fadeOut();
-	 	         }
-	 	         
-	 	         
-	 	         if( $("#frequence_respiratoire").val() == ""){
-	 	         	 $("#frequence_respiratoire").css("border-color","#FF0000");
-	 	             $("#erreur_frequence").fadeIn().text("Ce champs est requis").css({"color":"#ff5b5b","padding":" 0 10px 0 10px","margin-top":"-18px","font-size":"13px","font-style":"italic"});
-	 	             valid = false;
-	 	         }
-	 	         else{
-	 	        	 $("#frequence_respiratoire").css("border-color", "");
-	 	             $("#erreur_frequence").fadeOut();
-	 	         }
-	 	         
-	 	         
-	 	         if( $("#pressionarterielle").val() == ""){
-	 	        	 $("#pressionarterielle").css("border-color","#FF0000");
-	 	        	 $("#erreur_pressionarterielle").fadeIn().text("Max: 300mmHg").css({"color":"#ff5b5b","padding":" 0 10px 0 10px","margin-top":"-18px","font-size":"13px","font-style":"italic"});
-	 	        	 valid = false;
-	 	         }
-	 	         else{
-	 	        	 $("#pressionarterielle").css("border-color", "");
-	 	        	 $("#erreur_pressionarterielle").fadeOut();
-	 	         }
-	 	         return valid;
-	 	 	}); 
- 	 	 	
-			   //******************* VALIDER LES DONNEES DU TABLEAU DES MOTIFS ******************************** 
-			   //******************* VALIDER LES DONNEES DU TABLEAU DES MOTIFS ******************************** 
-			   
-	 	    $("#pouls").keyup(function(){
-	 	    	var valeur = $('#pouls').val();
-	 			if(isNaN(valeur/1) || valeur > 150){
-	 				$('#pouls').val("");
-	 				valeur = null;
-	 				$("#pouls").css("border-color","#FF0000");
-	 	             $("#erreur_pouls").fadeIn().text("Max: 150 battements").css({"color":"#ff5b5b","padding":" 0 10px 0 10px","margin-top":"-18px","font-size":"13px","font-style":"italic"});
-	 			}else{
-	 				$("#pouls").css("border-color","");
-	 				$("#erreur_pouls").fadeOut();
-	 			}
-	 	    });
-	 	    
-	 	    $("#frequence_respiratoire").keyup(function(){
-	 	    	var valeur = $('#frequence_respiratoire').val();
-	 			if(isNaN(valeur/1) || valeur > 150){
-	 				$('#frequence_respiratoire').val("");
-	 				valeur = null;
-	 				$("#frequence_respiratoire").css("border-color","#FF0000");
-	 	             $("#erreur_frequence").fadeIn().text("Ce champs est requis").css({"color":"#ff5b5b","padding":" 0 10px 0 10px","margin-top":"-18px","font-size":"13px","font-style":"italic"});
-	 			}else{
-	 				$("#frequence_respiratoire").css("border-color","");
-	 				$("#erreur_frequence").fadeOut();
-	 			}
-	 	    });
-	 	    
-	 	   $("#temperature").blur(function(){
-	 	    	if($("#temperature").val() > 45 || $("#temperature").val() < 34){
-	 	    		$("#temperature").val('');
-	 	    		$("#temperature").mask("49");
-	 	    		$("#temperature").css("border-color","#FF0000");
-	 	    		$("#erreur_temperature").fadeIn().text("Min: 34°C, Max: 45°C").css({"color":"#ff5b5b","padding":" 0 10px 0 10px","margin-top":"-18px","font-size":"13px","font-style":"italic"});
-	 	    	} else 
-	 	    		if($("#temperature").val() <= 45 && $("#temperature").val() >= 34){
-	 	    			$("#temperature").css("border-color","");
-	 	    			$("#erreur_temperature").fadeOut();
-	 	    		}
-	 	    	return false;
-	 	    });
-	 	    
-	 	    $("#poids").keyup(function(){
-	 	    	var valeur = $('#poids').val();
-	 			if(isNaN(valeur/1) || valeur > 300){
-	 				$('#poids').val("");
-	 				valeur = null;
-	 				$("#poids").css("border-color","#FF0000");
-	 	             $("#erreur_poids").fadeIn().text("Max: 300kg").css({"color":"#ff5b5b","padding":" 0 10px 0 10px","margin-top":"-18px","font-size":"13px","font-style":"italic"});
-	 			}else{
-	 				$("#poids").css("border-color","");
-	 				$("#erreur_poids").fadeOut();
-	 			}
-	 	    });
-	 	    
-	 	   $("#taille").keyup(function(){
-	 	    	var valeur = $('#taille').val();
-	 			if(isNaN(valeur/1) || valeur > 300){
-	 				$('#taille').val("");
-	 				valeur = null;
-	 				$("#taille").css("border-color","#FF0000");
-	 	             $("#erreur_taille").fadeIn().text("Max: 250cm").css({"color":"#ff5b5b","padding":" 0 10px 0 10px","margin-top":"-18px","font-size":"13px","font-style":"italic"});
-	 			}else{
-	 				$("#taille").css("border-color","");
-	 				$("#erreur_taille").fadeOut();
-	 			}
-	 	    });
-	 	 //******************* VALIDER LES DONNEES DU TABLEAU DES CONSTANTES ******************************** 
-	 	 //******************* VALIDER LES DONNEES DU TABLEAU DES CONSTANTES ******************************** 
-
-	 	     //Au debut on d�sactive le code cons et la date de consultation qui sont non modifiables
-	 	    	var id_cons = $("#id_cons");
-	 	    	var date_cons = $("#date_cons");
-	 	    	id_cons.attr('readonly',true);
-	 	    	date_cons.attr('readonly',true);
-
-	 	    	var poids = $('#poids');
-	 	    	var taille = $('#taille');
-	 	    	var tension = $('#tension');
-	 	    	var bu = $('#bu');
-	 	    	var temperature = $('#temperature');
-	 	    	var glycemie_capillaire = $('#glycemie_capillaire');
-	 	    	var pouls = $('#pouls');
-	 	    	var frequence_respiratoire = $('#frequence_respiratoire');
-	 	    	var pressionarterielle = $("#pressionarterielle");
-	 	    	
-	 	  	  //Au debut on cache le bouton modifier et on affiche le bouton valider
-	 	    	$( "#bouton_constantes_valider" ).toggle(true);
-	 	    	$( "#bouton_constantes_modifier" ).toggle(false);
-
-	 	    	//Au debut on active tous les champs
-	 	    	poids.attr( 'readonly', false ).css({'background':'#fff'});
-	 	    	taille.attr( 'readonly', false ).css({'background':'#fff'});
-	 	    	tension.attr( 'readonly', false).css({'background':'#fff'}); 
-	 	    	bu.attr( 'readonly', false).css({'background':'#fff'});  
-	 	    	temperature.attr( 'readonly', false).css({'background':'#fff'}); 
-	 	    	glycemie_capillaire.attr( 'readonly', false).css({'background':'#fff'});
-	 	    	pouls.attr( 'readonly', false).css({'background':'#fff'});
-	 	    	frequence_respiratoire.attr( 'readonly', false).css({'background':'#fff'});
-	 	    	pressionarterielle.attr( 'readonly', false ).css({'background':'#fff'});
-
-	 	    	$( "#bouton_constantes_valider" ).click(function(){
-	 	    		if(valid == true){
-	 	  	   		poids.attr( 'readonly', true ).css({'background':'#f8f8f8'});    
-	 	  	   		taille.attr( 'readonly', true ).css({'background':'#f8f8f8'});
-	 	  	   		tension.attr( 'readonly', true).css({'background':'#f8f8f8'});
-	 	  	   		bu.attr( 'readonly', true).css({'background':'#f8f8f8'});
-	 	  	   		temperature.attr( 'readonly', true).css({'background':'#f8f8f8'});
-	 	  	   		glycemie_capillaire.attr( 'readonly', true).css({'background':'#f8f8f8'});
-	 	  	   		pouls.attr( 'readonly', true).css({'background':'#f8f8f8'});
-	 	  	   		frequence_respiratoire.attr( 'readonly', true).css({'background':'#f8f8f8'});
-	 	  	   		pressionarterielle.attr( 'readonly', true ).css({'background':'#f8f8f8'});
-	 	  	   		
-	 	    		    $("#bouton_constantes_modifier").toggle(true);  //on affiche le bouton permettant de modifier les champs
-	 	    		    $("#bouton_constantes_valider").toggle(false); //on cache le bouton permettant de valider les champs
-	 	    		}
-	 	    		return false; 
-	 	    	});
-	 	    	
-	 	    	$( "#bouton_constantes_modifier" ).click(function(){
-	 	    		poids.attr( 'readonly', false ).css({'background':'#fff'});
-	 	    		taille.attr( 'readonly', false ).css({'background':'#fff'}); 
-	 	    		tension.attr( 'readonly', false).css({'background':'#fff'}); 
-	 	    		bu.attr( 'readonly', false).css({'background':'#fff'});
-	 	    		temperature.attr( 'readonly', false).css({'background':'#fff'});
-	 	    		glycemie_capillaire.attr( 'readonly', false).css({'background':'#fff'});
-	 	    		pouls.attr( 'readonly', false).css({'background':'#fff'});
-	 	    		frequence_respiratoire.attr( 'readonly', false).css({'background':'#fff'});
-	 	    		pressionarterielle.attr( 'readonly', false ).css({'background':'#fff'});
-	 	    		
-	 	    	 	$("#bouton_constantes_modifier").toggle(false);   //on cache le bouton permettant de modifier les champs
-	 	    	 	$("#bouton_constantes_valider").toggle(true);    //on affiche le bouton permettant de valider les champs
-	 	    	 	return  false;
-	 	    	});
-
-
-	 	   //******************* VALIDER LES DONNEES DU TABLEAU DES CONSTANTES ******************************** 
-	 	   //******************* VALIDER LES DONNEES DU TABLEAU DES CONSTANTES ******************************** 
-	 	    
-    });
-
        // ******************* Tranfert ******************************** 
 	   // ******************* Tranfert ******************************** 
 	    $(function(){
@@ -1263,3 +1098,537 @@
 		  });
 		  return false;
 	  }
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  var temoinTaille;
+	  var temoinPoids;
+	  var temoinTemperature;
+	  var temoinPouls;
+	  var valid = true;
+	  
+	  function envoiDesDonnees(){
+
+ 	      //******************* VALIDER LES DONNEES DU TABLEAU DES MOTIFS ******************************** 
+		  //******************* VALIDER LES DONNEES DU TABLEAU DES MOTIFS ******************************** 
+			
+	 	    $("#taille").blur(function(){
+		    	var valeur = $('#taille').val();
+		    	if(isNaN(valeur/1) || valeur > 250 || valeur == ""){
+					valeur = null;
+					$("#taille").css("border-color","#FF0000");
+		            $("#erreur_taille").fadeIn().text("Max: 250cm").css({"color":"#ff5b5b","padding":" 0 10px 0 10px","margin-top":"-18px","font-size":"13px","font-style":"italic"});
+		            temoinTaille = 1;
+		    	} 
+		    	else{
+		    		$("#taille").css("border-color","");
+					$("#erreur_taille").fadeOut();
+					temoinTaille = 0;
+		    	}
+		    	return false;
+		    });
+		    
+		    $("#poids").blur(function(){
+		    	var valeur = $('#poids').val();
+		    	if(isNaN(valeur/1) || valeur > 300 || valeur == ""){
+					valeur = null;
+					$("#poids").css("border-color","#FF0000");
+					$("#erreur_poids").fadeIn().text("Max: 300kg").css({"color":"#ff5b5b","padding":" 0 10px 0 10px","margin-top":"-18px","font-size":"13px","font-style":"italic"});
+					temoinPoids = 2;
+		    	} 
+		    	else{
+		    		$("#poids").css("border-color","");
+					$("#erreur_poids").fadeOut();
+					temoinPoids = 0;
+		    	}
+		    	return false;
+		    });
+		    
+		    $("#temperature").blur(function(){
+		    	var valeur = $('#temperature').val();
+		    	if(isNaN(valeur/1) || valeur > 45 || valeur < 34  || valeur == ""){
+					$("#temperature").css("border-color","#FF0000");
+		    		$("#erreur_temperature").fadeIn().text("Min: 34°C, Max: 45°C").css({"color":"#ff5b5b","padding":" 0 10px 0 10px","margin-top":"-18px","font-size":"13px","font-style":"italic"});
+					temoinTemperature = 3;
+		    	} 
+		    	else{
+		    		$("#temperature").css("border-color","");
+					$("#erreur_temperature").fadeOut();
+					temoinTemperature = 0;
+		    	}
+		    	return false;
+		    });
+		    
+		    
+		    $("#pressionarterielle").blur(function(){
+		    	if( $("#pressionarterielle").val() == "___/___" || $("#pressionarterielle").val() == ""){
+		    		$("#pressionarterielle").val('');
+		    		$("#pressionarterielle").mask("299/299");
+		    		$("#pressionarterielle").css("border-color","#FF0000");
+		    		$("#erreur_pressionarterielle").fadeIn().text("300mmHg / 300mmHg").css({"color":"#ff5b5b","padding":" 0 10px 0 10px","margin-top":"-18px","font-size":"13px","font-style":"italic"});
+		    	} else{
+		    		$("#pressionarterielle").css("border-color","");
+		    		$("#erreur_pressionarterielle").fadeOut();
+		    	}
+		    	return false;
+		    });
+		    
+		    $("#pouls").blur(function(){
+		    	var valeur = $('#pouls').val();
+				if(isNaN(valeur/1) || valeur > 150 || valeur == ""){
+					$("#pouls").css("border-color","#FF0000");
+					$("#erreur_pouls").fadeIn().text("Max: 150 battements").css({"color":"#ff5b5b","padding":" 0 10px 0 10px","margin-top":"-18px","font-size":"13px","font-style":"italic"});
+					temoinPouls = 4;
+				}else{
+					$("#pouls").css("border-color","");
+					$("#erreur_pouls").fadeOut();
+					temoinPouls = 0;
+				}
+		    });
+		    
+		  /****** CONTROLE APRES VALIDATION ********/ 
+		  /****** CONTROLE APRES VALIDATION ********/
+		  $("#bouton_constantes_valider, #terminerExamenDuJour").click(function(){
+
+			     valid = true;
+		         if( $("#taille").val() == "" || temoinTaille == 1){
+		             $("#taille").css("border-color","#FF0000");
+		             $("#erreur_taille").fadeIn().text("Max: 250cm").css({"color":"#ff5b5b","padding":" 0 10px 0 10px","margin-top":"-18px","font-size":"13px","font-style":"italic"});
+		             valid = false;
+		         }
+		         else{
+		         	$("#taille").css("border-color","");
+		         	$("#erreur_taille").fadeOut();
+		         }
+		         
+		         if( $("#poids").val() == "" || temoinPoids == 2){
+		         	 $("#poids").css("border-color","#FF0000");
+		             $("#erreur_poids").fadeIn().text("Max: 300kg").css({"color":"#ff5b5b","padding":" 0 10px 0 10px","margin-top":"-18px","font-size":"13px","font-style":"italic"});
+		             valid = false;
+		         }
+		         else{
+		         	$("#poids").css("border-color", "");
+		         	$("#erreur_poids").fadeOut();
+		         }
+		         
+		         if( $('#temperature').val() == "" || temoinTemperature == 3){
+		         	$("#temperature").css("border-color","#FF0000");
+		         	$("#erreur_temperature").fadeIn().text("Min: 34°C, Max: 45°C").css({"color":"#ff5b5b","padding":" 0 10px 0 10px","margin-top":"-18px","font-size":"13px","font-style":"italic"});
+		             valid = false;
+		         }
+		         else{
+		         	$("#temperature").css("border-color", "");
+		         	$("#erreur_temperature").fadeOut();
+		         }
+		         
+		         if( $("#pouls").val() == "" || temoinPouls == 4){
+		         	 $("#pouls").css("border-color","#FF0000");
+		             $("#erreur_pouls").fadeIn().text("Max: 150 battements").css({"color":"#ff5b5b","padding":" 0 10px 0 10px","margin-top":"-18px","font-size":"13px","font-style":"italic"});
+		             valid = false;
+		         }
+		         else{
+		         	 $("#pouls").css("border-color", "");
+		             $("#erreur_pouls").fadeOut();
+		         }
+		         
+		         if( $("#pressionarterielle").val() == ""){
+		        	 $("#pressionarterielle").css("border-color","#FF0000");
+		        	 $("#erreur_pressionarterielle").fadeIn().text("300mmHg / 300mmHg").css({"color":"#ff5b5b","padding":" 0 10px 0 10px","margin-top":"-18px","font-size":"13px","font-style":"italic"});
+		        	 valid = false;
+		         }
+		         else{
+		        	 $("#pressionarterielle").css("border-color", "");
+		        	 $("#erreur_pressionarterielle").fadeOut();
+		         }
+		         
+		         return false;
+		 	});
+		  
+		  //******************* VALIDER LES DONNEES DU TABLEAU DES CONSTANTES ******************************** 
+		  //******************* VALIDER LES DONNEES DU TABLEAU DES CONSTANTES ******************************** 
+		    $(function(){
+		    	var poids = $('#poids');
+		    	var taille = $('#taille');
+		    	var tension = $('#tension');
+		    	var bu = $('#bu');
+		    	var temperature = $('#temperature');
+		    	var glycemie_capillaire = $('#glycemie_capillaire');
+		    	var pouls = $('#pouls');
+		    	var frequence_respiratoire = $('#frequence_respiratoire');
+		    	var pressionarterielle = $("#pressionarterielle");
+		    	
+		  	    //Au debut on cache le bouton modifier et on affiche le bouton valider
+		    	$( "#bouton_constantes_valider" ).toggle(true);
+		    	$( "#bouton_constantes_modifier" ).toggle(false);
+
+		    	//Au debut on active tous les champs
+		    	poids.attr( 'readonly', false ).css({'background':'#fff'});
+		    	taille.attr( 'readonly', false ).css({'background':'#fff'});
+		    	tension.attr( 'readonly', false).css({'background':'#fff'}); 
+		    	bu.attr( 'readonly', false).css({'background':'#fff'});  
+		    	temperature.attr( 'readonly', false).css({'background':'#fff'}); 
+		    	glycemie_capillaire.attr( 'readonly', false).css({'background':'#fff'});
+		    	pouls.attr( 'readonly', false).css({'background':'#fff'});
+		    	frequence_respiratoire.attr( 'readonly', false).css({'background':'#fff'});
+		    	pressionarterielle.attr( 'readonly', false ).css({'background':'#fff'});
+
+		    	$( "#bouton_constantes_valider" ).click(function(){
+		    		if(valid == true){
+		  	   		poids.attr( 'readonly', true ).css({'background':'#f8f8f8'});    
+		  	   		taille.attr( 'readonly', true ).css({'background':'#f8f8f8'});
+		  	   		tension.attr( 'readonly', true).css({'background':'#f8f8f8'});
+		  	   		bu.attr( 'readonly', true).css({'background':'#f8f8f8'});
+		  	   		temperature.attr( 'readonly', true).css({'background':'#f8f8f8'});
+		  	   		glycemie_capillaire.attr( 'readonly', true).css({'background':'#f8f8f8'});
+		  	   		pouls.attr( 'readonly', true).css({'background':'#f8f8f8'});
+		  	   		frequence_respiratoire.attr( 'readonly', true).css({'background':'#f8f8f8'});
+		  	   		pressionarterielle.attr( 'readonly', true ).css({'background':'#f8f8f8'});
+		  	   		
+		    		    $("#bouton_constantes_modifier").toggle(true);  //on affiche le bouton permettant de modifier les champs
+		    		    $("#bouton_constantes_valider").toggle(false); //on cache le bouton permettant de valider les champs
+		    		}
+		    		return false; 
+		    	});
+		    	
+		    	$( "#bouton_constantes_modifier" ).click(function(){
+		    		poids.attr( 'readonly', false ).css({'background':'#fff'});
+		    		taille.attr( 'readonly', false ).css({'background':'#fff'}); 
+		    		tension.attr( 'readonly', false).css({'background':'#fff'}); 
+		    		bu.attr( 'readonly', false).css({'background':'#fff'});
+		    		temperature.attr( 'readonly', false).css({'background':'#fff'});
+		    		glycemie_capillaire.attr( 'readonly', false).css({'background':'#fff'});
+		    		pouls.attr( 'readonly', false).css({'background':'#fff'});
+		    		frequence_respiratoire.attr( 'readonly', false).css({'background':'#fff'});
+		    		pressionarterielle.attr( 'readonly', false ).css({'background':'#fff'});
+		    		
+		    	 	$("#bouton_constantes_modifier").toggle(false);   //on cache le bouton permettant de modifier les champs
+		    	 	$("#bouton_constantes_valider").toggle(true);    //on affiche le bouton permettant de valider les champs
+		    	 	return  false;
+		    	});
+		    });
+		  
+		  $("#terminerExamenDuJour").click(function(){ 
+			  
+			  if(valid == true ) { 
+				  var id_hosp = $('#id_hosp').val();
+				  var id_personne = $('#id_personne').val();
+				  
+				  //Les motifs d'admission
+				  //Les motifs d'admission
+				  //Les motifs d'admission
+				  var motif_admission1 = $("#motif_admission1").val();
+				  var motif_admission2 = $("#motif_admission2").val();
+				  var motif_admission3 = $("#motif_admission3").val();
+				  var motif_admission4 = $("#motif_admission4").val();
+				  var motif_admission5 = $("#motif_admission5").val();
+				  
+				  //Les constantes
+				  //Les constantes
+				  //Les constantes
+				  var poids = $("#poids").val();
+				  var taille = $("#taille").val();
+				  var temperature = $("#temperature").val();
+				  var pressionarterielle = $("#pressionarterielle").val();
+				  var pouls = $("#pouls").val();
+				  var frequence_respiratoire = $("#frequence_respiratoire").val();
+				  var glycemie_capillaire = $("#glycemie_capillaire").val();
+				  
+				  //Les diagnostics
+				  //Les diagnostics
+				  //Les diagnostics
+				  var diagnostic1 = $("#diagnostic1").val();
+				  var diagnostic2 = $("#diagnostic2").val();
+				  var diagnostic3 = $("#diagnostic3").val();
+				  var diagnostic4 = $("#diagnostic4").val();
+				  
+				  //Les donnees de l'examen physique
+			      //Les donnees de l'examen physique
+				  var examen_donnee1 = $("#examen_donnee1").val();
+				  var examen_donnee2 = $("#examen_donnee2").val();
+				  var examen_donnee3 = $("#examen_donnee3").val();
+				  var examen_donnee4 = $("#examen_donnee4").val();
+				  var examen_donnee5 = $("#examen_donnee5").val();
+				  
+				  //Recuperer les donnees sur les bandelettes urinaires
+				  //Recuperer les donnees sur les bandelettes urinaires
+				  var albumine = $('#BUcheckbox input[name=albumine]:checked').val();
+				  if(!albumine){ albumine = 0;}
+				  var croixalbumine = $('#BUcheckbox input[name=croixalbumine]:checked').val();
+				  if(!croixalbumine){ croixalbumine = 0;}
+					
+				  var sucre = $('#BUcheckbox input[name=sucre]:checked').val();
+				  if(!sucre){ sucre = 0;}
+				  var croixsucre = $('#BUcheckbox input[name=croixsucre]:checked').val();
+				  if(!croixsucre){ croixsucre = 0;}
+					
+				  var corpscetonique = $('#BUcheckbox input[name=corpscetonique]:checked').val();
+				  if(!corpscetonique){ corpscetonique = 0;}
+				  var croixcorpscetonique = $('#BUcheckbox input[name=croixcorpscetonique]:checked').val();
+				  if(!croixcorpscetonique){ croixcorpscetonique = 0;}
+					
+				    
+				  $.ajax({
+					  type: 'POST',
+					  url: tabUrl[0]+"public/consultation/enregistrer-examen-du-jour",
+					  data: {'id_hosp' : id_hosp, 'id_personne':id_personne,
+						     'motif_admission1' : motif_admission1, 'motif_admission2' : motif_admission2, 
+						     'motif_admission3' : motif_admission3, 'motif_admission4' : motif_admission4,
+						     'motif_admission5' : motif_admission5,
+						     
+						     'poids' : poids, 'taille' : taille, 'temperature' : temperature, 'pressionarterielle' : pressionarterielle,
+						     'pouls' : pouls, 'frequence_respiratoire' : frequence_respiratoire, 'glycemie_capillaire' : glycemie_capillaire,
+						     
+						     'diagnostic1' : diagnostic1, 'diagnostic2' : diagnostic2, 
+						     'diagnostic3' : diagnostic3, 'diagnostic4' : diagnostic4,
+						     
+						     'examen_donnee1' : examen_donnee1, 'examen_donnee2' : examen_donnee2, 
+						     'examen_donnee3' : examen_donnee3, 'examen_donnee4' : examen_donnee4, 
+						     'examen_donnee5' : examen_donnee5,
+						     
+						     'albumine' : albumine, 'croixalbumine' : croixalbumine,
+						     'sucre' : sucre, 'croixsucre' : croixsucre,
+						     'corpscetonique' : corpscetonique, 'croixcorpscetonique' : croixcorpscetonique,
+					  },
+					  success: function(data) {
+						  var result = jQuery.parseJSON(data); //alert(result); exit();
+						  if(result){
+							  AppelListeExamensDuJoursHospi(id_hosp);
+							  viderTousLesChamps();
+							  $('#listeDeTousLesExamens').trigger('click');
+							  
+						  }
+					  },
+					  error:function(e){console.log(e);alert("Une erreur interne est survenue!");},
+					  dataType: "html"
+				  });
+				  
+			  }else{
+				  $('#listeDeToutesLesConstantes').trigger('click');
+				  //alert('constantes non valides'); exit();
+			  }
+
+			  return false;
+		  });
+		  //confirmationAnnulationExamenJour
+		  $("#annulerExamenDuJour").click(function(){
+			  annulerExamenDuJourConfirm();
+		      $("#confirmationAnnulationExamenJour").dialog('open');
+		  });
+	  }
+	  
+	  function annulerExamenDuJourConfirm(){
+		  $( "#confirmationAnnulationExamenJour" ).dialog({
+	      	    resizable: false,
+	      	    height:170,
+	      	    width:400,
+	      	    autoOpen: false,
+	      	    modal: true,
+	      	    buttons: {
+	      	        "Oui": function() {
+	      	        	viderTousLesChamps();
+	      			    $('#listeDeTousLesExamens').trigger('click');
+	      			  
+	      	            $( this ).dialog( "close" );             	     
+	      	            return false;
+	      	        },
+	      	   
+	     	            "Non": function() {
+	     	            	$( this ).dialog( "close" );             	     
+	     	            	return false;
+	     	            }
+	      	       
+	      	    }
+		  });
+	  }
+	  
+	  function viderTousLesChamps(){
+		  //Les constantes
+		  //Les constantes
+		  //Les constantes
+		  $("#poids").val("");
+		  $("#poids").css("border-color", "");
+       	  $("#erreur_poids").fadeOut();
+       	
+		  $("#taille").val("");
+		  $("#taille").css("border-color","");
+       	  $("#erreur_taille").fadeOut();
+       	
+		  $("#temperature").val("");
+		  $("#temperature").css("border-color", "");
+       	  $("#erreur_temperature").fadeOut();
+       	
+		  $("#pressionarterielle").val("");
+		  $("#pressionarterielle").css("border-color", "");
+     	  $("#erreur_pressionarterielle").fadeOut();
+		  
+		  $("#pouls").val("");
+		  $("#pouls").css("border-color", "");
+          $("#erreur_pouls").fadeOut();
+          
+		  $("#frequence_respiratoire").val("");
+		  $("#glycemie_capillaire").val("");
+		  
+		  //Les bandelettes
+		  //Les bandelettes
+		  //Les bandelettes
+		  $("#BUcheckbox input[name=albumine]").attr('checked', false);
+		  $("#BUcheckbox input[name=croixalbumine]").attr('checked', false);
+		  $("#BUcheckbox input[name=sucre]").attr('checked', false);
+		  $("#BUcheckbox input[name=croixsucre]").attr('checked', false);
+		  $("#BUcheckbox input[name=corpscetonique]").attr('checked', false);
+		  $("#BUcheckbox input[name=croixcorpscetonique]").attr('checked', false);
+		  $("#labelAlbumine").toggle(false);
+		  $("#labelSucre").toggle(false);
+		  $("#labelCorpscetonique").toggle(false);
+		  
+		  //Donnees de l'examen physique
+	      //Donnees de l'examen physique
+		  $("#examen_donnee1").val("");
+		  $("#examen_donnee2").val("");
+		  $("#examen_donnee3").val("");
+		  $("#examen_donnee4").val("");
+		  $("#examen_donnee5").val("");
+		    
+	  }
+	  
+	  
+	  function initialisationScriptDataTable(){
+		var  oTable = $('#ListingExamens').dataTable
+	    ( {
+	    					"sPaginationType": "full_numbers",
+	    					"aLengthMenu": [3,5],
+	    					"iDisplayLength": 3,
+	     					"aaSorting": [], //On ne trie pas la liste automatiquement
+	    					"oLanguage": {
+	    						"sInfo": "_START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+	    						"sInfoEmpty": "0 &eacute;l&eacute;ment &agrave; afficher",
+	    						"sInfoFiltered": "",
+	    						"sUrl": "",
+	    						"oPaginate": {
+	    							"sFirst":    "|<",
+	    							"sPrevious": "<",
+	    							"sNext":     ">",
+	    							"sLast":     ">|"
+	    							}
+	    					   },
+	    }); 
+	        
+	   	//le filtre du select
+	   	$('#filter_statut').change(function() 
+	   	{					
+	   		oTable.fnFilter( this.value );
+	   	});
+	  }
+	  
+	  function AppelListeExamensDuJoursHospi(id_hosp){
+		  $.ajax({
+			  type: 'POST',
+			  url: tabUrl[0]+"public/consultation/liste-examen-du-jour",
+			  data: {'id_hosp':id_hosp },
+			  success: function(data) {
+				  var result = jQuery.parseJSON(data);
+				  $("#listeDesExamens").html(result);
+			  },
+			  error:function(e){console.log(e);alert("Une erreur interne est survenue!");},
+			  dataType: "html"
+		  });
+	  }
+	  
+	  function visualiserExamenDuJour(id_examen_jour){
+		  //alert(id_examen_jour);
+		  var formulaire = document.createElement("form");
+		  formulaire.setAttribute("action","/simens/public/consultation/vue-examen-jour"); 
+		  formulaire.setAttribute("method","POST"); 
+		  formulaire.setAttribute("target","_blank"); 
+		  
+		  //Ajout dynamique de champs dans le formulaire
+		  var champ = document.createElement("input");
+		  champ.setAttribute("type", "hidden");
+		  champ.setAttribute("name", "id_examen_jour");
+		  champ.setAttribute("value", id_examen_jour);
+		  formulaire.appendChild(champ);
+	        
+		  formulaire.submit();
+	  }
+	  
+	  function supprimerExamenDuJourConfirm(id_examen_jour){
+      	$( "#confirmationSuppExamenJour" ).dialog({
+      	    resizable: false,
+      	    height:170,
+      	    width:400,
+      	    autoOpen: false,
+      	    modal: true,
+      	    buttons: {
+      	        "Oui": function() {
+      	        	
+      	        	 var chemin = tabUrl[0]+'public/consultation/supprimer-examen-jour';
+      	                $.ajax({
+      	                    type: 'POST',
+      	                    url: chemin ,
+      	                    data:({'id_examen_jour':id_examen_jour}),
+      	                    success: function(data) {
+      	                    	var result = jQuery.parseJSON(data);
+      	                    	$('#ExamenDuJourLigne'+id_examen_jour).fadeOut(function(){
+      	                    		AppelListeExamensDuJoursHospi(result);
+                  	        	});
+      	                    },
+      	                    error:function(e){console.log(e);alert("Une erreur interne est survenue!");},
+      	                    dataType: "html"
+      	                });
+      	        	
+      	            $( this ).dialog( "close" );             	     
+      	            return false;
+      	        },
+      	   
+     	            "Non": function() {
+     	            	$( this ).dialog( "close" );             	     
+     	            	return false;
+     	            }
+      	       
+      	    }
+      	   
+      	});
+  	}
+	  
+	function supprimerExamenDuJour(id_examen_jour){ 
+	  supprimerExamenDuJourConfirm(id_examen_jour);
+      $("#confirmationSuppExamenJour").dialog('open');
+	}
+	  
+	  
+	

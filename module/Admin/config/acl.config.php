@@ -134,6 +134,10 @@ return array(
     								'liberer-patient' => 'medecin',
     								'liste-soins-prescrits' => 'medecin',
     								'recherche-visualisation-consultation' => 'medecin',
+    								'enregistrer-examen-du-jour' => 'medecin',
+    								'liste-examen-du-jour' => 'medecin',
+    								'supprimer-examen-jour' => 'medecin',
+    								'vue-examen-jour' => 'medecin',
     								
     								'supprimer-image-morpho' => 'guest', //radiologie et archivage
     								'images-examens-morphologiques' => 'guest', //radiologie et archivage
@@ -213,6 +217,7 @@ return array(
     								'detail-info-liberation-patient' => 'infirmier',
     								'liberer-patient' => 'infirmier',
     								'heure-suivante' => 'infirmier',
+    								'heure-passee' => 'infirmier',
     								
     								
     								'liste-demandes-examens' => 'laborantin',

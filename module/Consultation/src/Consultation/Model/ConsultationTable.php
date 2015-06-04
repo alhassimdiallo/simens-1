@@ -98,6 +98,16 @@ class ConsultationTable {
 		}
 	}
 	
+	public function addConsultationEffective($id_cons){
+		$db = $this->tableGateway->getAdapter();
+		$sql = new Sql($db);
+		$sQuery = $sql->insert()
+		->into('consultation_effective')
+		->values(array('ID_CONS' => $id_cons));
+		$requete = $sql->prepareStatementForSqlObject($sQuery);
+		$requete->execute();
+	}
+	
 	public function getInfoPatientMedecin($idcons){
 		$adapter = $this->tableGateway->getAdapter ();
 		$sql = new Sql ( $adapter );
@@ -214,6 +224,7 @@ class ConsultationTable {
 		
 		$select->join(array('c' => 'consultation'), 'p.ID_PERSONNE = c.ID_PATIENT', array('Id_cons' => 'ID_CONS', 'Dateonly' => 'DATEONLY', 'Consprise' => 'CONSPRISE'));
 		$select->join(array('s' => 'service'), 'c.ID_SERVICE = s.ID_SERVICE', array('Nomservice' => 'NOM'));
+		$select->join(array('cons_eff' => 'consultation_effective'), 'cons_eff.ID_CONS = c.ID_CONS' , array('*'));
 		$where = new Where();
 		$where->equalTo('s.ID_SERVICE', $idService);
 		$where->notEqualTo('DATEONLY', $date);
@@ -247,6 +258,7 @@ class ConsultationTable {
 				'Id' => 'ID_PERSONNE'
 		));
 		$select->join(array('c' => 'consultation'), 'p.ID_PERSONNE = c.ID_PATIENT', array('Id_cons' => 'ID_CONS', 'dateonly' => 'DATEONLY', 'Consprise' => 'CONSPRISE', 'date' => 'DATE'));
+		$select->join(array('cons_eff' => 'consultation_effective'), 'cons_eff.ID_CONS = c.ID_CONS' , array('*'));
 		$select->join(array('a' => 'admission'), 'c.ID_PATIENT = a.id_patient', array('Id_admission' => 'id_admission'));
 		$select->where(array('c.ID_SERVICE' => $idService, 'DATEONLY' => $date, 'a.date_cons' => $date, 'c.ARCHIVAGE' => 0));
 		$select->order('id_admission ASC');
@@ -379,6 +391,7 @@ class ConsultationTable {
 				'Id' => 'ID_PERSONNE'
 		));
 		$select->join(array('c' => 'consultation'), 'p.ID_PERSONNE = c.ID_PATIENT', array('Id_cons' => 'ID_CONS', 'Dateonly' => 'DATEONLY', 'Consprise' => 'CONSPRISE', 'date' => 'DATE'));
+		$select->join(array('cons_eff' => 'consultation_effective'), 'cons_eff.ID_CONS = c.ID_CONS' , array('*'));
 		$select->join(array('s' => 'service'), 'c.ID_SERVICE = s.ID_SERVICE', array('Nomservice' => 'NOM'));
 		$where = new Where();
 		$where->equalTo('s.ID_SERVICE', $idService);
@@ -531,5 +544,107 @@ class ConsultationTable {
  		$stat = $sql->prepareStatementForSqlObject($sQuery);
  		$result = $stat->execute()->current();
  		return $result;
+ 	}
+ 	
+ 	
+ 	
+ 	//GESTION DES EXAMENS DU JOUR LORS D'UNE HOSPITALISATION
+ 	//GESTION DES EXAMENS DU JOUR LORS D'UNE HOSPITALISATION
+ 	public function addConsultationExamenDuJour($codeExamen, $values , $IdDuService , $idMedecin){
+ 		$this->tableGateway->getAdapter()->getDriver()->getConnection()->beginTransaction();
+ 		$date = new \DateTime();
+ 		$aujourdhui = $date->format('Y-m-d H:i:s');
+ 		$dateonly = $date->format('Y-m-d');
+ 		
+ 		try {
+ 			$dataconsultation = array(
+					'ID_CONS'=> $codeExamen,
+ 					'ID_MEDECIN'=> $idMedecin,
+ 					'ID_PATIENT'=> $values->id_personne,
+ 					'DATE'=> $aujourdhui,
+ 					'POIDS' => $values->poids,
+ 					'TAILLE' => $values->taille,
+  					'TEMPERATURE' => $values->temperature,
+  					'PRESSION_ARTERIELLE' => $values->pressionarterielle,
+ 					'POULS' => $values->pouls,
+ 					'FREQUENCE_RESPIRATOIRE' => $values->frequence_respiratoire,
+ 					'GLYCEMIE_CAPILLAIRE' => $values->glycemie_capillaire,
+  					'DATEONLY' => $dateonly,
+  					'ID_SERVICE' => $IdDuService
+ 			);
+ 			
+ 			$this->tableGateway->insert($dataconsultation);
+ 	
+ 			$this->tableGateway->getAdapter()->getDriver()->getConnection()->commit();
+ 		} catch (\Exception $e) {
+ 			$this->tableGateway->getAdapter()->getDriver()->getConnection()->rollback();
+ 		}
+ 	}
+ 	
+ 	public function addExamenDuJour($id_cons, $id_hosp){
+ 		$db = $this->tableGateway->getAdapter();
+ 		$sql = new Sql($db);
+ 		$sQuery = $sql->insert()
+ 		->into('examen_du_jour')
+ 		->values(array('ID_CONS' => $id_cons, 'ID_HOSP' => $id_hosp));
+ 		$requete = $sql->prepareStatementForSqlObject($sQuery);
+ 		$requete->execute();
+ 	}
+ 	
+ 	public function getExamenDuJour($id_hosp){
+ 		$db = $this->tableGateway->getAdapter();
+ 		$sql = new Sql($db);
+ 		$sQuery = $sql->select()
+ 		->from(array('e' => 'examen_du_jour'))
+ 		->join(array('c' => 'consultation'), 'c.ID_CONS = e.ID_CONS' , array('*'))
+ 		->join(array('p' => 'personne'), 'p.ID_PERSONNE = c.ID_MEDECIN' , array('NomMedecin' => 'NOM', 'PrenomMedecin' => 'PRENOM'))
+ 		->where(array('ID_HOSP' => $id_hosp))
+ 		->order('DATE DESC');
+ 		$requete = $sql->prepareStatementForSqlObject($sQuery);
+ 		return $requete->execute();
+ 	}
+ 	
+ 	public function supprimerExamenDuJour($id_examen_jour){
+ 		$db = $this->tableGateway->getAdapter();
+ 		$sql = new Sql($db);
+ 		$sQuery = $sql->select()
+ 		->from(array('e' => 'examen_du_jour'))
+ 		->where(array('ID_EXAMEN_JOUR' => $id_examen_jour));
+ 		
+ 		$requete = $sql->prepareStatementForSqlObject($sQuery);
+ 		$result = $requete->execute()->current();
+ 		
+ 		$db2 = $this->tableGateway->getAdapter();
+ 		$sql2 = new Sql($db2);
+ 		$sQuery2 = $sql2->delete()
+ 		->from('consultation')
+ 		->where(array('ID_CONS' => $result['ID_CONS']));
+ 			
+ 		$requete2 = $sql2->prepareStatementForSqlObject($sQuery2);
+ 		$requete2->execute();
+ 		
+ 		return $result['ID_HOSP'];
+ 	}
+ 	
+ 	public function getExamenDuJourParIdExamenJour($id_examen_jour){
+ 		$db = $this->tableGateway->getAdapter();
+ 		$sql = new Sql($db);
+ 		$sQuery = $sql->select()
+ 		->from(array('e' => 'examen_du_jour'))
+ 		->join(array('c' => 'consultation'), 'c.ID_CONS = e.ID_CONS' , array('*'))
+ 		->join(array('p' => 'personne'), 'p.ID_PERSONNE = c.ID_MEDECIN' , array('NomMedecin' => 'NOM', 'PrenomMedecin' => 'PRENOM'))
+ 		->where(array('ID_EXAMEN_JOUR' => $id_examen_jour));
+ 		$requete = $sql->prepareStatementForSqlObject($sQuery);
+ 		return $requete->execute()->current();
+ 	}
+ 	
+ 	public function getConsultationExamenJour($id_cons){
+ 		$db = $this->tableGateway->getAdapter();
+ 		$sql = new Sql($db);
+ 		$sQuery = $sql->select()
+ 		->from(array('c' => 'consultation'))
+ 		->where(array('ID_CONS' => $id_cons));
+ 		$requete = $sql->prepareStatementForSqlObject($sQuery);
+ 		return $requete->execute()->current();
  	}
 }

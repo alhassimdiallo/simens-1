@@ -688,7 +688,7 @@ class PatientTable {
 		return $tab;
 	}
 	
-	public function tousPatientsAdmis($service) {
+	public function tousPatientsAdmis($service, $IdService) {
 		$today = new \DateTime();
 		$date = $today->format('Y-m-d');
 		$adapter = $this->tableGateway->getAdapter ();
@@ -715,12 +715,11 @@ class PatientTable {
 		$statement1 = $sql->prepareStatementForSqlObject ( $select1 );
 		$result1 = $statement1->execute ();
 		
-		$select2 = $sql->select ('consultation');
-		$select2->columns(array(
-				'Id' => 'ID_PATIENT',
-				'Id_cons' => 'ID_CONS',
-				'Date_cons' => 'DATEONLY',));
-		$select2->where(array('DATEONLY' => $date));
+		$select2 = $sql->select ();
+		$select2->from( array( 'cons' => 'consultation'));
+		$select2->columns(array('Id' => 'ID_PATIENT', 'Id_cons' => 'ID_CONS', 'Date_cons' => 'DATEONLY',));
+		$select2->join(array('cons_eff' => 'consultation_effective'), 'cons_eff.ID_CONS = cons.ID_CONS' , array('*'));
+		$select2->where(array('DATEONLY' => $date , 'ID_SERVICE' => $IdService));
 		$statement2 = $sql->prepareStatementForSqlObject ( $select2 );
 		$result2 = $statement2->execute ();
 		$tab = array($result1,$result2);

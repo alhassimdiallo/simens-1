@@ -485,6 +485,7 @@ class ArchivageController extends AbstractActionController {
 	
 		// instancier Consultation
 		$this->getConsultationTable ()->addConsultation ( $form, $IdDuService, $id_medecin );
+		$this->getConsultationTable ()->addConsultationEffective($id_cons);
 		
 		// mettre a jour les motifs d'admission
 		$this->getMotifAdmissionTable ()->deleteMotifAdmission ( $id_cons );

@@ -9,6 +9,14 @@ class SoinForm extends Form {
 		parent::__construct ();
 		
 		$this->add ( array (
+				'name' => 'id_personne',
+				'type' => 'Hidden',
+				'attributes' => array (
+						'id' => 'id_personne',
+				)
+		) );
+		
+		$this->add ( array (
 				'name' => 'id_sh',
 				'type' => 'Hidden',
 				'attributes' => array (
@@ -25,74 +33,28 @@ class SoinForm extends Form {
 		) );
 
 		$this->add ( array (
-				'name' => 'id_soins',
-				'type' => 'Zend\Form\Element\Select',
-				'options' => array (
-						'label' => 'Soin',
-				),
+				'name' => 'date_cons',
+				'type' => 'Hidden',
 				'attributes' => array (
-						'id' => 'id_soins',
+						'id' => 'date_cons',
 				)
 		) );
 		
+	
+		//NOUVEAU CODE POUR LA GESTION DES PRESCRIPTIONS DE SOIN
+		//NOUVEAU CODE POUR LA GESTION DES PRESCRIPTIONS DE SOIN
+		//NOUVEAU CODE POUR LA GESTION DES PRESCRIPTIONS DE SOIN
 		$this->add ( array (
 				'name' => 'duree',
 				'type' => 'Text',
 				'options' => array (
-						'label' => 'Duree (en jour)'
+						'label' => iconv ( 'ISO-8859-1', 'UTF-8', 'Durée (en jour)')
 				),
 				'attributes' => array (
 						'id' => 'duree',
 				)
 		) );
 		
-		$this->add ( array (
-				'name' => 'date_recommandee',
-				'type' => 'Text',
-				'options' => array (
-						'label' => 'Date recommandee'
-				),
-				'attributes' => array (
-						'id' => 'date_recommandee',
-				)
-		) );
-		
-		$this->add ( array (
-				'name' => 'heure_recommandee',
-				'type' => 'Text',
-				'options' => array (
-						'label' => 'Heure recommandee'
-				),
-				'attributes' => array (
-						'id' => 'heure_recommandee',
-				)
-		) );
-		
-		$this->add ( array (
-				'name' => 'note',
-				'type' => 'Textarea',
-				'options' => array (
-						'label' => 'Note'
-				),
-				'attributes' => array (
-						'id' => 'note',
-				)
-		) );
-		
-		$this->add ( array (
-				'name' => 'motif',
-				'type' => 'Textarea',
-				'options' => array (
-						'label' => 'Motif'
-				),
-				'attributes' => array (
-						'id' => 'motif',
-				)
-		) );
-		
-		//NOUVEAU CODE POUR LA GESTION DES PRESCRIPTIONS DE SOIN
-		//NOUVEAU CODE POUR LA GESTION DES PRESCRIPTIONS DE SOIN
-		//NOUVEAU CODE POUR LA GESTION DES PRESCRIPTIONS DE SOIN
 		$this->add ( array (
 				'name' => 'medicament',
 				'type' => 'Text',
@@ -119,7 +81,7 @@ class SoinForm extends Form {
 				'name' => 'frequence',
 				'type' => 'Text',
 				'options' => array (
-						'label' => iconv ( 'ISO-8859-1', 'UTF-8','Fréquence')
+						'label' => iconv ( 'ISO-8859-1', 'UTF-8','Fréquence/jour')
 				),
 				'attributes' => array (
 						'id' => 'frequence',
@@ -141,7 +103,7 @@ class SoinForm extends Form {
 				'name' => 'date_application',
 				'type' => 'Text',
 				'options' => array (
-						'label' => iconv ( 'ISO-8859-1', 'UTF-8','Date d\'application')
+						'label' => iconv ( 'ISO-8859-1', 'UTF-8','Date de début d\'application')
 				),
 				'attributes' => array (
 						'id' => 'date_application',
@@ -226,16 +188,6 @@ class SoinForm extends Form {
 		/**
 		 * ************************* CONSTANTES *****************************************************
 		 */
-		$this->add ( array (
-				'name' => 'date_cons',
-				'type' => 'hidden',
-				'options' => array (
-						'label' => 'Date'
-				),
-				'attributes' => array (
-						'id' => 'date_cons'
-				)
-		) );
 		$this->add ( array (
 				'name' => 'poids',
 				'type' => 'Text',

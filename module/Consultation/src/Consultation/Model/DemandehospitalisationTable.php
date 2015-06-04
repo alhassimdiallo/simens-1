@@ -260,15 +260,12 @@ class DemandehospitalisationTable {
 		->from(array('pat' => 'patient'))->columns(array('id'=>'ID_PERSONNE'))
 		->join(array('pers' => 'personne'), 'pers.ID_PERSONNE = pat.ID_PERSONNE', array())
 		->join(array('cons' => 'consultation'), 'cons.ID_PATIENT = pat.ID_PERSONNE', array())
+		->join(array('cons_eff' => 'consultation_effective'), 'cons_eff.ID_CONS = cons.ID_CONS' , array())
 		->join(array('dh' => 'demande_hospitalisation'), 'dh.id_cons = cons.ID_CONS' , array())
 		->join(array('s' => 'service'), 's.ID_SERVICE = cons.ID_SERVICE', array())
 		->join(array('h' => 'hospitalisation'), 'h.code_demande_hospitalisation = dh.id_demande_hospi', array() )
 		->where(array('dh.valider_demande_hospi'=>1 , 's.ID_SERVICE'=> $id_service, 'cons.ARCHIVAGE'=>1, 'h.terminer'=>0))
 		->order('h.terminer ASC');
-		//$stat1 = $sql1->prepareStatementForSqlObject($sQuery1);
-		//$rResultFt1 = $stat1->execute()->current();
-	
-		//var_dump($rResultFt1); exit();
 		/*
 		 * SQL queries 2
 		 */
@@ -277,6 +274,7 @@ class DemandehospitalisationTable {
 		->from(array('pat' => 'patient'))->columns(array())
 		->join(array('pers' => 'personne'), 'pers.ID_PERSONNE = pat.ID_PERSONNE', array('Nom'=>'NOM','Prenom'=>'PRENOM','Datenaissance'=>'DATE_NAISSANCE','Sexe'=>'SEXE','Adresse'=>'ADRESSE','id'=>'ID_PERSONNE'))
 		->join(array('cons' => 'consultation'), 'cons.ID_PATIENT = pat.ID_PERSONNE', array('Datedemandehospi'=>'DATE', 'Idcons'=>'ID_CONS', 'Archivage' => 'ARCHIVAGE'))
+		->join(array('cons_eff' => 'consultation_effective'), 'cons_eff.ID_CONS = cons.ID_CONS' , array('*'))
 		->join(array('dh' => 'demande_hospitalisation'), 'dh.id_cons = cons.ID_CONS' , array('*'))
 		->join(array('s' => 'service'), 's.ID_SERVICE = cons.ID_SERVICE', array())
 		->join(array('h' => 'hospitalisation'), 'h.code_demande_hospitalisation = dh.id_demande_hospi' , array('Datedebut'=>'date_debut', 'Idhosp'=>'id_hosp', 'Terminer'=>'terminer'))

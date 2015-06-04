@@ -622,7 +622,7 @@ $(function(){
 		// Le formulaire monFormulaire existe deja dans la page
 	    var formulaire = document.createElement("form");
 	 
-	    formulaire.setAttribute("action","/simenss/public/consultation/update-complement-consultation"); 
+	    formulaire.setAttribute("action","/simens/public/consultation/update-complement-consultation"); 
 	    formulaire.setAttribute("method","POST"); 
 	    for( donnee in donnees){
 	     // Ajout dynamique de champs dans le formulaire
