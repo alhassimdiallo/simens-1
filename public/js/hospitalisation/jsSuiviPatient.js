@@ -258,10 +258,6 @@
     			var result = jQuery.parseJSON(data);
     			$("#contenu").fadeOut(function(){
     				$("#vue_detail_hospi_patient").html(result).fadeIn("fast"); 
-    				
-//    				var player = document.querySelector('#audioPlayer');
-//    				player.play();
-//    				$('#listeSoin thead').click(function(){ player.play(); });
     			}); 
     		},
     		error:function(e){console.log(e);alert("Une erreur interne est survenue!");},
@@ -273,6 +269,19 @@
     	//Raffraichissement de la liste
     	
     	intervalID = setInterval('RaffraichirListe()',16000);
+    	arreterAvecOk();
+    }
+    
+    function arreterAvecOk(){
+    	setTimeout(function(){
+    		$('#clickOK').click(function(){
+        		clearInterval(intervalID);
+            	//Pour l audio player
+            	player.pause();
+            	player.currentTime = 0;
+            	$('#clickOK').fadeOut();
+        	});
+    	}, 1500);
     }
     
     function RaffraichirListe (){
@@ -288,6 +297,7 @@
     		success: function(data) {    
     			var result = jQuery.parseJSON(data);
     			$("#info_liste").html(result);
+    			arreterAvecOk();
     		},
             
     		error:function(e){console.log(e);alert("Une erreur interne est survenue!");},

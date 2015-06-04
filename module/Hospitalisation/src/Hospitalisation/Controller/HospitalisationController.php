@@ -925,7 +925,9 @@ class HospitalisationController extends AbstractActionController {
 					$diff = $heureSuivanteM - $heureActuelleM;
 					
 					if($diff <= 15){
-						$heureSuiv = "<khass id='alertHeureApplicationSoinUrgent' style='color: red; font-weight: bold; font-size: 20px; color: red;'>".$heureSuivante['heure']."</khass>
+						$heureSuiv = "<khass id='alertHeureApplicationSoinUrgent' style='color: red; font-weight: bold; font-size: 20px; color: red;'>".$heureSuivante['heure']."
+								      </khass>
+								      <i  id='clickOK' style='padding-left: 20px; color: green; font-family: Venus Rising; font-size: 18px; cursor:pointer;' > OK </i>  
 								      <audio id='audioPlayer' src='../images_icons/alarme.mp3' ></audio>"; 
 						              $play = true;
 					}else {
