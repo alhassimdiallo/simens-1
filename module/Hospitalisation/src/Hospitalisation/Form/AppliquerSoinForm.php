@@ -42,5 +42,14 @@ class AppliquerSoinForm extends Form {
 						'id' => 'note',
 				)
 		) );
+		
+		
+		$this->add ( array (
+				'name' => 'play',
+				'type' => 'Hidden',
+				'attributes' => array (
+						'id' => 'play',
+				)
+		) );
 	}
 }

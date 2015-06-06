@@ -97,10 +97,6 @@
     	
     	$("#titre2").replaceWith("<div id='titre' style='font-family: police2; color: green; font-size: 20px; font-weight: bold; padding-left:20px;'><iS style='font-size: 25px;'>&curren;</iS> LISTE DES PATIENTS </div>");
     	
-    	//$("#hospitaliser").css({'visibility':'hidden'});
-        //$("#contenu").fadeIn(500); $("#division").val(""); $("#salle,#lit").html("");
-	    //$('div .dataTables_paginate').css({ 'margin-right' : '0'});
-	    	
     	$('#listeDataTable').css({'margin-left' : '-10'});
     	
  		$("#medicament, #voie_administration, #frequence, #dosage, #date_application, #heure_recommandee_, #duree").css("border-color","");
@@ -268,7 +264,7 @@
         $('#id_demande_hospi').val(id_demande_hospi);
         
         $('#lebererPatientHospi'+id_demande_hospi).click(function(){
-        	LibererPourTransferePatient(id_demande_hospi);
+        	LibererPourTransfererPatient(id_demande_hospi);
         });
 	    //$('#date_recommandee, #heure_recommandee, #id_soins, #duree, #note, #motif').css({'font-weight':'bold','color':'#065d10','font-family': 'Times  New Roman','font-size':'16px'});
 	    controle_saisie();
@@ -1148,7 +1144,7 @@
 	  
 	  
 	  
-	  function LibererPourTransferePatient(id_demande_hospi){
+	  function LibererPourTransfererPatient(id_demande_hospi){
 		  
 	    var tooltips = $("#medicament, #voie_administration, #frequence, #dosage, #date_application, #heure_recommandee_, #duree").tooltip();
 	    tooltips.tooltip( "close" );
@@ -1186,6 +1182,7 @@
               	var result = jQuery.parseJSON(data);
               	$("#vue_liberer_patient").html(result).fadeIn(0); 
               	$("#terminerLiberer").replaceWith("<button id='terminerLiberer2'>Annuler</button>");
+              	$("#motif_sorti").val("Transfert:  "+$("#motif_transfert").val());
               	
               	$("#terminerLiberer2").click(function(){
         	    	$("#titre").replaceWith("<div id='titre2' style='font-family: police2; color: green; font-size: 20px; font-weight: bold; padding-left:20px;'><iS style='font-size: 25px;'>&curren;</iS> ADMINISTRER DES SOINS </div>");
@@ -1202,7 +1199,6 @@
           });
           
 	  }
-	  
 	  
 	  
 	  

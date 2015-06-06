@@ -2629,7 +2629,8 @@ class ConsultationController extends AbstractActionController {
 	                   $('#resumer_medical').val('');
 	                   $('#motif_sorti').val('');
 		              }
-					  $('#resumer_medical, #motif_sorti').css({'font-weight':'bold','color':'#065d10','font-family': 'Times  New Roman','font-size':'16px'});
+					  //$('#resumer_medical, #motif_sorti').css({'font-weight':'bold','color':'#065d10','font-family': 'Times  New Roman','font-size':'16px'});
+					  $('#resumer_medical, #motif_sorti').css({'font-size':'17px'});
 					</script>
 					";
 		}

@@ -232,11 +232,13 @@
     	
 	    $("#terminerdetailhospi").click(function(){
 
+	    	//alert($('#play').val());
 	    	clearInterval(intervalID);
-	    	//Pour l audio player
-	    	player.pause();
-	    	player.currentTime = 0;
-	    	
+	    	if($('#play').val() == 1){
+	    		//Pour l audio player
+		    	player.pause();
+		    	player.currentTime = 0;
+	    	}
 	    	
 	    	$("#titre2").replaceWith("<div id='titre' style='font-family: police2; color: green; font-size: 20px; font-weight: bold; padding-left:20px;'><iS style='font-size: 25px;'>&curren;</iS> LISTE DES PATIENTS </div>");
   	    	$("#vue_detail_hospi_patient").fadeOut(function(){
@@ -276,7 +278,7 @@
     	//Raffraichissement de la liste
     	
     	intervalID = setInterval('RaffraichirListe()',16000);
-    	//arreterAvecOk();
+    	arreterAvecOk();
     }
     
     function arreterAvecOk(){
@@ -304,8 +306,11 @@
     		success: function(data) {    
     			var result = jQuery.parseJSON(data);
     			$("#info_liste").html(result);
-    			//arreterAvecOk();
-    		}
+    			arreterAvecOk();
+    		},
+            
+    		error:function(e){console.log(e);alert("Une erreur interne est survenue!");},
+    		dataType: "html"
     	});
     }
     

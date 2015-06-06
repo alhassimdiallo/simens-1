@@ -97,6 +97,7 @@ $(window).load(function () {
              
              <div id="info_soin" style="font-size: 16px;">
                 <?php $form = $this->form;?>
+                <?php echo $this->formhidden($form->get('play'));?>
                 <?php echo $this->formhidden($form->get('id_hosp'));?>
 
                 <span id="HeureActu" style="position:absolute; right: 30px; top: 15px; color: red; font-weight: bold; font-family: time new romans; font-size: 20px;"> --- </span>

@@ -867,7 +867,16 @@ class HospitalisationController extends AbstractActionController {
 // 		else{
 // 			$h = "c pas bon";
 // 		}
-//         var_dump($h); exit();
+
+// 		$hd=explode(":","19:55"); //actu
+// 		$hf=explode(":","21:00"); //fin
+// 		$hd[0]=(int)($hd[0]);$hd[1]=(int)($hd[1]);
+// 		$hf[0]=(int)($hf[0]);$hf[1]=(int)($hf[1]);
+// 		if($hf[1]<$hd[1]){$hf[0]=$hf[0]-1;$hf[1]=$hf[1]+60;}
+// 		if($hf[0]<$hd[0]){$hf[0]=$hf[0]+24;}
+// 		$result = (($hf[0]-$hd[0]).":".($hf[1]-$hd[1]));
+		
+//         var_dump($result); exit();
 		
 		
 		$formAppliquerSoin = new AppliquerSoinForm();
@@ -919,9 +928,9 @@ class HospitalisationController extends AbstractActionController {
 				$heureActuelleH = $today->format('H');
 				$heureSuivanteH = substr($heureSuivante['heure'], 0, 2);
 				
-				if($heureActuelleH == $heureSuivanteH){
+				if($heureSuivanteH-$heureActuelleH == 1){
 					$heureActuelleM = $today->format('i');
-					$heureSuivanteM = substr($heureSuivante['heure'], 3, 2);
+					$heureSuivanteM = 59;
 					$diff = $heureSuivanteM - $heureActuelleM;
 					
 					if($diff <= 15){
@@ -1099,7 +1108,12 @@ class HospitalisationController extends AbstractActionController {
 					  player.play();
 					  },1000);
 					
+					  $('#play').val(1);
 					  $('#listeSoin thead').click(function(){ player.play(); });
+					</script>";
+		}else {
+			$html .="<script>
+					  $('#play').val(0);
 					</script>";
 		}
 		
