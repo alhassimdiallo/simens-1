@@ -58,7 +58,7 @@ class ServiceTable{
 		$result = $stat->execute()->current();
 		return $result;
 	}
-	public function getServiceHopital($idHopital){
+	public function getServiceHopital($idHopital, $IdDuService){
 		$adapter = $this->tableGateway->getAdapter ();
 		$sql = new Sql($adapter);
 		$select = $sql->select();
@@ -66,7 +66,7 @@ class ServiceTable{
 		$select->columns(array( 'Id_service' =>'ID_SERVICE','Nom_service' =>'NOM'));
 		$select->join(array('hs'=>'hopital_service'), 's.ID_SERVICE = hs.ID_SERVICE');
 		$select->join(array('h'=>'hopital'), 'hs.ID_HOPITAL = h.ID_HOPITAL');
-		$select->where(array('h.ID_HOPITAL'=>$idHopital));
+		$select->where(array('h.ID_HOPITAL' => $idHopital, 's.ID_SERVICE != ?' => $IdDuService));
 		$stat = $sql->prepareStatementForSqlObject($select);
 		$result = $stat->execute();
 		return $result;

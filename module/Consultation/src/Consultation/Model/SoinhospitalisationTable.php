@@ -94,6 +94,25 @@ class SoinhospitalisationTable {
 			return $tab;
 	}
 	
+	public function getHeuresGroup($id_sh)
+	{
+		$adapter = $this->tableGateway->getAdapter();
+		$sql = new Sql($adapter);
+		$select = $sql->select();
+		$select->from('heures_soins');
+		$select->where(array('id_sh'=>$id_sh));
+		$select->group('heure');
+	
+		$stat = $sql->prepareStatementForSqlObject($select);
+		$result = $stat->execute();
+			
+		$tab = array();
+		foreach ($result as $resultat){
+			$tab[] = $resultat['heure'];
+		}
+		return $tab;
+	}
+	
 	public function saveSoinhospitalisation($SoinHospitalisation, $id_medecin)
 	{
 		$this->getDateHelper();
@@ -137,16 +156,8 @@ class SoinhospitalisationTable {
 	
 	public function supprimerHospitalisation($id_sh) {
 		
+		//La suppression du soin implique automatiquement celle des heures recommandées  
 		if($this->getSoinhospitalisationWithId_sh($id_sh)){
-			$adapter = $this->tableGateway->getAdapter();
-			$sql = new Sql($adapter);
-			$select = $sql->delete();
-			$select->from('heures_soins');
-			$select->where(array('id_sh'=>$id_sh));
-			
-			$stat = $sql->prepareStatementForSqlObject($select);
-			$result = $stat->execute();
-			
 			$this->tableGateway->delete(array('id_sh' => $id_sh)); 
 		}
 	}

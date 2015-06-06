@@ -601,14 +601,15 @@ $(window).load(function () {
 	<div id='form_ajout_soins'>
     <?php
     $form = $this->form;
-    $form->setAttribute ( 'action', $this->url ( 'hospitalisation', array ('action' => 'en-courssss') ));
+    //$form->setAttribute ( 'action', $this->url ( 'hospitalisation', array ('action' => 'en-courssss') ));
     $form->prepare ();
-    echo $this->form ()->openTag ( $form ); 
+    echo $this->form ()->openTag ( $form );  
     ?>
     <?php echo $this->formhidden($form->get('id_sh'));?>
     <?php echo $this->formhidden($form->get('id_hosp'));?>
     <?php echo $this->formhidden($form->get('date_cons'));?>
     <?php echo $this->formhidden($form->get('id_personne'));?>
+    <?php echo $this->formhidden($form->get('id_demande_hospi'));?>
 
     <table id="form_patient" style="width: 100%;">  
       
@@ -766,7 +767,7 @@ $(window).load(function () {
                  <span style="float:left; margin:0 0px 20px 0; font-size:17px; ">
                  <img src="<?php echo $this->basepath().'/images_icons/warning_16.png';?>" />
                                 
-                 Toutes les donn&eacute;es saisies seront effac&eacute;es .. </span>
+                 Toutes les informations entr&eacute;es seront supprim&eacute;es .. </span>
              </p>
              
         </div>
@@ -963,6 +964,6 @@ $("#fleche_plus").click(function(){
 	}
 });
 
-
+//$('div .dataTables_paginate').css({ 'margin-right' : '0'});
 envoiDesDonnees();
 </script>

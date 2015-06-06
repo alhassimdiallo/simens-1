@@ -122,6 +122,8 @@ class TransfererPatientServiceTable{
 		$select->join(array('s'=>'service'), 's.ID_SERVICE = hs.ID_SERVICE' , array('*'));
 		$stat = $sql->prepareStatementForSqlObject($select);
 		$result = $stat->execute();
+		
+		$options = array("0" => "");
 		foreach ($result as $data) {
 			if($data['ID_SERVICE'] != $idDuService){
 				$options[$data['ID_SERVICE']] = $data['NOM'];

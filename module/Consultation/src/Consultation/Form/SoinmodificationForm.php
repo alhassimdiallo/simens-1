@@ -50,7 +50,7 @@ class SoinmodificationForm extends Form {
 				'name' => 'frequence_m',
 				'type' => 'Text',
 				'options' => array (
-						'label' => iconv ( 'ISO-8859-1', 'UTF-8','Fréquence')
+						'label' => iconv ( 'ISO-8859-1', 'UTF-8','Fréquence/jour')
 				),
 				'attributes' => array (
 						'id' => 'frequence_m',
@@ -72,7 +72,7 @@ class SoinmodificationForm extends Form {
 				'name' => 'date_application_m',
 				'type' => 'Text',
 				'options' => array (
-						'label' => iconv ( 'ISO-8859-1', 'UTF-8','Date d\'application')
+						'label' => iconv ( 'ISO-8859-1', 'UTF-8','Date de début d\'application')
 				),
 				'attributes' => array (
 						'id' => 'date_application_m',
@@ -140,5 +140,15 @@ class SoinmodificationForm extends Form {
 				)
 		) );
 		
+		$this->add ( array (
+				'name' => 'duree_m',
+				'type' => 'Text',
+				'options' => array (
+						'label' => iconv ( 'ISO-8859-1', 'UTF-8', 'Durée (en jour)')
+				),
+				'attributes' => array (
+						'id' => 'duree_m',
+				)
+		) );
 	}
 }

@@ -1829,12 +1829,14 @@ class ConsultationController extends AbstractActionController {
 	//******* R�cup�rer les services correspondants en cliquant sur un hopital
 	public function servicesAction()
 	{
-		$id=(int)$this->params()->fromPost ('id');
+		$user = $this->layout()->user;
+		$IdDuService = $user['IdService'];
+		
+		$id = (int)$this->params()->fromPost ('id');
 	
 		if ($this->getRequest()->isPost()){
 			$liste_select = "";
-			$services= $this->getServiceTable();
-			foreach($services->getServiceHopital($id) as $listeServices){
+			foreach($this->getServiceTable()->getServiceHopital($id, $IdDuService) as $listeServices){
 				$liste_select.= "<option value=".$listeServices['Id_service'].">".$listeServices['Nom_service']."</option>";
 			}
 				
@@ -2431,6 +2433,7 @@ class ConsultationController extends AbstractActionController {
 		//RECUPERATION DE LA LISTE DES SERVICES DE L'HOPITAL OU SE TROUVE LE SERVICE OU LE MEDECIN TRAVAILLE
 		$serviceHopital = $this->getTransfererPatientServiceTable ()->fetchServiceWithHopitalNotServiceActual($idHopital, $IdDuService);
 		//LISTE DES SERVICES DE L'HOPITAL
+		//var_dump($serviceHopital); exit();
 		$formSoin->get ( 'service_accueil' )->setValueOptions ($serviceHopital);
 		
 		$date = new \DateTime();
@@ -3100,7 +3103,6 @@ class ConsultationController extends AbstractActionController {
 		$html .="</div>";
 		
 		$html .="<script> 
-				  /*$('#Liste_soins_deja_prescrit').toggle(false);*/ 
 				  depliantPlus6();
 				 </script>";
 	
@@ -3122,7 +3124,7 @@ class ConsultationController extends AbstractActionController {
 		
 		$this->getDateHelper();
 		$soin = $this->getSoinHospitalisationTable()->getSoinhospitalisationWithId_sh($id_sh);
-		$heure = $this->getSoinHospitalisationTable()->getHeures($id_sh);
+		$heure = $this->getSoinHospitalisationTable()->getHeuresGroup($id_sh);
 		
 		$lesHeures = "";
 		if($heure){
@@ -3143,9 +3145,10 @@ class ConsultationController extends AbstractActionController {
  					'voie_administration_m' => $soin->voie_administration,
 					'frequence_m' => $soin->frequence,
 					'dosage_m' => $soin->dosage,
- 					'date_application_m' => $this->controlDate->convertDate($soin->date_application_recommandee),
+ 					'date_application_m' => $this->controlDate->convertDate($soin->date_debut_application),
 					'motif_m' => $soin->motif,
 					'note_m' => $soin->note,
+					'duree_m' => $soin->duree,
 			);
 				
 			$form->populateValues($data);
@@ -3169,8 +3172,8 @@ class ConsultationController extends AbstractActionController {
 		             		
 		           <tr class='comment-form-patient' style='width: 100%;'>
 		             <td style='width: 25%;'> ".$formRow($form->get('date_application_m')).$formText($form->get('date_application_m'))."</td>
-		             <td colspan='2' style='width: 25%;'>".$formRow($form->get('heure_recommandee_m')).$formText($form->get('heure_recommandee_m'))."</td>
-		             <td style='width: 25%;'></td>
+		             <td style='width: 25%;'> ".$formRow($form->get('duree_m')).$formText($form->get('duree_m'))."</td>
+             		 <td colspan='2' style='width: 25%;'>".$formRow($form->get('heure_recommandee_m')).$formText($form->get('heure_recommandee_m'))."</td>
 		           </tr>
 		         </table>
 		
@@ -3183,7 +3186,8 @@ class ConsultationController extends AbstractActionController {
 		           </tr>
 		         </table>";
 		$html .="<script>
-				  $('#medicament_m, #voie_administration_m, #frequence_m, #dosage_m, #date_application_m, #heure_recommandee_m, #motif_m, #note_m').css({'font-weight':'bold','color':'#065d10','font-family': 'Times  New Roman','font-size':'18px'});
+				    //$('#medicament_m, #voie_administration_m, #frequence_m, #dosage_m, #date_application_m, #heure_recommandee_m, #motif_m, #note_m').css({'font-weight':'bold','color':'#065d10','font-family': 'Times  New Roman','font-size':'18px'});
+				    $('#duree_m, #heure_recommandee_m').attr('disabled', true).css({'background':'f9f9f9'});
 				    $('#heure_recommandee_m').val('".$lesHeures."');
 				    $(function() {
     	              $('.SlectBox_m').SumoSelect({ csvDispCount: 6 });

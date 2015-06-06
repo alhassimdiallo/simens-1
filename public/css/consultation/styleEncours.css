@@ -180,6 +180,7 @@ minus{
 div .dataTables_paginate
 {
 	margin-bottom: 20px;
+	margin-right: 0px;
 }
 
 .dataTables_paginate .first

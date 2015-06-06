@@ -113,34 +113,10 @@ $(window).load(function () {
 <script type="text/javascript">
 function FaireClignoterImage (){
      $("#clignoterHeure, #alertHeureApplicationSoin").fadeOut(900).fadeIn(800);
-//      var uneDate = new Date();
-//      var minute = uneDate.getMinutes();
-
-//      var diff = $('#heure_suivante').val() - minute;
-
-//      if(diff > 0 && diff <= 15){
-//     	 //alert(diff);
-//     	 $("#inform").html(
-//     	    	 "<khass id='alertHeureApplicationSoinUrgent' style='color: red; font-weight: bold; font-size: 20px; color: red;'>"+
-//     	    	 $('#heure_suivante').val()+"</khass>"+
-// 			     "<audio src='../images_icons/alarme.mp3' autoplay></audio>"+
-// 			     ""
-// 			      );
-//      }
-
-     //alert($('#heure_suivante').val());
-     //alert(minute);
-     //stopPropagation();
 }
+
 $(function(){
  setInterval('FaireClignoterImage()',2200);
-});
-
-function FaireClignoterPourAlerte (){
-    $("#alertHeureApplicationSoinUrgent").fadeOut(250).fadeIn(200);
-}
-$(function(){
-setInterval('FaireClignoterPourAlerte()',500);
 });
 
 

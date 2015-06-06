@@ -40,6 +40,14 @@ class SoinForm extends Form {
 				)
 		) );
 		
+		$this->add ( array (
+				'name' => 'id_demande_hospi',
+				'type' => 'Hidden',
+				'attributes' => array (
+						'id' => 'id_demande_hospi',
+				)
+		) );
+		
 	
 		//NOUVEAU CODE POUR LA GESTION DES PRESCRIPTIONS DE SOIN
 		//NOUVEAU CODE POUR LA GESTION DES PRESCRIPTIONS DE SOIN

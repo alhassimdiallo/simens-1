@@ -339,7 +339,7 @@ class DemandehospitalisationTable {
 							$html  .="<infoBulleVue><a href='javascript:administrerSoin(".$aRow[ 'id_demande_hospi' ].")'>";
 							$html .="<img style='display: inline; margin-right: 14%;' src='".$tabURI[0]."public/images_icons/details.png' title='Administrer'></a></infoBulleVue>";
 	
-							$html  .="<infoBulleVue><a href='javascript:liberer(".$aRow[ 'id_demande_hospi' ].")'>";
+							$html  .="<infoBulleVue><a id='lebererPatientHospi".$aRow[ 'id_demande_hospi' ]."'  href='javascript:liberer(".$aRow[ 'id_demande_hospi' ].")'>";
 							$html .="<img style='display: inline;' src='".$tabURI[0]."public/images_icons/edit_item_btn.png' title='Libérer'></a></infoBulleVue>";
 						
 						}else {
