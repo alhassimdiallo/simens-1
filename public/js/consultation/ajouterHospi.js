@@ -196,6 +196,7 @@ $(function(){
 			}
 		}
 		
+		
 //		$.ajax({
 //	        type: 'POST',
 //	        url: tabUrl[0]+'public/consultation/demande-examen',
@@ -230,11 +231,12 @@ $(function(){
 	    		$("#icone_supp_vider a img").toggle(false);
 	    		$("#bouton_morpho_modifier_demande").toggle(true);
 	    		$("#bouton_morpho_valider_demande").toggle(false);
-	    		return false;
+	    		//return false;
 //	      },
 //	      error:function(e){console.log(e);alert("Une erreur interne est survenue!");},
 //	      dataType: "html"
 //		});
+	    alert('en cours de developpement'); exit();
 		return false;
 	});
 	

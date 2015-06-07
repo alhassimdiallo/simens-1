@@ -2530,9 +2530,14 @@ class ConsultationController extends AbstractActionController {
 			
 		$html .= "</div>";
 		
-		$html .= "<div id='titre_info_deces'>D&eacute;tails des infos sur la demande </div>
+		$html .= "<div id='titre_info_deces'> 
+				     <span id='titre_info_demande41' style='margin-left: -10px; cursor:pointer;'>
+				        <img src='../img/light/plus.png' /> D&eacute;tails des infos sur la demande
+				     </span>
+				  </div>
 		          <div id='barre'></div>";
 		
+		$html .= "<div id='info_demande41'>";
 		$html .= "<table style='margin-top:10px; margin-left: 195px; width: 80%;'>";
 		$html .= "<tr style='width: 95%;'>";
 		$html .= "<td style='width: 25%; height: 50px; vertical-align: top;'><a style='text-decoration:underline; font-size:12px;'>Consultation:</a><br><p style='font-weight:bold; font-size:17px;'>" . $id_cons . "</p></td>";
@@ -2548,6 +2553,7 @@ class ConsultationController extends AbstractActionController {
 		$html .="<td style='padding-top: 10px; padding-bottom: 0px; padding-right: 30px; width: 20%; '><a style='text-decoration:underline; font-size:13px;'>Note:</a><br><p id='circonstance_deces' style='background:#f8faf8; font-weight:bold; font-size:17px;'> </p></td>";
 		$html .="</tr>";
 		$html .="</table>";
+		$html .= "</div>";
 		
 		/***
 		 * UTILISER UNIQUEMENT DANS LA VUE DE LA LISTE DES PATIENTS EN COURS D'HOSPITALISATION
@@ -2560,18 +2566,24 @@ class ConsultationController extends AbstractActionController {
 			$salle = $this->getSalleTable()->getSalle($lit->id_salle);
 			$batiment = $this->getBatimentTable()->getBatiment($salle->id_batiment);
 				
-			$html .= "<div id='titre_info_deces'>Infos sur l'hospitalisation </div>
-		          <div id='barre'></div>";
+			$html .= "<div id='titre_info_deces'>
+					   <span id='titre_info_hospitalisation21' style='margin-left:-10px; cursor:pointer;'>
+				          <img src='../img/light/plus.png' /> Infos sur l'hospitalisation
+				       </span>
+					  </div>
+		              
+					  <div id='barre'></div>";
+			
+			$html .= "<div id='info_hospitalisation21'>";
 			$html .= "<table style='margin-top:10px; margin-left: 195px; width: 80%;'>";
 			$html .= "<tr style='width: 80%;'>";
-			
 			$html .= "<td style='width: 25%; height: 50px; vertical-align: top;'><a style='text-decoration:underline; font-size:12px;'>Date d&eacute;but:</a><br><p style='font-weight:bold; font-size:17px;'>" . $this->controlDate->convertDateTime($hospitalisation->date_debut) . "</p></td>";
 			$html .= "<td style='width: 25%; height: 50px; vertical-align: top;'><a style='text-decoration:underline; font-size:12px;'>Batiment:</a><br><p style=' font-weight:bold; font-size:17px;'>".$batiment->intitule."</p></td>";
 			$html .= "<td style='width: 20%; height: 50px; vertical-align: top;'><a style='text-decoration:underline; font-size:12px;'>Salle:</a><br><p style=' font-weight:bold; font-size:17px;'>".$salle->numero_salle."</p></td>";
 			$html .= "<td style='width: 30%; height: 50px; vertical-align: top;'><a style='text-decoration:underline; font-size:12px;'>Lit:</a><br><p style=' font-weight:bold; font-size:17px;'>".$lit->intitule."</p></td>";
-				
 			$html .= "</tr>";
 			$html .= "</table>";
+			$html .= "</div>";
 		}
 		
 		if($terminer == 0) {
@@ -2588,7 +2600,7 @@ class ConsultationController extends AbstractActionController {
 		else if($terminer == 111) {
 			$html .="<div style='width: 100%; height: 270px;'>";
 				
-			$html .= "<div id='titre_info_deces'>Info lib&eacute;ration du patient </div>
+			$html .= "<div id='titre_info_deces' >Infos sur la lib&eacute;ration du patient </div>
 		              <div id='barre'></div>";
 				
 			$chemin = $this->getServiceLocator()->get('Request')->getBasePath();
@@ -2617,11 +2629,10 @@ class ConsultationController extends AbstractActionController {
                      </div>";
 				
 			$html .="<div style='width: 10%; padding-left: 30%; float:left;'>";
-			$html .="<div class='block' id='thoughtbot' style=' float:left; width: 30%; vertical-align: bottom;  margin-bottom: 40px; padding-top: 35px; font-size: 18px; font-weight: bold;'><button type='submit' id='liberer'>Lib&eacute;rer</button></div>
-                     </div>";
-			$html .="<div class='block' id='thoughtbot' style=' float:left; width: 30%; vertical-align: bottom;  margin-bottom: 40px; padding-top: 35px; font-size: 18px; font-weight: bold;'><button id='terminerLiberer'>Annuler</button></div>
-                     </div>";
-			$html .="</div>";
+			$html .="<div class='block' id='thoughtbot' style=' float:left; width: 30%; vertical-align: bottom;  margin-bottom: 40px; padding-top: 35px; font-size: 18px; font-weight: bold;'><button id='terminerLiberer'>Annuler</button></div>";
+            $html .="</div>";
+			
+            $html .="<div class='block' id='thoughtbot' style=' float:left; width: 30%; vertical-align: bottom;  margin-bottom: 40px; padding-top: 35px; font-size: 18px; font-weight: bold;'><button type='submit' id='liberer'>Lib&eacute;rer</button></div>";
 			$html .="</form>";
 		
 			$html .="<script>
@@ -2638,6 +2649,9 @@ class ConsultationController extends AbstractActionController {
 		
 		$html .="<script>
 				  listepatient();
+				  initAnimationVue();
+				  animationPliantDepliant21();
+		          animationPliantDepliant41();
 				 </script>";
 		
 		$this->getResponse ()->getHeaders ()->addHeaderLine ( 'Content-Type', 'application/html; charset=utf-8' );
@@ -2839,9 +2853,31 @@ class ConsultationController extends AbstractActionController {
 			//Récupération de l'heure suivante pour l'application du soin par l'infirmier
 			$heureSuivante = $this->getSoinHospitalisationTable()->getHeureSuivantePourAujourdhui($Liste['id_sh']);
 				
+			$idHeure = null;
 			$heureSuiv = null;
 			if($heureSuivante){
-				$heureSuiv = "<span style='color: red; font-weight: bold; font-size: 20px;'>".$heureSuivante['heure']."</span>";
+				$heureActuelleH = $today->format('H');
+				$heureSuivanteH = substr($heureSuivante['heure'], 0, 2);
+				
+				if($heureSuivanteH-$heureActuelleH == 1){
+					$heureActuelleM = $today->format('i');
+					$heureSuivanteM = 59;
+					$diff = $heureSuivanteM - $heureActuelleM;
+					
+					if($diff <= 15){
+						$heureSuiv = "<khass id='alertHeureApplicationSoinUrgent".$Liste['id_sh']."' style='color: red; font-weight: bold; font-size: 20px; color: red;'>".$heureSuivante['heure']."
+								      </khass>
+								      <!-- i  id='clickOK' style='padding-left: 20px; color: green; font-family: Venus Rising; font-size: 18px; cursor:pointer;' > OK </i-->  
+								      <audio id='audioPlayer' src='../images_icons/alarme.mp3' ></audio>"; 
+						              $play = true;
+					}else {
+						$heureSuiv = "<khass id='alertHeureApplicationSoin' style='color: red; font-weight: bold; font-size: 20px; color: red;'>".$heureSuivante['heure']."</khass>";
+					}
+					
+				}else {
+					$heureSuiv = "<khass style='color: red; font-weight: bold; font-size: 20px;'>".$heureSuivante['heure']."</khass>";
+				}
+				$idHeure = $heureSuivante['id_heure'];
 			}
 			
 			
@@ -3000,6 +3036,15 @@ class ConsultationController extends AbstractActionController {
 	                    var tooltips = $( '.etat_non".$Liste['id_sh']."' ).tooltip();
 	                    tooltips.tooltip( 'close' );
 	                  });
+	                    		
+	                  function FaireClignoterPourAlerte".$Liste['id_sh']." (){
+                          $('#alertHeureApplicationSoinUrgent".$Liste['id_sh']."').fadeOut(250).fadeIn(200);
+                      }
+
+                      $(function(){
+                          setInterval('FaireClignoterPourAlerte".$Liste['id_sh']." ()',500);
+                      });
+                          		
 			        </script>";
 		}
 		$html .="</tbody>";

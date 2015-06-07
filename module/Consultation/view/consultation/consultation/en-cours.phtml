@@ -4,7 +4,7 @@ var tabUrl = base_url.split("public");
 
  /***POUR LE MENU GAUCHE dans -elementgauche.phtml***/
  $('#plus_dossier_personnel').toggle(true); 
- $("#dossier_personnel").replaceWith("<li id='dossier_personnel' style='background:#4a5765;'><a href=''><span style='margin-left:0px; color: #ffffff; font-weight:bold; font-size:20px; font-family:Times New Roman;'> <img style='display: inline;' src='"+tabUrl[0]+"public/images_icons/moins-vert.PNG' alt='Liste' /> Hospitalisations </span></a></li>");
+ $("#dossier_personnel").replaceWith("<li id='dossier_personnel' style='background:#4a5765;'><a href=''><span style='margin-left:0px; color: #ffffff; font-weight:bold; font-size:20px; font-family:Times New Roman;'> <img style='display: inline;' src='"+tabUrl[0]+"public/images_icons/moin-green2.png' alt='Liste' /> Hospitalisations </span></a></li>");
  dep_dossier_personnel1();
  $('#en_cours_style').css({'font-weight':'bold','color':'white','font-size':'22px'});
 </script>
@@ -17,10 +17,11 @@ echo $this->headLink()->appendStylesheet($this->basepath().'/css/facturation/Dat
 <?php 
 echo $this->headScript()->appendFile($this->basepath().'/js/jquery.sumoselect.js');
 echo $this->headLink()->appendStylesheet($this->basepath().'/css/sumoselect.css');
+
 echo $this->headScript()->appendFile($this->basePath().'/js/consultation/ajouterDonnees.js');
 echo $this->headScript()->appendFile($this->basePath().'/js/consultation/ajouterExamensBioHospi.js');
 echo $this->headScript()->appendFile($this->basePath().'/js/consultation/ajouterHospi.js');
-echo  $this->headScript()->appendFile($this->basePath().'/js/consultation/ajouterMotifsHospi.js');
+echo $this->headScript()->appendFile($this->basePath().'/js/consultation/ajouterMotifsHospi.js');
 ?> 
 <!-- MES JS -->
 <?php 
@@ -143,7 +144,7 @@ $(window).load(function () {
           <!-- **0** --> 
           <div id='listeDeTousLesExamens' style='font-family: police2;font-size: 17px; font-weight: bold;'>Liste des examens</div>
             
-            <div id='listeDesExamens' style=''>
+            <div id='listeDesExamens' >
                
                  <!-- AFFICHAGE DE LA LISTE DES EXAMENS  -->
                            
@@ -155,7 +156,7 @@ $(window).load(function () {
          <!-- ******************** PLAINTE ET EXAMEN DU JOUR ******************-->
          <!--*3*-->
          <div style='font-family: police2;font-size: 17px; font-weight: bold;'>Plainte et examens du jour</div>
-           <div style='height: 200px;'>
+           <div id='accordionListeDesPlaintesEtExamensDuJour' style='height: 200px;'>
                 
                 <div style='width: 100%; height: 30px;'>
                    <div style='width: 70%; float: left; '>
@@ -229,7 +230,7 @@ $(window).load(function () {
           <!--**************** sous accordeon LES CONSTANTES ************************-->
           <!-- **1** --> 
           <div id='listeDeToutesLesConstantes' style='font-family: police2;font-size: 17px; font-weight: bold;'>Constantes</div>
-            <div>
+            <div id='accordionListeDeToutesLesConstantes'>
              <table  id="respond" style="width: 100%">
 
                     <tr class="comment-form-author">
@@ -295,7 +296,7 @@ $(window).load(function () {
           <!-- ********************Accordeon DONNEES DE L'EXAMEN PHYSIQUE******************-->
           <!-- **2** --> 
           <div style='font-family: police2;font-size: 17px; font-weight: bold;'>Donn&eacute;es de l'examen physique</div>
-            <div style='height: 200px;'>
+            <div  id='accordionDonneesExamensPhysiques' >
             <p style='color: white; opacity: 0.5;'>
            <img id="" src='<?php echo $this->basePath().'/images_icons/examenphysique.jpg'?>'  alt="consult-motif" style='float:right; margin-right:0px; width:32%; height:270px;'/>
         </p>
@@ -359,7 +360,7 @@ $(window).load(function () {
          <!-- ********************Examen compl�mentaire (BIOLOGIQUES et MORPHOLOGIQUES)******************-->
          <!--*3*-->
          <div style='font-family: police2;font-size: 17px; font-weight: bold;'>Examens compl&eacute;mentaires</div>
-           <div style='height: 200px;'>
+           <div id='accordionExamensComplementaires' >
                           <div id="accordions_demande">
                           <?php 
                           /**
@@ -370,7 +371,7 @@ $(window).load(function () {
                            *=============================================================================================
                            **/?>
                           <div style='font-family: police2;font-size: 15px; font-weight: bold; color:green;'> Examens Biologiques </div>
-                             <div style=''>
+                             <div id='accordionExamensBiologiques' >
                              <div style="margin-bottom: 5px; border-bottom: 1.5px solid #cccccc; margin-top:-15px;"></div>
 
                            <?php 
@@ -459,7 +460,7 @@ $(window).load(function () {
                            *=============================================================================================
                           **/?>
                           <div style='font-family: police2;font-size: 15px; font-weight: bold; color:green;'> Examens Morphologiques </div>
-                           <div style="max-height: 250px;">
+                           <div id='accordionExamensMorphologiques'>
                             <div style="margin-bottom: 5px; border-bottom: 1.5px solid #cccccc; margin-top:-15px;"></div>
                                         
                             <?php 
@@ -555,7 +556,7 @@ $(window).load(function () {
          <!-- ********************TRANSFERT TRANSFERT TRANSFERT ******************-->
          <!--*4*--> 
          <div style='font-family: police2;font-size: 17px; font-weight: bold;'>Transfert</div>
-           <div style='max-height: 240px;'>
+           <div id="accordionTransfert" style='max-height: 240px;'>
                          <table id="transfert" style="width: 100%;">
                              <tr class="form-transfert" style="width: 100%;">
                                 <th style="width: 45%;"><?php echo $this->formRow($form->get('motif_transfert'));?></th>
@@ -772,15 +773,10 @@ $(window).load(function () {
              
         </div>
         
-<style>
- #hospitaliser { 
- 	visibility: hidden; 
- } 
-</style>
-
-
 <script type="text/javascript">
 
+$("#hospitaliser").toggle(false);
+    
 function FaireClignoterImage (){
     $("#clignoterHeure").fadeOut(900).fadeIn(800);
 }
@@ -789,7 +785,7 @@ setInterval('FaireClignoterImage()',2200);
 });
     
 $(function(){
-$('#responde input, #respond input').attr('autocomplete','off');
+$('#responde input, #respond input, #respondeMotif input').attr('autocomplete','off');
 //*********************************************************************
 //*********************************************************************
 //*********************************************************************
@@ -964,6 +960,5 @@ $("#fleche_plus").click(function(){
 	}
 });
 
-//$('div .dataTables_paginate').css({ 'margin-right' : '0'});
 envoiDesDonnees();
 </script>

@@ -232,7 +232,6 @@
     	
 	    $("#terminerdetailhospi").click(function(){
 
-	    	//alert($('#play').val());
 	    	clearInterval(intervalID);
 	    	if($('#play').val() == 1){
 	    		//Pour l audio player

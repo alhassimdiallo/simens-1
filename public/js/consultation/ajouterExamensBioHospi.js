@@ -222,7 +222,6 @@ $(function(){
 			}
 		}
 		
-		
 /*		$.ajax({
 	        type: 'POST',
 	        url: tabUrl[0]+'public/consultation/demande-examen-biologique',
@@ -256,11 +255,13 @@ $(function(){
 	    		$("#iconeExamenBio_supp_vider a img").toggle(false);
 	    		$("#bouton_ExamenBio_modifier_demande").toggle(true);
 	    		$("#bouton_ExamenBio_valider_demande").toggle(false);
-	    		return false;
+	    		//return false;
 //	      },
 //	      error:function(e){console.log(e);alert("Une erreur interne est survenue!");},
 //	      dataType: "html"
 //		});
+	    		
+  		alert('en cours de developpement'); exit();
 		return false;
 	});
 	
