@@ -191,8 +191,7 @@
   	    });
 	    
 	    $("#terminerdetailhospi").click(function(){
-  	    	//vart=tabUrl[0]+'public/consultation/en-cours';
-		    //$(location).attr("href",vart);
+	    	$("#titre2").replaceWith("<div id='titre' style='font-family: police2; color: green; font-size: 20px; font-weight: bold; padding-left:20px;'><iS style='font-size: 25px;'>&curren;</iS> LISTE DES PATIENTS </div>");
 	    	$("#vue_detail_hospi_patient").fadeOut(function(){$("#contenu").fadeIn(100); });
   	    });
 	    
@@ -1228,9 +1227,27 @@
 	  
 	  
 	  
-	  
-	  
-	  
+//	  function ConfirmationTransfertPopup(){
+//      	$( "#confirmationDuTransfert" ).dialog({
+//      	    resizable: false,
+//      	    height:430,
+//      	    width:430,
+//      	    autoOpen: false,
+//      	    modal: true,
+//      	    buttons: {
+//      	        "Enregistrer": function() {
+//      	        	$( this ).dialog( "close" );             	     
+//      	        	return false;
+//      	        },
+//      	   
+//     	        "Annuler": function() {
+//     	            $( this ).dialog( "close" );             	     
+//     	            return false;
+//     	        }
+//      	       
+//      	    }
+//      	});
+//  	  }
 	  
 	  function LibererPourTransfererPatient(id_demande_hospi){
 		  
@@ -1263,29 +1280,30 @@
               success: function(data) {
               	var result = jQuery.parseJSON(data);
               	$("#hospitaliser").fadeOut(function(){
-            		$("#titre2").replaceWith("<div id='titre' style='font-family: police2; color: green; font-size: 20px; font-weight: bold; padding-left:20px;'><iS style='font-size: 25px;'>&curren;</iS> LIBERATION DU PATIENT </div>");
+            		$("#titre2").replaceWith("<div id='titre' style='font-family: police2; color: green; font-size: 20px; font-weight: bold; padding-left:20px;'><iS style='font-size: 25px;'>&curren;</iS> LIBERATION DU PATIENT <i>(Transfert)</i> </div>");
             		$("#vue_liberer_patient").html(result).fadeIn(0); 
                   	$("#terminerLiberer").replaceWith("<button id='terminerLiberer2'>Annuler</button>");
+                  	$("#liberer").replaceWith("<button type='submit' id='liberer' style='' >Transf&eacute;rer</button>");
                   	$("#motif_sorti").val("Transfert:  "+$("#motif_transfert").val());
-              	
+                  	$("#id_cons").val(id_cons);
+                  	$("#temoin_transfert").val($("#service_accueil").val()); //C'est la valeur du service car le patient est transferer dans un service
+                  	
+                  	
                   	$("#terminerLiberer2").click(function(){
             	    	$("#titre").replaceWith("<div id='titre2' style='font-family: police2; color: green; font-size: 20px; font-weight: bold; padding-left:20px;'><iS style='font-size: 25px;'>&curren;</iS> ADMINISTRER DES SOINS </div>");
                   		
                   		$("#vue_liberer_patient").fadeOut(function(){
                   			$("#hospitaliser").toggle(true);
-                   		 
-                   		    //$("#listeDesExamens").css({'height':'340px'});
-                   		    //$("#accordionListeDesPlaintesEtExamensDuJour").css({'height':'340px'});
-                   		    //$("#accordionListeDeToutesLesConstantes").css({'height':'350px'});
-                   		    //$("#accordionDonneesExamensPhysiques").css({'height':'350px'});
-                   		    //$("#accordionExamensComplementaires").css({'height':'380px'});
-                   		    //$("#accordionExamensBiologiques").css({'height':'270px'});
-                   		    //$("#accordionExamensMorphologiques").css({'height':'250px'});
-                   		    //$("#accordionTransfert").css({'height':'300px'});
-                  			
                   		}); 
               	    	return false;
               	    });
+                  	
+//                  	$("#liberer2").click(function(){
+//                  		ConfirmationTransfertPopup();
+//                  		$("#confirmationDuTransfert").dialog('open'); 
+//              	    	return false;
+//              	    });
+                  	
               	});
               	
               },
@@ -1509,11 +1527,6 @@
 			  
 			  if($("#service_accueil").val() != 0) {
 				  $("#service_accueil").css({'border-color': ''});
-				  
-				  var service_accueil = $("#service_accueil").val();
-				  var hopital_accueil = $("#hopital_accueil").val();
-				  var motif_transfert = $("#motif_transfert").val();
-				  
 				  
 				  id_demande_hospi = $('#id_demande_hospi').val();
 				  $('#lebererPatientHospi'+id_demande_hospi).trigger('click');

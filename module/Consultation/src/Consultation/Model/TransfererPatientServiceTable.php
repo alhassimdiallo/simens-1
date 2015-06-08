@@ -37,14 +37,14 @@ class TransfererPatientServiceTable{
 		$adapter = $this->tableGateway->getAdapter ();
 		$sql = new Sql ( $adapter );
 		$select = $sql->select ();
+		$select->from( array( 'tps' => 'transferer_patient_service' ));
 		$select->columns( array(
 				'IdService' => 'ID_SERVICE',
-				'IdPersonne' => 'ID_PERSONNE',
+				'IdPersonne' => 'ID_MEDECIN',
 				'Date' => 'DATE',
 				'MotifTransfert' => 'MOTIF_TRANSFERT',
 				'IdCons' => 'ID_CONS',
 		));
-		$select->from( array( 'tps' => 'transferer_patient_service' ));
 		$select->join( array( 
 				's' => 'service'
 		), 's.ID_SERVICE = tps.ID_SERVICE' , array (
@@ -52,15 +52,12 @@ class TransfererPatientServiceTable{
 				'DomaineService' => 'DOMAINE'
 		) );
 		$select->join( array( 
-				'p' => 'patient'
-		), 'p.ID_PERSONNE = tps.ID_PERSONNE' , array('*'));
-		$select->join( array(
-				'c' => 'consultation'
-		), 'c.ID_CONS = tps.ID_CONS' , array('*'));
-		$select->where ( array( 'tps.ID_CONS' => $idcons));
+				'p' => 'personne'
+		), 'p.ID_PERSONNE = tps.ID_MEDECIN' , array('NomMedecin' => 'NOM' , 'PrenomMedecin' => 'PRENOM' , ));
+		$select->where ( array('tps.ID_CONS' => $idcons) );
 		
 		$stat = $sql->prepareStatementForSqlObject ( $select );
-		$result = $stat->execute ();
+		$result = $stat->execute ()->current();
 		
 		return $result;
 	}
@@ -130,5 +127,18 @@ class TransfererPatientServiceTable{
 			}
 		}
 		return $options;
+	}
+	
+	
+	/**
+	 * Inserer des donnees du transfert
+	 */
+	public function insererTransfertPatientService($info_transfert){
+		$today = new \DateTime ();
+		$dateAujourdhui = $today->format ( 'Y-m-d H:i:s' );
+		$info_transfert['DATE'] = $dateAujourdhui;
+		if($info_transfert['MOTIF_TRANSFERT'] && $info_transfert['ID_MEDECIN'] && $info_transfert['ID_SERVICE']){
+			$this->tableGateway->insert($info_transfert);
+		}
 	}
 }

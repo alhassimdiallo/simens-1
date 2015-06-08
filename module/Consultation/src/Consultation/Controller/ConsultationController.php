@@ -2614,6 +2614,8 @@ class ConsultationController extends AbstractActionController {
 				
 			$html .="<form  method='post' action='".$chemin."/consultation/liberer-patient'>";
 			$html .=$formHidden($formLiberation->get('id_demande_hospi'));
+			$html .=$formHidden($formLiberation->get('temoin_transfert'));
+			$html .=$formHidden($formLiberation->get('id_cons'));
 			$html .="<div style='width: 80%; margin-left: 195px;'>";
 			$html .="<table id='form_patient' style='width: 100%; '>
 					 <tr class='comment-form-patient' style='width: 100%'>
@@ -2656,6 +2658,250 @@ class ConsultationController extends AbstractActionController {
 		
 		$this->getResponse ()->getHeaders ()->addHeaderLine ( 'Content-Type', 'application/html; charset=utf-8' );
 		return $this->getResponse ()->setContent ( Json::encode ( $html ) );
+	}
+	
+	public function listeSoinsPourDetailInfoLiberationPatient($id_hosp) {
+
+		$liste_soins = $this->getSoinHospitalisationTable()->getAllSoinhospitalisation($id_hosp);
+		$html = "";
+		$this->getDateHelper();
+		
+		$today = new \DateTime();
+		$aujourdhui = $today->format('Y-m-d');
+		
+		$html .="<div style='margin-right: 10px; float:right; font-family: Times New Roman; font-size: 15px; color: green;'>
+				   <i style='cursor:pointer;' id='afficherTerminer'> Termin&eacute; </i> |
+				   <i style='cursor:pointer;' id='afficherEncours'> Encours </i> |
+				   <i style='cursor:pointer;' id='afficherAvenir'> A venir </i>
+				</div>";
+			
+		$html .="<table class='table table-bordered tab_list_mini'  style='margin-top:10px; margin-bottom:20px; width:100%;' id='listeSoin'>";
+			
+		$html .="<thead style='width: 100%;'>
+				  <tr style='height:40px; width:100%; cursor:pointer;'>
+					<th style='width: 23%;'>M&eacute;dicament</th>
+					<th style='width: 21%;'>Voie d'administration</th>
+					<th style='width: 21%;'>Dosage & Fr&eacute;quence</th>
+					<th style='width: 17%;'>Heure suivante</th>
+				    <th style='width: 12%;'>Options</th>
+				    <th style='width: 6%;'>Etat</th>
+				  </tr>
+			     </thead>";
+			
+		$html .="<tbody style='width: 100%;'>";
+		
+		rsort($liste_soins);
+		foreach ($liste_soins as $cle => $Liste){
+			//Récupération de l'heure suivante pour l'application du soin par l'infirmier
+			$heureSuivante = $this->getSoinHospitalisationTable()->getHeureSuivantePourAujourdhui($Liste['id_sh']);
+		
+			$idHeure = null;
+			$heureSuiv = null;
+			if($heureSuivante){
+				$heureActuelleH = $today->format('H');
+				$heureSuivanteH = substr($heureSuivante['heure'], 0, 2);
+		
+				if($heureSuivanteH-$heureActuelleH == 1){
+					$heureActuelleM = $today->format('i');
+					$heureSuivanteM = 59;
+					$diff = $heureSuivanteM - $heureActuelleM;
+						
+					if($diff <= 15){
+						$heureSuiv = "<khass id='alertHeureApplicationSoinUrgent".$Liste['id_sh']."' style='color: red; font-weight: bold; font-size: 20px; color: red;'>".$heureSuivante['heure']."
+								      </khass>
+								      <!-- i  id='clickOK' style='padding-left: 20px; color: green; font-family: Venus Rising; font-size: 18px; cursor:pointer;' > OK </i-->
+								      <audio id='audioPlayer' src='../images_icons/alarme.mp3' ></audio>";
+						$play = true;
+					}else {
+						$heureSuiv = "<khass id='alertHeureApplicationSoin' style='color: red; font-weight: bold; font-size: 20px; color: red;'>".$heureSuivante['heure']."</khass>";
+					}
+						
+				}else {
+					$heureSuiv = "<khass style='color: red; font-weight: bold; font-size: 20px;'>".$heureSuivante['heure']."</khass>";
+				}
+				$idHeure = $heureSuivante['id_heure'];
+			}
+				
+				
+			$html .="<tr style='width: 100%;' id='".$Liste['id_sh']."'>";
+			$html .="<td style='width: 23%;'><div id='inform' style='float:left; font-weight:bold; font-size:17px;'>".$Liste['medicament']."</div></td>";
+			$html .="<td style='width: 21%;'><div id='inform' style='float:left; font-weight:bold; font-size:17px;'>".$Liste['voie_administration']."</div></td>";
+			$html .="<td style='width: 21%;'><div id='inform' style='float:left; font-weight:bold; font-size:17px;'>".$Liste['dosage']." - ".$Liste['frequence']."</div></td>";
+		
+			if($heureSuiv == null){
+				$JourSuivant = $this->getSoinHospitalisationTable()->getDateApresDateDonnee($Liste['id_sh'], $aujourdhui);
+				$HeuresPourAujourdhui = $this->getSoinHospitalisationTable()->getHeuresPourAujourdhui($Liste['id_sh']);
+				if($JourSuivant && $HeuresPourAujourdhui){
+					$html .="<td style='width: 17%;'>
+							   <div id='inform' style='float:left; font-size:16px;'>
+							     ".$this->controlDate->convertDate($JourSuivant['date'])." - ".$JourSuivant['heure']."
+							     <khassSpan style='font-size: 10px;' > soin_encours </khassSpan>
+							   </div>
+		
+							 </td>";
+				}elseif($JourSuivant && !$HeuresPourAujourdhui){
+					$html .="<td style='width: 17%;'>
+							   <div id='inform' style='float:left; font-size:16px;'>
+							     ".$this->controlDate->convertDate($JourSuivant['date'])." - ".$JourSuivant['heure']."
+							     <khassSpan style='font-size: 10px;' > soin_avenir </khassSpan>
+							   </div>
+							 </td>";
+				}elseif(!$JourSuivant && $HeuresPourAujourdhui){
+					$html .="<td style='width: 17%;'>
+							   <div id='inform' style='float:left; font-size:17px;'>
+							      Termin&eacute;
+							      <khassSpan style='font-size: 10px;' > soin_encours </khassSpan>
+							   </div>
+		
+							</td>";
+				}elseif(!$JourSuivant && !$HeuresPourAujourdhui){
+					$html .="<td style='width: 17%;'>
+							   <div id='inform' style='float:left; font-size:17px;'>
+							      Termin&eacute;
+							      <khassSpan style='font-size: 10px;' > soin_terminer </khassSpan>
+							   </div>
+							</td>";
+				}
+		
+			}else{
+				$html .="<td style='width: 17%;'>
+						   <div id='inform' style='float:left; font-weight:bold; font-size:17px;'>
+						     ".$heureSuiv."
+						     <khassSpan style='font-size: 10px;' > soin_encours </khassSpan>
+						   </div>
+						 </td>";
+			}
+				
+			if($Liste['appliquer'] == 0) {
+				$html .="<td style='width: 12%;'> <a href='javascript:vuesoin(".$Liste['id_sh'].") '>
+					       <img class='visualiser".$Liste['id_sh']."' style='display: inline;' src='../images_icons/voird.png'  title='d&eacute;tails' />
+					  </a>&nbsp";
+		
+				$html .="<span>
+				    	 <img style='color: white; opacity: 0.15;' src='../images_icons/modifier.png'/>
+					     </span>&nbsp;";
+				$html .="<span> <img  style='color: white; opacity: 0.15;' src='../images_icons/sup.png' /> </span>
+				         </td>";
+		
+					
+				$html .="<td style='width: 6%;'>
+					       <img class='etat_oui".$Liste['id_sh']."' style='margin-left: 20%;' src='../images_icons/non.png' title='non totalement appliqu&eacute;' />
+					     &nbsp;
+				         </td>";
+			}else {
+		
+				$html .="<td style='width: 12%;'> <a href='javascript:vuesoinApp(".$Liste['id_sh'].") '>
+					       <img class='visualiser".$Liste['id_sh']."' style='display: inline;' src='../images_icons/voird.png' title='d&eacute;tails' />
+					  </a>&nbsp";
+		
+				$html .="<a>
+					    	<img class='modifier".$Liste['id_sh']."' style='color: white; opacity: 0.15;' src='../images_icons/modifier.png' />
+					     </a>&nbsp;
+		
+				         <a >
+					    	<img class='supprimer".$Liste['id_sh']."' style='color: white; opacity: 0.15;' src='../images_icons/sup.png' />
+					     </a>
+				         </td>";
+					
+				$html .="<td style='width: 6%;'>
+					       <img class='etat_non".$Liste['id_sh']."' style='margin-left: 20%;' src='../images_icons/oui.png' title='totalement appliqu&eacute;' />
+					     &nbsp;
+				         </td>";
+		
+			}
+		
+			$html .="</tr>";
+		
+			$html .="<script>
+					  $('.visualiser".$Liste['id_sh']." ').mouseenter(function(){
+	                    var tooltips = $( '.visualiser".$Liste['id_sh']."' ).tooltip({show: {effect: 'slideDown', delay: 250}});
+	                    tooltips.tooltip( 'open' );
+	                  });
+	                  $('.visualiser".$Liste['id_sh']."').mouseleave(function(){
+	                    var tooltips = $( '.visualiser".$Liste['id_sh']."' ).tooltip();
+	                    tooltips.tooltip( 'close' );
+	                  });
+	                  /************************/
+	                  /************************/
+	                  /************************/
+                      $('.modifier".$Liste['id_sh']." ').mouseenter(function(){
+	                    var tooltips = $( '.modifier".$Liste['id_sh']." ' ).tooltip({show: {effect: 'slideDown', delay: 250}});
+	                    tooltips.tooltip( 'open' );
+	                  });
+				      $('.modifier".$Liste['id_sh']." ').mouseleave(function(){
+	                    var tooltips = $( '.modifier".$Liste['id_sh']." ' ).tooltip();
+	                    tooltips.tooltip( 'close' );
+	                  });
+	                  /*************************/
+	                  /*************************/
+	                  /*************************/
+	                  $('.supprimer".$Liste['id_sh']." ').mouseenter(function(){
+	                    var tooltips = $( '.supprimer".$Liste['id_sh']."' ).tooltip({show: {effect: 'slideDown', delay: 250}});
+	                    tooltips.tooltip( 'open' );
+	                  });
+	                  $('.supprimer".$Liste['id_sh']."').mouseleave(function(){
+	                    var tooltips = $( '.supprimer".$Liste['id_sh']."' ).tooltip();
+	                    tooltips.tooltip( 'close' );
+	                  });
+		
+	                  /*************************/
+	                  /*************************/
+	                  /*************************/
+	                  $('.etat_oui".$Liste['id_sh']." ').mouseenter(function(){
+	                    var tooltips = $( '.etat_oui".$Liste['id_sh']."' ).tooltip({show: {effect: 'slideDown', delay: 250}});
+	                    tooltips.tooltip( 'open' );
+	                  });
+	                  $('.etat_oui".$Liste['id_sh']."').mouseleave(function(){
+	                    var tooltips = $( '.etat_oui".$Liste['id_sh']."' ).tooltip();
+	                    tooltips.tooltip( 'close' );
+	                  });
+	                  /*************************/
+	                  /*************************/
+	                  /*************************/
+	                  $('.etat_non".$Liste['id_sh']." ').mouseenter(function(){
+	                    var tooltips = $( '.etat_non".$Liste['id_sh']."' ).tooltip({show: {effect: 'slideDown', delay: 250}});
+	                    tooltips.tooltip( 'open' );
+	                  });
+	                  $('.etat_non".$Liste['id_sh']."').mouseleave(function(){
+	                    var tooltips = $( '.etat_non".$Liste['id_sh']."' ).tooltip();
+	                    tooltips.tooltip( 'close' );
+	                  });
+	           
+	                  function FaireClignoterPourAlerte".$Liste['id_sh']." (){
+                          $('#alertHeureApplicationSoinUrgent".$Liste['id_sh']."').fadeOut(250).fadeIn(200);
+                      }
+		
+                      $(function(){
+                          setInterval('FaireClignoterPourAlerte".$Liste['id_sh']." ()',500);
+                      });
+		
+			        </script>";
+		}
+		$html .="</tbody>";
+		$html .="</table>";
+		
+		$html .="<style>
+				  #listeDataTable{
+	                /*margin-left: 185px;*/
+                  }
+		
+				  div .dataTables_paginate
+                  {
+				    /*margin-right: 20px;*/
+                  }
+		
+				  #listeSoin tbody tr{
+				    background: #fbfbfb;
+				  }
+		
+				  #listeSoin tbody tr:hover{
+				    background: #fefefe;
+				  }
+				 </style>";
+		$html .="<script> $('#listeSoin khassSpan').toggle(false); listepatient (); listeDesSoins(); $('#afficherTerminer').trigger('click'); </script>";
+		
+		return $html;
+		
 	}
 	
 	public function detailInfoLiberationPatientAction() {
@@ -2774,7 +3020,7 @@ class ConsultationController extends AbstractActionController {
 		
 		$hospitalisation = $this->getHospitalisationTable()->getHospitalisationWithCodedh($id_demande_hospi);
 		$html .= "<div id='info_liste'>";
-		$html .= $this->raffraichirListeSoinsPrescrit($hospitalisation->id_hosp);
+		$html .= $this->listeSoinsPourDetailInfoLiberationPatient($hospitalisation->id_hosp);
 		$html .= "</div>";
 		
 		$html .= "<div id='titre_info_deces'>
@@ -2784,12 +3030,27 @@ class ConsultationController extends AbstractActionController {
 				  </div>
 		          <div id='barre'></div>";
 		
+		$infoTransfert = $this->getTransfererPatientServiceTable()->getPatientMedecinDonnees($id_cons);
+		
 		$html .= "<div id='info_liberation'>";
 		$html .= "<table style='margin-top:0px; margin-left:195px; width: 80%;'>";
 		$html .= "<tr style='width: 80%'>";
-		$html .= "<td style='padding-top: 10px; width: 10%; height: 50px; vertical-align: top;'><a style='text-decoration:underline; font-size:14px;'>Date:</a><br><p style='font-weight:bold; font-size:17px;'>" . $this->controlDate->convertDateTime($hospitalisation->date_fin) . "</p></td>";
-		$html .= "<td style='padding-top: 10px; padding-bottom: 0px; padding-right: 30px; width: 20%; '><a style='text-decoration:underline; font-size:14px;'>R&eacute;sum&eacute; m&eacute;dical:</a><br><p id='circonstance_deces' style='background:#f8faf8; font-weight:bold; font-size:17px;'>".$hospitalisation->resumer_medical."</p></td>";
-		$html .= "<td style='padding-top: 10px; padding-bottom: 0px; padding-right: 30px; width: 20%; '><a style='text-decoration:underline; font-size:14px;'>Motif sortie:</a><br><p id='circonstance_deces' style='background:#f8faf8; font-weight:bold; font-size:17px;'>".$hospitalisation->motif_sorti."</p></td>";
+
+		if($infoTransfert){
+			$html .= "<td style='padding-top: 10px; width: 25%; height: 50px; vertical-align: top;'><a style='text-decoration:underline; font-size:14px;'>Date du transfert:</a><br><p style='font-weight:bold; font-size:17px;'>" . $this->controlDate->convertDateTime($hospitalisation->date_fin) . "</p></td>";
+			$html .= "<td style='padding-top: 10px; width: 32%; height: 50px; vertical-align: top;'><a style='text-decoration:underline; font-size:14px;'>Pr&eacute;nom & nom du m&eacute;decin:</a><br><p style='font-weight:bold; font-size:17px;'>".$infoTransfert['PrenomMedecin']." ".$infoTransfert['NomMedecin']."</p></td>";
+			$html .= "<td style='padding-top: 10px; width: 43%; height: 50px; vertical-align: top;'><a style='text-decoration:underline; font-size:14px;'>Service d'accueil:</a><br><p style='font-weight:bold; font-size:17px;'>".$infoTransfert['NomService']."</p></td>";
+		} else {
+			$html .= "<td style='padding-top: 10px; width: 25%; height: 50px; vertical-align: top;'><a style='text-decoration:underline; font-size:14px;'>Date de la lib&eacute;ration:</a><br><p style='font-weight:bold; font-size:17px;'>" . $this->controlDate->convertDateTime($hospitalisation->date_fin) . "</p></td>";
+		}
+		
+		$html .= "</tr>";
+		$html .= "</table>";
+		
+		$html .= "<table style='margin-top:0px; margin-left:195px; width: 80%;'>";
+		$html .= "<tr style='width: 80%'>";
+		$html .= "<td style='padding-top: 10px; padding-bottom: 0px; padding-right: 30px; width: 35%; '><a style='text-decoration:underline; font-size:14px;'>R&eacute;sum&eacute; m&eacute;dical:</a><br><p id='circonstance_deces' style='background:#f8faf8; font-weight:bold; font-size:17px;'>" . $hospitalisation->resumer_medical . "</p></td>";
+		$html .= "<td style='padding-top: 10px; padding-bottom: 0px; padding-right: 30px; width: 35%; '><a style='text-decoration:underline; font-size:14px;'>Motif de la sortie:</a><br><p id='circonstance_deces' style='background:#f8faf8; font-weight:bold; font-size:17px;'>". $hospitalisation->motif_sorti ."</p></td>";
 		$html .= "</tr>";
 		$html .= "</table>";
 		$html .= "</div>";
@@ -3615,10 +3876,16 @@ class ConsultationController extends AbstractActionController {
 	}
 	
 	public function libererPatientAction() {
+		$user = $this->layout()->user;
+		$IdService = $user['IdService'];
+		$IdMedecin = $user['id_personne'];
 		$id_demande_hospi = $this->params()->fromPost('id_demande_hospi', 0);
 		$resumer_medical = $this->params()->fromPost('resumer_medical', 0);
 		$motif_sorti = $this->params()->fromPost('motif_sorti', 0);
+		$id_cons = $this->params()->fromPost('id_cons', 0);
+		$temoin_transfert = (int)$this->params()->fromPost('temoin_transfert', 0); //C'est la valeur du service car le patient est transferer dans un service -- 1282
 	
+		
 		$this->getHospitalisationTable()->libererPatient($id_demande_hospi, $resumer_medical, $motif_sorti);
 		
 		/**
@@ -3633,6 +3900,16 @@ class ConsultationController extends AbstractActionController {
 				$this->getLitTable()->libererLit($id_materiel);
 			}
 		}
+		
+		//S'il s'agit d'un transfert notifier cela dans la table transferer_patient_service 
+		if($temoin_transfert != 0){
+			$info_transfert = array();
+			$info_transfert['ID_CONS'] = $id_cons;
+			$info_transfert['MOTIF_TRANSFERT'] = $motif_sorti;
+			$info_transfert['ID_MEDECIN'] = $IdMedecin;
+			$info_transfert['ID_SERVICE'] = $temoin_transfert; 
+			$this->getTransfererPatientServiceTable()->insererTransfertPatientService($info_transfert);
+		} 
 	
 		return $this->redirect()->toRoute('consultation', array('action' =>'en-cours'));
 	}

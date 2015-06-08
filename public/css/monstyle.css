@@ -4120,14 +4120,14 @@ div .dataTables_paginate
  	float:right;
 	width:16px;
     height:16px;
-	background:url("/simenss/public/js/plugins/jPlayer-2.9.2/dist/skin/blue.monday/image/supp.png") no-repeat; margin-left:5px
+	background:url("/simens/public/js/plugins/jPlayer-2.9.2/dist/skin/blue.monday/image/supp.png") no-repeat; margin-left:5px
 } 
 
 .jp-ajouter{
     position:relative;
     width:19px;
     height:19px;
-    background:url("/simenss/public/js/plugins/jPlayer-2.9.2/dist/skin/blue.monday/image/jplayer.blue.monday.jpg") -120px -271px no-repeat; 
+    background:url("/simens/public/js/plugins/jPlayer-2.9.2/dist/skin/blue.monday/image/jplayer.blue.monday.jpg") -120px -271px no-repeat; 
     margin-left:5px;
     margin-bottom: 5px;
     right:-35px;

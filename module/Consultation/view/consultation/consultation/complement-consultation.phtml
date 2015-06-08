@@ -476,7 +476,8 @@ echo $this->form()->openTag($form); ?>
                            <td> <div id="erreur_glycemie"></div> </td>
                        </tr>
 
-                    <tr style="height: 115px;">
+                  </table>
+                    <?php /* tr style="height: 115px;">
                         <td rowspan="2" colspan="2" style="vertical-align: top;" >
                         <div class="comment-form-author"> <label> <img style="cursor: pointer; position: absolute; padding-right: 120px; margin-left: -5px;" id="depliantBandelette" src='<?php echo $this->basePath().'/img/light/plus.png'?>' title="deplier"/> <pouss style='margin-left: 20px;'>Bandelette urinaire</pouss> </label> </div>
                         <div id="BUcheckbox" style="background: #ffffff; width: 95%; height: 117px; border: 0px solid #eeeeee;">
@@ -506,7 +507,34 @@ echo $this->form()->openTag($form); ?>
                     </tr>
                     
                     
-                 </table>
+                 </table */?>
+                 
+                 <table  id="respond" style="width: 100%">
+                    
+                    <tr style="height: 135px; width: 100%; ">
+                        <td style="vertical-align: top; width: 50%;" >
+                        <div class="comment-form-author"> <label> <img style="cursor: pointer; position: absolute; padding-right: 120px; margin-left: -5px;" id="depliantBandelette" src='<?php echo $this->basePath().'/img/light/plus.png'?>' title="deplier"/> <pouss style='margin-left: 20px;'>Bandelette urinaire</pouss> </label> </div>
+                        <div id="BUcheckbox" style="background: #ffffff; width: 95%; height: 135px; border: 0px solid #eeeeee;">
+                        
+                           <div style="float: left;"><label style="width: 125px; text-align: right;"> Albumine :  </label><?php echo $this->formRow($form->get('albumine'));?></div><div id="labelAlbumine"  style="float: left;"> <div id="fleche"  style="float: left;"> <label style="width: 15px;text-align: center;"> » </label></div> <div id="ChoixPlus"  style="float: left;"><label style="width: 15px;text-align: center;"> 3+ </label></div><div id="labelCroixAlbumine"  style="float: left;"><?php echo $this->formRow($form->get('croixalbumine'));?></div></div> <br>
+                           <div style="float: left;"><label style="width: 125px; text-align: right;"> Sucre :  </label><?php echo $this->formRow($form->get('sucre'));?></div><div id="labelSucre"  style="float: left;"> <div id="fleche2"  style="float: left;"> <label style="width: 15px;text-align: center;"> » </label></div> <div id="ChoixPlus2"  style="float: left;"><label style="width: 15px;text-align: center;"> 3+ </label></div><div id="labelCroixSucre"  style="float: left;"><?php echo $this->formRow($form->get('croixsucre'));?></div></div> <br>
+                           <div style="float: left;"><label style="width: 125px; text-align: right;"> Corps cétoniques :  </label><?php echo $this->formRow($form->get('corpscetonique'));?></div><div id="labelCorpscetonique"  style="float: left;"> <div id="fleche3"  style="float: left;"><label style="width: 15px;text-align: center;"> » </label></div> <div id="ChoixPlus3"  style="float: left;"><label style="width: 15px;text-align: center;"> 3+ </label></div><div id="labelCroixCorpscetonique"  style="float: left;"><?php echo $this->formRow($form->get('croixcorpscetonique'));?></div></div>
+                        
+                        </div>
+                        </td>
+                        
+                        <td class="comment-form-author" style="width: 50%; position: absolute; bottom: 40px; right: 40px;">
+                             <div style="float:right;">
+                                  <button id='bouton_constantes_valider'>Valider</button>
+                             </div>
+                             <div style="float:right;">
+                                  <button id='bouton_constantes_modifier'>Modifier</button>
+                             </div>
+                        </td>
+                    </tr>
+                    
+                    
+             </table>
                 </div>
             </div>
             
@@ -914,7 +942,7 @@ echo $this->form()->openTag($form); ?>
                     <td style="width:35%;" > <?php echo $donnees['PrenomSurveillant'];?>  <?php echo $donnees['NomSurveillant'];?></td>
                     <td style="width:35%;" > <?php echo $donnees['PRENOM'];?>  <?php echo $donnees['NOM'];?> </td>
                     <td style="width:5%;" >
-            		   <a href="<?php echo $this->url('consultation', array('action'=>'visualisation-consultation'),  array('query'=>array('id_patient'=>$this->escapeHtml($donnees['PAT_ID_PERSONNE']),'id_cons'=>$this->escapeHtml($donnees['ID_CONS']))));?>" target="_blank">
+            		   <a href="<?php echo $this->url('consultation', array('action'=>'visualisation-consultation'),  array('query'=>array('id_patient'=>$this->escapeHtml($donnees['ID_PATIENT']),'id_cons'=>$this->escapeHtml($donnees['ID_CONS']))));?>" target="_blank">
 					       <img style="display: inline;"  src='<?php echo $this->basepath().'/images_icons/voird.PNG'?>' alt='Constantes' title="Voir les d&eacute;tails de la consultation" />
 					   </a>&nbsp;
 					</td>

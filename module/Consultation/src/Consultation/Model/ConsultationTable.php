@@ -23,6 +23,7 @@ class ConsultationTable {
  		}
 		return $row;
 	}
+	
 	public function getConsultationPatient($id_pat, $id_cons){
 		$adapter = $this->tableGateway->getAdapter ();
 		$sql = new Sql ( $adapter );

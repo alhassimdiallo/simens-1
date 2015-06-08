@@ -15,12 +15,28 @@ class LibererPatientForm extends Form {
 						'id' => 'id_demande_hospi',
 				)
 		) );
+		
+		$this->add ( array (
+				'name' => 'temoin_transfert',
+				'type' => 'Hidden',
+				'attributes' => array (
+						'id' => 'temoin_transfert',
+				)
+		) );
+		
+		$this->add ( array (
+				'name' => 'id_cons',
+				'type' => 'Hidden',
+				'attributes' => array (
+						'id' => 'id_cons',
+				)
+		) );
 
 		$this->add ( array (
 				'name' => 'resumer_medical',
 				'type' => 'Text',
 				'options' => array (
-						'label' => 'Resumer medical'
+						'label' => iconv ( 'ISO-8859-1', 'UTF-8', 'Résumer médical')
 				),
 				'attributes' => array (
 						'id' => 'resumer_medical',
