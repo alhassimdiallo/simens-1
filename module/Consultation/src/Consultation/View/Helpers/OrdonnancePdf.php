@@ -193,9 +193,8 @@ class OrdonnancePdf
 			$today = new \DateTime(); 
 			$date_actu = $today->format('Y-m-d');
 			$dateNaissance = $Control->convertDate($value['DATE_NAISSANCE']);
-			$this->nbAnnees($date_actu,$dateNaissance);
 			
-			$this->_page->drawText($dateNaissance."  (".$this->nbAnnees($dateNaissance,$date_actu)." ans)",
+			$this->_page->drawText($dateNaissance."  (".$this->nbAnnees($value['DATE_NAISSANCE'],$date_actu)." ans)",
 					$this->_leftMargin+210,
 					$this->_yPosition);
  			//-----------------------------------------------

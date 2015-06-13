@@ -152,6 +152,8 @@
   	    	$("#vue_patient").fadeOut(function(){
   	    		$("#contenu").fadeIn("fast"); 
   	    	});
+  	    	
+  	    	return false;
   	    });
 	    
 	    $('#date_recommandee, #date_recommandee_m, #date_application, #date_application_m').datepicker($.datepicker.regional['fr'] = {
@@ -193,11 +195,145 @@
 	    $("#terminerdetailhospi").click(function(){
 	    	$("#titre2").replaceWith("<div id='titre' style='font-family: police2; color: green; font-size: 20px; font-weight: bold; padding-left:20px;'><iS style='font-size: 25px;'>&curren;</iS> LISTE DES PATIENTS </div>");
 	    	$("#vue_detail_hospi_patient").fadeOut(function(){$("#contenu").fadeIn(100); });
+	    	
+	    	return false;
   	    });
 	    
-    }
+	    //Pour la libération du patient en cours d'hospitalisation
+	    //Pour la libération du patient en cours d'hospitalisation
+	    //Pour la libération du patient en cours d'hospitalisation
+	    //Pour la libération du patient en cours d'hospitalisation
+	    $("#liberer").click(function(){
+	    	if($("#resumer_medical").val()=="" || $("#motif_sorti").val()==""){
+	    		return true; //Pour afficher le message de champ requis
+	    	} else {
+	    		ConfirmationLiberationPopup();
+				$("#confirmationDeLaLiberation").dialog('open'); 
+	    		return false;
+	    	}
+	    });
+	    
+     }
     
-    /*************************************************************************************************************************/
+	 function ConfirmationLiberationPopup(){
+    	$( "#confirmationDeLaLiberation" ).dialog({
+    	    resizable: false,
+    	    height:260,
+    	    width:390,
+    	    autoOpen: false,
+    	    modal: true,
+    	    buttons: {
+    	   
+   	            "Annuler": function() {
+   	               $( this ).dialog( "close" );             	     
+   	               return false;
+   	            },
+    	
+    	        "Terminer": function() {
+    	        	var formulaire = document.getElementById("Formulaire_Liberer_Patient");
+    	        	formulaire.submit();
+        	       
+    	        	$( this ).dialog( "close" );             	     
+    	        	return false;
+                }
+    	       
+    	    }
+    	});
+	 }
+	  
+	 
+	 function PrescriptionOrdonnancePopup(){
+	    	$( "#PrescriptionOrdonnancePopupInterface" ).dialog({
+	    	    resizable: false,
+	    	    height:460,
+	    	    width:930,
+	    	    autoOpen: false,
+	    	    modal: true,
+	    	    buttons: {
+	    	   
+	   	            "Annuler": function() {
+	   	               $( this ).dialog( "close" );  
+	   	               
+	   	               ConfirmationLiberationPopup();
+					   $("#confirmationDeLaLiberation").dialog('open'); 
+					   
+	   	               return false;
+	   	            },
+	    	
+	    	        "Terminer": function() {
+	    	        	$( this ).dialog( "close" );   
+	    	        	
+	    	        	var id_personne = $('#id_personneForOrdonnance').val();
+	    	        	var id_cons = $('#id_consForOrdonnance').val();
+	    	        	
+	    	        	var formulaireImprimerOrdonnance = document.getElementById("Formulaire_Imprimer_Ordonnance");
+	    	        	
+	    	        	var champ1 = document.createElement("input");
+	    	        	champ1.setAttribute("type", "hidden");
+	    	        	champ1.setAttribute("name", "id_patient");
+	    	        	champ1.setAttribute("value", id_personne);
+	    	        	formulaireImprimerOrdonnance.appendChild(champ1);
+	    	        	
+	    	        	var champ2 = document.createElement("input");
+	    	        	champ2.setAttribute("type", "hidden");
+	    	        	champ2.setAttribute("name", "id_cons");
+	    	        	champ2.setAttribute("value", id_cons);
+	    	        	formulaireImprimerOrdonnance.appendChild(champ2);
+	    	        	
+	    	        	var champ3 = document.createElement("input");
+	    	        	champ3.setAttribute("type", "hidden");
+	    	        	champ3.setAttribute("name", "temoin_ordonnance");
+	    	        	champ3.setAttribute("value", 1);
+	    	        	formulaireImprimerOrdonnance.appendChild(champ3);
+	    	        	
+	    	        	$("#ordonnance").trigger('click');
+	    	        	
+	    	        	setTimeout(function(){
+	    	        		var formulaireLibererPatient = document.getElementById("Formulaire_Liberer_Patient");
+	    	        		
+	    	        		var elementsFormulaireImprimerOrdonnance = document.getElementById("Formulaire_Imprimer_Ordonnance");
+	    	        		for(var cpt=0 ; cpt<elementsFormulaireImprimerOrdonnance.length; cpt++) {
+	    	                    var element = elementsFormulaireImprimerOrdonnance[cpt];
+	    	                    
+	    	                    var champ = document.createElement("input");
+	    	    	        	champ.setAttribute("type", "hidden");
+	    	    	        	champ.setAttribute("name", element.name);
+	    	    	        	champ.setAttribute("value", element.value);
+	    	    	        	formulaireLibererPatient.appendChild(champ);
+	    	                }
+	    	        		
+	    	        		formulaireLibererPatient.submit();
+	    	        	}, 1000);
+	    	        	          	     
+	    	        	return false;
+	                }
+	    	       
+	    	    }
+	    	});
+	}
+	 
+	 
+	 function AffichageOrdonnancePopup(){
+	    	$( "#PrescriptionOrdonnancePopupInterface" ).dialog({
+	    	    resizable: false,
+	    	    height:460,
+	    	    width:930,
+	    	    autoOpen: false,
+	    	    modal: true,
+	    	    buttons: {
+	    	   
+	    	        "Terminer": function() {
+	    	        	$( this ).dialog( "close" );   
+	    	        	return false;
+	                }
+	    	       
+	    	    }
+	    	});
+	}
+	 
+
+	 
+	/*************************************************************************************************************************/
     /*************************************************************************************************************************/
     /*************************************************************************************************************************/
     function getsalle(id_batiment){
@@ -838,6 +974,7 @@
     /************************************************************************************************************************/
     /************************************************************************************************************************/
     /************************************************************************************************************************/
+    var entre = 1;
     function affichervuedetailhospi(id_demande_hospi){
     	var id_cons = $("#"+id_demande_hospi).val();
     	var id_personne = $("#"+id_demande_hospi+"idPers").val();
@@ -850,7 +987,26 @@
     		success: function(data) {
     			$("#titre").replaceWith("<div id='titre2' style='font-family: police2; color: green; font-size: 20px; font-weight: bold; padding-left:20px;'><iS style='font-size: 25px;'>&curren;</iS> INFORMATIONS D&Eacute;TAILL&Eacute;ES </div>");
     			var result = jQuery.parseJSON(data);
-    			$("#contenu").fadeOut(function(){$("#vue_detail_hospi_patient").html(result).fadeIn("fast"); }); 
+    			$("#contenu").fadeOut(function(){
+    				$("#vue_detail_hospi_patient").html(result).fadeIn("fast"); 
+    				
+    			  var $nbMedPrescrit = $("#nbMedecamentPourVisualisation").val();
+    			  if(entre == 1 && $nbMedPrescrit != 0){
+    				  
+      				  var i=0;
+      				  for( i ; i < $nbMedPrescrit ; i++){
+      				     $('#ajouter_medicament').trigger('click');
+      				  } 
+      				  entre = 0;
+    			  }
+    		      
+    			  $('#afficherOrdonnance').click(function(){ 
+   				     $('#impressionPdf').toggle(false);
+   				     AffichageOrdonnancePopup();
+   			         $('#PrescriptionOrdonnancePopupInterface').dialog('open'); 
+   	              });
+    			  
+    			}); 
     		},
     		error:function(e){console.log(e);alert("Une erreur interne est survenue!");},
     		dataType: "html"
@@ -1226,29 +1382,8 @@
 	  
 	  
 	  
-	  
-//	  function ConfirmationTransfertPopup(){
-//      	$( "#confirmationDuTransfert" ).dialog({
-//      	    resizable: false,
-//      	    height:430,
-//      	    width:430,
-//      	    autoOpen: false,
-//      	    modal: true,
-//      	    buttons: {
-//      	        "Enregistrer": function() {
-//      	        	$( this ).dialog( "close" );             	     
-//      	        	return false;
-//      	        },
-//      	   
-//     	        "Annuler": function() {
-//     	            $( this ).dialog( "close" );             	     
-//     	            return false;
-//     	        }
-//      	       
-//      	    }
-//      	});
-//  	  }
-	  
+
+	  //LIBERER LORS D4UN TRANSFERT DU PATIENT HOSPITALISER
 	  function LibererPourTransfererPatient(id_demande_hospi){
 		  
 	    var tooltips = $("#medicament, #voie_administration, #frequence, #dosage, #date_application, #heure_recommandee_, #duree").tooltip();
@@ -1297,12 +1432,6 @@
                   		}); 
               	    	return false;
               	    });
-                  	
-//                  	$("#liberer2").click(function(){
-//                  		ConfirmationTransfertPopup();
-//                  		$("#confirmationDuTransfert").dialog('open'); 
-//              	    	return false;
-//              	    });
                   	
               	});
               	

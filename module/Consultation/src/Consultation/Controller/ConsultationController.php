@@ -1073,7 +1073,7 @@ class ConsultationController extends AbstractActionController {
 		$listetypeQuantiteMedicament = $this->getConsultationTable()->typeQuantiteMedicaments();
 
 		// INSTANTIATION DE L'ORDONNANCE
-		$infoOrdonnance = $this->getOrdonnanceTable()->getOrdonnance($id); 
+		$infoOrdonnance = $this->getOrdonnanceTable()->getOrdonnanceNonHospi($id); 
 		
 		if($infoOrdonnance) {
 		 	$idOrdonnance = $infoOrdonnance->id_document; 
@@ -1381,7 +1381,7 @@ class ConsultationController extends AbstractActionController {
 		$listetypeQuantiteMedicament = $this->getConsultationTable()->typeQuantiteMedicaments();
 			
 		// INSTANTIATION DE L'ORDONNANCE
-		$infoOrdonnance = $this->getOrdonnanceTable()->getOrdonnance($id);
+		$infoOrdonnance = $this->getOrdonnanceTable()->getOrdonnanceNonHospi($id);
 			
 		if($infoOrdonnance) {
 			$idOrdonnance = $infoOrdonnance->id_document;
@@ -1671,7 +1671,7 @@ class ConsultationController extends AbstractActionController {
 		$listetypeQuantiteMedicament = $this->getConsultationTable()->typeQuantiteMedicaments();
 	
 		// INSTANTIATION DE L'ORDONNANCE
-		$infoOrdonnance = $this->getOrdonnanceTable()->getOrdonnance($id);
+		$infoOrdonnance = $this->getOrdonnanceTable()->getOrdonnanceNonHospi($id);
 	
 		if($infoOrdonnance) {
 			$idOrdonnance = $infoOrdonnance->id_document;
@@ -1894,7 +1894,7 @@ class ConsultationController extends AbstractActionController {
 		//*************************************
 		$id_patient = $this->params ()->fromPost ( 'id_patient', 0 );
 		$id_cons = $this->params ()->fromPost ( 'id_cons', 0 );
-
+        
 		$donneesMedecin = array();
 		$donneesPatient = array();
 		//*************************************
@@ -1913,6 +1913,7 @@ class ConsultationController extends AbstractActionController {
 			$donneesPatient['sexePatient'] = $val['SEXE'];
 		}
 		
+		//var_dump($donneesPatient); exit();
 		//**********ORDONNANCE*****************
 		//**********ORDONNANCE*****************
 		//**********ORDONNANCE*****************
@@ -2418,6 +2419,11 @@ class ConsultationController extends AbstractActionController {
 
     public function enCoursAction() {
 		$this->layout()->setTemplate('layout/consultation');
+		
+// 		$listeMedicamentsPrescrits = $this->getOrdonnanceTable()->getMedicamentsParIdOrdonnance(8);
+// 		foreach ($listeMedicamentsPrescrits as $list) {
+// 			var_dump($list['Intitule'] ); exit();
+// 		}
 
 		$user = $this->layout()->user;
 		$IdDuService = $user['IdService'];
@@ -2457,9 +2463,17 @@ class ConsultationController extends AbstractActionController {
 		
 		$listeMedicament = $this->getConsultationTable()->listeDeTousLesMedicaments();
 		
+		$listeMedicamentOrd = $this->getConsultationTable()->listeDeTousLesMedicaments();
+		$listeFormeOrd = $this->getConsultationTable()->formesMedicaments();
+		$listetypeQuantiteMedicamentOrd = $this->getConsultationTable()->typeQuantiteMedicaments();
+		
 		return array(
 				'form' => $formSoin,
 				'liste_med' => $listeMedicament,
+				
+				'liste_medOrdonnance' => $listeMedicamentOrd,
+				'listeFormeOrdonnance' => $listeFormeOrd,
+				'listetypeQuantiteMedicamentOrdonnance'  => $listetypeQuantiteMedicamentOrd,
 		);
 	}
 	
@@ -2612,7 +2626,7 @@ class ConsultationController extends AbstractActionController {
 			$formTextArea = new FormTextarea();
 			$formHidden = new FormHidden();
 				
-			$html .="<form  method='post' action='".$chemin."/consultation/liberer-patient'>";
+			$html .="<form id='Formulaire_Liberer_Patient'  method='post' action='".$chemin."/consultation/liberer-patient'>";
 			$html .=$formHidden($formLiberation->get('id_demande_hospi'));
 			$html .=$formHidden($formLiberation->get('temoin_transfert'));
 			$html .=$formHidden($formLiberation->get('id_cons'));
@@ -2654,6 +2668,23 @@ class ConsultationController extends AbstractActionController {
 				  initAnimationVue();
 				  animationPliantDepliant21();
 		          animationPliantDepliant41();
+				  
+				  var clickUneSeuleFois = 0;
+				  $('#prescriptionOrdonnance').click(function(){ 
+			        $( '#confirmationDeLaLiberation' ).dialog( 'close' ); 
+			        PrescriptionOrdonnancePopup();
+			        $('#PrescriptionOrdonnancePopupInterface').dialog('open');
+			        if(clickUneSeuleFois == 0){ 
+				       $('#ajouter_medicament').trigger('click'); 
+				       $('#impressionPdf').toggle(false); 
+				       $('#id_personneForOrdonnance').val(".$id_personne.");
+				       $('#id_consForOrdonnance').val('".$id_cons."');
+				       		
+				       clickUneSeuleFois = 1;
+	                }
+			        return false;
+		          });
+				
 				 </script>";
 		
 		$this->getResponse ()->getHeaders ()->addHeaderLine ( 'Content-Type', 'application/html; charset=utf-8' );
@@ -3030,8 +3061,30 @@ class ConsultationController extends AbstractActionController {
 				  </div>
 		          <div id='barre'></div>";
 		
+		//Pour les infos sur le transfert du patient hospitalisé
+		//Pour les infos sur le transfert du patient hospitalisé
+		//Pour les infos sur le transfert du patient hospitalisé
 		$infoTransfert = $this->getTransfererPatientServiceTable()->getPatientMedecinDonnees($id_cons);
 		
+		//POUR LES MEDICAMENTS
+		//POUR LES MEDICAMENTS
+		//POUR LES MEDICAMENTS
+		// INSTANTIATION DE L'ORDONNANCE
+		$infoOrdonnance = $this->getOrdonnanceTable()->getOrdonnanceHospi($id_cons);
+		
+		if($infoOrdonnance) {
+			$idOrdonnance = $infoOrdonnance->id_document;
+			//LISTE DES MEDICAMENTS PRESCRITS
+			$listeMedicamentsPrescrits = $this->getOrdonnanceTable()->getMedicamentsParIdOrdonnance($idOrdonnance);
+			$nbMedPrescrit = $listeMedicamentsPrescrits->count();
+		}else{
+			$nbMedPrescrit = 0;
+			$listeMedicamentsPrescrits = null;
+		}
+
+		//------------------------------------------------------
+		//------------------------------------------------------
+		//------------------------------------------------------
 		$html .= "<div id='info_liberation'>";
 		$html .= "<table style='margin-top:0px; margin-left:195px; width: 80%;'>";
 		$html .= "<tr style='width: 80%'>";
@@ -3042,6 +3095,13 @@ class ConsultationController extends AbstractActionController {
 			$html .= "<td style='padding-top: 10px; width: 43%; height: 50px; vertical-align: top;'><a style='text-decoration:underline; font-size:14px;'>Service d'accueil:</a><br><p style='font-weight:bold; font-size:17px;'>".$infoTransfert['NomService']."</p></td>";
 		} else {
 			$html .= "<td style='padding-top: 10px; width: 25%; height: 50px; vertical-align: top;'><a style='text-decoration:underline; font-size:14px;'>Date de la lib&eacute;ration:</a><br><p style='font-weight:bold; font-size:17px;'>" . $this->controlDate->convertDateTime($hospitalisation->date_fin) . "</p></td>";
+			
+			if($infoOrdonnance){
+				$html .= "<td style='padding-top: 10px; width: 25%; height: 50px; vertical-align: top;'><img id='afficherOrdonnance' style='cursor:pointer;' src='".$chemin."/images_icons/pdf.png' /> <span style='font-weight:bold; font-size:17px; font-family: Times  New Roman; color: #065d10;'> Ordonnance </span></td>";
+				$html .= "<td style='padding-top: 10px; width: 25%; height: 50px; vertical-align: top;'></td>";
+				$html .= "<td style='padding-top: 10px; width: 25%; height: 50px; vertical-align: top;'></td>";
+			}
+
 		}
 		
 		$html .= "</tr>";
@@ -3071,8 +3131,36 @@ class ConsultationController extends AbstractActionController {
 				  animationPliantDepliant2();
 				  animationPliantDepliant3();
 		          animationPliantDepliant4();
+				
+				  $('#nbMedecamentPourVisualisation').val(".$nbMedPrescrit.");
+				  		
+				  //$('#medicament_01').val('test');
+				  var i = 1;
 				 </script>";
-		$html .="<style> #info_liste{ margin-left:195px; width: 80%;} </style>";
+		$html .="<style> #info_liste{ margin-left:195px; width: 80%;}   </style>";
+		
+		
+		
+		//Remplissage automatique des champs
+		if($nbMedPrescrit != 0) {
+		   foreach($listeMedicamentsPrescrits as $Medicaments){
+		        $html .="<script> setTimeout(function(){ $('#medicament_0'+i).val('".$Medicaments['Intitule']."'); }, 2000);  </script>";
+		        $html .="<script> setTimeout(function(){ $('#forme_'+i).val('".$Medicaments['FORME']."'); }, 2000);</script>";
+		        $html .="<script> setTimeout(function(){ $('#nb_medicament_'+i).val('".substr($Medicaments['QUANTITE'], 0, strpos($Medicaments['QUANTITE'], ' '))."'); }, 2000);  </script>";
+		        $html .="<script> setTimeout(function(){ $('#quantite_'+i).val('".substr($Medicaments['QUANTITE'], strpos($Medicaments['QUANTITE'], ' ')+1)."'); i++; }, 2000);  </script>";
+		   }
+		   
+		   $html .="<script>
+		   			  setTimeout(function(){ 
+		   		        $('#listeMedicaments input, .form-duree_ input, .ordonnance input').attr('disabled', true).css({'background':'#f8f8f8'}); 
+		   		        $('#controls_medicament div').toggle(false);
+		   		        $('#iconeMedicament_supp_vider a img').toggle(false);
+	                    $('#bouton_Medicament_modifier_demande').toggle(false);
+	                    $('#bouton_Medicament_valider_demande').toggle(false);
+	                    $('#increm_decrem img').toggle(false);
+		              }, 2000); 
+		   		    </script>";
+		}
 		
 		$this->getResponse ()->getHeaders ()->addHeaderLine ( 'Content-Type', 'application/html; charset=utf-8' );
 		return $this->getResponse ()->setContent ( Json::encode ( $html ) );
@@ -3882,9 +3970,13 @@ class ConsultationController extends AbstractActionController {
 		$id_demande_hospi = $this->params()->fromPost('id_demande_hospi', 0);
 		$resumer_medical = $this->params()->fromPost('resumer_medical', 0);
 		$motif_sorti = $this->params()->fromPost('motif_sorti', 0);
+		//POUR LE TRANSFERT DU PATIENT HOSPITALISE
 		$id_cons = $this->params()->fromPost('id_cons', 0);
 		$temoin_transfert = (int)$this->params()->fromPost('temoin_transfert', 0); //C'est la valeur du service car le patient est transferer dans un service -- 1282
-	
+		
+		//POUR L'IMPRESSION DE L'ORDONNANCE LORS DE LA LIBERATION DU PATIENT
+		$temoin_ordonnance = (int)$this->params()->fromPost('temoin_ordonnance', 0);
+		
 		
 		$this->getHospitalisationTable()->libererPatient($id_demande_hospi, $resumer_medical, $motif_sorti);
 		
@@ -3911,6 +4003,34 @@ class ConsultationController extends AbstractActionController {
 			$this->getTransfererPatientServiceTable()->insererTransfertPatientService($info_transfert);
 		} 
 	
+
+		if($temoin_ordonnance == 1){
+			//POUR LES ORDONNANCES
+			//POUR LES ORDONNANCES
+			//POUR LES ORDONNANCES
+			$donnees = array('id_cons' => $id_cons, 'duree_traitement' => '');
+
+			$tab = array();
+			$j = 1;
+			for($i = 1 ; $i < 10 ; $i++ ){
+				if($this->params()->fromPost("medicament_0".$i)){
+					$tab[$j++] = $this->getOrdonConsommableTable()->getMedicamentByName($this->params()->fromPost("medicament_0".$i))['ID_MATERIEL'];
+					$tab[$j++] = $this->params()->fromPost("forme_".$i);
+					$tab[$j++] = $this->params()->fromPost("nb_medicament_".$i);
+					$tab[$j++] = $this->params()->fromPost("quantite_".$i);
+				}
+			}
+			
+			/*Mettre a jour la duree du traitement de l'ordonnance*/
+			$idOrdonnance = $this->getOrdonnanceTable()->updateOrdonnanceForHospi($tab, $donnees);
+			
+			/*Mettre a jour les medicaments*/
+			$resultat = $this->getOrdonConsommableTable()->updateOrdonConsommable($tab, $idOrdonnance);
+			
+			/*si aucun médicament n'est ajouté ($resultat = false) on supprime l'ordonnance*/
+			if($resultat == false){ $this->getOrdonnanceTable()->deleteOrdonnance($idOrdonnance);}
+		}
+		
 		return $this->redirect()->toRoute('consultation', array('action' =>'en-cours'));
 	}
 	

@@ -23,6 +23,9 @@ echo $this->headScript()->appendFile($this->basePath().'/js/consultation/ajouter
 echo $this->headScript()->appendFile($this->basePath().'/js/consultation/ajouterHospi.js');
 echo $this->headScript()->appendFile($this->basePath().'/js/consultation/ajouterMotifsHospi.js');
 ?> 
+<?php echo  $this->headScript()->appendFile($this->basePath().'/js/consultation/ajouterMedicamentsHospi.js'); ?>
+
+
 <!-- MES JS -->
 <?php 
 echo  $this->headScript()->appendFile($this->basePath().'/js/jquery.dataTables.min.js');
@@ -51,15 +54,16 @@ $(window).load(function () {
 });
 </script>
 
+<div id="titre" style='font-family: police2; text-decoration: none; color: green; font-size: 20px; font-weight: bold; padding-left:20px;'>
+	<iS style='font-size: 25px;'>&curren;</iS>
+	LISTE DES PATIENTS
+</div>
 <div id="wait" style="color: gray; font-size: 20px; text-align: center; margin-top: 80px;" > <span> Chargement ... </span> </div>
 
 <div id="contenuHospitalisation">
 
 <?php $form = $this->form; ?>
-<div id="titre" style='font-family: police2; text-decoration: none; color: green; font-size: 20px; font-weight: bold; padding-left:20px;'>
-	<iS style='font-size: 25px;'>&curren;</iS>
-	LISTE DES PATIENTS
-</div>
+
 <div id="contenu"> 
 
             <table id="patient" class="table table-bordered tab_list_mini" >
@@ -778,19 +782,111 @@ $(window).load(function () {
 <!--==========================POP UP pour Afficher les détails =================================-->                              
                           
 <!--***********************************************************************************************-->  
-        <div id="confirmationDuTransfert" title="Confirmation du transfert" style="display:none;">
+        <div id="confirmationDeLaLiberation" title="Confirmation de la lib&eacute;ration" style="display:none;">
              
-             <p style="font-size: 16px;">
-                 <span style="float:left; margin:0 0px 20px 0; font-size:17px; ">
+             <div style="font-size: 16px; width: 100%;">
+                 <p>
+                 <span style="float:left; margin:10px 10px 20px 0; font-size:17px; width: 100%;">
                  <img src="<?php echo $this->basepath().'/images_icons/warning_16.png';?>" />
-                 Transf&egrave;re du patient ... </span>
+                 Vous &ecirc;tes sur le point de lib&eacute;rer le patient ... </span> </p>
                  
-                 <span style="float:left; margin:0 0px 20px 0; font-size:17px; cursor:pointer;">
-                 <img src="<?php echo $this->basepath().'/images_icons/pdf.png';?>" title="ordonnance" />
-                 Prescrire une ordonnance</span>
-             </p>
+                 <span style="float:left; border: 2px solid #cccccc; width: 100%;"> </span>
+                 
+                 <p>
+                 <span style="float:left; margin:10px 0px 20px 0; font-size:17px; width: 60%;">
+                 <img id="prescriptionOrdonnance" style="cursor:pointer;" src="<?php echo $this->basepath().'/images_icons/pdf.png';?>" />
+                 Prescrire une ordonnance</span> </p>
+             </div>
              
         </div>
+        
+<!--***********************************************************************************************-->                              
+
+<!--==========================POP UP pour Afficher les détails =================================-->                              
+                          
+<!--***********************************************************************************************-->  
+        <div id="PrescriptionOrdonnancePopupInterface" title="Prescription de l'ordonnance" style="display:none;">
+             
+             <form id='Formulaire_Imprimer_Ordonnance'  method='post' action='/simens/public/consultation/impression-Pdf'  target='_blank'>
+        
+                 <div id="impressionPdf">
+                      <input type="submit"  title="Imprimer" name="ordonnance" id="ordonnance">
+                 </div>
+                      <input type="hidden"  id="id_consForOrdonnance">   
+                      <input type="hidden"  id="id_personneForOrdonnance">
+                      
+                      <input type="hidden"  id="nbMedecamentPourVisualisation">
+                 
+                 <div id="listeMedicaments" style="float:left; width: 100%;">
+				                  
+				    <table class="table table-bordered" style="width: 100%; margin-bottom: 0px; margin-left: 0px;">
+                      <thead style="width: 100%;">
+		                <tr style="width: 100%; height: 40px; font-family: police2;">
+		                  <th style="width: 4%;  font-weight: bold; font-size: 15px; ">N&ordm;</th>
+		                  <th style="width: 29%; font-weight: bold; font-size: 15px; text-align: left;">M&eacute;dicaments</th>
+		                  <th style="width: 29%; font-weight: bold; font-size: 15px; text-align: left;">Forme</th>
+		                  <th style="width: 29%; font-weight: bold; font-size: 15px; text-align: left;">Quantit&eacute;</th>
+		                  <th style="width: 9%;  font-weight: bold; font-size: 15px; ">Options</th>
+		                </tr>
+		              </thead>
+			        </table>
+			                         
+				    <div id="Medicament_0" style="width: 100%;">
+					    <!-- A ne pas enlever -->
+				    </div>
+        
+                    <!--********************* BOUTON AJOUTER-SUPPRIMER ************************-->
+			        <!--********************* BOUTON AJOUTER-SUPPRIMER ************************-->
+				    <div id="controls_medicament" style="margin-top: 20px; width: 100%;">
+					   <div style="width: 100%;">
+					      <div style="width: 3%; float: left; cursor: pointer; " id="supprimer_medicament">
+						     <img style='margin-left: 5px;' src='../images_icons/moin-green.png' title='supprimer' />
+					      </div>
+					      <div style="width: 3%; float: left; cursor: pointer; " id="ajouter_medicament">
+					         <img style='margin-left: 5px;' src='../images_icons/plus-green.png' title='ajouter' />
+					      </div>
+				       </div>
+				    </div>
+				 
+                 </div>
+                 
+                 <!--********************* CHARGEMENT DES DONNEES  ************************-->
+                 <!--********************* CHARGEMENT DES DONNEES  ************************-->
+                 <!--********************* CHARGEMENT DES DONNEES  ************************-->
+                 <script> 
+
+                   var myArrayMedicamentOrd = [''];
+                   var myArrayFormeOrd = [''];
+                   var myArrayTypeQuantiteMedicamentOrd = [''];
+
+                   /*Nouveau Code Ajouter*/
+                   /*Nouveau Code Ajouter*/
+                   /*Nouveau Code Ajouter*/ 
+                    var j = 0;
+                    <?php foreach($this->liste_medOrdonnance as $Liste) { ?>
+                           myArrayMedicamentOrd[j++] = "<?php echo $Liste['INTITULE']; ?>"; 
+                    <?php } ?>
+                    
+                    var j = 0;
+                    <?php foreach($this->listeFormeOrdonnance as $ListeForme) {?>
+                           myArrayFormeOrd[j++] = "<?php echo $ListeForme['libelleForme']; ?>"; 
+                    <?php } ?>
+
+                    var j = 0;
+                    <?php foreach($this->listetypeQuantiteMedicamentOrdonnance as $listetypeQuantiteMedicament) {?>
+                           myArrayTypeQuantiteMedicamentOrd[j++] = "<?php echo $listetypeQuantiteMedicament['libelleQuantite']; ?>"; 
+                    <?php } ?>
+
+                    partDefautMedicament(myArrayMedicamentOrd, myArrayFormeOrd, myArrayTypeQuantiteMedicamentOrd, 0);
+
+                 </script> 
+             
+             </form>
+             
+             
+        </div>  
+        
+        
         
 <script type="text/javascript">
 
