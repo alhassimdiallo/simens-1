@@ -54,12 +54,6 @@
    		oTable.fnFilter( this.value );
    	});
 
-   	//le filtre du select du type personnel
-	$('#type_personnel').change(function() 
-	{					
-		oTable.fnFilter( this.value );
-	});
-   	
    	$("tfoot input").keyup( function () {
    		/* Filter on the column (the index) of this element */
    		oTable.fnFilter( this.value, $("tfoot input").index(this) );

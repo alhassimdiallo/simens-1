@@ -1,6 +1,6 @@
 #titre{
 	height: 30px;
-    border: 2px solid #ccc;
+    border: 3px solid #ccc;
 	border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     border-bottom: 2px solid #cccccc;
@@ -13,11 +13,11 @@
 
 #contenu {
     background: #fff; height: 420px;
-    border: 2px solid #ccc ;
+    border: 3px solid #ccc ;
     border-bottom-right-radius: 10px;
     border-bottom-left-radius: 10px;
     border-top: 2px solid #cccccc;
-	border-bottom: 2px solid #cccccc;
+	border-bottom: 3px solid #cccccc;
     padding-left: 25px;
 	padding-top: 10px;
     box-shadow: 0pt 5pt 12px rgba(0, 0, 0, 0.5);
