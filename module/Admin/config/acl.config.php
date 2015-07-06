@@ -10,6 +10,7 @@ return array(
         		'facturation' => 'guest',
         		'radiologie' => 'guest',
         		'anesthesie' => 'guest',
+        		'major' => 'guest',
         		
         		'surveillant' => 'guest',
         		'medecin'     => 'surveillant',
@@ -253,7 +254,13 @@ return array(
     								'save-result-vpa' => 'anesthesie',
     								'liste-recherche-vpa' => 'anesthesie',
     								'liste-recherche-vpa-ajax' => 'anesthesie',
-    								'details-recherche-visite' => 'anesthesie'
+    								'details-recherche-visite' => 'anesthesie',
+    								
+    								
+    								
+    								'demande-hospitalisation' => 'major',
+    								'liste-liberer-patients' => 'major',
+    								'liste-liberer-patient-ajax' => 'major',
      						),
     						
     						

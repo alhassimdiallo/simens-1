@@ -285,6 +285,7 @@ class DemandehospitalisationTable {
 		$stat = $sql->prepareStatementForSqlObject($sQuery);
 		$rResultFt = $stat->execute();
 		//var_dump($rResultFt); exit();
+		
 		$iFilteredTotal = count($rResultFt);
 	
 		$rResult = $rResultFt;

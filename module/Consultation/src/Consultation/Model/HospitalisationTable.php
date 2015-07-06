@@ -56,7 +56,7 @@ class HospitalisationTable {
 	/**
 	 * Liberation du patient
 	 */
-	public function libererPatient($id_demande_hospi, $resumer_medical, $motif_sorti) 
+	public function libererPatient($id_demande_hospi, $resumer_medical, $motif_sorti, $idMedecin) 
 	{
 		$today = new \DateTime ();
 		$date = $today->format ( 'Y-m-d H:i:s' );
@@ -65,7 +65,8 @@ class HospitalisationTable {
 				'date_fin' => $date,
 				'resumer_medical' => $resumer_medical,
 				'motif_sorti' => $motif_sorti,
-				'terminer' => 1
+				'terminer' => 1,
+				'id_medecin' => $idMedecin
 		);
 		
 		$this->tableGateway->update($data, array('code_demande_hospitalisation' => $id_demande_hospi));

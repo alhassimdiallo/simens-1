@@ -158,6 +158,7 @@ class UtilisateurForm extends Form
 								'medecin' => iconv ( 'ISO-8859-1', 'UTF-8','Médecin') ,
 								'surveillant' => 'Surveillant',
 								'laborantin' => 'Laborantin',
+								'major' => 'Major',
 								'infirmier' => 'Infirmier',
 								'facturation' => 'Facturation',
 								'radiologie' => 'Radiologie',

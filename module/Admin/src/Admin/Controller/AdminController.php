@@ -173,6 +173,10 @@ class AdminController extends AbstractActionController
     	{
     		return $this->redirect()->toRoute('hospitalisation', array('action' => 'liste-demandes-vpa'));
     	}
+    	else if($user['role'] == "major")
+    	{
+    		return $this->redirect()->toRoute('hospitalisation', array('action' => 'demande-hospitalisation'));
+    	}
     	
     	
     	echo '<div style="font-size: 25px; color: green; padding-bottom: 15px;" >vous n\'avez aucun privilège. Contacter l\'administrateur ----> Merci !!! </div>'; 

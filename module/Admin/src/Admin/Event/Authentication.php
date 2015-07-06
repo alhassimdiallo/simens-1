@@ -84,8 +84,15 @@ class Authentication extends AbstractActionController
             $user = $this->getUtilisateurTable()->getUtilisateursWithUsername($username);
             //$role  = 'member'; //@todo - Get role from user!
             $role  = $user['role'] ;
+            
+            //si le role n'est pas encore defini dans le jeu d'ACL
+            if(!$acl->hasRole($role)){
+            	echo '<div style="margin-left: 25%; font-size: 25px; color: green; padding-bottom: 15px;" >Le role ... <i style="color: red;">('.$role.') </i> n\' est pa défini dans le jeu d\'ACL </div>';
+            	exit();
+            }
         }
 
+        
         $routeMatch = $event->getRouteMatch();
         $controller = $routeMatch->getParam('controller');
         $action     = $routeMatch->getParam('action');

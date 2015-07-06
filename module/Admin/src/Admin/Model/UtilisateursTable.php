@@ -26,30 +26,21 @@ class UtilisateursTable
 	}
 	
 	
-	public function getInfoUserPersonneService($id_personne){
+	public function getUtilisateursWithUsername($username)
+	{
 		$db = $this->tableGateway->getAdapter();
 		$sql = new Sql($db);
 		$sQuery = $sql->select()
 		->from(array('u' => 'utilisateurs')) -> columns(array('*') )
 		->join(array('e' => 'employe'), 'e.id_personne = u.id_personne' , array('*'))
 		->join(array('p' => 'personne') ,'p.id_personne = e.id_personne' , array('Nom'=>'NOM','Prenom'=>'PRENOM','Datenaissance'=>'DATE_NAISSANCE','Sexe'=>'SEXE','Adresse'=>'ADRESSE','Nationalite'=>'NATIONALITE_ACTUELLE' ) )
-		->join(array('se' => 'service_employe') ,'se.id_employe = p.id_personne' , array() )
+		->join(array('se' => 'service_employe') ,'se.id_employe = p.id_personne' , array('*') )
 		->join(array('s' => 'service') ,'s.ID_SERVICE = se.id_service' , array('NomService' => 'NOM', 'IdService' => 'ID_SERVICE') )
-		->where(array('u.id_personne'=>$id_personne));
+		->where(array('username'=>$username));
 		
 		$stat = $sql->prepareStatementForSqlObject($sQuery);
 		$Result = $stat->execute()->current();
 		return $Result;
-	}
-	public function getUtilisateursWithUsername($username)
-	{
-		$rowset = $this->tableGateway->select(array('username' => "$username"));
-		$row = $rowset->current();
-		if (!$row) {
-			return null;
-		}
-		$infoAgent = $this->getInfoUserPersonneService($row->id_personne);
-		return $infoAgent;
 	}
 	
 	/**

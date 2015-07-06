@@ -265,6 +265,27 @@ class SoinhospitalisationTable {
 		return $result;
 	}
 	
+	/*Heure precedente*/
+	/*Heure precedente*/
+	public function getHeurePrecedentePourAujourdhui($id_sh)
+	{
+		$today = new \DateTime();
+		$date = $today->format ( 'Y-m-d' );
+		$heure = $today->format ( 'H:i:s' );
+	
+		$adapter = $this->tableGateway->getAdapter();
+		$sql = new Sql($adapter);
+		$select = $sql->select();
+		$select->from('heures_soins');
+		$select->where(array('id_sh' => $id_sh, 'applique' => 0, 'date' => $date, 'heure < ?' => $heure));
+		$select->order('heure DESC');
+	
+		$stat = $sql->prepareStatementForSqlObject($select);
+		$result = $stat->execute()->current();
+			
+		return $result;
+	}
+	
 	public function getHeuresPourAujourdhui($id_sh)
 	{
 		$today = new \DateTime();

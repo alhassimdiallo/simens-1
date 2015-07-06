@@ -76,7 +76,52 @@
 	</li>
 	<?php ?>
 	
+	<!-- MENU *** MAJOR MAJOR MAJOR MAJOR *** -->
+	<li id="operationMajor"><a href="">
+	    <span style="margin-left:0px; color: #48ce77; font-weight:bold; font-size: 21px; font-family:Times New Roman;"> <img id="image" style="display: inline;" src='<?php echo $this->basePath().'/images_icons/plus-green1.png'?>' /> Hospitalisation </span></a> </li>
+
+	<li id="plus_operationMajor" style="background: #4a5765;" >
+	   <!-- PARTIE DES TRANSFERTS -->
+	   <div style="height:40px;">
+	     <div id="menu1" style="border-bottom: 1px solid black; padding-left: 30px; padding-top:9px; height: 30px; backgroun: #5c6c7d;">
+	       <a style="text-decoration: none;" href="<?php echo $this->url('hospitalisation', array('action'=> 'demande-hospitalisation'));?>"  >
+	         <span id="style_hospitaliser_Major" style="margin-left:5px; color: white; font-size:15px; font-family:Times New Roman;">
+	         <img src='<?php echo $this->basePath().'/images_icons/liste.png'?>' /> A hospitaliser </span>
+	       </a>
+	     </div>
+	   </div>
+	   
+	   <div style="height:40px;">
+	     <div id="menu2" style="border-bottom: 1px solid black; padding-left: 30px; padding-top:9px; height: 30px; backgroun: #5c6c7d;">
+	       <a style="text-decoration: none;" href="<?php echo $this->url('hospitalisation', array('action'=> 'liste-liberer-patients'));?>"  >
+	         <span id="style_liberer_Major" style="margin-left:5px; color: white; font-size:15px; font-family:Times New Roman;">
+	         <img src='<?php echo $this->basePath().'/images_icons/liste.png'?>' /> A lib&eacute;rer </span>
+	       </a>
+	     </div>
+	   </div>
+	   
+	   <div style="height:40px;">
+	     <div id="menu2" style="border-bottom: 1px solid black; padding-left: 30px; padding-top:9px; height: 30px; backgroun: #5c6c7d;">
+	       <a style="text-decoration: none;" href="<?php echo $this->url('hospitalisation', array('action'=> 'liste-liberer-patients'));?>"  >
+	         <span id="style_liberer_Major" style="margin-left:5px; color: white; font-size:15px; font-family:Times New Roman;">
+	         <img src='<?php echo $this->basePath().'/images_icons/liste.png'?>' /> Gestion des lits </span>
+	       </a>
+	     </div>
+	   </div>
+	   
+	   
+	</li>
+	
 </ul>
+
+<style>
+#plus_operationMajor div div:hover{ background: #596879;}
+</style>
+
+<script>
+$("#operationMajor").toggle(false);
+$("#plus_operationMajor").toggle(false);
+</script>
 
 <?php
 //CHOISIR LE MENU A AFFICHER SELON QUE C'EST LE MEDECIN OU SUR LE SURVEILLANT
@@ -113,6 +158,18 @@ else if($role == 'anesthesie'){?>
 $("#dossier_personnel").toggle(false);
 $("#operation").toggle(false);
 $("#operationMorpho").toggle(false);
+</script>
+<?php 
+} 
+else if($role == 'major'){?>
+<script>
+$("#dossier_personnel").toggle(false);
+$("#operation").toggle(false);
+$("#operationMorpho").toggle(false);
+$("#operationVpa").toggle(false);
+
+$("#operationMajor").toggle(true);
+$("#plus_operationMajor").toggle(true);
 </script>
 <?php } ?>
 
@@ -330,5 +387,40 @@ $('#operationVpa').click(function(){
  return false;
 });
 
+//DEMANDE D'HOSPITALISATION
+//DEMANDE D'HOSPITALISATION
+//DEMANDE D'HOSPITALISATION
+//*******************************************************************************************************************************
+function depDemHospi3(){
+	$('#operationMajor').click(function(){
+		$("#operationMajor").replaceWith("<li id='operationMajor'><a href=''><span style='margin-left:0px; color: #48ce77; font-weight:bold; font-size:21px; font-family:Times New Roman;'> <img style='display: inline;' src='../images_icons/plus-green1.png' /> Hospitalisation </span></a></li>");
+		depDemHospi4();
+	    $('#plus_operationMajor').animate({
+	        height : 'toggle'
+	    },1000);
+	 return false;
+	});
+}
+
+function depDemHospi4(){
+	$('#operationMajor').click(function(){
+		$("#operationMajor").replaceWith("<li id='operationMajor' style='background:#4a5765;'><a href=''><span style='margin-left:0px; color: #ffffff; font-weight:bold; font-size:21px; font-family:Times New Roman;'> <img style='display: inline;' src='../images_icons/moin-green2.png' /> Hospitalisation </span></a></li>");
+		depDemHospi3();
+	    $('#plus_operationMajor').animate({
+	        height : 'toggle'
+	    },1000);
+	 return false;
+	});
+}
+
+$('#plus_operationMajor').toggle(false);
+$('#operationMajor').click(function(){
+	$("#operationMajor").replaceWith("<li id='operationMajor' style='background:#4a5765;'><a href=''><span style='margin-left:0px; color: #ffffff; font-weight:bold; font-size:21px; font-family:Times New Roman;'> <img style='display: inline;' src='../images_icons/moin-green2.png' /> Hospitalisation </span></a></li>");
+	depDemHospi3();
+$('#plus_operationMajor').animate({
+    height : 'toggle'
+},1000);
+return false;
+});
 
 </script>

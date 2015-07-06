@@ -35,13 +35,14 @@
 </head>
 
 <?php
-//RECUPERER LES INFOS SUR LE BIOLOGISTE
-
 $user = $this->layout()->user; 
 $nom = $user['Nom'];
 $prenom = $user['Prenom'];
 $service = $user['NomService'];
 if($user['role'] == 'superAdmin') { $service = "INFORMATIQUE";}
+
+$info = null;
+if($user['role'] == 'major') {$info = '<i style="color: #48f07f; padding-left: 10px;">(Major)</i>';}
 ?>
 
 <body id = "bodbod">
@@ -57,7 +58,7 @@ if($user['role'] == 'superAdmin') { $service = "INFORMATIQUE";}
   <ul class="nav" style="width:100%;">
     <li  class="dropdown" style=" width: 30%;"><a title=""  class="dropdown-toggle">
       <i> <span style="color: white; font-size: 13px;">Service: </span></i>
-      <b class="caret" ></b> <span style="font-size: 15px; color: white; font-family: Times  New Roman;"><?php echo $service;?></span></a>
+      <b class="caret" ></b> <span style="font-size: 15px; color: white; font-family: Times  New Roman;"><?php echo $service;?> <?php echo $info;?></span></a>
     </li>
 
     <li  class="dropdown" style=" width: 55%;"><a title="" class="dropdown-toggle">
@@ -68,7 +69,7 @@ if($user['role'] == 'superAdmin') { $service = "INFORMATIQUE";}
     </li>
 
     <li style="width: 15%;"><a title="" style="" href="<?php echo $this->url('admin', array('action'=>'logout'));?>">
-      <i><img src="<?php echo $this->basePath().'/img/light/bended_arrow_right.png';?>"/></i> <span style="color: white; font-size: 12px;">D&eacute;connexion</span></a>
+      <i><img src="<?php echo $this->basePath().'/img/light/bended_arrow_right.png';?>"/></i> <span style="color: white; font-size: 14px; font-family: Times  New Roman;"><i>D&eacute;connexion</i></span></a>
     </li>
   </ul>
  </div>
@@ -129,10 +130,11 @@ jQuery(document).ready(function($){
         var role = "<?php echo $user['role'];?>";
 
         var id = 0;
-        if(role == 'infirmier'){id = 4;}
+        if(role == 'infirmier') {id = 4;}
         if(role == 'laborantin'){id = 5;}
         if(role == 'radiologie'){id = 6;}
         if(role == 'anesthesie'){id = 7;}
+        if(role == 'major')     {id = 8;}
         
     	vart=tabUrl[0]+'public/admin/modifier-password/'+id;
         $(location).attr("href",vart);

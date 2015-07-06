@@ -2425,6 +2425,8 @@ class ConsultationController extends AbstractActionController {
 // 			var_dump($list['Intitule'] ); exit();
 // 		}
 
+		//$output = $this->getDemandeHospitalisationTable()->getListePatientEncoursHospitalisation(8);
+
 		$user = $this->layout()->user;
 		$IdDuService = $user['IdService'];
 		$id_medecin = $user['id_personne'];
@@ -2816,7 +2818,7 @@ class ConsultationController extends AbstractActionController {
 		
 					
 				$html .="<td style='width: 6%;'>
-					       <img class='etat_oui".$Liste['id_sh']."' style='margin-left: 20%;' src='../images_icons/non.png' title='non totalement appliqu&eacute;' />
+					       <img class='etat_oui".$Liste['id_sh']."' style='margin-left: 20%;' src='../images_icons/non.png' title='pas totalement appliqu&eacute;' />
 					     &nbsp;
 				         </td>";
 			}else {
@@ -3188,7 +3190,7 @@ class ConsultationController extends AbstractActionController {
 				  <tr style='height:40px; width:100%; cursor:pointer;'>
 					<th style='width: 23%;'>M&eacute;dicament</th>
 					<th style='width: 21%;'>Voie d'administration</th>
-					<th style='width: 21%;'>Dosage & Fr&eacute;quence</th>
+					<th style='width: 21%;'>Dosage <span style='font-weight: normal;'>X</span> Fr&eacute;quence</th>
 					<th style='width: 17%;'>Heure suivante</th>
 				    <th style='width: 12%;'>Options</th>
 				    <th style='width: 6%;'>Etat</th>
@@ -3201,10 +3203,14 @@ class ConsultationController extends AbstractActionController {
 		foreach ($liste_soins as $cle => $Liste){
 			//Récupération de l'heure suivante pour l'application du soin par l'infirmier
 			$heureSuivante = $this->getSoinHospitalisationTable()->getHeureSuivantePourAujourdhui($Liste['id_sh']);
+			$heurePrecedente = $this->getSoinHospitalisationTable()->getHeurePrecedentePourAujourdhui($Liste['id_sh']);
 				
+			$temoin = 0;
 			$idHeure = null;
 			$heureSuiv = null;
-			if($heureSuivante){
+			if($heureSuivante || $heurePrecedente){
+				$heurePrecedenteH = substr($heurePrecedente['heure'], 0, 2);
+				
 				$heureActuelleH = $today->format('H');
 				$heureSuivanteH = substr($heureSuivante['heure'], 0, 2);
 				
@@ -3213,27 +3219,42 @@ class ConsultationController extends AbstractActionController {
 					$heureSuivanteM = 59;
 					$diff = $heureSuivanteM - $heureActuelleM;
 					
-					if($diff <= 15){
-						$heureSuiv = "<khass id='alertHeureApplicationSoinUrgent".$Liste['id_sh']."' style='color: red; font-weight: bold; font-size: 20px; color: red;'>".$heureSuivante['heure']."
-								      </khass>
-								      <!-- i  id='clickOK' style='padding-left: 20px; color: green; font-family: Venus Rising; font-size: 18px; cursor:pointer;' > OK </i-->  
-								      <audio id='audioPlayer' src='../images_icons/alarme.mp3' ></audio>"; 
+					if($diff <= 10){
+						$heureSuiv = "<khass id='alertHeureApplicationSoinUrgent".$Liste['id_sh']."' style='color: orange; font-weight: bold; font-size: 20px;'>".$heureSuivante['heure']."
+								      </khass>";
 						              $play = true;
+					}else if ($diff <= 30) {
+						$heureSuiv = "<khass id='alertHeureApplicationSoin".$Liste['id_sh']."' style='color: orange; font-weight: bold; font-size: 20px;'>".$heureSuivante['heure']."</khass>";
 					}else {
-						$heureSuiv = "<khass id='alertHeureApplicationSoin' style='color: red; font-weight: bold; font-size: 20px; color: red;'>".$heureSuivante['heure']."</khass>";
+						$heureSuiv = "<khass style='color: orange; font-weight: bold; font-size: 20px;'>".$heureSuivante['heure']."</khass>";
 					}
 					
-				}else {
-					$heureSuiv = "<khass style='color: red; font-weight: bold; font-size: 20px;'>".$heureSuivante['heure']."</khass>";
-				}
-				$idHeure = $heureSuivante['id_heure'];
+				}else 
+				    if ($heurePrecedenteH == $heureActuelleH){
+				    	$heureActuelleM = $today->format('i');
+				    	if($heureActuelleM <= 30){
+				    		$heureSuiv ="<khass id='alertHeureApplicationSoinUrgent2".$Liste['id_sh']."' style='color: red; font-weight: bold; font-size: 20px;'>".$heurePrecedente['heure']."
+								         </khass>
+								         <audio id='audioPlayer' src='../images_icons/alarme.mp3' ></audio>";
+				    		$temoin = 1;
+				    		$play = true;
+				    	}else {
+				    		if($heureSuivante['heure']){
+				    			$heureSuiv = "<khass style='color: orange; font-weight: bold; font-size: 20px;'>".$heureSuivante['heure']."</khass>";
+				    		}				    	}
+				    }
+					else {
+						if($heureSuivante['heure']){
+							$heureSuiv = "<khass style='color: orange; font-weight: bold; font-size: 20px;'>".$heureSuivante['heure']."</khass>";
+						}
+					}
 			}
 			
 			
 			$html .="<tr style='width: 100%;' id='".$Liste['id_sh']."'>";
 			$html .="<td style='width: 23%;'><div id='inform' style='float:left; font-weight:bold; font-size:17px;'>".$Liste['medicament']."</div></td>";
 			$html .="<td style='width: 21%;'><div id='inform' style='float:left; font-weight:bold; font-size:17px;'>".$Liste['voie_administration']."</div></td>";
-			$html .="<td style='width: 21%;'><div id='inform' style='float:left; font-weight:bold; font-size:17px;'>".$Liste['dosage']." - ".$Liste['frequence']."</div></td>";
+			$html .="<td style='width: 21%;'><div id='inform' style='float:left; font-weight:bold; font-size:17px;'>".$Liste['dosage']." <span style='font-weight: normal; font-family: arial; color: green; font-size: 13px;'>X</span> ".$Liste['frequence']."</div></td>";
 	
 			if($heureSuiv == null){
 				$JourSuivant = $this->getSoinHospitalisationTable()->getDateApresDateDonnee($Liste['id_sh'], $aujourdhui);
@@ -3304,7 +3325,7 @@ class ConsultationController extends AbstractActionController {
 				
 					
 				$html .="<td style='width: 6%;'>
-					       <img class='etat_oui".$Liste['id_sh']."' style='margin-left: 20%;' src='../images_icons/non.png' title='non totalement appliqu&eacute;' />
+					       <img class='etat_oui".$Liste['id_sh']."' style='margin-left: 20%;' src='../images_icons/non.png' title='pas totalement appliqu&eacute;' />
 					     &nbsp;
 				         </td>";
 			}else {
@@ -3386,12 +3407,27 @@ class ConsultationController extends AbstractActionController {
 	                    tooltips.tooltip( 'close' );
 	                  });
 	                    		
-	                  function FaireClignoterPourAlerte".$Liste['id_sh']." (){
+	                  function FaireClignoterPourAlerteUrgent".$Liste['id_sh']." (){
                           $('#alertHeureApplicationSoinUrgent".$Liste['id_sh']."').fadeOut(250).fadeIn(200);
                       }
-
                       $(function(){
-                          setInterval('FaireClignoterPourAlerte".$Liste['id_sh']." ()',500);
+                          setInterval('FaireClignoterPourAlerteUrgent".$Liste['id_sh']." ()',500);
+                      });
+
+                          		
+                      function FaireClignoterPourAlerteUrgent2".$Liste['id_sh']." (){
+                          $('#alertHeureApplicationSoinUrgent2".$Liste['id_sh']."').fadeOut(100).fadeIn(50);
+                      }
+                      $(function(){
+                          setInterval('FaireClignoterPourAlerteUrgent2".$Liste['id_sh']." ()',500);
+                      });
+                          		
+                          		
+                      function FaireClignoterPourAlerte".$Liste['id_sh']." (){
+                          $('#alertHeureApplicationSoin".$Liste['id_sh']."').fadeOut(900).fadeIn(800);
+                      }
+                      $(function(){
+                          setInterval('FaireClignoterPourAlerte".$Liste['id_sh']." ()',4200);
                       });
                           		
 			        </script>";
@@ -3624,11 +3660,11 @@ class ConsultationController extends AbstractActionController {
 					
 				if($i == count($heure)-1) {
 					if($heureSuivante['heure'] == $heure[$i]){
-						$lesHeures.= '<span id="clignoterHeure" style="font-weight: bold; color: red;">'.$heure[$i].'</span>';
+						$lesHeures.= '<span id="clignoterHeure" style="font-weight: bold; color: orange;">'.$heure[$i].'</span>';
 					}else{
 							
 						if($heure[$i] < $heureSuivante['heure'] &&  $appliquer == 0){
-							$lesHeures.= '<span style="font-weight: bold; color: orange; text-decoration:underline;">'.$heure[$i].'</span> ';
+							$lesHeures.= '<span style="font-weight: bold; color: red;">'.$heure[$i].'</span> ';
 						} else if ($heure[$i] > $heureSuivante['heure']){
 							$lesHeures.= '<span style="color: #ccc;">'.$heure[$i].'</span>';
 						  } else {
@@ -3638,11 +3674,11 @@ class ConsultationController extends AbstractActionController {
 					}
 				} else {
 					if($heureSuivante['heure'] == $heure[$i]){
-						$lesHeures.= '<span id="clignoterHeure" style="font-weight: bold; color: red;">'.$heure[$i].'</span>  -  ';
+						$lesHeures.= '<span id="clignoterHeure" style="font-weight: bold; color: orange;">'.$heure[$i].'</span>  -  ';
 					}else{
 							
 						if($heure[$i] < $heureSuivante['heure'] &&  $appliquer == 0){
-							$lesHeures.= '<span style="font-weight: bold; color: orange; text-decoration:underline;">'.$heure[$i].'</span>  -  ';
+							$lesHeures.= '<span style="font-weight: bold; color: red;">'.$heure[$i].'</span>  -  ';
 						} else if ($heure[$i] > $heureSuivante['heure']){
 							$lesHeures.= '<span style="color: #ccc;">'.$heure[$i].' - </span>';
 						  } else {
@@ -3655,14 +3691,14 @@ class ConsultationController extends AbstractActionController {
 		}
 			
 		//S'il n'y a plus une heure suivante c'est a dire toutes les heures sont passées
-		if($heure && !$heureSuivante){
+		if($heure && !$heureSuivante && $date == $aujoudhui){
 			for ($i = 0; $i<count($heure); $i++){
 				$appliquer = $this->getSoinHospitalisationTable()->getHeureAppliqueePourUneDate($id_sh, $heure[$i], $date)['applique'];
 					
 				if($i == count($heure)-1) {
 	
 					if($appliquer == 0){
-						$lesHeures.= '<span style="font-weight: bold; color: orange; text-decoration:underline;">'.$heure[$i].'</span> ';
+						$lesHeures.= '<span style="font-weight: bold; color: red;">'.$heure[$i].'</span> ';
 					} else {
 						$lesHeures.= $heure[$i];
 					}
@@ -3670,11 +3706,37 @@ class ConsultationController extends AbstractActionController {
 				} else {
 	
 					if($appliquer == 0){
-						$lesHeures.= '<span style="font-weight: bold; color: orange; text-decoration:underline;">'.$heure[$i].'</span>  -  ';
+						$lesHeures.= '<span style="font-weight: bold; color: red;">'.$heure[$i].'</span>  -  ';
 					} else {
 						$lesHeures.= $heure[$i].'  -  ';
 					}
 	
+				}
+					
+			}
+		}
+		
+		//S'il n'y a plus une heure suivante c'est a dire toutes les heures sont passées
+		if($heure && !$heureSuivante && $date != $aujoudhui){
+			for ($i = 0; $i<count($heure); $i++){
+				$appliquer = $this->getSoinHospitalisationTable()->getHeureAppliqueePourUneDate($id_sh, $heure[$i], $date)['applique'];
+					
+				if($i == count($heure)-1) {
+		
+					if($appliquer == 0){
+						$lesHeures.= '<span style="font-weight: bold; color: orange; text-decoration:underline;">'.$heure[$i].'</span> ';
+					} else {
+						$lesHeures.= $heure[$i];
+					}
+		
+				} else {
+		
+					if($appliquer == 0){
+						$lesHeures.= '<span style="font-weight: bold; color: orange; text-decoration:underline;">'.$heure[$i].'</span>  -  ';
+					} else {
+						$lesHeures.= $heure[$i].'  -  ';
+					}
+		
 				}
 					
 			}
@@ -3978,11 +4040,15 @@ class ConsultationController extends AbstractActionController {
 		$temoin_ordonnance = (int)$this->params()->fromPost('temoin_ordonnance', 0);
 		
 		
-		$this->getHospitalisationTable()->libererPatient($id_demande_hospi, $resumer_medical, $motif_sorti);
+		$this->getHospitalisationTable()->libererPatient($id_demande_hospi, $resumer_medical, $motif_sorti, $IdMedecin);
 		
 		/**
 		 * LIBERATION DU LIT
 		 */
+		
+		/** La libération du lit ici maintenant effectué par le major du service hospitalisation
+		 ** La libération du lit ici maintenant effectué par le major du service hospitalisation
+		
 		$ligne_hosp = $this->getHospitalisationTable()->getHospitalisationWithCodedh($id_demande_hospi);
 		if($ligne_hosp){
 			$id_hosp = $ligne_hosp->id_hosp;
@@ -3992,6 +4058,9 @@ class ConsultationController extends AbstractActionController {
 				$this->getLitTable()->libererLit($id_materiel);
 			}
 		}
+		
+		 **/
+		
 		
 		//S'il s'agit d'un transfert notifier cela dans la table transferer_patient_service 
 		if($temoin_transfert != 0){

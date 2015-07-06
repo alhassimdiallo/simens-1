@@ -481,11 +481,11 @@ class HospitalisationController extends AbstractActionController {
 					
 				if($i == count($heure)-1) {
 					if($heureSuivante['heure'] == $heure[$i]){
-						$lesHeures.= '<span id="clignoterHeure" style="font-weight: bold; color: red;">'.$heure[$i].'</span>';
+						$lesHeures.= '<span id="clignoterHeure" style="font-weight: bold; color: orange;">'.$heure[$i].'</span>';
 					}else{
 							
 						if($heure[$i] < $heureSuivante['heure'] &&  $appliquer['applique'] == 0){
-							$lesHeures.= '<a href="javascript:appliquerSoinPasse('.$id_sh.','.$id_hosp.','.$appliquer['id_heure'].')"> <span style="font-weight: bold; color: orange; text-decoration:none; cursor:pointer;">'.$heure[$i].'</span></a> ';
+							$lesHeures.= '<a style="text-decoration: none;" href="javascript:appliquerSoinPasse('.$id_sh.','.$id_hosp.','.$appliquer['id_heure'].')"> <span style="font-weight: bold; color: red; cursor:pointer;">'.$heure[$i].'</span></a> ';
 						} else if ($heure[$i] > $heureSuivante['heure']){
 							$lesHeures.= '<span style="color: #ccc;">'.$heure[$i].'</span>';
 						  } else {
@@ -495,11 +495,11 @@ class HospitalisationController extends AbstractActionController {
 					}
 				} else {
 					if($heureSuivante['heure'] == $heure[$i]){
-						$lesHeures.= '<span id="clignoterHeure" style="font-weight: bold; color: red;">'.$heure[$i].'</span>  -  ';
+						$lesHeures.= '<span id="clignoterHeure" style="font-weight: bold; color: orange;">'.$heure[$i].'</span>  -  ';
 					}else{
 							
 						if($heure[$i] < $heureSuivante['heure'] &&  $appliquer['applique'] == 0){
-							$lesHeures.= '<a href="javascript:appliquerSoinPasse('.$id_sh.','.$id_hosp.','.$appliquer['id_heure'].')"> <span style="font-weight: bold; color: orange; text-decoration:none; cursor:pointer;">'.$heure[$i].'</span></a>  -  ';
+							$lesHeures.= '<a style="text-decoration: none;" href="javascript:appliquerSoinPasse('.$id_sh.','.$id_hosp.','.$appliquer['id_heure'].')"> <span style="font-weight: bold; color: red; cursor:pointer;">'.$heure[$i].'</span></a>  -  ';
 						} else if ($heure[$i] > $heureSuivante['heure']){
 							$lesHeures.= '<span style="color: #ccc;">'.$heure[$i].' - </span>';
 						  } else {
@@ -519,7 +519,7 @@ class HospitalisationController extends AbstractActionController {
 				if($i == count($heure)-1) {
 			
 					if($appliquer['applique'] == 0){
-						$lesHeures.= '<a href="javascript:appliquerSoinPasse('.$id_sh.','.$id_hosp.','.$appliquer['id_heure'].')"> <span style="font-weight: bold; color: orange; text-decoration:none;">'.$heure[$i].'</span></a> ';
+						$lesHeures.= '<a style="text-decoration: none;" href="javascript:appliquerSoinPasse('.$id_sh.','.$id_hosp.','.$appliquer['id_heure'].')"> <span style="font-weight: bold; color: blue; ">'.$heure[$i].'</span></a> ';
 					} else {
 						$lesHeures.= $heure[$i];
 					}
@@ -527,7 +527,7 @@ class HospitalisationController extends AbstractActionController {
 				} else {
 			
 					if($appliquer['applique'] == 0){
-						$lesHeures.= '<a href="javascript:appliquerSoinPasse('.$id_sh.','.$id_hosp.','.$appliquer['id_heure'].')"> <span style="font-weight: bold; color: orange; text-decoration:none;">'.$heure[$i].'</span></a>  -  ';
+						$lesHeures.= '<a style="text-decoration: none;" href="javascript:appliquerSoinPasse('.$id_sh.','.$id_hosp.','.$appliquer['id_heure'].')"> <span style="font-weight: bold; color: blue; ">'.$heure[$i].'</span></a>  -  ';
 					} else {
 						$lesHeures.= $heure[$i].'  -  ';
 					}
@@ -858,6 +858,8 @@ class HospitalisationController extends AbstractActionController {
 	public function suiviPatientAction() {
 		$this->layout()->setTemplate('layout/Hospitalisation');
 		
+		//$heurePrecedente = $this->getSoinHospitalisationTable()->getHeurePrecedentePourAujourdhui(19);
+		//var_dump($heurePrecedente); exit();
 // 		$today = new \DateTime();
 // 		$aujourdhui = $today->format('Y-m-d');
 // 	    $Date = $this->getSoinHospitalisationTable()->getDateApresDateDonnee(7, $aujourdhui);
@@ -906,7 +908,7 @@ class HospitalisationController extends AbstractActionController {
 				  <tr style='height:40px; width:100%; cursor:pointer; '>
 					<th style='width: 24%;'>M<minus>&eacute;dicament</minus></th>
 					<th style='width: 21%;'>V<minus>oie d'administration</minus></th>
-					<th style='width: 22%;'>D<minus>osage & </minus> F<minus>r&eacute;quence </minus></th>
+					<th style='width: 22%;'>D<minus>osage </minus>  <text style='font-weight: normal; font-family: arial; color: green; font-size: 15px;'> X </text> F<minus>r&eacute;quence </minus></th>
 					<th style='width: 17%;'>H<minus>eure suivante </minus></th>
 				    <th style='width: 10%;'>O<minus>ptions</minus></th>
 				    <th style='width: 6%;'>E<minus>tat</minus></th>
@@ -920,43 +922,65 @@ class HospitalisationController extends AbstractActionController {
 		foreach ($liste_soins as $cle => $Liste){
 			//Récupération de l'heure suivante pour l'application du soin
 			$heureSuivante = $this->getSoinHospitalisationTable()->getHeureSuivantePourAujourdhui($Liste['id_sh']);
+			$heurePrecedente = $this->getSoinHospitalisationTable()->getHeurePrecedentePourAujourdhui($Liste['id_sh']);
 			
+			$temoin = 0;
 			$idHeure = null;
 			$heureSuiv = null;
 			$application = false;
-			if($heureSuivante){
+			if($heureSuivante || $heurePrecedente){
+				$heurePrecedenteH = substr($heurePrecedente['heure'], 0, 2);
+				
 				$heureActuelleH = $today->format('H');
 				$heureSuivanteH = substr($heureSuivante['heure'], 0, 2);
 				
-				if($heureSuivanteH-$heureActuelleH == 1){
+				if($heureSuivanteH - $heureActuelleH == 1){
 					$heureActuelleM = $today->format('i');
-					$heureSuivanteM = 59;
+					$heureSuivanteM = 60;
 					$diff = $heureSuivanteM - $heureActuelleM;
 					
-					if($diff <= 15){
-						$heureSuiv = "<khass id='alertHeureApplicationSoinUrgent".$Liste['id_sh']."' style='color: red; font-weight: bold; font-size: 20px; color: red;'>".$heureSuivante['heure']."
-								      </khass>
-								      <!-- i  id='clickOK' style='padding-left: 20px; color: green; font-family: Venus Rising; font-size: 18px; cursor:pointer;' > OK </i-->  
-								      <audio id='audioPlayer' src='../images_icons/alarme.mp3' ></audio>"; 
-						              $play = true;
-					}else {
-						$heureSuiv = "<khass id='alertHeureApplicationSoin' style='color: red; font-weight: bold; font-size: 20px; color: red;'>".$heureSuivante['heure']."</khass>";
-					}
-					
-					if($diff < 30){
+					if($diff <= 10){
+						$heureSuiv = "<khass id='alertHeureApplicationSoinUrgent".$Liste['id_sh']."' style='color: orange; font-weight: bold; font-size: 20px;'>".$heureSuivante['heure']."
+								      </khass>"; 
+						$temoin = 0;
 						$application = true;
+						$idHeure = $heureSuivante['id_heure'];
+					}else if ($diff <= 30) {
+						$heureSuiv = "<khass id='alertHeureApplicationSoin' style='color: orange; font-weight: bold; font-size: 20px;'>".$heureSuivante['heure']."</khass>";
+					}else {
+						$heureSuiv = "<khass style='color: orange; font-weight: bold; font-size: 20px;'>".$heureSuivante['heure']."</khass>";
 					}
 					
-				}else {
-					$heureSuiv = "<khass style='color: red; font-weight: bold; font-size: 20px;'>".$heureSuivante['heure']."</khass>";
-				}
-				$idHeure = $heureSuivante['id_heure'];
+				}else 
+				    if ($heurePrecedenteH == $heureActuelleH){
+				    	$heureActuelleM = $today->format('i');
+				    	if($heureActuelleM <= 30){
+				    		$heureSuiv ="<khass id='alertHeureApplicationSoinUrgent2".$Liste['id_sh']."' style='color: red; font-weight: bold; font-size: 20px;'>".$heurePrecedente['heure']."
+								         </khass>
+								         <audio id='audioPlayer' src='../images_icons/alarme.mp3' ></audio>";
+				    		$temoin = 1;
+				    		$play = true;
+				    		$application = true;
+				    		$idHeure = $heurePrecedente['id_heure'];
+				    	}else {
+				    		if($heureSuivante['heure']){
+				    			$heureSuiv = "<khass style='color: orange; font-weight: bold; font-size: 20px;'>".$heureSuivante['heure']."</khass>";
+				    		}
+
+				    	}
+				    }
+					else {
+						if($heureSuivante['heure']){
+							$heureSuiv = "<khass style='color: orange; font-weight: bold; font-size: 20px;'>".$heureSuivante['heure']."</khass>";
+						}
+
+					}
 			}
 			
 			$html .="<tr style='width: 100%;' id='".$Liste['id_sh']."'>";
 			$html .="<td style='width: 24%;'><div id='inform' style='float:left; font-weight:bold; font-size:17px;'>".$Liste['medicament']."</div></td>";
 			$html .="<td style='width: 21%;'><div id='inform' style='float:left; font-weight:bold; font-size:17px;'>".$Liste['voie_administration']."</div></td>";
-			$html .="<td style='width: 22%;'><div id='inform' style='float:left; font-weight:bold; font-size:17px;'>".$Liste['dosage']." - ".$Liste['frequence']."</div></td>";
+			$html .="<td style='width: 22%;'><div id='inform' style='float:left; font-weight:bold; font-size:17px;'>".$Liste['dosage']." <text style='font-weight: normal; font-family: arial; color: green; font-size: 13px;'> X </text> ".$Liste['frequence']."</div></td>";
 			if($heureSuiv == null){
 				$JourSuivant = $this->getSoinHospitalisationTable()->getDateApresDateDonnee($Liste['id_sh'], $aujourdhui);
 				$HeuresPourAujourdhui = $this->getSoinHospitalisationTable()->getHeuresPourAujourdhui($Liste['id_sh']);
@@ -1006,7 +1030,7 @@ class HospitalisationController extends AbstractActionController {
 					  </a>&nbsp";
 			
 			if($heureSuiv && $application){
-				$html .="<a href='javascript:appliquerSoin(".$Liste['id_sh'].",".$Liste['id_hosp'].",".$idHeure.")'>
+				$html .="<a href='javascript:appliquerSoin(".$Liste['id_sh'].",".$Liste['id_hosp'].",".$idHeure.",".$temoin.")'>
 					    	<img class='modifier".$Liste['id_sh']."'  src='../img/dark/blu-ray.png' title='appliquer le soin'/>
 					     </a>&nbsp;
 				
@@ -1019,15 +1043,14 @@ class HospitalisationController extends AbstractActionController {
 				         </td>";
 			}
 			
-			
 			if($Liste['appliquer'] == 0) {
 				$html .="<td style='width: 6%;'>
-					       <img class='etat_oui".$Liste['id_sh']."' style='margin-left: 20%;' src='../images_icons/non.png' title='non totalement appliqu&eacute;' />
+					       <img class='etat_oui".$Liste['id_sh']."' style='margin-left: 20%;' src='/simens/public/images_icons/non.png' title='pas totalement appliqu&eacute;' />
 					     &nbsp;
 				         </td>";
 			}else {
 				$html .="<td style='width: 6%;'>
-					       <img class='etat_non".$Liste['id_sh']."' style='margin-left: 20%;' src='../images_icons/oui.png' title='totalement appliqu&eacute;' />
+					       <img class='etat_non".$Liste['id_sh']."' style='margin-left: 20%;' src='/simens/public/images_icons/oui.png' title='totalement appliqu&eacute;' />
 					     &nbsp;
 				         </td>";
 			}
@@ -1088,13 +1111,22 @@ class HospitalisationController extends AbstractActionController {
 	                    var tooltips = $( '.etat_non".$Liste['id_sh']."' ).tooltip();
 	                    tooltips.tooltip( 'close' );
 	                  });
-	                    		
+	                  var intervalAlerte; 
 	                  function FaireClignoterPourAlerte".$Liste['id_sh']." (){
                           $('#alertHeureApplicationSoinUrgent".$Liste['id_sh']."').fadeOut(250).fadeIn(200);
                       }
 
                       $(function(){
-                          setInterval('FaireClignoterPourAlerte".$Liste['id_sh']." ()',500);
+                          intervalAlerte = setInterval('FaireClignoterPourAlerte".$Liste['id_sh']." ()',500);
+                      });
+                          		
+
+                      var intervalAlerteUrgent2;     		
+                      function FaireClignoterPourAlerteUrgent2".$Liste['id_sh']." (){
+                          $('#alertHeureApplicationSoinUrgent2".$Liste['id_sh']."').fadeOut(200).fadeIn(50);
+                      }
+                      $(function(){
+                          intervalAlerteUrgent2 = setInterval('FaireClignoterPourAlerteUrgent2".$Liste['id_sh']." ()',500);
                       });
 			        </script>";
 		}
@@ -1153,7 +1185,8 @@ class HospitalisationController extends AbstractActionController {
 		$id_sh = $this->params()->fromPost('id_sh',0);
 		$id_heure = $this->params()->fromPost('id_heure',0);
 		
-		$heureSuivante = $this->getSoinHospitalisationTable()->getHeureSuivantePourAujourdhui($id_sh);
+		$heureSuivante = $this->getSoinHospitalisationTable()->getHeure($id_heure, $id_sh);
+		
 			
 		$heureSuivPopup = null;
 		if($heureSuivante){
@@ -1174,7 +1207,7 @@ class HospitalisationController extends AbstractActionController {
 			
 		$heureSuivPopup = null;
 		if($heureSuivante){
-			$heureSuivPopup = '<span style="color: orange;">'.$heureSuivante['heure'].'</span>';
+			$heureSuivPopup = '<span style="color: red;">'.$heureSuivante['heure'].'</span>';
 		}
 	
 		$html = $heureSuivPopup;
@@ -2461,5 +2494,31 @@ class HospitalisationController extends AbstractActionController {
 		
 		$this->getResponse ()->getHeaders ()->addHeaderLine ( 'Content-Type', 'application/html; charset=utf-8' );
 		return $this->getResponse ()->setContent ( Json::encode ( $html ) );
+	}
+	
+	
+	/* INTERFACE DU MAJOR ------ INTERFACE DU MAJOR ------ INTERFACE DU MAJOR ------ INTERFACE DU MAJOR  */
+	/* INTERFACE DU MAJOR ------ INTERFACE DU MAJOR ------ INTERFACE DU MAJOR ------ INTERFACE DU MAJOR  */
+	/* INTERFACE DU MAJOR ------ INTERFACE DU MAJOR ------ INTERFACE DU MAJOR ------ INTERFACE DU MAJOR  */
+	/* INTERFACE DU MAJOR ------ INTERFACE DU MAJOR ------ INTERFACE DU MAJOR ------ INTERFACE DU MAJOR  */
+	/* INTERFACE DU MAJOR ------ INTERFACE DU MAJOR ------ INTERFACE DU MAJOR ------ INTERFACE DU MAJOR  */
+	
+	public function demandeHospitalisationAction()
+	{
+		$this->layout()->setTemplate('layout/Hospitalisation');
+	} 
+	
+	public function listeLibererPatientsAction()
+	{
+		$this->layout()->setTemplate('layout/Hospitalisation');
+		//$output = $this->getHospitalisationTable()->getListePatientALiberer();
+		//var_dump($output); exit();
+	}
+	
+	public function listeLibererPatientAjaxAction() {
+		$output = $this->getHospitalisationTable()->getListePatientALiberer();
+		return $this->getResponse ()->setContent ( Json::encode ( $output, array (
+				'enableJsonExprFinder' => true
+		) ) );
 	}
 }
