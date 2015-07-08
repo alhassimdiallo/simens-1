@@ -35,4 +35,18 @@ class HospitalisationlitTable {
 		);
 		$this->tableGateway->insert($data);
 	}
+	
+	public function updateHospitalisationlit($id_major, $id_hosp, $note)
+	{
+		$today = new \DateTime ();
+		$date = $today->format ( 'Y-m-d H:i:s' );
+	
+		$data = array(
+				'liberation_lit' => 1,
+				'date_liberation_lit' => $date,
+				'note_liberation' => $note,
+				'id_major' => $id_major,
+		);
+		$this->tableGateway->update($data, array('id_hosp' => $id_hosp));
+	}
 }

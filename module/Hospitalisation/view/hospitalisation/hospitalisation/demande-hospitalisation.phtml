@@ -75,3 +75,49 @@ $('#menu1').css({'background':'#6c7f93'});
 				</tfoot>
 			</table>
 </div>
+
+
+<div id="vue_patient">
+
+</div>
+
+<div id="hospitaliser">
+
+    <div id="vue_patient_hospi">
+
+    </div>
+    <?php
+    $form = $this->form;
+    $form->setAttribute ( 'action', $this->url ( 'hospitalisation', array ('action' => 'liste') ));
+    $form->prepare ();
+    echo $this->form ()->openTag ( $form );
+    ?>
+    <?php echo $this->formhidden($form->get('code_demande'));?>
+
+    <table id="form_patient" style="margin-left: 195px; width: 80%;">  
+      
+      <tr class="comment-form-patient" style="width: 80%;">
+         <td style="width: 33%;"> <?php echo $this->formRow($form->get('division'));?></td> 
+         <td style="width: 33%;"> <?php echo $this->formRow($form->get('salle'));?></td> 
+         <td style="width: 33%;"> <?php echo $this->formRow($form->get('lit'));?></td> 
+      </tr>
+   
+      <tr class="comment-form-patient" style="width: 80%; height: 70px; vertical-align: bottom;">
+         <td style="width: 33%;"></td>
+         <td style="width: 33%; padding-left: 30px;"> 
+            <?php echo $this->formSubmit($form->get('annuler')); ?>
+            <?php echo $this->formSubmit($form->get('valider')); ?>
+         </td> 
+         <td style="width: 33%;"></td>
+      </tr>
+      
+    </table>
+
+    <?php echo $this->form()->closeTag();?>
+    
+</div>
+
+
+<script type="text/javascript">
+$("#hospitaliser, #vue_patient").toggle(false);
+</script>

@@ -113,7 +113,7 @@ class HospitalisationTable {
 		}
 	
 		/*
-		 * SQL queries
+		 * SQL queries pour la liste des demandes de lib�ration
 		*/
 		$sql = new Sql($db);
 		$sQuery = $sql->select()
@@ -121,9 +121,9 @@ class HospitalisationTable {
 		->join(array('pers' => 'personne'), 'pat.ID_PERSONNE = pers.ID_PERSONNE', array('Nom'=>'NOM','Prenom'=>'PRENOM','Datenaissance'=>'DATE_NAISSANCE','Sexe'=>'SEXE','Adresse'=>'ADRESSE','id'=>'ID_PERSONNE'))
 		->join(array('cons' => 'consultation'), 'cons.ID_PATIENT = pat.ID_PERSONNE', array('Datedemandehospi'=>'DATE', 'Idcons'=>'ID_CONS'))
 		->join(array('dh' => 'demande_hospitalisation'), 'dh.id_cons = cons.ID_CONS' , array('*'))
-		->join(array('h' => 'hospitalisation'), 'h.code_demande_hospitalisation = dh.id_demande_hospi' , array('Datedebut'=>'date_debut', 'Datefin'=>'date_fin'))
+		->join(array('h' => 'hospitalisation'), 'h.code_demande_hospitalisation = dh.id_demande_hospi' , array('Datedebut'=>'date_debut', 'Datefin'=>'date_fin', 'Idhosp'=>'id_hosp'))
 		->join(array('hl' => 'hospitalisation_lit'), 'hl.id_hosp = h.id_hosp' , array('*'))
-		->where(array('h.terminer' => 1, 'hl.liberation_lit' => 0))
+		->where(array('h.terminer' => 1))
 		->order('h.date_fin asc');
 	
 		/* Data set length after filtering */
@@ -159,50 +159,129 @@ class HospitalisationTable {
 		foreach ( $rResult2 as $aRow )
 		{
 			$row = array();
-			for ( $i=0 ; $i<count($aColumns) ; $i++ )
-			{
-				if ( $aColumns[$i] != ' ' )
+			if($aRow['liberation_lit'] == 0){
+				for ( $i=0 ; $i<count($aColumns) ; $i++ )
 				{
-					/* General output */
-					if ($aColumns[$i] == 'Nom'){
-						$row[] = "<khass id='nomMaj'>".$aRow[ $aColumns[$i]]."</khass>";
+					if ( $aColumns[$i] != ' ' )
+					{
+						/* General output */
+						if ($aColumns[$i] == 'Nom'){
+							$row[] = "<khass id='nomMaj'>".$aRow[ $aColumns[$i]]."</khass>";
+						}
+				
+						else if ($aColumns[$i] == 'Datenaissance') {
+							$row[] = $Control->convertDate($aRow[ $aColumns[$i] ]);
+						}
+				
+						else if ($aColumns[$i] == 'Adresse') {
+							$row[] = $this->adresseText($aRow[ $aColumns[$i] ]);
+						}
+				
+						else if ($aColumns[$i] == 'id') {
+				
+							$html  ="<infoBulleVue><a style='padding-right: 10px;' href='javascript:vuedetails(". $aRow[ 'id_demande_hospi' ] .")'>";
+							$html .="<img src='".$tabURI[0]."public/images_icons/voir2.png' title='détails'></a>";
+								
+							$html .="<input id='".$aRow[ 'id_demande_hospi' ]."idCons'   type='hidden' value='".$aRow[ 'Idcons' ]."'>";
+							$html .="<input id='".$aRow[ 'id_demande_hospi' ]."hp'       type='hidden' value='".$aRow[ 'Idhosp' ]."'>";
+							$html .="<input id='".$aRow[ 'id_demande_hospi' ]."idPers'   type='hidden' value='".$aRow[ $aColumns[$i] ]."'>";
+								
+							$html .="<a style='float:left; visibility: hidden; font-size: 0px;' > Patientslibre".$aRow['liberation_lit']."</a>";
+				
+							$row[] = $html;
+						}
+							
+						else if ($aColumns[$i] == 'Datedebut') {
+							$row[] = $Control->convertDateTime($aRow[ 'Datedebut' ]);
+						}
+				
+						else if ($aColumns[$i] == 'Datefin') {
+							$row[] = $Control->convertDateTime($aRow[ 'Datefin' ]);
+						}
+							
+						else {
+							$row[] = $aRow[ $aColumns[$i] ];
+						}
 					}
-	
-					else if ($aColumns[$i] == 'Datenaissance') {
-						$row[] = $Control->convertDate($aRow[ $aColumns[$i] ]);
-					}
-	
-					else if ($aColumns[$i] == 'Adresse') {
-						$row[] = $this->adresseText($aRow[ $aColumns[$i] ]);
-					}
-	
-					else if ($aColumns[$i] == 'id') {
-	
-						$html  ="<infoBulleVue><a style='padding-right: 15px;' href='javascript:vuedetails(". $aRow[ $aColumns[$i] ] .")'>";
-						$html .="<img src='".$tabURI[0]."public/images_icons/voir2.png' title='détails'></a>";
-						//$html .="<a><img src='".$tabURI[0]."public/images_icons/tick_16.png' title='Envoyé'></a><infoBulleVue>";
-	
-						$row[] = $html;
-					}
-	
-					
-					else if ($aColumns[$i] == 'Datedebut') {
-						$row[] = $Control->convertDateTime($aRow[ 'Datedebut' ]);
-					}
-	
-					else if ($aColumns[$i] == 'Datefin') {
-						$row[] = $Control->convertDateTime($aRow[ 'Datefin' ]);
-					}
-					
-					else {
-						$row[] = $aRow[ $aColumns[$i] ];
-					}
-	
 				}
+				$output['aaData'][] = $row;
 			}
-	
-			$output['aaData'][] = $row;
 		}
+		
+		
+		/*
+		 * SQL queries pour la liste des patients lib�rer par le major
+		*/
+		$sql = new Sql($db);
+		$sQuery = $sql->select()
+		->from(array('pat' => 'patient'))->columns(array('*'))
+		->join(array('pers' => 'personne'), 'pat.ID_PERSONNE = pers.ID_PERSONNE', array('Nom'=>'NOM','Prenom'=>'PRENOM','Datenaissance'=>'DATE_NAISSANCE','Sexe'=>'SEXE','Adresse'=>'ADRESSE','id'=>'ID_PERSONNE'))
+		->join(array('cons' => 'consultation'), 'cons.ID_PATIENT = pat.ID_PERSONNE', array('Datedemandehospi'=>'DATE', 'Idcons'=>'ID_CONS'))
+		->join(array('dh' => 'demande_hospitalisation'), 'dh.id_cons = cons.ID_CONS' , array('*'))
+		->join(array('h' => 'hospitalisation'), 'h.code_demande_hospitalisation = dh.id_demande_hospi' , array('Datedebut'=>'date_debut', 'Datefin'=>'date_fin', 'Idhosp'=>'id_hosp'))
+		->join(array('hl' => 'hospitalisation_lit'), 'hl.id_hosp = h.id_hosp' , array('*'))
+		->where(array('h.terminer' => 1))
+		->order('hl.date_liberation_lit desc');
+		
+		/* Data set length after filtering */
+		$stat = $sql->prepareStatementForSqlObject($sQuery);
+		
+		$rResult = $stat->execute();
+		foreach ( $rResult as $aRow )
+		{
+			$row = array();
+			if($aRow['liberation_lit'] == 1){
+				for ( $i=0 ; $i<count($aColumns) ; $i++ )
+				{
+					if ( $aColumns[$i] != ' ' )
+					{
+						/* General output */
+						if ($aColumns[$i] == 'Nom'){
+							$row[] = "<khass id='nomMaj'>".$aRow[ $aColumns[$i]]."</khass>";
+						}
+		
+						else if ($aColumns[$i] == 'Datenaissance') {
+							$row[] = $Control->convertDate($aRow[ $aColumns[$i] ]);
+						}
+		
+						else if ($aColumns[$i] == 'Adresse') {
+							$row[] = $this->adresseText($aRow[ $aColumns[$i] ]);
+						}
+		
+						else if ($aColumns[$i] == 'id') {
+
+							$html  ="<infoBulleVue><a style='padding-right: 10px;' href='javascript:vueDetailsLiberation(". $aRow[ 'id_demande_hospi' ] .")'>";
+							$html .="<img src='".$tabURI[0]."public/images_icons/voir2.png' title='détails'></a>";
+							$html .="<a><img src='".$tabURI[0]."public/images_icons/tick_16.png' title='Envoyé'></a><infoBulleVue>";
+		
+
+							$html .="<input id='".$aRow[ 'id_demande_hospi' ]."idCons'   type='hidden' value='".$aRow[ 'Idcons' ]."'>";
+							$html .="<input id='".$aRow[ 'id_demande_hospi' ]."hp'       type='hidden' value='".$aRow[ 'Idhosp' ]."'>";
+							$html .="<input id='".$aRow[ 'id_demande_hospi' ]."idPers'   type='hidden' value='".$aRow[ $aColumns[$i] ]."'>";
+							
+							$html .="<a style='float:left; visibility: hidden; font-size: 0px;' > Patientslibre".$aRow['liberation_lit']."</a>";
+		
+							$row[] = $html;
+						}
+		
+						else if ($aColumns[$i] == 'Datedebut') {
+							$row[] = $Control->convertDateTime($aRow[ 'Datedebut' ]);
+						}
+		
+						else if ($aColumns[$i] == 'Datefin') {
+							$row[] = $Control->convertDateTime($aRow[ 'Datefin' ]);
+						}
+							
+						else {
+							$row[] = $aRow[ $aColumns[$i] ];
+						}
+					}
+				}
+				$output['aaData'][] = $row;
+			}
+		}
+		
+		
 		return $output;
 	}
 }

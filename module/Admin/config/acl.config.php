@@ -196,12 +196,6 @@ return array(
     						 */
     						
     						'Hospitalisation\Controller\Hospitalisation' => array(
-    								'liste' => 'infirmier',
-    								'liste-patient-ajax' => 'infirmier',
-    								'info-patient' => 'infirmier',
-    								'info-patient-hospi' => 'infirmier',
-    								'salles' => 'infirmier',
-    								'lits' => 'infirmier',
     								
     								'suivi-patient' => 'infirmier',
     								'liste-patient-suivi-ajax' => 'infirmier',
@@ -261,6 +255,16 @@ return array(
     								'demande-hospitalisation' => 'major',
     								'liste-liberer-patients' => 'major',
     								'liste-liberer-patient-ajax' => 'major',
+    								'liberation-patient' => 'major',
+    								'liberer-patient_major' => 'major',
+    								'info-patient-liberer' => 'major',
+    								
+    								'liste-patient-ajax' => 'major',
+    								'salles' => 'major',
+    								'lits' => 'major',
+    								'liste' => 'major',
+    								'info-patient' => 'major',
+    								'info-patient-hospi' => 'major',
      						),
     						
     						

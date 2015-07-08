@@ -561,4 +561,20 @@ class PatientTable {
 			return 'identite.jpg';
 		}
 	}
+	
+	
+	public function getInfoMedecin($id_medecin) {
+		$db = $this->tableGateway->getAdapter();
+		$sql = new Sql($db);
+		$sQuery = $sql->select()
+		->from(array('e' => 'employe'))
+		->columns( array( '*' ))
+		->join(array('pers' => 'personne'), 'pers.id_personne = e.id_personne' , array('*'))
+		->where(array('pers.id_personne' => $id_medecin));
+	
+		$stat = $sql->prepareStatementForSqlObject($sQuery);
+		$resultat = $stat->execute()->current();
+	
+		return $resultat;
+	}
 }

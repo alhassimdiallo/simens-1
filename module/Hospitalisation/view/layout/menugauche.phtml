@@ -1,26 +1,28 @@
 <ul>
 	<!-- MENU ***HOSPITALISATION*** -->
 	<li id="dossier_personnel"><a href="">
-	    <span style="margin-left:0px; color: #48ce77; font-weight:bold; font-size:18px; font-family:Times New Roman;"> <img id="image" style="display: inline;" src='<?php echo $this->basePath().'/images_icons/add.PNG'?>' alt='Liste' /> Hospitalisation </span></a> </li>
+	    <span style="margin-left:0px; color: #48ce77; font-weight:bold; font-size:21px; font-family:Times New Roman;"> <img id="image" style="display: inline;" src='<?php echo $this->basePath().'/images_icons/plus_green1.PNG'?>' alt='Liste' /> Hospitalisation </span></a> </li>
 
 	<li id="plus_dossier_personnel" style="background: #4a5765;" >
 
+	   <?php /* //Utiliser dans l'interface du medecin ?>
 	   <div style="margin-left:30px; height:40px; padding-top:20px;"><a href="<?php echo $this->basePath().'/hospitalisation/liste';?>"  >
 	       <span id="nouveau_style" style="margin-left:5px; color: white; font-size:15px; font-family:Times New Roman;">
 	       <img style="display: inline;" src='<?php echo $this->basePath().'/images_icons/liste.png'?>' alt='Liste' /> Liste</span></a>
 	   </div>
+	   <?php */ ?>
 
-	   <div style="margin-left:30px; height:40px;"><a href="<?php echo $this->basePath().'/hospitalisation/suivi-patient';?>">
+	   <div style="margin-left:30px; height:40px; padding-top:20px;"><a href="<?php echo $this->basePath().'/hospitalisation/suivi-patient';?>">
 	       <img style="margin-left:5px; display: inline;" src='<?php echo $this->basePath().'/images_icons/liste.png'?>' alt='Liste' />
 	       <span id="suivi_patient_style" style="font-size:15px; color: white; font-family:Times New Roman;">Suivi des patients</span></a>
 	   </div>
 	   
-	   <?php //Utiliser dans l'interface du medecin ?>
+	   <?php /* //Utiliser dans l'interface du medecin ?>
 	   <div id="en_cours_icone" style="margin-left:30px; height:40px;"><a href="<?php echo $this->basePath().'/hospitalisation/en-cours';?>">
 	       <img style="margin-left:5px; display: inline;" src='<?php echo $this->basePath().'/images_icons/liste.png'?>' alt='Liste' />
 	       <span id="en_cours_style" style="font-size:15px; color: white; font-family:Times New Roman;">En cours (M&eacute;decin)</span></a>
 	   </div>
-	   <?php ?>
+	   <?php */?>
 	</li>
 
 
@@ -176,7 +178,6 @@ $("#plus_operationMajor").toggle(true);
 
 
 <script>
-$("#en_cours_icone").toggle(false);
 //*******************************************************************************************************************************
 function dep1(){
 	$('#operation').click(function(){
@@ -214,7 +215,7 @@ $('#operation').click(function(){
 //DECES
 function dep_deces1(){
 	$('#deces').click(function(){
-		$("#deces").replaceWith("<li id='deces'><a href=''><span style='margin-left:0px; color: #48ce77; font-weight:bold; font-size:18px; font-family:Times New Roman;'> <img style='display: inline;' src='/simens_derniereversion/public/images_icons/add.PNG' alt='Liste' /> D&eacute;c&egrave;s </span></a></li>");
+		$("#deces").replaceWith("<li id='deces'><a href=''><span style='margin-left:0px; color: #48ce77; font-weight:bold; font-size:18px; font-family:Times New Roman;'> <img style='display: inline;' src='/simens/public/images_icons/add.PNG' alt='Liste' /> D&eacute;c&egrave;s </span></a></li>");
 		dep_deces2();
 	    $('#plus_deces').animate({
 	        height : 'toggle'
@@ -225,7 +226,7 @@ function dep_deces1(){
 
 function dep_deces2(){
 	$('#deces').click(function(){
-		$("#deces").replaceWith("<li id='deces' style='background:#4a5765;'><a href=''><span style='margin-left:0px; color: #ffffff; font-weight:bold; font-size:18px; font-family:Times New Roman;'> <img style='display: inline;' src='/simens_derniereversion/public/images_icons/moins-vert.PNG' alt='Liste' /> D&eacute;c&egrave;s </span></a></li>");
+		$("#deces").replaceWith("<li id='deces' style='background:#4a5765;'><a href=''><span style='margin-left:0px; color: #ffffff; font-weight:bold; font-size:18px; font-family:Times New Roman;'> <img style='display: inline;' src='/simens/public/images_icons/moins-vert.PNG' alt='Liste' /> D&eacute;c&egrave;s </span></a></li>");
 		dep_deces1();
 	    $('#plus_deces').animate({
 	        height : 'toggle'
@@ -236,7 +237,7 @@ function dep_deces2(){
 
 $('#plus_deces').toggle(false);
 $('#deces').click(function(){
-	$("#deces").replaceWith("<li id='deces' style='background:#4a5765;'><a href=''><span style='margin-left:0px; color: #ffffff; font-weight:bold; font-size:18px; font-family:Times New Roman;'> <img style='display: inline;' src='/simens_derniereversion/public/images_icons/moins-vert.PNG' alt='Liste' /> D&eacute;c&egrave;s </span></a></li>");
+	$("#deces").replaceWith("<li id='deces' style='background:#4a5765;'><a href=''><span style='margin-left:0px; color: #ffffff; font-weight:bold; font-size:18px; font-family:Times New Roman;'> <img style='display: inline;' src='/simens/public/images_icons/moins-vert.PNG' alt='Liste' /> D&eacute;c&egrave;s </span></a></li>");
 	dep_deces1();
     $('#plus_deces').animate({
         height : 'toggle'
@@ -249,7 +250,7 @@ $('#deces').click(function(){
 //ADMISSION
 function dep_admission1(){
 	$('#admission').click(function(){
-		$("#admission").replaceWith("<li id='admission'><a href=''><span style='margin-left:0px; color: #48ce77; font-weight:bold; font-size:18px; font-family:Times New Roman;'> <img style='display: inline;' src='/simens_derniereversion/public/images_icons/add.PNG' alt='Liste' /> Facturation </span></a></li>");
+		$("#admission").replaceWith("<li id='admission'><a href=''><span style='margin-left:0px; color: #48ce77; font-weight:bold; font-size:18px; font-family:Times New Roman;'> <img style='display: inline;' src='/simens/public/images_icons/add.PNG' alt='Liste' /> Facturation </span></a></li>");
 		dep_admission2();
 	    $('#plus_admission').animate({
 	        height : 'toggle'
@@ -260,7 +261,7 @@ function dep_admission1(){
 
 function dep_admission2(){
 	$('#admission').click(function(){
-		$("#admission").replaceWith("<li id='admission' style='background:#4a5765;'><a href=''><span style='margin-left:0px; color: #ffffff; font-weight:bold; font-size:18px; font-family:Times New Roman;'> <img style='display: inline;' src='/simens_derniereversion/public/images_icons/moins-vert.PNG' alt='Liste' /> Facturation </span></a></li>");
+		$("#admission").replaceWith("<li id='admission' style='background:#4a5765;'><a href=''><span style='margin-left:0px; color: #ffffff; font-weight:bold; font-size:18px; font-family:Times New Roman;'> <img style='display: inline;' src='/simens/public/images_icons/moins-vert.PNG' alt='Liste' /> Facturation </span></a></li>");
 		dep_admission1();
 	    $('#plus_admission').animate({
 	        height : 'toggle'
@@ -271,7 +272,7 @@ function dep_admission2(){
 
 $('#plus_admission').toggle(false);
 $('#admission').click(function(){
-	$("#admission").replaceWith("<li id='admission' style='background:#4a5765;'><a href=''><span style='margin-left:0px; color: #ffffff; font-weight:bold; font-size:18px; font-family:Times New Roman;'> <img style='display: inline;' src='/simens_derniereversion/public/images_icons/moins-vert.PNG' alt='Liste' /> Facturation </span></a></li>");
+	$("#admission").replaceWith("<li id='admission' style='background:#4a5765;'><a href=''><span style='margin-left:0px; color: #ffffff; font-weight:bold; font-size:18px; font-family:Times New Roman;'> <img style='display: inline;' src='/simens/public/images_icons/moins-vert.PNG' alt='Liste' /> Facturation </span></a></li>");
 	dep_admission1();
 $('#plus_admission').animate({
     height : 'toggle'
@@ -284,7 +285,7 @@ return false;
 //DOSSIER PERSONNEL
 function dep_dossier_personnel1(){
 	$('#dossier_personnel').click(function(){
-		$("#dossier_personnel").replaceWith("<li id='dossier_personnel'><a href=''><span style='margin-left:0px; color: #48ce77; font-weight:bold; font-size:18px; font-family:Times New Roman;'> <img style='display: inline;' src='/simens_derniereversion/public/images_icons/add.PNG' alt='Liste' /> Hospitalisation </span></a></li>");
+		$("#dossier_personnel").replaceWith("<li id='dossier_personnel'><a href=''><span style='margin-left:0px; color: #48ce77; font-weight:bold; font-size:21px; font-family:Times New Roman;'> <img style='display: inline;' src='/simens/public/images_icons/plus-green1.png' alt='Liste' /> Hospitalisation </span></a></li>");
 		dep_dossier_personnel2();
 	    $('#plus_dossier_personnel').animate({
 	        height : 'toggle'
@@ -295,7 +296,7 @@ function dep_dossier_personnel1(){
 
 function dep_dossier_personnel2(){
 	$('#dossier_personnel').click(function(){
-		$("#dossier_personnel").replaceWith("<li id='dossier_personnel' style='background:#4a5765;'><a href=''><span style='margin-left:0px; color: #ffffff; font-weight:bold; font-size:18px; font-family:Times New Roman;'> <img style='display: inline;' src='/simens_derniereversion/public/images_icons/moins-vert.PNG' alt='Liste' /> Hospitalisation </span></a></li>");
+		$("#dossier_personnel").replaceWith("<li id='dossier_personnel' style='background:#4a5765;'><a href=''><span style='margin-left:0px; color: #ffffff; font-weight:bold; font-size:21px; font-family:Times New Roman;'> <img style='display: inline;' src='/simens/public/images_icons/moin-green2.png' alt='Liste' /> Hospitalisation </span></a></li>");
 		dep_dossier_personnel1();
 	    $('#plus_dossier_personnel').animate({
 	        height : 'toggle'
@@ -306,7 +307,7 @@ function dep_dossier_personnel2(){
 
 $('#plus_dossier_personnel').toggle(false);
 $('#dossier_personnel').click(function(){
-	$("#dossier_personnel").replaceWith("<li id='dossier_personnel' style='background:#4a5765;'><a href=''><span style='margin-left:0px; color: #ffffff; font-weight:bold; font-size:18px; font-family:Times New Roman;'> <img style='display: inline;' src='/simens_derniereversion/public/images_icons/moins-vert.PNG' alt='Liste' /> Hospitalisation </span></a></li>");
+	$("#dossier_personnel").replaceWith("<li id='dossier_personnel' style='background:#4a5765;'><a href=''><span style='margin-left:0px; color: #ffffff; font-weight:bold; font-size:21px; font-family:Times New Roman;'> <img style='display: inline;' src='/simens/public/images_icons/moin-green2.png' alt='Liste' /> Hospitalisation </span></a></li>");
 	dep_dossier_personnel1();
 $('#plus_dossier_personnel').animate({
 height : 'toggle'

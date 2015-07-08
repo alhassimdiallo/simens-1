@@ -18,6 +18,7 @@ class Hospitalisation {
 	public $resumer_medical;
 	public $motif_sorti;
 	public $terminer; 
+	public $id_medecin;
 	
 	protected $inputFilter;
 	
@@ -29,6 +30,7 @@ class Hospitalisation {
  			$this->resumer_medical = (! empty ( $data ['resumer_medical'] )) ? $data ['resumer_medical'] : null;
  			$this->motif_sorti = (! empty ( $data ['motif_sorti'] )) ? $data ['motif_sorti'] : null;
  			$this->terminer = (! empty ( $data ['terminer'] )) ? $data ['terminer'] : null;
+ 			$this->id_medecin = (! empty ( $data ['id_medecin'] )) ? $data ['id_medecin'] : null;
 	}
 	
 	public function getArrayCopy() {

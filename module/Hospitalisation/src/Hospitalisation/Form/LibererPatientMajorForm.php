@@ -4,7 +4,7 @@ namespace Hospitalisation\Form;
 
 use Zend\Form\Form;
 
-class LibererPatientForm extends Form {
+class LibererPatientMajorForm extends Form {
 	public function __construct($name = null) {
 		parent::__construct ();
 		
@@ -13,6 +13,30 @@ class LibererPatientForm extends Form {
 				'type' => 'Hidden',
 				'attributes' => array (
 						'id' => 'id_demande_hospi',
+				)
+		) );
+		
+		$this->add ( array (
+				'name' => 'id_hosp',
+				'type' => 'Hidden',
+				'attributes' => array (
+						'id' => 'id_hosp',
+				)
+		) );
+		
+		$this->add ( array (
+				'name' => 'id_lit',
+				'type' => 'Hidden',
+				'attributes' => array (
+						'id' => 'id_lit',
+				)
+		) );
+		
+		$this->add ( array (
+				'name' => 'liberer_lit',
+				'type' => 'Hidden',
+				'attributes' => array (
+						'id' => 'liberer_lit',
 				)
 		) );
 
@@ -24,7 +48,6 @@ class LibererPatientForm extends Form {
 				),
 				'attributes' => array (
 						'id' => 'resumer_medical',
-						'required' => true
 				)
 		) );
 		
@@ -36,7 +59,6 @@ class LibererPatientForm extends Form {
 				),
 				'attributes' => array (
 						'id' => 'motif_sorti',
-						'required' => true
 				)
 		) );
 		
@@ -48,6 +70,7 @@ class LibererPatientForm extends Form {
 				),
 				'attributes' => array (
 						'id' => 'note',
+						//'required' => true,
 				)
 		) );
 		
