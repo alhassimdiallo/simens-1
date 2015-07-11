@@ -2977,4 +2977,80 @@ class HospitalisationController extends AbstractActionController {
 		return $this->getResponse ()->setContent ( Json::encode ( $html ) );
 	}
 	
+	public function gestionDesLitsAction(){
+		$this->layout()->setTemplate('layout/Hospitalisation');
+		//$output = $this->getLitTable()->getLit(7);
+		//var_dump($output->etat); exit();
+	}
+	
+	public function listeLitsAjaxAction()
+	{
+		$output = $this->getHospitalisationTable()->getListeLits();
+		return $this->getResponse ()->setContent ( Json::encode ( $output, array (
+				'enableJsonExprFinder' => true
+		) ) );
+	}
+	
+	public function occuperLitAction()
+	{
+		$id_lit = $this->params()->fromPost('id_lit',0);
+		$this->getLitTable()->occuperLit($id_lit); 
+		
+		$this->getResponse ()->getHeaders ()->addHeaderLine ( 'Content-Type', 'application/html; charset=utf-8' );
+		return $this->getResponse ()->setContent ( Json::encode ( ) );
+	}
+	
+	public function libererLitAction()
+	{
+		$id_lit = $this->params()->fromPost('id_lit',0);
+		$this->getLitTable()->libererLit($id_lit);
+	
+		$this->getResponse ()->getHeaders ()->addHeaderLine ( 'Content-Type', 'application/html; charset=utf-8' );
+		return $this->getResponse ()->setContent ( Json::encode ( ) );
+	}
+	
+	public function etatLitAction()
+	{
+		$id_lit = $this->params()->fromPost('id_lit',0);
+		$lit = $this->getLitTable()->getLit($id_lit);
+		
+		$this->getResponse ()->getHeaders ()->addHeaderLine ( 'Content-Type', 'application/html; charset=utf-8' );
+		return $this->getResponse ()->setContent ( Json::encode ( $lit->etat ) );
+	}
+	
+	public function informationPatientAction()
+	{
+		$this->getDateHelper();
+		
+		$id_patient = $this->params()->fromPost('id_patient',0);
+		
+		$pat = $this->getPatientTable ();
+		$unPatient = $pat->getInfoPatient ( $id_patient );
+		$photo = $pat->getPhoto ( $id_patient );
+		$date = $this->dateHelper->convertDate( $unPatient['DATE_NAISSANCE'] );
+		
+		$chemin = $this->getServiceLocator()->get('Request')->getBasePath();
+		
+		$html = "<div id='photo' style='float:left; margin-right:20px;'> 
+				    <img  src='".$chemin."/img/photos_patients/" . $photo . "'  style='width:105px; height:105px;'>
+				</div>";
+		
+		$html .= "<table>";
+		$html .= "<tr>";
+		$html .= "<td><a style='text-decoration:underline; font-size:12px;'>Nom:</a><br><p style='width:280px; font-weight:bold; font-size:17px;'>" . $unPatient['NOM'] . "</p></td>";
+		$html .= "</tr><tr>";
+		$html .= "<td><a style='text-decoration:underline; font-size:12px;'>Pr&eacute;nom:</a><br><p style='width:280px; font-weight:bold; font-size:17px;'>" . $unPatient['PRENOM'] . "</p></td>";
+		$html .= "</tr><tr>";
+		$html .= "<td><a style='text-decoration:underline; font-size:12px;'>Date de naissance:</a><br><p style='width:280px; font-weight:bold; font-size:17px;'>" . $date . "</p></td>";
+		$html .= "</tr><tr>";
+		$html .= "<td><a style='text-decoration:underline; font-size:12px;'>Adresse:</a><br><p style='width:280px; font-weight:bold; font-size:17px;'>" . $unPatient['ADRESSE'] . "</p></td>";
+		$html .= "</tr><tr>";
+		$html .= "<td><a style='text-decoration:underline; font-size:12px;'>T&eacute;l&eacute;phone:</a><br><p style='width:280px; font-weight:bold; font-size:17px;'>" . $unPatient['TELEPHONE'] . "</p></td>";
+		$html .= "</tr>";
+		$html .= "</table>";
+		
+		$this->getResponse ()->getHeaders ()->addHeaderLine ( 'Content-Type', 'application/html; charset=utf-8' );
+		return $this->getResponse ()->setContent ( Json::encode ( $html ) );
+	}
+	
 }

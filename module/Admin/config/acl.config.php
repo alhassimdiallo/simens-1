@@ -265,6 +265,13 @@ return array(
     								'liste' => 'major',
     								'info-patient' => 'major',
     								'info-patient-hospi' => 'major',
+    								
+    								'gestion-des-lits' => 'major',
+    								'liste-lits-ajax' => 'major',
+    								'occuper-lit' => 'major',
+    								'liberer-lit' => 'major',
+    								'etat-lit' => 'major',
+    								'information-patient' => 'major',
      						),
     						
     						

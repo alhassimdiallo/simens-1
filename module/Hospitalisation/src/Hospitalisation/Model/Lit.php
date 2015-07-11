@@ -20,6 +20,7 @@ class Lit {
 	public $intitule;
 	public $description;
 	public $disponible;
+	public $etat;
 	
 	protected $inputFilter;
 	
@@ -33,6 +34,7 @@ class Lit {
  			$this->intitule = (! empty ( $data ['intitule'] )) ? $data ['intitule'] : null;
  			$this->description = (! empty ( $data ['description'] )) ? $data ['description'] : null;
  			$this->disponible = (! empty ( $data ['disponible'] )) ? $data ['disponible'] : null;
+ 			$this->etat = (! empty ( $data ['etat'] )) ? $data ['etat'] : null;
 	}
 	
 	public function getArrayCopy() {
