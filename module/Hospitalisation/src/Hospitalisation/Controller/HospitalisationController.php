@@ -23,6 +23,7 @@ use Hospitalisation\Form\VpaForm;
 use Zend\Form\Element\Radio;
 use Zend\Form\View\Helper\FormRadio;
 use Hospitalisation\Form\LibererPatientMajorForm;
+use Hospitalisation\Form\HospitaliserPourGestionLitsForm;
 
 class HospitalisationController extends AbstractActionController {
 	
@@ -2979,8 +2980,30 @@ class HospitalisationController extends AbstractActionController {
 	
 	public function gestionDesLitsAction(){
 		$this->layout()->setTemplate('layout/Hospitalisation');
-		//$output = $this->getLitTable()->getLit(7);
-		//var_dump($output->etat); exit();
+		
+		
+		$formHospitalisation = new HospitaliserPourGestionLitsForm();
+		
+		if($this->getRequest()->isPost()) {
+			$id_lit = $this->params()->fromPost('id_lit',0);
+			$code_demande = $this->params()->fromPost('code_demande',0);
+			
+			//var_dump($id_lit.'  ----  '.$code_demande); exit();
+		
+			$id_hosp = $this->getHospitalisationTable()->saveHospitalisation($code_demande);
+			$this->getHospitalisationlitTable()->saveHospitalisationlit($id_hosp, $id_lit);
+		
+			$this->getDemandeHospitalisationTable()->validerDemandeHospitalisation($code_demande);
+		
+			$this->getLitTable()->updateLit($id_lit);
+		
+			return $this->redirect()->toRoute('hospitalisation' , array('action' => 'gestion-des-lits'));
+		}
+		
+		return array(
+				'form' => $formHospitalisation
+		);
+		
 	}
 	
 	public function listeLitsAjaxAction()
@@ -3049,6 +3072,23 @@ class HospitalisationController extends AbstractActionController {
 		$html .= "</tr>";
 		$html .= "</table>";
 		
+		$this->getResponse ()->getHeaders ()->addHeaderLine ( 'Content-Type', 'application/html; charset=utf-8' );
+		return $this->getResponse ()->setContent ( Json::encode ( $html ) );
+	}
+	
+	public function infoLitSalleBatimentAction()
+	{
+		$id_lit = $this->params()->fromPost('id_lit',0);
+		
+		$lit = $this->getLitTable()->getLit($id_lit);
+		$salle = $this->getSalleTable()->getSalle($lit->id_salle);
+		$batiment = $this->getBatimentTable()->getBatiment($salle->id_batiment);
+		
+		$html  ="<script> $('#lit').val('".$lit->intitule."').attr('disabled', 'true'); </script>";
+		$html .="<script> $('#salle').val('".$salle->numero_salle."').attr('disabled', 'true'); </script>";
+		$html .="<script> $('#division').val('".$batiment->intitule."').attr('disabled', 'true'); </script>";
+		
+		 
 		$this->getResponse ()->getHeaders ()->addHeaderLine ( 'Content-Type', 'application/html; charset=utf-8' );
 		return $this->getResponse ()->setContent ( Json::encode ( $html ) );
 	}

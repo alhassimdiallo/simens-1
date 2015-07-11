@@ -12,7 +12,7 @@ width: 100%; /* la largeur du champ input*/
 color: #9e9e9e;
 }
 
-#salle input[type="text"]
+#salleFooter input[type="text"]
 { /*le input ou le textarea*/
 
 background-color: #fffffa; /*la couleur du champ*/

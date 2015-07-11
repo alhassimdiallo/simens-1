@@ -91,12 +91,6 @@
    		}
    	} );
 
-    $("#annuler").click(function(){
-    	$("#titre2").replaceWith("<div id='titre' style='font-family: police2; color: green; font-size: 20px; font-weight: bold; padding-left:20px;'><iS style='font-size: 25px;'>&curren;</iS> LISTE DES PATIENTS </div>");
-	    $("#hospitaliser").fadeOut(function(){$("#contenu").fadeIn("fast"); $("#division").val(""); $("#salle,#lit").html("");});
-	    return false;
-	});
-  
     //FILTRE POUR AFFICHER LES PATIENTS LIBERER PAR LE MAJOR  
     //FILTRE POUR AFFICHER LES PATIENTS LIBERER PAR LE MAJOR  
     $('#afficherLitsDisponibles').css({'font-weight':'bold', 'font-size': '17px' });
@@ -131,7 +125,7 @@
     
     function vuedetailsLit(id){
     	$('#intitule').html($('#intitule'+id).html());
-    	$('#salle').html($('#salle'+id).html());
+    	$('#sallevue').html($('#salle'+id).html());
     	$('#batiment').html($('#batiment'+id).html());
     	
     	$('#date_acquisition').html($('#date_acquisition'+id).html());
@@ -298,11 +292,6 @@
     /************************************************************************************************************************/
     /************************************************************************************************************************/
     /************************************************************************************************************************/
-    function attribuerLit(id){
-    	$('#contenu').fadeOut(function(){
-    		$('#contenuListePatientsAHospitaliser').fadeIn('fast');	
-    	});
-    }
     
     function listePatientsAHospitaliser(){
         var  oTable = $('#patientAHospitaliser').dataTable
@@ -371,18 +360,164 @@
    		}
    	} );
 
-//    $("#annuler").click(function(){
-//    	$("#titre2").replaceWith("<div id='titre' style='font-family: police2; color: green; font-size: 20px; font-weight: bold; padding-left:20px;'><iS style='font-size: 25px;'>&curren;</iS> LISTE DES PATIENTS </div>");
-//	    $("#hospitaliser").fadeOut(function(){$("#contenu").fadeIn("fast"); $("#division").val(""); $("#salle,#lit").html("");});
-//	    return false;
-//	});
-    
+    }
+    /************************************************************************************************************************/
+    /************************************************************************************************************************/
+    /************************************************************************************************************************/
+    var scriptLitSalleBatiment;
+    var id_materiel;
+    function attribuerLit(id_lit){
+    	id_materiel = id_lit;
+    	//On affiche d'abord l'interface
+    	//On affiche d'abord l'interface
+    	$('#contenu').fadeOut(function(){
+        	$("#titre").replaceWith("<div id='titre2' style='font-family: police2; color: green; font-size: 20px; font-weight: bold; padding-left:20px;'><iS style='font-size: 25px;'>&curren;</iS> LISTE DES PATIENTS &Agrave; HOSPITALISER</div>");
+    		$('#contenuListePatientsAHospitaliser').fadeIn('fast');	
+    		
+    		$('#afficherListeDesLits').hover(function(){
+    			  $(this).css({'font-weight':'bold'});
+    			},function(){
+    			  $(this).css({'font-weight':'normal'});
+    			});
+    		
+    		$('#afficherListeDesLits').click(function(){
+    			
+    			$('#contenuListePatientsAHospitaliser').fadeOut(function(){
+    	        	$("#titre2").replaceWith("<div id='titre' style='font-family: police2; color: green; font-size: 20px; font-weight: bold; padding-left:20px;'><iS style='font-size: 25px;'>&curren;</iS> LISTE DES LITS</div>");
+    	    		$('#contenu').fadeIn('fast');	
+    	    	});
+    			
+    		}); 
+    	});
+    	
+    	//Ensuite on va chercher le script pour les infos sur le lit, la salle et le batiment
+    	//Ensuite on va chercher le script pour les infos sur le lit, la salle et le batiment
+    	var chemin = tabUrl[0]+'public/hospitalisation/info-lit-salle-batiment';
+        $.ajax({
+            type: 'POST',
+            url: chemin ,
+            data:{'id_lit': id_lit},
+            success: function(data) {
+            	var result = jQuery.parseJSON(data);
+            	scriptLitSalleBatiment = result;
+            	     
+            },
+            error:function(e){console.log(e);alert("Une erreur interne est survenue!");},
+            dataType: "html"
+        });
+    	
     }
     
+    function hospitaliser(id_personne){
+    	
+    	var id_cons = $("#"+id_personne).val();
+    	var chemin = tabUrl[0]+'public/hospitalisation/info-patient-hospi';
+        $.ajax({
+            type: 'POST',
+            url: chemin ,
+            data:{'id_personne':id_personne, 'id_cons':id_cons, 'hospitaliser':1},
+            success: function(data) {
+
+            	var result = jQuery.parseJSON(data);
+            	$("#vue_patient_hospi").html(result);
+            	$("#division,#salle,#lit").val("");
+            	
+            	
+            	$("#contenuListePatientsAHospitaliser").fadeOut(function(){ 
+                	$("#titre2").replaceWith("<div id='titre' style='font-family: police2; color: green; font-size: 20px; font-weight: bold; padding-left:20px;'><iS style='font-size: 25px;'>&curren;</iS> HOSPITALISER </div>");
+            		$("#hospitaliser").fadeIn("fast"); 
+            		//On ajoute le script
+            		$('#scriptPourInfosLitSalleBatiment').html(scriptLitSalleBatiment);
+            		//initialiser les variables
+            		$('#id_lit').val(id_materiel);
+            		$("#code_demande").val( $("#"+id_personne+"dh").val() ); 
+            		
+            		
+            		$("#annuler").click(function(){
+       		        	$("#titre").replaceWith("<div id='titre2' style='font-family: police2; color: green; font-size: 20px; font-weight: bold; padding-left:20px;'><iS style='font-size: 25px;'>&curren;</iS> LISTE DES PATIENTS &Agrave; HOSPITALISER</div>");
+            		    $("#hospitaliser").fadeOut(function(){$("#contenuListePatientsAHospitaliser").fadeIn("fast"); $("#division").val(""); $("#salle,#lit").html("");});
+            			return false;
+            		});
+            	}); 
+            	     
+            },
+            error:function(e){console.log(e);alert("Une erreur interne est survenue!");},
+            dataType: "html"
+        });
+        
+    }
+
+    //Visualiser la liste des patients a hospitaliser
+    function affichervue(id_personne){ 
+    	var id_cons = $("#"+id_personne).val();
+    	var chemin = tabUrl[0]+'public/hospitalisation/info-patient';
+        $.ajax({
+            type: 'POST',
+            url: chemin ,
+            data:{'id_personne':id_personne, 'id_cons':id_cons},
+            success: function(data) {
+           	         
+            	var result = jQuery.parseJSON(data);
+            	
+            	$("#contenuListePatientsAHospitaliser").fadeOut(function(){
+                	$("#titre2").replaceWith("<div id='titre' style='font-family: police2; color: green; font-size: 20px; font-weight: bold; padding-left:20px;'><iS style='font-size: 25px;'>&curren;</iS> INFORMATIONS </div>");
+                	$("#vue_patient").html(result).fadeIn("fast"); 
+                	
+                	$('#terminer').click(function(){
+           				$("#vue_patient").fadeOut(function(){
+           		        	$("#titre").replaceWith("<div id='titre2' style='font-family: police2; color: green; font-size: 20px; font-weight: bold; padding-left:20px;'><iS style='font-size: 25px;'>&curren;</iS> LISTE DES PATIENTS &Agrave; HOSPITALISER</div>");
+           					$('#contenuListePatientsAHospitaliser').fadeIn(true);
+                       	}); 
+               		});
+                	
+            	});
+
+            },
+            error:function(e){console.log(e);alert("Une erreur interne est survenue!");},
+            dataType: "html"
+        });
+        
+        return false;
+     }
+    
+    function listepatient(){}; //A ne pas supprimer, fonction se trouvant dans infoPatientAction()
+    
+    /*************************************************************************************************************************/
+    /*************************************************************************************************************************/
+    /*************************************************************************************************************************/
+    function getsalle(id_batiment){
+      var chemin = tabUrl[0]+'public/hospitalisation/salles';
+      $.ajax({
+        type: 'POST',
+        url: chemin ,
+        data:'id_batiment='+id_batiment,
+        success: function(data) {
+        	     var result = jQuery.parseJSON(data);  
+        	     $("#salle").html(result); 
+        },
+        error:function(e){console.log(e);alert("Une erreur interne est survenue!");},
+        dataType: "html"
+      });
+    }
+    
+    function getlit(id_salle){ 
+    	var chemin = tabUrl[0]+'public/hospitalisation/lits';
+    	$.ajax({
+            type: 'POST',
+            url: chemin ,
+            data:'id_salle='+id_salle,
+            success: function(data) {
+            	     var result = jQuery.parseJSON(data);  
+            	     $("#lit").html(result); 
+            },
+            error:function(e){console.log(e);alert("Une erreur interne est survenue!");},
+            dataType: "html"
+        });
+    }
+
     /************************************************************************************************************************/
     /************************************************************************************************************************/
     /************************************************************************************************************************/
-   
 //    function vuedetails(id_demande_hospi){
 //    	var id_personne = $("#"+id_demande_hospi+"idPers").val();
 //    	var id_cons = $("#"+id_demande_hospi+"idCons").val();

@@ -272,6 +272,7 @@ return array(
     								'liberer-lit' => 'major',
     								'etat-lit' => 'major',
     								'information-patient' => 'major',
+    								'info-lit-salle-batiment' => 'major',
      						),
     						
     						
