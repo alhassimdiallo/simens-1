@@ -39,6 +39,8 @@ return array(
     								'liste-agent-personnel-ajax' => 'superAdmin',
     								'visualisation' => 'superAdmin',
     								'nouvel-utilisateur' => 'superAdmin',
+    								'verifier-username' => 'superAdmin',
+    								'parametrages' => 'superAdmin',
     						),
     						
     						

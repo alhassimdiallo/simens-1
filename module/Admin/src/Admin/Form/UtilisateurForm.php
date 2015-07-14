@@ -83,6 +83,19 @@ class UtilisateurForm extends Form
 		));
 		
 		$this->add(array(
+				'name' => 'confirmerpassword',
+				'type' => 'Password',
+				'options' => array (
+						'label' => 'Confirmation mot de passe'
+				),
+				'attributes' => array(
+						'placeholder' => 'Confirmer',
+						'id' => 'confirmerpassword',
+						'required' => true,
+				),
+		));
+		
+		$this->add(array(
 				'name' => 'nomUtilisateur',
 				'type' => 'Hidden',
 				'options' => array (

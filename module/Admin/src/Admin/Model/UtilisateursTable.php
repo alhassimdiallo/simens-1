@@ -237,7 +237,7 @@ class UtilisateursTable
 	}
 	
 	/**
-	 * LISTE DE TOUTES LES AGENTS DU PERSONNEL
+	 * LISTE DE TOUTS LES AGENTS DU PERSONNEL
 	 * @param unknown $id
 	 * @return string
 	 */
@@ -339,7 +339,7 @@ class UtilisateursTable
 	
 					else if ($aColumns[$i] == 'id') {
 						$html ="<infoBulleVue> <a href='javascript:visualiser(".$aRow[ $aColumns[$i] ].")' >";
-						$html .="<img style='margin-left: 5%; margin-right: 20%;' src='".$tabURI[0]."public/images_icons/vue.png' title='d&eacute;tails'></a> </infoBulleVue>";
+						$html .="<img style='margin-left: 5%; margin-right: 15%;' src='".$tabURI[0]."public/images_icons/voir2.png' title='d&eacute;tails'></a> </infoBulleVue>";
 	
 						$html .= "<infoBulleVue> <a href='javascript:nouvelUtilisateur(".$aRow[ $aColumns[$i] ].")' >";
 						$html .="<img style='display: inline; margin-right: 5%;' src='".$tabURI[0]."public/images_icons/transfert_droite.png' title='suivant'></a> </infoBulleVue>";

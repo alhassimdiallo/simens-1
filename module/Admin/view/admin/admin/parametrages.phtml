@@ -1,0 +1,154 @@
+<!-- MES STYLES --> 
+<?php echo $this->headLink()->appendStylesheet($this->basepath().'/css/admin/styleParametrages.css');?>
+<!-- MES JS -->
+<?php echo $this->headScript()->appendFile($this->basepath().'/js/admin/jsParametrages.js');?>
+
+
+<div id="titre" style='font-family: police2; text-decoration: none; color: green; font-size: 20px; font-weight: bold; padding-left:20px;'>
+	<iS style='font-size: 25px;'>&curren;</iS>
+	PARAM&Eacute;TRAGES
+</div>
+
+<div id="contenu"> 
+            
+     <table style="width: 100%;">
+				
+		<tr style="width: 100%; background: white;">
+		   
+		   <td style="width: 25%; vertical-align: top;">
+		   
+		    <div style='width: 90%; margin: auto;'>
+		      <table style="width: 100%;" class="table table-bordered tab_list_mini" >
+		          <tr>
+		             <th><img src='/simens/public/images_icons/Table16X16.png' /> H&ocirc;pitaux </th>
+		          </tr>
+		          
+		          <tr> 
+		             <td> 
+		                <section> effectifs: 23 h&ocirc;pitaux </section>
+		                <label></label> 
+		                <section> nb bat|Moy: 5 batiments </section>
+		                <label></label> 
+		                <section><i id='ajouterHopitaux' >Ajouter <img src='/simens/public/images_icons/Add14X14.png' /></i></section>
+		                
+		             </td>
+		          </tr>
+		       </table>
+		    </div>
+		   
+		   </td>
+		   
+		   
+		   <td style="width: 25%; vertical-align: top;">
+		     
+		     <div style='width: 90%;  margin: auto;'>
+		       <table style="width: 100%;" class="table table-bordered tab_list_mini" >
+		          <tr>
+		             <th><img src='/simens/public/images_icons/Table16X16.png' /> Batiments </th>
+		          </tr>
+		          
+		          <tr>
+		             <td> 
+		                 <section> effectifs: 23 batiments </section>
+		                 <label></label> 
+		                 <section> nb sal|Moy: 6 salles </section>
+		                 <label></label> 
+		                 <section><i>Ajouter <img src='/simens/public/images_icons/Add14X14.png' /></i></section>
+		                 
+		             </td>
+		          </tr>
+		       </table>
+		     </div>
+		     
+		   </td>
+		   
+		   
+		   <td style="width: 25%; vertical-align: top;">
+		   
+		    <div style='width: 90%;  margin: auto;'>
+		      <table style="width: 100%;" class="table table-bordered tab_list_mini" >
+		          <tr>
+		             <th><img src='/simens/public/images_icons/Table16X16.png' /> Salles </th>
+		          </tr>
+		          
+		          <tr>
+		             <td> 
+		                <section> effectifs: 23 salles </section> 
+		                <label></label> 
+		                <section> nb lit|Moy: 8 lits </section>
+		                <label></label> 
+		                <section><i>Ajouter <img src='/simens/public/images_icons/Add14X14.png' /></i></section>   
+		             </td>
+		          </tr>
+		       </table>
+		     </div>
+		     
+		   </td>
+		   
+		   
+		   <td style="width: 25%; vertical-align: top;">
+		   
+		    <div style='width: 90%; margin: auto;'>
+		      <table style="width: 100%;" class="table table-bordered tab_list_mini" >
+		          <tr>
+		             <th><img src='/simens/public/images_icons/Table16X16.png' /> Lits </th>
+		          </tr>
+		          
+		          <tr>
+		             <td> 
+		                <section> effectifs: 23 lits </section>
+		                <label></label>
+		                <section> nb lits|dispo: 3 lit(s) </section>
+		                <label></label> 
+		                <section> nb lits|occ: 8 lit(s) </section>
+		                <label></label> 
+		                <section> nb lits|indispo: 6 lit(s) </section>
+		                <label></label>
+		                <section><i>Ajouter <img src='/simens/public/images_icons/Add14X14.png'/></i></section>
+		             </td>
+		          </tr>
+		       </table>
+		    </div>
+		   
+		   </td>
+		   
+		</tr>
+
+	 </table>
+	 
+</div>
+
+
+
+<style>
+
+#contenu table{
+	margin-top: 5px;
+}
+
+#contenu table div{
+	font-weight: normal;
+	box-shadow: 0pt 1pt 5px rgba(0, 0, 0, 0.2);
+	border-radius: 5px;
+}
+
+#contenu table div:hover{
+	cursor: pointer;
+	box-shadow: 0pt 1pt 9px rgba(0, 0, 1, 0.5);
+	
+	font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+	font-size: 14px;
+	background: #f9f9f9;
+}
+
+#contenu table div td:hover{
+	background: #f9f9f9;
+}
+
+#contenu table div table td label{
+	border-top: 1px solid #cfcfcf; 
+	margin-top: 8px;
+	margin-bottom: 8px;
+}
+
+</style>

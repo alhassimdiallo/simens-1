@@ -393,7 +393,7 @@ class HospitalisationTable {
 							$html  ="<infoBulleVue><a style='padding-right: 12px;' href='javascript:vuedetailsLit(". $aRow[ 'id' ] .")'>";
 							$html .="<img src='".$tabURI[0]."public/images_icons/voir2.png' title='dÃ©tails'></a>";
 							
-							$html .="<a style='padding-right: 12px;' href='javascript:attribuerLit(". $aRow[ 'id' ] .")'>";
+							$html .="<a style='padding-right: 15px;' href='javascript:attribuerLit(". $aRow[ 'id' ] .")'>";
 							$html .="<img src='".$tabURI[0]."public/images_icons/attribuer.png' title='attribuer'></a>";
 							
 							$html .="<a style='padding-right: 0px;' href='javascript:rendreLitIndisponible(". $aRow[ 'id' ] .")'>";
@@ -450,7 +450,7 @@ class HospitalisationTable {
 		->join(array('b' => 'batiment'), 'b.id_batiment = s.id_batiment', array('Batiment'=>'intitule','Type'=>'type','Localisation'=>'localisation','Date_fabrication'=>'date_fabrication','DescriptionBat'=>'description'))
 		->join(array('hl' => 'hospitalisation_lit'), 'hl.id_materiel = l.id_materiel', array('*'))
 		
-		->join(array('h' => 'hospitalisation'), 'h.id_hosp = hl.id_hosp', array()) 
+		->join(array('h' => 'hospitalisation'), 'h.id_hosp = hl.id_hosp', array('Terminer' => 'terminer')) 
 		->join(array('dh' => 'demande_hospitalisation'), 'dh.id_demande_hospi = h.code_demande_hospitalisation', array())
 		->join(array('c' => 'consultation'), 'c.ID_CONS = dh.id_cons', array())
 		->join(array('p' => 'personne'), 'p.ID_PERSONNE = c.ID_PATIENT', array('*'))
@@ -469,19 +469,23 @@ class HospitalisationTable {
 					{
 						if ($aColumns[$i] == 'id') {
 		
-							$html  ="<infoBulleVue><a style='padding-right: 15px;' href='javascript:vuedetailsLit(". $aRow[ 'id' ] .")'>
+							$html  ="<infoBulleVue><a style='padding-right: 12px;' href='javascript:vuedetailsLit(". $aRow[ 'id' ] .")'>
 							         <img src='".$tabURI[0]."public/images_icons/voir2.png' title='dÃ©tails'></a></infoBulleVue>";
 							
-							$html .="<infoBulleVue><a href='javascript:vuePatient(". $aRow[ 'ID_PERSONNE' ] .")'>";
+							$html .="<infoBulleVue><a style='padding-right: 15px;' href='javascript:vuePatient(". $aRow[ 'ID_PERSONNE' ] .")'>";
 							
 							if($aRow[ 'SEXE' ] == 'Masculin'){
-								$html .="<img src='".$tabURI[0]."public/images_icons/male16X16.png' title='Patient'>";
+								$html .="<img src='".$tabURI[0]."public/images_icons/male16X16.png' title='Patient'></a>";
 							} else {
-								$html .="<img src='".$tabURI[0]."public/images_icons/female16X16.png' title='Patiente'>";
+								$html .="<img src='".$tabURI[0]."public/images_icons/female16X16.png' title='Patiente'></a>";
 							}
 							
-								
-							$html .="</a></infoBulleVue>";
+							//Si pour le patient le médecin à demander sa libération
+							if($aRow[ 'Terminer' ] == 1){
+								$html .="<a style='cursor:pointer;'><img src='".$tabURI[0]."public/images_icons/Lightning16X16.png' title='&#224; libÃ©rer'></a>";
+							}
+							$html .="</infoBulleVue>";
+							
 							
 							$html .="<a style='float:left; visibility: hidden; font-size: 0px;' > Litsoccupes </a>";
 		

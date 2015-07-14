@@ -2981,15 +2981,12 @@ class HospitalisationController extends AbstractActionController {
 	public function gestionDesLitsAction(){
 		$this->layout()->setTemplate('layout/Hospitalisation');
 		
-		
 		$formHospitalisation = new HospitaliserPourGestionLitsForm();
 		
 		if($this->getRequest()->isPost()) {
 			$id_lit = $this->params()->fromPost('id_lit',0);
 			$code_demande = $this->params()->fromPost('code_demande',0);
 			
-			//var_dump($id_lit.'  ----  '.$code_demande); exit();
-		
 			$id_hosp = $this->getHospitalisationTable()->saveHospitalisation($code_demande);
 			$this->getHospitalisationlitTable()->saveHospitalisationlit($id_hosp, $id_lit);
 		

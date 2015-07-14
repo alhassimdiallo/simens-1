@@ -303,6 +303,8 @@ class AdminController extends AbstractActionController
   				return $this->redirect()->toRoute('hospitalisation' , array('action' => 'liste-demandes-examens-morpho'));
   			} else if($controller == 7){
   				return $this->redirect()->toRoute('hospitalisation' , array('action' => 'liste-demandes-vpa'));
+  			} else if($controller == 8){
+  				return $this->redirect()->toRoute('hospitalisation' , array('action' => 'gestion-des-lits'));
   			}
   			
   		}
@@ -341,6 +343,21 @@ class AdminController extends AbstractActionController
     	
     	$this->getResponse ()->getHeaders ()->addHeaderLine ( 'Content-Type', 'application/html; charset=utf-8' );
     	return $this->getResponse ()->setContent ( Json::encode ($resultComparer) );
+    }
+    
+    public function verifierUsernameAction()
+    {
+    	$username = $this->params()->fromPost('username');
+    	
+    	$utilisateur = $this->getUtilisateurTable()->getUtilisateursWithUsername($username);
+    	
+    	$resultExistance = 0;
+    	if($utilisateur) {
+    		$resultExistance = 1;
+    	}
+    	 
+    	$this->getResponse ()->getHeaders ()->addHeaderLine ( 'Content-Type', 'application/html; charset=utf-8' );
+    	return $this->getResponse ()->setContent ( Json::encode ($resultExistance) );
     }
     
     //Liste des AGENTS DU PERSONNEL
@@ -424,5 +441,14 @@ class AdminController extends AbstractActionController
     	return $this->getResponse ()->setContent ( Json::encode ( $html ) );
     }
     
+    
+    //**** PARTIE POUR LA GESTION DES PARAMETRAGES ******
+    //**** PARTIE POUR LA GESTION DES PARAMETRAGES ******
+    //**** PARTIE POUR LA GESTION DES PARAMETRAGES ******
+    //**** PARTIE POUR LA GESTION DES PARAMETRAGES ******
+    //**** PARTIE POUR LA GESTION DES PARAMETRAGES ******
+    public function parametragesAction() {
+    	$this->layout ()->setTemplate ( 'layout/layoutUtilisateur' );
+    }
     
 }

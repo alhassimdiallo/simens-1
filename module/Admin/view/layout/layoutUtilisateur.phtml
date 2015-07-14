@@ -59,8 +59,19 @@
       <b class="caret" ></b> <span style="font-size: 15px; color: white;font-family: Times  New Roman;"><?php echo $prenom.'  '.$nom;?></span></a>
     </li>
 
-    <li style="width: 15%;"><a title="" style="" href="<?php echo $this->url('admin', array('action'=>'logout'));?>">
-      <i><img src="../img/light/bended_arrow_right.png"/> <span style="color: white; font-size: 12px; ">D&eacute;connexion</span></i></a>
+    <li style="width: 15%;">
+      
+      <div style='width: 30%; padding-top: 10px; float:left;'>
+         <a href="<?php echo $this->url('admin', array('action'=>'bienvenue'));?>">
+           <img src="/simens/public/img/light/house.png" title="Menu d'accueil" />
+         </a>
+      </div>
+      <div style='width: 70%; padding-top: 10px; float:left;'>
+        <a href="<?php echo $this->url('admin', array('action'=>'logout'));?>">
+          <img src="<?php echo $this->basePath().'/img/light/bended_arrow_right.png';?>"/> <span style="color: white; font-size: 13px; font-family: New time romans;"><i>D&eacute;connexion</i></span>
+        </a>
+      </div>
+    
     </li>
   </ul>
  </div>
@@ -75,8 +86,8 @@
 			<div style="width: 96%; margin-left: 25px;">
 				<hr>
 				<div class="row-fluid">
-	         <?php echo $this->content; ?>
-         </div>
+	             <?php echo $this->content; ?>
+               </div>
 			</div>
 		</div>
 	</div>
