@@ -9,6 +9,8 @@ use Admin\Model\Utilisateurs;
 use Zend\Db\TableGateway\TableGateway;
 use Zend\EventManager\StaticEventManager;
 use Zend\Mvc\MvcEvent;
+use Admin\Model\ParametragesTable;
+use Admin\Model\Parametrages;
 
 class Module implements AutoloaderProviderInterface
 {
@@ -78,6 +80,17 @@ class Module implements AutoloaderProviderInterface
 							$resultSetPrototype = new ResultSet();
 							$resultSetPrototype->setArrayObjectPrototype(new Utilisateurs());
 							return new TableGateway('utilisateurs', $dbAdapter, null, $resultSetPrototype);
+						},
+						'Admin\Model\ParametragesTable' =>  function($sm) {
+							$tableGateway = $sm->get('ParametragesTableGateway');
+							$table = new ParametragesTable($tableGateway);
+							return $table;
+						},
+						'ParametragesTableGateway' => function ($sm) {
+							$dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+							$resultSetPrototype = new ResultSet();
+							$resultSetPrototype->setArrayObjectPrototype(new Parametrages());
+							return new TableGateway("", $dbAdapter, null, $resultSetPrototype); //Aucune table
 						},
 				),
 		);

@@ -23,6 +23,13 @@ use Zend\Mvc\Controller\AbstractActionController,
 use Zend\Json\Json;
 use Admin\Form\UtilisateurForm;
 use Admin\Form\ModifierUtilisateurForm;
+use Admin\Form\BatimentForm;
+use Zend\Form\View\Helper\FormButton;
+use Zend\Form\View\Helper\FormRow;
+use Zend\Form\View\Helper\FormText;
+use Zend\Form\View\Helper\FormSubmit;
+use Admin\Form\HopitalForm;
+use Zend\Form\View\Helper\FormSelect;
 
 /**
  * User Controller Class
@@ -38,6 +45,7 @@ class AdminController extends AbstractActionController
 {
 	protected $utilisateurTable;
 	protected $serviceTable;
+	protected $parametragesTable;
 	
 	public function getUtilisateurTable(){
 		if(!$this->utilisateurTable){
@@ -53,6 +61,14 @@ class AdminController extends AbstractActionController
 			$this->serviceTable = $sm->get ( 'Personnel\Model\ServiceTable' );
 		}
 		return $this->serviceTable;
+	}
+	
+	public function getParametragesTable() {
+		if (! $this->parametragesTable) {
+			$sm = $this->getServiceLocator ();
+			$this->parametragesTable = $sm->get ( 'Admin\Model\ParametragesTable' );
+		}
+		return $this->parametragesTable;
 	}
 	/**
 	 * =========================================================================
@@ -449,6 +465,371 @@ class AdminController extends AbstractActionController
     //**** PARTIE POUR LA GESTION DES PARAMETRAGES ******
     public function parametragesAction() {
     	$this->layout ()->setTemplate ( 'layout/layoutUtilisateur' );
+    	
+    	//$test = $this->getParametragesTable()->getInfosHopital(25);
+    	//var_dump($test['Nom']); exit();
+    	//$this->getParametragesTable()->getListeRegions();
     }
     
+    public function gestionDesHopitauxAction() {
+    	
+    	$id = ( int ) $this->params ()->fromPost ( 'id', 0 );
+    	
+    	$formHopital = new HopitalForm();
+    	
+    	$formRow = new FormRow();
+    	$formButton = new FormButton();
+    	$formText = new FormText();
+    	$formSubmit = new FormSubmit();
+    	$formSelect = new FormSelect();
+    	
+    	$listeRegions = $this->getParametragesTable()->getListeRegions();
+    	$formHopital->get ( 'region' )->setValueOptions ( $listeRegions );
+    	$html ="
+    			<table style='width: 100%;'>
+                  <tr style='width: 100%; background: white;'>  
+                      
+    			
+    			      <!-- FORMULAIRE DE SAISIE DES DONNEES POUR AJOUT D'UN NOUVEAU HOPITAL -->
+    			      <!-- FORMULAIRE DE SAISIE DES DONNEES POUR AJOUT D'UN NOUVEAU HOPITAL -->
+    			      <!-- FORMULAIRE DE SAISIE DES DONNEES POUR AJOUT D'UN NOUVEAU HOPITAL -->
+    			      <!-- FORMULAIRE DE SAISIE DES DONNEES POUR AJOUT D'UN NOUVEAU HOPITAL -->
+    			
+    			      <td style='width: 42%; height: 350px; vertical-align: top;'>
+    			          <!-- AFFICHAGE VISUALISATION -->
+    			          <!-- AFFICHAGE VISUALISATION -->
+                          <table id='VueDetailsHopital' style='width: 95%; margin-top: 7px; border: 1px solid #cccccc; box-shadow: 0pt 1pt 8px rgba(0, 0, 1, 0.4);'>
+                            
+    			            <tr style='vertical-align: top; background: #efefef; border: 1px solid #cccccc;'>
+                               <td colspan='3' style='font-size: 15px; padding: 7px; font-family: times new roman; color: green; font-weight: bold;'> D&eacute;tails des infos sur l'h&ocirc;pital <img id='PlusFormulaireAjouterHopitaux' style='float: right; cursor:pointer;' src='/simens/public/images_icons/Add14X14.png' title='Ajouter' /></td>
+                            </tr>
+    			
+    			            <tr style='vertical-align: top; background: white;'>
+                               <td style='width: 33%; height: 50px; padding: 7px;'>
+                                  <a style='text-decoration:underline; font-size:12px;'>Nom:</a><br>
+                                  <p style='font-weight:bold; font-size:17px;' id='nomVue'> Nom </p>
+                               </td>
+                       
+                               <td style='width: 33%; height: 50px; padding: 7px;'>
+                                  <a style='text-decoration:underline; font-size:12px;'>R&eacute;gion:</a><br>
+                                  <p style='font-weight:bold; font-size:17px;' id='regionVue'> R&eacute;gion </p>
+                               </td>
+                       
+                               <td style='width: 33%; height: 50px; padding: 7px;'>
+                                  <a style='text-decoration:underline; font-size:12px;'>D&eacute;partement:</a><br>
+                                  <p style='font-weight:bold; font-size:17px;' id='departementVue'> D&eacute;partement </p>
+                               </td>
+                            </tr> 
+    			
+    			            <tr style='vertical-align: top; background: white;'>
+                               <td colspan='2' style='width: 66%; height: 50px; padding: 7px;'>
+                                  <a style='text-decoration:underline; font-size:12px;'>Directeur:</a><br>
+                                  <p style='font-weight:bold; font-size:17px;' id='directeurVue'> Directeur </p>
+                               </td>
+                       
+                               <td style='width: 33%; height: 50px; padding: 7px;'>
+                                  <a style='text-decoration:underline; font-size:12px;'> </a><br>
+                                  <p style='font-weight:bold; font-size:17px;'> </p>
+                               </td>
+                            </tr> 
+    			
+    			            <tr style='vertical-align: top; background: white;'>
+                 	           <td colspan='3' style='padding-top: 10px; padding-bottom: 0px; padding-right: 30px; width: 20%; padding: 7px;'>
+                 	              <a style='text-decoration:underline; font-size:13px;'>Note:</a>
+                 	              <p id='noteVue' style='background:#f8faf8; font-weight:bold; font-size:17px;'> Note </p>
+                 	           </td>
+                            </tr> 
+    			
+                          </table>
+    			          
+    			          <!-- FORMULAIRE DE SAISIE -->
+                		  <!-- FORMULAIRE DE SAISIE -->
+    			          <form id='FormulaireAjouterHopitaux'> 
+    			           <table style='width: 95%; border: 1px solid #cccccc; margin-top: 7px; box-shadow: 0pt 1pt 5px rgba(0, 0, 0, 0.4);'>
+    			            
+    			            <tr style='width: 100%; vertical-align: top; background: #efefef; border-bottom: 1px solid #cccccc;'>
+                               <td colspan='2' style='font-size: 15px; padding: 7px; font-family: times new roman; color: green; font-weight: bold;'> <span id='labelInfos'> Cr&eacute;ation d'un nouvel h&ocirc;pital </span> <img style='float: right; cursor:pointer;' src='/simens/public/images_icons/infos.png'/></td>
+                            </tr>
+    			
+    			            <tr id='form_patient' style='vertical-align: top; background: white;'>
+                               <td colspan='2' class='comment-form-patient' style='padding: 8px;'>
+                                   ". $formRow($formHopital->get ( 'nom' )) . $formText($formHopital->get ( 'nom' )) ."
+                               </td>
+                            </tr> 
+                                   		
+                            <tr id='form_patient' style='vertical-align: top; background: white;'>
+                               <td class='comment-form-patient' style='width: 50%; padding: 8px;'>
+                                   ". $formRow($formHopital->get ( 'region' )) . $formSelect($formHopital->get ( 'region' )) ."
+                               </td>
+                               <td class='comment-form-patient' style='width: 50%; padding: 8px;'>
+                                   ". $formRow($formHopital->get ( 'departement' )) . $formSelect($formHopital->get ( 'departement' )) ."
+                               </td>
+                            </tr> 
+                                   		
+                            <tr  id='form_patient' style='vertical-align: top; background: white;'>
+                               <td  class='comment-form-patient' style='width: 50%; padding: 8px; '>
+                                   ". $formRow($formHopital->get ( 'directeur' )) . $formText($formHopital->get ( 'directeur' )) ."
+                               </td>
+                               <td  class='comment-form-patient' style='width: 50%; padding: 8px;'>
+                                   ". $formRow($formHopital->get ( 'note' )) . $formText($formHopital->get ( 'note' )) ."
+                               </td>
+                            </tr> 
+                                   		
+                            <tr  id='form_patient' style='vertical-align: top; background: white;'>
+                               <td colspan='2' class='comment-form-patient' style='width: 100%; padding: 8px;'>
+                                   <table style='width: 100%;'>
+                                   		<tr style='background: white;'>
+                                   		
+                                   		    <td style='width: 50%;'> 
+                                   		       <div style='float:right'>
+                                   		         ". $formSubmit($formHopital->get ( 'annuler' )) ."
+                                               </div>
+                                   		    </td>
+                                   		         		
+                                   		    <td style='width: 50%;'>
+                                   		       <div style='margin-left: 5px;'>
+                                   		         ". $formSubmit($formHopital->get ( 'enregistrer' )) ."
+                                               </div>
+                                   		    </td>
+                                   		       
+                                   		</tr>
+                                   </table>
+                               </td>
+                            </tr> 
+                           </table>
+                                   		         		
+                          </form> 
+                                   		
+                      </td>
+    			
+    			      <!-- LISTE DES HOPITAUX -->
+                      <!-- LISTE DES HOPITAUX -->
+                      <!-- LISTE DES HOPITAUX -->
+                      <!-- LISTE DES HOPITAUX -->             		         		
+                      <td style='width: 58%; vertical-align: top;'>
+                          <table id='listeDesHopitauxAjax' style=' margin-top:5px;' class='table table-bordered tab_list_mini' >
+				            <thead>
+					          <tr style='height: 40px; width:100%; cursor: pointer; font-family: times new roman;'>
+						        <th style='width:30%; font-size:17px; '>N<minus>om</minus></th>
+						        <th style='width:30%; font-size:17px; '>R<minus>&eacute;gion</minus></th>
+						        <th style='width:30%; font-size:17px; '>D<minus>&eacute;partement</minus></th>
+						        <th style='width:10%; font-size:17px; '>O<minus>ptions</minus></th>
+					          </tr>
+				            </thead>
+    			
+    			            <tbody>
+
+					           <!-- ************ On affiche les patients en une liste ordonn�e************ -->
+
+				            </tbody>
+
+				            <tfoot id='foot' class='foot_style'>
+					          <tr style='height: 35px;'>
+						        <th id='nom' style='width: 30%;'><input type='text' name='search_browser'
+							       value=' Nom' class='search_init' /></th>
+						        <th id='region' style='width: 30%;'><input type='text' name='search_browser'
+							       value=' R&eacute;gion' class='search_init' /></th>
+						        <th id='departement' style='width: 30%;'><input type='text' name='search_browser'
+							       value=' D&eacute;partement' class='search_init' /></th>
+						        <th id='options' style='width: 10%;'><input type='hidden' name='search_browser'/></th>
+					          </tr>
+				            </tfoot>
+			              </table>
+			          </td>
+			
+		          </tr>
+    			
+    			  <tr style='width: 100%; background: white;' >
+    			      <td style='width: 42%;'> </td>
+    			
+    			      <td style='width: 58%; padding-left: 20px;'>". $formSubmit($formHopital->get ( 'terminer' )) ."</td>
+    			  </tr>    
+              </table>
+    		  <div id='scriptVue'> </div>      		
+    	      ";
+    	
+    	$this->getResponse ()->setMetadata ( 'Content-Type', 'application/html' );
+    	return $this->getResponse ()->setContent ( Json::encode ( $html ) );
+    }
+    
+    public function listeHopitauxAjaxAction() {
+    	$output = $this->getParametragesTable()->getListeHopitaux();
+    	return $this->getResponse ()->setContent ( Json::encode ( $output, array (
+    			'enableJsonExprFinder' => true
+    	) ) );
+    }
+    
+    public function getDepartementsAction()
+    {
+    	$id = (int)$this->params()->fromPost ('id');
+    
+    	if ($this->getRequest()->isPost()){
+    		$liste_select = "<option value=''></option>";
+    		foreach($this->getParametragesTable()->getListeDepartements($id) as $listeDepartement){
+    			$liste_select.= "<option style='color: black;' value=".$listeDepartement['id'].">".$listeDepartement['nom']."</option>";
+    		}
+    
+    		$this->getResponse()->getHeaders ()->addHeaderLine ( 'Content-Type', 'application/html' );
+    		return $this->getResponse ()->setContent(Json::encode ( $liste_select));
+    	}
+    
+    }
+    
+    public function ajouterHopitalAction()
+    {
+    	$nom = $this->params()->fromPost ('nom');
+    	$id_departement = (int)$this->params()->fromPost ('departement');
+    	$directeur = $this->params()->fromPost ('directeur');
+    	$note = $this->params()->fromPost ('note');
+    	$updateHopital = $this->params()->fromPost ('updateHopital', 0);
+    	
+    	 
+    	$uAuth = $this->getServiceLocator()->get('Admin\Controller\Plugin\UserAuthentication'); //@todo - We must use PluginLoader $this->userAuthentication()!!
+    	$username = $uAuth->getAuthService()->getIdentity();
+    	$user = $this->getUtilisateurTable()->getUtilisateursWithUsername($username);
+    	 
+    	if($updateHopital == 0){
+    		$this->getParametragesTable()->addHopital($nom, $id_departement, $user['id_personne'], $directeur, $note);
+    	} else {
+    		$this->getParametragesTable()->updateHopital($updateHopital, $nom, $id_departement, $user['id_personne'], $directeur, $note);
+    	}
+
+    	 
+    	$this->getResponse ()->setMetadata ( 'Content-Type', 'application/html' );
+    	return $this->getResponse ()->setContent ( Json::encode ( ) );
+    }
+    
+    public function getInfosHopitalAction() {
+    	$id_hopital = $this->params()->fromPost ('id');
+    	
+    	$infos = $this->getParametragesTable()->getInfosHopital($id_hopital);
+    	
+    	$html ="<script> 
+    			$('#nomVue').html('".$infos['Nom']."'); 
+    			$('#departementVue').html('".$infos['Departement']."');
+    			$('#regionVue').html('".$infos['Region']."');	
+    		    $('#directeurVue').html('".$infos['Directeur']."');	
+    		    $('#noteVue').html('".$infos['Note']."');	
+    		    </script>";
+    	
+    	
+    	$this->getResponse ()->setMetadata ( 'Content-Type', 'application/html' );
+    	return $this->getResponse ()->setContent ( Json::encode ( $html ) );
+    }
+    
+    public function getInfosModificationHopitalAction() {
+    	$id_hopital = $this->params()->fromPost ('id');
+    	 
+    	$infos = $this->getParametragesTable()->getInfosHopital($id_hopital);
+    	 
+    	$liste_select = '<option value=" "></option>';
+    	foreach($this->getParametragesTable()->getListeDepartements($infos['Id_region']) as $listeDepartement){
+    		$liste_select.= '<option style="color: black;" value='.$listeDepartement['id'].' >'.$listeDepartement['nom']."</option>";
+    	}
+    	
+    	$html ="<script>
+    			 $('#nom').val('".$infos['Nom']."');
+    			 $('#region').val('".$infos['Id_region']."');
+    			 $('#departement').html('".$liste_select."');               //On charge la liste
+    			 $('#departement').val('".$infos['Id_departement']."');     //On selectionne le departement
+    			 		
+    			 $('#directeur').val('".$infos['Directeur']."').css({'font-size':'13px'});
+    	         $('#note').val('".$infos['Note']."').css({'font-size':'13px'});
+    		    </script>";
+    	 
+    	$this->getResponse ()->setMetadata ( 'Content-Type', 'application/html' );
+    	return $this->getResponse ()->setContent ( Json::encode ( $html ) );
+    }
+    
+    
+    
+//     public function gestionDesBatimentsAction() {
+    	 
+//     	$id = ( int ) $this->params ()->fromPost ( 'id', 0 );
+    	 
+//     	$formBatiment = new BatimentForm();
+    	 
+//     	$formRow = new FormRow();
+//     	$formButton = new FormButton();
+//     	$formText = new FormText();
+//     	$formSubmit = new FormSubmit();
+    	 
+    	 
+//     	$html ="
+//     			<table style='width: 100%;'>
+//                   <tr style='width: 100%; background: white;'>
+    
+//     			      <td style='width: 40%; height: 300px; vertical-align: top;'>
+//                           <table style='width: 95%; margin-top: 7px; border: 1px solid #cccccc; box-shadow: 0pt 1pt 8px rgba(0, 0, 1, 0.4);'>
+    
+//     			            <tr style='vertical-align: top; background: #efefef; border: 1px solid #cccccc;'>
+//                                <td colspan='3' style='font-size: 15px; padding: 7px; font-family: times new roman; color: green; font-weight: bold;'> D&eacute;tails des infos sur l'h&ocirc;pital <img style='float: right; cursor:pointer;' src='/simens/public/images_icons/infos.png' title='informations' /></td>
+//                             </tr>
+    
+//     			            <tr style='vertical-align: top; background: white;'>
+//                                <td style='width: 33%; height: 50px; padding: 7px;'>
+//                                   <a style='text-decoration:underline; font-size:12px;'>Intitul&eacute;:</a><br>
+//                                   <p style='font-weight:bold; font-size:17px;' id='intitule'> Intitule </p>
+//                                </td>
+            
+//                                <td style='width: 33%; height: 50px; padding: 7px;'>
+//                                   <a style='text-decoration:underline; font-size:12px;'>Salle:</a><br>
+//                                   <p style='font-weight:bold; font-size:17px;' id='sallevue'> Salle </p>
+//                                </td>
+            
+//                                <td style='width: 33%; height: 50px; padding: 7px;'>
+//                                   <a style='text-decoration:underline; font-size:12px;'>Batiment:</a><br>
+//                                   <p style='font-weight:bold; font-size:17px;' id='batiment'> Batiment </p>
+//                                </td>
+//                             </tr>
+//                           </table>
+//                       </td>
+    
+    
+//                       <td style='width: 60%; vertical-align: top;'>
+//                           <table id='patient' style=' margin-top:5px;' class='table table-bordered tab_list_mini' >
+// 				            <thead>
+// 					          <tr style='height: 40px; width:100%; cursor: pointer; font-family: times new roman;'>
+// 						        <th style='width:22%; font-size:17px; '>I<minus>ntitul&eacute;</minus></th>
+// 						        <th style='width:18%; font-size:17px; '>S<minus>alle</minus></th>
+// 						        <th style='width:22%; font-size:17px; '>B<minus>atiment</minus></th>
+// 						        <th style='width:20%; font-size:17px; '>E<minus>tat</minus></th>
+// 						        <th style='width:18%; font-size:17px; '>O<minus>ptions</minus></th>
+// 					          </tr>
+// 				            </thead>
+    
+//     			            <tbody id='donnees' class='liste_patient'>
+    
+// 					           <!-- ************ On affiche les patients en une liste ordonn�e************ -->
+    
+// 				            </tbody>
+    
+// 				            <tfoot id='foot' class='foot_style'>
+// 					          <tr style='height: 35px;'>
+// 						        <th id='intitule' style='width: 22%;'><input type='text' name='search_browser'
+// 							       value=' Intitul&eacute;' class='search_init' /></th>
+// 						        <th id='salleFooter' style='width: 18%;'><input type='text' name='search_browser'
+// 							       value=' Salle' class='search_init' /></th>
+// 						        <th id='batiment' style='width: 22%;'><input type='text' name='search_browser'
+// 							       value=' Batiment' class='search_init' /></th>
+// 						        <th id='etat' style='width: 20%;'><input type='text' name='search_browser'
+// 							       value=' Etat' class='search_init' /></th>
+// 						        <th id='options' style='width: 18%;'><input type='hidden' name='search_browser'/></th>
+// 					          </tr>
+// 				            </tfoot>
+// 			              </table>
+// 			          </td>
+		
+// 		          </tr>
+    
+//     			  <tr style='width: 100%; background: white;' >
+//     			      <td style='width: 40%;'> </td>
+    
+//     			      <td style='width: 60%; padding-left: 20px;'>". $formSubmit($formBatiment->get ( 'terminer' )) ."</td>
+//     			  </tr>
+//               </table>";
+    	 
+//     	$this->getResponse ()->setMetadata ( 'Content-Type', 'application/html' );
+//     	return $this->getResponse ()->setContent ( Json::encode ( $html ) );
+//     }
 }

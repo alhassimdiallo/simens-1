@@ -1,7 +1,12 @@
 <!-- MES STYLES --> 
-<?php echo $this->headLink()->appendStylesheet($this->basepath().'/css/admin/styleParametrages.css');?>
+<?php echo $this->headLink()->appendStylesheet($this->basepath().'/css/admin/styleParametrages.css'); ?>
 <!-- MES JS -->
-<?php echo $this->headScript()->appendFile($this->basepath().'/js/admin/jsParametrages.js');?>
+<?php echo $this->headScript()->appendFile($this->basepath().'/js/admin/jsParametrages.js'); ?>
+
+
+<style>
+  #contenu{ visibility: hidden }
+</style>
 
 
 <div id="titre" style='font-family: police2; text-decoration: none; color: green; font-size: 20px; font-weight: bold; padding-left:20px;'>
@@ -9,10 +14,16 @@
 	PARAM&Eacute;TRAGES
 </div>
 
+<div id="wait" style="color: gray; font-size: 20px; text-align: center; margin-top: 80px;" > <span> Chargement ... </span> </div>
+
 <div id="contenu"> 
             
      <table style="width: 100%;">
 				
+	    <!-- ************************************  LA PREMIERE LIGNE  ******************************************* -->
+	    <!-- ************************************  LA PREMIERE LIGNE  ******************************************* -->
+	    <!-- ************************************  LA PREMIERE LIGNE  ******************************************* -->
+	    <!-- ************************************  LA PREMIERE LIGNE  ******************************************* -->
 		<tr style="width: 100%; background: white;">
 		   
 		   <td style="width: 25%; vertical-align: top;">
@@ -98,12 +109,12 @@
 		             <td> 
 		                <section> effectifs: 23 lits </section>
 		                <label></label>
-		                <section> nb lits|dispo: 3 lit(s) </section>
+		                <!-- section> nb lits|dispo: 3 lit(s) </section>
+		                <label></label--> 
+		                <section> nb lits|occup&eacute;s: 8 lit(s) </section>
 		                <label></label> 
-		                <section> nb lits|occ: 8 lit(s) </section>
-		                <label></label> 
-		                <section> nb lits|indispo: 6 lit(s) </section>
-		                <label></label>
+		                <!-- section> nb lits|indispo: 6 lit(s) </section>
+		                <label></label-->
 		                <section><i>Ajouter <img src='/simens/public/images_icons/Add14X14.png'/></i></section>
 		             </td>
 		          </tr>
@@ -113,42 +124,57 @@
 		   </td>
 		   
 		</tr>
+		
+		<!-- ************************************  LA DEUXIEME LIGNE  ******************************************* -->
+		<!-- ************************************  LA DEUXIEME LIGNE  ******************************************* -->
+		<!-- ************************************  LA DEUXIEME LIGNE  ******************************************* -->
+		<!-- ************************************  LA DEUXIEME LIGNE  ******************************************* -->
+		<tr style="width: 100%; background: white; ">
+		   <td colspan='4'> <label style='border: 1px solid #cccccc; width: 98%; margin:auto; margin-bottom: 10px; '> </label></td>
+		</tr>
+		
+		<tr style="width: 100%; background: white;">
+		
+		   <td style="width: 25%; vertical-align: top;">
+		   
+		    <div style='width: 90%;  margin: auto;'>
+		      <table style="width: 100%;" class="table table-bordered tab_list_mini" >
+		          <tr>
+		             <th><img src='/simens/public/images_icons/Table16X16.png' /> Services </th>
+		          </tr>
+		          
+		          <tr>
+		             <td> 
+		                <section> effectifs: 23 services </section> 
+		                <label></label> 
+		                <section> nb lit|Moy: 8 lits </section>
+		                <label></label> 
+		                <section><i>Ajouter <img src='/simens/public/images_icons/Add14X14.png' /></i></section>   
+		             </td>
+		          </tr>
+		       </table>
+		     </div>
+		   
+		   </td>
+		</tr>
 
 	 </table>
 	 
 </div>
 
+<div id="contenuTable">
+
+</div>
 
 
-<style>
 
-#contenu table{
-	margin-top: 5px;
-}
+<script> 
+ $(window).load(function () {
+	$('#wait').toggle(false);
+	$('#contenu').fadeIn().css({'visibility':'visible'});
+ });
 
-#contenu table div{
-	font-weight: normal;
-	box-shadow: 0pt 1pt 5px rgba(0, 0, 0, 0.2);
-	border-radius: 5px;
-}
-
-#contenu table div:hover{
-	cursor: pointer;
-	box-shadow: 0pt 1pt 9px rgba(0, 0, 1, 0.5);
-	
-	font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
-	font-size: 14px;
-	background: #f9f9f9;
-}
-
-#contenu table div td:hover{
-	background: #f9f9f9;
-}
-
-#contenu table div table td label{
-	border-top: 1px solid #cfcfcf; 
-	margin-top: 8px;
-	margin-bottom: 8px;
-}
-
-</style>
+ 
+ ajouterDonneesParametrages();
+ $('#contenuTable').toggle(false);
+</script>

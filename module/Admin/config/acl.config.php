@@ -40,7 +40,17 @@ return array(
     								'visualisation' => 'superAdmin',
     								'nouvel-utilisateur' => 'superAdmin',
     								'verifier-username' => 'superAdmin',
+
     								'parametrages' => 'superAdmin',
+    								'gestion-des-hopitaux' => 'superAdmin',
+    								'liste-hopitaux-ajax' => 'superAdmin',
+    								'get-departements' => 'superAdmin',
+    								'ajouter-hopital' => 'superAdmin',
+    								'get-infos-hopital' => 'superAdmin',
+    								'get-infos-modification-hopital' => 'superAdmin',
+    								
+    								'gestion-des-batiments' => 'superAdmin',
+    								
     						),
     						
     						

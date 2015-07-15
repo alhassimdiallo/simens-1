@@ -2210,13 +2210,16 @@ class HospitalisationController extends AbstractActionController {
 	
     public function listeExamensEffectuesMorphoAction() {
 		$this->layout()->setTemplate('layout/Hospitalisation');
-		
+
+		//$output = $this->getDemandeTable()->getListeExamensMorphoEffectues();
+		//var_dump($output); exit();
 		$formAppliquerExamen = new AppliquerExamenForm();
 		
 		return array(
 				'form' => $formAppliquerExamen
 		);
 	}
+	
 	//POUR LA LISTE DES EXAMENS DEJA EFFECTUES PAR LE RADIOLOGUE 
 	public function listeRechercheExamensEffectuesMorphoAjaxAction() {
 		$output = $this->getDemandeTable()->getListeExamensMorphoEffectues();
